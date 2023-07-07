@@ -1,0 +1,1171 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-family: Arial, Helvetica, sans-serif;
+    max-width: 100%;
+}
+
+img {
+    width: 100%;
+    object-fit: cover;
+}
+
+
+/* CSS Chung */
+.mr-20 {
+    margin-right: 20px;
+}
+
+.margin-0 {
+    margin: 0 !important;
+}
+
+.justify-text {
+    text-align: justify !important;
+}
+
+.btn-active {
+    background-color: #33d6bb !important;
+    color: white;
+    border: none;
+}
+
+.vertical-middle {
+    vertical-align: middle;
+}
+
+/* CSS MAIN MENU */
+.logo-petshop {
+    width: 100%;
+    height: 120px;
+}
+
+.banner .container {
+    height: 100%;
+}
+
+.main-menu {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 90px;
+}
+
+.menu-item.active {
+    font-weight: bold;
+    color: #33d6bb
+}
+
+header {
+    position: fixed;
+    background-color: white;
+    width: 100%;
+    z-index: 1;
+    top: 0;
+    box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.1);
+}
+
+.main-menu-mobile {
+    display: none;
+}
+
+.main-menu-tablet {
+    display: none;
+}
+
+.nav-main-menu {
+    display: flex;
+    justify-content: space-evenly;
+    width: 500px;
+    align-items: center;
+    margin: 0;
+}
+
+.nav-main-menu li {
+    list-style-type: none;
+}
+
+.nav-main-menu a {
+    text-decoration: none;
+    padding: 15px;
+    font-size: 20px;
+    color: #393939
+}
+
+.nav-main-menu a:hover {
+    background-color: #33d6bb;
+    color: white;
+}
+
+button {
+    border: none;
+}
+
+.my-button {
+    border: 1px ridge #ccc;
+    padding: 10px 20px;
+    border-radius: 10px;
+    background-color: #0c337c;
+    color: white;
+}
+
+.my-button:hover {
+    opacity: 85%;
+    background-color: #33d6bb;
+}
+
+.shopping-cart-icon {
+    cursor: pointer;
+    padding: 15px 20px;
+    font-size: 25px;
+}
+
+.icon-bar {
+    cursor: pointer;
+    padding: 15px 20px;
+    font-size: 25px;
+    background-color: #0c337c;
+    border-radius: 10px;
+    color: white;
+}
+
+#search-bar {
+    padding: 10px 20px;
+    border: 1px ridge #ccc;
+    margin-top: 5px;
+    border-radius: 10px;
+}
+
+#search-icon {
+    background-color: #0c337c;
+    color: white;
+    padding: 13px 20px;
+    border-radius: 10px 10px;
+    cursor: pointer;
+}
+
+#search-icon:hover {
+    background-color: #33d6bb;
+}
+
+.group-user button a {
+    color: white;
+    text-decoration: none;
+}
+
+/* CSS Main */
+main {
+    margin-top: 90px;
+}
+
+.banner {
+    position: relative;
+    background-image: url(../assets/images/pet-shop-banner.jpg);
+    height: 600px;
+    background-size: cover;
+
+}
+
+.banner-background {
+    width: 100%;
+}
+
+.banner-caption-group {
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    height: 100%;
+}
+
+.banner-caption-group a {
+    text-decoration: none;
+    color: white;
+}
+
+.caption-title {
+    font-family: 'Pacifico', cursive;
+    font-weight: 800;
+    font-size: 40px;
+    color: #f8d549;
+    margin: 0px;
+}
+
+.caption-discount {
+    font-size: 70px;
+    color: #f8d549;
+    font-weight: bold;
+    margin: 0px;
+}
+
+.caption-headline {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900;
+    font-size: 30px;
+    color: #ffffff;
+}
+
+.caption-text {
+    color: #ffffff;
+    font-size: 18px;
+}
+
+.shop-now-btn {
+    font-family: 'Nunito', sans-serif;
+    border: 1px ridge #ccc;
+    padding: 10px 35px;
+    border-radius: 10px;
+    background-color: #33d6bb;
+    color: white;
+    font-weight: 800;
+    font-size: 14px;
+    border: none;
+    text-decoration: none;
+    width: 200px;
+    text-align: center;
+}
+
+.shop-now-btn:hover {
+    background-color: white;
+    color: black
+}
+
+.promotion-group {
+    display: flex;
+    gap: 100px;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    width: 1000px;
+    margin: 100px auto;
+    padding: 20px;
+    height: 100px;
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.promotion-item {
+    display: flex;
+}
+
+.promotion-item img {
+    width: 50px;
+    height: 50px;
+    margin: 20px
+}
+
+.promotion-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.promotion-content p {
+    margin: 0;
+}
+
+.group-title-category {
+    text-align: center;
+}
+
+.headline-title-category {
+    font-family: 'Pacifico', cursive;
+    font-weight: 700;
+    font-size: 26px;
+    color: #0c337c
+}
+
+.headline-category {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 50px;
+}
+
+.collection-item {
+    position: relative;
+}
+
+.collection-item:hover {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.collection-item img {
+    width: 100%;
+    height: 100%;
+    border-radius: 30px;
+}
+
+.collection-title {
+    background-color: #0c337c;
+    color: white;
+    cursor: pointer;
+    margin: 0;
+    border-radius: 75% 75% 0 0;
+    padding: 15px;
+    position: absolute;
+    top: calc(100% - 64px);
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-weight: bold;
+    font-size: 20px
+}
+
+
+.collection-title:hover {
+    background-color: #33d6bb;
+}
+
+.for-your-pet {
+    margin-top: 100px;
+    margin-bottom: 50px;
+}
+
+.list-products {
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+.image-store {
+    width: 100%;
+    border-radius: 40px;
+}
+
+
+.about-our-store {
+    margin-top: 100px;
+    background-color: #f1f9f7;
+    padding: 50px 0px;
+}
+
+.headline-store {
+    font-family: 'Pacifico', cursive;
+    font-weight: 400;
+    font-size: 26px;
+    color: #0c337c
+}
+
+.headline-slogan {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 30px;
+    color: #393939;
+    margin: 20px 0px;
+}
+
+.about-store {
+    margin-top: 133px;
+    padding: 54px;
+    text-align: left;
+}
+
+.our-store-description {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    color: #7c7e7e;
+    margin: 20px 0px;
+    line-height: 27px;
+}
+
+.read-more-btn {
+    font-family: 'Nunito', sans-serif;
+    border: 1px ridge #ccc;
+    padding: 10px 35px;
+    border-radius: 10px;
+    background-color: #33d6bb;
+    color: white;
+    font-weight: 800;
+    font-size: 14px;
+}
+
+.read-more-btn:hover {
+    opacity: 85%;
+    background-color: #0c337c;
+}
+
+.about-store button a {
+    text-decoration: none;
+    color: white;
+}
+
+.card {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border: none;
+    border-radius: 15px;
+    height: 550px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: 20px;
+}
+
+.card:hover {
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+}
+
+.card-title {
+    color: #0c337c;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+img.card-img-top {
+    height: 300px;
+}
+
+a.btn.btn-primary.add-to-cart-btn {
+    background-color: #eb6300;
+    border: none;
+    color: white;
+}
+
+a.btn.btn-primary.add-to-cart-btn:hover {
+    opacity: 80%;
+}
+
+button.btn.btn-primary.detail-btn {
+    background-color: #0d97d6;
+    border: none;
+    color: white;
+}
+
+button.btn.btn-primary.detail-btn:hover {
+    opacity: 85%;
+}
+
+/* CSS FOOTER */
+footer {
+    background-color: #0c337c;
+    height: auto;
+    color: white;
+    padding: 20px
+}
+
+.group-footer-logo {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-logo {
+    margin: 10px 0px;
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+}
+
+.footer-description {
+    line-height: 1.5;
+    text-align: justify;
+}
+
+.col-12 ul {
+    text-decoration: none;
+    list-style-type: none;
+    padding: 0px;
+}
+
+.col-12 ul li {
+    border-bottom: 1px solid rgba(255, 255, 255, .08);
+    padding: 10px 0px;
+}
+
+.col-12 ul li:last-child {
+    border: none;
+}
+
+.col-12 ul li a {
+    text-decoration: none;
+    color: white;
+}
+
+.col-12 ul li a:hover {
+    color: #33d6bb
+}
+
+.footer-headline {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #33d6bb;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    width: 250px;
+}
+
+.footer-headline:hover {
+    background-color: white;
+    color: black;
+}
+
+/* CSS Products Page */
+.page-info {
+    width: 1000px;
+    margin: 25px auto;
+}
+
+.breadcrumb-page {
+    display: flex;
+    gap: 10px;
+}
+
+.breadcrumb-page a {
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.category-products {
+    margin-bottom: 100px;
+}
+
+/* CSS Signup Page & Login Page */
+
+.form-signup,
+.form-login {
+    margin: 50px auto;
+    padding: 30px 50px;
+    width: 400px;
+    height: 400px;
+    background-color: white;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.signup-title,
+.login-title {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 25px;
+}
+
+.form-signup input,
+.form-login input {
+    width: 100%;
+    margin: 10px 0px;
+    padding: 10px 10px;
+    border: 1px ridge #ccc;
+    border-radius: 5px;
+}
+
+.signup-button,
+.login-button {
+    width: 100%;
+    background-color: #0171d3;
+    color: white;
+    cursor: pointer;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0px 10px 0px;
+}
+
+.signup-button:hover,
+.login-button:hover {
+    opacity: 75%;
+}
+
+.login-sentence,
+.signup-sentence {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 15px;
+}
+
+.login-text,
+.signup-text {
+    text-decoration: none;
+}
+
+.login-text:hover,
+.signup-text:hover,
+.forgot-password-text:hover {
+    opacity: 70%;
+}
+
+.forgot-password {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+.forgot-password-text {
+    text-decoration: none;
+}
+
+/* CSS My Cart Page */
+.my-cart {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    height: auto;
+}
+
+.my-cart .container {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 20px;
+}
+
+.cart-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 30px;
+    margin-top: 50px;
+}
+
+.cart-quantity {
+    font-size: 20px;
+    margin: 0;
+    font-weight: bold;
+}
+
+.cart-name {
+    display: flex;
+    justify-content: space-between;
+}
+
+.table-cart {
+    font-size: 20px;
+}
+
+.table-cart tbody tr td img {
+    width: 100px;
+}
+
+.table-cart tr {
+    vertical-align: middle;
+}
+
+.product-cart-quantity {
+    padding: 5px;
+}
+
+.minus-product-icon,
+.plus-product-icon {
+    padding: 5px;
+    background-color: #33d6bb;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.minus-product-icon:hover,
+.plus-product-icon:hover,
+.delete-product-icon:hover {
+    opacity: 85%;
+}
+
+.delete-product-icon {
+    padding: 5px;
+    border-radius: 50%;
+    cursor: pointer;
+    background-color: #ec5d57;
+    color: white;
+}
+
+.cart-title {
+    margin: 0;
+}
+
+.col-12.right-cart {
+    background-color: #dddddd;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 30px;
+}
+
+.col-12 .cart-title {
+    font-weight: bold;
+}
+
+.cart-shipping,
+.card-total {
+    display: flex;
+    width: 100%;
+    gap: 20px;
+    align-items: center;
+
+}
+
+.order-btn {
+    width: 100%;
+    border: none;
+    padding: 10px;
+    background-color: #119446;
+    color: white;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.order-btn:hover {
+    opacity: 85%;
+}
+
+.cart-shipping input {
+    width: 90%;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: left;
+}
+
+.cart-shipping-title,
+.cart-quantity-item {
+    margin: 0;
+}
+
+.cart-total-quantity,
+.cart-quantity-item {
+    font-size: 20px;
+    background-color: #0c337c;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.order-history {
+    margin-top: 50px;
+}
+
+.order-history-title,
+.vertical-middle {
+    text-align: left;
+    margin-bottom: 50px;
+    background-color: #0c337c;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+/* CSS Product Detail Page */
+.product-detail-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: left;
+}
+
+.product-add-quantity,
+.product-price,
+.product-vendor,
+.product-sku {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+}
+
+.product-add-quantity p:first-child,
+.product-price span:first-child,
+.product-vendor span:first-child,
+.product-sku span:first-child {
+    width: 100px;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: bold;
+    background-color: #33d6bb;
+}
+
+.product-add-quantity p {
+    margin: 0;
+}
+
+.product-add-quantity input {
+    width: 100px;
+    padding: 10px;
+}
+
+.product-detail-page-add-to-cart-btn {
+    background-color: #eb6300;
+    border: none;
+    color: white;
+    padding: 10px;
+    width: 50%;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.product-detail-page-add-to-cart-btn:hover {
+    opacity: 85%;
+}
+
+.product-title-name,
+.product-description {
+    text-align: justify;
+}
+
+.product-title-name {
+    color: #0c337c;
+    font-weight: bold;
+
+}
+
+.product-description {
+    font-size: 16px;
+}
+
+.related-products {
+    margin-top:50px;
+    margin-bottom: 50px;
+}
+
+/* CSS Search Page */
+.search-result-text {
+    font-size: 30px;
+    font-weight: 700;
+}
+
+/* CSS Mobile */
+@media only screen and (max-width:767px) {
+    .main-menu {
+        display: none;
+    }
+
+    .main-menu-mobile {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 80px;
+    }
+
+    .banner {
+        position: relative;
+        height: 300px;
+        background-position: 60%;
+    }
+
+    .banner-background {
+        width: 100%;
+        height: 200px;
+        object-fit: fill;
+    }
+
+    .group-user {
+        padding: 10px 20px;
+    }
+
+    .banner-caption-group {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 20px;
+        /* position: absolute; */
+        /* top: 14%; */
+        /* left: 10%; */
+        max-width: inherit;
+        width: 130px;
+    }
+
+    .caption-title {
+        font-family: 'Pacifico', cursive;
+        font-weight: 800;
+        font-size: 18px;
+        color: #f8d549;
+        margin: 0;
+    }
+
+    .caption-discount {
+        font-size: 18px;
+        color: #f8d549;
+        font-weight: bold;
+        margin: 0;
+        width: 120px;
+    }
+
+    .caption-headline {
+        font-family: 'Nunito', sans-serif;
+        margin: 0;
+        font-size: 15px;
+        color: #ffffff;
+
+    }
+
+    .caption-text {
+        display: none;
+    }
+
+    .shop-now-btn {
+        font-family: 'Nunito', sans-serif;
+        border: 1px ridge #ccc;
+        padding: 10px 5px;
+        border-radius: 10px;
+        background-color: #33d6bb;
+        color: white;
+        font-weight: 700;
+        font-size: 14px;
+        border: none;
+        text-decoration: none;
+        margin: 0;
+        width: 100px;
+        text-align: center;
+    }
+
+    .promotion-group {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        border: none;
+        width: 100%;
+        margin-top: 50px;
+        margin-bottom: 50px;
+        padding: 0px;
+        height: 300px;
+        border-radius: 15px;
+        box-shadow: none;
+    }
+
+    .promotion-item {
+        width: 270px;
+        border-radius: 10px;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    }
+
+    .for-your-pet {
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+
+    .headline-category {
+        font-family: 'Nunito', sans-serif;
+        font-weight: 800;
+        font-size: 25px;
+    }
+
+    .collection-title {
+        background-color: #0c337c;
+        color: white;
+        cursor: pointer;
+        margin: 0;
+        border-radius: 75% 75% 0 0;
+        position: absolute;
+        padding: 5px;
+        top: calc(100% - 40px);
+        bottom: 0;
+        left: 0;
+        right: 0;
+        font-weight: bold;
+        font-size: 20px
+    }
+
+    .about-our-store {
+        margin-top: 50px;
+        background-color: #f1f9f7;
+        padding: 50px 0px;
+    }
+
+    .about-store {
+        margin-top: 0px;
+        padding: 30px;
+        text-align: left;
+    }
+
+    .list-products {
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+
+    .card {
+        margin: 0px;
+        width: 100%;
+    }
+
+    footer {
+        background-color: #0c337c;
+        height: auto;
+        color: white;
+        padding: 20px
+    }
+
+    .footer-logo {
+        margin: 10px 0px;
+        width: 100px;
+    }
+
+    .footer-description {
+        line-height: 1.5;
+    }
+
+    .row.align-items-start {
+        padding: 20px;
+    }
+
+    .outside-form-signup,
+    .outside-form-login {
+        padding: 0 10px;
+    }
+
+    .form-signup,
+    .form-login {
+        width: 100%;
+    }
+
+    .page-info {
+        width: 100%;
+        padding: 0px 25px;
+        margin: 25px auto;
+    }
+
+    /* CSS My Cart Mobile */
+    .card-total {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .td-flex {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    /* CSS Product Detail Page */
+    .product-detail {
+        margin-bottom: 25px;
+    }
+
+    .product-detail-page-add-to-cart-btn {
+        width: 100%;
+    }
+}
+
+/* CSS Tablet */
+
+@media screen and (min-width:768px) and (max-width: 1023px) {
+    .main-menu {
+        display: none;
+    }
+
+    .main-menu-mobile {
+        display: none;
+    }
+
+    .main-menu-tablet {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 80px;
+    }
+
+    .group-user {
+        padding: 10px 20px;
+    }
+
+    .banner {
+        position: relative;
+        height: 480px;
+        background-position: 65%;
+    }
+
+    .banner-background {
+        width: 100%;
+        height: 200px;
+        object-fit: fill;
+    }
+
+    .banner-caption-group {
+        width: 250px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 20px;
+        height: 100%;
+    }
+
+    .caption-discount {
+        font-size: 35px;
+    }
+
+    .caption-headline {
+        font-size: 25px;
+    }
+
+    .shop-now-btn {
+        font-family: 'Nunito', sans-serif;
+        border: 1px ridge #ccc;
+        padding: 10px 5px;
+        border-radius: 10px;
+        background-color: #33d6bb;
+        color: white;
+        font-weight: 700;
+        font-size: 18px;
+        border: none;
+        text-decoration: none;
+        margin: 0;
+        width: 200px;
+        text-align: center;
+    }
+
+    .promotion-group {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        border: none;
+        width: 100%;
+        margin-top: 50px;
+        margin-bottom: 50px;
+        padding: 0px;
+        height: 300px;
+        border-radius: 15px;
+        box-shadow: none;
+    }
+
+    .promotion-item {
+        width: 450px;
+        border-radius: 10px;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    }
+
+    .about-our-store {
+        margin-top: 50px;
+        background-color: #f1f9f7;
+        padding: 50px 0px;
+    }
+
+    .about-store {
+        margin-top: 0px;
+        padding: 30px;
+        text-align: left;
+    }
+
+    /* CSS My Cart Tablet */
+    .table-cart tr {
+        vertical-align: middle;
+    }
+
+    .td-flex {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+}

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./assets/images/pet-shop-remove-bg.png" type="image/x-icon">
+    <link rel="stylesheet" href="./assets/bootstrap-5.3.0-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@100;300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>PetShop</title>
+</head>
+
+<body>
+    <header>
+        <nav class="main-menu">
+            <div class="logo">
+                <a href="./index.html"><img src="./assets/images/pet-shop-remove-bg.png" alt="Logo Petshop"
+                        class="logo-petshop"></a>
+            </div>
+
+            <div class="menu">
+                <ul class="nav-main-menu">
+                    <li><a href="./index.html" class="menu-item">Home</a></li>
+                    <li><a href="./about.html" class="menu-item">About</a></li>
+                    <li><a href="./products.html" class="menu-item active">Products</a></li>
+                </ul>
+            </div>
+
+            <div class="search-bar">
+                <input type="text" placeholder="Search" id="search-bar">
+                <i class="fa-solid fa-magnifying-glass" id="search-icon"></i>
+            </div>
+
+            <div class="group-user">
+                <button class="login-btn my-button">Login</button>
+                <button class="signup-btn my-button">Signup</button>
+                <a href="./my-cart.html"><i class="fa-solid fa-cart-shopping shopping-cart-icon"></i></a>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu -->
+        <nav class="main-menu-mobile">
+            <div class="logo">
+                <a href="./index.html"><img src="./assets/images/pet-shop-remove-bg.png" alt="Logo Petshop"
+                        class="logo-petshop"></a>
+            </div>
+
+            <div class="group-user">
+                <i class="fa-solid fa-cart-shopping shopping-cart-icon"></i>
+                <i class="fa-solid fa-bars icon-bar"></i>
+            </div>
+        </nav>
+
+        <!-- Tablet Menu -->
+        <nav class="main-menu-tablet">
+            <div class="logo">
+                <a href="./index.html"><img src="./assets/images/pet-shop-remove-bg.png" alt="Logo Petshop"
+                        class="logo-petshop"></a>
+            </div>
+
+            <div class="search-bar">
+                <input type="text" placeholder="Search Product" id="search-bar">
+                <i class="fa-solid fa-magnifying-glass" id="search-icon"></i>
+            </div>
+
+            <div class="group-user">
+                <button class="login-btn my-button"><a href="./login-page.html">Login</a></button>
+                <button class="signup-btn my-button"><a href="./signup-page.html">Signup</a></button>
+                <i class="fa-solid fa-cart-shopping shopping-cart-icon"></i>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="banner">
+            <div class="container">
+                <div class="banner-caption-group">
+                    <p class="caption-title"><em>Best Brands</em></p>
+                    <p class="caption-discount">25% OFF ORDERS $50+</p>
+                    <h2 class="caption-headline">Healthy Dog Food</h2>
+                    <p class="caption-text">Get 25% off your order of $50 or more when you buy online and pickup
+                        in-store!
+                    </p>
+                    <a href="" class="shop-now-btn">Shop now</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="page-info">
+            <h2 class="category-title">Products</h2>
+            <div class="breadcrumb-page">
+                <a href="./index.html">Home</a>
+                <span> / </span>
+                <a href="./index.html">Products</a>
+                <span> / </span>
+                <a href="./index.html">Product Details Title</a>
+            </div>
+        </div>
+
+        <div class="product-detail">
+            <div class="container text-center">
+                <div class="row align-items-center">
+                    <div class="col-xl-8 col-sm-12">
+                        <div class="container text-center">
+                            <div class="row row-cols-2">
+                                <div class="col"><img
+                                        src="https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/black_water_proofing_dog_boots_pet_shoes_dogs_snow_booties_1_365x365_crop_top.png?v=1625752672"
+                                        alt=""></div>
+                                <div class="col"><img
+                                        src="https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/black_water_proofing_dog_boots_pet_shoes_dogs_snow_booties_2_365x365_crop_top.png?v=1625752672"
+                                        alt=""></div>
+                                <div class="col"><img
+                                        src="https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/black_water_proofing_dog_boots_pet_shoes_dogs_snow_booties_3_365x365_crop_top.png?v=1625752672"
+                                        alt=""></div>
+                                <div class="col"><img
+                                        src="https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/black_water_proofing_dog_boots_pet_shoes_dogs_snow_booties_4_365x365_crop_top.png?v=1625752672"
+                                        alt=""></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-sm-12">
+                        <div class="product-detail-info">
+                            <h2 class="product-title-name">Black Water Proofing Dog Boots Pet Shoes Dogs Snow Booties
+                            </h2>
+
+                            <p class="product-description">A charming animal world is already waiting for you! We are
+                                all
+                                used to the fact that taking care of pets is our everyday responsibility. It is natural
+                                because often you can't fi...</p>
+
+                            <div class="product-price">
+                                <span>Price</span>
+                                <span>$19.00</span>
+                            </div>
+
+                            <div class="product-vendor">
+                                <span>Vendor:</span>
+                                <span>Adidas</span>
+                            </div>
+
+                            <div class="product-sku">
+                                <span>SKU:</span>
+                                <span>327AE-6</span>
+                            </div>
+
+
+                            <div class="product-add-quantity">
+                                <p>Quantity:</p>
+                                <input type="number" min="0">
+                            </div>
+                            <button class="product-detail-page-add-to-cart-btn">ADD TO CART</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="related-products">
+            <div class="group-title-category">
+                <h3 class="headline-title-category">For your pets!</h3>
+                <p class="headline-category">Related Products</p>
+            </div>
+
+            <div class="container text-center">
+                <div class="row align-items-start">
+                    <div class="col-12 col-sm-12 col-md-6 col-xl-3 mt-5 px-2">
+                        <div class="card">
+                            <img src="./assets/images/product-01.png" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Exo Terra Crystal Cave Medium</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the
+                                    bulk of the card's content.</p>
+                            </div>
+                            <div class="card-foot">
+                                <a href="#" class="btn btn-primary add-to-cart-btn">Add To Cart</a>
+                                <button type="button" class="btn btn-primary detail-btn" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal">
+                                    Detail
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-12 col-md-6 col-xl-3 mt-5 px-2">
+                        <div class="card">
+                            <img src="./assets/images/product-02.png" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Black Water Proofing Dog Boots</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the
+                                    bulk of the card's content.</p>
+                            </div>
+                            <div class="card-foot">
+                                <a href="#" class="btn btn-primary add-to-cart-btn">Add To Cart</a>
+                                <button type="button" class="btn btn-primary detail-btn" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal">
+                                    Detail
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-12 col-md-6 col-xl-3 mt-5 px-2">
+                        <div class="card">
+                            <img src="./assets/images/product-03.jpg" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Glendan Dog Brush Cat Brush</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the
+                                    bulk of the card's content.</p>
+                            </div>
+                            <div class="card-foot">
+                                <a href="#" class="btn btn-primary add-to-cart-btn">Add To Cart</a>
+                                <button type="button" class="btn btn-primary detail-btn" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal">
+                                    Detail
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-12 col-md-6 col-xl-3 mt-5 px-2">
+                        <div class="card">
+                            <img src="./assets/images/product-04.jpg" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Pawz Road Cat Sleeping Bag Self</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the
+                                    bulk of the card's content.</p>
+                            </div>
+                            <div class="card-foot">
+                                <a href="#" class="btn btn-primary add-to-cart-btn">Add To Cart</a>
+                                <button type="button" class="btn btn-primary detail-btn" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal">
+                                    Detail
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-xl-3">
+                    <p class="footer-headline">CONTACT US</p>
+                    <div class="group-footer-logo">
+                        <img src="./assets/images/pet-shop.png" alt="" class="footer-logo">
+                        <p class="footer-description">
+                            Your one-stop destination for all your pet needs. Discover a wide range of adorable
+                            companions
+                            and
+                            quality pet products at our pet shop.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-xl-3">
+                    <p class="footer-headline">HELP & INFORMATION</p>
+                    <ul>
+                        <li><a href="">About Us</a></li>
+                        <li><a href="">Contact Us</a></li>
+                        <li><a href="">FAQs</a></li>
+                        <li><a href="">Secure Shopping</a></li>
+                        <li><a href="">Copyright Dispute Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-xl-3">
+                    <p class="footer-headline">CUSTOMER SERVICE</p>
+                    <ul>
+                        <li><a href="">Return Policy</a></li>
+                        <li><a href="">Refund Policy</a></li>
+                        <li><a href="">Privacy Policy</a></li>
+                        <li><a href="">Shipping Policy</a></li>
+                        <li><a href="">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-xl-3">
+                    <p class="footer-headline">SITE NAVIGATION</p>
+                    <ul>
+                        <li><a href="">Billing Terms & Conditions</a></li>
+                        <li><a href="">Order Tracking</a></li>
+                        <li><a href="">Blog</a></li>
+                        <li><a href="">Payment Method</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="./assets/bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js"></script>
+<script src="./js/script.js"></script>
+
+</html>

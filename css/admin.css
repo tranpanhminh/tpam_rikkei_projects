@@ -1,0 +1,186 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: grid;
+    grid-template-columns: 1fr 7fr;
+    height: 100vh;
+    gap: 20px;
+    background-color: #d1d1dae7;
+}
+
+html {
+    font-family: 'Nunito', sans-serif;
+}
+
+.vertical-menu {
+    background-color: white;
+    padding: 10px;
+    line-height: 2;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.vertical-menu ul li a {
+    text-decoration: none;
+    padding: 5px;
+    font-weight: bold;
+}
+
+.vertical-menu ul li {
+    padding: 5px;
+    list-style-type: none;
+}
+
+ul.main-menu {
+    padding: 0;
+}
+
+.main-menu {
+    margin-top: 20px;
+}
+
+.vertical-menu ul li:hover {
+    background-color: #33d6bb;
+    border-radius: 10px;
+}
+
+.vertical-menu ul li a:hover {
+    color: white;
+}
+
+.main-content {
+    background-color: #f8f8f9;
+}
+
+main {
+    margin: 30px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+i {
+    width: 30px;
+    margin-right: 5px;
+}
+
+.user-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-panel img {
+    width: 200px;
+}
+
+.user-title {
+    background-color: #0c337c;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    padding: 5px 25px;
+    border-radius: 10px;
+
+}
+
+/* CSS Main Content */
+.main-content {
+    padding: 20px;
+}
+
+.main-title-content {
+    margin-bottom: 30px;
+}
+
+.breadcrumb {
+    display: flex;
+    flex-direction: column;
+}
+
+.page-title {
+    display: block;
+    background-color: #0c337c;
+    width: 300px;
+    color: white;
+    padding: 15px;
+    font-size: 25px;
+    border-radius: 10px;
+}
+
+.page-description {
+    font-weight: bold;
+    padding: 10px;
+    font-size: 15px;
+}
+
+button {
+    padding: 5px 10px;
+    border: none;
+    background-color: #0c337c;
+    color: white;
+    border-radius: 10px;
+}
+
+button:hover {
+    opacity: 85%;
+}
+
+table {
+    font-size: 20px;
+}
+
+table tr:first-child {
+    color: black;
+    font-weight: bold;
+}
+
+.d-flex {
+    margin: 30px 0px;
+}
+
+#search-bar {
+    width: 300px;
+    border: 1px ridge #ccc
+}
+
+#search-btn {
+    border: none;
+    background-color: #0c337c;
+    color: white
+}
+
+#search-btn:hover {
+    opacity: 85%;
+}
+
+table td {
+    vertical-align: middle;
+}
+
+table tr td img {
+    width: 50px;
+}
+
+.change-user-btn {
+    background-color: #007aff;
+}
+
+.delete-product-btn,
+.delete-user-btn,
+.delete-order-btn {
+    background-color: #ed5e68;
+}
+
+.edit-product-btn,
+.edit-order-btn {
+    background-color: #007aff;
+}
+
+.detail-order-btn {
+    background-color: #469b46;
+}
