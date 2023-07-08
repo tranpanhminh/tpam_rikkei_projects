@@ -720,7 +720,7 @@ footer {
 }
 
 .cart-shipping input {
-    width: 90%;
+    width: 100%;
     border: none;
     padding: 10px;
     border-radius: 10px;
@@ -730,6 +730,11 @@ footer {
 .cart-shipping-title,
 .cart-quantity-item {
     margin: 0;
+}
+
+.cart-shipping-title {
+    width: 150px;
+    text-align: left;
 }
 
 .cart-total-quantity,
@@ -825,7 +830,7 @@ footer {
 }
 
 .related-products {
-    margin-top:50px;
+    margin-top: 50px;
     margin-bottom: 50px;
 }
 

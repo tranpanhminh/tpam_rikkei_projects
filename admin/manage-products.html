@@ -58,7 +58,8 @@
                     <td>Exo Terra Crystal Cave Medium</td>
                     <td>100</td>
                     <td>500</td>
-                    <td><button onclick="handleEditProduct()" class="edit-product-btn">Edit</button>
+                    <td><button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="handleDetailtProduct()"
+                            class="detail-product-btn">Detail</button>
                         <button onclick="handleDeleteProduct()" class="delete-product-btn">Delete</button>
                     </td>
                 </tr>
@@ -68,7 +69,8 @@
                     <td>Black Water Proofing Dog Boots</td>
                     <td>150</td>
                     <td>500</td>
-                    <td><button onclick="handleEditProduct()" class="edit-product-btn">Edit</button>
+                    <td><button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="handleDetailtProduct()"
+                            class="detail-product-btn">Detail</button>
                         <button onclick="handleDeleteProduct()" class="delete-product-btn">Delete</button>
                     </td>
                 </tr>
@@ -78,7 +80,8 @@
                     <td>Glendan Dog Brush Cat Brush</td>
                     <td>4400</td>
                     <td>5500</td>
-                    <td><button onclick="handleEditProduct()" class="edit-product-btn">Edit</button>
+                    <td><button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="handleDetailtProduct()"
+                            class="detail-product-btn">Detail</button>
                         <button onclick="handleDeleteProduct()" class="delete-product-btn">Delete</button>
                     </td>
                 </tr>
@@ -88,7 +91,8 @@
                     <td>Pawz Road Cat Sleeping Bag Self</td>
                     <td>240</td>
                     <td>400</td>
-                    <td><button onclick="handleEditProduct()" class="edit-product-btn">Edit</button>
+                    <td><button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="handleDetailtProduct()"
+                            class="detail-product-btn">Detail</button>
                         <button onclick="handleDeleteProduct()" class="delete-product-btn">Delete</button>
                     </td>
                 </tr>
@@ -98,7 +102,8 @@
                     <td>My Alphapet Dog Poop Bags Refill Rolls</td>
                     <td>190</td>
                     <td>560</td>
-                    <td><button onclick="handleEditProduct()" class="edit-product-btn">Edit</button>
+                    <td><button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="handleDetailtProduct()"
+                            class="detail-product-btn">Detail</button>
                         <button onclick="handleDeleteProduct()" class="delete-product-btn">Delete</button>
                     </td>
                 </tr>
@@ -108,7 +113,8 @@
                     <td>Trixie 39813 Traveller Capri I Pet</td>
                     <td>120</td>
                     <td>5500</td>
-                    <td><button onclick="handleEditProduct()" class="edit-product-btn">Edit</button>
+                    <td><button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="handleDetailtProduct()"
+                            class="detail-product-btn">Detail</button>
                         <button onclick="handleDeleteProduct()" class="delete-product-btn">Delete</button>
                     </td>
                 </tr>
@@ -118,7 +124,8 @@
                     <td>Qpey Pet Food Bowl Stainless Steel</td>
                     <td>150</td>
                     <td>250</td>
-                    <td><button onclick="handleEditProduct()" class="edit-product-btn">Edit</button>
+                    <td><button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="handleDetailtProduct()"
+                            class="detail-product-btn">Detail</button>
                         <button onclick="handleDeleteProduct()" class="delete-product-btn">Delete</button>
                     </td>
                 </tr>
@@ -128,7 +135,8 @@
                     <td>Senye Retractable Dog Leash 16ft</td>
                     <td>2000</td>
                     <td>200</td>
-                    <td><button onclick="handleEditProduct()" class="edit-product-btn">Edit</button>
+                    <td><button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="handleDetailtProduct()"
+                            class="detail-product-btn">Detail</button>
                         <button onclick="handleDeleteProduct()" class="delete-product-btn">Delete</button>
                     </td>
                 </tr>
@@ -137,8 +145,140 @@
 
     </main>
 
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="product-detail">
+                        <div class="container text-center">
+                            <div class="row align-items-center">
+                                <div class="col-xl-8 col-sm-12">
+                                    <div class="container text-center">
+                                        <div class="row row-cols-2">
+                                            <div class="col"><img
+                                                    src="https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/black_water_proofing_dog_boots_pet_shoes_dogs_snow_booties_1_365x365_crop_top.png?v=1625752672"
+                                                    alt=""></div>
+                                            <div class="col"><img
+                                                    src="https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/black_water_proofing_dog_boots_pet_shoes_dogs_snow_booties_2_365x365_crop_top.png?v=1625752672"
+                                                    alt=""></div>
+                                            <div class="col"><img
+                                                    src="https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/black_water_proofing_dog_boots_pet_shoes_dogs_snow_booties_3_365x365_crop_top.png?v=1625752672"
+                                                    alt=""></div>
+                                            <div class="col"><img
+                                                    src="https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/black_water_proofing_dog_boots_pet_shoes_dogs_snow_booties_4_365x365_crop_top.png?v=1625752672"
+                                                    alt=""></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-sm-12">
+                                    <div class="product-detail-info product-detail-info-manage-page">
+                                        <h2 class="product-title-name product-title-name-manage-page">Black Water
+                                            Proofing Dog Boots Pet Shoes Dogs
+                                            Snow Booties
+                                        </h2>
+
+                                        <p class="product-description product-description-manage-page">A charming animal
+                                            world is already waiting for
+                                            you! We are
+                                            all
+                                            used to the fact that taking care of pets is our everyday responsibility. It
+                                            is natural
+                                            because often you can't fi...</p>
+
+                                        <div class="product-price product-price-manage-page">
+                                            <span>Price</span>
+                                            <span>$19.00</span>
+                                        </div>
+
+                                        <div class="product-vendor product-vendor-manage-page">
+                                            <span>Vendor:</span>
+                                            <span>Adidas</span>
+                                        </div>
+
+                                        <div class="product-sku product-sku-manage-page">
+                                            <span>SKU:</span>
+                                            <span>327AE-6</span>
+                                        </div>
+
+
+                                        <div class="product-add-quantity product-stock-manage-page">
+                                            <p>Stock:</p>
+                                            <span>3000</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="edit-product-manage-page">
+                        <h2 class="edit-product-ttitle-manage-page">Edit Panel</h2>
+
+                        <div class="product-details-info-manage-page">
+                            <h4 class="product-detail-edit-title">Title</h4>
+                            <input type="text" placeholder="">
+                        </div>
+
+                        <div class="product-details-info-manage-page">
+                            <h4 class="product-detail-edit-title">Description</h4>
+                            <input type="text" placeholder="">
+                        </div>
+
+                        <div class="product-details-info-manage-page">
+                            <h4 class="product-detail-edit-title">Price</h4>
+                            <input type="text" placeholder="">
+                        </div>
+
+                        <div class="product-details-info-manage-page">
+                            <h4 class="product-detail-edit-title">Vendor</h4>
+                            <input type="text" placeholder="">
+                        </div>
+
+                        <div class="product-details-info-manage-page">
+                            <h4 class="product-detail-edit-title">SKU</h4>
+                            <input type="text" placeholder="">
+                        </div>
+
+                        <div class="product-details-info-manage-page">
+                            <h4 class="product-detail-edit-title">Stock</h4>
+                            <input type="text" placeholder="">
+                        </div>
+
+                        <div class="product-details-info-manage-page">
+                            <h4 class="product-detail-edit-title">Image 1</h4>
+                            <input type="text" placeholder="" id="product-detail-edit-image-01">
+                        </div>
+
+                        <div class="product-details-info-manage-page">
+                            <h4 class="product-detail-edit-title">Image 2</h4>
+                            <input type="text" placeholder="" id="product-detail-edit-image-02">
+                        </div>
+
+                        <div class="product-details-info-manage-page">
+                            <h4 class="product-detail-edit-title">Image 3</h4>
+                            <input type="text" placeholder="" id="product-detail-edit-image-03">
+                        </div>
+
+                        <div class="product-details-info-manage-page">
+                            <h4 class="product-detail-edit-title">Image 4</h4>
+                            <input type="text" placeholder="" id="product-detail-edit-image-04">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
-<script src="./assets/bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js"></script>
-<script src="./js/script.js"></script>
+<script src="../assets/bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/script.js"></script>
 
 </html>
