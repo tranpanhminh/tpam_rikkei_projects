@@ -16,6 +16,12 @@ html {
     font-family: 'Nunito', sans-serif;
 }
 
+.active {
+    background-color: #33d6bb;
+    width: 100%;
+    border-radius: 10px;
+}
+
 .vertical-menu {
     background-color: white;
     padding: 10px;
@@ -40,6 +46,9 @@ ul.main-menu {
 
 .main-menu {
     margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .vertical-menu ul li:hover {
@@ -212,6 +221,18 @@ table tr {
     background-color: #27a647;
     margin-right: 100px;
 }
+
+.revenue-text {
+    padding: 10px 20px;
+    font-weight: bold;
+    color: white;
+    font-size: 20px;
+    background-color: #27a647;
+    margin-right: 100px;
+    border-radius: 10px;
+    width: auto;
+}
+
 
 /*  CSS Manage Order Page */
 

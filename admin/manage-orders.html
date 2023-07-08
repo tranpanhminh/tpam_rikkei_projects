@@ -20,7 +20,7 @@
 <body>
     <header class="vertical-menu">
         <div class="user-panel">
-            <img src="../assets/images/pet-shop.png" alt="">
+            <a href="http://127.0.0.1:5501/index.html"><img src="../assets/images/pet-shop.png" alt=""></a>
             <p class="user-title">admin</p>
         </div>
 
@@ -28,7 +28,8 @@
             <li><a href="../admin/manage-users.html"><i class="fa-solid fa-user"></i>Manage Users</a></li>
             <li><a href="../admin/manage-products.html"><i class="fa-solid fa-boxes-stacked"></i>Manage Products</a>
             </li>
-            <li><a href="../admin/manage-orders.html"><i class="fa-solid fa-cart-shopping"></i>Manage Orders</a></li>
+            <li class="active"><a href="../admin/manage-orders.html"><i class="fa-solid fa-cart-shopping"></i>Manage
+                    Orders</a></li>
             <li><a href="../admin/manage-orders.html"><i class="fa-solid fa-right-from-bracket"></i>Logout</a></li>
         </ul>
     </header>
@@ -37,10 +38,16 @@
             <h2 class="page-title">Manage Orders</h2>
             <p class="page-description">PetShop Admin Panel</p>
         </div>
-        <div class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="search-bar">
-            <button class="btn btn-outline-success" type="submit" id="search-btn">Search</button>
+
+        <div class="product-panel">
+            <div class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="search-bar">
+                <button class="btn btn-outline-success" type="submit" id="search-btn">Search</button>
+            </div>
+
+            <h3 class="revenue-text">Revenue: $5000</h3>
         </div>
+
         <div class="main-content">
             <h3 class="main-title-content">List Users</h3>
             <table class="table table-striped">

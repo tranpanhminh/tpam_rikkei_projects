@@ -421,8 +421,15 @@ main {
     justify-content: space-evenly;
 }
 
+.card-price {
+    font-size: 22px;
+}
+
+
+
 img.card-img-top {
     height: 300px;
+    object-fit: contain;
 }
 
 a.btn.btn-primary.add-to-cart-btn {
@@ -617,6 +624,23 @@ footer {
 
 .forgot-password-text {
     text-decoration: none;
+}
+
+.password-notify,
+.repassword-notify,
+.email-notify {
+    color: red;
+    font-size: 14px;
+}
+
+.sign-up-complete-notify {
+    background-color: #33d6bb;
+    text-align: center;
+    width: 300px;
+    padding: 20px 20px;
+    border-radius: 10px;
+    margin: 20px auto;
+    display: none;
 }
 
 /* CSS My Cart Page */

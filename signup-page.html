@@ -92,18 +92,25 @@
             </div>
         </section>
 
+        <h3 class="sign-up-complete-notify">Signup Complete</h3>
+
         <div class="outside-form-signup">
-            <section class="form-signup">
-                <h3 class="signup-title">Signup</h3>
-                <input type="email" placeholder="Email" class="input-email" required>
-                <input type="email" placeholder="Full Name" class="input-name" required>
-                <input type="password" placeholder="Password" class="input-password">
-                <input type="password" placeholder="Confirm Password" class="input-repassword">
+            <form class="form-signup" onsubmit="handlePreventForm(event)">
+                <h3 class=" signup-title">Signup</h3>
+                <input type="email" id="email" name="email" placeholder="Email" class="input-email"
+                    title="Please enter a valid email format." required>
+                <div class="email-notify"></div>
+                <input type="text" placeholder="Full Name" class="input-fullname" pattern="[^\d]+" required>
+
+                <input type="password" placeholder="Password" class="input-password" required>
+                <div class="password-notify"></div>
+                <input type="password" placeholder="Confirm Password" class="input-repassword" required>
+                <div class="repassword-notify"></div>
                 <button class="signup-button" onclick="handleSignUp()">Signup</button>
                 <p class="login-sentence">Already have an account? <a href="./login-page.html"
                         class="login-text">Login</a>
                 </p>
-            </section>
+            </form>
         </div>
     </main>
 
@@ -155,7 +162,7 @@
         </div>
     </footer>
 </body>
-<script src="./assets/bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js"></script>
-<script src="./js/script.js"></script>
+<script src="./js/database.js"></script>
+<script src="./js/form-login-signup.js"></script>
 
 </html>

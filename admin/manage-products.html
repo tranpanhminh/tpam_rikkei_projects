@@ -20,13 +20,14 @@
 <body>
     <header class="vertical-menu">
         <div class="user-panel">
-            <img src="../assets/images/pet-shop.png" alt="">
+            <a href="http://127.0.0.1:5501/index.html"><img src="../assets/images/pet-shop.png" alt=""></a>
             <p class="user-title">admin</p>
         </div>
 
         <ul class="main-menu">
             <li><a href="../admin/manage-users.html"><i class="fa-solid fa-user"></i>Manage Users</a></li>
-            <li><a href="../admin/manage-products.html"><i class="fa-solid fa-boxes-stacked"></i>Manage Products</a>
+            <li class="active"><a href="../admin/manage-products.html"><i class="fa-solid fa-boxes-stacked"></i>Manage
+                    Products</a>
             </li>
             <li><a href="../admin/manage-orders.html"><i class="fa-solid fa-cart-shopping"></i>Manage Orders</a></li>
             <li><a href="../admin/manage-orders.html"><i class="fa-solid fa-right-from-bracket"></i>Logout</a></li>
@@ -44,13 +45,13 @@
                 <button class="btn btn-outline-success" type="submit" id="search-btn">Search</button>
             </div>
 
-            <button data-bs-toggle="modal" data-bs-target="#addProductModal" class="add-product-btn"
-                onclick="handledAddProduct()">Add Product</button>
+            <button data-bs-toggle="modal" data-bs-target="#addProductModal" class="add-product-btn">Add
+                Product</button>
         </div>
 
         <div class="main-content">
             <h3 class="main-title-content">List Users</h3>
-            <table class="table table-striped">
+            <table class="table table-striped" id="table-products-manage-page">
                 <tr>
                     <td>STT</td>
                     <td>Image</td>
@@ -296,67 +297,71 @@
             </div>
             <div class="modal-body">
                 <div class="add-product-manage-page">
-                    <h2 class="add-product-ttitle-manage-page">Edit Panel</h2>
+                    <h2 class="add-product-ttitle-manage-page">Add Panel</h2>
 
                     <div class="product-details-add-manage-page">
                         <h4 class="product-detail-add-title">Title</h4>
-                        <input type="text" placeholder="">
+                        <input type="text" placeholder="" class="product-title-add">
                     </div>
 
                     <div class="product-details-add-manage-page">
                         <h4 class="product-detail-add-title">Description</h4>
-                        <input type="text" placeholder="">
+                        <input type="text" placeholder="" class="product-description-add">
                     </div>
 
                     <div class="product-details-add-manage-page">
                         <h4 class="product-detail-add-title">Price</h4>
-                        <input type="text" placeholder="">
+                        <input type="text" placeholder="" class="product-price-add">
                     </div>
 
                     <div class="product-details-add-manage-page">
                         <h4 class="product-detail-add-title">Vendor</h4>
-                        <input type="text" placeholder="">
+                        <input type="text" placeholder="" class="product-vendor-add">
                     </div>
 
                     <div class="product-details-add-manage-page">
                         <h4 class="product-detail-add-title">SKU</h4>
-                        <input type="text" placeholder="">
+                        <input type="text" placeholder="" class="product-sku-add">
                     </div>
 
                     <div class="product-details-add-manage-page">
                         <h4 class="product-detail-add-title">Stock</h4>
-                        <input type="text" placeholder="">
+                        <input type="text" placeholder="" class="product-stock-add">
                     </div>
 
                     <div class="product-details-add-manage-page">
                         <h4 class="product-detail-add-title">Image 1</h4>
-                        <input type="text" placeholder="" id="product-detail-edit-image-01">
+                        <input type="text" placeholder="" id="product-detail-add-new-image-01">
                     </div>
 
                     <div class="product-details-add-manage-page">
                         <h4 class="product-detail-add-title">Image 2</h4>
-                        <input type="text" placeholder="" id="product-detail-edit-image-02">
+                        <input type="text" placeholder="" id="product-detail-add-new-image-02">
                     </div>
 
                     <div class="product-details-add-manage-page">
                         <h4 class="product-detail-add-title">Image 3</h4>
-                        <input type="text" placeholder="" id="product-detail-edit-image-03">
+                        <input type="text" placeholder="" id="product-detail-add-new-image-03">
                     </div>
 
                     <div class="product-details-add-manage-page">
                         <h4 class="product-detail-add-title">Image 4</h4>
-                        <input type="text" placeholder="" id="product-detail-edit-image-04">
+                        <input type="text" placeholder="" id="product-detail-add-new-image-04">
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                    onclick="handleSaveAddProduct()">Save changes</button>
             </div>
         </div>
     </div>
 </div>
-<script src="../assets/bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js"></script>
-<script src="../js/script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+    crossorigin="anonymous"></script>
+<script src="../js/database.js"></script>
+<script src="../js/manage-products.js"></script>
 
 </html>
