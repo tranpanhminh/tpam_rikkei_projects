@@ -198,6 +198,8 @@ table tr {
 }
 
 
+/*  CSS Manage Order Page */
+
 .summary-order {
     display: flex;
     flex-direction: column;
@@ -275,7 +277,7 @@ table tr {
     cursor: pointer;
 }
 
-/* CSS Manage Products */
+/* CSS Manage Products Page */
 .product-detail-info {
     display: flex;
     flex-direction: column;
