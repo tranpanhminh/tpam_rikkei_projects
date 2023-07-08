@@ -37,10 +37,17 @@
             <h2 class="page-title">Manage Products</h2>
             <p class="page-description">PetShop Admin Panel</p>
         </div>
-        <div class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="search-bar">
-            <button class="btn btn-outline-success" type="submit" id="search-btn">Search</button>
+
+        <div class="product-panel">
+            <div class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="search-bar">
+                <button class="btn btn-outline-success" type="submit" id="search-btn">Search</button>
+            </div>
+
+            <button data-bs-toggle="modal" data-bs-target="#addProductModal" class="add-product-btn"
+                onclick="handledAddProduct()">Add Product</button>
         </div>
+
         <div class="main-content">
             <h3 class="main-title-content">List Users</h3>
             <table class="table table-striped">
@@ -278,6 +285,77 @@
         </div>
     </div>
 </body>
+
+<!-- Modal -->
+<div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="add-product-manage-page">
+                    <h2 class="add-product-ttitle-manage-page">Edit Panel</h2>
+
+                    <div class="product-details-add-manage-page">
+                        <h4 class="product-detail-add-title">Title</h4>
+                        <input type="text" placeholder="">
+                    </div>
+
+                    <div class="product-details-add-manage-page">
+                        <h4 class="product-detail-add-title">Description</h4>
+                        <input type="text" placeholder="">
+                    </div>
+
+                    <div class="product-details-add-manage-page">
+                        <h4 class="product-detail-add-title">Price</h4>
+                        <input type="text" placeholder="">
+                    </div>
+
+                    <div class="product-details-add-manage-page">
+                        <h4 class="product-detail-add-title">Vendor</h4>
+                        <input type="text" placeholder="">
+                    </div>
+
+                    <div class="product-details-add-manage-page">
+                        <h4 class="product-detail-add-title">SKU</h4>
+                        <input type="text" placeholder="">
+                    </div>
+
+                    <div class="product-details-add-manage-page">
+                        <h4 class="product-detail-add-title">Stock</h4>
+                        <input type="text" placeholder="">
+                    </div>
+
+                    <div class="product-details-add-manage-page">
+                        <h4 class="product-detail-add-title">Image 1</h4>
+                        <input type="text" placeholder="" id="product-detail-edit-image-01">
+                    </div>
+
+                    <div class="product-details-add-manage-page">
+                        <h4 class="product-detail-add-title">Image 2</h4>
+                        <input type="text" placeholder="" id="product-detail-edit-image-02">
+                    </div>
+
+                    <div class="product-details-add-manage-page">
+                        <h4 class="product-detail-add-title">Image 3</h4>
+                        <input type="text" placeholder="" id="product-detail-edit-image-03">
+                    </div>
+
+                    <div class="product-details-add-manage-page">
+                        <h4 class="product-detail-add-title">Image 4</h4>
+                        <input type="text" placeholder="" id="product-detail-edit-image-04">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="../assets/bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js"></script>
 <script src="../js/script.js"></script>
 

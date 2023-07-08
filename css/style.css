@@ -537,7 +537,7 @@ footer {
     margin: 50px auto;
     padding: 30px 50px;
     width: 400px;
-    height: 400px;
+    height: auto;
     background-color: white;
     border-radius: 5px;
     display: flex;
@@ -546,10 +546,16 @@ footer {
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
-.signup-title,
+
 .login-title {
     text-align: center;
     margin-bottom: 10px;
+    font-size: 25px;
+}
+
+.signup-title {
+    text-align: center;
+    margin-bottom: 0;
     font-size: 25px;
 }
 
@@ -579,8 +585,13 @@ footer {
     opacity: 75%;
 }
 
-.login-sentence,
 .signup-sentence {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 15px;
+}
+
+.login-sentence {
     text-align: center;
     margin-top: 10px;
     font-size: 15px;

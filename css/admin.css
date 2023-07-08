@@ -198,6 +198,21 @@ table tr {
 }
 
 
+.product-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.product-panel .add-product-btn {
+    padding: 10px 20px;
+    font-weight: bold;
+    font-size: 20px;
+    background-color: #27a647;
+    margin-right: 100px;
+}
+
 /*  CSS Manage Order Page */
 
 .summary-order {
@@ -345,24 +360,29 @@ table tr {
     font-size: 16px;
 }
 
-.edit-product-manage-page {
+.edit-product-manage-page,
+.add-product-manage-page {
     display: flex;
     flex-direction: column;
     gap: 20px;
     margin-bottom: 20px;
 }
 
-.edit-product-ttitle-manage-page {
+.edit-product-ttitle-manage-page,
+.add-product-ttitle-manage-page {
     font-weight: bold;
     text-align: center;
 }
 
-.product-detail-edit-title {
+.product-detail-edit-title,
+.product-detail-add-title {
     width: 160px;
     text-align: left;
+    margin: 0;
 }
 
-.product-details-info-manage-page {
+.product-details-info-manage-page,
+.product-details-add-manage-page {
     display: flex;
     width: 100%;
     gap: 20px;
@@ -370,16 +390,12 @@ table tr {
 
 }
 
-.product-details-info-manage-page input {
+.product-details-info-manage-page input,
+.product-details-add-manage-page input {
     width: 80%;
     border: none;
     padding: 10px;
     border-radius: 10px;
     text-align: left;
     border: 1px solid black;
-}
-
-.product-detail-edit-title,
-{
-margin: 0;
 }
