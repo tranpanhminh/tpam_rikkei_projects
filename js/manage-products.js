@@ -56,6 +56,7 @@ function handleSaveAddProduct() {
     "#product-detail-add-new-image-04"
   ).value;
   let newProduct = {
+    id: productsDatabase.length + 1,
     productImage: [
       (productImage_1 = inputImage_1),
       (productImage_2 = inputImage_2),

@@ -1,6 +1,7 @@
 // Database Accounts
 let accounts = [
   {
+    id: 1,
     email: "admin.petshop@gmail.com",
     fullName: "Admin",
     password: "adminpassword1",
@@ -9,6 +10,7 @@ let accounts = [
     cart: [],
   },
   {
+    id: 2,
     email: "mohamed1972@hotmail.com",
     fullName: "James Mohamed",
     password: "customerpassword1",
@@ -17,6 +19,7 @@ let accounts = [
     cart: [],
   },
   {
+    id: 3,
     email: "davidhelms1987@yahoo.com",
     fullName: "David Helms",
     password: "customerpassword2",
@@ -25,6 +28,7 @@ let accounts = [
     cart: [],
   },
   {
+    id: 4,
     email: "kevinlee1997@yahoo.com",
     fullName: "Kevin Lee",
     password: "customerpassword3",
@@ -34,9 +38,10 @@ let accounts = [
   },
 ];
 
-// Products DataBase
+// Database Products
 let products = [
   {
+    id: 1,
     productImage: [
       (productImage_1 = "../assets/images/product images/blueberry-pet-01.jpg"),
       (productImage_2 = "../assets/images/product images/blueberry-pet-02.jpg"),
@@ -52,6 +57,7 @@ let products = [
     quantity_stock: 230,
   },
   {
+    id: 2,
     productImage: [
       (productImage_1 = "../assets/images/product images/dog-brush-01.jpg"),
       (productImage_2 = "../assets/images/product images/dog-brush-02.jpg"),
@@ -68,6 +74,7 @@ let products = [
     quantity_stock: 220,
   },
   {
+    id: 3,
     productImage: [
       (productImage_1 = "../assets/images/product images/dog-leash-01.jpg"),
       (productImage_2 = "../assets/images/product images/dog-leash-02.jpg"),
@@ -83,6 +90,7 @@ let products = [
     quantity_stock: 500,
   },
   {
+    id: 4,
     productImage: [
       (productImage_1 = "../assets/images/product images/dog-poop-bags-01.jpg"),
       (productImage_2 = "../assets/images/product images/dog-poop-bags-02.jpg"),
@@ -98,6 +106,7 @@ let products = [
     quantity_stock: 200,
   },
   {
+    id: 5,
     productImage: [
       (productImage_1 = "../assets/images/product images/pet-bed-01.jpg"),
       (productImage_2 = "../assets/images/product images/pet-bed-02.jpg"),
@@ -113,6 +122,7 @@ let products = [
     quantity_stock: 300,
   },
   {
+    id: 6,
     productImage: [
       (productImage_1 =
         "../assets/images/product images/pet-feeder-bowl-01.jpg"),
@@ -132,6 +142,7 @@ let products = [
     quantity_stock: 560,
   },
   {
+    id: 7,
     productImage: [
       (productImage_1 = "../assets/images/product images/pet-food-bowl-01.jpg"),
       (productImage_2 = "../assets/images/product images/pet-food-bowl-02.jpg"),
@@ -147,6 +158,7 @@ let products = [
     quantity_stock: 450,
   },
   {
+    id: 8,
     productImage: [
       (productImage_1 =
         "../assets/images/product images/tribal-leather-01.jpg"),
@@ -164,6 +176,18 @@ let products = [
     vendor: "Nike",
     sku: "P0008",
     quantity_stock: 100,
+  },
+];
+
+// Database Orders
+let orders = [
+  {
+    name: "Tony Tèo",
+    email: "tonyteo123@gmail.com",
+    phone: "0905932123",
+    date: "06/02/2023",
+    status: "Processing",
+    total: 3000,
   },
 ];
 

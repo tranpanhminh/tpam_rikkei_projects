@@ -19,9 +19,9 @@ function renderProductHomepage(productsDatabase) {
                 ).toLocaleString()}</p>
             </div>
             <div class="card-foot">
-                <a href="#" class="btn btn-primary add-to-cart-btn" onclick="handleAddToCartFromHome(${i})">Add To Cart</a>
+                <button data-bs-toggle="modal" class="btn btn-primary add-to-cart-btn" onclick="handleAddToCartFromHome(${i})">Add To Cart</button>
                 <button type="button" class="btn btn-primary detail-btn" data-bs-toggle="modal"
-                    data-bs-target="#exampleModal" onclick="handleDetailFromHome(${i})">
+                    data-bs-target="#show-detail-product-homepage" onclick="handleDetailFromHome(${i})">
                     Detail
                 </button>
             </div>
@@ -46,30 +46,14 @@ function handleDetailFromHome(i) {
   modalDetailFromHomeContent += `<div class="col-xl-8 col-sm-12">
     <div class="container text-center">
         <div class="row row-cols-2">
-        <div class="col"><img
-                                                    src="${
-                                                      productsDatabase[i]
-                                                        .productImage[0]
-                                                    }"
-                                                    alt=""></div>
-                                                    <div class="col"><img
-                                                    src="${
-                                                      productsDatabase[i]
-                                                        .productImage[1]
-                                                    }"
-                                                    alt=""></div>
-                                                    <div class="col"><img
-                                                    src="${
-                                                      productsDatabase[i]
-                                                        .productImage[2]
-                                                    }"
-                                                    alt=""></div>
-                                                    <div class="col"><img
-                                                    src="${
-                                                      productsDatabase[i]
-                                                        .productImage[3]
-                                                    }"
-                                                    alt=""></div>
+        <div class="col"><img src="${productsDatabase[i].productImage[0]}"
+        alt=""></div><div class="col"><img src="${
+          productsDatabase[i].productImage[1]
+        }"alt=""></div><div class="col"><img src="${
+    productsDatabase[i].productImage[2]
+  }"alt=""></div><div class="col"><img src="${
+    productsDatabase[i].productImage[3]
+  }"alt=""></div>
         </div>
     </div>
 </div>
@@ -101,4 +85,14 @@ function handleDetailFromHome(i) {
     </div>
 </div>`;
   modalDetailFromHomeElement.innerHTML = modalDetailFromHomeContent;
+}
+
+// Function handleAddToCart
+function handleAddToCartFromHome(i) {
+  console.log(i);
+  let askToLogin = document.querySelector(".add-to-cart-btn");
+  console.log(askToLogin);
+  if (!auth) {
+    askToLogin.setAttribute("data-bs-target", "#add-to-cart-notify");
+  }
 }

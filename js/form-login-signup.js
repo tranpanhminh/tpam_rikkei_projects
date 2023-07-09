@@ -7,6 +7,7 @@ function handleSignUp() {
   let inputPassword = document.querySelector(".input-password").value;
   let inputRePassword = document.querySelector(".input-repassword").value;
   let emailNotify = document.querySelector(".email-notify");
+  let fullNameNotify = document.querySelector(".fullname-notify");
   let passwordNotify = document.querySelector(".password-notify");
   let rePasswordNotify = document.querySelector(".repassword-notify");
   let signUpCompleteNotify = document.querySelector(".sign-up-complete-notify");
@@ -20,9 +21,19 @@ function handleSignUp() {
 
   for (let i = 0; i < accountsDatabase.length; i++) {
     if (inputEmail === accountsDatabase[i].email) {
-      alert("Email is exist");
+      emailNotify.innerHTML = "Email is exist";
+      emailNotify.style.display = "block";
       return;
     }
+  }
+
+  // Kiểm tra inputFullName
+  const fullNameRegex = /^[a-zA-Z\s]*$/;
+  if (!fullNameRegex.test(inputFullName)) {
+    fullNameNotify.innerHTML =
+      "Full Name does not include numbers & special characters";
+    fullNameNotify.style.display = "block";
+    return;
   }
 
   if (inputPassword == inputRePassword) {
@@ -40,6 +51,10 @@ function handleSignUp() {
     document.querySelector(".input-fullname").value = "";
     document.querySelector(".input-password").value = "";
     document.querySelector(".input-repassword").value = "";
+    passwordNotify.style.display = "none";
+    rePasswordNotify.style.display = "none";
+    fullNameNotify.style.display = "none";
+    emailNotify.style.display = "none";
   } else {
     passwordNotify.innerHTML = "Passwword and Repassword does not match";
     rePasswordNotify.innerHTML = "Passwword and Repassword does not match";
@@ -72,7 +87,7 @@ function handleLogin() {
     localStorage.setItem("auth", myArrayJson);
     window.location.href = "index.html";
   } else {
-    alert("Email hoặc mật khẩu không đúng!");
+    alert("Email or Password is not correct!");
     return;
   }
 }
