@@ -1,8 +1,7 @@
 // Get Data của Products từ Local Storage về
-const productsDatabase = getDataFromLocal("productsDatabase") ?? [];
+const productsDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
 
 // Script Render Product Homepage
-
 function renderProductHomepage(productsDatabase) {
   let containerElement = document.querySelector("#container-product-homepage");
   let containerContent = "";
@@ -38,7 +37,8 @@ renderProductHomepage(productsDatabase);
 
 // Function handleDetail
 function handleDetailFromHome(i) {
-  const productsDatabase = getDataFromLocal("productsDatabase") ?? [];
+  const productsDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
+  console.log(i);
   let modalDetailFromHomeElement = document.querySelector(
     "#modal-detail-from-homepage"
   );

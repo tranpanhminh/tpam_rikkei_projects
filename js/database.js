@@ -49,7 +49,7 @@ let products = [
     price: 40,
     vendor: "Nike",
     sku: "P0001",
-    quantity_stock: 100,
+    quantity_stock: 230,
   },
   {
     productImage: [
@@ -65,7 +65,7 @@ let products = [
     price: 9,
     vendor: "Nike",
     sku: "P0002",
-    quantity_stock: 100,
+    quantity_stock: 220,
   },
   {
     productImage: [
@@ -80,7 +80,7 @@ let products = [
     price: 70,
     vendor: "Nike",
     sku: "P0003",
-    quantity_stock: 100,
+    quantity_stock: 500,
   },
   {
     productImage: [
@@ -95,7 +95,7 @@ let products = [
     price: 28,
     vendor: "Nike",
     sku: "P0004",
-    quantity_stock: 100,
+    quantity_stock: 200,
   },
   {
     productImage: [
@@ -110,7 +110,7 @@ let products = [
     price: 37,
     vendor: "Nike",
     sku: "P0005",
-    quantity_stock: 100,
+    quantity_stock: 300,
   },
   {
     productImage: [
@@ -129,7 +129,7 @@ let products = [
     price: 30,
     vendor: "Nike",
     sku: "P0006",
-    quantity_stock: 100,
+    quantity_stock: 560,
   },
   {
     productImage: [
@@ -144,7 +144,7 @@ let products = [
     price: 34,
     vendor: "Nike",
     sku: "P0007",
-    quantity_stock: 100,
+    quantity_stock: 450,
   },
   {
     productImage: [
@@ -172,20 +172,20 @@ let products = [
 // 1. Đẩy dữ liệu của Accounts lên Local Storage
 
 // let accountsToDatabase = JSON.parse(localStorage.getItem("accountsDatabase"));
-if (accountsToDatabase) {
-  [];
-}
-localStorage.setItem("accountsDatabase", JSON.stringify(accounts));
+// if (accountsToDatabase) {
+//   [];
+// }
+// localStorage.setItem("accountsDatabase", JSON.stringify(accounts));
 
 // <--------------------------->
 
 // 2. Đẩy dữ liệu của Products lên Local Storage
 
 // let productsToDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
-if (productsToDatabase) {
-  [];
-}
-localStorage.setItem("productsDatabase", JSON.stringify(products));
+// if (productsToDatabase) {
+//   [];
+// }
+// localStorage.setItem("productsDatabase", JSON.stringify(products));
 
 // Xây dựng hàm Build In
 function getDataFromLocal(key) {

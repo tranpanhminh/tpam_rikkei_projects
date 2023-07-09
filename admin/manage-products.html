@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@100;300;400;500;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="../css/admin.css">
-    <title>Document</title>
+    <title>Manage Products - PetShop</title>
 </head>
 
 <body>
@@ -30,7 +30,8 @@
                     Products</a>
             </li>
             <li><a href="../admin/manage-orders.html"><i class="fa-solid fa-cart-shopping"></i>Manage Orders</a></li>
-            <li><a href="../admin/manage-orders.html"><i class="fa-solid fa-right-from-bracket"></i>Logout</a></li>
+            <li class="logout-admin-btn"><a onclick="handleLogoutAdminPage()"><i
+                        class="fa-solid fa-right-from-bracket"></i>Logout</a></li>
         </ul>
     </header>
     <main>
@@ -42,13 +43,14 @@
         <div class="product-panel">
             <div class="d-flex" role="search">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="search-bar">
-                <button class="btn btn-outline-success" type="submit" id="search-btn">Search</button>
+                <button class="btn btn-outline-success" type="submit" id="search-btn"
+                    onclick="handleSearctProduct()">Search</button>
             </div>
 
             <button data-bs-toggle="modal" data-bs-target="#addProductModal" class="add-product-btn">Add
                 Product</button>
         </div>
-
+        <div class="search-result"></div>
         <div class="main-content">
             <h3 class="main-title-content">List Users</h3>
             <table class="table table-striped" id="table-products-manage-page">
@@ -156,9 +158,9 @@
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
-            <div class="modal-content">
+            <div class="modal-content" id="modal-detail-from-manage-products-page">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Product Detail</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -229,32 +231,32 @@
 
                         <div class="product-details-info-manage-page">
                             <h4 class="product-detail-edit-title">Title</h4>
-                            <input type="text" placeholder="">
+                            <input type="text" placeholder="" class="product-title-edit">
                         </div>
 
                         <div class="product-details-info-manage-page">
                             <h4 class="product-detail-edit-title">Description</h4>
-                            <input type="text" placeholder="">
+                            <input type="text" placeholder="" class="product-description-edit">
                         </div>
 
                         <div class="product-details-info-manage-page">
                             <h4 class="product-detail-edit-title">Price</h4>
-                            <input type="text" placeholder="">
+                            <input type="text" placeholder="" class="product-price-edit">
                         </div>
 
                         <div class="product-details-info-manage-page">
                             <h4 class="product-detail-edit-title">Vendor</h4>
-                            <input type="text" placeholder="">
+                            <input type="text" placeholder="" class="product-vendor-edit">
                         </div>
 
                         <div class="product-details-info-manage-page">
                             <h4 class="product-detail-edit-title">SKU</h4>
-                            <input type="text" placeholder="">
+                            <input type="text" placeholder="" class="product-sku-edit">
                         </div>
 
                         <div class="product-details-info-manage-page">
                             <h4 class="product-detail-edit-title">Stock</h4>
-                            <input type="text" placeholder="">
+                            <input type="text" placeholder="" class="product-stock-edit">
                         </div>
 
                         <div class="product-details-info-manage-page">
@@ -280,7 +282,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-primary" id="save-edit-product-btn"
+                        onclick="handleSaveEditProduct()">Save changes</button>
                 </div>
             </div>
         </div>
@@ -292,12 +295,12 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Add Product Panel</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="add-product-manage-page">
-                    <h2 class="add-product-ttitle-manage-page">Add Panel</h2>
+                    <h2 class="add-product-ttitle-manage-page">Add Product Panel</h2>
 
                     <div class="product-details-add-manage-page">
                         <h4 class="product-detail-add-title">Title</h4>
@@ -352,8 +355,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
-                    onclick="handleSaveAddProduct()">Save changes</button>
+                <button type="button" id="save-add-product-btn" class="btn btn-primary"
+                    onclick="handleSaveAddProduct()">Add Product</button>
             </div>
         </div>
     </div>
@@ -363,5 +366,9 @@
     crossorigin="anonymous"></script>
 <script src="../js/database.js"></script>
 <script src="../js/manage-products.js"></script>
+<script src="../js/isCheckAuth.js"></script>
+<script src="../js/logout.js"></script>
+
+
 
 </html>

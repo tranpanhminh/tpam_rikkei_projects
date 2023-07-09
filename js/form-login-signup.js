@@ -2,7 +2,6 @@ const accountsDatabase = getDataFromLocal("accountsDatabase") ?? [];
 
 // Function Signup
 function handleSignUp() {
-  console.log(accountsDatabase);
   let inputEmail = document.querySelector(".input-email").value;
   let inputFullName = document.querySelector(".input-fullname").value;
   let inputPassword = document.querySelector(".input-password").value;
@@ -12,42 +11,70 @@ function handleSignUp() {
   let rePasswordNotify = document.querySelector(".repassword-notify");
   let signUpCompleteNotify = document.querySelector(".sign-up-complete-notify");
 
-  let emailExists = false; // Biến cờ để ghi nhận xem đã tìm thấy email trùng khớp hay chưa
+  let newUser = "";
+
+  if (inputEmail == "" || inputPassword == "" || inputRePassword == "") {
+    alert("Please fill the form!");
+    return;
+  }
 
   for (let i = 0; i < accountsDatabase.length; i++) {
     if (inputEmail === accountsDatabase[i].email) {
-      emailExists = true;
-      console.log(emailExists);
-      break; // Thoát khỏi vòng lặp khi tìm thấy email trùng khớp
+      alert("Email is exist");
+      return;
     }
   }
 
-  if (emailExists) {
-    console.log("Cl 3", emailExists);
-    emailNotify.innerHTML = "Email already exists!";
-  }
-
-  if (inputPassword === inputRePassword) {
+  if (inputPassword == inputRePassword) {
+    newUser = {
+      email: inputEmail,
+      fullName: inputFullName,
+      password: inputPassword,
+      role: "customer",
+      status: "Active",
+      cart: [],
+    };
     signUpCompleteNotify.style.display = "block";
-    emailNotify.style.display = "none";
-    passwordNotify.style.display = "none";
-    rePasswordNotify.style.display = "none";
+    accountsDatabase.push(newUser);
+    document.querySelector(".input-email").value = "";
+    document.querySelector(".input-fullname").value = "";
+    document.querySelector(".input-password").value = "";
+    document.querySelector(".input-repassword").value = "";
   } else {
-    passwordNotify.innerHTML = "Password & Confirm Password must match!";
-    rePasswordNotify.innerHTML = "Password & Confirm Password must match!";
+    passwordNotify.innerHTML = "Passwword and Repassword does not match";
+    rePasswordNotify.innerHTML = "Passwword and Repassword does not match";
+    passwordNotify.style.display = "block";
+    rePasswordNotify.style.display = "block";
+    return;
   }
 
-  let newUser = {
-    email: inputEmail,
-    fullName: inputFullName,
-    password: inputPassword,
-    role: "customer",
-    cart: [],
-  };
-
-  accountsDatabase.push(newUser);
   setDataToLocal("accountsDatabase", accountsDatabase);
-  console.log(accountsDatabase);
+}
+
+// Function handleLogin
+function handleLogin() {
+  let inputEmail = document.querySelector("#input-login-email").value;
+  let inputPassword = document.querySelector("#input-login-password").value;
+  let adminPanel = document.querySelector(".admin-icon");
+  if (inputEmail == "" || inputPassword == "") {
+    alert("Please fill the form!");
+    return;
+  }
+  const userIndex = accountsDatabase.find((user) => user.email === inputEmail);
+  // Đăng nhập dành cho Admin
+  if (userIndex) {
+    // console.log(userIndex);
+    // alert("Đăng nhập thành công!");
+    document.querySelector("#input-login-email").value = "";
+    document.querySelector("#input-login-password").value = "";
+    const myArrayJson = JSON.stringify(userIndex);
+    // console.log(myArrayJson);
+    localStorage.setItem("auth", myArrayJson);
+    window.location.href = "index.html";
+  } else {
+    alert("Email hoặc mật khẩu không đúng!");
+    return;
+  }
 }
 
 function handlePreventForm(event) {

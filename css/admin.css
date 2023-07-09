@@ -16,6 +16,11 @@ html {
     font-family: 'Nunito', sans-serif;
 }
 
+img {
+    width: 100%;
+    object-fit: cover;
+}
+
 .active {
     background-color: #33d6bb;
     width: 100%;
@@ -53,11 +58,21 @@ ul.main-menu {
 
 .vertical-menu ul li:hover {
     background-color: #33d6bb;
+    cursor: pointer;
     border-radius: 10px;
 }
 
 .vertical-menu ul li a:hover {
     color: white;
+}
+
+.logout-admin-btn {
+    color: #0d6efd
+}
+
+.logout-admin-btn:hover {
+    opacity: 85%;
+    color: white
 }
 
 .main-content {

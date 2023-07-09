@@ -53,16 +53,42 @@ function handleDeleteUser(email) {
   const accountsDatabase = getDataFromLocal("accountsDatabase") ?? [];
 
   // Tìm chỉ mục của người dùng có email tương ứng
-  const userIndex = accountsDatabase.findIndex((user) => user.email === email);
-  if (userIndex !== 0) {
+  const userIndex = accountsDatabase.find((user) => user.email === email);
+  console.log(userIndex);
+  if (userIndex) {
     // Xóa người dùng khỏi mảng
 
     accountsDatabase.splice(userIndex, 1);
+    console.log(accountsDatabase);
+    // // Cập nhật dữ liệu trong Local Storage
+    // setDataToLocal("accountsDatabase", accountsDatabase);
 
-    // Cập nhật dữ liệu trong Local Storage
-    setDataToLocal("accountsDatabase", accountsDatabase);
-
-    // Render lại trang Manage Users
+    // // Render lại trang Manage Users
+    const myArrayJson = JSON.stringify(accountsDatabase);
+    localStorage.setItem("accountsDatabase", myArrayJson);
     renderManageUserPage(accountsDatabase);
   }
+}
+
+// Function Search Product
+function handleSearchUser() {
+  const accountsDatabase = JSON.parse(localStorage.getItem("accountsDatabase"));
+  let searchResult = document.querySelector(".search-result");
+  let inputSearch = document.querySelector("#search-bar").value.toLowerCase();
+  console.log(inputSearch);
+  let filterUser = accountsDatabase.filter(function (user) {
+    if (
+      user.email.toLowerCase().includes(inputSearch) ||
+      user.fullName.toLowerCase().includes(inputSearch) ||
+      user.role.toLowerCase().includes(inputSearch) ||
+      user.status.toLowerCase().includes(inputSearch)
+    ) {
+      return true;
+    }
+    return false;
+  });
+  console.log(filterUser);
+  searchResult.innerHTML = `There are ${filterUser.length} results`;
+  searchResult.style.display = "block";
+  renderManageUserPage(filterUser);
 }

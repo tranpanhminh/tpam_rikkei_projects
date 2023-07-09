@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@100;300;400;500;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="../css/admin.css">
-    <title>Document</title>
+    <title>Manage Orders - PetShop</title>
 </head>
 
 <body>
@@ -30,7 +30,8 @@
             </li>
             <li class="active"><a href="../admin/manage-orders.html"><i class="fa-solid fa-cart-shopping"></i>Manage
                     Orders</a></li>
-            <li><a href="../admin/manage-orders.html"><i class="fa-solid fa-right-from-bracket"></i>Logout</a></li>
+            <li class="logout-admin-btn"><a onclick="handleLogoutAdminPage()"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
+            </li>
         </ul>
     </header>
     <main>
@@ -314,6 +315,9 @@
 
 </body>
 <script src="../assets/bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js"></script>
-<script src="./js/script.js"></script>
+<script src="../js/database.js"></script>
+<script src="../js/isCheckAuth.js"></script>
+<script src="../js/logout.js"></script>
+
 
 </html>

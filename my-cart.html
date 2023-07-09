@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@100;300;400;500;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="./css/style.css">
-    <title>PetShop</title>
+    <title>My Cart - PetShop</title>
 </head>
 
 <body>
@@ -41,7 +41,9 @@
             <div class="group-user">
                 <button class="login-btn my-button"><a href="./login-page.html">Login</a></button>
                 <button class="signup-btn my-button"><a href="./signup-page.html">Signup</a></button>
+                <button class="logout-btn my-button" onclick="handleLogout()"><a href="">Logout</a></button>
                 <a href="./my-cart.html"><i class="fa-solid fa-cart-shopping shopping-cart-icon"></i></a>
+                <a href="./admin/manage-users.html" id="admin-icon"><i class="fa-solid fa-user"></i></a>
             </div>
         </nav>
 
@@ -71,8 +73,11 @@
             </div>
 
             <div class="group-user">
-                <i class="fa-solid fa-cart-shopping shopping-cart-icon"></i>
+                <button class="login-btn my-button">Login</button>
+                <button class="signup-btn my-button">Signup</button>
+                <button class="logout-btn my-button" onclick="handleLogout()"><a href="">Logout</a></button>
                 <a href="./my-cart.html"><i class="fa-solid fa-cart-shopping shopping-cart-icon"></i></a>
+                <a href="./admin/manage-users.html" id="admin-icon"><i class="fa-solid fa-user"></i></a>
             </div>
         </nav>
     </header>
@@ -371,5 +376,7 @@
 </body>
 <script src="./assets/bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js"></script>
 <script src="./js/script.js"></script>
+<script src="./js/isCheckAuth.js"></script>
+<script src="./js/logout.js"></script>
 
 </html>
