@@ -439,7 +439,6 @@ main {
 }
 
 
-
 img.card-img-top {
     height: 300px;
     object-fit: contain;
@@ -455,10 +454,17 @@ img.card-img-top {
     opacity: 80%;
 }
 
+/* .add-to-cart-detail-homepage-no-auth,
+.add-to-cart-detail-homepage-with-auth {
+    display: none;
+} */
+
 button.btn.btn-primary.detail-btn {
     background-color: #0d97d6;
     border: none;
     color: white;
+    width: 50%;
+    font-size: 20px;
 }
 
 button.btn.btn-primary.detail-btn:hover {

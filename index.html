@@ -403,7 +403,7 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Product Detail</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -468,7 +468,11 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Add To Cart</button>
+                    <button type="button" class="btn btn-primary add-to-cart-detail-homepage-no-auth" data-bs-toggle="modal"
+                    data-bs-target="#add-to-cart-notify"
+                        onclick="handleAddToCartFromHomeDetail()">Add To Cart</button>
+                    <button type="button" class="btn btn-primary add-to-cart-detail-homepage-with-auth"
+                        onclick="handleAddToCartFromHomeDetail()">Add To Cart</button>
                 </div>
             </div>
         </div>
@@ -499,13 +503,14 @@
 <!-- Script Boostrap -->
 <script src="./assets/bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js"></script>
 
+<!-- Script Main -->
+<script src="./js/isCheckAuth.js"></script>
 <script src="./js/script.js"></script>
 
 <!-- Script Database -->
 <script src="./js/database.js"></script>
 
-<!-- Script Main -->
-<script src="./js/isCheckAuth.js"></script>
+
 
 <script src="./js/logout.js"></script>
 

@@ -1,5 +1,7 @@
 // Get Data của Products từ Local Storage về
 const productsDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
+const authDatabase = JSON.parse(localStorage.getItem("auth"));
+let itemDetail;
 
 // Script Render Product Homepage
 function renderProductHomepage(productsDatabase) {
@@ -19,7 +21,6 @@ function renderProductHomepage(productsDatabase) {
                 ).toLocaleString()}</p>
             </div>
             <div class="card-foot">
-                <button data-bs-toggle="modal" class="btn btn-primary add-to-cart-btn" onclick="handleAddToCartFromHome(${i})">Add To Cart</button>
                 <button type="button" class="btn btn-primary detail-btn" data-bs-toggle="modal"
                     data-bs-target="#show-detail-product-homepage" onclick="handleDetailFromHome(${i})">
                     Detail
@@ -37,8 +38,8 @@ renderProductHomepage(productsDatabase);
 
 // Function handleDetail
 function handleDetailFromHome(i) {
+  itemDetail = i;
   const productsDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
-  console.log(i);
   let modalDetailFromHomeElement = document.querySelector(
     "#modal-detail-from-homepage"
   );
@@ -80,19 +81,69 @@ function handleDetailFromHome(i) {
 
         <div class="product-add-quantity">
             <p>Quantity:</p>
-            <input type="number" min="0">
+            <input type="number" min="1" id="product-add-quantity">
         </div>
     </div>
 </div>`;
   modalDetailFromHomeElement.innerHTML = modalDetailFromHomeContent;
 }
 
-// Function handleAddToCart
-function handleAddToCartFromHome(i) {
-  console.log(i);
-  let askToLogin = document.querySelector(".add-to-cart-btn");
-  console.log(askToLogin);
-  if (!auth) {
-    askToLogin.setAttribute("data-bs-target", "#add-to-cart-notify");
+// Function handleAddToCartFromHomeDetail
+let addToCartBtnNoAuth = document.querySelector(
+  ".add-to-cart-detail-homepage-no-auth"
+);
+let addToCartBtnWithAuth = document.querySelector(
+  ".add-to-cart-detail-homepage-with-auth"
+);
+if (authDatabase) {
+  addToCartBtnNoAuth.style.display = "none";
+  addToCartBtnWithAuth.style.display = "inline-block";
+} else {
+  addToCartBtnNoAuth.style.display = "inline-block";
+  addToCartBtnWithAuth.style.display = "none";
+}
+
+let addToCart = [];
+let cart = [];
+function handleAddToCartFromHomeDetail() {
+  let inputProductQuantity = document.querySelector(
+    "#product-add-quantity"
+  ).value;
+
+  if (authDatabase) {
+    const index = productsDatabase.findIndex(
+      (product) => product.id === productsDatabase[itemDetail].id
+    );
+    if (index > -1) {
+      alert("AA")
+      // console.log(inputProductQuantity);
+      // let addToCartInfo = {};
+
+      // if (addToCart.length === 0) {
+      //   addToCartInfo = {
+      //     id: 0,
+      //     user_id: authDatabase.id,
+      //     product: productsDatabase[itemDetail].id,
+      //     quantity: inputProductQuantity,
+      //   };
+      //   console.log(addToCartInfo);
+      //   // alert("Mua thành công");
+      // } else {
+      //   console.log(cart[index].user_id, authDatabase.id);
+      //   if (cart[itemDetail].user_id == authDatabase.id) {
+      //     // cart.push(addToCartInfo);
+      //     console.log("xxxx");
+      //   }
+      //   const maxId = Math.max(...addToCart.map((item) => item.id));
+      //   addToCartInfo = {
+      //     id: maxId + 1,
+      //     user_id: authDatabase.id,
+      //     product: productsDatabase[itemDetail],
+      //     quantity: inputProductQuantity,
+      //   };
+      // }
+      // addToCart.push(addToCartInfo);
+    }
   }
+  // localStorage.setItem("addToCart", JSON.stringify(addToCart));
 }

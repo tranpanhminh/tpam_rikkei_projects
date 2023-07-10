@@ -18,8 +18,7 @@ function renderProductCategory(productsDatabase) {
                   ).toLocaleString()}</p>
               </div>
               <div class="card-foot">
-                  <a href="#" class="btn btn-primary add-to-cart-btn" onclick="handleAddToCartFromCategory(${i})">Add To Cart</a>
-                  <button type="button" class="btn btn-primary detail-btn" data-bs-toggle="modal"
+                 <button type="button" class="btn btn-primary detail-btn" data-bs-toggle="modal"
                       data-bs-target="#exampleModal" onclick="handleDetailFromCategory(${i})">
                       Detail
                   </button>
