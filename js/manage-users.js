@@ -48,16 +48,16 @@ function handleChangeUser(params) {
   renderManageUserPage(accountsDatabaseAdmin);
 }
 
-// Function Delete Product
+// Function Delete User
 function handleDeleteUser(email) {
   const accountsDatabase = getDataFromLocal("accountsDatabase") ?? [];
 
   // Tìm chỉ mục của người dùng có email tương ứng
-  const userIndex = accountsDatabase.find((user) => user.email === email);
+  const userIndex = accountsDatabase.findIndex((user) => user.email === email);
   console.log(userIndex);
-  if (userIndex) {
+  if (userIndex !== -1) {
+    
     // Xóa người dùng khỏi mảng
-
     accountsDatabase.splice(userIndex, 1);
     console.log(accountsDatabase);
     // // Cập nhật dữ liệu trong Local Storage

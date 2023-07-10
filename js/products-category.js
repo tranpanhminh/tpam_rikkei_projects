@@ -1,4 +1,5 @@
 const productsDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
+const authDatabase = JSON.parse(localStorage.getItem("auth"));
 
 // Render List Products
 function renderProductCategory(productsDatabase) {
@@ -78,9 +79,30 @@ function handleDetailFromCategory(i) {
   
           <div class="product-add-quantity">
               <p>Quantity:</p>
-              <input type="number" min="0">
+              <input type="number" min="0" value="1">
           </div>
       </div>
   </div>`;
   modalDetailFromCategoryElement.innerHTML = modalDetailFromCategoryContent;
+}
+
+// Function handleAddToCartFromCateogryDetail
+let addToCartBtnNoAuth = document.querySelector(
+  ".add-to-cart-detail-category-no-auth"
+);
+let addToCartBtnWithAuth = document.querySelector(
+  ".add-to-cart-detail-category-with-auth"
+);
+if (authDatabase) {
+  addToCartBtnNoAuth.style.display = "none";
+  addToCartBtnWithAuth.style.display = "inline-block";
+} else {
+  addToCartBtnNoAuth.style.display = "inline-block";
+  addToCartBtnWithAuth.style.display = "none";
+}
+
+function handleAddToCartFromCateogryDetail() {
+  if (authDatabase && authDatabase.role == "customer") {
+    alert("AAA");
+  }
 }

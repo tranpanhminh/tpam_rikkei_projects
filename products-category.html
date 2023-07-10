@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@100;300;400;500;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="./css/style.css">
-    <title>Products - PetShop</title>
+    <title>Products Category - PetShop</title>
 </head>
 
 <body>
@@ -378,7 +378,32 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Add To Cart</button>
+                    <button type="button" class="btn btn-primary add-to-cart-detail-category-no-auth"
+                        data-bs-toggle="modal" data-bs-target="#add-to-cart-from-category-notify"
+                        onclick="handleAddToCartFromCateogryDetail()">Add To Cart</button>
+                    <button type="button" class="btn btn-primary add-to-cart-detail-category-with-auth"
+                     onclick="handleAddToCartFromCateogryDetail()">Add To Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="add-to-cart-from-category-notify" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Notification</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h3>Please Login to continue shopping</h3>
+                    <p>If you don't have an account, please <a href="./signup-page.html">signup here</a></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="./login-page.html"><button type="button" class="btn btn-primary">To Login Page</button></a>
                 </div>
             </div>
         </div>
@@ -386,9 +411,9 @@
 </body>
 
 <script src="./assets/bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js"></script>
-<script src="./js/database.js"></script>
-<script src="./js/isCheckAuth.js"></script>r
-<script src="./js/logout.js"></script>
 <script src="./js/products-category.js"></script>
+<script src="./js/database.js"></script>
+<script src="./js/isCheckAuth.js"></script>
+<script src="./js/logout.js"></script>
 
 </html>

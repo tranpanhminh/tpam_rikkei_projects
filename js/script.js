@@ -79,9 +79,14 @@ function handleDetailFromHome(i) {
             <span>${productsDatabase[i].sku}</span>
         </div>
 
+        <div class="product-sku">
+        <span>Stock:</span>
+        <span>${productsDatabase[i].quantity_stock}</span>
+    </div>
+
         <div class="product-add-quantity">
             <p>Quantity:</p>
-            <input type="number" min="1" id="product-add-quantity">
+            <input type="number" min="1" id="product-add-quantity" value="1">
         </div>
     </div>
 </div>`;
@@ -103,19 +108,18 @@ if (authDatabase) {
   addToCartBtnWithAuth.style.display = "none";
 }
 
-let addToCart = [];
-let cart = [];
 function handleAddToCartFromHomeDetail() {
   let inputProductQuantity = document.querySelector(
     "#product-add-quantity"
   ).value;
 
-  if (authDatabase) {
+  if (authDatabase && authDatabase.role == "customer") {
     const index = productsDatabase.findIndex(
       (product) => product.id === productsDatabase[itemDetail].id
     );
+
     if (index > -1) {
-      alert("AA")
+      alert("AA");
       // console.log(inputProductQuantity);
       // let addToCartInfo = {};
 

@@ -1,6 +1,6 @@
 // Get Data của Accounts từ Local Storage về
 const productsDatabaseAdmin = getDataFromLocal("productsDatabase") ?? [];
-
+let index;
 // Function Render Products vào Manage Products
 function renderManageProductsPage(productsDatabaseAdmin) {
   let tableProducts = document.querySelector("#table-products-manage-page");
@@ -20,8 +20,7 @@ function renderManageProductsPage(productsDatabaseAdmin) {
     <td>${productsDatabaseAdmin[i].name}</td>
     <td>$${Number(productsDatabaseAdmin[i].price).toLocaleString()}</td>
     <td>${Number(productsDatabaseAdmin[i].quantity_stock)}</td>
-    <td><button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="handleDetailtProduct(${i})"
-            class="detail-product-btn">Detail</button>
+    <td><button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="handleDetailtProduct(${i})" class="detail-product-btn">Detail</button>
         <button onclick="handleDeleteProduct(${i})" class="delete-product-btn">Delete</button>
     </td>
 </tr>`;
@@ -105,6 +104,7 @@ function handleDeleteProduct(i) {
 
 // Function Detail Product
 function handleDetailtProduct(i) {
+  index = i;
   const productsDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
   console.log(i);
   let modalDetailFromAdminElement = document.querySelector(
@@ -239,7 +239,7 @@ function handleDetailtProduct(i) {
                     </div>
                     <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="save-edit-product-btn"
+                    <button data-bs-dismiss = "modal" type="button" class="btn btn-primary" id="save-edit-product-btn"
                         onclick="handleSaveEditProduct(${i})">Save changes</button>
                 </div>`;
   modalDetailFromAdminElement.innerHTML = modalDetailFromAdminContent;
@@ -248,10 +248,7 @@ function handleDetailtProduct(i) {
 // Function handleSaveEditProduct
 function handleSaveEditProduct(i) {
   const productsDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
-  let productIndex = Number(document.querySelector(".product-id-edit").value);
-  let saveEditProductBtn = document.querySelector("#save-edit-product-btn");
   let inputTitle = document.querySelector(".product-title-edit").value;
-  console.log(typeof inputTitle);
   let inputDescription = document.querySelector(
     ".product-description-edit"
   ).value;
@@ -274,34 +271,34 @@ function handleSaveEditProduct(i) {
 
   for (let i = 0; i < productsDatabase.length; i++) {
     if (inputImage_1 === "") {
-      inputImage_1 = productsDatabase[productIndex].productImage[i];
+      inputImage_1 = productsDatabase[index].productImage[i];
     }
     if (inputImage_2 === "") {
-      inputImage_2 = productsDatabase[productIndex].productImage[i + 1];
+      inputImage_2 = productsDatabase[index].productImage[i + 1];
     }
     if (inputImage_1 === "") {
-      inputImage_3 = productsDatabase[productIndex].productImage[i + 2];
+      inputImage_3 = productsDatabase[index].productImage[i + 2];
     }
     if (inputImage_1 === "") {
-      inputImage_4 = productsDatabase[productIndex].productImage[i + 3];
+      inputImage_4 = productsDatabase[index].productImage[i + 3];
     }
     if (inputTitle === "") {
-      inputTitle = productsDatabase[productIndex].name;
+      inputTitle = productsDatabase[index].name;
     }
     if (inputDescription === "") {
-      inputDescription = productsDatabase[productIndex].description;
+      inputDescription = productsDatabase[index].description;
     }
-    if (inputPrice === "") {
-      inputPrice = productsDatabase[productIndex].price;
+    if (inputPrice === 0) {
+      inputPrice = productsDatabase[index].price;
     }
     if (inputVendor === "") {
-      inputVendor = productsDatabase[productIndex].vendor;
+      inputVendor = productsDatabase[index].vendor;
     }
     if (inputSKU === "") {
-      inputSKU = productsDatabase[productIndex].sku;
+      inputSKU = productsDatabase[index].sku;
     }
     if (inputStock === "") {
-      inputStock = productsDatabase[productIndex].quantity_stock;
+      inputStock = productsDatabase[index].quantity_stock;
     }
   }
 
@@ -320,12 +317,12 @@ function handleSaveEditProduct(i) {
     quantity_stock: inputStock,
   };
 
-  if (productIndex !== "") {
-    productsDatabase.splice(productIndex, 1, editProduct);
-  }
+  console.log(index);
 
-  saveEditProductBtn.setAttribute("data-bs-dismiss", "modal");
-  productsDatabase.splice(i, 1, editProduct);
+  if (index !== "") {
+    productsDatabase.splice(index, 1, editProduct);
+  }
+  // productsDatabase.splice(i, 1, editProduct);
   // window.location.href = "http://127.0.0.1:5501/admin/manage-products.html";
 
   renderManageProductsPage(productsDatabase);
