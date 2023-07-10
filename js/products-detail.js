@@ -252,12 +252,15 @@ function handleAddToCartBigBtn(id) {
   let findAuth = accountsDatabase.find(function (account) {
     if (account.email === authDatabase.email) {
       account.cart = cart;
+      authDatabase.cart = cart;
       console.log(account);
 
       accountsDatabase.splice(1, account);
       console.log(accountsDatabase);
+      console.log(authDatabase);
     }
   });
 
   localStorage.setItem("accountsDatabase", JSON.stringify(accountsDatabase));
+  localStorage.setItem("auth", JSON.stringify(authDatabase));
 }
