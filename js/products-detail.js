@@ -1,5 +1,88 @@
 const productsDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
 const authDatabase = JSON.parse(localStorage.getItem("auth"));
+const productDetail = JSON.parse(localStorage.getItem("productDetail"));
+console.log(productDetail);
+
+// Function Render Product Detail
+function renderProductDetail() {
+  let containerElement = document.querySelector(".container-product-detail");
+  let containerContent = "";
+  containerContent += `<div class="page-info">
+  <h2 class="category-title">Products</h2>
+  <div class="breadcrumb-page">
+      <a href="./index.html">Home</a>
+      <span> / </span>
+      <a href="./index.html">Products</a>
+      <span> / </span>
+      <a href="./index.html">${productDetail.name}</a>
+  </div>
+</div>
+
+<div class="product-detail">
+  <div class="container text-center">
+      <div class="row align-items-center">
+          <div class="col-xl-8 col-sm-12">
+              <div class="container text-center">
+                  <div class="row row-cols-2">
+                      <div class="col"><img
+                              src="${productDetail.productImage[0]}"
+                              alt=""></div>
+                      <div class="col"><img
+                              src="${productDetail.productImage[1]}"
+                              alt=""></div>
+                      <div class="col"><img
+                              src="${productDetail.productImage[2]}"
+                              alt=""></div>
+                      <div class="col"><img
+                              src="${productDetail.productImage[3]}"
+                              alt=""></div>
+                  </div>
+              </div>
+          </div>
+          <div class="col-xl-4 col-sm-12">
+              <div class="product-detail-info">
+                  <h2 class="product-title-name">${productDetail.name}
+                  </h2>
+
+                  <p class="product-description">${
+                    productDetail.description
+                  }</p>
+
+                  <div class="product-price">
+                      <span>Price</span>
+                      <span>$${Number(
+                        productDetail.price
+                      ).toLocaleString()}</span>
+                  </div>
+
+                  <div class="product-vendor">
+                      <span>Vendor:</span>
+                      <span>${productDetail.vendor}</span>
+                  </div>
+
+                  <div class="product-sku">
+                      <span>SKU:</span>
+                      <span>${productDetail.sku}</span>
+                  </div>
+
+                  <div class="product-stock">
+                  <span>Stock</span>
+                  <span>${Number(productDetail.quantity_stock)}</span>
+              </div>
+
+                  <div class="product-add-quantity">
+                      <p>Quantity:</p>
+                      <input type="number" min="1" value="1">
+                  </div>
+                  <button class="product-detail-page-add-to-cart-btn">ADD TO CART</button>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>`;
+  containerElement.innerHTML = containerContent;
+}
+renderProductDetail();
 
 // Render List Products
 function renderProductRelated(productsDatabase) {
@@ -13,7 +96,11 @@ function renderProductRelated(productsDatabase) {
                 productsDatabase[i].productImage[0]
               }" class="card-img-top" alt="...">
               <div class="card-body">
-                  <h5 class="card-title">${productsDatabase[i].name}</h5>
+              <a href="product-detail.html" onclick="handleToProductDetailFromDetailPage(${
+                productsDatabase[i].id
+              })"><h5 class="product-title-name">${
+      productsDatabase[i].name
+    }</h5></a>
                   <p class="card-price">Price: $${Number(
                     productsDatabase[i].price
                   ).toLocaleString()}</p>
@@ -77,6 +164,11 @@ function handleDetailFromDetailPage(i) {
               <span>${productsDatabase[i].sku}</span>
           </div>
   
+          <div class="product-sku">
+          <span>Stock:</span>
+          <span>${productsDatabase[i].quantity_stock}</span>
+      </div>
+
           <div class="product-add-quantity">
               <p>Quantity:</p>
               <input type="number" min="0" value="1">
@@ -105,4 +197,12 @@ function handleAddToCartFromProductDetail() {
   if (authDatabase && authDatabase.role == "customer") {
     alert("AAA");
   }
+}
+
+// Function handleToProductDetailFromDetailPage
+function handleToProductDetailFromDetailPage(id) {
+  const item = productsDatabase.find((el) => el.id == id);
+  const myArrayJson = JSON.stringify(item);
+  localStorage.setItem("productDetail", myArrayJson);
+  window.location.href = "./product-detail.html";
 }

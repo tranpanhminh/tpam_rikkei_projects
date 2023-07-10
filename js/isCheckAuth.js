@@ -1,5 +1,4 @@
 let auth = JSON.parse(localStorage.getItem("auth"));
-console.log(auth);
 let adminPanel = document.querySelector("#admin-icon");
 let loginBtn = document.querySelector(".login-btn");
 let signupBtn = document.querySelector(".signup-btn");

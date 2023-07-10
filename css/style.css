@@ -418,6 +418,11 @@ main {
     padding-bottom: 20px;
 }
 
+.card a {
+    text-decoration: none;
+    text-align: center;
+}
+
 .card:hover {
     box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 }
@@ -827,7 +832,8 @@ footer {
 .product-add-quantity,
 .product-price,
 .product-vendor,
-.product-sku {
+.product-sku,
+.product-stock {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -837,7 +843,8 @@ footer {
 .product-add-quantity p:first-child,
 .product-price span:first-child,
 .product-vendor span:first-child,
-.product-sku span:first-child {
+.product-sku span:first-child,
+.product-stock span:first-child {
     width: 100px;
     padding: 10px;
     border-radius: 10px;
@@ -869,7 +876,10 @@ footer {
     opacity: 85%;
 }
 
-.product-title-name,
+.product-title-name {
+    text-align: center;
+}
+
 .product-description {
     text-align: justify;
 }

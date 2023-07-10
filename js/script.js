@@ -15,7 +15,11 @@ function renderProductHomepage(productsDatabase) {
               productsDatabase[i].productImage[0]
             }" class="card-img-top" alt="...">
             <div class="card-body">
-                <h5 class="card-title">${productsDatabase[i].name}</h5>
+            <a href="product-detail.html" onclick="handleToProductDetail(${
+              productsDatabase[i].id
+            })"><h5 class="product-title-name">${
+      productsDatabase[i].name
+    }</h5></a>
                 <p class="card-price">Price: $${Number(
                   productsDatabase[i].price
                 ).toLocaleString()}</p>
@@ -79,7 +83,7 @@ function handleDetailFromHome(i) {
             <span>${productsDatabase[i].sku}</span>
         </div>
 
-        <div class="product-sku">
+        <div class="product-stock">
         <span>Stock:</span>
         <span>${productsDatabase[i].quantity_stock}</span>
     </div>
@@ -150,4 +154,12 @@ function handleAddToCartFromHomeDetail() {
     }
   }
   // localStorage.setItem("addToCart", JSON.stringify(addToCart));
+}
+
+// Function handleToProductDetail
+function handleToProductDetail(id) {
+  const item = productsDatabase.find((el) => el.id == id);
+  const myArrayJson = JSON.stringify(item);
+  localStorage.setItem("productDetail", myArrayJson);
+  window.location.href = "./product-detail.html";
 }
