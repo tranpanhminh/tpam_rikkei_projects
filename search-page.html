@@ -36,7 +36,7 @@
 
             <div class="search-bar">
                 <input type="text" placeholder="Search" id="search-bar">
-                <i class="fa-solid fa-magnifying-glass" id="search-icon"></i>
+                <i class="fa-solid fa-magnifying-glass" id="search-icon" onclick="handleSearch()"></i>
             </div>
 
             <div class="group-user">
@@ -48,7 +48,7 @@
             </div>
         </nav>
 
-        <!-- Mobile Menu -->
+        <!-- Mobile Menu & Tablet-->
         <nav class="main-menu-mobile">
             <div class="logo">
                 <a href="./index.html"><img src="./assets/images/pet-shop-remove-bg.png" alt="Logo Petshop"
@@ -57,30 +57,44 @@
 
             <div class="group-user">
                 <i class="fa-solid fa-cart-shopping shopping-cart-icon"></i>
-                <i class="fa-solid fa-bars icon-bar"></i>
+                <i class="fa-solid fa-bars icon-bar-menu open"></i>
+            </div>
+
+            <div class="menu-mobile">
+                <i class="fa-solid fa-xmark icon-close-menu close"></i>
+
+                <div class="group-search">
+                    <input type="text" placeholder="Search" id="search-bar" class="search-bar-mobile">
+                    <i class="fa-solid fa-magnifying-glass" id="search-icon" onclick="handleSearch()"></i>
+                </div>
+
+                <div class="group-btn-user">
+                    <a href="./login-page.html"><button class="login-btn my-button">Login</button></a>
+                    <a href="./signup-page.html"><button class="signup-btn my-button">Signup</button></a>
+                    <button class="logout-btn my-button" onclick="handleLogout()"><a href="">Logout</a></button>
+                    <a href="./my-cart.html"><i class="fa-solid fa-cart-shopping shopping-cart-icon"></i></a>
+                    <a href="./admin/manage-users.html" id="admin-icon"><i class="fa-solid fa-user"></i></a>
+                </div>
+
+
+                <ul class="nav-mobile-menu">
+                    <a href="./index.html" class="menu-item active">
+                        <li>Home</li>
+                    </a></li>
+                    <a href="./about.html" class="menu-item">
+                        <li>About</li>
+                    </a>
+                    <a href="./products-category.html" class="menu-item">
+                        <li>Products</li>
+                    </a>
+                    <a href="./product-detail.html" class="menu-item">
+                        <li></li>Product Detail</li>
+                    </a>
+                </ul>
+            </div>
+            <div class="wrapper-mobile-menu">
             </div>
         </nav>
-
-        <!-- Tablet Menu
-        <nav class="main-menu-tablet">
-            <div class="logo">
-                <a href="./index.html"><img src="./assets/images/pet-shop-remove-bg.png" alt="Logo Petshop"
-                        class="logo-petshop"></a>
-            </div>
-
-            <div class="search-bar">
-                <input type="text" placeholder="Search Product" id="search-bar">
-                <i class="fa-solid fa-magnifying-glass" id="search-icon"></i>
-            </div>
-
-            <div class="group-user">
-                <a href="./login-page.html"><button class="login-btn my-button">Login</button></a>
-                <a href="./signup-page.html"><button class="signup-btn my-button">Signup</button></a>
-                <a href=""><button class="logout-btn my-button" onclick="handleLogout()">Logout</button></a>
-                <a href="./my-cart.html"><i class="fa-solid fa-cart-shopping shopping-cart-icon"></i></a>
-                <a href="./admin/manage-users.html" id="admin-icon"><i class="fa-solid fa-user"></i></a>
-            </div>
-        </nav> -->
     </header>
 
     <main>
@@ -97,14 +111,9 @@
                 </div>
             </div>
         </section>
-
-        <div class="page-info">
-            <p class="search-result-text">Có 8 kết quả tìm kiếm</p>
-        </div>
-
         <div class="category-products">
             <div class="container text-center">
-                <div class="row align-items-start">
+                <div class="row align-items-start" id="container-search-product-page">
                     <div class="col-12 col-sm-12 col-md-6 col-xl-3 mt-5 px-2">
                         <div class="card">
                             <img src="./assets/images/product-01.png" class="card-img-top" alt="...">
@@ -322,9 +331,12 @@
     </div>
 </body>
 <script src="./assets/bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js"></script>
-<script src="./js/script.js"></script>
+<!-- <script src="./js/script.js"></script> -->
 <script src="../js/isCheckAuth.js"></script>
 <script src="./js/logout.js"></script>
-
+<!-- Script Database -->
+<script src="./js/database.js"></script>
+<!-- Script Search -->
+<script src="./js/search.js"></script>
 
 </html>
