@@ -78,9 +78,10 @@ function renderProductDetail() {
 
                   <div class="product-add-quantity">
                       <p>Quantity:</p>
-                      <input type="number" min="1" value="1">
+                      <input type="number" min="1" value="1" id="input-quantity-from-product-detail">
                   </div>
                   <button data-bs-toggle="modal" data-bs-target="#add-to-cart-modal" class="product-detail-page-add-to-cart-btn product-detail-page-add-to-cart-btn-no-auth">ADD TO CART</button>
+                  
                   <button class="product-detail-page-add-to-cart-btn product-detail-page-add-to-cart-btn-with-auth" id="add-to-cart-big-btn" onclick="handleAddToCartBigBtn(${
                     productDetail.id
                   })">ADD TO CART</button>
@@ -234,21 +235,29 @@ function handleToProductDetailFromDetailPage(id) {
 let cart = [];
 // Function handleAddToCartBigBtn()
 function handleAddToCartBigBtn(id) {
-  console.log(id);
-  const findProduct = productsDatabase.find(function (product) {
+  let inputAddQuantity = Number(
+    document.querySelector("#input-quantity-from-product-detail").value
+  );
+  console.log(inputAddQuantity);
+  let findProduct = productsDatabase.find(function (product) {
     if (product.id === id) {
       return true;
     }
   });
-
+  findProduct.quantity = inputAddQuantity;
+  console.log(findProduct);
   cart.push(findProduct);
-  console.log(cart);
+  console.log("Cart", cart);
 
-  const findAuth = accountsDatabase.find(function (account) {
+  let findAuth = accountsDatabase.find(function (account) {
     if (account.email === authDatabase.email) {
-      return true;
+      account.cart = cart;
+      console.log(account);
+
+      accountsDatabase.splice(1, account);
+      console.log(accountsDatabase);
     }
   });
 
-  console.log(findProduct, findAuth);
+  localStorage.setItem("accountsDatabase", JSON.stringify(accountsDatabase));
 }
