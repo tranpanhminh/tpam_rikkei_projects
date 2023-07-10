@@ -13,9 +13,11 @@ function renderProductCategory(productsDatabase) {
                 productsDatabase[i].productImage[0]
               }" class="card-img-top" alt="...">
               <div class="card-body">
-              <a href="product-detail.html" onclick="handleToProductDetailFromCategory(${
+              <a href="product-detail.html?product-id-${
                 productsDatabase[i].id
-              })"><h5 class="product-title-name">${productsDatabase[i].name}</h5></a>
+              }" onclick="handleToProductDetailFromCategory(${
+      productsDatabase[i].id
+    })"><h5 class="product-title-name">${productsDatabase[i].name}</h5></a>
                   <p class="card-price">Price: $${Number(
                     productsDatabase[i].price
                   ).toLocaleString()}</p>
@@ -64,9 +66,16 @@ function handleDetailFromCategory(i) {
   
           <p class="product-description">${productsDatabase[i].description}</p>
   
+          <div class="product-id">
+          <span>Product ID</span>
+          <span>${Number(productsDatabase[i].id)}</span>
+      </div>
+
           <div class="product-price">
               <span>Price</span>
-              <span>$${Number(productsDatabase[i].price)}</span>
+              <span>$${Number(
+                productsDatabase[i].price
+              ).toLocaleString()}</span>
           </div>
   
           <div class="product-vendor">

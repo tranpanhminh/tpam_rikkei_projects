@@ -1,6 +1,7 @@
 const productsDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
 const authDatabase = JSON.parse(localStorage.getItem("auth"));
 const productDetail = JSON.parse(localStorage.getItem("productDetail"));
+const accountsDatabase = JSON.parse(localStorage.getItem("accountsDatabase"));
 console.log(productDetail);
 
 // Function Render Product Detail
@@ -48,6 +49,11 @@ function renderProductDetail() {
                     productDetail.description
                   }</p>
 
+                  <div class="product-id">
+                  <span>Product ID:</span>
+                  <span>${productDetail.id}</span>
+              </div>
+                  
                   <div class="product-price">
                       <span>Price</span>
                       <span>$${Number(
@@ -74,7 +80,10 @@ function renderProductDetail() {
                       <p>Quantity:</p>
                       <input type="number" min="1" value="1">
                   </div>
-                  <button class="product-detail-page-add-to-cart-btn">ADD TO CART</button>
+                  <button data-bs-toggle="modal" data-bs-target="#add-to-cart-modal" class="product-detail-page-add-to-cart-btn product-detail-page-add-to-cart-btn-no-auth">ADD TO CART</button>
+                  <button class="product-detail-page-add-to-cart-btn product-detail-page-add-to-cart-btn-with-auth" id="add-to-cart-big-btn" onclick="handleAddToCartBigBtn(${
+                    productDetail.id
+                  })">ADD TO CART</button>
               </div>
           </div>
       </div>
@@ -96,11 +105,11 @@ function renderProductRelated(productsDatabase) {
                 productsDatabase[i].productImage[0]
               }" class="card-img-top" alt="...">
               <div class="card-body">
-              <a href="product-detail.html" onclick="handleToProductDetailFromDetailPage(${
+              <a href="product-detail.html?product-id-${
                 productsDatabase[i].id
-              })"><h5 class="product-title-name">${
-      productsDatabase[i].name
-    }</h5></a>
+              }" onclick="handleToProductDetailFromDetailPage(${
+      productsDatabase[i].id
+    })"><h5 class="product-title-name">${productsDatabase[i].name}</h5></a>
                   <p class="card-price">Price: $${Number(
                     productsDatabase[i].price
                   ).toLocaleString()}</p>
@@ -149,6 +158,11 @@ function handleDetailFromDetailPage(i) {
   
           <p class="product-description">${productsDatabase[i].description}</p>
   
+          <div class="product-id">
+          <span>Product ID</span>
+          <span>${Number(productsDatabase[i].id)}</span>
+      </div>
+
           <div class="product-price">
               <span>Price</span>
               <span>$${Number(productsDatabase[i].price)}</span>
@@ -179,6 +193,12 @@ function handleDetailFromDetailPage(i) {
 }
 
 // Function handleAddToCartFromProductDetail
+let bigAddToCartBtnNoAuth = document.querySelector(
+  ".product-detail-page-add-to-cart-btn-no-auth"
+);
+let bigAddToCartBtnWithAuth = document.querySelector(
+  ".product-detail-page-add-to-cart-btn-with-auth"
+);
 let addToCartBtnNoAuth = document.querySelector(
   ".add-to-cart-from-product-detail-no-auth"
 );
@@ -188,9 +208,13 @@ let addToCartBtnWithAuth = document.querySelector(
 if (authDatabase) {
   addToCartBtnNoAuth.style.display = "none";
   addToCartBtnWithAuth.style.display = "inline-block";
+  bigAddToCartBtnNoAuth.style.display = "none";
+  bigAddToCartBtnWithAuth.style.display = "inline-block";
 } else {
   addToCartBtnNoAuth.style.display = "inline-block";
   addToCartBtnWithAuth.style.display = "none";
+  bigAddToCartBtnNoAuth.style.display = "inline-block";
+  bigAddToCartBtnWithAuth.style.display = "none";
 }
 
 function handleAddToCartFromProductDetail() {
@@ -205,4 +229,26 @@ function handleToProductDetailFromDetailPage(id) {
   const myArrayJson = JSON.stringify(item);
   localStorage.setItem("productDetail", myArrayJson);
   window.location.href = "./product-detail.html";
+}
+
+let cart = [];
+// Function handleAddToCartBigBtn()
+function handleAddToCartBigBtn(id) {
+  console.log(id);
+  const findProduct = productsDatabase.find(function (product) {
+    if (product.id === id) {
+      return true;
+    }
+  });
+
+  cart.push(findProduct);
+  console.log(cart);
+
+  const findAuth = accountsDatabase.find(function (account) {
+    if (account.email === authDatabase.email) {
+      return true;
+    }
+  });
+
+  console.log(findProduct, findAuth);
 }

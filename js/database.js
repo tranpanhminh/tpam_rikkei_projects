@@ -7,7 +7,6 @@ let accounts = [
     password: "adminpassword1",
     role: "admin",
     status: "Active",
-    cart: [],
   },
   {
     id: 2,
@@ -16,7 +15,6 @@ let accounts = [
     password: "customerpassword1",
     role: "customer",
     status: "Active",
-    cart: [],
   },
   {
     id: 3,
@@ -25,7 +23,6 @@ let accounts = [
     password: "customerpassword2",
     role: "customer",
     status: "Active",
-    cart: [],
   },
   {
     id: 4,
@@ -34,7 +31,6 @@ let accounts = [
     password: "customerpassword3",
     role: "customer",
     status: "Inactive",
-    cart: [],
   },
 ];
 

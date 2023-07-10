@@ -838,7 +838,8 @@ footer {
 .product-price,
 .product-vendor,
 .product-sku,
-.product-stock {
+.product-stock,
+.product-id {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -849,8 +850,9 @@ footer {
 .product-price span:first-child,
 .product-vendor span:first-child,
 .product-sku span:first-child,
-.product-stock span:first-child {
-    width: 100px;
+.product-stock span:first-child,
+.product-id span:first-child {
+    width: 120px;
     padding: 10px;
     border-radius: 10px;
     font-weight: bold;
