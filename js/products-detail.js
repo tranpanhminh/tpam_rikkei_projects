@@ -235,6 +235,7 @@ function handleToProductDetailFromDetailPage(id) {
 let cart = [];
 // Function handleAddToCartBigBtn()
 function handleAddToCartBigBtn(id) {
+  const authDatabase = JSON.parse(localStorage.getItem("auth"));
   let inputAddQuantity = Number(
     document.querySelector("#input-quantity-from-product-detail").value
   );
@@ -263,4 +264,5 @@ function handleAddToCartBigBtn(id) {
 
   localStorage.setItem("accountsDatabase", JSON.stringify(accountsDatabase));
   localStorage.setItem("auth", JSON.stringify(authDatabase));
+  alert("Product Added");
 }
