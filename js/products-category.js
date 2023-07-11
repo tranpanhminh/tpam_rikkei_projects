@@ -23,8 +23,9 @@ function renderProductCategory(productsDatabase) {
                   ).toLocaleString()}</p>
               </div>
               <div class="card-foot">
-                 <button type="button" class="btn btn-primary detail-btn" data-bs-toggle="modal"
-                      data-bs-target="#exampleModal" onclick="handleDetailFromCategory(${i})">
+                 <button type="button" class="btn btn-primary detail-btn" onclick="handleToProductDetailFromCategory(${
+                   productsDatabase[i].id
+                 })">
                       Detail
                   </button>
               </div>
@@ -128,5 +129,5 @@ function handleToProductDetailFromCategory(id) {
   const item = productsDatabase.find((el) => el.id == id);
   const myArrayJson = JSON.stringify(item);
   localStorage.setItem("productDetail", myArrayJson);
-  window.location.href = "./product-detail.html";
+  window.location.href = `./product-detail.html?product-id-${id}`;
 }

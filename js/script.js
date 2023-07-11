@@ -25,8 +25,10 @@ function renderProductHomepage(productsDatabase) {
                 ).toLocaleString()}</p>
             </div>
             <div class="card-foot">
-                <button type="button" class="btn btn-primary detail-btn" data-bs-toggle="modal"
-                    data-bs-target="#show-detail-product-homepage" onclick="handleDetailFromHome(${i})">
+                <button onclick="handleToProductDetail(${
+                  productsDatabase[i].id
+                })" type="button" class="btn btn-primary detail-btn" 
+                    >
                     Detail
                 </button>
             </div>
@@ -92,79 +94,27 @@ function handleDetailFromHome(i) {
         <span>Stock:</span>
         <span>${productsDatabase[i].quantity_stock}</span>
     </div>
-
-        <div class="product-add-quantity">
-            <p>Quantity:</p>
-            <input type="number" min="1" id="product-add-quantity" value="1">
-        </div>
     </div>
 </div>`;
   modalDetailFromHomeElement.innerHTML = modalDetailFromHomeContent;
 }
 
 // Function handleAddToCartFromHomeDetail
-let addToCartBtnNoAuth = document.querySelector(
-  ".add-to-cart-detail-homepage-no-auth"
-);
-let addToCartBtnWithAuth = document.querySelector(
-  ".add-to-cart-detail-homepage-with-auth"
-);
-if (authDatabase) {
-  addToCartBtnNoAuth.style.display = "none";
-  addToCartBtnWithAuth.style.display = "inline-block";
-} else {
-  addToCartBtnNoAuth.style.display = "inline-block";
-  addToCartBtnWithAuth.style.display = "none";
-}
-
-function handleAddToCartFromHomeDetail() {
-  let inputProductQuantity = document.querySelector(
-    "#product-add-quantity"
-  ).value;
-
-  if (authDatabase && authDatabase.role == "customer") {
-    const index = productsDatabase.findIndex(
-      (product) => product.id === productsDatabase[itemDetail].id
-    );
-
-    if (index > -1) {
-      alert("AA");
-      // console.log(inputProductQuantity);
-      // let addToCartInfo = {};
-
-      // if (addToCart.length === 0) {
-      //   addToCartInfo = {
-      //     id: 0,
-      //     user_id: authDatabase.id,
-      //     product: productsDatabase[itemDetail].id,
-      //     quantity: inputProductQuantity,
-      //   };
-      //   console.log(addToCartInfo);
-      //   // alert("Mua thành công");
-      // } else {
-      //   console.log(cart[index].user_id, authDatabase.id);
-      //   if (cart[itemDetail].user_id == authDatabase.id) {
-      //     // cart.push(addToCartInfo);
-      //     console.log("xxxx");
-      //   }
-      //   const maxId = Math.max(...addToCart.map((item) => item.id));
-      //   addToCartInfo = {
-      //     id: maxId + 1,
-      //     user_id: authDatabase.id,
-      //     product: productsDatabase[itemDetail],
-      //     quantity: inputProductQuantity,
-      //   };
-      // }
-      // addToCart.push(addToCartInfo);
-    }
-  }
-  // localStorage.setItem("addToCart", JSON.stringify(addToCart));
-}
+// function handleAddToCartFromHomeDetail() {
+//   let addToCartBtnFromHome = document.querySelector(
+//     ".add-to-cart-detail-homepage"
+//     const item = productsDatabase.find((el) => el.id == id);
+//     const myArrayJson = JSON.stringify(item);
+//     localStorage.setItem("productDetail", myArrayJson);
+//     window.location.href = "./product-detail.html";
+//   );
+// }
 
 // Function handleToProductDetail
+console.log(productsDatabase);
 function handleToProductDetail(id) {
   const item = productsDatabase.find((el) => el.id == id);
   const myArrayJson = JSON.stringify(item);
   localStorage.setItem("productDetail", myArrayJson);
-  window.location.href = "./product-detail.html";
+  window.location.href = `./product-detail.html?product-id-${id}`;
 }

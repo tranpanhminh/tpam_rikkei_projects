@@ -1,3 +1,7 @@
+const productsDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
+const authDatabase = JSON.parse(localStorage.getItem("auth"));
+const productDetail = JSON.parse(localStorage.getItem("productDetail"));
+const accountsDatabase = JSON.parse(localStorage.getItem("accountsDatabase"));
 // Function Search
 function handleSearch() {
   const productsDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
@@ -18,7 +22,7 @@ function handleSearch() {
   });
   console.log(filterProduct);
   localStorage.setItem("myProductSearch", JSON.stringify(filterProduct));
-  window.location.href = "search-page.html";
+  window.location.href = `search-page.html?search=${inputSearch}`;
 }
 
 // Function renderSearchPage
@@ -49,8 +53,9 @@ function renderSearchPage() {
                     ).toLocaleString()}</p>
                 </div>
                 <div class="card-foot">
-                   <button type="button" class="btn btn-primary detail-btn" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal" onclick="handleDetailFromSearchPage(${i})">
+                   <button type="button" class="btn btn-primary detail-btn" onclick="handleToProductDetailFromSearchPage(${
+                     myProductSearch[i].id
+                   })">
                         Detail
                     </button>
                 </div>
@@ -61,3 +66,11 @@ function renderSearchPage() {
   containerSearchElement.innerHTML = containerSearchContent;
 }
 renderSearchPage();
+
+// Function handleToProductDetailFromDetailPage
+function handleToProductDetailFromSearchPage(id) {
+  const item = productsDatabase.find((el) => el.id == id);
+  const myArrayJson = JSON.stringify(item);
+  localStorage.setItem("productDetail", myArrayJson);
+  window.location.href = `./product-detail.html?product-id-${id}`;
+}

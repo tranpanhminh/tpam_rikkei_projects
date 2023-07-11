@@ -116,8 +116,9 @@ function renderProductRelated(productsDatabase) {
                   ).toLocaleString()}</p>
               </div>
               <div class="card-foot">
-                                   <button type="button" class="btn btn-primary detail-btn" data-bs-toggle="modal"
-                      data-bs-target="#exampleModal" onclick="handleDetailFromDetailPage(${i})">
+<button onclick="handleToProductDetailFromDetailPage(${
+      productsDatabase[i].id
+    })" type="button" class="btn btn-primary detail-btn" >
                       Detail
                   </button>
               </div>
@@ -218,18 +219,18 @@ if (authDatabase) {
   bigAddToCartBtnWithAuth.style.display = "none";
 }
 
-function handleAddToCartFromProductDetail() {
-  if (authDatabase && authDatabase.role == "customer") {
-    alert("AAA");
-  }
-}
+// function handleAddToCartFromProductDetail() {
+//   if (authDatabase && authDatabase.role == "customer") {
+//     alert("AAA");
+//   }
+// }
 
 // Function handleToProductDetailFromDetailPage
 function handleToProductDetailFromDetailPage(id) {
   const item = productsDatabase.find((el) => el.id == id);
   const myArrayJson = JSON.stringify(item);
   localStorage.setItem("productDetail", myArrayJson);
-  window.location.href = "./product-detail.html";
+  window.location.href = `./product-detail.html?product-id-${id}`;
 }
 
 let cart = [];
