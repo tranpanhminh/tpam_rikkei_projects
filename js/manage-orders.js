@@ -31,11 +31,10 @@ function renderOrder(ordersDatabase) {
         <td>${ordersDatabase[i].email}</td>
         <td>${ordersDatabase[i].phone}</td>
         <td>${ordersDatabase[i].date}</td>
-        <td>${ordersDatabase[i].status}</td>
+        <td><span class="shipping-status-label">${ordersDatabase[i].status}</span></td>
         <td>$${orderTotal}</td>
         <td>
           <button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="handleDetailOrder(${i})" class="detail-order-btn">Detail</button>
-          <button onclick="handleDeleteOrder(${i})" class="delete-order-btn">Delete</button>
         </td>
       </tr>`;
   }
@@ -51,6 +50,28 @@ function handleDetailOrder(id) {
   let orderDetailElementContent = "";
   console.log(id);
   let summaryInfoElement = document.querySelector("#summary-info-detail");
+  let statusOptions = "";
+
+  if (ordersDatabase[id].status === "Processing") {
+    statusOptions = `
+      <option value="Processing" selected>Processing</option>
+      <option value="Cancel">Cancel</option>
+      <option value="Shipped">Shipped</option>
+    `;
+  } else if (ordersDatabase[id].status === "Cancel") {
+    statusOptions = `
+      <option value="Processing">Processing</option>
+      <option value="Cancel" selected>Cancel</option>
+      <option value="Shipped">Shipped</option>
+    `;
+  } else if (ordersDatabase[id].status === "Shipped") {
+    statusOptions = `
+      <option value="Processing">Processing</option>
+      <option value="Cancel">Cancel</option>
+      <option value="Shipped" selected>Shipped</option>
+    `;
+  }
+
   summaryInfoElementContent = `<div class="summary-order">
       <h2 class="cart-title">Summary</h2>
   
@@ -67,6 +88,13 @@ function handleDetailOrder(id) {
       <div class="cart-shipping">
         <h4 class="cart-shipping-title">Address</h4>
         <input type="text" placeholder="${ordersDatabase[id].address}" disabled>
+      </div>
+  
+      <div class="cart-shipping">
+        <h4 class="cart-shipping-title">Status</h4>
+        <select name="shipping-status" id="shipping-status">
+          ${statusOptions}
+        </select>
       </div>
     </div>`;
 
@@ -121,7 +149,14 @@ function handleDetailOrder(id) {
                             }</span>
                             <span class="cart-total-quantity">Total: $ ${totalOrder.toLocaleString()}</span>
                         </div>
-    `;
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="handleSaveChange(${
+                          ordersDatabase[id].id
+                        })" data-id="${
+    ordersDatabase[id].id
+  }">Save changes</button>
+                    </div> `;
 
   summaryInfoElement.innerHTML = summaryInfoElementContent + orderDetailElement;
 }
@@ -148,3 +183,39 @@ function handleSearctOrder() {
   searchResult.style.display = "block";
   renderOrder(filterOrder);
 }
+
+// function Swtich Status
+function handleSwitchShippingStatus(id) {
+  console.log(id);
+
+  let switchStatus = ["Processing", "Shipped", "Cancel"];
+
+  for (let i = 0; i < switchStatus.length; i++) {
+    console.log("asdadas", i);
+  }
+}
+
+function handleSaveChange(orderId) {
+  // Use orderId in your handler
+  console.log("Order ID:", orderId);
+
+  // Continue with other processing steps
+
+  let shippingStatus = document.querySelector("#shipping-status").value;
+  console.log(shippingStatus);
+
+  // Find the index of the order in ordersDatabase
+  const orderIndex = ordersDatabase.findIndex((order) => order.id === orderId);
+
+  // Update the status if the order is found
+  if (orderIndex !== -1) {
+    ordersDatabase[orderIndex].status = shippingStatus;
+  }
+
+  console.log(ordersDatabase);
+
+  localStorage.setItem("ordersDatabase", JSON.stringify(ordersDatabase));
+  renderOrder(ordersDatabase);
+  console.log("Sau khi set: ", ordersDatabase);
+}
+

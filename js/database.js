@@ -184,8 +184,8 @@ let orders = [
   {
     id: 1,
     user_id: 1,
-    name: "Tony Tèo",
-    email: "tonyteo123@gmail.com",
+    name: "	James Mohamed",
+    email: "mohamed1972@hotmail.com",
     phone: "0905932123",
     date: "01/07/2023",
     status: "Processing",
@@ -196,44 +196,44 @@ let orders = [
         productImage: "../assets/images/product images/tribal-leather-01.jpg",
         productName: "Gaucho Goods Tribal Leather Dog Collar",
         productQuantity: 2,
-        productPrice: 500,
+        productPrice: 444,
       },
     ],
   },
   {
     id: 2,
     user_id: 1,
-    name: "Tony Tèo",
-    email: "tonyteo123@gmail.com",
+    name: "	James Mohamed",
+    email: "mohamed1972@hotmail.com",
     phone: "0905932123",
     date: "01/07/2023",
-    status: "Processing",
+    status: "Shipped",
     address: "Đà Nẵng",
     cart: [
       {
         productID: 1,
         productImage: "../assets/images/product images/tribal-leather-01.jpg",
         productName: "Gaucho Goods Tribal Leather Dog Collar",
-        productQuantity: 2,
-        productPrice: 500,
+        productQuantity: 4,
+        productPrice: 520,
       },
     ],
   },
   {
     id: 3,
     user_id: 1,
-    name: "Tony Tèo",
-    email: "tonyteo123@gmail.com",
+    name: "	James Mohamed",
+    email: "mohamed1972@hotmail.com",
     phone: "0905932123",
     date: "01/07/2023",
-    status: "Processing",
+    status: "Cancel",
     address: "Đà Nẵng",
     cart: [
       {
         productID: 1,
         productImage: "../assets/images/product images/tribal-leather-01.jpg",
         productName: "Gaucho Goods Tribal Leather Dog Collar",
-        productQuantity: 2,
+        productQuantity: 10,
         productPrice: 500,
       },
     ],
@@ -241,8 +241,8 @@ let orders = [
   {
     id: 4,
     user_id: 1,
-    name: "Tony Tèo",
-    email: "tonyteo123@gmail.com",
+    name: "David Helms",
+    email: "davidhelms1987@yahoo.com",
     phone: "0905932123",
     date: "01/07/2023",
     status: "Processing",
@@ -253,15 +253,15 @@ let orders = [
         productImage: "../assets/images/product images/tribal-leather-01.jpg",
         productName: "Gaucho Goods Tribal Leather Dog Collar",
         productQuantity: 2,
-        productPrice: 500,
+        productPrice: 100,
       },
     ],
   },
   {
     id: 5,
     user_id: 1,
-    name: "Tony Tèo",
-    email: "tonyteo123@gmail.com",
+    name: "David Helms",
+    email: "davidhelms1987@yahoo.com",
     phone: "0905932123",
     date: "01/07/2023",
     status: "Processing",
@@ -272,7 +272,15 @@ let orders = [
         productImage: "../assets/images/product images/tribal-leather-01.jpg",
         productName: "Gaucho Goods Tribal Leather Dog Collar",
         productQuantity: 2,
-        productPrice: 500,
+        productPrice: 252,
+      },
+      {
+        productID: 2,
+        productImage:
+          "http://127.0.0.1:5501/assets/images/product%20images/dog-leash-01.jpg",
+        productName: "Senye Retractable Dog Leash 16ft Dog Traction Rope",
+        productQuantity: 5,
+        productPrice: 212,
       },
     ],
   },
@@ -301,7 +309,7 @@ let orders = [
 // 3. Đẩy dữ liệu của orders lên Local Storage
 // let authDatabase = JSON.parse(localStorage.getItem("auth"));
 // if (authDatabase && authDatabase.role == "admin") {
-  // localStorage.setItem("ordersDatabase", JSON.stringify(orders));
+// localStorage.setItem("ordersDatabase", JSON.stringify(orders));
 // }
 
 // Xây dựng hàm Build In

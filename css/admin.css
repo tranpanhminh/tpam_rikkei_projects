@@ -328,6 +328,19 @@ table tr {
     cursor: pointer;
 }
 
+
+table tr td img {
+    width: 120px;
+}
+
+.switch-shipping-status-icon {
+    cursor: pointer;
+}
+
+.switch-shipping-status-icon:hover {
+    opacity: 85%;
+}
+
 /* CSS Manage Products Page */
 .product-detail-info {
     display: flex;

@@ -137,6 +137,15 @@ function handleOrder() {
     localStorage.setItem("auth", JSON.stringify(authDatabaseToCart));
   }
 
+ // Kiểm tra xem Auth và Accounts Database có giống nhau không
+  // accountsDatabase.map((item) => {
+  //   if (item.id == authDatabase.id) {
+  //     item.cart = cart;
+  //   }
+  // });
+
+  // authDatabase.cart = cart;
+
   localStorage.setItem("ordersDatabase", JSON.stringify(ordersDatabase));
   renderMyCart();
 }

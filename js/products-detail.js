@@ -274,7 +274,6 @@ function handleAddToCartBigBtn(id) {
   console.log(authDatabase);
   console.log(accountsDatabase);
 
-  localStorage.setItem("accountsDatabase", JSON.stringify(accountsDatabase));
   localStorage.setItem("auth", JSON.stringify(authDatabase));
   alert("Product Added");
 }
