@@ -1,7 +1,3 @@
-const productsDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
-const authDatabase = JSON.parse(localStorage.getItem("auth"));
-const productDetail = JSON.parse(localStorage.getItem("productDetail"));
-const accountsDatabase = JSON.parse(localStorage.getItem("accountsDatabase"));
 // Function Search
 function handleSearch() {
   const productsDatabase = JSON.parse(localStorage.getItem("productsDatabase"));

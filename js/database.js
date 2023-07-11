@@ -301,7 +301,7 @@ let orders = [
 // 3. Đẩy dữ liệu của orders lên Local Storage
 // let authDatabase = JSON.parse(localStorage.getItem("auth"));
 // if (authDatabase && authDatabase.role == "admin") {
-//   localStorage.setItem("ordersDatabase", JSON.stringify(orders));
+  // localStorage.setItem("ordersDatabase", JSON.stringify(orders));
 // }
 
 // Xây dựng hàm Build In
