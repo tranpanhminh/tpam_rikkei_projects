@@ -188,7 +188,6 @@ let orders = [
     phone: "0905932123",
     date: "01/07/2023",
     status: "Processing",
-    total: 1000,
     address: "Đà Nẵng",
     cart: [
       {
@@ -197,7 +196,6 @@ let orders = [
         productName: "Gaucho Goods Tribal Leather Dog Collar",
         productQuantity: 2,
         productPrice: 500,
-        productTotal: 1000,
       },
     ],
   },
@@ -208,7 +206,6 @@ let orders = [
     phone: "32131213123",
     date: "25/07/2023",
     status: "Cancel",
-    total: 300,
     address: "Hà Nội",
     cart: [
       {
@@ -217,7 +214,6 @@ let orders = [
         productName: "Gaucho Goods Tribal Leather Dog Collar",
         productQuantity: 3,
         productPrice: 100,
-        productTotal: 300,
       },
     ],
   },
@@ -228,7 +224,6 @@ let orders = [
     phone: "325111111",
     date: "05/12/2023",
     status: "Shipped",
-    total: 400,
     address: "Hà Nội",
     cart: [
       {
@@ -237,7 +232,56 @@ let orders = [
         productName: "Gaucho Goods Tribal Leather Dog Collar",
         productQuantity: 3,
         productPrice: 100,
-        productTotal: 400,
+      },
+    ],
+  },
+  {
+    id: 4,
+    name: "Harruu",
+    email: "harrruu@gmail.com",
+    phone: "28291222",
+    date: "05/11/2023",
+    status: "Shipped",
+    address: "Đà Lạt",
+    cart: [
+      {
+        productID: 1,
+        productImage: "../assets/images/product images/tribal-leather-02.jpg",
+        productName: "Gaucho Goods Tribal Leather Dog Collar",
+        productQuantity: 3,
+        productPrice: 100,
+      },
+    ],
+  },
+  {
+    id: 4,
+    name: "Ronaldo",
+    email: "ronaldo@gmail.com",
+    phone: "5331122",
+    date: "05/11/2023",
+    status: "Shipped",
+    address: "Hà Nội",
+    cart: [
+      {
+        productID: 1,
+        productImage: "../assets/images/product images/tribal-leather-02.jpg",
+        productName: "Gaucho Goods Tribal Leather Dog Collar",
+        productQuantity: 3,
+        productPrice: 100,
+      },
+      {
+        productID: 2,
+        productImage: "../assets/images/product images/tribal-leather-03.jpg",
+        productName: "Gaucho Goods Tribal Leather Dog Collar",
+        productQuantity: 3,
+        productPrice: 100,
+      },
+      {
+        productID: 3,
+        productImage: "../assets/images/product images/tribal-leather-04.jpg",
+        productName: "Gaucho Goods Tribal Leather Dog Collar",
+        productQuantity: 3,
+        productPrice: 100,
       },
     ],
   },

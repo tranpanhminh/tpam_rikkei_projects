@@ -44,12 +44,13 @@
         <div class="product-panel">
             <div class="d-flex" role="search">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="search-bar">
-                <button class="btn btn-outline-success" type="submit" id="search-btn">Search</button>
+                <button class="btn btn-outline-success" type="submit" id="search-btn"
+                    onclick="handleSearctOrder()">Search</button>
             </div>
 
             <h3 class="revenue-text">Revenue: $5000</h3>
         </div>
-
+        <div class="search-result"></div>
         <div class="main-content">
             <h3 class="main-title-content">List Orders</h3>
             <table class="table table-striped" id="table-order-list">
@@ -209,7 +210,8 @@
                     </div>
 
                     <div class="table-responsive">
-                        <table class="table table-cart" id="order-detail">
+                        <div id="order-cart-detail"></div>
+                        <!-- <table class="table table-cart" id="order-cart-detail">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -299,7 +301,7 @@
                                     </td>
                                 </tr>
                             </tbody>
-                        </table>
+                        </table> -->
                         <div class="card-total">
                             <span class="cart-quantity-item">Item: 5</span>
                             <span class="cart-total-quantity">Total: 5000</span>
