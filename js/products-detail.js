@@ -233,34 +233,45 @@ function handleToProductDetailFromDetailPage(id) {
 }
 
 let cart = [];
+cart.push(...authDatabase?.cart);
 // Function handleAddToCartBigBtn()
 function handleAddToCartBigBtn(id) {
-  const authDatabase = JSON.parse(localStorage.getItem("auth"));
   let inputAddQuantity = Number(
     document.querySelector("#input-quantity-from-product-detail").value
   );
-  console.log(inputAddQuantity);
-  let findProduct = productsDatabase.find(function (product) {
-    if (product.id === id) {
-      return true;
+
+  // Lấy cart trên local về
+
+  let checkCartOrder = cart.find((item) => {
+    return item.id == id;
+  });
+
+  if (checkCartOrder) {
+    cart.map((item) => {
+      if (item.id == checkCartOrder.id) {
+        item.quantity += inputAddQuantity;
+      }
+    });
+  } else {
+    let findProduct = productsDatabase.find((item) => {
+      return item.id == id;
+    });
+    findProduct.quantity = inputAddQuantity;
+    console.log(findProduct);
+    cart.push(findProduct);
+  }
+  console.log(cart);
+  // Kiểm tra xem Auth và Accounts Database có giống nhau không
+  accountsDatabase.map((item) => {
+    if (item.id == authDatabase.id) {
+      item.cart = cart;
     }
   });
-  findProduct.quantity = inputAddQuantity;
-  console.log(findProduct);
-  cart.push(findProduct);
-  console.log("Cart", cart);
 
-  let findAuth = accountsDatabase.find(function (account) {
-    if (account.email === authDatabase.email) {
-      account.cart = cart;
-      authDatabase.cart = cart;
-      console.log(account);
+  authDatabase.cart = cart;
 
-      accountsDatabase.splice(1, account);
-      console.log(accountsDatabase);
-      console.log(authDatabase);
-    }
-  });
+  console.log(authDatabase);
+  console.log(accountsDatabase);
 
   localStorage.setItem("accountsDatabase", JSON.stringify(accountsDatabase));
   localStorage.setItem("auth", JSON.stringify(authDatabase));

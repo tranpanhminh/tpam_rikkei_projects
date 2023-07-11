@@ -7,6 +7,7 @@ let accounts = [
     password: "adminpassword1",
     role: "admin",
     status: "Active",
+    cart: [],
   },
   {
     id: 2,
@@ -15,6 +16,7 @@ let accounts = [
     password: "customerpassword1",
     role: "customer",
     status: "Active",
+    cart: [],
   },
   {
     id: 3,
@@ -23,6 +25,7 @@ let accounts = [
     password: "customerpassword2",
     role: "customer",
     status: "Active",
+    cart: [],
   },
   {
     id: 4,
@@ -31,6 +34,7 @@ let accounts = [
     password: "customerpassword3",
     role: "customer",
     status: "Inactive",
+    cart: [],
   },
 ];
 
@@ -178,12 +182,64 @@ let products = [
 // Database Orders
 let orders = [
   {
+    id: 1,
     name: "Tony Tèo",
     email: "tonyteo123@gmail.com",
     phone: "0905932123",
-    date: "06/02/2023",
+    date: "01/07/2023",
     status: "Processing",
-    total: 3000,
+    total: 1000,
+    address: "Đà Nẵng",
+    cart: [
+      {
+        productID: 1,
+        productImage: "../assets/images/product images/tribal-leather-01.jpg",
+        productName: "Gaucho Goods Tribal Leather Dog Collar",
+        productQuantity: 2,
+        productPrice: 500,
+        productTotal: 1000,
+      },
+    ],
+  },
+  {
+    id: 2,
+    name: "MarK Ma",
+    email: "markma@gmail.com",
+    phone: "32131213123",
+    date: "25/07/2023",
+    status: "Cancel",
+    total: 300,
+    address: "Hà Nội",
+    cart: [
+      {
+        productID: 1,
+        productImage: "../assets/images/product images/tribal-leather-02.jpg",
+        productName: "Gaucho Goods Tribal Leather Dog Collar",
+        productQuantity: 3,
+        productPrice: 100,
+        productTotal: 300,
+      },
+    ],
+  },
+  {
+    id: 3,
+    name: "Harry King",
+    email: "harryking@gmail.com",
+    phone: "325111111",
+    date: "05/12/2023",
+    status: "Shipped",
+    total: 400,
+    address: "Hà Nội",
+    cart: [
+      {
+        productID: 1,
+        productImage: "../assets/images/product images/tribal-leather-02.jpg",
+        productName: "Gaucho Goods Tribal Leather Dog Collar",
+        productQuantity: 3,
+        productPrice: 100,
+        productTotal: 400,
+      },
+    ],
   },
 ];
 
@@ -206,6 +262,12 @@ let orders = [
 //   [];
 // }
 // localStorage.setItem("productsDatabase", JSON.stringify(products));
+
+// 3. Đẩy dữ liệu của orders lên Local Storage
+let authDatabase = JSON.parse(localStorage.getItem("auth"));
+if (authDatabase && authDatabase.role == "admin") {
+  localStorage.setItem("orderDatabase", JSON.stringify(orders));
+}
 
 // Xây dựng hàm Build In
 function getDataFromLocal(key) {

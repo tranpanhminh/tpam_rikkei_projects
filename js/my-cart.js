@@ -2,6 +2,7 @@ const productDetail = JSON.parse(localStorage.getItem("productDetail"));
 const accountsDatabase = JSON.parse(localStorage.getItem("accountsDatabase"));
 const authDatabaseToCart = JSON.parse(localStorage.getItem("auth"));
 
+
 console.log(authDatabaseToCart);
 console.log(authDatabaseToCart.cart[0].quantity);
 // Function Render My Cart
@@ -10,6 +11,7 @@ function renderMyCart() {
   let myCartSummary = document.querySelector("#my-cart-summary");
   let myCartSummaryContent = "";
   let tableMyCartElementContent = "";
+  let total = 0;
   for (let i = 0; i < authDatabaseToCart.cart.length; i++) {
     tableMyCartElementContent += `
         <tr>
@@ -21,9 +23,9 @@ function renderMyCart() {
           <td>
             <div class="td-flex">
               <i class="fa-solid fa-minus minus-product-icon" onclick="handleMinus(${i})"></i>
-              <span class="product-cart-quantity">${Number(
-                authDatabaseToCart.cart[i].quantity
-              )}</span>
+              <span class="product-cart-quantity-${i}">${Number(
+      authDatabaseToCart.cart[i].quantity
+    )}</span>
               <i class="fa-solid fa-plus plus-product-icon" onclick="handlePlus(${i})"></i>
             </div>
           </td>
@@ -34,8 +36,13 @@ function renderMyCart() {
           ).toLocaleString()}</td>
           <td><i class="fa-solid fa-xmark delete-product-icon" onclick="handleRemoveFromCart(${i})"></i></td>
         </tr>`;
-  }
 
+    let itemTotal =
+      Number(authDatabaseToCart.cart[i].quantity) *
+      Number(authDatabaseToCart.cart[i].price);
+    total += itemTotal;
+  }
+  console.log("Tổng là: ", total);
   myCartSummaryContent = `<h2 class="cart-title">Summary</h2>
 
   <div class="cart-shipping">
@@ -49,8 +56,10 @@ function renderMyCart() {
   </div>
 
   <div class="card-total">
-      <span class="cart-quantity-item">Item: ${authDatabaseToCart.cart.length}</span>
-      <span class="cart-total-quantity">Total: 5000</span>
+      <span class="cart-quantity-item">Item: ${
+        authDatabaseToCart.cart.length
+      }</span>
+      <span class="cart-total-quantity">Total: $${total.toLocaleString()}</span>
   </div>
 
   <button type="button" class="btn btn-primary order-btn" onclick="handleOrder()">
@@ -65,15 +74,19 @@ if (authDatabaseToCart) {
 }
 
 // Cộng và giảm số lượng
-function handlePlus() {
-  let productQuantity = document.querySelector(".product-cart-quantity");
-  console.log(productQuantity);
+function handlePlus(i) {
+  let productQuantity = document.querySelector(`.product-cart-quantity-${i}`);
+  console.log(productQuantity.value);
   productQuantity += 1;
 }
 
 // Function Order
 let order = [];
 function handleOrder() {
-  let inputPhone = document.querySelector("#input-phone").value;
+  let inputPhone = Number(document.querySelector("#input-phone").value);
   let inputAddress = document.querySelector("#input-address").value;
+
+  order.push
+  console.log("Order List", order);
+  console.log(inputPhone);
 }
