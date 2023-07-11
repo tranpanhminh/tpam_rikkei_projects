@@ -1,9 +1,9 @@
 const productsDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
-const orderDatabase = JSON.parse(localStorage.getItem("orderDatabase"));
+const ordersDatabase = JSON.parse(localStorage.getItem("ordersDatabase"));
 
 // Function Render Order
-function renderOrder(orderDatabase) {
-  console.log(orderDatabase);
+function renderOrder(ordersDatabase) {
+  console.log(ordersDatabase);
   let tableOrderElement = document.querySelector("#table-order-list");
   let revenueElement = document.querySelector(".revenue-text");
   let totalOrderSummary = 0;
@@ -18,20 +18,20 @@ function renderOrder(orderDatabase) {
       <td>Total</td>
       <td>Action</td>
     </tr>`;
-  for (let i = 0; i < orderDatabase.length; i++) {
+  for (let i = 0; i < ordersDatabase.length; i++) {
     let orderTotal = 0;
-    orderDatabase[i].cart.forEach((item) => {
+    ordersDatabase[i].cart.forEach((item) => {
       orderTotal += Number(item.productQuantity) * Number(item.productPrice);
     });
     totalOrderSummary += orderTotal;
 
     tableOrderContent += `<tr>
-        <td>${orderDatabase[i].id}</td>
-        <td>${orderDatabase[i].name}</td>
-        <td>${orderDatabase[i].email}</td>
-        <td>${orderDatabase[i].phone}</td>
-        <td>${orderDatabase[i].date}</td>
-        <td>${orderDatabase[i].status}</td>
+        <td>${ordersDatabase[i].id}</td>
+        <td>${ordersDatabase[i].name}</td>
+        <td>${ordersDatabase[i].email}</td>
+        <td>${ordersDatabase[i].phone}</td>
+        <td>${ordersDatabase[i].date}</td>
+        <td>${ordersDatabase[i].status}</td>
         <td>$${orderTotal}</td>
         <td>
           <button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="handleDetailOrder(${i})" class="detail-order-btn">Detail</button>
@@ -43,7 +43,7 @@ function renderOrder(orderDatabase) {
   revenueElement.innerHTML = `$ ${totalOrderSummary.toLocaleString()}`;
 }
 
-renderOrder(orderDatabase);
+renderOrder(ordersDatabase);
 
 // Function handleDetailOrder
 let summaryInfoElementContent = "";
@@ -56,24 +56,24 @@ function handleDetailOrder(id) {
   
       <div class="cart-shipping">
         <h4 class="cart-shipping-title">Email</h4>
-        <input type="text" placeholder="${orderDatabase[id].email}" disabled>
+        <input type="text" placeholder="${ordersDatabase[id].email}" disabled>
       </div>
   
       <div class="cart-shipping">
         <h4 class="cart-shipping-title">Phone</h4>
-        <input type="text" placeholder="${orderDatabase[id].phone}" disabled>
+        <input type="text" placeholder="${ordersDatabase[id].phone}" disabled>
       </div>
   
       <div class="cart-shipping">
         <h4 class="cart-shipping-title">Address</h4>
-        <input type="text" placeholder="${orderDatabase[id].address}" disabled>
+        <input type="text" placeholder="${ordersDatabase[id].address}" disabled>
       </div>
     </div>`;
 
   let orderDetailElement = document.querySelector("#order-cart-detail");
 
   let totalOrder = 0;
-  orderDatabase[id].cart.forEach((item, index) => {
+  ordersDatabase[id].cart.forEach((item, index) => {
     orderDetailElementContent += `
         <tr>
           <td>${index + 1}</td>
@@ -117,7 +117,7 @@ function handleDetailOrder(id) {
       </table>
       <div class="card-total">
                             <span class="cart-quantity-item">Item: ${
-                              orderDatabase[id].cart.length
+                              ordersDatabase[id].cart.length
                             }</span>
                             <span class="cart-total-quantity">Total: $ ${totalOrder.toLocaleString()}</span>
                         </div>
@@ -131,7 +131,7 @@ function handleSearctOrder() {
   let searchResult = document.querySelector(".search-result");
   let inputSearch = document.querySelector("#search-bar").value.toLowerCase();
   console.log(inputSearch);
-  let filterOrder = orderDatabase.filter(function (order) {
+  let filterOrder = ordersDatabase.filter(function (order) {
     if (
       order.id.toString().toLowerCase() === inputSearch ||
       order.name.toLowerCase().includes(inputSearch) ||

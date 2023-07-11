@@ -183,6 +183,7 @@ let products = [
 let orders = [
   {
     id: 1,
+    user_id: 1,
     name: "Tony Tèo",
     email: "tonyteo123@gmail.com",
     phone: "0905932123",
@@ -201,87 +202,77 @@ let orders = [
   },
   {
     id: 2,
-    name: "MarK Ma",
-    email: "markma@gmail.com",
-    phone: "32131213123",
-    date: "25/07/2023",
-    status: "Cancel",
-    address: "Hà Nội",
+    user_id: 1,
+    name: "Tony Tèo",
+    email: "tonyteo123@gmail.com",
+    phone: "0905932123",
+    date: "01/07/2023",
+    status: "Processing",
+    address: "Đà Nẵng",
     cart: [
       {
         productID: 1,
-        productImage: "../assets/images/product images/tribal-leather-02.jpg",
+        productImage: "../assets/images/product images/tribal-leather-01.jpg",
         productName: "Gaucho Goods Tribal Leather Dog Collar",
-        productQuantity: 3,
-        productPrice: 100,
+        productQuantity: 2,
+        productPrice: 500,
       },
     ],
   },
   {
     id: 3,
-    name: "Harry King",
-    email: "harryking@gmail.com",
-    phone: "325111111",
-    date: "05/12/2023",
-    status: "Shipped",
-    address: "Hà Nội",
+    user_id: 1,
+    name: "Tony Tèo",
+    email: "tonyteo123@gmail.com",
+    phone: "0905932123",
+    date: "01/07/2023",
+    status: "Processing",
+    address: "Đà Nẵng",
     cart: [
       {
         productID: 1,
-        productImage: "../assets/images/product images/tribal-leather-02.jpg",
+        productImage: "../assets/images/product images/tribal-leather-01.jpg",
         productName: "Gaucho Goods Tribal Leather Dog Collar",
-        productQuantity: 3,
-        productPrice: 100,
+        productQuantity: 2,
+        productPrice: 500,
       },
     ],
   },
   {
     id: 4,
-    name: "Harruu",
-    email: "harrruu@gmail.com",
-    phone: "28291222",
-    date: "05/11/2023",
-    status: "Shipped",
-    address: "Đà Lạt",
+    user_id: 1,
+    name: "Tony Tèo",
+    email: "tonyteo123@gmail.com",
+    phone: "0905932123",
+    date: "01/07/2023",
+    status: "Processing",
+    address: "Đà Nẵng",
     cart: [
       {
         productID: 1,
-        productImage: "../assets/images/product images/tribal-leather-02.jpg",
+        productImage: "../assets/images/product images/tribal-leather-01.jpg",
         productName: "Gaucho Goods Tribal Leather Dog Collar",
-        productQuantity: 3,
-        productPrice: 100,
+        productQuantity: 2,
+        productPrice: 500,
       },
     ],
   },
   {
-    id: 4,
-    name: "Ronaldo",
-    email: "ronaldo@gmail.com",
-    phone: "5331122",
-    date: "05/11/2023",
-    status: "Shipped",
-    address: "Hà Nội",
+    id: 5,
+    user_id: 1,
+    name: "Tony Tèo",
+    email: "tonyteo123@gmail.com",
+    phone: "0905932123",
+    date: "01/07/2023",
+    status: "Processing",
+    address: "Đà Nẵng",
     cart: [
       {
         productID: 1,
-        productImage: "../assets/images/product images/tribal-leather-02.jpg",
+        productImage: "../assets/images/product images/tribal-leather-01.jpg",
         productName: "Gaucho Goods Tribal Leather Dog Collar",
-        productQuantity: 3,
-        productPrice: 100,
-      },
-      {
-        productID: 2,
-        productImage: "../assets/images/product images/tribal-leather-03.jpg",
-        productName: "Gaucho Goods Tribal Leather Dog Collar",
-        productQuantity: 3,
-        productPrice: 100,
-      },
-      {
-        productID: 3,
-        productImage: "../assets/images/product images/tribal-leather-04.jpg",
-        productName: "Gaucho Goods Tribal Leather Dog Collar",
-        productQuantity: 3,
-        productPrice: 100,
+        productQuantity: 2,
+        productPrice: 500,
       },
     ],
   },
@@ -308,10 +299,10 @@ let orders = [
 // localStorage.setItem("productsDatabase", JSON.stringify(products));
 
 // 3. Đẩy dữ liệu của orders lên Local Storage
-let authDatabase = JSON.parse(localStorage.getItem("auth"));
-if (authDatabase && authDatabase.role == "admin") {
-  localStorage.setItem("orderDatabase", JSON.stringify(orders));
-}
+// let authDatabase = JSON.parse(localStorage.getItem("auth"));
+// if (authDatabase && authDatabase.role == "admin") {
+//   localStorage.setItem("ordersDatabase", JSON.stringify(orders));
+// }
 
 // Xây dựng hàm Build In
 function getDataFromLocal(key) {
