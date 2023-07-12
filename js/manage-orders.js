@@ -186,23 +186,15 @@ function handleSearctOrder() {
 
 // function Swtich Status
 function handleSwitchShippingStatus(id) {
-  console.log(id);
-
   let switchStatus = ["Processing", "Shipped", "Cancel"];
 
-  for (let i = 0; i < switchStatus.length; i++) {
-    console.log("asdadas", i);
-  }
+  for (let i = 0; i < switchStatus.length; i++) {}
 }
 
 function handleSaveChange(orderId) {
-  // Use orderId in your handler
-  console.log("Order ID:", orderId);
-
   // Continue with other processing steps
 
   let shippingStatus = document.querySelector("#shipping-status").value;
-  console.log(shippingStatus);
 
   // Find the index of the order in ordersDatabase
   const orderIndex = ordersDatabase.findIndex((order) => order.id === orderId);
@@ -212,10 +204,6 @@ function handleSaveChange(orderId) {
     ordersDatabase[orderIndex].status = shippingStatus;
   }
 
-  console.log(ordersDatabase);
-
   localStorage.setItem("ordersDatabase", JSON.stringify(ordersDatabase));
   renderOrder(ordersDatabase);
-  console.log("Sau khi set: ", ordersDatabase);
 }
-
