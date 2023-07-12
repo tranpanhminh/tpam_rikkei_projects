@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../assets/images/pet-shop-remove-bg.png" type="image/x-icon">
+    <link rel="stylesheet" href="../assets/bootstrap-5.3.0-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@100;300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <title>Shipping Policy</title>
+</head>
+
+<body>
+    <header>
+        <!-- PC Menu -->
+        <nav class="main-menu">
+            <div class="logo">
+                <a href="../index.html"><img src="../assets/images/pet-shop-remove-bg.png" alt="Logo Petshop"
+                        class="logo-petshop"></a>
+            </div>
+
+            <div class="menu">
+                <ul class="nav-main-menu">
+                    <li><a href="../index.html" class="menu-item active">Home</a></li>
+                    <li><a href="../about.html" class="menu-item">About</a></li>
+                    <li><a href="../products-category.html" class="menu-item">Products</a></li>
+                    <li><a href="../product-detail.html" class="menu-item">Product Detail</a></li>
+                </ul>
+            </div>
+
+            <div class="search-bar">
+                <input type="text" placeholder="Search" id="search-bar">
+                <i class="fa-solid fa-magnifying-glass" id="search-icon" onclick="handleSearch()"></i>
+            </div>
+
+            <div class="group-user">
+                <a href="../login-page.html"><button class="login-btn my-button">Login</button></a>
+                <a href="../signup-page.html"><button class="signup-btn my-button">Signup</button></a>
+                <button class="logout-btn my-button" onclick="handleLogout()"><a href="">Logout</a></button>
+                <a href="../my-cart.html"><i class="fa-solid fa-cart-shopping shopping-cart-icon"></i></a>
+                <a href="../admin/manage-users.html" id="admin-icon"><i class="fa-solid fa-user"></i></a>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu & Tablet-->
+        <nav class="main-menu-mobile">
+            <div class="logo">
+                <a href="../index.html"><img src="../assets/images/pet-shop-remove-bg.png" alt="Logo Petshop"
+                        class="logo-petshop"></a>
+            </div>
+
+            <div class="group-user">
+                <i class="fa-solid fa-cart-shopping shopping-cart-icon"></i>
+                <i class="fa-solid fa-bars icon-bar-menu open"></i>
+            </div>
+
+            <div class="menu-mobile">
+                <i class="fa-solid fa-xmark icon-close-menu close"></i>
+
+                <div class="group-search">
+                    <input type="text" placeholder="Search" id="search-bar" class="search-bar-mobile">
+                    <i class="fa-solid fa-magnifying-glass" id="search-icon" onclick="handleSearch()"></i>
+                </div>
+
+                <div class="group-btn-user">
+                    <a href="../login-page.html"><button class="login-btn my-button login-btn-mobile">Login</button></a>
+                    <a href="../signup-page.html"><button
+                            class="signup-btn my-button signup-btn-mobile">Signup</button></a>
+                    <button class="logout-btn my-button logout-btn-mobile" onclick="handleLogout()"><a
+                            href="">Logout</a></button>
+                    <a href="../my-cart.html"><i
+                            class="fa-solid fa-cart-shopping shopping-cart-icon shopping-cart-icon-mobile"></i></a>
+                    <a href="../admin/manage-users.html" id="admin-icon" class="admin-icon-mobile"><i
+                            class="fa-solid fa-user"></i></a>
+                </div>
+
+
+                <ul class="nav-mobile-menu">
+                    <a href="../index.html" class="menu-item">
+                        <li>Home</li>
+                    </a></li>
+                    <a href="../about.html" class="menu-item">
+                        <li>About</li>
+                    </a>
+                    <a href="../products-category.html" class="menu-item">
+                        <li>Products</li>
+                    </a>
+                    <a href="../product-detail.html" class="menu-item">
+                        <li></li>Product Detail</li>
+                    </a>
+                </ul>
+            </div>
+            <div class="wrapper-mobile-menu">
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="contact-us-banner">
+            <h1>Shipping Policy</h1>
+        </section>
+
+        <section class="main-content">
+            <h2><strong>Shipping Rates</strong></h2>
+            <p>We offer free shipping on orders over $50. For orders under $50, shipping costs are as follows:</p>
+            <ul>
+                <li><strong>United States:</strong>&nbsp;$5</li>
+                <li><strong>Canada:</strong>&nbsp;$10</li>
+                <li><strong>International:</strong>&nbsp;Varies by country</li>
+            </ul>
+            <h2><strong>Shipping Times</strong></h2>
+            <ul>
+                <li><strong>United States:</strong>&nbsp;3-5 business days</li>
+                <li><strong>Canada:</strong>&nbsp;5-7 business days</li>
+                <li><strong>International:</strong>&nbsp;7-10 business days</li>
+            </ul>
+            <h2><strong>Shipping Methods</strong></h2>
+            <p>We ship using USPS, UPS, and FedEx. The specific shipping method used will depend on the weight and
+                destination of your order.</p>
+            <h2><strong>Tracking</strong></h2>
+            <p>Once your order has shipped, you will receive a tracking number via email. You can use this number to
+                track your order on the shipping carrier's website.</p>
+            <h2><strong>Shipping Restrictions</strong></h2>
+            <p>We cannot ship to PO boxes or APO/FPO addresses. We also cannot ship to certain countries due to customs
+                restrictions.</p>
+            <h2><strong>Shipping Damages</strong></h2>
+            <p>If your order arrives damaged, please contact us immediately. We will work with you to get a replacement
+                order shipped out to you as soon as possible.</p>
+            <h2><strong>Shipping Questions</strong></h2>
+            <p>If you have any questions about shipping, please contact us. We will be happy to help you.</p>
+            <p>Here are some additional things to consider when writing your Shipping Policy:</p>
+            <ul>
+                <li>Be clear about your shipping rates, shipping times, and shipping methods.</li>
+                <li>State whether you ship to PO boxes or APO/FPO addresses.</li>
+                <li>List any shipping restrictions that you have.</li>
+                <li>Explain what you will do if your order arrives damaged.</li>
+                <li>Provide a way for customers to contact you with shipping questions.</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-xl-3">
+                    <p class="footer-headline">CONTACT US</p>
+                    <div class="group-footer-logo">
+                        <img src="../assets/images/pet-shop.png" alt="" class="footer-logo">
+                        <p class="footer-description">
+                            Your one-stop destination for all your pet needs. Discover a wide range of adorable
+                            companions
+                            and
+                            quality pet products at our pet shop.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-xl-3">
+                    <p class="footer-headline">HELP & INFORMATION</p>
+                    <ul>
+                        <li><a href="../about.html">About Us</a></li>
+                        <li><a href="../special-page/contact-us.html">Contact Us</a></li>
+                        <li><a href="../special-page/faqs.html">FAQs</a></li>
+                        <li><a href="../special-page/secure-shopping.html">Secure Shopping</a></li>
+                    </ul>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-xl-3">
+                    <p class="footer-headline">CUSTOMER SERVICE</p>
+                    <ul>
+                        <li><a href="../special-page/return-policy.html">Return Policy</a></li>
+                        <li><a href="../special-page/refund-policy.html">Refund Policy</a></li>
+                        <li><a href="../special-page/privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="../special-page/shipping-policy.html">Shipping Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-xl-3">
+                    <p class="footer-headline">SITE NAVIGATION</p>
+                    <ul>
+                        <li><a href="../special-page/billing-terms.html">Billing Terms & Conditions</a></li>
+                        <li><a href="../special-page/copyright-dispute-policy.html">Copyright Dispute Policy</a></li>
+                        <li><a href="../special-page/terms-of-service.html">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+<!-- Script Boostrap -->
+<script src="../assets/bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js"></script>
+
+
+<!-- Script Main -->
+<script src="../js/isCheckAuth.js"></script>
+<script src="../js/script.js"></script>
+
+<!-- Script Database -->
+<script src="../js/database.js"></script>
+
+<!-- Script Logout -->
+<script src="../js/logout.js"></script>
+
+<!-- Script Search -->
+<script src="../js/search.js"></script>
+
+<!-- Script Menu -->
+<script src="../js/menu.js"></script>
+
+</html>

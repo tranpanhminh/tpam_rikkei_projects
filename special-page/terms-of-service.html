@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../assets/images/pet-shop-remove-bg.png" type="image/x-icon">
+    <link rel="stylesheet" href="../assets/bootstrap-5.3.0-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@100;300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <title>Terms Of Service</title>
+</head>
+
+<body>
+    <header>
+        <!-- PC Menu -->
+        <nav class="main-menu">
+            <div class="logo">
+                <a href="../index.html"><img src="../assets/images/pet-shop-remove-bg.png" alt="Logo Petshop"
+                        class="logo-petshop"></a>
+            </div>
+
+            <div class="menu">
+                <ul class="nav-main-menu">
+                    <li><a href="../index.html" class="menu-item active">Home</a></li>
+                    <li><a href="../about.html" class="menu-item">About</a></li>
+                    <li><a href="../products-category.html" class="menu-item">Products</a></li>
+                    <li><a href="../product-detail.html" class="menu-item">Product Detail</a></li>
+                </ul>
+            </div>
+
+            <div class="search-bar">
+                <input type="text" placeholder="Search" id="search-bar">
+                <i class="fa-solid fa-magnifying-glass" id="search-icon" onclick="handleSearch()"></i>
+            </div>
+
+            <div class="group-user">
+                <a href="../login-page.html"><button class="login-btn my-button">Login</button></a>
+                <a href="../signup-page.html"><button class="signup-btn my-button">Signup</button></a>
+                <button class="logout-btn my-button" onclick="handleLogout()"><a href="">Logout</a></button>
+                <a href="../my-cart.html"><i class="fa-solid fa-cart-shopping shopping-cart-icon"></i></a>
+                <a href="../admin/manage-users.html" id="admin-icon"><i class="fa-solid fa-user"></i></a>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu & Tablet-->
+        <nav class="main-menu-mobile">
+            <div class="logo">
+                <a href="../index.html"><img src="../assets/images/pet-shop-remove-bg.png" alt="Logo Petshop"
+                        class="logo-petshop"></a>
+            </div>
+
+            <div class="group-user">
+                <i class="fa-solid fa-cart-shopping shopping-cart-icon"></i>
+                <i class="fa-solid fa-bars icon-bar-menu open"></i>
+            </div>
+
+            <div class="menu-mobile">
+                <i class="fa-solid fa-xmark icon-close-menu close"></i>
+
+                <div class="group-search">
+                    <input type="text" placeholder="Search" id="search-bar" class="search-bar-mobile">
+                    <i class="fa-solid fa-magnifying-glass" id="search-icon" onclick="handleSearch()"></i>
+                </div>
+
+                <div class="group-btn-user">
+                    <a href="../login-page.html"><button class="login-btn my-button login-btn-mobile">Login</button></a>
+                    <a href="../signup-page.html"><button
+                            class="signup-btn my-button signup-btn-mobile">Signup</button></a>
+                    <button class="logout-btn my-button logout-btn-mobile" onclick="handleLogout()"><a
+                            href="">Logout</a></button>
+                    <a href="../my-cart.html"><i
+                            class="fa-solid fa-cart-shopping shopping-cart-icon shopping-cart-icon-mobile"></i></a>
+                    <a href="../admin/manage-users.html" id="admin-icon" class="admin-icon-mobile"><i
+                            class="fa-solid fa-user"></i></a>
+                </div>
+
+
+                <ul class="nav-mobile-menu">
+                    <a href="../index.html" class="menu-item">
+                        <li>Home</li>
+                    </a></li>
+                    <a href="../about.html" class="menu-item">
+                        <li>About</li>
+                    </a>
+                    <a href="../products-category.html" class="menu-item">
+                        <li>Products</li>
+                    </a>
+                    <a href="../product-detail.html" class="menu-item">
+                        <li></li>Product Detail</li>
+                    </a>
+                </ul>
+            </div>
+            <div class="wrapper-mobile-menu">
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="contact-us-banner">
+            <h1>Terms Of Service</h1>
+        </section>
+
+        <section class="main-content">
+            <p><strong>Welcome to PetShop!</strong></p>
+            <p><strong>These Terms of Service (the "Terms") govern your use of PetShop (the "Site"). By using the
+                    Site, you agree to be bound by these Terms. If you do not agree to these Terms, you may not use the
+                    Site.</strong></p>
+            <h2><strong>1. Eligibility</strong></h2>
+            <p>The Site is intended for use by individuals who are 18 years of age or older. If you are under 18 years
+                of age, you may use the Site only with the permission of a parent or guardian.</p>
+            <h2><strong>2. Account</strong></h2>
+            <p>In order to use certain features of the Site, you may need to create an account. When you create an
+                account, you will be required to provide certain information, such as your name, email address, and
+                password. You are responsible for maintaining the confidentiality of your account information and for
+                all activities that occur under your account.</p>
+            <h2><strong>3. Content</strong></h2>
+            <p>The Site may contain content that is owned or licensed by PetShop. This content includes, but is
+                not limited to, text, images, videos, and software. You may not modify, reproduce, distribute, or create
+                derivative works of this content without the express written permission of PetShop.</p>
+            <h2><strong>4. Conduct</strong></h2>
+            <p>When using the Site, you agree to comply with all applicable laws and regulations. You agree not to:</p>
+            <ul>
+                <li>Post or transmit any content that is unlawful, harmful, threatening, abusive, harassing, defamatory,
+                    vulgar, obscene, or otherwise objectionable.</li>
+                <li>Post or transmit any content that infringes the intellectual property rights of others.</li>
+                <li>Use the Site to harm or exploit others.</li>
+                <li>Use the Site to spam or otherwise distribute unsolicited content.</li>
+            </ul>
+            <h2><strong>5. Changes to the Terms</strong></h2>
+            <p>PetShop may modify these Terms at any time. If PetShop makes any material changes to these
+                Terms, PetShop will post a notice on the Site. You are responsible for reviewing the Terms
+                periodically to ensure that you are aware of any changes.</p>
+            <h2><strong>6. Termination</strong></h2>
+            <p>PetShop may terminate your account for any reason, including but not limited to:</p>
+            <ul>
+                <li>Breach of these Terms.</li>
+                <li>Non-payment of fees.</li>
+                <li>Excessive use of the Site.</li>
+            </ul>
+            <h2><strong>7. Governing law</strong></h2>
+            <p>These Terms are governed by the laws of the State of California, without regard to its conflict of laws
+                provisions. Any disputes arising out of or relating to these Terms will be resolved exclusively in the
+                state or federal courts located in Los Angeles County, California.</p>
+            <h2><strong>8. Entire agreement</strong></h2>
+            <p>These Terms constitute the entire agreement between you and PetShop with respect to the use of the
+                Site. These Terms supersede all prior or contemporaneous communications, representations, or agreements,
+                whether oral or written.</p>
+            <h2><strong>9. Waiver</strong></h2>
+            <p>No waiver of any provision of these Terms will be effective unless in writing and signed by an authorized
+                representative of PetShop.</p>
+            <h2><strong>10. Severability</strong></h2>
+            <p>If any provision of these Terms is held to be invalid or unenforceable, such provision will be struck
+                from these Terms and the remaining provisions will remain in full force and effect.</p>
+            <h2><strong>11. Contact us</strong></h2>
+            <p>If you have any questions about these Terms, please contact us at:</p>
+            <p>PetShop</p>
+            <p>help@petshop.com</p>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-xl-3">
+                    <p class="footer-headline">CONTACT US</p>
+                    <div class="group-footer-logo">
+                        <img src="../assets/images/pet-shop.png" alt="" class="footer-logo">
+                        <p class="footer-description">
+                            Your one-stop destination for all your pet needs. Discover a wide range of adorable
+                            companions
+                            and
+                            quality pet products at our pet shop.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-xl-3">
+                    <p class="footer-headline">HELP & INFORMATION</p>
+                    <ul>
+                        <li><a href="../about.html">About Us</a></li>
+                        <li><a href="../special-page/contact-us.html">Contact Us</a></li>
+                        <li><a href="../special-page/faqs.html">FAQs</a></li>
+                        <li><a href="../special-page/secure-shopping.html">Secure Shopping</a></li>
+                    </ul>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-xl-3">
+                    <p class="footer-headline">CUSTOMER SERVICE</p>
+                    <ul>
+                        <li><a href="../special-page/return-policy.html">Return Policy</a></li>
+                        <li><a href="../special-page/refund-policy.html">Refund Policy</a></li>
+                        <li><a href="../special-page/privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="../special-page/shipping-policy.html">Shipping Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-xl-3">
+                    <p class="footer-headline">SITE NAVIGATION</p>
+                    <ul>
+                        <li><a href="../special-page/billing-terms.html">Billing Terms & Conditions</a></li>
+                        <li><a href="../special-page/copyright-dispute-policy.html">Copyright Dispute Policy</a></li>
+                        <li><a href="../special-page/terms-of-service.html">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+<!-- Script Boostrap -->
+<script src="../assets/bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js"></script>
+
+
+<!-- Script Main -->
+<script src="../js/isCheckAuth.js"></script>
+<script src="../js/script.js"></script>
+
+<!-- Script Database -->
+<script src="../js/database.js"></script>
+
+<!-- Script Logout -->
+<script src="../js/logout.js"></script>
+
+<!-- Script Search -->
+<script src="../js/search.js"></script>
+
+<!-- Script Menu -->
+<script src="../js/menu.js"></script>
+
+</html>

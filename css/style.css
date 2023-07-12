@@ -946,6 +946,68 @@ footer {
     font-weight: 700;
 }
 
+/* Contact Us Page */
+.group-contact-us {
+    padding: 50px;
+}
+
+.contact-us-left {
+    text-align: left;
+    background-color: #f7f7f7;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 450px;
+}
+
+.contact-us-banner {
+    background-image: url(../assets/images/contact-us-banner.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    padding: 150px 0 130px;
+}
+
+.contact-us-banner h1 {
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.list-social-icon {
+    display: flex;
+    gap: 10px;
+}
+
+.list-social-icon i {
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    padding: 10px;
+}
+
+.list-social-icon i:hover {
+    background-color: #0c337c;
+    color: white;
+}
+
+.main-content {
+    height: auto;
+    padding: 50px;
+    width: 1000px;
+    margin: 0 auto;
+    text-align: justify;
+    line-height: 2;
+}
+
+.main-content h2,
+.main-content h3,
+.main-content h4 {
+    color: #0c337c;
+    font-weight: bold;
+}
 
 /* CSS Tablet */
 

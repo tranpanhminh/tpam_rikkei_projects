@@ -14,11 +14,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@100;300;400;500;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="./css/style.css">
-    <title>Signup Page - PetShop</title>
+    <title>Return Policy</title>
 </head>
 
 <body>
     <header>
+        <!-- PC Menu -->
         <nav class="main-menu">
             <div class="logo">
                 <a href="./index.html"><img src="./assets/images/pet-shop-remove-bg.png" alt="Logo Petshop"
@@ -27,7 +28,7 @@
 
             <div class="menu">
                 <ul class="nav-main-menu">
-                    <li><a href="./index.html" class="menu-item">Home</a></li>
+                    <li><a href="./index.html" class="menu-item active">Home</a></li>
                     <li><a href="./about.html" class="menu-item">About</a></li>
                     <li><a href="./products-category.html" class="menu-item">Products</a></li>
                     <li><a href="./product-detail.html" class="menu-item">Product Detail</a></li>
@@ -41,8 +42,8 @@
 
             <div class="group-user">
                 <a href="./login-page.html"><button class="login-btn my-button">Login</button></a>
-                <a href="./signup-page.html"><button class="signup-btn my-button btn-active">Signup</button></a>
-                <a href=""><button class="logout-btn my-button" onclick="handleLogout()">Logout</button></a>
+                <a href="./signup-page.html"><button class="signup-btn my-button">Signup</button></a>
+                <button class="logout-btn my-button" onclick="handleLogout()"><a href="">Logout</a></button>
                 <a href="./my-cart.html"><i class="fa-solid fa-cart-shopping shopping-cart-icon"></i></a>
                 <a href="./admin/manage-users.html" id="admin-icon"><i class="fa-solid fa-user"></i></a>
             </div>
@@ -71,7 +72,7 @@
                 <div class="group-btn-user">
                     <a href="./login-page.html"><button class="login-btn my-button login-btn-mobile">Login</button></a>
                     <a href="./signup-page.html"><button
-                            class="signup-btn my-button signup-btn-mobile btn-active">Signup</button></a>
+                            class="signup-btn my-button signup-btn-mobile">Signup</button></a>
                     <button class="logout-btn my-button logout-btn-mobile" onclick="handleLogout()"><a
                             href="">Logout</a></button>
                     <a href="./my-cart.html"><i
@@ -102,40 +103,41 @@
     </header>
 
     <main>
-        <section class="banner">
-            <div class="container">
-                <div class="banner-caption-group">
-                    <p class="caption-title"><em>Best Brands</em></p>
-                    <p class="caption-discount">25% OFF ORDERS $50+</p>
-                    <h2 class="caption-headline">Healthy Dog Food</h2>
-                    <p class="caption-text">Get 25% off your order of $50 or more when you buy online and pickup
-                        in-store!
-                    </p>
-                    <a href="" class="shop-now-btn">Shop now</a>
-                </div>
-            </div>
+        <section class="contact-us-banner">
+            <h1>Return Policy</h1>
         </section>
 
-        <h3 class="sign-up-complete-notify">Signup Complete</h3>
+        <section class="main-content">
+            <p>We want you to be happy with your purchase, so we offer a 30-day return policy. If you are not satisfied
+                with your purchase for any reason, you can return it for a full refund.</p>
+            <p><strong>To return an item, please follow these steps:</strong></p>
+            <ol>
+                <li>Contact us within 30 days of receiving your purchase.</li>
+                <li>Provide us with your order number and the reason for your return.</li>
+                <li>Ship the item back to us at your own expense.</li>
+                <li>Once we receive the item, we will process your refund.</li>
+            </ol>
+            <p><strong>Please note that the following items are not eligible for return:</strong></p>
+            <ul>
+                <li>Items that have been used or damaged</li>
+                <li>Items that are not in their original packaging</li>
+                <li>Items that are not accompanied by a receipt</li>
+            </ul>
+            <p><strong>Refunds will be issued in the same form of payment that was used to make the purchase.</strong>
+            </p>
+            <p><strong>If you have any questions about our return policy, please contact us.</strong></p>
+            <p><strong>Thank you for your business!</strong></p>
+            <p>Here are some additional things to consider when writing your return policy:</p>
+            <ul>
+                <li>Be clear about the time period within which customers can return items.</li>
+                <li>Specify what conditions the items must be in to be eligible for return.</li>
+                <li>State whether you will refund the full purchase price or only a portion of it.</li>
+                <li>Explain how customers can return items.</li>
+                <li>Include contact information for customers who have questions about your return policy.</li>
+            </ul>
+            <p>I hope this helps! Let me know if you have any other questions.</p>
+        </section>
 
-        <div class="outside-form-signup">
-            <form class="form-signup" onsubmit="handlePreventForm(event)">
-                <h3 class=" signup-title">Signup</h3>
-                <input type="email" id="email" name="email" placeholder="Email" class="input-email"
-                    title="Please enter a valid email format." required>
-                <div class="email-notify"></div>
-                <input type="text" placeholder="Full Name" class="input-fullname" pattern="^[a-zA-Z\s]*$" required>
-                <div class="fullname-notify"></div>
-                <input type="password" placeholder="Password" class="input-password" required>
-                <div class="password-notify"></div>
-                <input type="password" placeholder="Confirm Password" class="input-repassword" required>
-                <div class="repassword-notify"></div>
-                <button class="signup-button" onclick="handleSignUp()">Signup</button>
-                <p class="login-sentence">Already have an account? <a href="./login-page.html"
-                        class="login-text">Login</a>
-                </p>
-            </form>
-        </div>
     </main>
 
     <footer>
@@ -144,7 +146,7 @@
                 <div class="col-12 col-sm-12 col-md-12 col-xl-3">
                     <p class="footer-headline">CONTACT US</p>
                     <div class="group-footer-logo">
-                        <img src="./assets/images/pet-shop.png" alt="" class="footer-logo">
+                        <img src="../assets/images/pet-shop.png" alt="" class="footer-logo">
                         <p class="footer-description">
                             Your one-stop destination for all your pet needs. Discover a wide range of adorable
                             companions
@@ -156,40 +158,50 @@
                 <div class="col-12 col-sm-12 col-md-12 col-xl-3">
                     <p class="footer-headline">HELP & INFORMATION</p>
                     <ul>
-                        <li><a href="./about.html">About Us</a></li>
-                        <li><a href="./special-page/contact-us.html">Contact Us</a></li>
-                        <li><a href="./special-page/faqs.html">FAQs</a></li>
-                        <li><a href="./special-page/secure-shopping.html">Secure Shopping</a></li>
+                        <li><a href="../about.html">About Us</a></li>
+                        <li><a href="../special-page/contact-us.html">Contact Us</a></li>
+                        <li><a href="../special-page/faqs.html">FAQs</a></li>
+                        <li><a href="../special-page/secure-shopping.html">Secure Shopping</a></li>
                     </ul>
                 </div>
                 <div class="col-12 col-sm-12 col-md-12 col-xl-3">
                     <p class="footer-headline">CUSTOMER SERVICE</p>
                     <ul>
-                        <li><a href="./special-page/return-policy.html">Return Policy</a></li>
-                        <li><a href="./special-page/refund-policy.html">Refund Policy</a></li>
-                        <li><a href="./special-page/privacy-policy.html">Privacy Policy</a></li>
-                        <li><a href="./special-page/shipping-policy.html">Shipping Policy</a></li>
+                        <li><a href="../special-page/return-policy.html">Return Policy</a></li>
+                        <li><a href="../special-page/refund-policy.html">Refund Policy</a></li>
+                        <li><a href="../special-page/privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="../special-page/shipping-policy.html">Shipping Policy</a></li>
                     </ul>
                 </div>
                 <div class="col-12 col-sm-12 col-md-12 col-xl-3">
                     <p class="footer-headline">SITE NAVIGATION</p>
                     <ul>
-                        <li><a href="./special-page/billing-terms.html">Billing Terms & Conditions</a></li>
-                        <li><a href="./special-page/copyright-dispute-policy.html">Copyright Dispute Policy</a></li>
-                        <li><a href="./special-page/terms-of-service.html">Terms of Service</a></li>
+                        <li><a href="../special-page/billing-terms.html">Billing Terms & Conditions</a></li>
+                        <li><a href="../special-page/copyright-dispute-policy.html">Copyright Dispute Policy</a></li>
+                        <li><a href="../special-page/terms-of-service.html">Terms of Service</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </footer>
 </body>
-<script src="./js/database.js"></script>
-<script src="./js/form-login-signup.js"></script>
+<!-- Script Boostrap -->
+<script src="./assets/bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js"></script>
+
+
+<!-- Script Main -->
+<script src="./js/isCheckAuth.js"></script>
 <script src="./js/script.js"></script>
-<script src="../js/isCheckAuth.js"></script>
+
+<!-- Script Database -->
+<script src="./js/database.js"></script>
+
+<!-- Script Logout -->
 <script src="./js/logout.js"></script>
+
 <!-- Script Search -->
 <script src="./js/search.js"></script>
+
 <!-- Script Menu -->
 <script src="./js/menu.js"></script>
 
