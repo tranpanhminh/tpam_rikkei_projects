@@ -25,6 +25,7 @@ img {
     background-color: #33d6bb;
     width: 100%;
     border-radius: 10px;
+    padding: 5px;
 }
 
 .vertical-menu {
@@ -34,16 +35,15 @@ img {
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
-.vertical-menu ul li a {
+.vertical-menu ul a {
     text-decoration: none;
     padding: 5px;
     font-weight: bold;
-}
-
-.vertical-menu ul li {
-    padding: 5px;
+    padding: 5px 10px;
     list-style-type: none;
 }
+
+
 
 ul.main-menu {
     padding: 0;
@@ -56,13 +56,13 @@ ul.main-menu {
     gap: 10px;
 }
 
-.vertical-menu ul li:hover {
+.vertical-menu ul a:hover {
     background-color: #33d6bb;
     cursor: pointer;
     border-radius: 10px;
 }
 
-.vertical-menu ul li a:hover {
+.vertical-menu ul a:hover {
     color: white;
 }
 
@@ -212,6 +212,15 @@ table tr td img {
     font-size: 20px;
 }
 
+.detail-user-btn {
+    background-color: #0c337c;
+    padding: 5px 10px;
+    border: none;
+    color: white;
+    border-radius: 10px;
+    font-size: 20px;
+}
+
 table tr:first-child {
     color: black;
     font-weight: normal;
@@ -251,25 +260,29 @@ table tr {
 
 /*  CSS Manage Order Page */
 
-.summary-order {
+.summary-order,
+.summary-user {
     display: flex;
     flex-direction: column;
     gap: 20px;
     margin-bottom: 20px;
 }
 
-.cart-title {
+.cart-title,
+.user-title {
     font-weight: bold;
     text-align: center;
 }
 
-.cart-shipping-title {
+.cart-shipping-title,
+.user-info-title {
     width: 120px;
     text-align: left;
 }
 
 .cart-shipping,
-.card-total {
+.card-total,
+.user-info {
     display: flex;
     width: 100%;
     gap: 20px;
@@ -277,7 +290,8 @@ table tr {
 
 }
 
-.cart-shipping input {
+.cart-shipping input,
+.user-info input {
     width: 100%;
     border: none;
     padding: 10px;
@@ -287,7 +301,8 @@ table tr {
 }
 
 .cart-shipping-title,
-.cart-quantity-item {
+.cart-quantity-item,
+.user-info-title {
     margin: 0;
 }
 

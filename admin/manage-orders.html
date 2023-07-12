@@ -25,14 +25,16 @@
         </div>
 
         <ul class="main-menu">
-            <li><a href="../admin/manage-users.html"><i class="fa-solid fa-user"></i>Manage Users</a></li>
-            <li><a href="../admin/manage-products.html"><i class="fa-solid fa-boxes-stacked"></i>Manage Products</a>
-            </li>
-            <li class="active"><a href="../admin/manage-orders.html"><i class="fa-solid fa-cart-shopping"></i>Manage
-                    Orders</a></li>
-            <li class="logout-admin-btn"><a onclick="handleLogoutAdminPage()"><i
-                        class="fa-solid fa-right-from-bracket"></i>Logout</a>
-            </li>
+            <a href="../admin/manage-users.html">
+                <li><i class="fa-solid fa-user"></i>Manage Users
+                </li>
+            </a>
+            <a href="../admin/manage-products.html">
+                <li><i class="fa-solid fa-boxes-stacked"></i>Manage Product</li>
+            </a>
+            <a href="../admin/manage-orders.html" class="active"><li ><i class="fa-solid fa-cart-shopping"></i>Manage Orders</li></a>
+            <a onclick="handleLogoutAdminPage()"><li class="logout-admin-btn"><i
+                        class="fa-solid fa-right-from-bracket"></i>Logout</li></a>
         </ul>
     </header>
     <main>
@@ -208,100 +210,6 @@
                             </select>
                         </div>
                     </div>
-
-                    <div class="table-responsive">
-                        <div id="order-cart-detail"></div>
-                        <!-- <table class="table table-cart" id="order-cart-detail">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Product Image</th>
-                                    <th scope="col">Product Name</th>
-                                    <th scope="col">Quantity</th>
-                                    <th scope="col">Price</th>
-                                    <th scope="col">Total</th>
-                                    <th scope="col">Date</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th>1</th>
-                                    <td><img src="http://127.0.0.1:5501/assets/images/product-05.jpg" alt=""></td>
-                                    <td>My Alphapet Dog Poop Bags Refill Rolls</td>
-                                    <td>
-                                        <span class="product-cart-quantity">50</span>
-                                    </td>
-                                    <td>50</td>
-                                    <td>1000000</td>
-                                    <td>25/05/2023</td>
-                                    <td>
-                                        <i class="fa-solid fa-pen-to-square update-product-order-icon"></i>
-                                        <i class="fa-solid fa-xmark remove-product-order-icon"></i>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>2</th>
-                                    <td><img src="http://127.0.0.1:5501/assets/images/product-06.png" alt=""></td>
-                                    <td>My Alphapet Dog Poop Bags Refill Rolls</td>
-                                    <td>
-                                        <span class="product-cart-quantity">50</span>
-                                    </td>
-                                    <td>50</td>
-                                    <td>1000000</td>
-                                    <td>25/05/2023</td>
-                                    <td>
-                                        <i class="fa-solid fa-pen-to-square update-product-order-icon"></i>
-                                        <i class="fa-solid fa-xmark remove-product-order-icon"></i>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>3</th>
-                                    <td><img src="http://127.0.0.1:5501/assets/images/product-07.jpg" alt=""></td>
-                                    <td>My Alphapet Dog Poop Bags Refill Rolls</td>
-                                    <td>
-                                        <span class="product-cart-quantity">50</span>
-                                    </td>
-                                    <td>50</td>
-                                    <td>1000000</td>
-                                    <td>25/05/2023</td>
-                                    <td>
-                                        <i class="fa-solid fa-pen-to-square update-product-order-icon"></i>
-                                        <i class="fa-solid fa-xmark remove-product-order-icon"></i>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>4</th>
-                                    <td><img src="http://127.0.0.1:5501/assets/images/product-08.jpg" alt=""></td>
-                                    <td>My Alphapet Dog Poop Bags Refill Rolls</td>
-                                    <td>
-                                        <span class="product-cart-quantity">50</span>
-                                    </td>
-                                    <td>50</td>
-                                    <td>1000000</td>
-                                    <td>25/05/2023</td>
-                                    <td>
-                                        <i class="fa-solid fa-pen-to-square update-product-order-icon"></i>
-                                        <i class="fa-solid fa-xmark remove-product-order-icon"></i>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>5</th>
-                                    <td><img src="http://127.0.0.1:5501/assets/images/product-04.jpg" alt=""></td>
-                                    <td>My Alphapet Dog Poop Bags Refill Rolls</td>
-                                    <td>
-                                        <span class="product-cart-quantity">50</span>
-                                    </td>
-                                    <td>50</td>
-                                    <td>1000000</td>
-                                    <td>25/05/2023</td>
-                                    <td>
-                                        <i class="fa-solid fa-pen-to-square update-product-order-icon"></i>
-                                        <i class="fa-solid fa-xmark remove-product-order-icon"></i>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table> -->
                         <div class="card-total">
                             <span class="cart-quantity-item">Item: 5</span>
                             <span class="cart-total-quantity">Total: 5000</span>

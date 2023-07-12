@@ -25,13 +25,19 @@
         </div>
 
         <ul class="main-menu">
-            <li><a href="../admin/manage-users.html"><i class="fa-solid fa-user"></i>Manage Users</a></li>
-            <li class="active"><a href="../admin/manage-products.html"><i class="fa-solid fa-boxes-stacked"></i>Manage
-                    Products</a>
-            </li>
-            <li><a href="../admin/manage-orders.html"><i class="fa-solid fa-cart-shopping"></i>Manage Orders</a></li>
-            <li class="logout-admin-btn"><a onclick="handleLogoutAdminPage()"><i
-                        class="fa-solid fa-right-from-bracket"></i>Logout</a></li>
+            <a href="../admin/manage-users.html">
+                <li><i class="fa-solid fa-user"></i>Manage Users
+                </li>
+            </a>
+            <a href="../admin/manage-products.html" class="active">
+                <li ><i class="fa-solid fa-boxes-stacked"></i>Manage Product</li>
+            </a>
+            <a href="../admin/manage-orders.html">
+                <li><i class="fa-solid fa-cart-shopping"></i>Manage Orders</li>
+            </a>
+            <a onclick="handleLogoutAdminPage()">
+                <li class="logout-admin-btn"><i class="fa-solid fa-right-from-bracket"></i>Logout</li>
+            </a>
         </ul>
     </header>
     <main>

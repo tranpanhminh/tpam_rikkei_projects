@@ -13,11 +13,38 @@ const date = day + "/" + month + "/" + year + " " + hours + ":" + minutes;
 console.log(date);
 // Function Render My Cart
 function renderMyCart() {
+  // Render User Info
+  let userInfoSummary = document.querySelector("#user-info-summary");
+  userInfoSummaryContent = "";
+  userInfoSummaryContent += `<h2 class="cart-title">User Info</h2>
+
+  <div class="cart-shipping">
+      <h4 class="cart-shipping-title">User ID</h4>
+      <input type="text" placeholder="${authDatabaseToCart.id}" disabled>
+  </div>
+
+  <div class="cart-shipping">
+      <h4 class="cart-shipping-title">Email</h4>
+      <input type="text" placeholder="${authDatabaseToCart.email}" id="input-user-email" disabled>
+  </div>
+
+  <div class="cart-shipping">
+      <h4 class="cart-shipping-title">Name</h4>
+      <input type="text" placeholder="${authDatabaseToCart.fullName}" id="input-user-fullname" disabled>
+  </div>
+
+  <button type="button" class="btn btn-primary edit-user-btn" onclick="handleEditUser(${authDatabaseToCart.id})">
+      Edit User
+  </button>`;
+
+  userInfoSummary.innerHTML = userInfoSummaryContent;
+
   let tableMyCartElement = document.querySelector("#table-my-cart");
   let myCartSummary = document.querySelector("#my-cart-summary");
   let myCartSummaryContent = "";
   let tableMyCartElementContent = "";
   let total = 0;
+
   for (let i = 0; i < authDatabaseToCart.cart.length; i++) {
     tableMyCartElementContent += `
         <tr>
@@ -48,7 +75,6 @@ function renderMyCart() {
       Number(authDatabaseToCart.cart[i].price);
     total += itemTotal;
   }
-  console.log("Tổng là: ", total);
   myCartSummaryContent = `<h2 class="cart-title">Summary</h2>
 
   <div class="cart-shipping">
@@ -137,15 +163,65 @@ function handleOrder() {
     localStorage.setItem("auth", JSON.stringify(authDatabaseToCart));
   }
 
- // Kiểm tra xem Auth và Accounts Database có giống nhau không
-  // accountsDatabase.map((item) => {
-  //   if (item.id == authDatabase.id) {
-  //     item.cart = cart;
-  //   }
-  // });
-
-  // authDatabase.cart = cart;
-
   localStorage.setItem("ordersDatabase", JSON.stringify(ordersDatabase));
+  renderMyCart();
+}
+
+function handleEditUser(userId) {
+  // Change the onclick attribute of the button to handleSaveUser
+  document
+    .querySelector("#user-info-summary button")
+    .setAttribute("onclick", "handleSaveUser(" + userId + ")");
+
+  // Change the text of the button to "Save changes"
+  document.querySelector("#user-info-summary button").textContent =
+    "Save changes";
+
+  // Remove the disabled attribute from the input fields
+  document.querySelector("#input-user-fullname").removeAttribute("disabled");
+}
+
+function handleSaveUser(userId) {
+  const userIndex = accountsDatabase.findIndex(
+    (user) => user.id === userId
+  );
+  let inputEmail = document.querySelector("#input-user-email");
+  let inputFullName = document.querySelector("#input-user-fullname");
+  let inputEmailValue = inputEmail.value;
+  let inputFullNameValue = inputFullName.value;
+
+  if (inputEmailValue === "") {
+    inputEmailValue = authDatabaseToCart.email;
+    inputEmailValue = accountsDatabase[userIndex].email;
+  } else {
+    authDatabaseToCart.email = inputEmailValue;
+    accountsDatabase[userIndex].email = inputEmailValue;
+  }
+
+  if (inputFullNameValue === "") {
+    inputFullNameValue = authDatabaseToCart.fullName;
+    inputFullNameValue = accountsDatabase[userIndex].fullName;
+  } else {
+    authDatabaseToCart.fullName = inputFullNameValue;
+    accountsDatabase[userIndex].fullName = inputFullNameValue;
+  }
+
+  // Change the onclick attribute of the button to handleEditUser
+  document
+    .querySelector("#user-info-summary button")
+    .setAttribute("onclick", "handleEditUser(" + userIndex + ")");
+
+  // Change the text of the button to "Edit User"
+  document.querySelector("#user-info-summary button").textContent = "Edit User";
+
+  // Add the disabled attribute to the input fields
+  document
+    .querySelector("#input-user-fullname")
+    .setAttribute("disabled", "disabled");
+  localStorage.setItem("accountsDatabase", JSON.stringify(accountsDatabase));
+  localStorage.setItem("auth", JSON.stringify(authDatabaseToCart));
+  localStorage.setItem("ordersDatabase", JSON.stringify(ordersDatabase));
+
+  console.log("Accounts DataBase", accountsDatabase);
   renderMyCart();
 }
