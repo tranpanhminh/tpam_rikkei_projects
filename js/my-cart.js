@@ -202,12 +202,20 @@ function handleOrder() {
   } else {
     ordersDatabase.push(newOrder);
     alert("Order Complete!");
+    authDatabaseToCart.order_history.push(...authDatabaseToCart.cart);
     authDatabaseToCart.cart = [];
+    accountsDatabase.map((item) => {
+      if (item.id == authDatabaseToCart.id) {
+        item.order_history = authDatabaseToCart.order_history;
+        item.cart = authDatabaseToCart.cart;
+      }
+    });
     console.log(authDatabaseToCart);
     localStorage.setItem("auth", JSON.stringify(authDatabaseToCart));
+    localStorage.setItem("ordersDatabase", JSON.stringify(ordersDatabase));
+    localStorage.setItem("accountsDatabase", JSON.stringify(accountsDatabase));
   }
 
-  localStorage.setItem("ordersDatabase", JSON.stringify(ordersDatabase));
   renderMyCart();
 }
 
@@ -266,3 +274,5 @@ function handleSaveUser(userId) {
 
   renderMyCart();
 }
+
+// Function Render Order History
