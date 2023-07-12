@@ -201,7 +201,6 @@ function handleOrder() {
     return;
   } else {
     ordersDatabase.push(newOrder);
-    console.log(ordersDatabase);
     alert("Order Complete!");
     authDatabaseToCart.cart = [];
     console.log(authDatabaseToCart);
@@ -265,6 +264,5 @@ function handleSaveUser(userId) {
   localStorage.setItem("auth", JSON.stringify(authDatabaseToCart));
   localStorage.setItem("ordersDatabase", JSON.stringify(ordersDatabase));
 
-  console.log("Accounts DataBase", accountsDatabase);
   renderMyCart();
 }
