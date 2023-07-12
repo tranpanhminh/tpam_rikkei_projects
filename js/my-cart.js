@@ -145,9 +145,16 @@ function handleRemoveFromCart(productId) {
   if (productIndex !== -1) {
     // Xóa sản phẩm khỏi giỏ hàng
     authDatabaseToCart.cart.splice(productIndex, 1);
+    console.log(authDatabaseToCart);
+    const item = accountsDatabase.find((el) => el.id === authDatabaseToCart.id);
+    item.cart = authDatabaseToCart.cart;
+    item.quantity = 0;
+    console.log(item);
+    console.log(accountsDatabase);
 
     // Cập nhật lại dữ liệu lên local storage
     localStorage.setItem("auth", JSON.stringify(authDatabaseToCart));
+    localStorage.setItem("accountsDatabase", JSON.stringify(accountsDatabase));
 
     // Cập nhật giao diện
     renderMyCart(); // Hàm renderCart() làm nhiệm vụ cập nhật lại giao diện giỏ hàng sau khi xóa sản phẩm

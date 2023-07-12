@@ -257,6 +257,7 @@ function handleAddToCartBigBtn(id) {
         if (item.id == checkCartOrder.id) {
           item.quantity += inputAddQuantity;
         }
+        console.log(item.quantity);
       });
     } else {
       let findProduct = productsDatabase.find((item) => {
@@ -278,7 +279,6 @@ function handleAddToCartBigBtn(id) {
 
     console.log(authDatabase);
     console.log(accountsDatabase);
-
     localStorage.setItem("auth", JSON.stringify(authDatabase));
     localStorage.setItem("accountsDatabase", JSON.stringify(accountsDatabase));
     alert("Product Added");
