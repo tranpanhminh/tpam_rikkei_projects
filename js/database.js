@@ -8,6 +8,7 @@ let accounts = [
     role: "admin",
     status: "Active",
     cart: [],
+    order_history: [],
   },
   {
     id: 2,
@@ -17,6 +18,7 @@ let accounts = [
     role: "customer",
     status: "Active",
     cart: [],
+    order_history: [],
   },
   {
     id: 3,
@@ -26,6 +28,7 @@ let accounts = [
     role: "customer",
     status: "Active",
     cart: [],
+    order_history: [],
   },
   {
     id: 4,
@@ -35,6 +38,7 @@ let accounts = [
     role: "customer",
     status: "Inactive",
     cart: [],
+    order_history: [],
   },
 ];
 

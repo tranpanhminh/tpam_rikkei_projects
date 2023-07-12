@@ -13,9 +13,11 @@ function renderProductDetail() {
   <div class="breadcrumb-page">
       <a href="./index.html">Home</a>
       <span> / </span>
-      <a href="./index.html">Products</a>
+      <a href="http://127.0.0.1:5501/products-category.html">Products</a>
       <span> / </span>
-      <a href="./index.html">${productDetail.name}</a>
+      <a href="http://127.0.0.1:5501/product-detail.html?product-id-${
+        productDetail.id
+      }">${productDetail.name}</a>
   </div>
 </div>
 
@@ -278,6 +280,7 @@ function handleAddToCartBigBtn(id) {
     console.log(accountsDatabase);
 
     localStorage.setItem("auth", JSON.stringify(authDatabase));
+    localStorage.setItem("accountsDatabase", JSON.stringify(accountsDatabase));
     alert("Product Added");
   }
 }

@@ -55,11 +55,11 @@ function renderMyCart() {
           <td>${authDatabaseToCart.cart[i].name}</td>
           <td>
             <div class="td-flex">
-              <i class="fa-solid fa-minus minus-product-icon" onclick="handleMinus(${i})"></i>
-              <span class="product-cart-quantity-${i}">${Number(
-      authDatabaseToCart.cart[i].quantity
-    )}</span>
-              <i class="fa-solid fa-plus plus-product-icon" onclick="handlePlus(${i})"></i>
+              <input oninput="handleChangeQuantity(${
+                authDatabaseToCart.cart[i].id
+              },this.value)" type="number" min="1" class="product-cart-quantity product-cart-quantity-${
+      authDatabaseToCart.cart[i].id
+    }" value="${Number(authDatabaseToCart.cart[i].quantity)}">
             </div>
           </td>
           <td>$ ${authDatabaseToCart.cart[i].price.toLocaleString()}</td>
@@ -67,7 +67,9 @@ function renderMyCart() {
             Number(authDatabaseToCart.cart[i].quantity) *
             Number(authDatabaseToCart.cart[i].price)
           ).toLocaleString()}</td>
-          <td><i class="fa-solid fa-xmark delete-product-icon" onclick="handleRemoveFromCart(${i})"></i></td>
+          <td><i class="fa-solid fa-xmark delete-product-icon" onclick="handleRemoveFromCart(${
+            authDatabaseToCart.cart[i].id
+          })"></i></td>
         </tr>`;
 
     let itemTotal =
@@ -105,11 +107,51 @@ if (authDatabaseToCart) {
   renderMyCart();
 }
 
-// Cộng và giảm số lượng
-function handlePlus(i) {
-  let productQuantity = document.querySelector(`.product-cart-quantity-${i}`);
-  console.log(productQuantity.value);
-  productQuantity += 1;
+// Cộng , giảm số lượng và xóa ra khỏi giỏ hàng
+function handleChangeQuantity(productId, value) {
+  console.log(productId, value);
+  if (value > 0) {
+    const productIndex = authDatabaseToCart.cart.map((product) => {
+      if (product.id == productId) {
+        return {
+          ...product,
+          quantity: Number(value),
+          quantity_stock: product.quantity_stock - Number(value),
+        };
+      } else {
+        return product;
+      }
+    });
+    console.log(productIndex);
+    authDatabaseToCart.cart = productIndex;
+    accountsDatabase.map((item) => {
+      if (item.id == authDatabaseToCart.id) {
+        item.cart = productIndex;
+      }
+    });
+    localStorage.setItem("auth", JSON.stringify(authDatabaseToCart));
+    localStorage.setItem("accountsDatabase", JSON.stringify(accountsDatabase));
+    renderMyCart();
+  }
+}
+
+function handleRemoveFromCart(productId) {
+  // Tìm sản phẩm trong giỏ hàng dựa trên productId
+  const productIndex = authDatabaseToCart.cart.findIndex(
+    (product) => product.id === productId
+  );
+
+  // Kiểm tra xem sản phẩm có tồn tại trong giỏ hàng hay không
+  if (productIndex !== -1) {
+    // Xóa sản phẩm khỏi giỏ hàng
+    authDatabaseToCart.cart.splice(productIndex, 1);
+
+    // Cập nhật lại dữ liệu lên local storage
+    localStorage.setItem("auth", JSON.stringify(authDatabaseToCart));
+
+    // Cập nhật giao diện
+    renderMyCart(); // Hàm renderCart() làm nhiệm vụ cập nhật lại giao diện giỏ hàng sau khi xóa sản phẩm
+  }
 }
 
 // Function Order
@@ -147,8 +189,15 @@ function handleOrder() {
   };
 
   console.log("NewOrder", newOrder);
-  if (inputPhone == "" || inputAddress == "") {
-    alert("Please fill Phone and Address");
+  // console.log((authDatabaseToCart.cart.length === 0));
+  if (
+    authDatabaseToCart.cart.length === 0 ||
+    inputPhone == "" ||
+    inputAddress == ""
+  ) {
+    alert(
+      "Please check and make sure that your cart is not empty & you have entered all phone & address"
+    );
     return;
   } else {
     ordersDatabase.push(newOrder);
@@ -156,10 +205,6 @@ function handleOrder() {
     alert("Order Complete!");
     authDatabaseToCart.cart = [];
     console.log(authDatabaseToCart);
-    localStorage.setItem(
-      "authDatabaseToCart",
-      JSON.stringify(authDatabaseToCart)
-    );
     localStorage.setItem("auth", JSON.stringify(authDatabaseToCart));
   }
 
@@ -182,9 +227,7 @@ function handleEditUser(userId) {
 }
 
 function handleSaveUser(userId) {
-  const userIndex = accountsDatabase.findIndex(
-    (user) => user.id === userId
-  );
+  const userIndex = accountsDatabase.findIndex((user) => user.id === userId);
   let inputEmail = document.querySelector("#input-user-email");
   let inputFullName = document.querySelector("#input-user-fullname");
   let inputEmailValue = inputEmail.value;

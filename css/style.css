@@ -129,6 +129,11 @@ button {
     font-size: 25px;
 }
 
+.td-flex .product-cart-quantity {
+    width: 100px;
+    border-radius: 10px;
+}
+
 #admin-icon {
     display: none;
 }
