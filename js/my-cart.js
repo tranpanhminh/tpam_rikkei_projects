@@ -217,6 +217,7 @@ function handleOrder() {
   }
 
   renderMyCart();
+  renderOrderHistory();
 }
 
 function handleEditUser(userId) {
@@ -276,3 +277,41 @@ function handleSaveUser(userId) {
 }
 
 // Function Render Order History
+function renderOrderHistory() {
+  const ordersDatabase = JSON.parse(localStorage.getItem("ordersDatabase"));
+
+  let tableOrderHistory = document.querySelector("#table-order-history");
+  let tableOrderHistoryContent = "";
+  let filterOrderHistory = ordersDatabase.filter((order) => {
+    if (authDatabaseToCart.id === order.user_id) {
+      return true;
+    }
+    return false;
+  });
+  console.log(filterOrderHistory);
+  const orderHistoryUser = filterOrderHistory.reduce((result, item) => {
+    let data = item;
+    let newData = item.cart.map((i) => {
+      return { ...i, date: data.date };
+    });
+    return [...result, ...newData];
+  }, []);
+  console.log(orderHistoryUser);
+  orderHistoryUser.forEach((item, index) => {
+    console.log(item);
+    tableOrderHistoryContent += `<tr>
+    <th>${index + 1}</th>
+    <td><img src="${item.productImage}" alt=""></td>
+    <td>${item.productName}</td>
+    <td>
+        <span class="product-cart-quantity">${item.productQuantity}</span>
+    </td>
+    <td>${item.productPrice}</td>
+    <td>${Number(item.productQuantity) * Number(item.productPrice)}</td>
+    <td>${item.date}</td>
+</tr>`;
+  });
+
+  tableOrderHistory.innerHTML = tableOrderHistoryContent;
+}
+renderOrderHistory();

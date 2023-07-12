@@ -187,7 +187,7 @@ let products = [
 let orders = [
   {
     id: 1,
-    user_id: 1,
+    user_id: 0,
     name: "	James Mohamed",
     email: "mohamed1972@hotmail.com",
     phone: "0905932123",
@@ -206,7 +206,7 @@ let orders = [
   },
   {
     id: 2,
-    user_id: 1,
+    user_id: 0,
     name: "	James Mohamed",
     email: "mohamed1972@hotmail.com",
     phone: "0905932123",
@@ -225,7 +225,7 @@ let orders = [
   },
   {
     id: 3,
-    user_id: 1,
+    user_id: 0,
     name: "	James Mohamed",
     email: "mohamed1972@hotmail.com",
     phone: "0905932123",
@@ -244,7 +244,7 @@ let orders = [
   },
   {
     id: 4,
-    user_id: 1,
+    user_id: 0,
     name: "David Helms",
     email: "davidhelms1987@yahoo.com",
     phone: "0905932123",
@@ -263,7 +263,7 @@ let orders = [
   },
   {
     id: 5,
-    user_id: 1,
+    user_id: 0,
     name: "David Helms",
     email: "davidhelms1987@yahoo.com",
     phone: "0905932123",
