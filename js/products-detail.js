@@ -201,20 +201,20 @@ let bigAddToCartBtnNoAuth = document.querySelector(
 let bigAddToCartBtnWithAuth = document.querySelector(
   ".product-detail-page-add-to-cart-btn-with-auth"
 );
-let addToCartBtnNoAuth = document.querySelector(
-  ".add-to-cart-from-product-detail-no-auth"
-);
-let addToCartBtnWithAuth = document.querySelector(
-  ".add-to-cart-from-product-detail-with-auth"
-);
+// let addToCartBtnNoAuth = document.querySelector(
+//   ".add-to-cart-from-product-detail-no-auth"
+// );
+// let addToCartBtnWithAuth = document.querySelector(
+//   ".add-to-cart-from-product-detail-with-auth"
+// );
 if (authDatabase) {
-  addToCartBtnNoAuth.style.display = "none";
-  addToCartBtnWithAuth.style.display = "inline-block";
+  // addToCartBtnNoAuth.style.display = "none";
+  // addToCartBtnWithAuth.style.display = "inline-block";
   bigAddToCartBtnNoAuth.style.display = "none";
   bigAddToCartBtnWithAuth.style.display = "inline-block";
 } else {
-  addToCartBtnNoAuth.style.display = "inline-block";
-  addToCartBtnWithAuth.style.display = "none";
+  // addToCartBtnNoAuth.style.display = "inline-block";
+  // addToCartBtnWithAuth.style.display = "none";
   bigAddToCartBtnNoAuth.style.display = "inline-block";
   bigAddToCartBtnWithAuth.style.display = "none";
 }
@@ -237,43 +237,47 @@ let cart = [];
 cart.push(...authDatabase?.cart);
 // Function handleAddToCartBigBtn()
 function handleAddToCartBigBtn(id) {
-  let inputAddQuantity = Number(
-    document.querySelector("#input-quantity-from-product-detail").value
-  );
-
-  // Lấy cart trên local về
-
-  let checkCartOrder = cart.find((item) => {
-    return item.id == id;
-  });
-
-  if (checkCartOrder) {
-    cart.map((item) => {
-      if (item.id == checkCartOrder.id) {
-        item.quantity += inputAddQuantity;
-      }
-    });
+  if (authDatabase && authDatabase.status === "Inactive") {
+    alert("Your Account is Inactive, please wait for admin's verifcation");
   } else {
-    let findProduct = productsDatabase.find((item) => {
+    let inputAddQuantity = Number(
+      document.querySelector("#input-quantity-from-product-detail").value
+    );
+
+    // Lấy cart trên local về
+
+    let checkCartOrder = cart.find((item) => {
       return item.id == id;
     });
-    findProduct.quantity = inputAddQuantity;
-    console.log(findProduct);
-    cart.push(findProduct);
-  }
-  console.log(cart);
-  // Kiểm tra xem Auth và Accounts Database có giống nhau không
-  accountsDatabase.map((item) => {
-    if (item.id == authDatabase.id) {
-      item.cart = cart;
+
+    if (checkCartOrder) {
+      cart.map((item) => {
+        if (item.id == checkCartOrder.id) {
+          item.quantity += inputAddQuantity;
+        }
+      });
+    } else {
+      let findProduct = productsDatabase.find((item) => {
+        return item.id == id;
+      });
+      findProduct.quantity = inputAddQuantity;
+      console.log(findProduct);
+      cart.push(findProduct);
     }
-  });
+    console.log(cart);
+    // Kiểm tra xem Auth và Accounts Database có giống nhau không
+    accountsDatabase.map((item) => {
+      if (item.id == authDatabase.id) {
+        item.cart = cart;
+      }
+    });
 
-  authDatabase.cart = cart;
+    authDatabase.cart = cart;
 
-  console.log(authDatabase);
-  console.log(accountsDatabase);
+    console.log(authDatabase);
+    console.log(accountsDatabase);
 
-  localStorage.setItem("auth", JSON.stringify(authDatabase));
-  alert("Product Added");
+    localStorage.setItem("auth", JSON.stringify(authDatabase));
+    alert("Product Added");
+  }
 }

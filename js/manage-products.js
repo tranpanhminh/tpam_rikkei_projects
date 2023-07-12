@@ -20,8 +20,12 @@ function renderManageProductsPage(productsDatabaseAdmin) {
     <td>${productsDatabaseAdmin[i].name}</td>
     <td>$${Number(productsDatabaseAdmin[i].price).toLocaleString()}</td>
     <td>${Number(productsDatabaseAdmin[i].quantity_stock)}</td>
-    <td><button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="handleDetailtProduct(${i})" class="detail-product-btn">Detail</button>
-        <button onclick="handleDeleteProduct(${i})" class="delete-product-btn">Delete</button>
+    <td><button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="handleDetailtProduct(${
+      productsDatabaseAdmin[i].id
+    })" class="detail-product-btn">Detail</button>
+        <button onclick="handleDeleteProduct(${
+          productsDatabaseAdmin[i].id
+        })" class="delete-product-btn">Delete</button>
     </td>
 </tr>`;
   }
@@ -30,8 +34,10 @@ function renderManageProductsPage(productsDatabaseAdmin) {
 renderManageProductsPage(productsDatabaseAdmin);
 
 // Function Add Product
-function handleSaveAddProduct() {
-  const productsDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
+function handleSaveAddProduct(productId) {
+  const productIndex = productsDatabaseAdmin.findIndex(
+    (product) => product.id === productId
+  );
 
   let saveAddProductBtn = document.querySelector("#save-add-product-btn");
   let inputTitle = document.querySelector(".product-title-add").value;
@@ -54,8 +60,10 @@ function handleSaveAddProduct() {
   let inputImage_4 = document.querySelector(
     "#product-detail-add-new-image-04"
   ).value;
+
+  const maxId = Math.max(...productsDatabaseAdmin.map((item) => item.id));
   let newProduct = {
-    id: productsDatabase.length + 1,
+    id: maxId + 1,
     productImage: [
       (productImage_1 = inputImage_1),
       (productImage_2 = inputImage_2),
@@ -85,28 +93,32 @@ function handleSaveAddProduct() {
     alert("Please fill all information");
   } else {
     saveAddProductBtn.setAttribute("data-bs-dismiss", "modal");
-    productsDatabase.push(newProduct);
+    productsDatabaseAdmin.push(newProduct);
     window.location.href = "http://127.0.0.1:5501/admin/manage-products.html";
   }
-  renderManageProductsPage(productsDatabase);
-  setDataToLocal("productsDatabase", productsDatabase);
+  renderManageProductsPage(productsDatabaseAdmin);
+  setDataToLocal("productsDatabase", productsDatabaseAdmin);
 }
 
 // Function Delete Product
-function handleDeleteProduct(i) {
-  const productsDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
-  console.log("Index:", i);
-  console.log("Products Database:", productsDatabase);
-  productsDatabase.splice(i, 1);
-  setDataToLocal("productsDatabase", productsDatabase);
-  renderManageProductsPage(productsDatabase);
+function handleDeleteProduct(productId) {
+  const productIndex = productsDatabaseAdmin.findIndex(
+    (product) => product.id === productId
+  );
+
+  console.log("Index:", productIndex);
+  console.log("Products Database:", productsDatabaseAdmin);
+  productsDatabaseAdmin.splice(productIndex, 1);
+  setDataToLocal("productsDatabase", productsDatabaseAdmin);
+  renderManageProductsPage(productsDatabaseAdmin);
 }
 
 // Function Detail Product
-function handleDetailtProduct(i) {
-  index = i;
+function handleDetailtProduct(productId) {
+  const productIndex = productsDatabaseAdmin.findIndex(
+    (product) => product.id === productId
+  );
   const productsDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
-  console.log(i);
   let modalDetailFromAdminElement = document.querySelector(
     "#modal-detail-from-manage-products-page"
   );
@@ -125,26 +137,30 @@ function handleDetailtProduct(i) {
         <div class="row row-cols-2">
         <div class="col"><img
                                                     src="${
-                                                      productsDatabase[i]
-                                                        .productImage[0]
+                                                      productsDatabase[
+                                                        productIndex
+                                                      ].productImage[0]
                                                     }"
                                                     alt=""></div>
                                                     <div class="col"><img
                                                     src="${
-                                                      productsDatabase[i]
-                                                        .productImage[1]
+                                                      productsDatabase[
+                                                        productIndex
+                                                      ].productImage[1]
                                                     }"
                                                     alt=""></div>
                                                     <div class="col"><img
                                                     src="${
-                                                      productsDatabase[i]
-                                                        .productImage[2]
+                                                      productsDatabase[
+                                                        productIndex
+                                                      ].productImage[2]
                                                     }"
                                                     alt=""></div>
                                                     <div class="col"><img
                                                     src="${
-                                                      productsDatabase[i]
-                                                        .productImage[3]
+                                                      productsDatabase[
+                                                        productIndex
+                                                      ].productImage[3]
                                                     }"
                                                     alt=""></div>
         </div>
@@ -152,28 +168,32 @@ function handleDetailtProduct(i) {
 </div>
 <div class="col-xl-4 col-sm-12">
     <div class="product-detail-info">
-        <h2 class="product-title-name">${productsDatabase[i].name}</h2>
+        <h2 class="product-title-name">${
+          productsDatabase[productIndex].name
+        }</h2>
 
-        <p class="product-description">${productsDatabase[i].description}</p>
+        <p class="product-description">${
+          productsDatabase[productIndex].description
+        }</p>
 
         <div class="product-price">
             <span>Price</span>
-            <span>$${Number(productsDatabase[i].price)}</span>
+            <span>$${Number(productsDatabase[productIndex].price)}</span>
         </div>
 
         <div class="product-vendor">
             <span>Vendor:</span>
-            <span>${productsDatabase[i].vendor}</span>
+            <span>${productsDatabase[productIndex].vendor}</span>
         </div>
 
         <div class="product-sku">
             <span>SKU:</span>
-            <span>${productsDatabase[i].sku}</span>
+            <span>${productsDatabase[productIndex].sku}</span>
         </div>
 
         <div class="product-add-quantity">
             <p>Quantity:</p>
-            <span>${productsDatabase[i].quantity_stock}</span>
+            <span>${productsDatabase[productIndex].quantity_stock}</span>
         </div>
     </div>
 </div>
@@ -183,7 +203,7 @@ function handleDetailtProduct(i) {
                         <div class="product-details-info-manage-page">
                         <h4 class="product-detail-edit-title">ID</h4>
                         <input type="text" placeholder="${
-                          i + 1
+                          productsDatabaseAdmin[productIndex].id
                         }" class="product-id-edit" disabled>
                     </div>
 
@@ -240,14 +260,18 @@ function handleDetailtProduct(i) {
                     <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button data-bs-dismiss = "modal" type="button" class="btn btn-primary" id="save-edit-product-btn"
-                        onclick="handleSaveEditProduct(${i})">Save changes</button>
+                        onclick="handleSaveEditProduct(${
+                          productsDatabaseAdmin[productIndex].id
+                        })">Save changes</button>
                 </div>`;
   modalDetailFromAdminElement.innerHTML = modalDetailFromAdminContent;
 }
 
 // Function handleSaveEditProduct
-function handleSaveEditProduct(i) {
-  const productsDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
+function handleSaveEditProduct(productId) {
+  const productIndex = productsDatabaseAdmin.findIndex(
+    (product) => product.id === productId
+  );
   let inputTitle = document.querySelector(".product-title-edit").value;
   let inputDescription = document.querySelector(
     ".product-description-edit"
@@ -269,40 +293,41 @@ function handleSaveEditProduct(i) {
     "#product-detail-edit-image-04"
   ).value;
 
-  for (let i = 0; i < productsDatabase.length; i++) {
+  for (let i = 0; i < productsDatabaseAdmin.length; i++) {
     if (inputImage_1 === "") {
-      inputImage_1 = productsDatabase[index].productImage[i];
+      inputImage_1 = productsDatabaseAdmin[productIndex].productImage[i];
     }
     if (inputImage_2 === "") {
-      inputImage_2 = productsDatabase[index].productImage[i + 1];
+      inputImage_2 = productsDatabaseAdmin[productIndex].productImage[i + 1];
     }
     if (inputImage_1 === "") {
-      inputImage_3 = productsDatabase[index].productImage[i + 2];
+      inputImage_3 = productsDatabaseAdmin[productIndex].productImage[i + 2];
     }
     if (inputImage_1 === "") {
-      inputImage_4 = productsDatabase[index].productImage[i + 3];
+      inputImage_4 = productsDatabaseAdmin[productIndex].productImage[i + 3];
     }
     if (inputTitle === "") {
-      inputTitle = productsDatabase[index].name;
+      inputTitle = productsDatabaseAdmin[productIndex].name;
     }
     if (inputDescription === "") {
-      inputDescription = productsDatabase[index].description;
+      inputDescription = productsDatabaseAdmin[productIndex].description;
     }
     if (inputPrice === 0) {
-      inputPrice = productsDatabase[index].price;
+      inputPrice = productsDatabaseAdmin[productIndex].price;
     }
     if (inputVendor === "") {
-      inputVendor = productsDatabase[index].vendor;
+      inputVendor = productsDatabaseAdmin[productIndex].vendor;
     }
     if (inputSKU === "") {
-      inputSKU = productsDatabase[index].sku;
+      inputSKU = productsDatabaseAdmin[productIndex].sku;
     }
     if (inputStock === "") {
-      inputStock = productsDatabase[index].quantity_stock;
+      inputStock = productsDatabaseAdmin[productIndex].quantity_stock;
     }
   }
 
   let editProduct = {
+    id: productsDatabaseAdmin[productIndex].id,
     productImage: [
       (productImage_1 = inputImage_1),
       (productImage_2 = inputImage_2),
@@ -317,16 +342,16 @@ function handleSaveEditProduct(i) {
     quantity_stock: inputStock,
   };
 
-  console.log(index);
+  console.log(productIndex);
 
-  if (index !== "") {
-    productsDatabase.splice(index, 1, editProduct);
+  if (productIndex !== "") {
+    productsDatabaseAdmin.splice(productIndex, 1, editProduct);
   }
-  // productsDatabase.splice(i, 1, editProduct);
+  // productsDatabaseAdmin.splice(i, 1, editProduct);
   // window.location.href = "http://127.0.0.1:5501/admin/manage-products.html";
 
-  renderManageProductsPage(productsDatabase);
-  setDataToLocal("productsDatabase", productsDatabase);
+  renderManageProductsPage(productsDatabaseAdmin);
+  setDataToLocal("productsDatabase", productsDatabaseAdmin);
 }
 
 // Function Search Product
