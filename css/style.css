@@ -495,10 +495,6 @@ button.btn.btn-primary.detail-btn:hover {
     width: 20px;
 }
 
-.toast-header .btn-close {
-    color: white !important
-}
-
 /* CSS FOOTER */
 footer {
     background-color: #0c337c;

@@ -21,6 +21,16 @@ img {
     object-fit: cover;
 }
 
+.toast-header {
+    background-color: #0171d3;
+    color: white;
+}
+
+.toast-header img {
+    width: 20px;
+}
+
+
 .active {
     background-color: #33d6bb;
     width: 100%;

@@ -1,5 +1,7 @@
 // Get Data của Accounts từ Local Storage về
-const accountsDatabaseAdmin = getDataFromLocal("accountsDatabase") ?? [];
+const accountsDatabaseAdmin = JSON.parse(
+  localStorage.getItem("accountsDatabase")
+);
 const authDatabaseManageUserPage = JSON.parse(localStorage.getItem("auth"));
 
 if (
@@ -61,32 +63,36 @@ function handleChangeUser(params) {
 
 // Function Delete User
 function handleDeleteUser(email) {
-  const accountsDatabase = getDataFromLocal("accountsDatabase") ?? [];
-
   // Tìm chỉ mục của người dùng có email tương ứng
-  const userIndex = accountsDatabase.findIndex((user) => user.email === email);
+  const userIndex = accountsDatabaseAdmin.findIndex(
+    (user) => user.email === email
+  );
   console.log(userIndex);
   if (userIndex !== -1) {
     // Xóa người dùng khỏi mảng
-    accountsDatabase.splice(userIndex, 1);
-    console.log(accountsDatabase);
-    // // Cập nhật dữ liệu trong Local Storage
-    // setDataToLocal("accountsDatabase", accountsDatabase);
+    accountsDatabaseAdmin.splice(userIndex, 1);
+    console.log(accountsDatabaseAdmin);
 
     // // Render lại trang Manage Users
-    const myArrayJson = JSON.stringify(accountsDatabase);
-    localStorage.setItem("accountsDatabase", myArrayJson);
-    renderManageUserPage(accountsDatabase);
+    localStorage.setItem(
+      "accountsDatabase",
+      JSON.stringify(accountsDatabaseAdmin)
+    );
+
+    const toastLiveExample = document.getElementById(
+      "liveToastDeleteUserNotify"
+    );
+    bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
   }
 }
 
 // Function Search Product
 function handleSearchUser() {
-  const accountsDatabase = JSON.parse(localStorage.getItem("accountsDatabase"));
+  const accountsDatabaseAdmin = JSON.parse(localStorage.getItem("accountsDatabase"));
   let searchResult = document.querySelector(".search-result");
   let inputSearch = document.querySelector("#search-bar").value.toLowerCase();
   console.log(inputSearch);
-  let filterUser = accountsDatabase.filter(function (user) {
+  let filterUser = accountsDatabaseAdmin.filter(function (user) {
     if (
       user.email.toLowerCase().includes(inputSearch) ||
       user.fullName.toLowerCase().includes(inputSearch) ||
