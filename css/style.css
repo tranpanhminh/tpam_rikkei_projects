@@ -351,7 +351,6 @@ main {
 
 .list-products {
     margin-top: 100px;
-    margin-bottom: 100px;
 }
 
 .image-store {
@@ -453,10 +452,131 @@ main {
     font-size: 22px;
 }
 
+.newsletter {
+    margin-bottom: 50px;
+    padding: 50px;
+    display: flex;
+    width: 1000px;
+    margin: 0 auto;
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+    margin-top: 0;
+    font-family: 'Nunito', sans-serif;
+}
+
+.newsletter h3 {
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.newsletter-email input {
+    padding: 5px 10px;
+    border-radius: 10px;
+    border: 1px ridge #aaa;
+}
+
+.newsletter-btn {
+    padding: 8px 10px;
+    background-color: #0c337c;
+    color: white;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.newsletter-btn:hover {
+    background-color: #33d6bb;
+}
 
 img.card-img-top {
     height: 300px;
     object-fit: contain;
+}
+
+/* CSS Banner Couple */
+
+.banner-couple {
+    padding: 50px;
+    margin-top: 50px;
+    background-color: #f1f9f7;
+    height: auto;
+}
+
+.banner-single-col img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.img-banner-couple-left {
+    position: relative;
+}
+
+.banner-image-wrapper-left,
+.banner-image-wrapper-right {
+    position: relative;
+}
+
+.text-shop-left {
+    font-size: 25px;
+    font-weight: bold;
+    width: 350px;
+    margin: 0 auto;
+    color: #393939;
+    font-family: 'Nunito', sans-serif;
+}
+
+.text-shop-right {
+    font-size: 25px;
+    font-weight: bold;
+    width: 350px;
+    margin: 0 auto;
+    color: white;
+    font-family: 'Nunito', sans-serif;
+}
+
+.text-shop-description {
+    color: #c4c7c7;
+    font-size: 18px;
+    width: 250px;
+    margin: 0 auto;
+}
+
+.group-shop-now-left,
+.group-shop-now-right {
+    position: absolute;
+    bottom: 45px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.shop-now-banner-btn {
+    padding: 10px 20px;
+    background-color: #33d6bb;
+    width: 30%;
+    border-radius: 10px;
+    margin: 0 auto;
+    text-decoration: none;
+    color: white;
+    font-weight: 700;
+}
+
+.shop-now-banner-btn:hover {
+    background-color: #0c337c;
+}
+
+.discount-label {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #f1f9f7;
+    color: #0c337c;
+    font-weight: bold;
+    font-size: 40px;
+    padding: 20px 5px;
+    border-radius: 50%;
 }
 
 .add-to-cart-btn {
@@ -1020,7 +1140,7 @@ footer {
 
 /* CSS Tablet */
 
-@media screen and (max-width: 1023px) {
+@media screen and (max-width: 1041px) {
     .wrapper-mobile-menu {
         position: fixed;
         top: 0;
@@ -1218,6 +1338,10 @@ footer {
         margin-top: 30px;
     }
 
+    .newsletter {
+        width: 100%;
+    }
+
 }
 
 /* CSS Mobile */
@@ -1342,6 +1466,10 @@ footer {
         font-size: 25px;
     }
 
+    .banner-couple .container .row {
+        gap: 50px;
+    }
+
     .collection-title {
         background-color: #0c337c;
         color: white;
@@ -1372,12 +1500,28 @@ footer {
 
     .list-products {
         margin-top: 50px;
-        margin-bottom: 50px;
     }
 
     .card {
         margin: 0px;
         width: 100%;
+    }
+
+    .group-shop-now-left,
+    .group-shop-now-right,
+    .text-shop-left,
+    .text-shop-right {
+        width: 100%;
+        bottom: 10px;
+    }
+
+    .text-shop-left,
+    .text-shop-right {
+        font-size: 20px;
+    }
+
+    .shop-now-banner-btn {
+        width: 50%;
     }
 
     footer {
@@ -1414,6 +1558,10 @@ footer {
         width: 100%;
         padding: 0px 25px;
         margin: 25px auto;
+    }
+
+    .newsletter {
+        width: 100%;
     }
 
     /* CSS My Cart Mobile */
