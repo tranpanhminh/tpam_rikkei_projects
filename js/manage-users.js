@@ -1,13 +1,13 @@
 // Get Data của Accounts từ Local Storage về
 const accountsDatabaseAdmin = getDataFromLocal("accountsDatabase") ?? [];
-const authDatabase = JSON.parse(localStorage.getItem("auth"));
+const authDatabaseManageUserPage = JSON.parse(localStorage.getItem("auth"));
 
 if (
   (window.location.href.includes(
     "http://127.0.0.1:5501/admin/manage-users.html"
   ) &&
-    !authDatabase) ||
-  authDatabase.role !== "admin"
+    !authDatabaseManageUserPage) ||
+  authDatabaseManageUserPage.role !== "admin"
 ) {
   window.location.href = "/index.html";
 }
