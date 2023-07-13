@@ -287,7 +287,7 @@ function handleAddToCartBigBtn(id) {
 }
 
 // Add To Cart Notify
-const toastTrigger = document.getElementById("addToCartNotify");
+const toastTrigger = document.querySelector("#addToCartNotify");
 const toastLiveExample = document.getElementById("liveToastaddToCartNotify");
 
 if (toastTrigger) {

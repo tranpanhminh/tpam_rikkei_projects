@@ -169,6 +169,10 @@ function handleRemoveFromCart(productId) {
 
     // Cập nhật giao diện
     renderMyCart(); // Hàm renderCart() làm nhiệm vụ cập nhật lại giao diện giỏ hàng sau khi xóa sản phẩm
+    const toastLiveExample = document.getElementById(
+      "liveToastOrderAlertRemoveProduct"
+    );
+    bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
   }
 }
 
@@ -208,16 +212,31 @@ function handleOrder() {
 
   console.log("NewOrder", newOrder);
   // console.log((authDatabaseToCart.cart.length === 0));
-  if (
-    authDatabaseToCart.cart.length === 0 ||
-    inputPhone == "" ||
-    inputAddress == ""
-  ) {
-    alert(
-      "Please check and make sure that your cart is not empty & you have entered all phone & address"
+  if (authDatabaseToCart.cart.length === 0) {
+    const toastLiveExample = document.getElementById(
+      "liveToastOrderAlertEmptyCart"
     );
+    bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
     return;
-  } else {
+  }
+  if (inputPhone == "" || inputAddress == "") {
+    const toastLiveExample = document.getElementById(
+      "liveToastOrderAlertEmptyInfo"
+    );
+    bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
+    return;
+  }
+  // if (
+  //   authDatabaseToCart.cart.length === 0 ||
+  //   inputPhone == "" ||
+  //   inputAddress == ""
+  // ) {
+  //   alert(
+  //     "Please check and make sure that your cart is not empty & you have entered all phone & address"
+  //   );
+  //   return;
+  // }
+  else {
     let checkQuantity = !productsDatabaseToCart.some((item) => {
       return authDatabaseToCart.cart.some((cartItem) => {
         return (
@@ -238,7 +257,11 @@ function handleOrder() {
       });
 
       ordersDatabase.push(newOrder);
-      alert("Order Complete!");
+      // Order Complete Notify
+      const toastLiveExample = document.getElementById(
+        "liveToastOrderComplete"
+      );
+      bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
 
       // Push Cart vào trong Order History và xóa quantity_stock
       authDatabaseToCart.order_history.push(...authDatabaseToCart.cart);
@@ -372,3 +395,6 @@ function renderOrderHistory() {
   tableOrderHistory.innerHTML = tableOrderHistoryContent;
 }
 renderOrderHistory();
+
+// Order Notify
+// Order Complete Notify
