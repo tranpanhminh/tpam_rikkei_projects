@@ -486,6 +486,15 @@ button.btn.btn-primary.detail-btn:hover {
     opacity: 85%;
 }
 
+.toast-header {
+    background-color: #0171d3;
+    color: white;
+}
+
+.toast-header img {
+    width: 20px;
+}
+
 /* CSS FOOTER */
 footer {
     background-color: #0c337c;

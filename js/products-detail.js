@@ -81,9 +81,9 @@ function renderProductDetail() {
                       <p>Quantity:</p>
                       <input type="number" min="1" value="1" id="input-quantity-from-product-detail">
                   </div>
-                  <button data-bs-toggle="modal" data-bs-target="#add-to-cart-modal" class="product-detail-page-add-to-cart-btn product-detail-page-add-to-cart-btn-no-auth">ADD TO CART</button>
+                  <button data-bs-toggle="modal" data-bs-target="#add-to-cart-modal-no-auth" class="product-detail-page-add-to-cart-btn product-detail-page-add-to-cart-btn-no-auth">ADD TO CART</button>
                   
-                  <button class="product-detail-page-add-to-cart-btn product-detail-page-add-to-cart-btn-with-auth" id="add-to-cart-big-btn" onclick="handleAddToCartBigBtn(${
+                  <button id="addToCartNotify" class="product-detail-page-add-to-cart-btn product-detail-page-add-to-cart-btn-with-auth" id="add-to-cart-big-btn" onclick="handleAddToCartBigBtn(${
                     productDetail.id
                   })">ADD TO CART</button>
               </div>
@@ -282,7 +282,17 @@ function handleAddToCartBigBtn(id) {
     console.log(accountsDatabase);
     localStorage.setItem("auth", JSON.stringify(authDatabase));
     localStorage.setItem("accountsDatabase", JSON.stringify(accountsDatabase));
-    alert("Product Added");
     // window.location.reload();
   }
+}
+
+// Add To Cart Notify
+const toastTrigger = document.getElementById("addToCartNotify");
+const toastLiveExample = document.getElementById("liveToastaddToCartNotify");
+
+if (toastTrigger) {
+  const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+  toastTrigger.addEventListener("click", () => {
+    toastBootstrap.show();
+  });
 }

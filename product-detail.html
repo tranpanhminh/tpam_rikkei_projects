@@ -423,8 +423,9 @@
         </div>
     </div> -->
 
-    <!-- Modal Add To Cart-->
-    <div class="modal fade" id="add-to-cart-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- Modal Add To Cart No Auth-->
+    <div class="modal fade" id="add-to-cart-modal-no-auth" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -439,6 +440,20 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <a href="./login-page.html"><button type="button" class="btn btn-primary">To Login Page</button></a>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add To Cart Notify -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToastaddToCartNotify" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <img src="./assets/images/add-to-cart-notify.png" class="rounded me-2" alt="...">
+                <strong class="me-auto">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Product Added
             </div>
         </div>
     </div>
