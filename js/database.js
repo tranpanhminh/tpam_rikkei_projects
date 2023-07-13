@@ -311,7 +311,7 @@ let orders = [
 // localStorage.setItem("productsDatabase", JSON.stringify(products));
 
 // 3. Đẩy dữ liệu của orders lên Local Storage
-let authDatabase = JSON.parse(localStorage.getItem("auth"));
+// let authDatabase = JSON.parse(localStorage.getItem("auth"));
 // if (authDatabase && authDatabase.role == "admin") {
 // localStorage.setItem("ordersDatabase", JSON.stringify(orders));
 // }

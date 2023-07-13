@@ -1,5 +1,9 @@
 const accountsDatabase = getDataFromLocal("accountsDatabase") ?? [];
+const authDatabaseLoginPage = JSON.parse(localStorage.getItem("auth"));
 
+if (authDatabaseLoginPage) {
+  window.location.href = "http://127.0.0.1:5501/index.html";
+}
 // Function Signup
 function handleSignUp() {
   let inputEmail = document.querySelector(".input-email").value;
@@ -15,7 +19,11 @@ function handleSignUp() {
   let newUser = "";
 
   if (inputEmail == "" || inputPassword == "" || inputRePassword == "") {
-    alert("Please fill the form!");
+    // Modal Fill All Informatino Sign Up Notify
+    const toastLiveExample = document.getElementById(
+      "liveToastFillAllFormSignUp"
+    );
+    bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
     return;
   }
 
@@ -45,8 +53,8 @@ function handleSignUp() {
       status: "Active",
       cart: [],
     };
-    signUpCompleteNotify.style.display = "block";
     accountsDatabase.push(newUser);
+
     document.querySelector(".input-email").value = "";
     document.querySelector(".input-fullname").value = "";
     document.querySelector(".input-password").value = "";
@@ -55,6 +63,14 @@ function handleSignUp() {
     rePasswordNotify.style.display = "none";
     fullNameNotify.style.display = "none";
     emailNotify.style.display = "none";
+
+    // Modal Delete Product Notify
+    const toastLiveExample = document.getElementById("liveToastSignUpComplete");
+    bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
+
+    setTimeout(() => {
+      window.location.href = "http://127.0.0.1:5501/login-page.html";
+    }, 800); // Đợi 0.8 giây trước khi chuyển hướng
   } else {
     passwordNotify.innerHTML = "Passwword and Repassword does not match";
     rePasswordNotify.innerHTML = "Passwword and Repassword does not match";

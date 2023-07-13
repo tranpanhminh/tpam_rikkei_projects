@@ -1,5 +1,5 @@
 const productsDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
-const authDatabase = JSON.parse(localStorage.getItem("auth"));
+const authDatabaseFromCategory = JSON.parse(localStorage.getItem("auth"));
 
 // Render List Products
 function renderProductCategory(productsDatabase) {
@@ -110,7 +110,7 @@ let addToCartBtnNoAuth = document.querySelector(
 let addToCartBtnWithAuth = document.querySelector(
   ".add-to-cart-detail-category-with-auth"
 );
-if (authDatabase) {
+if (authDatabaseFromCategory) {
   addToCartBtnNoAuth.style.display = "none";
   addToCartBtnWithAuth.style.display = "inline-block";
 } else {
@@ -119,7 +119,7 @@ if (authDatabase) {
 }
 
 function handleAddToCartFromCateogryDetail() {
-  if (authDatabase && authDatabase.role == "customer") {
+  if (authDatabaseFromCategory && authDatabaseFromCategory.role == "customer") {
     alert("AAA");
   }
 }

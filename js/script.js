@@ -1,6 +1,6 @@
 // Get Data của Products từ Local Storage về
 const productsDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
-const authDatabase = JSON.parse(localStorage.getItem("auth"));
+const authDatabaseHomepage = JSON.parse(localStorage.getItem("auth"));
 let itemDetail;
 
 // Script Render Product Homepage

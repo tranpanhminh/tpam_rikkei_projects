@@ -122,13 +122,13 @@
             <form class="form-signup" onsubmit="handlePreventForm(event)">
                 <h3 class=" signup-title">Signup</h3>
                 <input type="email" id="email" name="email" placeholder="Email" class="input-email"
-                    title="Please enter a valid email format." required>
+                    title="Please enter a valid email format.">
                 <div class="email-notify"></div>
-                <input type="text" placeholder="Full Name" class="input-fullname" pattern="^[a-zA-Z\s]*$" required>
+                <input type="text" placeholder="Full Name" class="input-fullname" pattern="^[a-zA-Z\s]*$">
                 <div class="fullname-notify"></div>
-                <input type="password" placeholder="Password" class="input-password" required>
+                <input type="password" placeholder="Password" class="input-password">
                 <div class="password-notify"></div>
-                <input type="password" placeholder="Confirm Password" class="input-repassword" required>
+                <input type="password" placeholder="Confirm Password" class="input-repassword">
                 <div class="repassword-notify"></div>
                 <button class="signup-button" onclick="handleSignUp()">Signup</button>
                 <p class="login-sentence">Already have an account? <a href="./login-page.html"
@@ -182,7 +182,40 @@
             </div>
         </div>
     </footer>
+
+    <!-- Modal Alert Fill All Form Signup -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToastFillAllFormSignUp" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <img src="../assets/images/red-notification-logo.png" class="rounded me-2" alt="...">
+                <strong class="me-auto">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Please Fill All Information!
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Alert Fill All Form Signup -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToastSignUpComplete" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <img src="../assets/images/complete-notify.png" class="rounded me-2" alt="...">
+                <strong class="me-auto">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Signup Complete!
+            </div>
+        </div>
+    </div>
 </body>
+
+<!-- List Script -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+    crossorigin="anonymous"></script>
 <script src="./js/database.js"></script>
 <script src="./js/form-login-signup.js"></script>
 <script src="./js/script.js"></script>

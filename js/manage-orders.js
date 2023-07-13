@@ -50,7 +50,7 @@ function renderOrder(ordersDatabase) {
       </tr>`;
   }
   tableOrderElement.innerHTML = tableOrderContent;
-  revenueElement.innerHTML = `$ ${totalOrderSummary.toLocaleString()}`;
+  revenueElement.innerHTML = `Revenue: $${totalOrderSummary.toLocaleString()}`;
 }
 
 renderOrder(ordersDatabase);
@@ -217,4 +217,7 @@ function handleSaveChange(orderId) {
 
   localStorage.setItem("ordersDatabase", JSON.stringify(ordersDatabase));
   renderOrder(ordersDatabase);
+
+  const toastLiveExample = document.getElementById("liveToastSaveOrderNotify");
+  bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
 }

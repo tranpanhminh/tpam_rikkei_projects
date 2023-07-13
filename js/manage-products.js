@@ -102,11 +102,25 @@ function handleSaveAddProduct(productId) {
     inputSKU == "" ||
     inputStock == ""
   ) {
-    alert("Please fill all information");
+    const toastLiveExample = document.getElementById(
+      "liveToastAddProductFillAllNotify"
+    );
+    bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
+    return;
   } else {
     saveAddProductBtn.setAttribute("data-bs-dismiss", "modal");
     productsDatabaseAdmin.push(newProduct);
-    window.location.href = "http://127.0.0.1:5501/admin/manage-products.html";
+
+    const toastLiveExample = document.getElementById(
+      "liveToastSaveAddProductNotify"
+    );
+    bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
+
+    setTimeout(() => {
+      window.location.href = "http://127.0.0.1:5501/admin/manage-products.html";
+    }, 500); // Đợi 0.5 giây trước khi chuyển hướng
+
+    // window.location.href = "http://127.0.0.1:5501/admin/manage-products.html";
   }
   renderManageProductsPage(productsDatabaseAdmin);
   setDataToLocal("productsDatabase", productsDatabaseAdmin);

@@ -32,9 +32,12 @@
             <a href="../admin/manage-products.html">
                 <li><i class="fa-solid fa-boxes-stacked"></i>Manage Product</li>
             </a>
-            <a href="../admin/manage-orders.html" class="active"><li ><i class="fa-solid fa-cart-shopping"></i>Manage Orders</li></a>
-            <a onclick="handleLogoutAdminPage()"><li class="logout-admin-btn"><i
-                        class="fa-solid fa-right-from-bracket"></i>Logout</li></a>
+            <a href="../admin/manage-orders.html" class="active">
+                <li><i class="fa-solid fa-cart-shopping"></i>Manage Orders</li>
+            </a>
+            <a onclick="handleLogoutAdminPage()">
+                <li class="logout-admin-btn"><i class="fa-solid fa-right-from-bracket"></i>Logout</li>
+            </a>
         </ul>
     </header>
     <main>
@@ -174,7 +177,7 @@
         </div>
     </main>
 
-    <!-- Modal -->
+    <!-- Modal Detail Order-->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
@@ -210,21 +213,35 @@
                             </select>
                         </div>
                     </div>
-                        <div class="card-total">
-                            <span class="cart-quantity-item">Item: 5</span>
-                            <span class="cart-total-quantity">Total: 5000</span>
-                        </div>
+                    <div class="card-total">
+                        <span class="cart-quantity-item">Item: 5</span>
+                        <span class="cart-total-quantity">Total: 5000</span>
                     </div>
                 </div>
-                <!-- <div class="modal-footer">
+            </div>
+            <!-- <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary">Save changes</button>
                 </div> -->
-                <!-- <select name="shipping-status" id="shipping-status">
+            <!-- <select name="shipping-status" id="shipping-status">
                     <option value="Processing">Processing</option>
                     <option value="Shipped">Shipped</option>
                     <option value="Cancel">Cancel</option>
                 </select> -->
+        </div>
+    </div>
+    </div>
+
+    <!-- Modal Save Order Notify -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToastSaveOrderNotify" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <img src="../assets/images/complete-notify.png" class="rounded me-2" alt="...">
+                <strong class="me-auto">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Save Complete
             </div>
         </div>
     </div>

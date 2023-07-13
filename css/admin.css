@@ -191,6 +191,11 @@ table tr:first-child {
     opacity: 85%;
 }
 
+.search-result {
+    font-size: 20px;
+    color: #007aff
+}
+
 table td {
     vertical-align: middle;
 }
