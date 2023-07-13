@@ -7,7 +7,7 @@ if (
     "http://127.0.0.1:5501/admin/manage-products.html"
   ) &&
     !authDatabaseManageProductPage) ||
-    authDatabaseManageProductPage.role !== "admin"
+  authDatabaseManageProductPage.role !== "admin"
 ) {
   window.location.href = "/index.html";
 }
@@ -122,7 +122,14 @@ function handleDeleteProduct(productId) {
   console.log("Products Database:", productsDatabaseAdmin);
   productsDatabaseAdmin.splice(productIndex, 1);
   setDataToLocal("productsDatabase", productsDatabaseAdmin);
+
   renderManageProductsPage(productsDatabaseAdmin);
+
+  // Modal Delete Product Notify
+  const toastLiveExample = document.getElementById(
+    "liveToastDeleteProductNotify"
+  );
+  bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
 }
 
 // Function Detail Product
@@ -364,6 +371,12 @@ function handleSaveEditProduct(productId) {
 
   renderManageProductsPage(productsDatabaseAdmin);
   setDataToLocal("productsDatabase", productsDatabaseAdmin);
+
+  // Modal Save Edit Product Notify
+  const toastLiveExample = document.getElementById(
+    "liveToastSaveEditProductNotify"
+  );
+  bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
 }
 
 // Function Search Product

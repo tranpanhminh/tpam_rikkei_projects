@@ -30,7 +30,7 @@
                 </li>
             </a>
             <a href="../admin/manage-products.html" class="active">
-                <li ><i class="fa-solid fa-boxes-stacked"></i>Manage Product</li>
+                <li><i class="fa-solid fa-boxes-stacked"></i>Manage Product</li>
             </a>
             <a href="../admin/manage-orders.html">
                 <li><i class="fa-solid fa-cart-shopping"></i>Manage Orders</li>
@@ -161,7 +161,7 @@
 
     </main>
 
-    <!-- Modal -->
+    <!-- Modal Edit Product-->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content" id="modal-detail-from-manage-products-page">
@@ -294,79 +294,123 @@
             </div>
         </div>
     </div>
-</body>
 
-<!-- Modal -->
-<div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Add Product Panel</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="add-product-manage-page">
-                    <h2 class="add-product-ttitle-manage-page">Add Product Panel</h2>
+    <!-- Modal Add Product-->
+    <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add Product Panel</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="add-product-manage-page">
+                        <h2 class="add-product-ttitle-manage-page">Add Product Panel</h2>
 
-                    <div class="product-details-add-manage-page">
-                        <h4 class="product-detail-add-title">Title</h4>
-                        <input type="text" placeholder="" class="product-title-add">
-                    </div>
+                        <div class="product-details-add-manage-page">
+                            <h4 class="product-detail-add-title">Title</h4>
+                            <input type="text" placeholder="" class="product-title-add">
+                        </div>
 
-                    <div class="product-details-add-manage-page">
-                        <h4 class="product-detail-add-title">Description</h4>
-                        <input type="text" placeholder="" class="product-description-add">
-                    </div>
+                        <div class="product-details-add-manage-page">
+                            <h4 class="product-detail-add-title">Description</h4>
+                            <input type="text" placeholder="" class="product-description-add">
+                        </div>
 
-                    <div class="product-details-add-manage-page">
-                        <h4 class="product-detail-add-title">Price</h4>
-                        <input type="text" placeholder="" class="product-price-add">
-                    </div>
+                        <div class="product-details-add-manage-page">
+                            <h4 class="product-detail-add-title">Price</h4>
+                            <input type="text" placeholder="" class="product-price-add">
+                        </div>
 
-                    <div class="product-details-add-manage-page">
-                        <h4 class="product-detail-add-title">Vendor</h4>
-                        <input type="text" placeholder="" class="product-vendor-add">
-                    </div>
+                        <div class="product-details-add-manage-page">
+                            <h4 class="product-detail-add-title">Vendor</h4>
+                            <input type="text" placeholder="" class="product-vendor-add">
+                        </div>
 
-                    <div class="product-details-add-manage-page">
-                        <h4 class="product-detail-add-title">SKU</h4>
-                        <input type="text" placeholder="" class="product-sku-add">
-                    </div>
+                        <div class="product-details-add-manage-page">
+                            <h4 class="product-detail-add-title">SKU</h4>
+                            <input type="text" placeholder="" class="product-sku-add">
+                        </div>
 
-                    <div class="product-details-add-manage-page">
-                        <h4 class="product-detail-add-title">Stock</h4>
-                        <input type="text" placeholder="" class="product-stock-add">
-                    </div>
+                        <div class="product-details-add-manage-page">
+                            <h4 class="product-detail-add-title">Stock</h4>
+                            <input type="text" placeholder="" class="product-stock-add">
+                        </div>
 
-                    <div class="product-details-add-manage-page">
-                        <h4 class="product-detail-add-title">Image 1</h4>
-                        <input type="text" placeholder="" id="product-detail-add-new-image-01">
-                    </div>
+                        <div class="product-details-add-manage-page">
+                            <h4 class="product-detail-add-title">Image 1</h4>
+                            <input type="text" placeholder="" id="product-detail-add-new-image-01">
+                        </div>
 
-                    <div class="product-details-add-manage-page">
-                        <h4 class="product-detail-add-title">Image 2</h4>
-                        <input type="text" placeholder="" id="product-detail-add-new-image-02">
-                    </div>
+                        <div class="product-details-add-manage-page">
+                            <h4 class="product-detail-add-title">Image 2</h4>
+                            <input type="text" placeholder="" id="product-detail-add-new-image-02">
+                        </div>
 
-                    <div class="product-details-add-manage-page">
-                        <h4 class="product-detail-add-title">Image 3</h4>
-                        <input type="text" placeholder="" id="product-detail-add-new-image-03">
-                    </div>
+                        <div class="product-details-add-manage-page">
+                            <h4 class="product-detail-add-title">Image 3</h4>
+                            <input type="text" placeholder="" id="product-detail-add-new-image-03">
+                        </div>
 
-                    <div class="product-details-add-manage-page">
-                        <h4 class="product-detail-add-title">Image 4</h4>
-                        <input type="text" placeholder="" id="product-detail-add-new-image-04">
+                        <div class="product-details-add-manage-page">
+                            <h4 class="product-detail-add-title">Image 4</h4>
+                            <input type="text" placeholder="" id="product-detail-add-new-image-04">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" id="save-add-product-btn" class="btn btn-primary"
-                    onclick="handleSaveAddProduct()">Add Product</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="save-add-product-btn" class="btn btn-primary"
+                        onclick="handleSaveAddProduct()">Add Product</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+    <!-- Modal Delete Product Notify -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToastDeleteProductNotify" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <img src="../assets/images/red-notification-logo.png" class="rounded me-2" alt="...">
+                <strong class="me-auto">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Product Deleted
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Delete Product Notify -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToastDeleteProductNotify" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <img src="../assets/images/red-notification-logo.png" class="rounded me-2" alt="...">
+                <strong class="me-auto">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Product Deleted
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Delete Product Notify -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToastSaveEditProductNotify" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <img src="../assets/images/complete-notify.png" class="rounded me-2" alt="...">
+                <strong class="me-auto">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Product Edited
+            </div>
+        </div>
+    </div>
+</body>
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
     crossorigin="anonymous"></script>

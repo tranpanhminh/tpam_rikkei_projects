@@ -88,7 +88,9 @@ function handleDeleteUser(email) {
 
 // Function Search Product
 function handleSearchUser() {
-  const accountsDatabaseAdmin = JSON.parse(localStorage.getItem("accountsDatabase"));
+  const accountsDatabaseAdmin = JSON.parse(
+    localStorage.getItem("accountsDatabase")
+  );
   let searchResult = document.querySelector(".search-result");
   let inputSearch = document.querySelector("#search-bar").value.toLowerCase();
   console.log(inputSearch);
