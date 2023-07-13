@@ -11,6 +11,14 @@ const hours = currentDate.getHours();
 const minutes = currentDate.getMinutes();
 const date = day + "/" + month + "/" + year + " " + hours + ":" + minutes;
 console.log(date);
+
+if (
+  window.location.href.includes("http://127.0.0.1:5501/my-cart.html") &&
+  !authDatabaseToCart
+) {
+  window.location.href = "/index.html";
+}
+
 // Function Render My Cart
 function renderMyCart() {
   // Render User Info
@@ -207,20 +215,42 @@ function handleOrder() {
     );
     return;
   } else {
-    ordersDatabase.push(newOrder);
-    alert("Order Complete!");
-    authDatabaseToCart.order_history.push(...authDatabaseToCart.cart);
-    authDatabaseToCart.cart = [];
-    accountsDatabase.map((item) => {
-      if (item.id == authDatabaseToCart.id) {
-        item.order_history = authDatabaseToCart.order_history;
-        item.cart = authDatabaseToCart.cart;
-      }
+    const checkQuantity = authDatabaseToCart.cart.find((item) => {
+      console.log(item.quantity);
+      console.log(item.quantity_stock);
+      return item.quantity > item.quantity_stock;
     });
-    console.log(authDatabaseToCart);
-    localStorage.setItem("auth", JSON.stringify(authDatabaseToCart));
-    localStorage.setItem("ordersDatabase", JSON.stringify(ordersDatabase));
-    localStorage.setItem("accountsDatabase", JSON.stringify(accountsDatabase));
+    console.log(checkQuantity);
+    if (checkQuantity) {
+      alert("Not Enough Product To Buy!");
+    } else {
+      ordersDatabase.push(newOrder);
+      alert("Order Complete!");
+
+      // Push Cart vào trong Order History và xóa quantity_stock
+      authDatabaseToCart.order_history.push(...authDatabaseToCart.cart);
+      authDatabaseToCart.order_history.map(
+        (item) => delete item.quantity_stock
+      );
+
+      // Trả về Cart rỗng sau khi Order
+      authDatabaseToCart.cart = [];
+
+      // Push cart và order history vào Accounts Database
+      accountsDatabase.map((item) => {
+        if (item.id == authDatabaseToCart.id) {
+          item.order_history = authDatabaseToCart.order_history;
+          item.cart = authDatabaseToCart.cart;
+        }
+      });
+      console.log(authDatabaseToCart);
+      localStorage.setItem("auth", JSON.stringify(authDatabaseToCart));
+      localStorage.setItem("ordersDatabase", JSON.stringify(ordersDatabase));
+      localStorage.setItem(
+        "accountsDatabase",
+        JSON.stringify(accountsDatabase)
+      );
+    }
   }
 
   renderMyCart();

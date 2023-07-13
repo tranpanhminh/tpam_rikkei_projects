@@ -1,5 +1,16 @@
 const productsDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
 const ordersDatabase = JSON.parse(localStorage.getItem("ordersDatabase"));
+const authDatabase = JSON.parse(localStorage.getItem("auth"));
+
+if (
+  (window.location.href.includes(
+    "http://127.0.0.1:5501/admin/manage-orders.html"
+  ) &&
+    !authDatabase) ||
+  authDatabase.role !== "admin"
+) {
+  window.location.href = "/index.html";
+}
 
 // Function Render Order
 function renderOrder(ordersDatabase) {

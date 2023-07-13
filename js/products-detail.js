@@ -2,7 +2,6 @@ const productsDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
 const authDatabase = JSON.parse(localStorage.getItem("auth"));
 const productDetail = JSON.parse(localStorage.getItem("productDetail"));
 const accountsDatabase = JSON.parse(localStorage.getItem("accountsDatabase"));
-console.log(productDetail);
 
 // Function Render Product Detail
 function renderProductDetail() {
@@ -264,6 +263,7 @@ function handleAddToCartBigBtn(id) {
         return item.id == id;
       });
       findProduct.quantity = inputAddQuantity;
+
       console.log(findProduct);
       cart.push(findProduct);
     }
@@ -276,11 +276,13 @@ function handleAddToCartBigBtn(id) {
     });
 
     authDatabase.cart = cart;
+    authDatabase.cart.map((item) => delete item.quantity_stock);
 
     console.log(authDatabase);
     console.log(accountsDatabase);
     localStorage.setItem("auth", JSON.stringify(authDatabase));
     localStorage.setItem("accountsDatabase", JSON.stringify(accountsDatabase));
     alert("Product Added");
+    // window.location.reload();
   }
 }
