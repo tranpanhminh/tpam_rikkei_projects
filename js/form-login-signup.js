@@ -64,7 +64,7 @@ function handleSignUp() {
     fullNameNotify.style.display = "none";
     emailNotify.style.display = "none";
 
-    // Modal Delete Product Notify
+    // Modal Signup Complete
     const toastLiveExample = document.getElementById("liveToastSignUpComplete");
     bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
 
@@ -84,14 +84,35 @@ function handleSignUp() {
 
 // Function handleLogin
 function handleLogin() {
+  const toastBody = document.querySelector(".toast-body");
   let inputEmail = document.querySelector("#input-login-email").value;
   let inputPassword = document.querySelector("#input-login-password").value;
   let adminPanel = document.querySelector(".admin-icon");
   if (inputEmail == "" || inputPassword == "") {
-    alert("Please fill the form!");
+    // Modal Fill Information Login
+    const toastLiveExample = document.getElementById(
+      "liveToastFillAllFormLogin"
+    );
+    bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
     return;
   }
-  const userIndex = accountsDatabase.find((user) => user.email === inputEmail);
+
+  const emailExist = accountsDatabase.find((user) => {
+    return user.email === inputEmail;
+  });
+
+  if (!emailExist) {
+    const toastLiveExample = document.getElementById(
+      "liveToastFillAllFormLogin"
+    );
+    bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
+    toastBody.innerHTML = "Email is not exist";
+    return;
+  }
+
+  const userIndex = accountsDatabase.find((user) => {
+    return user.email === inputEmail && user.password === inputPassword;
+  });
   // Đăng nhập dành cho Admin
   if (userIndex) {
     // console.log(userIndex);
@@ -103,7 +124,11 @@ function handleLogin() {
     localStorage.setItem("auth", myArrayJson);
     window.location.href = "index.html";
   } else {
-    alert("Email or Password is not correct!");
+    const toastLiveExample = document.getElementById(
+      "liveToastFillAllFormLogin"
+    );
+    bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
+    toastBody.innerHTML = "Email or Password is not correct!";
     return;
   }
 }
