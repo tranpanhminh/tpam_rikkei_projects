@@ -245,7 +245,10 @@ function handleOrder() {
       });
     });
     if (!checkQuantity) {
-      alert("Not Enough Product To Buy!");
+      const toastLiveExample = document.getElementById(
+        "liveToastOrderAlertOrder"
+      );
+      bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
     } else {
       productsDatabaseToCart.map((item) => {
         authDatabaseToCart.cart.forEach((cartItem) => {
@@ -253,7 +256,6 @@ function handleOrder() {
             item.quantity_stock -= cartItem.quantity;
           }
         });
-        console.log("Giỏ hàng: ", item);
       });
 
       ordersDatabase.push(newOrder);
