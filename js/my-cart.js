@@ -2,6 +2,9 @@ const productDetail = JSON.parse(localStorage.getItem("productDetail"));
 const accountsDatabase = JSON.parse(localStorage.getItem("accountsDatabase"));
 const authDatabaseToCart = JSON.parse(localStorage.getItem("auth"));
 const ordersDatabase = JSON.parse(localStorage.getItem("ordersDatabase"));
+const productsDatabaseToCart = JSON.parse(
+  localStorage.getItem("productsDatabase")
+);
 
 const currentDate = new Date();
 const day = currentDate.getDate();
@@ -215,15 +218,25 @@ function handleOrder() {
     );
     return;
   } else {
-    const checkQuantity = authDatabaseToCart.cart.find((item) => {
-      console.log(item.quantity);
-      console.log(item.quantity_stock);
-      return item.quantity > item.quantity_stock;
+    let checkQuantity = !productsDatabaseToCart.some((item) => {
+      return authDatabaseToCart.cart.some((cartItem) => {
+        return (
+          item.id === cartItem.id && cartItem.quantity > item.quantity_stock
+        );
+      });
     });
-    console.log(checkQuantity);
-    if (checkQuantity) {
+    if (!checkQuantity) {
       alert("Not Enough Product To Buy!");
     } else {
+      productsDatabaseToCart.map((item) => {
+        authDatabaseToCart.cart.forEach((cartItem) => {
+          if (item.id == cartItem.id) {
+            item.quantity_stock -= cartItem.quantity;
+          }
+        });
+        console.log("Giỏ hàng: ", item);
+      });
+
       ordersDatabase.push(newOrder);
       alert("Order Complete!");
 
@@ -245,6 +258,10 @@ function handleOrder() {
       });
       console.log(authDatabaseToCart);
       localStorage.setItem("auth", JSON.stringify(authDatabaseToCart));
+      localStorage.setItem(
+        "productsDatabase",
+        JSON.stringify(productsDatabaseToCart)
+      );
       localStorage.setItem("ordersDatabase", JSON.stringify(ordersDatabase));
       localStorage.setItem(
         "accountsDatabase",
@@ -307,7 +324,10 @@ function handleSaveUser(userId) {
     .querySelector("#input-user-fullname")
     .setAttribute("disabled", "disabled");
   localStorage.setItem("accountsDatabase", JSON.stringify(accountsDatabase));
-  localStorage.setItem("auth", JSON.stringify(authDatabaseToCart));
+  localStorage.setItem(
+    "productsDatabase",
+    JSON.stringify(productsDatabaseToCart)
+  );
   localStorage.setItem("ordersDatabase", JSON.stringify(ordersDatabase));
 
   renderMyCart();
