@@ -376,13 +376,13 @@ function renderOrderHistory() {
   const orderHistoryUser = filterOrderHistory.reduce((result, item) => {
     let data = item;
     let newData = item.cart.map((i) => {
-      return { ...i, date: data.date };
+      return { ...i, date: data.date, status: data.status };
     });
     return [...result, ...newData];
   }, []);
   console.log(orderHistoryUser);
   orderHistoryUser.forEach((item, index) => {
-    console.log(item);
+    console.log("Item", item);
     tableOrderHistoryContent += `<tr>
     <th>${index + 1}</th>
     <td><img src="${item.productImage}" alt=""></td>
@@ -393,8 +393,10 @@ function renderOrderHistory() {
     <td>$${item.productPrice}</td>
     <td>$${Number(item.productQuantity) * Number(item.productPrice)}</td>
     <td>${item.date}</td>
+    <td>${item.status}</td>
 </tr>`;
   });
+  localStorage.setItem("ordersDatabase", JSON.stringify(ordersDatabase));
 
   tableOrderHistory.innerHTML = tableOrderHistoryContent;
 }
