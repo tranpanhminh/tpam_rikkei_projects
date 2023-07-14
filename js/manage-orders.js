@@ -34,7 +34,10 @@ function renderOrder(ordersDatabase) {
     ordersDatabase[i].cart.forEach((item) => {
       orderTotal += Number(item.productQuantity) * Number(item.productPrice);
     });
-    totalOrderSummary += orderTotal;
+
+    if (ordersDatabase[i].status === "Shipped") {
+      totalOrderSummary += orderTotal;
+    }
 
     tableOrderContent += `<tr>
         <td>${ordersDatabase[i].id}</td>
