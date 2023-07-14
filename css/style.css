@@ -1100,6 +1100,7 @@ footer {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    font-size: 30px;
 }
 
 .list-social-icon {
@@ -1137,6 +1138,10 @@ footer {
 /* CSS Tablet */
 
 @media screen and (max-width: 1041px) {
+    .main-content {
+        width: 100%;
+    }
+
     .wrapper-mobile-menu {
         position: fixed;
         top: 0;
@@ -1347,10 +1352,20 @@ footer {
         font-size: 12px;
     } */
 
+    .contact-us-right {
+        padding: 0;
+        margin-top: 30px;
+    }
+
 }
 
 /* CSS Mobile */
 @media only screen and (max-width:767px) {
+
+    .main-content {
+        width: 100%;
+    }
+
     .main-menu {
         display: none;
     }
@@ -1569,6 +1584,12 @@ footer {
         width: 100%;
     }
 
+    .newsletter-email {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
     /* CSS My Cart Mobile */
     .card-total {
         display: flex;
@@ -1600,6 +1621,15 @@ footer {
     }
 
     .product-title-name {
+        margin-top: 30px;
+    }
+
+    .group-contact-us {
+        padding: 0px;
+    }
+
+    .contact-us-right {
+        padding: 0;
         margin-top: 30px;
     }
 }
