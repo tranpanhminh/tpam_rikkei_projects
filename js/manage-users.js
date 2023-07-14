@@ -82,6 +82,8 @@ function handleDeleteUser(email) {
     );
     bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
   }
+
+  renderManageUserPage(accountsDatabaseAdmin);
 }
 
 // Function tìm kiếm User
