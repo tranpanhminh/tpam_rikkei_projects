@@ -112,4 +112,34 @@ function handleSearchUser() {
 }
 
 // Function thêm User
-function handleAddUser() {}
+function handleSaveAddUser() {
+  const accountsDatabase = JSON.parse(localStorage.getItem("accountsDatabase"));
+  console.log(accountsDatabase);
+  let userEmail = document.querySelector(".user-email-add").value;
+  let userName = document.querySelector(".user-name-add").value;
+  let userPassword = document.querySelector(".user-password-add").value;
+  let userRole = document.querySelector("#user-role-add").value;
+  let userStatus = document.querySelector("#user-status-add").value;
+
+  let maxId = Math.max(
+    ...accountsDatabase.map(function (account) {
+      return account.id;
+    })
+  );
+  console.log(maxId);
+
+  let newUser = {
+    id: maxId + 1,
+    email: userEmail,
+    fullName: userName,
+    password: userPassword,
+    role: userRole,
+    status: userStatus,
+    cart: [],
+    order_history: [],
+  };
+
+  accountsDatabase.push(newUser);
+  localStorage.setItem("accountsDatabase", JSON.stringify(accountsDatabase));
+  renderManageUserPage(accountsDatabase);
+}

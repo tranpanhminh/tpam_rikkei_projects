@@ -54,8 +54,7 @@
                     onclick="handleSearchUser()">Search</button>
             </div>
 
-            <button data-bs-toggle="modal" data-bs-target="#addUserModal" class="add-user-btn"
-                onclick="handleAddUser()">Add
+            <button data-bs-toggle="modal" data-bs-target="#addUserModal" class="add-user-btn">Add
                 User</button>
         </div>
         <div class="search-result"></div>
@@ -115,7 +114,7 @@
         </div>
     </main>
 </body>
-<!-- Modal -->
+<!-- Modal Detail User -->
 <div class="modal fade" id="detailUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -197,17 +196,22 @@
 
                     <div class="user-details-add-manage-page">
                         <h4 class="user-detail-add-title">Email</h4>
-                        <input type="text" placeholder="" class="product-title-add">
+                        <input type="text" placeholder="" class="user-email-add">
                     </div>
 
                     <div class="user-details-add-manage-page">
                         <h4 class="user-detail-add-title">Name</h4>
-                        <input type="text" placeholder="" class="product-description-add">
+                        <input type="text" placeholder="" class="user-name-add">
+                    </div>
+
+                    <div class="user-details-add-manage-page">
+                        <h4 class="user-detail-add-title">Password</h4>
+                        <input type="text" placeholder="" class="user-password-add">
                     </div>
 
                     <div class="user-details-add-manage-page">
                         <h4 class="user-detail-add-title">Role</h4>
-                        <select name="" id="">
+                        <select name="" id="user-role-add">
                             <option value="admin">admin</option>
                             <option value="customer">customer</option>
                         </select>
@@ -215,7 +219,7 @@
 
                     <div class="user-details-add-manage-page">
                         <h4 class="user-detail-add-title">Status</h4>
-                        <select name="" id="">
+                        <select name="" id="user-status-add">
                             <option value="Active">Active</option>
                             <option value="Inactive">Inactive</option>
                         </select>
@@ -224,8 +228,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" id="save-add-product-btn" class="btn btn-primary"
-                    onclick="handleSaveAddProduct()">Add Product</button>
+                <button type="button" id="save-add-user-btn" class="btn btn-primary" data-bs-dismiss="modal"
+                    onclick="handleSaveAddUser()">Add
+                    User</button>
             </div>
         </div>
     </div>
