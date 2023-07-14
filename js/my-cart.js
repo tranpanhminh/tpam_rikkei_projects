@@ -380,7 +380,9 @@ function renderOrderHistory() {
         <span class="product-cart-quantity">${item.productQuantity}</span>
     </td>
     <td>$${item.productPrice}</td>
-    <td>$${Number(item.productQuantity) * Number(item.productPrice)}</td>
+    <td>$${(
+      Number(item.productQuantity) * Number(item.productPrice)
+    ).toLocaleString()}</td>
     <td>${item.date}</td>
     <td>${item.status}</td>
 </tr>`;
@@ -390,6 +392,3 @@ function renderOrderHistory() {
   tableOrderHistory.innerHTML = tableOrderHistoryContent;
 }
 renderOrderHistory();
-
-// Order Notify
-// Order Complete Notify
