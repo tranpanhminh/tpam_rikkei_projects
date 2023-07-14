@@ -1,5 +1,6 @@
 const productDetailSearch = JSON.parse(localStorage.getItem("productDetail"));
 
+
 // Function Search
 function handleSearch() {
   const productsDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
@@ -74,4 +75,27 @@ function handleToProductDetailFromSearchPage(id) {
   const myArrayJson = JSON.stringify(item);
   localStorage.setItem("productDetail", myArrayJson);
   window.location.href = `./product-detail.html?product-id-${id}`;
+}
+
+// Function Search Mobile
+function handleSearchMobile() {
+  const productsDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
+  let inputSearch = document.querySelector(".search-bar-mobile").value.toLowerCase();
+  console.log(inputSearch);
+  let filterProduct = productsDatabase.filter(function (product) {
+    if (
+      product.name.toLowerCase().includes(inputSearch) ||
+      product.description.toLowerCase().includes(inputSearch) ||
+      product.vendor.toLowerCase().includes(inputSearch) ||
+      product.sku.toString().toLowerCase() === inputSearch ||
+      product.quantity_stock.toString().toLowerCase() === inputSearch ||
+      product.price.toString().toLowerCase() === inputSearch
+    ) {
+      return true;
+    }
+    return false;
+  });
+  console.log(filterProduct);
+  localStorage.setItem("myProductSearch", JSON.stringify(filterProduct));
+  window.location.href = `./search-page.html?search=${inputSearch}`;
 }

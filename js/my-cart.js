@@ -66,7 +66,7 @@ function renderMyCart() {
           <td>${authDatabaseToCart.cart[i].name}</td>
           <td>
             <div class="td-flex">
-              <input oninput="handleChangeQuantity(${
+              <input onchange="handleChangeQuantity(${
                 authDatabaseToCart.cart[i].id
               },this.value)" type="number" min="1" class="product-cart-quantity product-cart-quantity-${
       authDatabaseToCart.cart[i].id

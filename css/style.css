@@ -16,6 +16,8 @@ img {
 
 
 /* CSS Chung */
+
+
 .mr-20 {
     margin-right: 20px;
 }
@@ -839,10 +841,6 @@ footer {
     justify-content: space-between;
 }
 
-.table-cart {
-    font-size: 20px;
-}
-
 .table-cart tbody tr td img {
     width: 100px;
 }
@@ -1342,6 +1340,15 @@ footer {
         width: 100%;
     }
 
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    tbody#table-my-cart {
+        font-size: 12px;
+    }
+
 }
 
 /* CSS Mobile */
@@ -1579,6 +1586,10 @@ footer {
 
     .table-responsive {
         overflow-x: auto;
+    }
+
+    tbody#table-my-cart {
+        font-size: 12px;
     }
 
     /* CSS Product Detail Page */
