@@ -225,18 +225,7 @@ function handleOrder() {
     );
     bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
     return;
-  }
-  // if (
-  //   authDatabaseToCart.cart.length === 0 ||
-  //   inputPhone == "" ||
-  //   inputAddress == ""
-  // ) {
-  //   alert(
-  //     "Please check and make sure that your cart is not empty & you have entered all phone & address"
-  //   );
-  //   return;
-  // }
-  else {
+  } else {
     let checkQuantity = !productsDatabaseToCart.some((item) => {
       return authDatabaseToCart.cart.some((cartItem) => {
         return (
