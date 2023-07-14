@@ -839,6 +839,10 @@ footer {
     justify-content: space-between;
 }
 
+table.table.table-cart {
+    font-size: 18px;
+}
+
 .table-cart tbody tr td img {
     width: 100px;
 }
