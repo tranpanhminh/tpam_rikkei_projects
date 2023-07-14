@@ -45,7 +45,7 @@ function renderOrder(ordersDatabase) {
         <td>${ordersDatabase[i].email}</td>
         <td>${ordersDatabase[i].phone}</td>
         <td>${ordersDatabase[i].date}</td>
-        <td><span class="shipping-status-label">${ordersDatabase[i].status}</span></td>
+        <td><span class="shipping-status-color">${ordersDatabase[i].status}</span></td>
         <td>$${orderTotal}</td>
         <td>
           <button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="handleDetailOrder(${i})" class="detail-order-btn">Detail</button>
@@ -57,6 +57,22 @@ function renderOrder(ordersDatabase) {
 }
 
 renderOrder(ordersDatabase);
+
+// Đổi màu shipping label
+const shippingStatusElements = document.querySelectorAll(
+  ".shipping-status-color"
+);
+shippingStatusElements.forEach((element) => {
+  if (element.innerHTML === "Shipped") {
+    element.classList.add("shipping-label-shipped");
+  } else if (element.innerHTML === "Pending") {
+    element.classList.add("shipping-label-pending");
+  } else if (element.innerHTML === "Cancel") {
+    element.classList.add("shipping-label-cancel");
+  } else if (element.innerHTML === "Processing") {
+    element.classList.add("shipping-label-processing");
+  }
+});
 
 // Function xem chi tiết đơn hàng
 let summaryInfoElementContent = "";
@@ -71,18 +87,31 @@ function handleDetailOrder(id) {
       <option value="Processing" selected>Processing</option>
       <option value="Cancel">Cancel</option>
       <option value="Shipped">Shipped</option>
+      <option value="Pending" >Pending</option>
+
     `;
   } else if (ordersDatabase[id].status === "Cancel") {
     statusOptions = `
       <option value="Processing">Processing</option>
       <option value="Cancel" selected>Cancel</option>
       <option value="Shipped">Shipped</option>
+      <option value="Pending" >Pending</option>
+
     `;
   } else if (ordersDatabase[id].status === "Shipped") {
     statusOptions = `
       <option value="Processing">Processing</option>
       <option value="Cancel">Cancel</option>
       <option value="Shipped" selected>Shipped</option>
+      <option value="Pending" >Pending</option>
+
+    `;
+  } else if (ordersDatabase[id].status === "Pending") {
+    statusOptions = `
+      <option value="Processing">Processing</option>
+      <option value="Cancel">Cancel</option>
+      <option value="Shipped" selected>Shipped</option>
+      <option value="Pending" selected>Pending</option>
     `;
   }
 
@@ -224,4 +253,8 @@ function handleSaveChange(orderId) {
 
   const toastLiveExample = document.getElementById("liveToastSaveOrderNotify");
   bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
+
+  setTimeout(function () {
+    window.location.reload();
+  }, 500);
 }

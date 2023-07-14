@@ -195,7 +195,6 @@ function handleDetailFromDetailPage(i) {
   modalDetailFromDetailElement.innerHTML = modalDetailFromDetailContent;
 }
 
-
 let bigAddToCartBtnNoAuth = document.querySelector(
   ".product-detail-page-add-to-cart-btn-no-auth"
 );
@@ -239,7 +238,11 @@ cart.push(...authDatabase?.cart);
 // Function thêm sản phẩm vào giỏ hàng
 function handleAddToCartBigBtn(id) {
   if (authDatabase && authDatabase.status === "Inactive") {
-    alert("Your Account is Inactive, please wait for admin's verifcation");
+    const toastLiveExample = document.getElementById(
+      "liveToastAddToCartInactiveAccountNotify"
+    );
+    bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
+    return;
   } else {
     let inputAddQuantity = Number(
       document.querySelector("#input-quantity-from-product-detail").value
@@ -278,21 +281,15 @@ function handleAddToCartBigBtn(id) {
     authDatabase.cart = cart;
     authDatabase.cart.map((item) => delete item.quantity_stock);
 
+    const toastLiveExample = document.getElementById(
+      "liveToastAddToCartNotify"
+    );
+    bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
+
     console.log(authDatabase);
     console.log(accountsDatabase);
     localStorage.setItem("auth", JSON.stringify(authDatabase));
     localStorage.setItem("accountsDatabase", JSON.stringify(accountsDatabase));
     // window.location.reload();
   }
-}
-
-// Add To Cart Notify
-const toastTrigger = document.querySelector("#addToCartNotify");
-const toastLiveExample = document.getElementById("liveToastaddToCartNotify");
-
-if (toastTrigger) {
-  const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
-  toastTrigger.addEventListener("click", () => {
-    toastBootstrap.show();
-  });
 }

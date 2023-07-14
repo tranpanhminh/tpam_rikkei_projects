@@ -205,7 +205,7 @@ function handleOrder() {
     email: authDatabaseToCart.email,
     phone: Number(inputPhone),
     date: date,
-    status: "Processing",
+    status: "Pending",
     address: inputAddress,
     cart: newCart,
   };
@@ -384,7 +384,7 @@ function renderOrderHistory() {
       Number(item.productQuantity) * Number(item.productPrice)
     ).toLocaleString()}</td>
     <td>${item.date}</td>
-    <td>${item.status}</td>
+    <td><span class="shipping-status-color">${item.status}</span></td>
 </tr>`;
   });
   localStorage.setItem("ordersDatabase", JSON.stringify(ordersDatabase));
@@ -392,3 +392,18 @@ function renderOrderHistory() {
   tableOrderHistory.innerHTML = tableOrderHistoryContent;
 }
 renderOrderHistory();
+
+const shippingStatusElements = document.querySelectorAll(
+  ".shipping-status-color"
+);
+shippingStatusElements.forEach((element) => {
+  if (element.innerHTML === "Shipped") {
+    element.classList.add("shipping-label-shipped");
+  } else if (element.innerHTML === "Pending") {
+    element.classList.add("shipping-label-pending");
+  } else if (element.innerHTML === "Cancel") {
+    element.classList.add("shipping-label-cancel");
+  } else if (element.innerHTML === "Processing") {
+    element.classList.add("shipping-label-processing");
+  }
+});

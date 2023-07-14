@@ -54,7 +54,6 @@ img {
 }
 
 
-
 ul.main-menu {
     padding: 0;
 }
@@ -274,6 +273,34 @@ table tr {
 
 
 /*  CSS Manage Order Page */
+.shipping-label-shipped {
+    background-color: #50a851;
+    padding: 10px;
+    color: white;
+    border-radius: 10px;
+}
+
+.shipping-label-pending {
+    background-color: #ed9f32;
+    padding: 10px;
+    color: white;
+    border-radius: 10px;
+}
+
+.shipping-label-cancel {
+    background-color: #c73633;
+    padding: 10px;
+    color: white;
+    border-radius: 10px;
+}
+
+.shipping-label-processing {
+    background-color: #2977a7;
+    padding: 10px;
+    color: white;
+    border-radius: 10px;
+}
+
 
 .summary-order,
 .summary-user {
