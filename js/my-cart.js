@@ -73,8 +73,8 @@ function renderMyCart() {
     }" value="${Number(authDatabaseToCart.cart[i].quantity)}">
             </div>
           </td>
-          <td>$ ${authDatabaseToCart.cart[i].price.toLocaleString()}</td>
-          <td>$ ${(
+          <td>$${authDatabaseToCart.cart[i].price.toLocaleString()}</td>
+          <td>$${(
             Number(authDatabaseToCart.cart[i].quantity) *
             Number(authDatabaseToCart.cart[i].price)
           ).toLocaleString()}</td>
@@ -390,8 +390,8 @@ function renderOrderHistory() {
     <td>
         <span class="product-cart-quantity">${item.productQuantity}</span>
     </td>
-    <td>${item.productPrice}</td>
-    <td>${Number(item.productQuantity) * Number(item.productPrice)}</td>
+    <td>$${item.productPrice}</td>
+    <td>$${Number(item.productQuantity) * Number(item.productPrice)}</td>
     <td>${item.date}</td>
 </tr>`;
   });

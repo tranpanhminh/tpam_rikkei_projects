@@ -16,8 +16,6 @@ img {
 
 
 /* CSS Chung */
-
-
 .mr-20 {
     margin-right: 20px;
 }
@@ -1345,9 +1343,9 @@ footer {
         overflow-x: auto;
     }
 
-    tbody#table-my-cart {
+    /* tbody#table-my-cart {
         font-size: 12px;
-    }
+    } */
 
 }
 
@@ -1588,9 +1586,9 @@ footer {
         overflow-x: auto;
     }
 
-    tbody#table-my-cart {
+    /* tbody#table-my-cart {
         font-size: 12px;
-    }
+    } */
 
     /* CSS Product Detail Page */
     .product-detail {
