@@ -20,12 +20,12 @@ function handleSearch() {
   });
   console.log(filterProduct);
   localStorage.setItem("myProductSearch", JSON.stringify(filterProduct));
-  window.location.href = `http://127.0.0.1:5501/search-page.html?search=${inputSearch}`;
+  window.location.href = `./search-page.html?search=${inputSearch}`;
 }
 
 // Function renderSearchPage
 function renderSearchPage() {
-  const productsDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
+  // const productsDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
 
   const myProductSearch = JSON.parse(localStorage.getItem("myProductSearch"));
   let containerSearchElement = document.querySelector(
