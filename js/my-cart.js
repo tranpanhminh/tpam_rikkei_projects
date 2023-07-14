@@ -118,7 +118,7 @@ if (authDatabaseToCart) {
   renderMyCart();
 }
 
-// Cộng , giảm số lượng và xóa ra khỏi giỏ hàng
+// Function Tăng, giảm số lượng sản phẩm trong giỏ hàng
 function handleChangeQuantity(productId, value) {
   console.log(productId, value);
   if (value > 0) {
@@ -146,6 +146,7 @@ function handleChangeQuantity(productId, value) {
   }
 }
 
+// Function xóa sản phẩm khỏi giỏ hàng
 function handleRemoveFromCart(productId) {
   // Tìm sản phẩm trong giỏ hàng dựa trên productId
   const productIndex = authDatabaseToCart.cart.findIndex(
@@ -176,8 +177,7 @@ function handleRemoveFromCart(productId) {
   }
 }
 
-// Function Order
-
+// Function đặt hàng
 let order = [];
 function handleOrder() {
   let newCart = [];
@@ -299,6 +299,7 @@ function handleOrder() {
   renderOrderHistory();
 }
 
+// Function chỉnh sửa thông tin User
 function handleEditUser(userId) {
   // Change the onclick attribute of the button to handleSaveUser
   document
@@ -313,6 +314,7 @@ function handleEditUser(userId) {
   document.querySelector("#input-user-fullname").removeAttribute("disabled");
 }
 
+// Function cập nhật thông tin User đã chỉnh sửa
 function handleSaveUser(userId) {
   const userIndex = accountsDatabase.findIndex((user) => user.id === userId);
   let inputEmail = document.querySelector("#input-user-email");

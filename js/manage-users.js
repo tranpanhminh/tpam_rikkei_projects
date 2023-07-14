@@ -49,19 +49,17 @@ function renderManageUserPage(accountsDatabaseAdmin) {
   tableUser.innerHTML = tableUserContent;
 }
 renderManageUserPage(accountsDatabaseAdmin);
-// console.log(accountsDatabaseAdmin);
-function handleChangeUser(params) {
-  console.log(params);
-  const user = accountsDatabaseAdmin.find((item) => item.email === params);
 
+// Function thay đổi trạng thái User
+function handleChangeUser(params) {
+  const user = accountsDatabaseAdmin.find((item) => item.email === params);
   user.status = user.status === "Active" ? "Inactive" : "Active";
-  // console.log(accountsDatabaseAdmin);
   const myArrayJson = JSON.stringify(accountsDatabaseAdmin);
   localStorage.setItem("accountsDatabase", myArrayJson);
   renderManageUserPage(accountsDatabaseAdmin);
 }
 
-// Function Delete User
+// Function xóa user
 function handleDeleteUser(email) {
   // Tìm chỉ mục của người dùng có email tương ứng
   const userIndex = accountsDatabaseAdmin.findIndex(
@@ -86,7 +84,7 @@ function handleDeleteUser(email) {
   }
 }
 
-// Function Search Product
+// Function tìm kiếm User
 function handleSearchUser() {
   const accountsDatabaseAdmin = JSON.parse(
     localStorage.getItem("accountsDatabase")
@@ -110,68 +108,3 @@ function handleSearchUser() {
   searchResult.style.display = "block";
   renderManageUserPage(filterUser);
 }
-
-// // Function User Detail
-// function handleDetailUser(userId) {
-//   let userInfoElement = document.querySelector("#user-info-detail");
-//   const userIndex = accountsDatabaseAdmin.findIndex(
-//     (user) => user.id === userId
-//   );
-//   let userInfoElementContent = "";
-//   let statusOptions = "";
-
-//   if (accountsDatabaseAdmin[userIndex].status === "Active") {
-//     statusOptions = `
-//       <option value="Active" selected>Active</option>
-//       <option value="Inactive">Inactive</option>
-//     `;
-//   } else if (accountsDatabaseAdmin[userIndex].status === "Inactive") {
-//     statusOptions = `
-//     <option value="Active" >Active</option>
-//     <option value="Inactive" selected>Inactive</option>
-//     `;
-//   }
-
-//   let roleOptions = "";
-//   if (accountsDatabaseAdmin[userIndex].role === "admin") {
-//     roleOptions = `
-//       <option value="admin" selected>admin</option>
-//       <option value="customer">customer</option>
-//     `;
-//   } else if (accountsDatabaseAdmin[userIndex].role === "Inactive") {
-//     roleOptions = `
-//     <option value="admin">admin</option>
-//     <option value="customer" selected>customer</option>
-//     `;
-//   }
-
-//   userInfoElementContent += `<div class="summary-user">
-//   <div class="user-info">
-//       <h4 class="user-info-title">User ID</h4>
-//       <input type="text" placeholder="${accountsDatabaseAdmin[userIndex].id}" disabled>
-//   </div>
-
-//   <div class="user-info">
-//       <h4 class="user-info-title">Email</h4>
-//       <input type="text" placeholder="${accountsDatabaseAdmin[userIndex].email}" id="user-email">
-//   </div>
-
-//   <div class="user-info">
-//       <h4 class="user-info-title">Name</h4>
-//       <input type="text" placeholder="${accountsDatabaseAdmin[userIndex].fullName}" id="user-fullname">
-//   </div>
-
-//   <div class="user-info">
-//       <h4 class="user-info-title">Status</h4>
-//       <select name="user-status" id="user-status">
-//          ${statusOptions}
-//       </select>
-//   </div>
-
-//   <div class="modal-footer">
-//       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-//       <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="handleSaveChangeUser(${accountsDatabaseAdmin[userIndex].id})">Save changes</button>
-//   </div>
-// </div>`;
-//   userInfoElement.innerHTML = userInfoElementContent;
-// }

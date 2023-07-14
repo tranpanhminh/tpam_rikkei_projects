@@ -195,7 +195,7 @@ function handleDetailFromDetailPage(i) {
   modalDetailFromDetailElement.innerHTML = modalDetailFromDetailContent;
 }
 
-// Function handleAddToCartFromProductDetail
+
 let bigAddToCartBtnNoAuth = document.querySelector(
   ".product-detail-page-add-to-cart-btn-no-auth"
 );
@@ -226,7 +226,7 @@ if (authDatabase) {
 //   }
 // }
 
-// Function handleToProductDetailFromDetailPage
+// Function chi tiết sản phẩm
 function handleToProductDetailFromDetailPage(id) {
   const item = productsDatabase.find((el) => el.id == id);
   const myArrayJson = JSON.stringify(item);
@@ -236,7 +236,7 @@ function handleToProductDetailFromDetailPage(id) {
 
 let cart = [];
 cart.push(...authDatabase?.cart);
-// Function handleAddToCartBigBtn()
+// Function thêm sản phẩm vào giỏ hàng
 function handleAddToCartBigBtn(id) {
   if (authDatabase && authDatabase.status === "Inactive") {
     alert("Your Account is Inactive, please wait for admin's verifcation");

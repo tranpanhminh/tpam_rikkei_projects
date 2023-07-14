@@ -55,7 +55,7 @@ function renderOrder(ordersDatabase) {
 
 renderOrder(ordersDatabase);
 
-// Function handleDetailOrder
+// Function xem chi tiết đơn hàng
 let summaryInfoElementContent = "";
 function handleDetailOrder(id) {
   let orderDetailElementContent = "";
@@ -172,7 +172,7 @@ function handleDetailOrder(id) {
   summaryInfoElement.innerHTML = summaryInfoElementContent + orderDetailElement;
 }
 
-// Function Search Product
+// Function tìm kiếm Order
 function handleSearctOrder() {
   let searchResult = document.querySelector(".search-result");
   let inputSearch = document.querySelector("#search-bar").value.toLowerCase();
@@ -195,13 +195,14 @@ function handleSearctOrder() {
   renderOrder(filterOrder);
 }
 
-// function Swtich Status
+// function thay đổi trạng thái đơn hàng
 function handleSwitchShippingStatus(id) {
   let switchStatus = ["Processing", "Shipped", "Cancel"];
 
   for (let i = 0; i < switchStatus.length; i++) {}
 }
 
+// Function cập nhật trạng thái đơn hàng
 function handleSaveChange(orderId) {
   // Continue with other processing steps
 

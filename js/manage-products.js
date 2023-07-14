@@ -2,6 +2,7 @@
 const productsDatabaseAdmin = getDataFromLocal("productsDatabase") ?? [];
 const authDatabaseManageProductPage = JSON.parse(localStorage.getItem("auth"));
 
+// Kiểm tra nếu như role của auth là admin thì mới được truy cập vào trang, còn không thì chuyển hướng trang chủ
 if (
   (window.location.href.includes(
     "http://127.0.0.1:5501/admin/manage-products.html"
@@ -45,7 +46,7 @@ function renderManageProductsPage(productsDatabaseAdmin) {
 }
 renderManageProductsPage(productsDatabaseAdmin);
 
-// Function Add Product
+// Function thêm mới sản phẩm khỏi store
 function handleSaveAddProduct(productId) {
   const productIndex = productsDatabaseAdmin.findIndex(
     (product) => product.id === productId
@@ -126,7 +127,7 @@ function handleSaveAddProduct(productId) {
   setDataToLocal("productsDatabase", productsDatabaseAdmin);
 }
 
-// Function Delete Product
+// Function xóa sản phẩm khỏi store
 function handleDeleteProduct(productId) {
   const productIndex = productsDatabaseAdmin.findIndex(
     (product) => product.id === productId
@@ -146,7 +147,7 @@ function handleDeleteProduct(productId) {
   bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
 }
 
-// Function Detail Product
+// Function xem chi tiết sản phẩm
 function handleDetailtProduct(productId) {
   const productIndex = productsDatabaseAdmin.findIndex(
     (product) => product.id === productId
@@ -300,7 +301,7 @@ function handleDetailtProduct(productId) {
   modalDetailFromAdminElement.innerHTML = modalDetailFromAdminContent;
 }
 
-// Function handleSaveEditProduct
+// Function chỉnh sửa, cập nhật sản phẩm
 function handleSaveEditProduct(productId) {
   const productIndex = productsDatabaseAdmin.findIndex(
     (product) => product.id === productId
@@ -393,7 +394,7 @@ function handleSaveEditProduct(productId) {
   bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
 }
 
-// Function Search Product
+// Function tìm kiếm sản phẩm trong store
 function handleSearctProduct() {
   const productsDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
   let searchResult = document.querySelector(".search-result");
