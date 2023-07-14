@@ -564,7 +564,7 @@ img.card-img-top {
 }
 
 .shop-now-banner-btn:hover {
-    background-color: #0c337c;
+    opacity: 85%;
 }
 
 .discount-label {

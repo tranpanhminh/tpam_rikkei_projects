@@ -1,3 +1,5 @@
+const productDetailSearch = JSON.parse(localStorage.getItem("productDetail"));
+
 // Function Search
 function handleSearch() {
   const productsDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
@@ -23,6 +25,8 @@ function handleSearch() {
 
 // Function renderSearchPage
 function renderSearchPage() {
+  const productsDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
+
   const myProductSearch = JSON.parse(localStorage.getItem("myProductSearch"));
   let containerSearchElement = document.querySelector(
     "#container-search-product-page"
@@ -39,11 +43,11 @@ function renderSearchPage() {
                   myProductSearch[i].productImage[0]
                 }" class="card-img-top" alt="...">
                 <div class="card-body">
-                <a href="product-detail.html" onclick="handleToProductDetailFromSearchPage(${
+                <a href="product-detail.html?product-id-${
                   myProductSearch[i].id
-                })"><h5 class="product-title-name">${
-      myProductSearch[i].name
-    }</h5></a>
+                }" onclick="handleToProductDetailFromSearchPage(${
+      myProductSearch[i].id
+    })"><h5 class="product-title-name">${myProductSearch[i].name}</h5></a>
                     <p class="card-price">Price: $${Number(
                       myProductSearch[i].price
                     ).toLocaleString()}</p>
@@ -65,6 +69,7 @@ renderSearchPage();
 
 // Function handleToProductDetailFromDetailPage
 function handleToProductDetailFromSearchPage(id) {
+  const productsDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
   const item = productsDatabase.find((el) => el.id == id);
   const myArrayJson = JSON.stringify(item);
   localStorage.setItem("productDetail", myArrayJson);
