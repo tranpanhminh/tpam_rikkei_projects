@@ -45,10 +45,18 @@
             <h2 class="page-title">Manage User</h2>
             <p class="page-description">PetShop Admin Panel</p>
         </div>
-        <div class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="search-bar">
-            <button class="btn btn-outline-success" type="submit" id="search-btn"
-                onclick="handleSearchUser()">Search</button>
+
+
+        <div class="user-board">
+            <div class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="search-bar">
+                <button class="btn btn-outline-success" type="submit" id="search-btn"
+                    onclick="handleSearchUser()">Search</button>
+            </div>
+
+            <button data-bs-toggle="modal" data-bs-target="#addUserModal" class="add-user-btn"
+                onclick="handleAddUser()">Add
+                User</button>
         </div>
         <div class="search-result"></div>
 
@@ -171,6 +179,54 @@
         </div>
         <div class="toast-body">
             User Deleted
+        </div>
+    </div>
+</div>
+
+<!-- Add User Modal -->
+<div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Add User Panel</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="add-user-manage-page">
+                    <h2 class="add-user-title-manage-page">Add User Panel</h2>
+
+                    <div class="user-details-add-manage-page">
+                        <h4 class="user-detail-add-title">Email</h4>
+                        <input type="text" placeholder="" class="product-title-add">
+                    </div>
+
+                    <div class="user-details-add-manage-page">
+                        <h4 class="user-detail-add-title">Name</h4>
+                        <input type="text" placeholder="" class="product-description-add">
+                    </div>
+
+                    <div class="user-details-add-manage-page">
+                        <h4 class="user-detail-add-title">Role</h4>
+                        <select name="" id="">
+                            <option value="admin">admin</option>
+                            <option value="customer">customer</option>
+                        </select>
+                    </div>
+
+                    <div class="user-details-add-manage-page">
+                        <h4 class="user-detail-add-title">Status</h4>
+                        <select name="" id="">
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" id="save-add-product-btn" class="btn btn-primary"
+                    onclick="handleSaveAddProduct()">Add Product</button>
+            </div>
         </div>
     </div>
 </div>

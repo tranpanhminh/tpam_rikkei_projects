@@ -110,3 +110,6 @@ function handleSearchUser() {
   searchResult.style.display = "block";
   renderManageUserPage(filterUser);
 }
+
+// Function thêm User
+function handleAddUser() {}

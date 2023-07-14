@@ -245,14 +245,16 @@ table tr {
 }
 
 
-.product-panel {
+.product-panel,
+.user-board {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px;
 }
 
-.product-panel .add-product-btn {
+.product-panel .add-product-btn,
+.add-user-btn {
     padding: 10px 20px;
     font-weight: bold;
     font-size: 20px;
@@ -467,28 +469,33 @@ table tr td img {
 }
 
 .edit-product-manage-page,
-.add-product-manage-page {
+.add-product-manage-page,
+.add-user-manage-page {
     display: flex;
     flex-direction: column;
     gap: 20px;
     margin-bottom: 20px;
 }
 
-.edit-product-ttitle-manage-page,
-.add-product-ttitle-manage-page {
+.edit-product-title-manage-page,
+.add-product-title-manage-page,
+.add-user-title-manage-page {
     font-weight: bold;
     text-align: center;
 }
 
 .product-detail-edit-title,
-.product-detail-add-title {
+.product-detail-add-title,
+.user-detail-add-title {
     width: 160px;
     text-align: left;
     margin: 0;
 }
 
 .product-details-info-manage-page,
-.product-details-add-manage-page {
+.product-details-add-manage-page,
+.user-details-info-manage-page,
+.user-details-add-manage-page {
     display: flex;
     width: 100%;
     gap: 20px;
@@ -497,11 +504,17 @@ table tr td img {
 }
 
 .product-details-info-manage-page input,
-.product-details-add-manage-page input {
+.product-details-add-manage-page input,
+.user-details-info-manage-page input,
+.user-details-add-manage-page input {
     width: 80%;
     border: none;
     padding: 10px;
     border-radius: 10px;
     text-align: left;
     border: 1px solid black;
+}
+
+.user-details-info-manage-page select {
+    padding: 10px;
 }
