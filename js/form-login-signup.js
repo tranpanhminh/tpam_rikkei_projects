@@ -45,13 +45,18 @@ function handleSignUp() {
   }
 
   if (inputPassword == inputRePassword) {
+    const maxId = Math.max(...accountsDatabase.map((account) => account.id));
+    console.log("MaxId", maxId);
+
     newUser = {
+      id: maxId + 1,
       email: inputEmail,
       fullName: inputFullName,
       password: inputPassword,
       role: "customer",
       status: "Active",
       cart: [],
+      order_history: [],
     };
     accountsDatabase.push(newUser);
 

@@ -286,6 +286,9 @@ function handleOrder() {
 
   renderMyCart();
   renderOrderHistory();
+  setTimeout(function () {
+    window.location.reload();
+  }, 600);
 }
 
 // Function chỉnh sửa thông tin User

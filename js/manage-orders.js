@@ -224,6 +224,7 @@ function handleSearctOrder() {
   console.log(filterOrder);
   searchResult.innerHTML = `${filterOrder.length} results`;
   searchResult.style.display = "block";
+
   renderOrder(filterOrder);
 }
 

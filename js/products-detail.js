@@ -234,7 +234,7 @@ function handleToProductDetailFromDetailPage(id) {
 }
 
 let cart = [];
-cart.push(...authDatabase?.cart);
+cart.push(...authDatabase.cart);
 // Function thêm sản phẩm vào giỏ hàng
 function handleAddToCartBigBtn(id) {
   if (authDatabase && authDatabase.status === "Inactive") {
