@@ -14,7 +14,6 @@ if (
 
 // Function Render Order
 function renderOrder(ordersDatabase) {
-  console.log(ordersDatabase);
   let tableOrderElement = document.querySelector("#table-order-list");
   let revenueElement = document.querySelector(".revenue-text");
   let totalOrderSummary = 0;
@@ -242,16 +241,28 @@ function handleSwitchShippingStatus(id) {
 
 // Function cập nhật trạng thái đơn hàng
 function handleSaveChange(orderId) {
-  // Continue with other processing steps
-
   let shippingStatus = document.querySelector("#shipping-status").value;
 
-  // Find the index of the order in ordersDatabase
   const orderIndex = ordersDatabase.findIndex((order) => order.id === orderId);
 
-  // Update the status if the order is found
   if (orderIndex !== -1) {
     ordersDatabase[orderIndex].status = shippingStatus;
+  }
+
+  // Trả lại số lượng hàng đã Cancel đơn vào Stock
+  if (ordersDatabase[orderIndex].status === "Cancel") {
+    console.log(ordersDatabase[orderIndex].cart);
+    ordersDatabase[orderIndex].cart.forEach((item) => {
+      productsDatabase.forEach((product) => {
+        if (item.productID === product.id) {
+          product.quantity_stock += item.productQuantity;
+          localStorage.setItem(
+            "productsDatabase",
+            JSON.stringify(productsDatabase)
+          );
+        }
+      });
+    });
   }
 
   localStorage.setItem("ordersDatabase", JSON.stringify(ordersDatabase));
@@ -260,9 +271,9 @@ function handleSaveChange(orderId) {
   const toastLiveExample = document.getElementById("liveToastSaveOrderNotify");
   bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
 
-  setTimeout(function () {
-    window.location.reload();
-  }, 500);
+  // setTimeout(function () {
+  //   window.location.reload();
+  // }, 500);
 }
 
 // Function xoá Order khỏi cửa hàng
@@ -270,7 +281,7 @@ function handleDeleteOrder(id) {
   const orderIndex = ordersDatabase.findIndex((order) => order.id === id);
   ordersDatabase.splice(orderIndex, 1);
 
-  localStorage.setItem("authDatabaseManageOrdersPage", JSON.stringify(auth));
+  localStorage.setItem("auth", JSON.stringify(authDatabaseManageOrdersPage));
   localStorage.setItem("ordersDatabase", JSON.stringify(ordersDatabase));
   renderOrder(ordersDatabase);
 
