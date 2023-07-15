@@ -48,7 +48,8 @@ function renderOrder(ordersDatabase) {
         <td><span class="shipping-status-color">${ordersDatabase[i].status}</span></td>
         <td>$${orderTotal}</td>
         <td>
-          <button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="handleDetailOrder(${i})" class="detail-order-btn">Detail</button>
+          <button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="handleDetailOrder(${ordersDatabase[i].id})" class="detail-order-btn">Detail</button>
+          <button class="delete-order-button" onclick="handleDeleteOrder(${ordersDatabase[i].id})">Delete</button>
         </td>
       </tr>`;
   }
@@ -78,19 +79,23 @@ shippingStatusElements.forEach((element) => {
 let summaryInfoElementContent = "";
 function handleDetailOrder(id) {
   let orderDetailElementContent = "";
-  console.log(id);
+  const orderIndex = ordersDatabase.findIndex((order) => {
+    return order.id === id;
+  });
+
+  console.log(orderIndex);
   let summaryInfoElement = document.querySelector("#summary-info-detail");
   let statusOptions = "";
 
-  if (ordersDatabase[id].status === "Processing") {
+  if (ordersDatabase[orderIndex].status === "Processing") {
     statusOptions = `
       <option value="Processing" selected>Processing</option>
       <option value="Cancel">Cancel</option>
       <option value="Shipped">Shipped</option>
-      <option value="Pending" >Pending</option>
+      <option value="Pending">Pending</option>
 
     `;
-  } else if (ordersDatabase[id].status === "Cancel") {
+  } else if (ordersDatabase[orderIndex].status === "Cancel") {
     statusOptions = `
       <option value="Processing">Processing</option>
       <option value="Cancel" selected>Cancel</option>
@@ -98,7 +103,7 @@ function handleDetailOrder(id) {
       <option value="Pending" >Pending</option>
 
     `;
-  } else if (ordersDatabase[id].status === "Shipped") {
+  } else if (ordersDatabase[orderIndex].status === "Shipped") {
     statusOptions = `
       <option value="Processing">Processing</option>
       <option value="Cancel">Cancel</option>
@@ -106,7 +111,7 @@ function handleDetailOrder(id) {
       <option value="Pending" >Pending</option>
 
     `;
-  } else if (ordersDatabase[id].status === "Pending") {
+  } else if (ordersDatabase[orderIndex].status === "Pending") {
     statusOptions = `
       <option value="Processing">Processing</option>
       <option value="Cancel">Cancel</option>
@@ -120,17 +125,17 @@ function handleDetailOrder(id) {
   
       <div class="cart-shipping">
         <h4 class="cart-shipping-title">Email</h4>
-        <input type="text" placeholder="${ordersDatabase[id].email}" disabled>
+        <input type="text" placeholder="${ordersDatabase[orderIndex].email}" disabled>
       </div>
   
       <div class="cart-shipping">
         <h4 class="cart-shipping-title">Phone</h4>
-        <input type="text" placeholder="${ordersDatabase[id].phone}" disabled>
+        <input type="text" placeholder="${ordersDatabase[orderIndex].phone}" disabled>
       </div>
   
       <div class="cart-shipping">
         <h4 class="cart-shipping-title">Address</h4>
-        <input type="text" placeholder="${ordersDatabase[id].address}" disabled>
+        <input type="text" placeholder="${ordersDatabase[orderIndex].address}" disabled>
       </div>
   
       <div class="cart-shipping">
@@ -144,7 +149,7 @@ function handleDetailOrder(id) {
   let orderDetailElement = document.querySelector("#order-cart-detail");
 
   let totalOrder = 0;
-  ordersDatabase[id].cart.forEach((item, index) => {
+  ordersDatabase[orderIndex].cart.forEach((item, index) => {
     orderDetailElementContent += `
         <tr>
           <td>${index + 1}</td>
@@ -165,7 +170,7 @@ function handleDetailOrder(id) {
     totalOrder += Number(item.productQuantity) * Number(item.productPrice);
   });
 
-  //   orderDatabase[id].cart.forEach((item, index) => {
+  //   orderDatabase[orderIndex].cart.forEach((item, index) => {
   //   });
   //   console.log(totalOrder);
 
@@ -188,16 +193,16 @@ function handleDetailOrder(id) {
       </table>
       <div class="card-total">
                             <span class="cart-quantity-item">Item: ${
-                              ordersDatabase[id].cart.length
+                              ordersDatabase[orderIndex].cart.length
                             }</span>
                             <span class="cart-total-quantity">Total: $ ${totalOrder.toLocaleString()}</span>
                         </div>
                         <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="handleSaveChange(${
-                          ordersDatabase[id].id
+                          ordersDatabase[orderIndex].id
                         })" data-id="${
-    ordersDatabase[id].id
+    ordersDatabase[orderIndex].id
   }">Save changes</button>
                     </div> `;
 
@@ -258,4 +263,23 @@ function handleSaveChange(orderId) {
   setTimeout(function () {
     window.location.reload();
   }, 500);
+}
+
+// Function xoá Order khỏi cửa hàng
+function handleDeleteOrder(id) {
+  const orderIndex = ordersDatabase.findIndex((order) => order.id === id);
+  ordersDatabase.splice(orderIndex, 1);
+
+  localStorage.setItem("authDatabaseManageOrdersPage", JSON.stringify(auth));
+  localStorage.setItem("ordersDatabase", JSON.stringify(ordersDatabase));
+  renderOrder(ordersDatabase);
+
+  const toastLiveExample = document.getElementById(
+    "liveToastDeleteOrderNotify"
+  );
+  bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
+
+  setTimeout(function () {
+    window.location.reload();
+  }, 800);
 }

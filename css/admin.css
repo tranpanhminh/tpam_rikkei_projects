@@ -400,6 +400,11 @@ table tr td img {
     opacity: 85%;
 }
 
+.delete-order-button {
+    color: white;
+    background-color: #ed5e68;
+}
+
 /* CSS Manage Products Page */
 .product-detail-info {
     display: flex;

@@ -13,7 +13,6 @@ const year = currentDate.getFullYear();
 const hours = currentDate.getHours();
 const minutes = currentDate.getMinutes();
 const date = day + "/" + month + "/" + year + " " + hours + ":" + minutes;
-console.log(date);
 
 if (
   window.location.href.includes("http://127.0.0.1:5501/my-cart.html") &&
@@ -364,7 +363,6 @@ function renderOrderHistory() {
     }
     return false;
   });
-  console.log(filterOrderHistory);
   const orderHistoryUser = filterOrderHistory.reduce((result, item) => {
     let data = item;
     let newData = item.cart.map((i) => {
@@ -372,9 +370,7 @@ function renderOrderHistory() {
     });
     return [...result, ...newData];
   }, []);
-  console.log(orderHistoryUser);
   orderHistoryUser.forEach((item, index) => {
-    console.log("Item", item);
     tableOrderHistoryContent += `<tr>
     <th>${index + 1}</th>
     <td><img src="${item.productImage}" alt=""></td>
