@@ -192,7 +192,7 @@ function handleOrder() {
     newCart.push(cartItem);
   }
 
-  let inputPhone = Number(document.querySelector("#input-phone").value);
+  let inputPhone = document.querySelector("#input-phone").value;
   let inputAddress = document.querySelector("#input-address").value;
 
   const maxId = Math.max(...ordersDatabase.map((item) => item.id));
@@ -202,7 +202,7 @@ function handleOrder() {
     user_id: authDatabaseToCart.id,
     name: authDatabaseToCart.fullName,
     email: authDatabaseToCart.email,
-    phone: Number(inputPhone),
+    phone: inputPhone,
     date: date,
     status: "Pending",
     address: inputAddress,
@@ -210,7 +210,7 @@ function handleOrder() {
   };
 
   console.log("NewOrder", newOrder);
-  // console.log((authDatabaseToCart.cart.length === 0));
+
   if (authDatabaseToCart.cart.length === 0) {
     const toastLiveExample = document.getElementById(
       "liveToastOrderAlertEmptyCart"
@@ -218,13 +218,23 @@ function handleOrder() {
     bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
     return;
   }
-  if (inputPhone == "" || inputAddress == "") {
+  if (inputPhone === "" || inputAddress === "") {
     const toastLiveExample = document.getElementById(
       "liveToastOrderAlertEmptyInfo"
     );
     bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
     return;
   } else {
+    // Check the phone number format
+    const phoneNumberPattern = /^0\d{9}$/;
+    if (!phoneNumberPattern.test(inputPhone)) {
+      const toastLiveExample = document.getElementById(
+        "liveToastOrderAlertInvalidPhoneNumber"
+      );
+      bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
+      return;
+    }
+
     let checkQuantity = !productsDatabaseToCart.some((item) => {
       return authDatabaseToCart.cart.some((cartItem) => {
         return (

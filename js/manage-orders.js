@@ -271,9 +271,9 @@ function handleSaveChange(orderId) {
   const toastLiveExample = document.getElementById("liveToastSaveOrderNotify");
   bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
 
-  // setTimeout(function () {
-  //   window.location.reload();
-  // }, 500);
+  setTimeout(function () {
+    window.location.reload();
+  }, 500);
 }
 
 // Function xoá Order khỏi cửa hàng
@@ -281,7 +281,7 @@ function handleDeleteOrder(id) {
   const orderIndex = ordersDatabase.findIndex((order) => order.id === id);
   ordersDatabase.splice(orderIndex, 1);
 
-  localStorage.setItem("auth", JSON.stringify(authDatabaseManageOrdersPage));
+  // localStorage.setItem("auth", JSON.stringify(authDatabaseManageOrdersPage));
   localStorage.setItem("ordersDatabase", JSON.stringify(ordersDatabase));
   renderOrder(ordersDatabase);
 
