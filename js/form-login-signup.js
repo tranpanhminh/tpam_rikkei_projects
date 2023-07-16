@@ -39,14 +39,13 @@ function handleSignUp() {
   const fullNameRegex = /^[a-zA-Z\s]*$/;
   if (!fullNameRegex.test(inputFullName)) {
     fullNameNotify.innerHTML =
-      "Full Name does not include numbers & special characters";
+      "Full Name must not include numbers & special characters";
     fullNameNotify.style.display = "block";
     return;
   }
 
-  if (inputPassword == inputRePassword) {
+  if (inputPassword === inputRePassword) {
     const maxId = Math.max(...accountsDatabase.map((account) => account.id));
-    console.log("MaxId", maxId);
 
     newUser = {
       id: maxId + 1,
