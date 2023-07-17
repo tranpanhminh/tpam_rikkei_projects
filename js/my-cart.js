@@ -404,13 +404,11 @@ function renderOrderHistory() {
 
   // Cách 2:
   const orderDatabase = JSON.parse(localStorage.getItem("ordersDatabase"));
-  console.log("List Order Database:", orderDatabase);
   let tableOrderHistory = document.querySelector("#table-order-history");
   let tableOrderHistoryContent = "";
   filterOrderHistory = orderDatabase.filter((order) => {
     return order.user_id === authDatabaseToCart.id;
   });
-  console.log("Filter Order History:", filterOrderHistory);
 
   filterOrderHistory.forEach((order, index) => {
     let orderTotal = 0;
@@ -428,12 +426,16 @@ function renderOrderHistory() {
         <button data-bs-toggle="modal" data-bs-target="#detail-order-user" class="detail-order-color" onclick="handleDetailOrderUser(${
           order.id
         })">Detail</button>
-        <button style = "${order.status==="Pending"?"display:inline-block":"display:none"}" class="request-cancel-color" onclick="handleRequestCancelOrder(${
-          order.id
-        })">${
-      order.status === "Pending" ? "Request Cancel" : ""
-    }</button></span>
     </td>
+    <td><button data-bs-toggle="modal" data-bs-target="#request-cancel-user" style = "${
+      order.status === "Pending" ? "display:inline-block" : "display:none"
+    }" class="request-cancel-color request-cancel-color-${
+      order.id
+    }" onclick="handleRequestCancelOrder(${order.id})">${
+      order.request_cancel
+        ? "Waiting for admin's verification"
+        : "Request Cancel"
+    }</button></td>
 </tr>`;
   });
   tableOrderHistory.innerHTML = tableOrderHistoryContent;
@@ -555,15 +557,16 @@ function handleDetailOrderUser(id) {
   //   console.log(totalOrder);
 
   orderDetailElement = `
+  <div class="table-responsive">
       <table class="table table-cart">
       <thead>
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Product Image</th>
-                                    <th scope="col">Product Name</th>
-                                    <th scope="col">Quantity</th>
-                                    <th scope="col">Price</th>
-                                    <th scope="col">Total</th>
+                                    <th scope="col" style="min-width: 20px;">#</th>
+                                    <th scope="col" style="min-width: 50px;">Product Image</th>
+                                    <th scope="col" style="min-width: 100px;">Product Name</th>
+                                    <th scope="col" style="min-width: 50px;">Quantity</th>
+                                    <th scope="col" style="min-width: 100px;">Price</th>
+                                    <th scope="col" style="min-width: 100px;">Total</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -571,6 +574,7 @@ function handleDetailOrderUser(id) {
                             </tbody>
       
       </table>
+      </div> 
       <div class="card-total">
                             <span class="cart-quantity-item">Item: ${
                               ordersDatabase[orderIndex].cart.length
@@ -579,17 +583,69 @@ function handleDetailOrderUser(id) {
                         </div>
                         <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="handleSaveChange(${
-                          ordersDatabase[orderIndex].id
-                        })" data-id="${
-    ordersDatabase[orderIndex].id
-  }">Save changes</button>
-                    </div> `;
+                          
+                          </div>`;
 
   summaryInfoElement.innerHTML = summaryInfoElementContent + orderDetailElement;
 }
 
 // Function Request Cancel Order
 function handleRequestCancelOrder(id) {
-  console.log(id);
+  let cancelOrderReasonValue = document.querySelector(
+    "#reason-cancel-order"
+  ).value;
+  let cancelOrderReason = "";
+  cancelOrderReason = `
+  <option value="" disabled selected>---Reason---</option>
+  <option value="Ordered the wrong product">1. Ordered the wrong product</option>
+  <option value="Duplicate order">2. Duplicate order</option>
+  <option value="I don't want to buy anymore">3. I don't want to buy anymore</option>
+  <option value="Delivery time too long">4. Delivery time too long</option>
+  <option value="Another reason...">5. Another reason...</option>
+  `;
+  let summaryCancelOrder = document.querySelector("#summary-cancel-detail");
+  let summaryCancelOrderContent = "";
+  summaryCancelOrderContent += `<div class="summary-cancel-order">
+  <h2 class="cart-title">Request Cancel Order Form</h2>
+
+  <div class="cart-shipping">
+      <h4 class="cart-shipping-title">Order ID</h4>
+      <input type="text" placeholder="${id}" style="width: 24%;" disabled>
+  </div>
+
+  <div class="cart-shipping">
+      <h4 class="cart-shipping-title">Reason</h4>
+      <select name="shipping-status" id="reason-cancel-order">
+          ${cancelOrderReason}
+      </select>
+  </div>
+
+  <div class="modal-footer">
+  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="handleSaveCancelOrder(${id})">Send Request Cancel</button>
+    </div>
+</div>`;
+
+  summaryCancelOrder.innerHTML = summaryCancelOrderContent;
+}
+
+// Function Save Cancel Order
+function handleSaveCancelOrder(id) {
+  let cancelOrderReason = document.querySelector("#reason-cancel-order").value;
+  let requestCancelBtn = document.querySelector(`.request-cancel-color-${id}`);
+  const orderID = ordersDatabase.find((order) => {
+    return order.id == id;
+  });
+
+  if (cancelOrderReason == "") {
+    const toastLiveExample = document.getElementById("liveToastCancelRequest");
+    bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
+    return;
+  } else {
+    orderID.request_cancel = cancelOrderReason;
+    localStorage.setItem("ordersDatabase", JSON.stringify(ordersDatabase));
+    requestCancelBtn.innerHTML = "Waiting for Admin's Verification";
+    requestCancelBtn.disabled = true;
+  }
+  console.log(ordersDatabase);
 }

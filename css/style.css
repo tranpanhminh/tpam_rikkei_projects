@@ -999,7 +999,8 @@ table.table.table-cart {
     text-align: left;
 }
 
-#shipping-status {
+#shipping-status,
+#reason-cancel-order {
     padding: 10px 10px;
 }
 
@@ -1027,6 +1028,13 @@ table.table.table-cart {
 }
 
 .summary-order {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.summary-cancel-order {
     display: flex;
     flex-direction: column;
     gap: 20px;

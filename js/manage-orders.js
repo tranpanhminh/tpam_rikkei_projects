@@ -27,6 +27,7 @@ function renderOrder(ordersDatabase) {
       <td>Status</td>
       <td>Total</td>
       <td>Action</td>
+      <td>Note</td>
     </tr>`;
   for (let i = 0; i < ordersDatabase.length; i++) {
     let orderTotal = 0;
@@ -44,12 +45,21 @@ function renderOrder(ordersDatabase) {
         <td>${ordersDatabase[i].email}</td>
         <td>${ordersDatabase[i].phone}</td>
         <td>${ordersDatabase[i].date}</td>
-        <td><span class="shipping-status-color">${ordersDatabase[i].status}</span></td>
+        <td><span class="shipping-status-color">${
+          ordersDatabase[i].status
+        }</span></td>
         <td>$${orderTotal}</td>
         <td>
-          <button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="handleDetailOrder(${ordersDatabase[i].id})" class="detail-order-btn">Detail</button>
-          <button class="delete-order-button" onclick="handleDeleteOrder(${ordersDatabase[i].id})">Delete</button>
+          <button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="handleDetailOrder(${
+            ordersDatabase[i].id
+          })" class="detail-order-btn">Detail</button>
+          <button class="delete-order-button" onclick="handleDeleteOrder(${
+            ordersDatabase[i].id
+          })">Delete</button>
         </td>
+      <td><span title="Cancel Reason: ${ordersDatabase[i].request_cancel}">${
+      ordersDatabase[i].request_cancel !== undefined ? `Cancel Requested` : ""
+    }</span></td>
       </tr>`;
   }
   tableOrderElement.innerHTML = tableOrderContent;
@@ -122,6 +132,11 @@ function handleDetailOrder(id) {
   summaryInfoElementContent = `<div class="summary-order">
       <h2 class="cart-title">Summary</h2>
   
+      <div class="cart-shipping">
+        <h4 class="cart-shipping-title">Name</h4>
+        <input type="text" placeholder="${ordersDatabase[orderIndex].name}" disabled>
+      </div>
+
       <div class="cart-shipping">
         <h4 class="cart-shipping-title">Email</h4>
         <input type="text" placeholder="${ordersDatabase[orderIndex].email}" disabled>

@@ -371,10 +371,11 @@
                                     <tr>
                                         <th scope="col" style="min-width: 20px;">#</th>
                                         <th scope="col" style="min-width: 100px;">Order ID</th>
-                                        <th scope="col" style="min-width: 1cqw;">Date</th>
+                                        <th scope="col" style="min-width: 150px;">Date</th>
                                         <th scope="col" style="min-width: 100px;">Total</th>
                                         <th scope="col" style="min-width: 50px;">Status</th>
-                                        <th scope="col" style="min-width: 200px;">Action</th>
+                                        <th scope="col" style="min-width: 50px;">Action</th>
+                                        <th scope="col" style="min-width: 50px;">Order Cancel Request</th>
                                     </tr>
                                 </thead>
                                 <tbody id="table-order-history">
@@ -489,6 +490,46 @@
         </div>
     </div>
 
+    <!-- Modal Detail Order -->
+    <div class="modal fade" id="request-cancel-user" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Request Cancel Order</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="summary-cancel-detail">
+                    <div class="summary-cancel-order">
+                        <h2 class="cart-title">Request Cancel Order Form</h2>
+
+                        <div class="cart-shipping">
+                            <h4 class="cart-shipping-title">Order ID</h4>
+                            <input type="text" placeholder="" style="width: 88%;">
+                        </div>
+
+                        <div class="cart-shipping">
+                            <h4 class="cart-shipping-title">Reason</h4>
+                            <select name="shipping-status" id="reason-cancel-order">
+                                <option value="" disabled selected>---Reason---</option>
+                                <option value="Ordered the wrong product">1. Ordered the wrong product</option>
+                                <option value="Duplicate order">2. Duplicate order</option>
+                                <option value="I don't want to buy anymore">3. I don't want to buy anymore</option>
+                                <option value="Delivery time too long">4. Delivery time too long</option>
+                                <option value="Another reason...">5. Another reason...</option>
+                            </select>
+                        </div>
+
+                        <div class="cart-shipping">
+                            <h4 class="cart-shipping-title">Note</h4>
+                            <textarea name="" id="" cols="100" rows="4" id="cancel-rder-order-note"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Order Notify Complete -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
         <div id="liveToastOrderComplete" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
@@ -545,7 +586,7 @@
         </div>
     </div>
 
-    <!-- Remove Product From Cart Alert -->
+    <!-- Quantity Exceeds From Cart Alert -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
         <div id="liveToastOrderAlertOrder" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
@@ -559,7 +600,7 @@
         </div>
     </div>
 
-    <!-- Remove Product From Cart Alert -->
+    <!-- Phone Verify From Cart Alert -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
         <div id="liveToastOrderAlertInvalidPhoneNumber" class="toast" role="alert" aria-live="assertive"
             aria-atomic="true">
@@ -570,6 +611,20 @@
             </div>
             <div class="toast-body">
                 Please enter the correct Vietnamese phone number format
+            </div>
+        </div>
+    </div>
+
+    <!-- Phone Verify From Cart Alert -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToastCancelRequest" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <img src="./assets/images/red-notification-logo.png" class="rounded me-2" alt="...">
+                <strong class="me-auto">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Please choose cancel order reason!
             </div>
         </div>
     </div>
