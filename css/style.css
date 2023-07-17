@@ -491,13 +491,13 @@ main {
     margin-bottom: 50px;
     padding: 50px;
     display: flex;
-    width: 1000px;
     margin: 0 auto;
     flex-direction: column;
     gap: 20px;
     text-align: center;
     margin-top: 0;
     font-family: 'Nunito', sans-serif;
+    background-color: #f1f9f7;
 }
 
 .newsletter h3 {
@@ -528,10 +528,60 @@ img.card-img-top {
     object-fit: contain;
 }
 
+/* CSS Group Reviews */
+.customer-reviews-section {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.group-title-category {
+    margin-bottom: 50px;
+}
+
+.group-reviews {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.reviews-item {
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    width: 420px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 10px;
+    gap: 10px;
+    height: 500px;
+}
+
+.reviews-content {
+    text-align: center;
+    line-height: 2;
+}
+
+.reviews-logo img {
+    width: 80px;
+}
+
+.star-rating {
+    color: #F5A623;
+}
+
+.reviews-name {
+    font-family: 'Nunito', sans-serif;
+    font-size: 25px;
+    color: #0c337c;
+    font-weight: bold;
+}
+
 /* CSS Banner Couple */
 
 .banner-couple {
-    padding: 50px;
+    padding: 20px;
     margin-top: 50px;
     background-color: #f1f9f7;
     height: auto;
@@ -1459,15 +1509,23 @@ table.table.table-cart {
         overflow-x: auto;
     }
 
-    /* tbody#table-my-cart {
-        font-size: 12px;
-    } */
-
     .contact-us-right {
         padding: 0;
         margin-top: 30px;
     }
 
+    .group-reviews {
+        flex-direction: column;
+        padding: 30px;
+    }
+
+    .reviews-item {
+        width: 100%;
+    }
+
+    .discount-group {
+        gap: 50px;
+    }
 }
 
 /* CSS Mobile */
@@ -1701,6 +1759,15 @@ table.table.table-cart {
         gap: 20px;
     }
 
+    .group-reviews {
+        flex-direction: column;
+        padding: 30px;
+    }
+
+    .reviews-item {
+        width: 100%;
+    }
+
     /* CSS My Cart Mobile */
     .card-total {
         display: flex;
@@ -1717,10 +1784,6 @@ table.table.table-cart {
     .table-responsive {
         overflow-x: auto;
     }
-
-    /* tbody#table-my-cart {
-        font-size: 12px;
-    } */
 
     /* CSS Product Detail Page */
     .product-detail {
