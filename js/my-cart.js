@@ -225,7 +225,7 @@ function handleOrder() {
     bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
     return;
   } else {
-    // Check the phone number format
+    // Kiểm tra Format SĐT Việt Nam
     const phoneNumberPattern = /^0\d{9}$/;
     if (!phoneNumberPattern.test(inputPhone)) {
       const toastLiveExample = document.getElementById(
@@ -235,6 +235,7 @@ function handleOrder() {
       return;
     }
 
+    // Kiểm tra số lượng hàng tồn kho với số lượng trong giỏ hàng
     let checkQuantity = !productsDatabaseToCart.some((item) => {
       return authDatabaseToCart.cart.some((cartItem) => {
         return (
@@ -244,7 +245,7 @@ function handleOrder() {
     });
     if (!checkQuantity) {
       const toastLiveExample = document.getElementById(
-        "liveToastOrderAlertOrder"
+        "liveToastOrderAlertQuantityExceeds"
       );
       bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
     } else {

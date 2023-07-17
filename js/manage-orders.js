@@ -27,7 +27,7 @@ function renderOrder(ordersDatabase) {
       <td>Status</td>
       <td>Total</td>
       <td>Action</td>
-      <td>Cancel Request</td>
+      <td>Order Cancel Request</td>
     </tr>`;
   for (let i = 0; i < ordersDatabase.length; i++) {
     let orderTotal = 0;
