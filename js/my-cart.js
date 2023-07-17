@@ -363,41 +363,79 @@ function handleSaveUser(userId) {
 
 // Function Render Order History
 function renderOrderHistory() {
-  const ordersDatabase = JSON.parse(localStorage.getItem("ordersDatabase"));
+  // Cách 1:
+  //   const ordersDatabase = JSON.parse(localStorage.getItem("ordersDatabase"));
+  //   let tableOrderHistory = document.querySelector("#table-order-history");
+  //   let tableOrderHistoryContent = "";
+  //   let filterOrderHistory = ordersDatabase.filter((order) => {
+  //     if (authDatabaseToCart.id === order.user_id) {
+  //       return true;
+  //     }
+  //     return false;
+  //   });
+  //   const orderHistoryUser = filterOrderHistory.reduce((result, item) => {
+  //     let data = item;
+  //     let newData = item.cart.map((i) => {
+  //       return { ...i, date: data.date, status: data.status };
+  //     });
+  //     return [...result, ...newData];
+  //   }, []);
+  //   orderHistoryUser.forEach((item, index) => {
+  //     tableOrderHistoryContent += `<tr>
+  //     <th>${index + 1}</th>
+  //     <td><img src="${item.productImage}" alt=""></td>
+  //     <td>${item.productName}</td>
+  //     <td>
+  //         <span class="product-cart-quantity">${item.productQuantity}</span>
+  //     </td>
+  //     <td>$${item.productPrice}</td>
+  //     <td>$${(
+  //       Number(item.productQuantity) * Number(item.productPrice)
+  //     ).toLocaleString()}</td>
+  //     <td>${item.date}</td>
+  //     <td><span class="shipping-status-color">${item.status}</span></td>
+  //     <td><span class="request-cancel-color" onclick="handleRequestCancelOrder()">${
+  //       item.status === "Pending" ? "Request Cancel" : ""
+  //     }</span></td>
+  // </tr>`;
+  //   });
+  //   localStorage.setItem("ordersDatabase", JSON.stringify(ordersDatabase));
+  //   tableOrderHistory.innerHTML = tableOrderHistoryContent;
 
+  // Cách 2:
+  const orderDatabase = JSON.parse(localStorage.getItem("ordersDatabase"));
+  console.log("List Order Database:", orderDatabase);
   let tableOrderHistory = document.querySelector("#table-order-history");
   let tableOrderHistoryContent = "";
-  let filterOrderHistory = ordersDatabase.filter((order) => {
-    if (authDatabaseToCart.id === order.user_id) {
-      return true;
-    }
-    return false;
+  filterOrderHistory = orderDatabase.filter((order) => {
+    return order.user_id === authDatabaseToCart.id;
   });
-  const orderHistoryUser = filterOrderHistory.reduce((result, item) => {
-    let data = item;
-    let newData = item.cart.map((i) => {
-      return { ...i, date: data.date, status: data.status };
+  console.log("Filter Order History:", filterOrderHistory);
+
+  filterOrderHistory.forEach((order, index) => {
+    let orderTotal = 0;
+    filterOrderHistory[index].cart.forEach((item) => {
+      orderTotal += Number(item.productQuantity) * Number(item.productPrice);
     });
-    return [...result, ...newData];
-  }, []);
-  orderHistoryUser.forEach((item, index) => {
+
     tableOrderHistoryContent += `<tr>
     <th>${index + 1}</th>
-    <td><img src="${item.productImage}" alt=""></td>
-    <td>${item.productName}</td>
+    <td>${order.id}</td>
+    <td>${order.date}</td>
+    <td>$${orderTotal.toLocaleString()}</td>
+    <td><span class="shipping-status-color">${order.status}</span></td>
     <td>
-        <span class="product-cart-quantity">${item.productQuantity}</span>
+        <button data-bs-toggle="modal" data-bs-target="#detail-order-user" class="detail-order-color" onclick="handleDetailOrderUser(${
+          order.id
+        })">Detail</button>
+        <button style = "${order.status==="Pending"?"display:inline-block":"display:none"}" class="request-cancel-color" onclick="handleRequestCancelOrder(${
+          order.id
+        })">${
+      order.status === "Pending" ? "Request Cancel" : ""
+    }</button></span>
     </td>
-    <td>$${item.productPrice}</td>
-    <td>$${(
-      Number(item.productQuantity) * Number(item.productPrice)
-    ).toLocaleString()}</td>
-    <td>${item.date}</td>
-    <td><span class="shipping-status-color">${item.status}</span></td>
 </tr>`;
   });
-  localStorage.setItem("ordersDatabase", JSON.stringify(ordersDatabase));
-
   tableOrderHistory.innerHTML = tableOrderHistoryContent;
 }
 renderOrderHistory();
@@ -416,3 +454,142 @@ shippingStatusElements.forEach((element) => {
     element.classList.add("shipping-label-processing");
   }
 });
+
+// Function Detail Order
+let summaryInfoElementContent = "";
+function handleDetailOrderUser(id) {
+  let orderDetailElementContent = "";
+  const orderIndex = ordersDatabase.findIndex((order) => {
+    return order.id === id;
+  });
+
+  console.log(orderIndex);
+  let summaryInfoElement = document.querySelector("#summary-info-detail");
+  let statusOptions = "";
+
+  if (ordersDatabase[orderIndex].status === "Processing") {
+    statusOptions = `
+      <option value="Processing" selected>Processing</option>
+      <option value="Cancel">Cancel</option>
+      <option value="Shipped">Shipped</option>
+      <option value="Pending">Pending</option>
+
+    `;
+  } else if (ordersDatabase[orderIndex].status === "Cancel") {
+    statusOptions = `
+      <option value="Processing">Processing</option>
+      <option value="Cancel" selected>Cancel</option>
+      <option value="Shipped">Shipped</option>
+      <option value="Pending" >Pending</option>
+
+    `;
+  } else if (ordersDatabase[orderIndex].status === "Shipped") {
+    statusOptions = `
+      <option value="Processing">Processing</option>
+      <option value="Cancel">Cancel</option>
+      <option value="Shipped" selected>Shipped</option>
+      <option value="Pending" >Pending</option>
+
+    `;
+  } else if (ordersDatabase[orderIndex].status === "Pending") {
+    statusOptions = `
+      <option value="Processing">Processing</option>
+      <option value="Cancel">Cancel</option>
+      <option value="Shipped" selected>Shipped</option>
+      <option value="Pending" selected>Pending</option>
+    `;
+  }
+
+  summaryInfoElementContent = `<div class="summary-order">
+      <h2 class="cart-title">Summary</h2>
+  
+      <div class="cart-shipping">
+        <h4 class="cart-shipping-title">Email</h4>
+        <input type="text" placeholder="${ordersDatabase[orderIndex].email}" disabled>
+      </div>
+  
+      <div class="cart-shipping">
+        <h4 class="cart-shipping-title">Phone</h4>
+        <input type="text" placeholder="${ordersDatabase[orderIndex].phone}" disabled>
+      </div>
+  
+      <div class="cart-shipping">
+        <h4 class="cart-shipping-title">Address</h4>
+        <input type="text" placeholder="${ordersDatabase[orderIndex].address}" disabled>
+      </div>
+  
+      <div class="cart-shipping">
+        <h4 class="cart-shipping-title">Status</h4>
+        <select name="shipping-status" id="shipping-status" disabled>
+          ${statusOptions}
+        </select>
+      </div>
+    </div>`;
+
+  let orderDetailElement = document.querySelector("#order-cart-detail");
+
+  let totalOrder = 0;
+  ordersDatabase[orderIndex].cart.forEach((item, index) => {
+    orderDetailElementContent += `
+        <tr>
+          <td>${index + 1}</td>
+          <td><img src="${item.productImage}" alt=""></td>
+          <td>${item.productName}</td>
+          <td>
+            <span class="product-cart-quantity">${Number(
+              item.productQuantity
+            )}</span>
+          </td>
+          <td>$${Number(item.productPrice)}</td>
+          <td>$${(
+            item.productQuantity * item.productPrice
+          ).toLocaleString()}</td>
+        </tr>
+      `;
+
+    totalOrder += Number(item.productQuantity) * Number(item.productPrice);
+  });
+
+  //   orderDatabase[orderIndex].cart.forEach((item, index) => {
+  //   });
+  //   console.log(totalOrder);
+
+  orderDetailElement = `
+      <table class="table table-cart">
+      <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Product Image</th>
+                                    <th scope="col">Product Name</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            ${orderDetailElementContent}
+                            </tbody>
+      
+      </table>
+      <div class="card-total">
+                            <span class="cart-quantity-item">Item: ${
+                              ordersDatabase[orderIndex].cart.length
+                            }</span>
+                            <span class="cart-total-quantity">Total: $ ${totalOrder.toLocaleString()}</span>
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="handleSaveChange(${
+                          ordersDatabase[orderIndex].id
+                        })" data-id="${
+    ordersDatabase[orderIndex].id
+  }">Save changes</button>
+                    </div> `;
+
+  summaryInfoElement.innerHTML = summaryInfoElementContent + orderDetailElement;
+}
+
+// Function Request Cancel Order
+function handleRequestCancelOrder(id) {
+  console.log(id);
+}

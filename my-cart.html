@@ -292,7 +292,7 @@
                     <div class="order-history">
                         <h2 class="order-history-title">Order History</h2>
                         <div class="table-responsive">
-                            <table class="table table-cart">
+                            <!-- <table class="table table-cart">
                                 <thead>
                                     <tr>
                                         <th scope="col" style="min-width: 20px;">#</th>
@@ -303,6 +303,7 @@
                                         <th scope="col" style="min-width: 100px;">Total</th>
                                         <th scope="col" style="min-width: 250px;">Date</th>
                                         <th scope="col" style="min-width: 100px;">Status</th>
+                                        <th scope="col" style="min-width: 200px;"></th>
                                     </tr>
                                 </thead>
                                 <tbody id="table-order-history">
@@ -362,6 +363,34 @@
                                         <td>25/05/2023</td>
                                     </tr>
                                 </tbody>
+                            </table> -->
+
+                            <!-- Cách 2 -->
+                            <table class="table table-cart">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" style="min-width: 20px;">#</th>
+                                        <th scope="col" style="min-width: 100px;">Order ID</th>
+                                        <th scope="col" style="min-width: 1cqw;">Date</th>
+                                        <th scope="col" style="min-width: 100px;">Total</th>
+                                        <th scope="col" style="min-width: 50px;">Status</th>
+                                        <th scope="col" style="min-width: 200px;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table-order-history">
+                                    <tr>
+                                        <th>1</th>
+                                        <td>4</td>
+                                        <td>25/05/2023</td>
+                                        <td>$10000</td>
+                                        <td>Shipped
+                                        </td>
+                                        <td>
+                                            <span>Detail</span>
+                                            <span>Request Cancel</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -414,6 +443,51 @@
             </div>
         </div>
     </footer>
+
+    <!-- Modal Detail Order -->
+    <div class="modal fade" id="detail-order-user" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Order Detail</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="summary-info-detail">
+                    <div class="summary-order">
+                        <h2 class="cart-title">Summary</h2>
+
+                        <div class="cart-shipping">
+                            <h4 class="cart-shipping-title">Email</h4>
+                            <input type="text" placeholder="">
+                        </div>
+
+                        <div class="cart-shipping">
+                            <h4 class="cart-shipping-title">Phone</h4>
+                            <input type="text" placeholder="">
+                        </div>
+
+                        <div class="cart-shipping">
+                            <h4 class="cart-shipping-title">Address</h4>
+                            <input type="text" placeholder="">
+                        </div>
+
+                        <div class="cart-shipping">
+                            <h4 class="cart-shipping-title">Status</h4>
+                            <select name="shipping-status" id="shipping-status">
+                                <option value="Shipped">Shipped</option>
+                                <option value="Processing">Processing</option>
+                                <option value="Cancel">Cancel</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="cart-total">
+                        <span class="cart-quantity-item">Item: 5</span>
+                        <span class="cart-total-quantity">Total: 5000</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Order Notify Complete -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3">

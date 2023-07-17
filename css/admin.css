@@ -325,13 +325,12 @@ table tr {
 }
 
 .cart-shipping,
-.card-total,
+.cart-total,
 .user-info {
     display: flex;
     width: 100%;
     gap: 20px;
     align-items: center;
-
 }
 
 .cart-shipping input,
