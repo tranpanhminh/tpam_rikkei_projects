@@ -432,7 +432,9 @@ function renderOrderHistory() {
     }" class="request-cancel-color request-cancel-color-${
       order.id
     }" onclick="handleRequestCancelOrder(${order.id})">${
-      order.request_cancel
+      order.request_cancel && order.status === "Cancel"
+        ? "Resolved"
+        : order.request_cancel
         ? "Waiting for admin's verification"
         : "Request Cancel"
     }</button></td>

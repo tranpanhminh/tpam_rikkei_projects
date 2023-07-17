@@ -27,7 +27,7 @@ function renderOrder(ordersDatabase) {
       <td>Status</td>
       <td>Total</td>
       <td>Action</td>
-      <td>Note</td>
+      <td>Cancel Request</td>
     </tr>`;
   for (let i = 0; i < ordersDatabase.length; i++) {
     let orderTotal = 0;
@@ -57,8 +57,14 @@ function renderOrder(ordersDatabase) {
             ordersDatabase[i].id
           })">Delete</button>
         </td>
-      <td><span title="Cancel Reason: ${ordersDatabase[i].request_cancel}">${
-      ordersDatabase[i].request_cancel !== undefined ? `Cancel Requested` : ""
+      <td><span class="cancel-reason-${
+        ordersDatabase[i].id
+      }" title="Cancel Reason: ${ordersDatabase[i].request_cancel}">${
+      ordersDatabase[i].request_cancel && ordersDatabase[i].status === "Cancel"
+        ? "Resolved"
+        : ordersDatabase[i].request_cancel !== undefined
+        ? `Cancel Requested`
+        : ""
     }</span></td>
       </tr>`;
   }
@@ -184,10 +190,6 @@ function handleDetailOrder(id) {
     totalOrder += Number(item.productQuantity) * Number(item.productPrice);
   });
 
-  //   orderDatabase[orderIndex].cart.forEach((item, index) => {
-  //   });
-  //   console.log(totalOrder);
-
   orderDetailElement = `
       <table class="table table-cart">
       <thead>
@@ -286,9 +288,20 @@ function handleSaveChange(orderId) {
   const toastLiveExample = document.getElementById("liveToastSaveOrderNotify");
   bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
 
-  setTimeout(function () {
-    window.location.reload();
-  }, 500);
+  let cancelReason = document.querySelector(
+    `.cancel-reason-${ordersDatabase[orderIndex].id}`
+  );
+  console.log(cancelReason);
+
+  if (
+    ordersDatabase[orderIndex].status === "Shipped" &&
+    ordersDatabase[orderIndex].request_cancel !== ""
+  ) {
+    cancelReason.innerHTML = "Resolved";
+  }
+  // setTimeout(function () {
+  //   window.location.reload();
+  // }, 500);
 }
 
 // Function xoá Order khỏi cửa hàng
