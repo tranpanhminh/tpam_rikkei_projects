@@ -63,7 +63,7 @@ function renderOrder(ordersDatabase) {
       ordersDatabase[i].request_cancel && ordersDatabase[i].status === "Cancel"
         ? "Resolved"
         : ordersDatabase[i].request_cancel !== undefined
-        ? `Cancel Requested`
+        ? `User Request Cancel`
         : ""
     }</span></td>
       </tr>`;
@@ -151,28 +151,46 @@ function handleDetailOrder(id) {
   
       <div class="cart-shipping">
         <h4 class="cart-shipping-title">Name</h4>
-        <input type="text" placeholder="${ordersDatabase[orderIndex].name}" disabled>
+        <input type="text" placeholder="${
+          ordersDatabase[orderIndex].name
+        }" disabled>
       </div>
 
       <div class="cart-shipping">
         <h4 class="cart-shipping-title">Email</h4>
-        <input type="text" placeholder="${ordersDatabase[orderIndex].email}" disabled>
+        <input type="text" placeholder="${
+          ordersDatabase[orderIndex].email
+        }" disabled>
       </div>
   
       <div class="cart-shipping">
         <h4 class="cart-shipping-title">Phone</h4>
-        <input type="text" placeholder="${ordersDatabase[orderIndex].phone}" disabled>
+        <input type="text" placeholder="${
+          ordersDatabase[orderIndex].phone
+        }" disabled>
       </div>
   
       <div class="cart-shipping">
         <h4 class="cart-shipping-title">Address</h4>
-        <input type="text" placeholder="${ordersDatabase[orderIndex].address}" disabled>
+        <input type="text" placeholder="${
+          ordersDatabase[orderIndex].address
+        }" disabled>
       </div>
   
       <div class="cart-shipping">
         <h4 class="cart-shipping-title">Status</h4>
-        <select name="shipping-status" id="shipping-status">
-          ${statusOptions}
+        <select name="shipping-status" id="shipping-status" ${
+          (ordersDatabase[orderIndex].status === "Cancel" &&
+            ordersDatabase[orderIndex].request_cancel) ||
+          ordersDatabase[orderIndex].status === "Shipped"
+            ? "disabled"
+            : ""
+        }>
+          ${
+            ordersDatabase[orderIndex].request_cancel
+              ? `<option value="Cancel">Cancel</option>`
+              : statusOptions
+          }
         </select>
       </div>
     </div>`;
@@ -309,6 +327,7 @@ function handleSaveChange(orderId) {
     ordersDatabase[orderIndex].request_cancel !== ""
   ) {
     cancelReason.innerHTML = "Resolved";
+    shippingStatus.disabled = true;
   }
 
   setTimeout(function () {
