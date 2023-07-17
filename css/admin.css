@@ -303,6 +303,13 @@ table tr {
     border-radius: 10px;
 }
 
+.shipping-label-shipping {
+    background-color: #9f5eb3;
+    padding: 10px;
+    color: white;
+    border-radius: 10px;
+}
+
 
 .summary-order,
 .summary-user {

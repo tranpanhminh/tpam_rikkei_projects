@@ -428,10 +428,16 @@ function renderOrderHistory() {
         })">Detail</button>
     </td>
     <td><button data-bs-toggle="modal" data-bs-target="#request-cancel-user" style = "${
-      order.status === "Pending" ? "display:inline-block" : "display:none"
+      order.status === "Cancel" && order.request_cancel
+        ? "display:inline-block; background-color: #6d60c9"
+        : order.status === "Pending"
+        ? "display:inline-block"
+        : "display:none"
     }" class="request-cancel-color request-cancel-color-${
       order.id
-    }" onclick="handleRequestCancelOrder(${order.id})">${
+    }" onclick="handleRequestCancelOrder(${order.id})"  ${
+      order.status === "Cancel" && order.request_cancel ? "disabled" : ""
+    }>${
       order.request_cancel && order.status === "Cancel"
         ? "Resolved"
         : order.request_cancel
@@ -456,6 +462,8 @@ shippingStatusElements.forEach((element) => {
     element.classList.add("shipping-label-cancel");
   } else if (element.innerHTML === "Processing") {
     element.classList.add("shipping-label-processing");
+  } else if (element.innerHTML === "Shipping") {
+    element.classList.add("shipping-label-shipping");
   }
 });
 

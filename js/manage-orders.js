@@ -87,6 +87,8 @@ shippingStatusElements.forEach((element) => {
     element.classList.add("shipping-label-cancel");
   } else if (element.innerHTML === "Processing") {
     element.classList.add("shipping-label-processing");
+  } else if (element.innerHTML === "Shipping") {
+    element.classList.add("shipping-label-shipping");
   }
 });
 
@@ -104,34 +106,43 @@ function handleDetailOrder(id) {
 
   if (ordersDatabase[orderIndex].status === "Processing") {
     statusOptions = `
-      <option value="Processing" selected>Processing</option>
-      <option value="Cancel">Cancel</option>
-      <option value="Shipped">Shipped</option>
-      <option value="Pending">Pending</option>
-
+    <option value="Processing" selected>Processing</option>
+    <option value="Cancel">Cancel</option>
+    <option value="Shipped">Shipped</option>
+    <option value="Pending">Pending</option>
+    <option value="Shipping">Shipping</option>
     `;
   } else if (ordersDatabase[orderIndex].status === "Cancel") {
     statusOptions = `
-      <option value="Processing">Processing</option>
-      <option value="Cancel" selected>Cancel</option>
-      <option value="Shipped">Shipped</option>
-      <option value="Pending" >Pending</option>
-
+    <option value="Processing">Processing</option>
+    <option value="Cancel" selected>Cancel</option>
+    <option value="Shipped">Shipped</option>
+    <option value="Pending">Pending</option>
+    <option value="Shipping">Shipping</option>
     `;
   } else if (ordersDatabase[orderIndex].status === "Shipped") {
     statusOptions = `
-      <option value="Processing">Processing</option>
-      <option value="Cancel">Cancel</option>
-      <option value="Shipped" selected>Shipped</option>
-      <option value="Pending" >Pending</option>
-
+    <option value="Processing">Processing</option>
+    <option value="Cancel">Cancel</option>
+    <option value="Shipped" selected>Shipped</option>
+    <option value="Pending">Pending</option>
+    <option value="Shipping">Shipping</option>
     `;
   } else if (ordersDatabase[orderIndex].status === "Pending") {
     statusOptions = `
+    <option value="Processing">Processing</option>
+    <option value="Cancel">Cancel</option>
+    <option value="Shipped">Shipped</option>
+    <option value="Pending" selected>Pending</option>
+    <option value="Shipping">Shipping</option>
+    `;
+  } else if (ordersDatabase[orderIndex].status === "Shipping") {
+    statusOptions = `
       <option value="Processing">Processing</option>
       <option value="Cancel">Cancel</option>
-      <option value="Shipped" selected>Shipped</option>
-      <option value="Pending" selected>Pending</option>
+      <option value="Shipped">Shipped</option>
+      <option value="Pending">Pending</option>
+      <option value="Shipping" selected>Shipping</option>
     `;
   }
 
@@ -259,7 +270,7 @@ function handleSwitchShippingStatus(id) {
 // Function cập nhật trạng thái đơn hàng
 function handleSaveChange(orderId) {
   let shippingStatus = document.querySelector("#shipping-status").value;
-
+  console.log(shippingStatus);
   const orderIndex = ordersDatabase.findIndex((order) => order.id === orderId);
 
   if (orderIndex !== -1) {
@@ -294,14 +305,15 @@ function handleSaveChange(orderId) {
   console.log(cancelReason);
 
   if (
-    ordersDatabase[orderIndex].status === "Shipped" &&
+    ordersDatabase[orderIndex].status === "Cancel" &&
     ordersDatabase[orderIndex].request_cancel !== ""
   ) {
     cancelReason.innerHTML = "Resolved";
   }
-  // setTimeout(function () {
-  //   window.location.reload();
-  // }, 500);
+
+  setTimeout(function () {
+    window.location.reload();
+  }, 500);
 }
 
 // Function xoá Order khỏi cửa hàng
