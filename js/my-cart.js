@@ -405,6 +405,9 @@ function renderOrderHistory() {
 
   // Cách 2:
   const orderDatabase = JSON.parse(localStorage.getItem("ordersDatabase"));
+  let requestCancel = document.querySelector(
+    `#request-cancel-color-${order.id}`
+  );
   let tableOrderHistory = document.querySelector("#table-order-history");
   let tableOrderHistoryContent = "";
   filterOrderHistory = orderDatabase.filter((order) => {
@@ -437,12 +440,14 @@ function renderOrderHistory() {
     }" class="request-cancel-color request-cancel-color-${
       order.id
     }" onclick="handleRequestCancelOrder(${order.id})"  ${
-      order.status === "Cancel" && order.request_cancel ? "disabled" : ""
+      order.request_cancel
+        ? "disabled"
+        : ""
     }>${
       order.request_cancel && order.status === "Cancel"
         ? "Resolved"
         : order.request_cancel
-        ? "Waiting for admin's verification"
+        ? "Waiting for Admin's Verification"
         : "Request Cancel"
     }</button></td>
 </tr>`;

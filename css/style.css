@@ -1571,9 +1571,6 @@ table.table.table-cart {
         flex-direction: column;
         justify-content: center;
         gap: 20px;
-        /* position: absolute; */
-        /* top: 14%; */
-        /* left: 10%; */
         max-width: inherit;
         width: 130px;
     }
@@ -1783,6 +1780,14 @@ table.table.table-cart {
 
     .table-responsive {
         overflow-x: auto;
+    }
+
+    select#reason-cancel-order {
+        width: 100%;
+    }
+
+    .cart-shipping input {
+        width: 100% !important;
     }
 
     /* CSS Product Detail Page */
