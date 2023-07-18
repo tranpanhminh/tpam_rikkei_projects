@@ -1,6 +1,5 @@
 const productDetailSearch = JSON.parse(localStorage.getItem("productDetail"));
 
-
 // Function Search
 function handleSearch() {
   const productsDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
@@ -80,7 +79,9 @@ function handleToProductDetailFromSearchPage(id) {
 // Function Search Mobile
 function handleSearchMobile() {
   const productsDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
-  let inputSearch = document.querySelector(".search-bar-mobile").value.toLowerCase();
+  let inputSearch = document
+    .querySelector(".search-bar-mobile")
+    .value.toLowerCase();
   console.log(inputSearch);
   let filterProduct = productsDatabase.filter(function (product) {
     if (

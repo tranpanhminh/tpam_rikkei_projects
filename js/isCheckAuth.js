@@ -1,6 +1,6 @@
 let auth = JSON.parse(localStorage.getItem("auth"));
+// Kiểm tra Auth và hiển thị / ẩn button đăng nhập, đăng xuất, giỏ hàng
 // PC
-
 let adminPanel = document.querySelector("#admin-icon");
 let loginBtn = document.querySelector(".login-btn");
 let signupBtn = document.querySelector(".signup-btn");

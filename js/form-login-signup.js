@@ -86,7 +86,7 @@ function handleSignUp() {
   setDataToLocal("accountsDatabase", accountsDatabase);
 }
 
-// Function handleLogin
+// Function đăng nhập
 function handleLogin() {
   const toastBody = document.querySelector(".toast-body");
   let inputEmail = document.querySelector("#input-login-email").value;
@@ -137,6 +137,7 @@ function handleLogin() {
   }
 }
 
+// Function chặn hành động gửi form
 function handlePreventForm(event) {
   event.preventDefault(); // Ngăn chặn hành động mặc định của form
   // Các xử lý khác khi form được gửi đi

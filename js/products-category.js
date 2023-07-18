@@ -118,11 +118,11 @@ if (authDatabaseFromCategory) {
   addToCartBtnWithAuth.style.display = "none";
 }
 
-function handleAddToCartFromCateogryDetail() {
-  if (authDatabaseFromCategory && authDatabaseFromCategory.role == "customer") {
-    alert("AAA");
-  }
-}
+// function handleAddToCartFromCateogryDetail() {
+//   if (authDatabaseFromCategory && authDatabaseFromCategory.role == "customer") {
+//     alert("AAA");
+//   }
+// }
 
 // Function handleToProductDetail
 function handleToProductDetailFromCategory(id) {
