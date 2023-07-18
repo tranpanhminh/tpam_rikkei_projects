@@ -1765,6 +1765,12 @@ table.table.table-cart {
         width: 100%;
     }
 
+    /* CSS Contact Us */
+    .contact-us-wrap {
+        width: 100%;
+        margin: 0;
+    }
+
     /* CSS My Cart Mobile */
     .card-total {
         display: flex;
