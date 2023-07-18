@@ -12,7 +12,14 @@ const month = currentDate.getMonth() + 1;
 const year = currentDate.getFullYear();
 const hours = currentDate.getHours();
 const minutes = currentDate.getMinutes();
-const date = day + "/" + month + "/" + year + " " + hours + ":" + minutes;
+// const date = day + "/" + month + "/" + year + " " + hours + ":" + minutes;
+
+// Hàm để thêm số 0 phía trước nếu số là một chữ số
+const addLeadingZero = (num) => {
+  return num < 10 ? "0" + num : num;
+};
+
+const date = `${addLeadingZero(day)}/${addLeadingZero(month)}/${year} ${addLeadingZero(hours)}:${addLeadingZero(minutes)}`;
 
 if (
   window.location.href.includes("http://127.0.0.1:5501/my-cart.html") &&
@@ -226,7 +233,9 @@ function handleOrder() {
     return;
   } else {
     // Kiểm tra Format SĐT Việt Nam
-    const phoneNumberPattern = /^0\d{9}$/;
+    // const phoneNumberPattern = /^0\d{9}$/; Kiểm tra SĐT Việt Nam
+    const phoneNumberPattern = /^1?\d{10}$/;
+
     if (!phoneNumberPattern.test(inputPhone)) {
       const toastLiveExample = document.getElementById(
         "liveToastOrderAlertInvalidPhoneNumber"
