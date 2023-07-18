@@ -311,6 +311,7 @@ function handleSaveChange(orderId) {
   }
 
   localStorage.setItem("ordersDatabase", JSON.stringify(ordersDatabase));
+  localStorage.setItem("accountsDatabase", JSON.stringify(accountsDatabase));
   renderOrder(ordersDatabase);
 
   // Hiển thị thông báo cập nhật trạng thái đơn hàng thành công
@@ -330,9 +331,9 @@ function handleSaveChange(orderId) {
     shippingStatus.disabled = true;
   }
 
-  setTimeout(function () {
-    window.location.reload();
-  }, 500);
+  // setTimeout(function () {
+  //   window.location.reload();
+  // }, 500);
 }
 
 // Function xoá Order khỏi cửa hàng
