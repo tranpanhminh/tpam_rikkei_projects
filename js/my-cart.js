@@ -340,19 +340,20 @@ function handleSaveUser(userId) {
     accountsDatabase[userIndex].fullName = inputFullNameValue;
   }
 
-  // Change the onclick attribute of the button to handleEditUser
+  // Thêm thuộc tính onclick vào
   document
     .querySelector("#user-info-summary button")
     .setAttribute("onclick", "handleEditUser(" + userIndex + ")");
 
-  // Change the text of the button to "Edit User"
+  // Thay đổi Text thành "Edit User"
   document.querySelector("#user-info-summary button").textContent = "Edit User";
 
-  // Add the disabled attribute to the input fields
+  // Thêm thuộc tính disabled vào
   document
     .querySelector("#input-user-fullname")
     .setAttribute("disabled", "disabled");
   localStorage.setItem("accountsDatabase", JSON.stringify(accountsDatabase));
+  localStorage.setItem("auth", JSON.stringify(authDatabaseToCart));
   localStorage.setItem(
     "productsDatabase",
     JSON.stringify(productsDatabaseToCart)
