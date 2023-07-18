@@ -76,7 +76,7 @@ function handleSaveAddProduct(productId) {
 
   const maxId = Math.max(...productsDatabaseAdmin.map((item) => item.id));
   let newProduct = {
-    id: maxId + 1,
+    id: productsDatabaseAdmin.length > 0 ? maxId + 1 : 1,
     productImage: [
       (productImage_1 = inputImage_1),
       (productImage_2 = inputImage_2),

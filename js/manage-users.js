@@ -126,7 +126,6 @@ function handleSaveAddUser() {
       return account.id;
     })
   );
-  console.log(maxId);
 
   let newUser = {
     id: maxId + 1,
@@ -139,7 +138,36 @@ function handleSaveAddUser() {
     order_history: [],
   };
 
-  accountsDatabase.push(newUser);
+  const checkEmail = accountsDatabase.find((account) => {
+    if (account.email === userEmail) {
+      return true;
+    }
+  });
+
+  if (userEmail === "" || userName === "" || userPassword === "") {
+    const toastLiveExample = document.getElementById(
+      "liveToastFillInformationUserNotify"
+    );
+    bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
+    return;
+  } else if (checkEmail) {
+    const toastLiveExample = document.getElementById(
+      "liveToastEmailUserIsExist"
+    );
+    bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
+    return;
+  } else {
+    accountsDatabase.push(newUser);
+  }
+
   localStorage.setItem("accountsDatabase", JSON.stringify(accountsDatabase));
   renderManageUserPage(accountsDatabase);
+
+  // Modal Add User Notify
+  const toastLiveExample = document.getElementById("liveToastAddUserNotify");
+  bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
+
+  setTimeout(function () {
+    window.location.reload();
+  }, 600);
 }
