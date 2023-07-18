@@ -11,9 +11,12 @@ function renderProductHomepage(productsDatabase) {
     containerContent += `
     <div class="col-12 col-sm-12 col-md-6 col-xl-3 mt-5 px-2">
         <div class="card">
+        <a href="product-detail.html?product-id-${
+          productsDatabase[i].id
+        }" onclick="handleToProductDetail(${productsDatabase[i].id})">
             <img src="${
               productsDatabase[i].productImage[0]
-            }" class="card-img-top" alt="...">
+            }" class="card-img-top" alt="..."></a>
             <div class="card-body">
             <a href="product-detail.html?product-id-${
               productsDatabase[i].id
