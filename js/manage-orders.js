@@ -286,6 +286,8 @@ function handleSearctOrder() {
 
 // Function cập nhật trạng thái đơn hàng
 function handleSaveChange(orderId) {
+  const accountsDatabase = JSON.parse(localStorage.getItem("accountsDatabase"));
+
   let shippingStatus = document.querySelector("#shipping-status").value;
   const orderIndex = ordersDatabase.findIndex((order) => order.id === orderId);
 
@@ -311,7 +313,7 @@ function handleSaveChange(orderId) {
   localStorage.setItem("ordersDatabase", JSON.stringify(ordersDatabase));
   renderOrder(ordersDatabase);
 
-  // Hiển thị thông báo cập nhật đơn hàng thành công
+  // Hiển thị thông báo cập nhật trạng thái đơn hàng thành công
   const toastLiveExample = document.getElementById("liveToastSaveOrderNotify");
   bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
 

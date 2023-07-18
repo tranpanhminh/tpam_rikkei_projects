@@ -284,10 +284,12 @@ function handleOrder() {
       bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
 
       // Push Cart vào trong Order History và xóa quantity_stock
-      authDatabaseToCart.order_history.push(...authDatabaseToCart.cart);
-      authDatabaseToCart.order_history.forEach(
-        (item) => delete item.quantity_stock
-      );
+
+      authDatabaseToCart.order_history.push(newOrder); // Mới ghi thêm
+      // authDatabaseToCart.order_history.push(...authDatabaseToCart.cart);
+      // authDatabaseToCart.order_history.forEach(
+      //   (item) => delete item.quantity_stock
+      // );
 
       // Trả về Cart rỗng sau khi Order
       authDatabaseToCart.cart = [];
@@ -299,7 +301,6 @@ function handleOrder() {
           item.cart = authDatabaseToCart.cart;
         }
       });
-      console.log(authDatabaseToCart);
       localStorage.setItem("auth", JSON.stringify(authDatabaseToCart));
       localStorage.setItem(
         "productsDatabase",
