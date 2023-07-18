@@ -208,8 +208,13 @@ function handleOrder() {
 
   const maxId = Math.max(...ordersDatabase.map((item) => item.id));
 
+  // const maxId =
+  //   ordersDatabase.length > 0
+  //     ? Math.max(...ordersDatabase.map((item) => item.id))
+  //     : 0;
+
   let newOrder = {
-    id: maxId + 1,
+    id: ordersDatabase.length > 0 ? maxId + 1 : 1,
     user_id: authDatabaseToCart.id,
     name: authDatabaseToCart.fullName,
     email: authDatabaseToCart.email,
@@ -220,7 +225,6 @@ function handleOrder() {
     cart: newCart,
   };
 
-  console.log("NewOrder", newOrder);
 
   if (authDatabaseToCart.cart.length === 0) {
     const toastLiveExample = document.getElementById(

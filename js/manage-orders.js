@@ -295,6 +295,14 @@ function handleSaveChange(orderId) {
     ordersDatabase[orderIndex].status = shippingStatus;
   }
 
+  accountsDatabase.forEach((account) => {
+    account.order_history.forEach((order) => {
+      if (orderId === order.id) {
+        order.status = shippingStatus;
+      }
+    });
+  });
+
   // Trả lại số lượng hàng đã Cancel đơn vào Stock
   if (ordersDatabase[orderIndex].status === "Cancel") {
     ordersDatabase[orderIndex].cart.forEach((item) => {
@@ -331,17 +339,28 @@ function handleSaveChange(orderId) {
     shippingStatus.disabled = true;
   }
 
-  // setTimeout(function () {
-  //   window.location.reload();
-  // }, 500);
+  setTimeout(function () {
+    window.location.reload();
+  }, 500);
 }
 
 // Function xoá Order khỏi cửa hàng
 function handleDeleteOrder(id) {
+  const accountsDatabase = JSON.parse(localStorage.getItem("accountsDatabase"));
+
   const orderIndex = ordersDatabase.findIndex((order) => order.id === id);
   ordersDatabase.splice(orderIndex, 1);
 
+  accountsDatabase.forEach((account) => {
+    account.order_history.forEach((order, index) => {
+      if (id === order.id) {
+        account.order_history.splice(index, 1);
+      }
+    });
+  });
+
   localStorage.setItem("ordersDatabase", JSON.stringify(ordersDatabase));
+  localStorage.setItem("accountsDatabase", JSON.stringify(accountsDatabase));
   renderOrder(ordersDatabase);
 
   const toastLiveExample = document.getElementById(
