@@ -100,7 +100,6 @@ function handleDetailOrder(id) {
     return order.id === id;
   });
 
-  console.log(orderIndex);
   let summaryInfoElement = document.querySelector("#summary-info-detail");
   let statusOptions = "";
 
@@ -279,16 +278,15 @@ function handleSearctOrder() {
 }
 
 // function thay đổi trạng thái đơn hàng
-function handleSwitchShippingStatus(id) {
-  let switchStatus = ["Processing", "Shipped", "Cancel"];
+// function handleSwitchShippingStatus(id) {
+//   let switchStatus = ["Processing", "Shipped", "Cancel"];
 
-  for (let i = 0; i < switchStatus.length; i++) {}
-}
+//   for (let i = 0; i < switchStatus.length; i++) {}
+// }
 
 // Function cập nhật trạng thái đơn hàng
 function handleSaveChange(orderId) {
   let shippingStatus = document.querySelector("#shipping-status").value;
-  console.log(shippingStatus);
   const orderIndex = ordersDatabase.findIndex((order) => order.id === orderId);
 
   if (orderIndex !== -1) {
@@ -297,7 +295,6 @@ function handleSaveChange(orderId) {
 
   // Trả lại số lượng hàng đã Cancel đơn vào Stock
   if (ordersDatabase[orderIndex].status === "Cancel") {
-    console.log(ordersDatabase[orderIndex].cart);
     ordersDatabase[orderIndex].cart.forEach((item) => {
       productsDatabase.forEach((product) => {
         if (item.productID === product.id) {
@@ -314,13 +311,14 @@ function handleSaveChange(orderId) {
   localStorage.setItem("ordersDatabase", JSON.stringify(ordersDatabase));
   renderOrder(ordersDatabase);
 
+  // Hiển thị thông báo cập nhật đơn hàng thành công
   const toastLiveExample = document.getElementById("liveToastSaveOrderNotify");
   bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
 
+  // Hiển thị dòng chữ Resolved - Đã xử lý Cancel đơn cho khách yêu cầu hủy hàng
   let cancelReason = document.querySelector(
     `.cancel-reason-${ordersDatabase[orderIndex].id}`
   );
-  console.log(cancelReason);
 
   if (
     ordersDatabase[orderIndex].status === "Cancel" &&
@@ -340,7 +338,6 @@ function handleDeleteOrder(id) {
   const orderIndex = ordersDatabase.findIndex((order) => order.id === id);
   ordersDatabase.splice(orderIndex, 1);
 
-  // localStorage.setItem("auth", JSON.stringify(authDatabaseManageOrdersPage));
   localStorage.setItem("ordersDatabase", JSON.stringify(ordersDatabase));
   renderOrder(ordersDatabase);
 

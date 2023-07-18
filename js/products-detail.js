@@ -201,6 +201,7 @@ function handleDetailFromDetailPage(i) {
   modalDetailFromDetailElement.innerHTML = modalDetailFromDetailContent;
 }
 
+// Ẩn hiện nút Add To Cart
 let bigAddToCartBtnNoAuth = document.querySelector(
   ".product-detail-page-add-to-cart-btn-no-auth"
 );
@@ -285,6 +286,7 @@ function handleAddToCartBigBtn(id) {
       cart.push(findProduct);
     }
     console.log(cart);
+
     // Kiểm tra xem Auth và Accounts Database có giống nhau không
     accountsDatabase.map((item) => {
       if (item.id == authDatabase.id) {

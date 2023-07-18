@@ -238,6 +238,8 @@ function handleOrder() {
   } else {
     // Kiểm tra Format SĐT Việt Nam
     // const phoneNumberPattern = /^0\d{9}$/; Kiểm tra SĐT Việt Nam
+
+    // Kiểm tra Format SĐT USA
     const phoneNumberPattern = /^1?\d{10}$/;
 
     if (!phoneNumberPattern.test(inputPhone)) {
@@ -256,13 +258,17 @@ function handleOrder() {
         );
       });
     });
+
+    // Nếu số lượng trong giỏ hàng > Hàng tồn kho, thông báo số lượng vượt quá hàng tồn kho
     if (!checkQuantity) {
       const toastLiveExample = document.getElementById(
         "liveToastOrderAlertQuantityExceeds"
       );
       bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
+      return;
     } else {
-      productsDatabaseToCart.map((item) => {
+      // Có thể dùng Map hoặc ForEach
+      productsDatabaseToCart.forEach((item) => {
         authDatabaseToCart.cart.forEach((cartItem) => {
           if (item.id == cartItem.id) {
             item.quantity_stock -= cartItem.quantity;

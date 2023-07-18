@@ -19,7 +19,7 @@ function handleSignUp() {
   let newUser = "";
 
   if (inputEmail == "" || inputPassword == "" || inputRePassword == "") {
-    // Modal Fill All Informatino Sign Up Notify
+    // Hiển thị thông báo người dùng cần điền đầy đủ thông tin
     const toastLiveExample = document.getElementById(
       "liveToastFillAllFormSignUp"
     );
@@ -35,6 +35,7 @@ function handleSignUp() {
     }
   }
 
+  // Full Name phải là ký tự chữ không được chứa số
   // Kiểm tra inputFullName
   const fullNameRegex = /^[a-zA-Z\s]*$/;
   if (!fullNameRegex.test(inputFullName)) {
@@ -68,13 +69,13 @@ function handleSignUp() {
     fullNameNotify.style.display = "none";
     emailNotify.style.display = "none";
 
-    // Modal Signup Complete
+    // Hiển thị thông báo Đăng ký thành công!
     const toastLiveExample = document.getElementById("liveToastSignUpComplete");
     bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
 
     setTimeout(() => {
       window.location.href = "http://127.0.0.1:5501/login-page.html";
-    }, 800); // Đợi 0.8 giây trước khi chuyển hướng
+    }, 800); // Đợi 0.8 giây trước khi chuyển hướng sang trang đăng nhập
   } else {
     passwordNotify.innerHTML = "Passwword and Repassword does not match";
     rePasswordNotify.innerHTML = "Passwword and Repassword does not match";
@@ -93,7 +94,8 @@ function handleLogin() {
   let inputPassword = document.querySelector("#input-login-password").value;
   let adminPanel = document.querySelector(".admin-icon");
   if (inputEmail == "" || inputPassword == "") {
-    // Modal Fill Information Login
+    // HIển thị thông báo người dùng cần nhập đầy đủ thông tin
+
     const toastLiveExample = document.getElementById(
       "liveToastFillAllFormLogin"
     );

@@ -114,7 +114,6 @@ function handleDetailFromHome(i) {
 // }
 
 // Function handleToProductDetail
-console.log(productsDatabase);
 function handleToProductDetail(id) {
   const item = productsDatabase.find((el) => el.id == id);
   const myArrayJson = JSON.stringify(item);
