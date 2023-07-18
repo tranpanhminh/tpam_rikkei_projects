@@ -277,7 +277,7 @@ function handleOrder() {
       });
 
       ordersDatabase.push(newOrder);
-      // Order Complete Notify
+      // Hiển thị thông báo đặt hàng thành công
       const toastLiveExample = document.getElementById(
         "liveToastOrderComplete"
       );
@@ -285,7 +285,7 @@ function handleOrder() {
 
       // Push Cart vào trong Order History và xóa quantity_stock
       authDatabaseToCart.order_history.push(...authDatabaseToCart.cart);
-      authDatabaseToCart.order_history.map(
+      authDatabaseToCart.order_history.forEach(
         (item) => delete item.quantity_stock
       );
 
