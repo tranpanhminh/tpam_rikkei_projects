@@ -19,11 +19,15 @@ const addLeadingZero = (num) => {
   return num < 10 ? "0" + num : num;
 };
 
-const date = `${addLeadingZero(day)}/${addLeadingZero(month)}/${year} ${addLeadingZero(hours)}:${addLeadingZero(minutes)}`;
+const date = `${addLeadingZero(day)}/${addLeadingZero(
+  month
+)}/${year} ${addLeadingZero(hours)}:${addLeadingZero(minutes)}`;
 
 if (
-  window.location.href.includes("http://127.0.0.1:5501/my-cart.html") &&
-  !authDatabaseToCart
+  (window.location.href.includes("http://127.0.0.1:5501/my-cart.html") &&
+    !authDatabaseToCart) ||
+  (window.location.href.includes("http://127.0.0.1:5501/my-cart.html") &&
+    authDatabaseToCart.role === "admin")
 ) {
   window.location.href = "/index.html";
 }

@@ -243,6 +243,14 @@ function handleAddToCartBigBtn(id) {
     );
     bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
     return;
+  }
+  // Kiểm tra nếu là Admin thì không được phép mua hàng
+  else if (authDatabase && authDatabase.role === "admin") {
+    const toastLiveExample = document.getElementById(
+      "liveToastAdminNotAllowToBuy"
+    );
+    bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
+    return;
   } else {
     let inputAddQuantity = Number(
       document.querySelector("#input-quantity-from-product-detail").value
@@ -286,8 +294,6 @@ function handleAddToCartBigBtn(id) {
     );
     bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
 
-    console.log(authDatabase);
-    console.log(accountsDatabase);
     localStorage.setItem("auth", JSON.stringify(authDatabase));
     localStorage.setItem("accountsDatabase", JSON.stringify(accountsDatabase));
     // window.location.reload();
