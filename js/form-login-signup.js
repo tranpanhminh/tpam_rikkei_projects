@@ -45,6 +45,14 @@ function handleSignUp() {
     return;
   }
 
+  // Kiểm tra email phải đúng định dạng
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(inputEmail)) {
+    emailNotify.innerHTML = "Invalid email format";
+    emailNotify.style.display = "block";
+    return;
+  }
+
   if (inputPassword === inputRePassword) {
     const maxId = Math.max(...accountsDatabase.map((account) => account.id));
 
