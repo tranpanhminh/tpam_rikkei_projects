@@ -6,7 +6,7 @@ if (authDatabaseLoginPage) {
 }
 // Function Signup
 function handleSignUp() {
-  let inputEmail = document.querySelector(".input-email").value;
+  let inputEmail = document.querySelector(".input-email").value.toLowerCase();
   let inputFullName = document.querySelector(".input-fullname").value;
   let inputPassword = document.querySelector(".input-password").value;
   let inputRePassword = document.querySelector(".input-repassword").value;
@@ -90,7 +90,9 @@ function handleSignUp() {
 // Function đăng nhập
 function handleLogin() {
   const toastBody = document.querySelector(".toast-body");
-  let inputEmail = document.querySelector("#input-login-email").value;
+  let inputEmail = document
+    .querySelector("#input-login-email")
+    .value.toLowerCase();
   let inputPassword = document.querySelector("#input-login-password").value;
   let adminPanel = document.querySelector(".admin-icon");
   if (inputEmail == "" || inputPassword == "") {

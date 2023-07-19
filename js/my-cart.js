@@ -225,7 +225,6 @@ function handleOrder() {
     cart: newCart,
   };
 
-
   if (authDatabaseToCart.cart.length === 0) {
     const toastLiveExample = document.getElementById(
       "liveToastOrderAlertEmptyCart"
