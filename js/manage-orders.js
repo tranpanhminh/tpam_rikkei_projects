@@ -9,7 +9,7 @@ if (
     !authDatabaseManageOrdersPage) ||
   authDatabaseManageOrdersPage.role !== "admin" ||
   (authDatabaseManageOrdersPage.role === "admin" &&
-  authDatabaseManageOrdersPage.status === "Inactive")
+    authDatabaseManageOrdersPage.status === "Inactive")
 ) {
   window.location.href = "/index.html";
 }
@@ -58,9 +58,6 @@ function renderOrder(ordersDatabase) {
           <button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="handleDetailOrder(${
             ordersDatabase[i].id
           })" class="detail-order-btn">Detail</button>
-          <button class="delete-order-button" onclick="handleDeleteOrder(${
-            ordersDatabase[i].id
-          })">Delete</button>
         </td>
       <td><span class="cancel-reason-${
         ordersDatabase[i].id
@@ -349,31 +346,31 @@ function handleSaveChange(orderId) {
   }, 500);
 }
 
-// Function xoá Order khỏi cửa hàng
-function handleDeleteOrder(id) {
-  const accountsDatabase = JSON.parse(localStorage.getItem("accountsDatabase"));
+// Function xoá Order khỏi cửa hàng // Tắt chức năng xóa Order đơn hàng
+// function handleDeleteOrder(id) {
+//   const accountsDatabase = JSON.parse(localStorage.getItem("accountsDatabase"));
 
-  const orderIndex = ordersDatabase.findIndex((order) => order.id === id);
-  ordersDatabase.splice(orderIndex, 1);
+//   const orderIndex = ordersDatabase.findIndex((order) => order.id === id);
+//   ordersDatabase.splice(orderIndex, 1);
 
-  accountsDatabase.forEach((account) => {
-    account.order_history.forEach((order, index) => {
-      if (id === order.id) {
-        account.order_history.splice(index, 1);
-      }
-    });
-  });
+//   accountsDatabase.forEach((account) => {
+//     account.order_history.forEach((order, index) => {
+//       if (id === order.id) {
+//         account.order_history.splice(index, 1);
+//       }
+//     });
+//   });
 
-  localStorage.setItem("ordersDatabase", JSON.stringify(ordersDatabase));
-  localStorage.setItem("accountsDatabase", JSON.stringify(accountsDatabase));
-  renderOrder(ordersDatabase);
+//   localStorage.setItem("ordersDatabase", JSON.stringify(ordersDatabase));
+//   localStorage.setItem("accountsDatabase", JSON.stringify(accountsDatabase));
+//   renderOrder(ordersDatabase);
 
-  const toastLiveExample = document.getElementById(
-    "liveToastDeleteOrderNotify"
-  );
-  bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
+//   const toastLiveExample = document.getElementById(
+//     "liveToastDeleteOrderNotify"
+//   );
+//   bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
 
-  setTimeout(function () {
-    window.location.reload();
-  }, 800);
-}
+//   setTimeout(function () {
+//     window.location.reload();
+//   }, 800);
+// }
