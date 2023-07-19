@@ -8,10 +8,15 @@ if (
     "http://127.0.0.1:5501/admin/manage-products.html"
   ) &&
     !authDatabaseManageProductPage) ||
-  authDatabaseManageProductPage.role !== "admin"
+  authDatabaseManageProductPage.role !== "admin" ||
+  (authDatabaseManageProductPage.role === "admin" &&
+    authDatabaseManageProductPage.status === "Inactive")
 ) {
   window.location.href = "/index.html";
 }
+
+let userTitle = document.querySelector(".user-title");
+userTitle.innerHTML = authDatabaseManageProductPage.fullName;
 
 let index;
 // Function Render Products vào Manage Products

@@ -9,10 +9,15 @@ if (
     "http://127.0.0.1:5501/admin/manage-users.html"
   ) &&
     !authDatabaseManageUserPage) ||
-  authDatabaseManageUserPage.role !== "admin"
+  authDatabaseManageUserPage.role !== "admin" ||
+  (authDatabaseManageUserPage.role === "admin" &&
+    authDatabaseManageUserPage.status === "Inactive")
 ) {
   window.location.href = "/index.html";
 }
+
+let userTitle = document.querySelector(".user-title");
+userTitle.innerHTML = authDatabaseManageUserPage.fullName;
 
 // Function Render Accounts vào Manage Users
 function renderManageUserPage(accountsDatabaseAdmin) {
@@ -28,19 +33,30 @@ function renderManageUserPage(accountsDatabaseAdmin) {
 </tr>`;
   for (let i = 0; i < accountsDatabaseAdmin.length; i++) {
     tableUserContent += `<tr>
-    <td>${i + 1}</td>
+    <td>${accountsDatabaseAdmin[i].id}</td>
     <td>${accountsDatabaseAdmin[i].email}</td>
     <td>${accountsDatabaseAdmin[i].fullName}</td>
-    <td>${accountsDatabaseAdmin[i].role}</td>
+    <td>${
+      accountsDatabaseAdmin[i].role === "admin" &&
+      accountsDatabaseAdmin[i].id === 1
+        ? "Super Admin"
+        : accountsDatabaseAdmin[i].role
+    }</td>
     <td class="user-status-check">${accountsDatabaseAdmin[i].status}</td>
     <td>
     <button class="change-user-btn" style="${
-      accountsDatabaseAdmin[i].role === "admin" ? "display:none" : ""
+      accountsDatabaseAdmin[i].role === "admin" &&
+      accountsDatabaseAdmin[i].id === 1
+        ? "display:none"
+        : ""
     }"onclick="handleChangeUser('${
       accountsDatabaseAdmin[i].email
     }')">Change</button>
     <button class="delete-user-btn" style="${
-      accountsDatabaseAdmin[i].role === "admin" ? "display:none" : ""
+      accountsDatabaseAdmin[i].role === "admin" &&
+      accountsDatabaseAdmin[i].id === 1
+        ? "display:none"
+        : ""
     }"onclick="handleDeleteUser('${
       accountsDatabaseAdmin[i].email
     }')">Delete</button></td>
@@ -128,7 +144,7 @@ function handleSaveAddUser() {
   );
 
   let newUser = {
-    id: maxId + 1,
+    id: accountsDatabase.length > 0 ? maxId + 1 : 1,
     email: userEmail,
     fullName: userName,
     password: userPassword,
@@ -149,12 +165,18 @@ function handleSaveAddUser() {
       "liveToastFillInformationUserNotify"
     );
     bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
+    setTimeout(function () {
+      window.location.reload();
+    }, 600);
     return;
   } else if (checkEmail) {
     const toastLiveExample = document.getElementById(
       "liveToastEmailUserIsExist"
     );
     bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
+    setTimeout(function () {
+      window.location.reload();
+    }, 600);
     return;
   } else {
     accountsDatabase.push(newUser);

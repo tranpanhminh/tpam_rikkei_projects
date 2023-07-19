@@ -3,7 +3,7 @@ let accounts = [
   {
     id: 1,
     email: "admin.petshop@gmail.com",
-    fullName: "Admin",
+    fullName: "Super Admin",
     password: "adminpassword1",
     role: "admin",
     status: "Active",

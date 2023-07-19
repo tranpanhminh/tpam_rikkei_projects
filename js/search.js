@@ -4,7 +4,6 @@ const productDetailSearch = JSON.parse(localStorage.getItem("productDetail"));
 function handleSearch() {
   const productsDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
   let inputSearch = document.querySelector("#search-bar").value.toLowerCase();
-  console.log(inputSearch);
   let filterProduct = productsDatabase.filter(function (product) {
     if (
       product.name.toLowerCase().includes(inputSearch) ||
@@ -18,7 +17,6 @@ function handleSearch() {
     }
     return false;
   });
-  console.log(filterProduct);
   localStorage.setItem("myProductSearch", JSON.stringify(filterProduct));
   window.location.href = `./search-page.html?search=${inputSearch}`;
 }

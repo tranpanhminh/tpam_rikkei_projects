@@ -7,10 +7,15 @@ if (
     "http://127.0.0.1:5501/admin/manage-orders.html"
   ) &&
     !authDatabaseManageOrdersPage) ||
-  authDatabaseManageOrdersPage.role !== "admin"
+  authDatabaseManageOrdersPage.role !== "admin" ||
+  (authDatabaseManageOrdersPage.role === "admin" &&
+  authDatabaseManageOrdersPage.status === "Inactive")
 ) {
   window.location.href = "/index.html";
 }
+
+let userTitle = document.querySelector(".user-title");
+userTitle.innerHTML = authDatabaseManageOrdersPage.fullName;
 
 // Function Render Order
 function renderOrder(ordersDatabase) {
