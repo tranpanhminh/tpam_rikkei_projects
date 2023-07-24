@@ -3,7 +3,7 @@ function renderHeaderPC() {
   let menuPC = document.querySelector(".main-menu");
   menuPCContent = "";
   menuPCContent += `<div class="logo">
-  <a href="./index.html"><img src="http://127.0.0.1:5501/assets/images/pet-shop-remove-bg.png" alt="Logo Petshop"
+  <a href="http://127.0.0.1:5501/index.html"><img src="http://127.0.0.1:5501/assets/images/pet-shop-remove-bg.png" alt="Logo Petshop"
           class="logo-petshop"></a>
 </div>
 
@@ -59,7 +59,7 @@ function renderHeaderMobile() {
   let menuMobile = document.querySelector(".main-menu-mobile");
   menuMobileContent = "";
   menuMobileContent += `            <div class="logo">
-  <a href="./index.html"><img src="http://127.0.0.1:5501/assets/images/pet-shop-remove-bg.png" alt="Logo Petshop"
+  <a href="http://127.0.0.1:5501/index.html"><img src="http://127.0.0.1:5501/assets/images/pet-shop-remove-bg.png" alt="Logo Petshop"
           class="logo-petshop"></a>
 </div>
 
