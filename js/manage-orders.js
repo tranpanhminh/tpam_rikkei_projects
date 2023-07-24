@@ -374,3 +374,55 @@ function handleSaveChange(orderId) {
 //     window.location.reload();
 //   }, 800);
 // }
+
+// Function Render Monthly Revenue
+function showMonthlyRevenue() {
+  // Lọc các đơn hàng có cùng tháng
+  const ordersInMonth = ordersDatabase.filter((order) => {
+    const orderMonth = new Date(order.date).getMonth() + 1; // Lấy tháng từ ngày đơn hàng
+    console.log(orderMonth);
+    // return orderMonth === month;
+  });
+
+  //   let monthlyRevenue = document.querySelector("#modalMonthlyRevenue");
+  //   monthlyRevenueContent = "";
+  //   monthlyRevenue += `<table class="table table-striped table-hover">
+  //   <thead>
+  //       <tr>
+  //           <td>Month</td>
+  //           <td>Revenue</td>
+  //       </tr>
+  //   </thead>
+  //   <tbody>
+  //       <tr>
+  //           <td>January</td>
+  //           <td>$5000</td>
+  //       </tr>
+  //       <tr>
+  //           <td>January</td>
+  //           <td>$5000</td>
+  //       </tr>
+  //       <tr>
+  //           <td>January</td>
+  //           <td>$5000</td>
+  //       </tr>
+  //       <tr>
+  //           <td>January</td>
+  //           <td>$5000</td>
+  //       </tr>
+  //       <tr>
+  //           <td>January</td>
+  //           <td>$5000</td>
+  //       </tr>
+  //       <tr>
+  //           <td>January</td>
+  //           <td>$5000</td>
+  //       </tr>
+  //       <tr>
+  //           <td>January</td>
+  //           <td>$5000</td>
+  //       </tr>
+  //   </tbody>
+  // </table>`;
+  //   monthlyRevenue.innerHTML = monthlyRevenueContent;
+}

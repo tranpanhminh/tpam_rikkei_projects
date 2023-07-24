@@ -56,7 +56,64 @@
                     onclick="handleSearctOrder()">Search</button>
             </div>
 
-            <h3 class="revenue-text">Revenue: $5000</h3>
+            <h3 class="revenue-text" data-bs-toggle="modal" data-bs-target="#monthlyRevenue"
+                onclick="showMonthlyRevenue()">Revenue: $5000</h3>
+
+            <!-- Modal -->
+            <div class="modal fade" id="monthlyRevenue" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Monthly Revenue</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body modalMonthlyRevenue">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <td>Month</td>
+                                        <td>Revenue</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>January</td>
+                                        <td>$5000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>January</td>
+                                        <td>$5000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>January</td>
+                                        <td>$5000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>January</td>
+                                        <td>$5000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>January</td>
+                                        <td>$5000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>January</td>
+                                        <td>$5000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>January</td>
+                                        <td>$5000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="search-result"></div>
         <div class="main-content">

@@ -210,7 +210,7 @@ let orders = [
     name: "	James Mohamed",
     email: "mohamed1972@hotmail.com",
     phone: "0905932123",
-    date: "01/07/2023",
+    date: "02/08/2023",
     status: "Shipped",
     address: "Đà Nẵng",
     cart: [
@@ -229,7 +229,7 @@ let orders = [
     name: "	James Mohamed",
     email: "mohamed1972@hotmail.com",
     phone: "0905932123",
-    date: "01/07/2023",
+    date: "03/09/2023",
     status: "Cancel",
     address: "Đà Nẵng",
     cart: [
@@ -248,7 +248,7 @@ let orders = [
     name: "David Helms",
     email: "davidhelms1987@yahoo.com",
     phone: "0905932123",
-    date: "01/07/2023",
+    date: "10/10/2023",
     status: "Processing",
     address: "Đà Nẵng",
     cart: [
@@ -267,7 +267,7 @@ let orders = [
     name: "David Helms",
     email: "davidhelms1987@yahoo.com",
     phone: "0905932123",
-    date: "01/07/2023",
+    date: "11/11/2023",
     status: "Processing",
     address: "Đà Nẵng",
     cart: [
