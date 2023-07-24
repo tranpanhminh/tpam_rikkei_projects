@@ -7,7 +7,7 @@ function renderFooter() {
       <div class="col-12 col-sm-12 col-md-12 col-xl-3">
           <p class="footer-headline">CONTACT US</p>
           <div class="group-footer-logo">
-              <img src="http://127.0.0.1:5501/assets/images/pet-shop.png" alt="" class="footer-logo">
+          <a href="http://127.0.0.1:5501/index.html"><img src="http://127.0.0.1:5501/assets/images/pet-shop.png" alt="" class="footer-logo"></a>
               <p class="footer-description">
                   Your one-stop destination for all your pet needs. Discover a wide range of adorable
                   companions
