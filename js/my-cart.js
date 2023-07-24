@@ -19,8 +19,8 @@ const addLeadingZero = (num) => {
   return num < 10 ? "0" + num : num;
 };
 
-const date = `${addLeadingZero(day)}/${addLeadingZero(
-  month
+const date = `${addLeadingZero(month)}/${addLeadingZero(
+  day
 )}/${year} ${addLeadingZero(hours)}:${addLeadingZero(minutes)}`;
 
 if (

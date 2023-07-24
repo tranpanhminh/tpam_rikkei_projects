@@ -183,7 +183,8 @@ function handleDetailOrder(id) {
         <select name="shipping-status" id="shipping-status" ${
           (ordersDatabase[orderIndex].status === "Cancel" &&
             ordersDatabase[orderIndex].request_cancel) ||
-          ordersDatabase[orderIndex].status === "Shipped"
+          ordersDatabase[orderIndex].status === "Shipped" ||
+          ordersDatabase[orderIndex].status === "Cancel"
             ? "disabled"
             : ""
         }>
@@ -377,52 +378,51 @@ function handleSaveChange(orderId) {
 
 // Function Render Monthly Revenue
 function showMonthlyRevenue() {
-  // Lọc các đơn hàng có cùng tháng
-  const ordersInMonth = ordersDatabase.filter((order) => {
-    const orderMonth = new Date(order.date).getMonth() + 1; // Lấy tháng từ ngày đơn hàng
-    console.log(orderMonth);
-    // return orderMonth === month;
+  let modalMonthlyRevenue = document.querySelector(".modalMonthlyRevenue");
+  let modalMonthlyRevenueContent = "";
+  modalMonthlyRevenue.innerHTML = modalMonthlyRevenueContent;
+  // Tạo một đối tượng để lưu trữ doanh thu theo từng tháng
+  const revenueByMonth = {};
+
+  // Tạo một mảng chứa tất cả các tháng trong năm
+  const allMonths = [];
+  for (let month = 1; month <= 12; month++) {
+    allMonths.push(month);
+  }
+
+  // Duyệt qua mảng allMonths để tính tổng doanh thu theo từng tháng
+  allMonths.forEach((month) => {
+    revenueByMonth[month] = 0; // Khởi tạo giá trị 0 cho mỗi tháng
   });
 
-  //   let monthlyRevenue = document.querySelector("#modalMonthlyRevenue");
-  //   monthlyRevenueContent = "";
-  //   monthlyRevenue += `<table class="table table-striped table-hover">
-  //   <thead>
-  //       <tr>
-  //           <td>Month</td>
-  //           <td>Revenue</td>
-  //       </tr>
-  //   </thead>
-  //   <tbody>
-  //       <tr>
-  //           <td>January</td>
-  //           <td>$5000</td>
-  //       </tr>
-  //       <tr>
-  //           <td>January</td>
-  //           <td>$5000</td>
-  //       </tr>
-  //       <tr>
-  //           <td>January</td>
-  //           <td>$5000</td>
-  //       </tr>
-  //       <tr>
-  //           <td>January</td>
-  //           <td>$5000</td>
-  //       </tr>
-  //       <tr>
-  //           <td>January</td>
-  //           <td>$5000</td>
-  //       </tr>
-  //       <tr>
-  //           <td>January</td>
-  //           <td>$5000</td>
-  //       </tr>
-  //       <tr>
-  //           <td>January</td>
-  //           <td>$5000</td>
-  //       </tr>
-  //   </tbody>
-  // </table>`;
-  //   monthlyRevenue.innerHTML = monthlyRevenueContent;
+  // Duyệt qua các đơn hàng để tính tổng doanh thu theo từng tháng
+  ordersDatabase.forEach((order) => {
+    const dateParts = order.date.split("/");
+    const month = parseInt(dateParts[0]);
+
+    const totalOrderRevenue = order.cart.reduce((acc, cartItem) => {
+      if (order.status === "Shipped") {
+        return acc + cartItem.productQuantity * cartItem.productPrice;
+      } else {
+        return 0;
+      }
+    }, 0);
+
+    revenueByMonth[month] += totalOrderRevenue;
+  });
+
+  // Hiển thị kết quả vào modalMonthlyRevenueContent
+  allMonths.forEach((month) => {
+    const revenue = revenueByMonth[month];
+    const displayMonthYear = `${month
+      .toString()
+      .padStart(2, "0")}/${new Date().getFullYear()}`;
+    const displayRevenue = revenue !== 0 ? `$${revenue}` : "0"; // Xử lý hiển thị nếu không có doanh thu
+    modalMonthlyRevenueContent += `<tr>
+      <td>${displayMonthYear}</td>
+      <td>${displayRevenue}</td>
+    </tr>`;
+  });
+
+  modalMonthlyRevenue.innerHTML = modalMonthlyRevenueContent;
 }

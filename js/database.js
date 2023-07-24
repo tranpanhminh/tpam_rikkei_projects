@@ -188,7 +188,7 @@ let orders = [
   {
     id: 1,
     user_id: 0,
-    name: "	James Mohamed",
+    name: "James Mohamed",
     email: "mohamed1972@hotmail.com",
     phone: "0905932123",
     date: "01/07/2023",
@@ -207,7 +207,7 @@ let orders = [
   {
     id: 2,
     user_id: 0,
-    name: "	James Mohamed",
+    name: "James Mohamed",
     email: "mohamed1972@hotmail.com",
     phone: "0905932123",
     date: "02/08/2023",
@@ -226,7 +226,7 @@ let orders = [
   {
     id: 3,
     user_id: 0,
-    name: "	James Mohamed",
+    name: "James Mohamed",
     email: "mohamed1972@hotmail.com",
     phone: "0905932123",
     date: "03/09/2023",
