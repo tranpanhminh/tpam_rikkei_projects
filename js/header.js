@@ -3,28 +3,20 @@ function renderHeaderPC() {
   let menuPC = document.querySelector(".main-menu");
   menuPCContent = "";
   menuPCContent += `<div class="logo">
-  <a href="http://127.0.0.1:5501/index.html"><img src="http://127.0.0.1:5501/assets/images/pet-shop-remove-bg.png" alt="Logo Petshop"
+  <a href="/index.html"><img src="/assets/images/pet-shop-remove-bg.png" alt="Logo Petshop"
           class="logo-petshop"></a>
 </div>
 
 <div class="menu">
   <ul class="nav-main-menu">
-  <li><a href="http://127.0.0.1:5501/index.html" class="menu-item ${
-    window.location.href.includes("http://127.0.0.1:5501/index.html")
-      ? "active"
-      : ""
+  <li><a href="/index.html" class="menu-item ${
+    window.location.href.includes("/index.html") ? "active" : ""
   }">Home</a></li>
-  <li><a href="http://127.0.0.1:5501/about.html" class="menu-item ${
-    window.location.href.includes("http://127.0.0.1:5501/about.html")
-      ? "active"
-      : ""
+  <li><a href="/about.html" class="menu-item ${
+    window.location.href.includes("/about.html") ? "active" : ""
   }">About</a></li>
-  <li><a href="http://127.0.0.1:5501/products-category.html" class="menu-item ${
-    window.location.href.includes(
-      "http://127.0.0.1:5501/products-category.html"
-    )
-      ? "active"
-      : ""
+  <li><a href="/products-category.html" class="menu-item ${
+    window.location.href.includes("/products-category.html") ? "active" : ""
   }">Products</a></li>
   </ul>
 </div>
@@ -36,14 +28,10 @@ function renderHeaderPC() {
 
 <div class="group-user">
   <a href="./login-page.html"><button class="login-btn my-button ${
-    window.location.href.includes("http://127.0.0.1:5501/login-page.html")
-      ? "btn-active"
-      : ""
+    window.location.href.includes("/login-page.html") ? "btn-active" : ""
   }">Login</button></a>
   <a href="./signup-page.html"><button class="signup-btn my-button ${
-    window.location.href.includes("http://127.0.0.1:5501/signup-page.html")
-      ? "btn-active"
-      : ""
+    window.location.href.includes("/signup-page.html") ? "btn-active" : ""
   }">Signup</button></a>
   <button class="logout-btn my-button" onclick="handleLogout()"><a href="">Logout</a></button>
   <a href="./my-cart.html"><i class="fa-solid fa-cart-shopping shopping-cart-icon"></i></a>
@@ -59,7 +47,7 @@ function renderHeaderMobile() {
   let menuMobile = document.querySelector(".main-menu-mobile");
   menuMobileContent = "";
   menuMobileContent += `            <div class="logo">
-  <a href="http://127.0.0.1:5501/index.html"><img src="http://127.0.0.1:5501/assets/images/pet-shop-remove-bg.png" alt="Logo Petshop"
+  <a href="/index.html"><img src="/assets/images/pet-shop-remove-bg.png" alt="Logo Petshop"
           class="logo-petshop"></a>
 </div>
 
@@ -78,15 +66,11 @@ function renderHeaderMobile() {
 
   <div class="group-btn-user">
       <a href="./login-page.html"><button class="login-btn my-button login-btn-mobile ${
-        window.location.href.includes("http://127.0.0.1:5501/login-page.html")
-          ? "btn-active"
-          : ""
+        window.location.href.includes("/login-page.html") ? "btn-active" : ""
       }">Login</button></a>
       <a href="./signup-page.html"><button
               class="signup-btn my-button signup-btn-mobile ${
-                window.location.href.includes(
-                  "http://127.0.0.1:5501/signup-page.html"
-                )
+                window.location.href.includes("/signup-page.html")
                   ? "btn-active"
                   : ""
               }">Signup</button></a>
@@ -100,26 +84,18 @@ function renderHeaderMobile() {
 
 
   <ul class="nav-mobile-menu">
-      <a href="http://127.0.0.1:5501/index.html" class="menu-item ${
-        window.location.href.includes("http://127.0.0.1:5501/index.html")
-          ? "active"
-          : ""
+      <a href="/index.html" class="menu-item ${
+        window.location.href.includes("/index.html") ? "active" : ""
       }">
           <li>Home</li>
       </a></li>
-      <a href="http://127.0.0.1:5501/about.html" class="menu-item ${
-        window.location.href.includes("http://127.0.0.1:5501/about.html")
-          ? "active"
-          : ""
+      <a href="/about.html" class="menu-item ${
+        window.location.href.includes("/about.html") ? "active" : ""
       }">
           <li>About</li>
       </a>
-      <a href="http://127.0.0.1:5501/products-category.html" class="menu-item ${
-        window.location.href.includes(
-          "http://127.0.0.1:5501/products-category.html"
-        )
-          ? "active"
-          : ""
+      <a href="/products-category.html" class="menu-item ${
+        window.location.href.includes("/products-category.html") ? "active" : ""
       }">
           <li>Products</li>
       </a>
