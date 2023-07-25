@@ -297,7 +297,7 @@ let accountsToDatabase = JSON.parse(localStorage.getItem("accountsDatabase"));
 // if (accountsToDatabase) {
 //   [];
 // }
-localStorage.setItem("accountsDatabase", JSON.stringify(accounts));
+// localStorage.setItem("accountsDatabase", JSON.stringify(accounts));
 
 // <--------------------------->
 
@@ -307,13 +307,32 @@ let productsToDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
 // if (productsToDatabase) {
 //   [];
 // }
-localStorage.setItem("productsDatabase", JSON.stringify(products));
+// localStorage.setItem("productsDatabase", JSON.stringify(products));
 
 // 3. Đẩy dữ liệu của orders lên Local Storage
 let authDatabase = JSON.parse(localStorage.getItem("auth"));
 // if (authDatabase && authDatabase.role == "admin") {
-localStorage.setItem("ordersDatabase", JSON.stringify(orders));
+
+let ordersToDatabase = JSON.parse(localStorage.getItem("ordersDatabase"));
+
+// localStorage.setItem("ordersDatabase", JSON.stringify(orders));
 // }
+
+if (!accountsToDatabase) {
+  localStorage.setItem("accountsDatabase", JSON.stringify(accounts));
+}
+
+if (!productsToDatabase) {
+  localStorage.setItem("productsDatabase", JSON.stringify(products));
+}
+
+if (!authDatabase) {
+  localStorage.setItem("auth", JSON.stringify(authDatabase));
+}
+
+if (!ordersToDatabase) {
+  localStorage.setItem("ordersDatabase", JSON.stringify(orders));
+}
 
 // Xây dựng hàm Build In
 function getDataFromLocal(key) {
