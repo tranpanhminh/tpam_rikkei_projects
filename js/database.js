@@ -326,9 +326,9 @@ if (!productsToDatabase) {
   localStorage.setItem("productsDatabase", JSON.stringify(products));
 }
 
-if (!authDatabase) {
-  localStorage.setItem("auth", JSON.stringify(authDatabase));
-}
+// if (!authDatabase) {
+//   localStorage.setItem("auth", JSON.stringify(authDatabase));
+// }
 
 if (!ordersToDatabase) {
   localStorage.setItem("ordersDatabase", JSON.stringify(orders));
