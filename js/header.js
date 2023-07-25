@@ -27,15 +27,15 @@ function renderHeaderPC() {
 </div>
 
 <div class="group-user">
-  <a href="./login-page.html"><button class="login-btn my-button ${
+  <a href="/login-page.html"><button class="login-btn my-button ${
     window.location.href.includes("/login-page.html") ? "btn-active" : ""
   }">Login</button></a>
-  <a href="./signup-page.html"><button class="signup-btn my-button ${
+  <a href="/signup-page.html"><button class="signup-btn my-button ${
     window.location.href.includes("/signup-page.html") ? "btn-active" : ""
   }">Signup</button></a>
   <button class="logout-btn my-button" onclick="handleLogout()"><a href="">Logout</a></button>
-  <a href="./my-cart.html"><i class="fa-solid fa-cart-shopping shopping-cart-icon"></i></a>
-  <a href="./admin/manage-users.html" id="admin-icon"><i class="fa-solid fa-user"></i></a>
+  <a href="/my-cart.html"><i class="fa-solid fa-cart-shopping shopping-cart-icon"></i></a>
+  <a href="/admin/manage-users.html" id="admin-icon"><i class="fa-solid fa-user"></i></a>
 </div>`;
 
   menuPC.innerHTML = menuPCContent;
@@ -65,10 +65,10 @@ function renderHeaderMobile() {
   </div>
 
   <div class="group-btn-user">
-      <a href="./login-page.html"><button class="login-btn my-button login-btn-mobile ${
+      <a href="/login-page.html"><button class="login-btn my-button login-btn-mobile ${
         window.location.href.includes("/login-page.html") ? "btn-active" : ""
       }">Login</button></a>
-      <a href="./signup-page.html"><button
+      <a href="/signup-page.html"><button
               class="signup-btn my-button signup-btn-mobile ${
                 window.location.href.includes("/signup-page.html")
                   ? "btn-active"
@@ -76,9 +76,9 @@ function renderHeaderMobile() {
               }">Signup</button></a>
       <button class="logout-btn my-button logout-btn-mobile" onclick="handleLogout()"><a
               href="">Logout</a></button>
-      <a href="./my-cart.html"><i
+      <a href="/my-cart.html"><i
               class="fa-solid fa-cart-shopping shopping-cart-icon shopping-cart-icon-mobile"></i></a>
-      <a href="./admin/manage-users.html" id="admin-icon" class="admin-icon-mobile"><i
+      <a href="/admin/manage-users.html" id="admin-icon" class="admin-icon-mobile"><i
               class="fa-solid fa-user"></i></a>
   </div>
 
