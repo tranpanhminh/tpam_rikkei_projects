@@ -293,26 +293,26 @@ let orders = [
 
 // 1. Đẩy dữ liệu của Accounts lên Local Storage
 
-// let accountsToDatabase = JSON.parse(localStorage.getItem("accountsDatabase"));
+let accountsToDatabase = JSON.parse(localStorage.getItem("accountsDatabase"));
 // if (accountsToDatabase) {
 //   [];
 // }
-// localStorage.setItem("accountsDatabase", JSON.stringify(accounts));
+localStorage.setItem("accountsDatabase", JSON.stringify(accounts));
 
 // <--------------------------->
 
 // 2. Đẩy dữ liệu của Products lên Local Storage
 
-// let productsToDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
+let productsToDatabase = JSON.parse(localStorage.getItem("productsDatabase"));
 // if (productsToDatabase) {
 //   [];
 // }
-// localStorage.setItem("productsDatabase", JSON.stringify(products));
+localStorage.setItem("productsDatabase", JSON.stringify(products));
 
 // 3. Đẩy dữ liệu của orders lên Local Storage
-// let authDatabase = JSON.parse(localStorage.getItem("auth"));
+let authDatabase = JSON.parse(localStorage.getItem("auth"));
 // if (authDatabase && authDatabase.role == "admin") {
-// localStorage.setItem("ordersDatabase", JSON.stringify(orders));
+localStorage.setItem("ordersDatabase", JSON.stringify(orders));
 // }
 
 // Xây dựng hàm Build In
