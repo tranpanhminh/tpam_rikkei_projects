@@ -2,7 +2,7 @@ const accountsDatabase = getDataFromLocal("accountsDatabase") ?? [];
 const authDatabaseLoginPage = JSON.parse(localStorage.getItem("auth"));
 
 if (authDatabaseLoginPage) {
-  window.location.href = "http://127.0.0.1:5501/index.html";
+  window.location.href = "/index.html";
 }
 // Function Signup
 function handleSignUp() {
@@ -82,7 +82,7 @@ function handleSignUp() {
     bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
 
     setTimeout(() => {
-      window.location.href = "http://127.0.0.1:5501/login-page.html";
+      window.location.href = "/login-page.html";
     }, 800); // Đợi 0.8 giây trước khi chuyển hướng sang trang đăng nhập
   } else {
     passwordNotify.innerHTML = "Passwword and Repassword does not match";

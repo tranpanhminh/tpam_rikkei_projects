@@ -12,9 +12,9 @@ function renderProductDetail() {
   <div class="breadcrumb-page">
       <a href="./index.html">Home</a>
       <span> / </span>
-      <a href="http://127.0.0.1:5501/products-category.html">Products</a>
+      <a href="/products-category.html">Products</a>
       <span> / </span>
-      <a href="http://127.0.0.1:5501/product-detail.html?product-id-${
+      <a href="/product-detail.html?product-id-${
         productDetail.id
       }">${productDetail.name}</a>
   </div>

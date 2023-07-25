@@ -24,9 +24,9 @@ const date = `${addLeadingZero(month)}/${addLeadingZero(
 )}/${year} ${addLeadingZero(hours)}:${addLeadingZero(minutes)}`;
 
 if (
-  (window.location.href.includes("http://127.0.0.1:5501/my-cart.html") &&
+  (window.location.href.includes("/my-cart.html") &&
     !authDatabaseToCart) ||
-  (window.location.href.includes("http://127.0.0.1:5501/my-cart.html") &&
+  (window.location.href.includes("/my-cart.html") &&
     authDatabaseToCart.role === "admin")
 ) {
   window.location.href = "/index.html";

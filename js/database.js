@@ -280,8 +280,7 @@ let orders = [
       },
       {
         productID: 2,
-        productImage:
-          "http://127.0.0.1:5501/assets/images/product%20images/dog-leash-01.jpg",
+        productImage: "../assets/images/product images/dog-leash-01.jpg",
         productName: "Senye Retractable Dog Leash 16ft Dog Traction Rope",
         productQuantity: 5,
         productPrice: 212,

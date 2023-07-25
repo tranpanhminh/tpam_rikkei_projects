@@ -5,7 +5,7 @@ const authDatabaseManageProductPage = JSON.parse(localStorage.getItem("auth"));
 // Kiểm tra nếu như role của auth là admin thì mới được truy cập vào trang, còn không thì chuyển hướng trang chủ
 if (
   (window.location.href.includes(
-    "http://127.0.0.1:5501/admin/manage-products.html"
+    "/admin/manage-products.html"
   ) &&
     !authDatabaseManageProductPage) ||
   authDatabaseManageProductPage.role !== "admin" ||
@@ -123,10 +123,10 @@ function handleSaveAddProduct(productId) {
     bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
 
     setTimeout(() => {
-      window.location.href = "http://127.0.0.1:5501/admin/manage-products.html";
+      window.location.href = "/admin/manage-products.html";
     }, 500); // Đợi 0.5 giây trước khi chuyển hướng
 
-    // window.location.href = "http://127.0.0.1:5501/admin/manage-products.html";
+    // window.location.href = "/admin/manage-products.html";
   }
   renderManageProductsPage(productsDatabaseAdmin);
   setDataToLocal("productsDatabase", productsDatabaseAdmin);
@@ -387,7 +387,7 @@ function handleSaveEditProduct(productId) {
     productsDatabaseAdmin.splice(productIndex, 1, editProduct);
   }
   // productsDatabaseAdmin.splice(i, 1, editProduct);
-  // window.location.href = "http://127.0.0.1:5501/admin/manage-products.html";
+  // window.location.href = "/admin/manage-products.html";
 
   renderManageProductsPage(productsDatabaseAdmin);
   setDataToLocal("productsDatabase", productsDatabaseAdmin);

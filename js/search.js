@@ -18,7 +18,7 @@ function handleSearch() {
     return false;
   });
   localStorage.setItem("myProductSearch", JSON.stringify(filterProduct));
-  window.location.href = `http://127.0.0.1:5501/search-page.html?search=${inputSearch}`;
+  window.location.href = `/search-page.html?search=${inputSearch}`;
 }
 
 // Function renderSearchPage

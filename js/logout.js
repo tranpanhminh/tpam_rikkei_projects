@@ -15,5 +15,5 @@ function handleLogout() {
 // Function đăng xuất từ trang Admin
 function handleLogoutAdminPage() {
   localStorage.removeItem("auth");
-  window.location.href = "http://127.0.0.1:5501/index.html";
+  window.location.href = "/index.html";
 }
