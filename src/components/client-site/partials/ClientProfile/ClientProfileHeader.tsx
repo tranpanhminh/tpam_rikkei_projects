@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import logo from "../../../../assets/images/pet-shop.png";
 
 // Import CSS Admin Page
-import "../../../client-site/partials/ClientProfile/ClientProfile.css";
+import styles from "../ClientProfile/ClientProfile.module.css";
 import "../../../../assets/bootstrap-5.3.0-dist/css/bootstrap.min.css";
 
 // Import Components
@@ -31,63 +31,67 @@ const ClientProfileHeader: React.FC = () => {
   };
 
   return (
-    <div className="body">
-      <header className="vertical-menu">
-        <div className="user-panel">
+    <div className={styles["body"]}>
+      <header className={styles["vertical-menu"]}>
+        <div className={styles["user-panel"]}>
           <a href="/index.html">
             <img src={logo} alt="" />
           </a>
-          <p className="user-title">Admin</p>
+          <p className={styles["user-title"]}>Admin</p>
         </div>
 
-        <ul className="main-menu">
+        <ul className={styles["main-menu"]}>
           <div
-            className={type === "ClientEditProfile" ? "active" : ""}
+            className={
+              type === styles["ClientEditProfile"] ? styles["active"] : ""
+            }
             onClick={() => setType("ClientEditProfile")}
           >
-            <li className="admin-btn">
+            <li className={styles["admin-btn"]}>
               <i className="fa-solid fa-user"></i>
               Edit Profile
             </li>
           </div>
           <div
-            className={type === "ClientOrder" ? "active" : ""}
+            className={type === styles["ClientOrder"] ? styles["active"] : ""}
             onClick={() => setType("ClientOrder")}
           >
-            <li className="admin-btn">
+            <li className={styles["admin-btn"]}>
               <i className="fa-solid fa-boxes-stacked"></i>
               My Order
             </li>
           </div>
           <div
-            className={type === "ClientBooking" ? "active" : ""}
+            className={type === styles["ClientBooking"] ? styles["active"] : ""}
             onClick={() => setType("ClientBooking")}
           >
-            <li className="admin-btn">
+            <li className={styles["admin-btn"]}>
               <i className="fa-solid fa-calendar-days"></i>
               My Booking
             </li>
           </div>
           <div
-            className={type === "ClientNewsletter" ? "active" : ""}
+            className={
+              type === styles["ClientNewsletter"] ? styles["active"] : ""
+            }
             onClick={() => setType("ClientNewsletter")}
           >
-            <li className="admin-btn">
+            <li className={styles["admin-btn"]}>
               <i className="fa-solid fa-newspaper"></i>
               My Newsletter
             </li>
           </div>
           <div
-            className={type === "ClientMessage" ? "active" : ""}
+            className={type === styles["ClientMessage"] ? styles["active"] : ""}
             onClick={() => setType("ClientMessage")}
           >
-            <li className="admin-btn">
+            <li className={styles["admin-btn"]}>
               <i className="fa-solid fa-envelope"></i>
               My Message
             </li>
           </div>
           <div>
-            <li className="admin-btn">
+            <li className={styles["admin-btn"]}>
               <i className="fa-solid fa-right-from-bracket"></i>Logout
             </li>
           </div>

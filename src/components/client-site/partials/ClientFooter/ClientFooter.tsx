@@ -1,24 +1,27 @@
 import React from "react";
 import logo from "../../../../assets/images/pet-shop.png";
-
+import styles from "../../ClientPage.module.css";
 function ClientFooter() {
   return (
     <footer>
       <div className="container">
         <div className="row">
           <div className="col-12 col-sm-12 col-md-12 col-xl-3">
-            <p className="footer-headline">CONTACT US</p>
-            <div className="group-footer-logo">
-              <img src={logo} alt="" className="footer-logo" />
-              <p className="footer-description">
+            <p className={styles["footer-headline"]}>CONTACT US</p>
+            <div className={styles["group-footer-logo"]}>
+              <img src={logo} alt="" className={styles["footer-logo"]} />
+              <p className={styles["footer-description"]}>
                 Your one-stop destination for all your pet needs. Discover a
                 wide range of adorable companions and quality pet products at
                 our pet shop.
               </p>
             </div>
           </div>
-          <div className="col-12 col-sm-12 col-md-12 col-xl-3">
-            <p className="footer-headline">HELP & INFORMATION</p>
+          <div
+            className="col-12 col-sm-12 col-md-12 col-xl-3"
+            id={styles["col-12"]}
+          >
+            <p className={styles["footer-headline"]}>HELP & INFORMATION</p>
             <ul>
               <li>
                 <a href="./about.html">About Us</a>
@@ -36,8 +39,11 @@ function ClientFooter() {
               </li>
             </ul>
           </div>
-          <div className="col-12 col-sm-12 col-md-12 col-xl-3">
-            <p className="footer-headline">CUSTOMER SERVICE</p>
+          <div
+            className="col-12 col-sm-12 col-md-12 col-xl-3"
+            id={styles["col-12"]}
+          >
+            <p className={styles["footer-headline"]}>CUSTOMER SERVICE</p>
             <ul>
               <li>
                 <a href="./special-page/return-policy.html">Return Policy</a>
@@ -55,8 +61,11 @@ function ClientFooter() {
               </li>
             </ul>
           </div>
-          <div className="col-12 col-sm-12 col-md-12 col-xl-3">
-            <p className="footer-headline">SITE NAVIGATION</p>
+          <div
+            className="col-12 col-sm-12 col-md-12 col-xl-3"
+            id={styles["col-12"]}
+          >
+            <p className={styles["footer-headline"]}>SITE NAVIGATION</p>
             <ul>
               <li>
                 <a href="./special-page/billing-terms.html">

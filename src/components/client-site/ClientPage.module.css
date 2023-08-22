@@ -94,7 +94,7 @@ img {
   color: #33d6bb;
 }
 
-header {
+.header {
   position: fixed;
   background-color: white;
   width: 100%;
@@ -585,7 +585,12 @@ img.card-img-top {
   height: auto;
 }
 
-.banner-single-col img {
+#banner-single-col img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+#banner-single-col-2 img {
   width: 100%;
   border-radius: 10px;
 }
@@ -724,27 +729,27 @@ footer {
   text-align: justify;
 }
 
-.col-12 ul {
+#col-12 ul {
   text-decoration: none;
   list-style-type: none;
   padding: 0px;
 }
 
-.col-12 ul li {
+#col-12 ul li {
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   padding: 10px 0px;
 }
 
-.col-12 ul li:last-child {
+#col-12 ul li:last-child {
   border: none;
 }
 
-.col-12 ul li a {
+#col-12 ul li a {
   text-decoration: none;
   color: white;
 }
 
-.col-12 ul li a:hover {
+#col-12 ul li a:hover {
   color: #33d6bb;
 }
 
@@ -1516,7 +1521,7 @@ table.table.table-cart {
     width: 100%;
   }
 
-  .discount-group {
+  #discount-group {
     gap: 50px;
   }
 }

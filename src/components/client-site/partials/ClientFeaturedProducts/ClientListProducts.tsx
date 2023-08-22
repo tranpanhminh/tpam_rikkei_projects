@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import styles from "../../ClientPage.module.css";
 import {
   initProductsDatabase,
   getDataFromLocal,
@@ -12,29 +13,34 @@ function ClientListProducts() {
   const [products, setProducts] = useState<Product[]>(
     getDataFromLocal("productsDatabase") || []
   );
+
   return (
-    <div className="category-products">
+    <div className={styles["category-products"]}>
       <div className="container text-center">
         <div className="row align-items-start" id="container-product-category">
           {products.map((product) => {
             return (
-              <div className="col-12 col-sm-12 col-md-6 col-xl-3 mt-5 px-2">
-                <div className="card">
+              <div
+                className={`col-12 col-sm-12 col-md-6 col-xl-3 mt-5 px-2 ${styles["product-card"]}`}
+              >
+                <div className={styles["card"]}>
                   <img
                     src={require(`../../../../assets/images/product-images/${product.productImage[0]}`)}
-                    className="card-img-top"
+                    className={styles["card-img-top"]}
                     alt="..."
                   />
-                  <div className="card-body">
-                    <h5 className="product-title-name">{product.name}</h5>
-                    <p className="card-price">
+                  <div className={styles["card-body"]}>
+                    <h5 className={styles["product-title-name"]}>
+                      {product.name}
+                    </h5>
+                    <p className={styles["card-price"]}>
                       Price: ${product.price.toLocaleString()}
                     </p>
                   </div>
-                  <div className="card-foot">
+                  <div className={styles["card-foot"]}>
                     <button
                       type="button"
-                      className="btn btn-primary detail-btn"
+                      className={`${styles["btn"]} ${styles["btn-primary"]} ${styles["detail-btn"]}`}
                     >
                       Detail
                     </button>

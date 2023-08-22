@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "../../ClientPage.module.css";
 
 function SignupForm() {
   const handleSignUp = () => {
@@ -11,43 +12,43 @@ function SignupForm() {
   };
 
   return (
-    <div className="outside-form-signup">
-      <form className="form-signup" onSubmit={handlePreventForm}>
-        <h3 className="signup-title">Signup</h3>
+    <div className={styles["outside-form-login"]}>
+      <form className={styles["form-signup"]} onSubmit={handlePreventForm}>
+        <h3 className={styles["signup-title"]}>Signup</h3>
         <input
           type="email"
           id="email"
           name="email"
           placeholder="Email"
-          className="input-email"
+          className={styles["input-email"]}
           title="Please enter a valid email format."
         />
         <div className="email-notify"></div>
         <input
           type="text"
           placeholder="Full Name"
-          className="input-fullname"
+          className={styles["input-fullname"]}
           pattern="^[a-zA-Z\s]*$"
         />
-        <div className="fullname-notify"></div>
+        <div className={styles["fullname-notify"]}></div>
         <input
           type="password"
           placeholder="Password"
-          className="input-password"
+          className={styles["input-password"]}
         />
-        <div className="password-notify"></div>
+        <div className={styles["password-notify"]}></div>
         <input
           type="password"
           placeholder="Confirm Password"
-          className="input-repassword"
+          className={styles["input-repassword"]}
         />
-        <div className="repassword-notify"></div>
-        <button className="signup-button" onClick={handleSignUp}>
+        <div className={styles["repassword-notify"]}></div>
+        <button className={styles["signup-button"]} onClick={handleSignUp}>
           Signup
         </button>
-        <p className="login-sentence">
+        <p className={styles["login-sentence"]}>
           Already have an account?{" "}
-          <a href="./login-page.html" className="login-text">
+          <a href="./login-page.html" className={styles["login-text"]}>
             Login
           </a>
         </p>

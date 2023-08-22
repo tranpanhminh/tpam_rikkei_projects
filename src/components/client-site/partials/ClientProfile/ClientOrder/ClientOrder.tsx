@@ -1,16 +1,17 @@
 import React from "react";
 // Import CSS
-import "../ClientOrder/ClientOrder.css";
+// import styles from "../ClientOrder/ClientOrder.module.css";
+import styles from "../ClientProfile.module.css";
 
 function ClientOrder() {
   return (
     <div>
-      <div className="breadcrumb">
-        <h2 className="page-title">My Order</h2>
-        <p className="page-description">PetShop User Panel</p>
+      <div className={styles.breadcrumb}>
+        <h2 className={styles["page-title"]}>My Order</h2>
+        <p className={styles["page-description"]}>PetShop User Panel</p>
       </div>
 
-      <div className="order-history">
+      <div className={styles["order-history"]}>
         {/* <h2 className="order-history-title">Order History</h2> */}
         <div className="table-responsive">
           <table className="table table-cart">
@@ -39,7 +40,7 @@ function ClientOrder() {
                 </th>
               </tr>
             </thead>
-            <tbody id="table-order-history">
+            <tbody id={styles["table-order-history"]}>
               <tr>
                 <th>1</th>
                 <td>4</td>

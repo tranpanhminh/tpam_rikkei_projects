@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 
-.body {
+.main-body {
   display: grid;
   grid-template-columns: 1fr 7fr;
   gap: 20px;

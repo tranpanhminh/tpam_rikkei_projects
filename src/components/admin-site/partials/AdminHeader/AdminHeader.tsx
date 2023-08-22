@@ -8,6 +8,8 @@ import ManageBooking from "../ManageBooking/ManageBooking";
 import ManageServices from "../ManageServices/ManageServices";
 import ManageCoupon from "../ManageCoupon/ManageCoupon";
 
+import styles from "../../AdminPage.module.css";
+
 import {
   initializeDatabase,
   getDataFromLocal,
@@ -35,72 +37,76 @@ const AdminHeader: React.FC = () => {
   };
 
   return (
-    <>
-      <header className="vertical-menu">
-        <div className="user-panel">
+    <body className={styles["main-body"]}>
+      <header className={styles["vertical-menu"]}>
+        <div className={styles["user-panel"]}>
           <a href="/index.html">
             <img src={logo} alt="" />
           </a>
-          <p className="user-title">Admin</p>
+          <p className={styles["user-title"]}>Admin</p>
         </div>
 
-        <ul className="main-menu">
+        <ul className={styles["main-menu"]}>
           <div
-            className={type === "ManageUsers" ? "active" : ""}
+            className={type === styles["ManageUsers"] ? styles["active"] : ""}
             onClick={() => setType("ManageUsers")}
           >
-            <li className="admin-btn">
+            <li className={styles["admin-btn"]}>
               <i className="fa-solid fa-user"></i>
               Manage Users
             </li>
           </div>
           <div
-            className={type === "ManageProducts" ? "active" : ""}
+            className={
+              type === styles["ManageProducts"] ? styles["active"] : ""
+            }
             onClick={() => setType("ManageProducts")}
           >
-            <li className="admin-btn">
+            <li className={styles["admin-btn"]}>
               <i className="fa-solid fa-boxes-stacked"></i>
               Manage Product
             </li>
           </div>
           <div
-            className={type === "ManageOrders" ? "active" : ""}
+            className={type === styles["ManageOrders"] ? styles["active"] : ""}
             onClick={() => setType("ManageOrders")}
           >
-            <li className="admin-btn">
+            <li className={styles["admin-btn"]}>
               <i className="fa-solid fa-cart-shopping"></i>
               Manage Orders
             </li>
           </div>
           <div
-            className={type === "ManageServices" ? "active" : ""}
+            className={
+              type === styles["ManageServices"] ? styles["active"] : ""
+            }
             onClick={() => setType("ManageServices")}
           >
-            <li className="admin-btn">
+            <li className={styles["admin-btn"]}>
               <i className="fa-solid fa-briefcase"></i>
               Manage Services
             </li>
           </div>
           <div
-            className={type === "ManageBooking" ? "active" : ""}
+            className={type === styles["ManageBooking"] ? styles["active"] : ""}
             onClick={() => setType("ManageBooking")}
           >
-            <li className="admin-btn">
+            <li className={styles["admin-btn"]}>
               <i className="fa-solid fa-calendar-days"></i>
               Manage Booking
             </li>
           </div>
           <div
-            className={type === "ManageCoupon" ? "active" : ""}
+            className={type === styles["ManageCoupon"] ? styles["active"] : ""}
             onClick={() => setType("ManageCoupon")}
           >
-            <li className="admin-btn">
+            <li className={styles["admin-btn"]}>
               <i className="fa-solid fa-newspaper"></i>
               Manage Coupons
             </li>
           </div>
           <div>
-            <li className="admin-btn">
+            <li className={styles["admin-btn"]}>
               <i className="fa-solid fa-right-from-bracket"></i>Logout
             </li>
           </div>
@@ -108,7 +114,7 @@ const AdminHeader: React.FC = () => {
       </header>
 
       <main>{renderContent()}</main>
-    </>
+    </body>
   );
 };
 

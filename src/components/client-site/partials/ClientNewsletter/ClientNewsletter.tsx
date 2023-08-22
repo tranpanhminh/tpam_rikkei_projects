@@ -1,17 +1,20 @@
 import React from "react";
+import styles from "../../ClientPage.module.css";
 
 function ClientNewsletter() {
   return (
     <>
-      <section className="newsletter">
+      <section className={styles["newsletter"]}>
         <h3>Our Newsletter</h3>
         <p>
           You may unsubscribe at any moment. For that purpose, please find our
           contact info in the legal notice.
         </p>
-        <div className="newsletter-email">
+        <div className={styles["newsletter-email"]}>
           <input type="text" />
-          <button className="newsletter-btn">Receive Newsletter</button>
+          <button className={styles["newsletter-btn"]}>
+            Receive Newsletter
+          </button>
         </div>
       </section>
     </>

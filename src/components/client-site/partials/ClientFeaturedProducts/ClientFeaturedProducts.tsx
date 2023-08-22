@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import styles from "../../ClientPage.module.css";
 import {
   initProductsDatabase,
   getDataFromLocal,
@@ -15,10 +16,10 @@ function ClientFeaturedProducts() {
 
   return (
     <>
-      <div className="list-products">
-        <div className="group-title-category">
-          <h3 className="headline-title-category">For your pets!</h3>
-          <p className="headline-category">Featured Products</p>
+      <div className={styles["list-products"]}>
+        <div className={styles["group-title-category"]}>
+          <h3 className={styles["headline-title-category"]}>For your pets!</h3>
+          <p className={styles["headline-category"]}>Featured Products</p>
         </div>
 
         <div className="container text-center">
@@ -28,23 +29,27 @@ function ClientFeaturedProducts() {
           >
             {products.map((product) => {
               return (
-                <div className="col-12 col-sm-12 col-md-6 col-xl-3 mt-5 px-2">
-                  <div className="card">
+                <div
+                  className={`col-12 col-sm-12 col-md-6 col-xl-3 mt-5 px-2 ${styles["product-card"]}`}
+                >
+                  <div className={styles["card"]}>
                     <img
                       src={require(`../../../../assets/images/product-images/${product.productImage[0]}`)}
-                      className="card-img-top"
+                      className={styles["card-img-top"]}
                       alt="..."
                     />
-                    <div className="card-body">
-                      <h5 className="product-title-name">{product.name}</h5>
-                      <p className="card-price">
+                    <div className={styles["card-body"]}>
+                      <h5 className={styles["product-title-name"]}>
+                        {product.name}
+                      </h5>
+                      <p className={styles["card-price"]}>
                         Price: ${product.price.toLocaleString()}
                       </p>
                     </div>
-                    <div className="card-foot">
+                    <div className={styles["card-foot"]}>
                       <button
                         type="button"
-                        className="btn btn-primary detail-btn"
+                        className={`${styles["btn"]} ${styles["btn-primary"]} ${styles["detail-btn"]}`}
                       >
                         Detail
                       </button>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import styles from "../../AdminPage.module.css";
 import {
   initializeDatabase,
   getDataFromLocal,
@@ -15,12 +15,12 @@ function ManageOrders() {
 
   return (
     <>
-      <div className="breadcrumb">
-        <h2 className="page-title">Manage Orders</h2>
-        <p className="page-description">PetShop Admin Panel</p>
+      <div className={styles["breadcrumb"]}>
+        <h2 className={styles["page-title"]}>Manage Orders</h2>
+        <p className={styles["page-description"]}>PetShop Admin Panel</p>
       </div>
 
-      <div className="product-panel">
+      <div className={styles["product-panel"]}>
         <div className="d-flex" role="search">
           <input
             className="form-control me-2"
@@ -32,14 +32,14 @@ function ManageOrders() {
           <button
             className="btn btn-outline-success"
             type="submit"
-            id="search-btn"
+            id={styles["search-btn"]}
           >
             Search
           </button>
         </div>
 
         <h3
-          className="revenue-text"
+          className={styles["revenue-text"]}
           data-bs-toggle="modal"
           data-bs-target="#monthlyRevenue"
         >
@@ -47,9 +47,9 @@ function ManageOrders() {
         </h3>
       </div>
 
-      <div className="main-content">
-        <h3 className="main-title-content">List Orders</h3>
-        <table className="table table-striped" id="table-order-list">
+      <div className={styles["main-content"]}>
+        <h3 className={styles["main-title-content"]}>List Orders</h3>
+        <table className="table table-striped" id={styles["table-order-list"]}>
           <thead>
             <tr>
               <th>Order ID</th>
@@ -73,15 +73,17 @@ function ManageOrders() {
                   <td>{order.date}</td>
                   <td>{order.status}</td>
                   <td>Chưa tính</td>
-                  <td className="group-btn-admin">
+                  <td className={styles["group-btn-admin"]}>
                     <button
                       data-bs-toggle="modal"
                       data-bs-target="#exampleModal"
-                      className="detail-order-btn"
+                      className={styles["detail-order-btn"]}
                     >
                       Detail
                     </button>
-                    <button className="delete-order-btn">Delete</button>
+                    <button className={styles["delete-order-btn"]}>
+                      Delete
+                    </button>
                   </td>
                 </tr>
               );

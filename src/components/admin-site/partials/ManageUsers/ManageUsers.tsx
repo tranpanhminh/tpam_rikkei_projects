@@ -6,7 +6,7 @@ import DetailButtonUser from "./Button/DetailUser/DetailButtonUser";
 import DetailModalUserProfile from "./Button/DetailUser/DetailModalUserProfile";
 import { Modal, notification } from "antd";
 
-import "../../AdminPage.css";
+import styles from "../../AdminPage.module.css";
 
 import {
   initializeDatabase,
@@ -98,12 +98,12 @@ function ManageUsers() {
   };
   return (
     <>
-      <div className="breadcrumb">
-        <h2 className="page-title">Manage User</h2>
-        <p className="page-description">PetShop Admin Panel</p>
+      <div className={styles["breadcrumb"]}>
+        <h2 className={styles["page-title"]}>Manage User</h2>
+        <p className={styles["page-description"]}>PetShop Admin Panel</p>
       </div>
 
-      <div className="user-board">
+      <div className={styles["user-board"]}>
         <div className="d-flex" role="search">
           <input
             className="form-control me-2"
@@ -117,7 +117,7 @@ function ManageUsers() {
           <button
             className="btn btn-outline-success"
             type="submit"
-            id="search-btn"
+            id={styles["search-btn"]}
             onClick={handleSearchUser}
           >
             Search
@@ -125,16 +125,16 @@ function ManageUsers() {
         </div>
 
         <AddModalUser
-          className="add-user-btn"
+          className={styles["add-user-btn"]}
           value="Add User"
           title="Add User"
           onAddUser={handleAddUser}
         />
       </div>
-      <div className="search-result"></div>
+      <div className={styles["search-result"]}></div>
 
-      <div className="main-content">
-        <h3 className="main-title-content">List Users</h3>
+      <div className={styles["main-content"]}>
+        <h3 className={styles["main-title-content"]}>List Users</h3>
         <table className="table table-striped" id="table-user">
           <thead>
             <tr>
@@ -154,12 +154,12 @@ function ManageUsers() {
                 <td>{user.fullName}</td>
                 <td>{user.role}</td>
                 <td>{user.status}</td>
-                <td className="group-btn-admin">
+                <td className={styles["group-btn-admin"]}>
                   {user.role !== "admin" && (
                     <>
                       <DetailButtonUser
                         width={700}
-                        className="detail-user-btn"
+                        className={styles["detail-user-btn"]}
                         value="Detail"
                         title="Manage Users"
                         handleFunctionOk={() => console.log(user.id)}
@@ -177,13 +177,13 @@ function ManageUsers() {
 
                       <DetailButtonUser
                         value="Change"
-                        className="change-user-btn"
+                        className={styles["change-user-btn"]}
                         handleFunctionBtn={() => handleChangeUser(user.id)}
                       ></DetailButtonUser>
 
                       <DetailButtonUser
                         value="Delete"
-                        className="delete-user-btn"
+                        className={styles["delete-user-btn"]}
                         handleFunctionBtn={() => handleDeleteUser(user.id)}
                       ></DetailButtonUser>
                     </>

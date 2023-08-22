@@ -5,7 +5,7 @@ import DetailButtonProduct from "./Button/DetailProduct/DetailButtonProduct";
 
 import DetailModalProduct from "./Button/DetailProduct/DetailModalProduct";
 
-import "../../AdminPage.css";
+import styles from "../../AdminPage.module.css";
 
 import {
   initializeDatabase,
@@ -58,12 +58,12 @@ function ManageProducts() {
 
   return (
     <div>
-      <div className="breadcrumb">
-        <h2 className="page-title">Manage Products</h2>
-        <p className="page-description">PetShop Admin Panel</p>
+      <div className={styles["breadcrumb"]}>
+        <h2 className={styles["page-title"]}>Manage Products</h2>
+        <p className={styles["page-description"]}>PetShop Admin Panel</p>
       </div>
 
-      <div className="product-panel">
+      <div className={styles["product-panel"]}>
         <div className="d-flex" role="search">
           <input
             className="form-control me-2"
@@ -77,20 +77,20 @@ function ManageProducts() {
           <button
             className="btn btn-outline-success"
             type="submit"
-            id="search-btn"
+            id={styles["search-btn"]}
             onClick={handleSearchProduct}
           >
             Search
           </button>
         </div>
 
-        <button className="add-product-btn">Add Product</button>
+        <button className={styles["add-user-btn"]}>Add Product</button>
       </div>
 
-      <div className="search-result"></div>
+      <div className={styles["search-result"]}></div>
 
-      <div className="main-content">
-        <h3 className="main-title-content">List Products</h3>
+      <div className={styles["main-content"]}>
+        <h3 className={styles["main-title-content"]}>List Products</h3>
         <table className="table table-striped" id="table-products-manage-page">
           <thead>
             <tr>
@@ -115,16 +115,16 @@ function ManageProducts() {
                 <td>{product.name}</td>
                 <td>{product.price}</td>
                 <td>{product.quantity_stock}</td>
-                <td className="group-btn-admin-manage-product">
+                <td className={styles["group-btn-admin-manage-product"]}>
                   <DetailButtonProduct
                     value="Detail"
                     title="Detail Product"
-                    className="detail-product-btn"
+                    className={styles["detail-product-btn"]}
                     content={<DetailModalProduct productId={product.id} />}
                   ></DetailButtonProduct>
                   <DeleteButtonProduct
                     value="Delete"
-                    className="delete-product-btn"
+                    className={styles["delete-product-btn"]}
                     handleFunctionBtn={() => handleDeleteProduct(product.id)}
                   ></DeleteButtonProduct>
                 </td>

@@ -1,14 +1,14 @@
 import React from "react";
-import "../ClientCart/ClientCart.css";
+import styles from "./ClientCart.module.css";
 import logo from "../../../../assets/images/pet-shop.png";
 
 function ClientCart() {
   return (
     <>
-      <div className="background-outside-shopping-cart">
-        <div className="background-shopping-cart">
-          <div className="shopping-cart-grid">
-            <div className="left-shopping-cart-item">
+      <div className={styles["background-outside-shopping-cart"]}>
+        <div className={styles["background-shopping-cart"]}>
+          <div className={styles["shopping-cart-grid"]}>
+            <div className={styles["left-shopping-cart-item"]}>
               <div className="table-responsive">
                 <table className="table table-cart">
                   <thead>
@@ -33,7 +33,7 @@ function ClientCart() {
                       </th>
                     </tr>
                   </thead>
-                  <tbody id="table-my-cart">
+                  <tbody id={styles["table-my-cart"]}>
                     <tr>
                       <th>1</th>
                       <td>
@@ -44,27 +44,30 @@ function ClientCart() {
                         <input
                           type="number"
                           min="1"
-                          className="product-cart-quantity"
+                          className={styles["product-cart-quantity"]}
                         />
                       </td>
                       <td>1000000</td>
                       <td>
-                        <i className="fa-solid fa-xmark delete-product-icon" />
+                        <i
+                          className="fa-solid fa-xmark"
+                          id={styles["delete-product-icon"]}
+                        />
                       </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
             </div>
-            <div className="right-shopping-cart-item">
-              <div className="card-detail-header">
+            <div className={styles["right-shopping-cart-item"]}>
+              <div className={styles["card-detail-header"]}>
                 <span>Card Details</span>
                 <img src={logo} alt="" />
               </div>
 
-              <div className="card-type">
+              <div className={styles["card-type"]}>
                 <span>Card Type</span>
-                <div className="list-card-type">
+                <div className={styles["list-card-type"]}>
                   <img
                     src="https://i.pcmag.com/imagery/reviews/068BjcjwBw0snwHIq0KNo5m-15..v1602794215.png"
                     alt=""
@@ -80,8 +83,8 @@ function ClientCart() {
                 </div>
               </div>
 
-              <div className="card-info">
-                <div className="card-info-item">
+              <div className={styles["card-info"]}>
+                <div className={styles["card-info-item"]}>
                   {/* <label htmlFor="">Cardholder's Name</label> */}
                   <input
                     type="text"
@@ -90,7 +93,7 @@ function ClientCart() {
                   />
                 </div>
 
-                <div className="card-info-item">
+                <div className={styles["card-info-item"]}>
                   {/* <label htmlFor="">Card Number</label> */}
                   <input
                     type="text"
@@ -103,8 +106,8 @@ function ClientCart() {
                   />
                 </div>
 
-                <div className="card-info-item-special">
-                  <div className="card-info-item-special-detail">
+                <div className={styles["card-info-item-special"]}>
+                  <div className={styles["card-info-item-special-detail"]}>
                     <label htmlFor="">Expiration</label>
                     <input
                       type="text"
@@ -116,7 +119,7 @@ function ClientCart() {
                       maxLength={7}
                     />
                   </div>
-                  <div className="card-info-item-special-detail">
+                  <div className={styles["card-info-item-special-detail"]}>
                     <label htmlFor="">CVV</label>
                     <input
                       type="password"
@@ -131,22 +134,22 @@ function ClientCart() {
                 </div>
               </div>
 
-              <div className="card-info-item">
-                <div className="card-info-item-detail">
+              <div className={styles["card-info-item"]}>
+                <div className={styles["card-info-item-detail"]}>
                   <span>Subtotal</span>
                   <span>$4798.00</span>
                 </div>
-                <div className="card-info-item-detail">
+                <div className={styles["card-info-item-detail"]}>
                   <span>Shipping</span>
                   <span>$20.00</span>
                 </div>
-                <div className="card-info-item-detail">
+                <div className={styles["card-info-item-detail"]}>
                   <span>Total(incl. taxes)</span>
                   <span>$4818.00</span>
                 </div>
               </div>
 
-              <div className="card-total">
+              <div className={styles["card-total"]}>
                 <span>$4818.00</span>
                 <span>
                   Checkout

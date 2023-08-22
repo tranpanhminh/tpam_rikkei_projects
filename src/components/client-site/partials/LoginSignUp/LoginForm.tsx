@@ -1,36 +1,36 @@
 import React from "react";
-
+import styles from "../../ClientPage.module.css";
 function LoginForm() {
   const handleLogin = () => {
     // Handle login logic here
   };
 
   return (
-    <div className="outside-form-login">
-      <section className="form-login">
-        <h3 className="login-title">Login</h3>
+    <div className={styles["outside-form-login"]}>
+      <section className={styles["form-login"]}>
+        <h3 className={styles["login-title"]}>Login</h3>
         <input
           type="email"
           placeholder="Email"
-          id="input-login-email"
+          id={styles["input-login-email"]}
           required
         />
         <input
           type="password"
           placeholder="Password"
-          id="input-login-password"
+          id={styles["input-login-password"]}
         />
-        <p className="forgot-password">
-          <a href="#" className="forgot-password-text">
+        <p className={styles["forgot-password"]}>
+          <a href="#" className={styles["forgot-password-text"]}>
             Forgot password?
           </a>
         </p>
-        <button className="login-button" onClick={handleLogin}>
+        <button className={styles["login-button"]} onClick={handleLogin}>
           Login
         </button>
-        <p className="signup-sentence">
+        <p className={styles["signup-sentence"]}>
           Don't have an account?{" "}
-          <a href="./signup-page.html" className="signup-text">
+          <a href="./signup-page.html" className={styles["signup-text"]}>
             Signup
           </a>
         </p>

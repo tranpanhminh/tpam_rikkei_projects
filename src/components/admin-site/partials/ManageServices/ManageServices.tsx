@@ -5,7 +5,7 @@ import {
   setDataToLocal,
   Service,
 } from "../../../../database"; // Import your data fetching and setting functions
-
+import styles from "../../AdminPage.module.css";
 function ManageServices() {
   const [database, setDatabase] = useState(initializeDatabase);
   const [services, setServices] = useState<Service[]>(
@@ -14,12 +14,12 @@ function ManageServices() {
   console.log(services);
   return (
     <>
-      <div className="breadcrumb">
-        <h2 className="page-title">Manage Services</h2>
-        <p className="page-description">PetShop Admin Panel</p>
+      <div className={styles["breadcrumb"]}>
+        <h2 className={styles["page-title"]}>Manage Services</h2>
+        <p className={styles["page-description"]}>PetShop Admin Panel</p>
       </div>
 
-      <div className="product-panel">
+      <div className={styles["product-panel"]}>
         <div className="d-flex" role="search">
           <input
             className="form-control me-2"
@@ -31,19 +31,19 @@ function ManageServices() {
           <button
             className="btn btn-outline-success"
             type="submit"
-            id="search-btn"
+            id={styles["search-btn"]}
           >
             Search
           </button>
         </div>
 
-        <button className="add-product-btn">Add Service</button>
+        <button className={styles["add-product-btn"]}>Add Service</button>
       </div>
 
-      <div className="search-result"></div>
+      <div className={styles["search-result"]}></div>
 
-      <div className="main-content">
-        <h3 className="main-title-content">List Services</h3>
+      <div className={styles["main-content"]}>
+        <h3 className={styles["main-title-content"]}>List Services</h3>
         <table className="table table-striped" id="table-products-manage-page">
           <thead>
             <tr>
@@ -89,8 +89,12 @@ function ManageServices() {
                       ))}
                   </td>
                   <td>
-                    <button className="detail-product-btn">Detail</button>
-                    <button className="delete-product-btn">Delete</button>
+                    <button className={styles["detail-product-btn"]}>
+                      Detail
+                    </button>
+                    <button className={styles["delete-product-btn"]}>
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))}
