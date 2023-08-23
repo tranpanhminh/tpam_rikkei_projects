@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../../../../assets/images/pet-shop.png";
 import AddModalUser from "../ManageUsers/Button/AddUser/AddModalUser";
 
@@ -7,12 +7,8 @@ import DetailModalUserProfile from "./Button/DetailUser/DetailModalUserProfile";
 import { Modal, notification } from "antd";
 
 import styles from "../../AdminPage.module.css";
-
-import {
-  initializeDatabase,
-  getDataFromLocal,
-  setDataToLocal,
-} from "../../../../database";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 interface User {
   id: number;
@@ -23,79 +19,165 @@ interface User {
 }
 
 function ManageUsers() {
-  const [database, setDatabase] = useState(initializeDatabase);
-  const [users, setUsers] = useState<User[]>(
-    getDataFromLocal<User[]>("accountsDatabase") || []
-  );
+  const [users, setUsers] = useState<null | User[]>(null);
   const [searchText, setSearchText] = useState<string>("");
   console.log(users);
-  // Tổng hợp các hàm
-  const handleSearchUser = () => {
-    const accountsDatabaseAdmin: User[] = JSON.parse(
-      localStorage.getItem("accountsDatabase") || "[]"
-    );
 
-    const filterUser = accountsDatabaseAdmin.filter(function (user) {
-      if (
-        user.email.toLowerCase().includes(searchText.trim().toLowerCase()) ||
-        user.fullName.toLowerCase().includes(searchText.trim().toLowerCase()) ||
-        user.role.toLowerCase().includes(searchText.trim().toLowerCase()) ||
-        user.status.toLowerCase().includes(searchText.trim().toLowerCase())
-      ) {
-        return true;
-      }
-      return false;
-    });
+  const navigate = useNavigate();
 
-    setUsers(filterUser);
-  };
-  const handleChangeUser = (userId: number) => {
-    // Tìm người dùng theo userId
-    const userToUpdate = users.find((user) => user.id === userId);
-
-    if (userToUpdate) {
-      // Đảo ngược trạng thái
-      userToUpdate.status =
-        userToUpdate.status === "Active" ? "Inactive" : "Active";
-
-      // Cập nhật dữ liệu vào mảng users
-      const updatedUsers = users.map((user) =>
-        user.id === userId ? userToUpdate : user
-      );
-
-      // Cập nhật dữ liệu vào localStorage
-      setDataToLocal("accountsDatabase", updatedUsers);
-
-      // Cập nhật state để render lại giao diện
-      setUsers(updatedUsers);
-
-      notification.success({
-        message: "User Status Changed",
-        // description: "Please use another Email.",
+  const fetchUsers = () => {
+    fetch("http://localhost:7373/accounts")
+      .then((response) => response.json())
+      .then((response) => {
+        setUsers(response);
+      })
+      .catch((error) => {
+        console.log(error.message);
       });
-    }
   };
 
-  const handleDeleteUser = (userId: number) => {
-    const updatedUsers = users.filter((user) => user.id !== userId);
-    setUsers(updatedUsers);
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
-    // Update localStorage with new user data
-    setDataToLocal("accountsDatabase", updatedUsers);
-    notification.success({
-      message: "User Deleted",
-      // description: "Please use another Email.",
+  const handleSearchUser = () => {
+    fetch(`http://localhost:7373/accounts?search=${searchText}`)
+      .then((response) => response.json())
+      .then((response) => {
+        setUsers(response);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+  const handleChangeUser = (userId: number) => {
+    const updatedUsers: any = users?.map((user) => {
+      if (user.id === userId) {
+        return {
+          ...user,
+          status: user.status === "Active" ? "Inactive" : "Active",
+        };
+      }
+      return user;
     });
+
+    // Đẩy dữ liệu lên server
+    axios
+      .put(
+        `http://localhost:7373/accounts/${userId}`,
+        updatedUsers.find((user: any) => user.id === userId)
+      )
+      .then(() => {
+        setUsers(updatedUsers);
+        notification.success({
+          message: "User Status Changed",
+        });
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   };
 
   const handleAddUser = (newUser: User) => {
-    const updatedUsers = [...users, newUser];
-    setUsers(updatedUsers);
-    notification.success({
-      message: "User Added",
-      // description: "Please use another Email.",
-    });
+    fetch("http://localhost:7373/accounts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newUser),
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        fetchUsers(); // Cập nhật lại dữ liệu users sau khi thêm
+        notification.success({
+          message: "User Added",
+        });
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   };
+
+  const handleDeleteUser = async (userId: number) => {
+    try {
+      await fetch(`http://localhost:7373/accounts/${userId}`, {
+        method: "DELETE",
+      });
+  
+      await fetchUsers(); // Đợi cập nhật xong trước khi hiển thị thông báo
+      notification.success({
+        message: "User Deleted",
+      });
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  };
+  
+
+  // // Tổng hợp các hàm
+  // const handleSearchUser = () => {
+  //   const filterUser : any = users?.filter(function (user) {
+  //     if (
+  //       user.email.toLowerCase().includes(searchText.trim().toLowerCase()) ||
+  //       user.fullName.toLowerCase().includes(searchText.trim().toLowerCase()) ||
+  //       user.role.toLowerCase().includes(searchText.trim().toLowerCase()) ||
+  //       user.status.toLowerCase().includes(searchText.trim().toLowerCase())
+  //     ) {
+  //       return true;
+  //     }
+  //     return false;
+  //   });
+
+  //   setUsers(filterUser);
+  // };
+  // const handleChangeUser = (userId: number) => {
+  //   // Tìm người dùng theo userId
+  //   // const userToUpdate = users.find((user) => user.id === userId);
+
+  //   // if (userToUpdate) {
+  //   //   // Đảo ngược trạng thái
+  //   //   userToUpdate.status =
+  //   //     userToUpdate.status === "Active" ? "Inactive" : "Active";
+
+  //   //   // Cập nhật dữ liệu vào mảng users
+  //   //   const updatedUsers = users.map((user) =>
+  //   //     user.id === userId ? userToUpdate : user
+  //   //   );
+
+  //   //   // Cập nhật dữ liệu vào localStorage
+  //   //   setDataToLocal("accountsDatabase", updatedUsers);
+
+  //   //   // Cập nhật state để render lại giao diện
+  //   //   setUsers(updatedUsers);
+
+  //   //   notification.success({
+  //   //     message: "User Status Changed",
+  //   //     // description: "Please use another Email.",
+  //   //   });
+  //   // }
+  // };
+
+  // const handleDeleteUser = (userId: number) => {
+  //   // const updatedUsers = users.filter((user) => user.id !== userId);
+  //   // setUsers(updatedUsers);
+
+  //   // // Update localStorage with new user data
+  //   // setDataToLocal("accountsDatabase", updatedUsers);
+  //   // notification.success({
+  //   //   message: "User Deleted",
+  //   //   // description: "Please use another Email.",
+  //   // });
+  // };
+
+  // const handleAddUser = (newUser: User) => {
+  //   // const updatedUsers = [...users, newUser];
+  //   // setUsers(updatedUsers);
+  //   // notification.success({
+  //   //   message: "User Added",
+  //   //   // description: "Please use another Email.",
+  //   // });
+  // };
   return (
     <>
       <div className={styles["breadcrumb"]}>
@@ -147,7 +229,7 @@ function ManageUsers() {
             </tr>
           </thead>
           <tbody>
-            {users.map((user) => (
+            {users?.map((user) => (
               <tr key={user.id}>
                 <td>{user.id}</td>
                 <td>{user.email}</td>

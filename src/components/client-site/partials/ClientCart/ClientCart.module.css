@@ -162,16 +162,19 @@
   border-bottom: 1px solid #ccc;
   padding: 10px;
   font-size: 15px;
+  color: white;
 }
 
 .card-info-item input::placeholder {
-  color: white;
+  color: #ccc;
+  background-color: transparent;
   font-size: 15px;
 }
 
 .card-info-item input[type="text"],
 .card-info-item input[type="password"] {
   color: white;
+  background-color: transparent;
 }
 
 .card-info-item-special {
@@ -184,7 +187,7 @@
 }
 
 .card-info-item-special input::placeholder {
-  color: white;
+  color: #ccc;
   font-size: 15px;
 }
 
@@ -192,6 +195,16 @@
   background-color: transparent;
   border: none;
   border-bottom: 1px solid #ccc;
+}
+
+.card-info-item-special-detail input::placeholder {
+  color: #ccc;
+}
+
+.card-info-item-special-detail input[type="text"],
+.card-info-item-special-detail input[type="password"] {
+  background-color: transparent;
+  color: white;
 }
 
 .card-info-item-detail {
