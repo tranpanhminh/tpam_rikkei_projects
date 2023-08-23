@@ -1,5 +1,5 @@
 import React from "react";
-import "../DetailUser/DetailUserProfile.css";
+import styles from "../DetailUser/DetailUserProfile.module.css";
 
 export interface UserProfile {
   userId: number;
@@ -19,20 +19,24 @@ const UserProfile: React.FC<UserProfile> = ({
   feature,
 }) => {
   return (
-    <div className="list-input-add-student">
-      <div className="list-input-item">
+    <div className={styles["list-input-add-student"]}>
+      <div className={styles["list-input-item"]}>
         <p>User ID</p>
         <input type="text" disabled value={userId.toString()} />
         {feature === "Add User" || feature === "Detail" ? (
           ""
         ) : (
-          <div className="group-action-user-profile">
-            <i className="fa-solid fa-pen-to-square edit-user-icon"></i>
-            <i className="fa-solid fa-check update-user-icon"></i>
+          <div className={styles["group-action-user-profile"]}>
+            <i
+              className={`fa-solid fa-pen-to-square  ${styles["edit-user-icon"]}`}
+            ></i>
+            <i
+              className={`fa-solid fa-check  ${styles["update-user-icon"]}`}
+            ></i>
           </div>
         )}
       </div>
-      <div className="list-input-item">
+      <div className={styles["list-input-item"]}>
         <p>Full Name</p>
         <input
           type="text"
@@ -42,13 +46,17 @@ const UserProfile: React.FC<UserProfile> = ({
         {feature === "Add User" || feature === "Detail" ? (
           ""
         ) : (
-          <div className="group-action-user-profile">
-            <i className="fa-solid fa-pen-to-square edit-user-icon"></i>
-            <i className="fa-solid fa-check update-user-icon"></i>
+          <div className={styles["group-action-user-profile"]}>
+            <i
+              className={`fa-solid fa-pen-to-square  ${styles["edit-user-icon"]}`}
+            ></i>
+            <i
+              className={`fa-solid fa-check  ${styles["update-user-icon"]}`}
+            ></i>
           </div>
         )}
       </div>
-      <div className="list-input-item">
+      <div className={styles["list-input-item"]}>
         <p>Email</p>
         <input
           type="text"
@@ -58,13 +66,17 @@ const UserProfile: React.FC<UserProfile> = ({
         {feature === "Add User" || feature === "Detail" ? (
           ""
         ) : (
-          <div className="group-action-user-profile">
-            <i className="fa-solid fa-pen-to-square edit-user-icon"></i>
-            <i className="fa-solid fa-check update-user-icon"></i>
+          <div className={styles["group-action-user-profile"]}>
+            <i
+              className={`fa-solid fa-pen-to-square  ${styles["edit-user-icon"]}`}
+            ></i>
+            <i
+              className={`fa-solid fa-check  ${styles["update-user-icon"]}`}
+            ></i>
           </div>
         )}
       </div>
-      <div className="list-input-item">
+      <div className={styles["list-input-item"]}>
         <p>Role</p>
         <select name="" id="" disabled={feature === "Detail"}>
           <option value="" selected disabled>
@@ -80,13 +92,17 @@ const UserProfile: React.FC<UserProfile> = ({
         {feature === "Add User" || feature === "Detail" ? (
           ""
         ) : (
-          <div className="group-action-user-profile">
-            <i className="fa-solid fa-pen-to-square edit-user-icon"></i>
-            <i className="fa-solid fa-check update-user-icon"></i>
+          <div className={styles["group-action-user-profile"]}>
+            <i
+              className={`fa-solid fa-pen-to-square  ${styles["edit-user-icon"]}`}
+            ></i>
+            <i
+              className={`fa-solid fa-check  ${styles["update-user-icon"]}`}
+            ></i>
           </div>
         )}
       </div>
-      <div className="list-input-item">
+      <div className={styles["list-input-item"]}>
         <p>Status</p>
         <select name="" id="" disabled={feature === "Detail"}>
           <option value="" selected disabled>

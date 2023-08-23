@@ -1,34 +1,35 @@
 import React, { useEffect } from "react";
 import logo from "../../../../assets/images/pet-shop-remove-bg.png";
 import styles from "../../ClientPage.module.css";
-// Import CSS
 
 function ClientHeaderMobile() {
   // useEffect(() => {
-  //   const openMenu = document.querySelector(".open") as HTMLElement;
+  //   const openMenu = document.querySelector("." + styles.open) as HTMLElement;
   //   const overlay = document.querySelector(
-  //     ".wrapper-mobile-menu"
+  //     "." + styles["wrapper-mobile-menu"]
   //   ) as HTMLElement;
-  //   const menuMobile = document.querySelector(".menu-mobile") as HTMLElement;
+  //   const menuMobile = document.querySelector(
+  //     "." + styles["menu-mobile"]
+  //   ) as HTMLElement;
   //   const hideMenuMobile = document.querySelector(
-  //     ".icon-close-menu"
+  //     "." + styles["icon-close-menu"]
   //   ) as HTMLElement;
 
   //   const openMenuClickHandler = () => {
-  //     overlay.classList.add("active");
-  //     menuMobile.classList.add("active");
+  //     overlay.classList.add(styles.active);
+  //     menuMobile.classList.add(styles.active);
   //   };
 
   //   const overlayClickHandler = (e: Event) => {
   //     if (e.target === overlay) {
-  //       overlay.classList.remove("active");
-  //       menuMobile.classList.remove("active");
+  //       overlay.classList.remove(styles.active);
+  //       menuMobile.classList.remove(styles.active);
   //     }
   //   };
 
   //   const hideMenuMobileClickHandler = () => {
-  //     overlay.classList.remove("active");
-  //     menuMobile.classList.remove("active");
+  //     overlay.classList.remove(styles.active);
+  //     menuMobile.classList.remove(styles.active);
   //   };
 
   //   openMenu.addEventListener("click", openMenuClickHandler);

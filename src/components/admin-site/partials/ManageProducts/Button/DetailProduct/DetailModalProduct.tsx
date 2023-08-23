@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../DetailProduct/DetailModalProduct.css";
+import styles from "../DetailProduct/DetailModalProduct.module.css";
 import { Editor } from "@tinymce/tinymce-react";
 
 import {
@@ -80,8 +80,8 @@ const DetailModalProduct: React.FC<DetailProduct> = ({
    * vấn đề là state của value và haàm set lại giá trị phải cần cùng 1 state
    */
   return (
-    <div className="product-detail-information-container">
-      <div className="left-product-detail-item">
+    <div className={styles["product-detail-information-container"]}>
+      <div className={styles["left-product-detail-item"]}>
         <img
           src={
             findProduct &&
@@ -112,9 +112,9 @@ const DetailModalProduct: React.FC<DetailProduct> = ({
         />
       </div>
 
-      <div className="right-product-detail-item">
-        <div className="product-info-item">
-          <label className="label-product" htmlFor="">
+      <div className={styles["right-product-detail-item"]}>
+        <div className={styles["product-info-item"]}>
+          <label className={styles["label-product"]} htmlFor="">
             Product ID
           </label>
           <input
@@ -125,8 +125,8 @@ const DetailModalProduct: React.FC<DetailProduct> = ({
             onChange={(e) => typeChange(e, "productId")}
           />
         </div>
-        <div className="product-info-item">
-          <label className="label-product" htmlFor="">
+        <div className={styles["product-info-item"]}>
+          <label className={styles["label-product"]} htmlFor="">
             Product Title
           </label>
           <input
@@ -136,8 +136,8 @@ const DetailModalProduct: React.FC<DetailProduct> = ({
             value={findProduct && findProduct.name}
           />
         </div>
-        <div className="product-info-item">
-          <label className="label-product" htmlFor="">
+        <div className={styles["product-info-item"]}>
+          <label className={styles["label-product"]} htmlFor="">
             Description
           </label>
           <div>
@@ -147,8 +147,8 @@ const DetailModalProduct: React.FC<DetailProduct> = ({
             />
           </div>
         </div>
-        <div className="product-info-item">
-          <label className="label-product" htmlFor="">
+        <div className={styles["product-info-item"]}>
+          <label className={styles["label-product"]} htmlFor="">
             Price
           </label>
           <input
@@ -158,8 +158,8 @@ const DetailModalProduct: React.FC<DetailProduct> = ({
             value={findProduct && findProduct.price}
           />
         </div>
-        <div className="product-info-item">
-          <label className="label-product" htmlFor="">
+        <div className={styles["product-info-item"]}>
+          <label className={styles["label-product"]} htmlFor="">
             Vendor
           </label>
           <input
@@ -169,8 +169,8 @@ const DetailModalProduct: React.FC<DetailProduct> = ({
             value={findProduct && findProduct.vendor}
           />
         </div>
-        <div className="product-info-item">
-          <label className="label-product" htmlFor="">
+        <div className={styles["product-info-item"]}>
+          <label className={styles["label-product"]} htmlFor="">
             SKU
           </label>
           <input
@@ -180,8 +180,8 @@ const DetailModalProduct: React.FC<DetailProduct> = ({
             value={findProduct && findProduct.sku}
           />
         </div>
-        <div className="product-info-item">
-          <label className="label-product" htmlFor="">
+        <div className={styles["product-info-item"]}>
+          <label className={styles["label-product"]} htmlFor="">
             Quantity Stock
           </label>
           <input
@@ -191,8 +191,8 @@ const DetailModalProduct: React.FC<DetailProduct> = ({
             value={findProduct && findProduct.quantity_stock}
           />
         </div>
-        <div className="product-info-item">
-          <label className="label-product" htmlFor="">
+        <div className={styles["product-info-item"]}>
+          <label className={styles["label-product"]} htmlFor="">
             Product Image 1
           </label>
           <input
@@ -202,8 +202,8 @@ const DetailModalProduct: React.FC<DetailProduct> = ({
             value={findProduct && findProduct.productImage[0]}
           />
         </div>
-        <div className="product-info-item">
-          <label className="label-product" htmlFor="">
+        <div className={styles["product-info-item"]}>
+          <label className={styles["label-product"]} htmlFor="">
             Product Image 2
           </label>
           <input
@@ -213,8 +213,8 @@ const DetailModalProduct: React.FC<DetailProduct> = ({
             value={findProduct && findProduct.productImage[1]}
           />
         </div>
-        <div className="product-info-item">
-          <label className="label-product" htmlFor="">
+        <div className={styles["product-info-item"]}>
+          <label className={styles["label-product"]} htmlFor="">
             Product Image 3
           </label>
           <input
@@ -224,8 +224,8 @@ const DetailModalProduct: React.FC<DetailProduct> = ({
             value={findProduct && findProduct.productImage[2]}
           />
         </div>
-        <div className="product-info-item">
-          <label className="label-product" htmlFor="">
+        <div className={styles["product-info-item"]}>
+          <label className={styles["label-product"]} htmlFor="">
             Product Image 4
           </label>
           <input

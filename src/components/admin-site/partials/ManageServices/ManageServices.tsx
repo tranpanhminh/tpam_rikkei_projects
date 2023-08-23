@@ -1,11 +1,12 @@
 import React, { useState } from "react";
+import styles from "../../AdminPage.module.css";
+
 import {
   initializeDatabase,
   getDataFromLocal,
   setDataToLocal,
   Service,
 } from "../../../../database"; // Import your data fetching and setting functions
-import styles from "../../AdminPage.module.css";
 function ManageServices() {
   const [database, setDatabase] = useState(initializeDatabase);
   const [services, setServices] = useState<Service[]>(
@@ -26,10 +27,10 @@ function ManageServices() {
             type="search"
             placeholder="Search"
             aria-label="Search"
-            id="search-bar"
+            id={styles["search-bar"]}
           />
           <button
-            className="btn btn-outline-success"
+            className={`btn  ${styles["btn-outline-success"]}`}
             type="submit"
             id={styles["search-btn"]}
           >
@@ -44,7 +45,10 @@ function ManageServices() {
 
       <div className={styles["main-content"]}>
         <h3 className={styles["main-title-content"]}>List Services</h3>
-        <table className="table table-striped" id="table-products-manage-page">
+        <table
+          className="table table-striped"
+          id={styles["table-products-manage-page"]}
+        >
           <thead>
             <tr>
               <th rowSpan={2}>#</th>

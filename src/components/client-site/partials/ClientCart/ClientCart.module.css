@@ -169,8 +169,8 @@
   font-size: 15px;
 }
 
-input[type="text"],
-input[type="password"] {
+.card-info-item input[type="text"],
+.card-info-item input[type="password"] {
   color: white;
 }
 

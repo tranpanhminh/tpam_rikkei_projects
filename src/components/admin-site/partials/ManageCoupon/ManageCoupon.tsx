@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { parse } from "date-fns";
-
+import styles from "../../AdminPage.module.css";
 import {
   initializeDatabase,
   getDataFromLocal,
@@ -16,33 +16,33 @@ function ManageNewsletter() {
 
   return (
     <>
-      <div className="breadcrumb">
-        <h2 className="page-title">Manage Coupons</h2>
-        <p className="page-description">PetShop Admin Panel</p>
+      <div className={styles["breadcrumb"]}>
+        <h2 className={styles["page-title"]}>Manage Coupons</h2>
+        <p className={styles["page-description"]}>PetShop Admin Panel</p>
       </div>
 
-      <div className="product-panel">
+      <div className={styles["product-panel"]}>
         <div className="d-flex" role="search">
           <input
             className="form-control me-2"
             type="search"
             placeholder="Search"
             aria-label="Search"
-            id="search-bar"
+            id={styles["search-bar"]}
           />
           <button
-            className="btn btn-outline-success"
+            className={`btn  ${styles["btn-outline-success"]}`}
             type="submit"
-            id="search-btn"
+            id={styles["search-btn"]}
           >
             Search
           </button>
         </div>
       </div>
 
-      <div className="main-content">
-        <h3 className="main-title-content">List Coupons</h3>
-        <table className="table table-striped" id="table-order-list">
+      <div className={styles["main-content"]}>
+        <h3 className={styles["main-title-content"]}>List Coupons</h3>
+        <table className="table table-striped" id={styles["table-order-list"]}>
           <thead>
             <tr>
               <th rowSpan={2}>Coupon ID</th>
@@ -76,9 +76,13 @@ function ManageNewsletter() {
                       ? "Đã hết"
                       : ""}
                   </td>
-                  <td className="group-btn-admin">
-                    <button className="detail-order-btn">Detail</button>
-                    <button className="delete-order-btn">Delete</button>
+                  <td className={styles["group-btn-admin"]}>
+                    <button className={styles["detail-product-btn"]}>
+                      Detail
+                    </button>
+                    <button className={styles["delete-product-btn"]}>
+                      Delete
+                    </button>
                   </td>
                 </tr>
               );

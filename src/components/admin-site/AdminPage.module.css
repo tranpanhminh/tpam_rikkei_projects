@@ -1,8 +1,8 @@
-* {
+/* * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
+} */
 
 .main-body {
   display: grid;
@@ -11,14 +11,14 @@
   background-color: #d1d1dae7;
 }
 
-html {
+/* html {
   font-family: "Nunito", sans-serif;
 }
 
 img {
   width: 100%;
   object-fit: cover;
-}
+} */
 
 .toast-header {
   background-color: #0171d3;

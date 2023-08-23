@@ -1,8 +1,8 @@
-* {
+/* * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
+} */
 
 .body {
   display: grid;
@@ -12,9 +12,9 @@
   height: 150vh;
 }
 
-html {
+/* html {
   font-family: "Nunito", sans-serif;
-}
+} */
 
 img {
   width: 100%;

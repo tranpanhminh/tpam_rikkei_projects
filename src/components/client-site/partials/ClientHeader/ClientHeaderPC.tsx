@@ -4,30 +4,30 @@ import styles from "../../ClientPage.module.css";
 
 function ClientHeaderPC() {
   // useEffect(() => {
-  //   const openMenu = document.querySelector(".open") as HTMLElement;
+  //   const openMenu = document.querySelector("." + styles.open) as HTMLElement;
   //   const overlay = document.querySelector(
-  //     ".wrapper-mobile-menu"
+  //     "." + styles["wrapper-mobile-menu"]
   //   ) as HTMLElement;
-  //   const menuMobile = document.querySelector(".menu-mobile") as HTMLElement;
+  //   const menuMobile = document.querySelector("." + styles["menu-mobile"]) as HTMLElement;
   //   const hideMenuMobile = document.querySelector(
-  //     ".icon-close-menu"
+  //     "." + styles["icon-close-menu"]
   //   ) as HTMLElement;
 
   //   const openMenuClickHandler = () => {
-  //     overlay.classList.add("active");
-  //     menuMobile.classList.add("active");
+  //     overlay.classList.add(styles.active);
+  //     menuMobile.classList.add(styles.active);
   //   };
 
   //   const overlayClickHandler = (e: Event) => {
   //     if (e.target === overlay) {
-  //       overlay.classList.remove("active");
-  //       menuMobile.classList.remove("active");
+  //       overlay.classList.remove(styles.active);
+  //       menuMobile.classList.remove(styles.active);
   //     }
   //   };
 
   //   const hideMenuMobileClickHandler = () => {
-  //     overlay.classList.remove("active");
-  //     menuMobile.classList.remove("active");
+  //     overlay.classList.remove(styles.active);
+  //     menuMobile.classList.remove(styles.active);
   //   };
 
   //   openMenu.addEventListener("click", openMenuClickHandler);
@@ -86,7 +86,7 @@ function ClientHeaderPC() {
           </ul>
         </div>
         <div className={styles["search-bar"]}>
-          <input type="text" placeholder="Search" id="search-bar" />
+          <input type="text" placeholder="Search" id={styles["search-bar"]} />
           <i
             className="fa-solid fa-magnifying-glass"
             id={styles["search-icon"]}

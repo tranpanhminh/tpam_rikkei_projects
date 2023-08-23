@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button, Modal, notification } from "antd";
+import styles from "../AddUser/AddModalUser.module.css";
 
 import {
   initializeDatabase,
@@ -131,7 +132,11 @@ const AddModalUser: React.FC<AddModalProps> = ({
 
   return (
     <>
-      <Button type="primary" onClick={showModal} className={className}>
+      <Button
+        type="primary"
+        onClick={showModal}
+        className={styles[`${className}`]}
+      >
         {value}
       </Button>
       <Modal
@@ -141,12 +146,12 @@ const AddModalUser: React.FC<AddModalProps> = ({
         onCancel={handleCancel}
         width={width}
       >
-        <div className="list-input-add-student">
-          <div className="list-input-item">
+        <div className={styles["list-input-add-student"]}>
+          <div className={styles["list-input-item"]}>
             <p>User ID</p>
             <input type="text" value={maxId + 1} disabled />
           </div>
-          <div className="list-input-item">
+          <div className={styles["list-input-item"]}>
             <p>Full Name</p>
             <input
               type="text"
@@ -156,7 +161,7 @@ const AddModalUser: React.FC<AddModalProps> = ({
               }
             />
           </div>
-          <div className="list-input-item">
+          <div className={styles["list-input-item"]}>
             <p>Email</p>
             <input
               type="text"
@@ -166,7 +171,7 @@ const AddModalUser: React.FC<AddModalProps> = ({
               }
             />
           </div>
-          <div className="list-input-item">
+          <div className={styles["list-input-item"]}>
             <p>Password</p>
             <input
               type="text"
@@ -176,7 +181,7 @@ const AddModalUser: React.FC<AddModalProps> = ({
               }
             />
           </div>
-          <div className="list-input-item">
+          <div className={styles["list-input-item"]}>
             <p>Role</p>
             <select
               name="role"
@@ -190,7 +195,7 @@ const AddModalUser: React.FC<AddModalProps> = ({
               <option value="customer">Customer</option>
             </select>
           </div>
-          <div className="list-input-item">
+          <div className={styles["list-input-item"]}>
             <p>Status</p>
             <select
               name="status"
