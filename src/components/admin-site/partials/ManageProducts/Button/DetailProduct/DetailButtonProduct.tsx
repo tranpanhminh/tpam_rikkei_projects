@@ -65,13 +65,19 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
   const handleOk = () => {
     console.log("handleSubmit is called");
     const updateProduct = {
-      productImage: [initImage1, initImage2, initImage3, initImage4],
-      name: initName,
-      description: initDescription,
-      price: initPrice,
-      vendor: initVendor,
-      sku: initSku,
-      quantity_stock: initStock,
+      productImage: [
+        initImage1 || products?.productImage[0],
+        initImage2 || products?.productImage[1],
+        initImage3 || products?.productImage[2],
+        initImage4 || products?.productImage[3],
+      ],
+      name: initName !== "" ? initName : products?.name,
+      description:
+        initDescription !== "" ? initDescription : products?.description,
+      price: initPrice !== "" ? initPrice : products?.price,
+      vendor: initVendor !== "" ? initVendor : products?.vendor,
+      sku: initSku !== "" ? initSku : products?.sku,
+      quantity_stock: initStock !== "" ? initStock : products?.quantity_stock,
     };
 
     axios
