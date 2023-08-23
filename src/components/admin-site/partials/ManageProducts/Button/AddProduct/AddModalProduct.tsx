@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Modal, notification } from "antd";
 import styles from "../AddProduct/AddModalProduct.module.css";
-
 import { Product } from "../../../../../../database";
 import axios from "axios";
 import { Editor } from "@tinymce/tinymce-react";
@@ -13,14 +12,14 @@ interface AddModalProps {
   handleClickOk?: (newProduct: Product) => void;
 }
 
-const AddModalUser: React.FC<AddModalProps> = ({
+const AddModalProduct: React.FC<AddModalProps> = ({
   className,
   value,
   title,
   handleClickOk,
 }) => {
   const [products, setProducts] = useState<null | Product[]>(null);
-
+  const [editorInitialValue, setEditorInitialValue] = useState("");
   const [newProduct, setNewProduct] = useState<Product>({
     id: 0,
     productImage: [],
@@ -58,6 +57,23 @@ const AddModalUser: React.FC<AddModalProps> = ({
   };
 
   const handleOk = () => {
+    // Kiểm tra thông tin đầy đủ
+    if (
+      !newProduct.name ||
+      !newProduct.description ||
+      newProduct.price <= 0 ||
+      newProduct.quantity_stock <= 0 ||
+      isNaN(newProduct.price) ||
+      isNaN(newProduct.quantity_stock)
+    ) {
+      notification.warning({
+        message: "Notification",
+        description:
+          "Please make sure all information filled, Price & Quantity must be integer",
+      });
+      return;
+    }
+
     const updatedProduct = {
       ...newProduct,
       id: maxId + 1,
@@ -66,14 +82,13 @@ const AddModalUser: React.FC<AddModalProps> = ({
     const updatedProducts = products ? [...products, updatedProduct] : null;
 
     setProducts(updatedProducts);
-    // setDataToLocal("accountsDatabase", updatedUsers);
     setIsModalOpen(false);
     if (handleClickOk) {
       handleClickOk(updatedProduct);
     }
     setNewProduct({
       id: 0,
-      productImage: [],
+      productImage: ["", "", "", ""],
       name: "",
       description: "",
       price: 0,
@@ -81,6 +96,7 @@ const AddModalUser: React.FC<AddModalProps> = ({
       sku: "",
       quantity_stock: 0,
     });
+    setEditorInitialValue("Type product description here.........");
   };
 
   const handleCancel = () => {
@@ -120,7 +136,12 @@ const AddModalUser: React.FC<AddModalProps> = ({
           </div>
           <div className={styles["list-input-item"]}>
             <p>Description</p>
-            <Editor />
+            <Editor
+              onEditorChange={(content) =>
+                setNewProduct({ ...newProduct, description: content })
+              }
+              initialValue={editorInitialValue}
+            />
           </div>
           <div className={styles["list-input-item"]}>
             <p>Price</p>
@@ -165,10 +186,75 @@ const AddModalUser: React.FC<AddModalProps> = ({
               }
             />
           </div>
+          <div className={styles["list-input-item"]}>
+            <p>Product Image 1</p>
+            <input
+              type="text"
+              value={newProduct.productImage[0]}
+              onChange={(e) =>
+                setNewProduct({
+                  ...newProduct,
+                  productImage: [
+                    e.target.value,
+                    ...newProduct.productImage.slice(1),
+                  ],
+                })
+              }
+            />
+          </div>
+          <div className={styles["list-input-item"]}>
+            <p>Product Image 2</p>
+            <input
+              type="text"
+              value={newProduct.productImage[1]}
+              onChange={(e) =>
+                setNewProduct({
+                  ...newProduct,
+                  productImage: [
+                    newProduct.productImage[0],
+                    e.target.value,
+                    ...newProduct.productImage.slice(2),
+                  ],
+                })
+              }
+            />
+          </div>
+          <div className={styles["list-input-item"]}>
+            <p>Product Image 3</p>
+            <input
+              type="text"
+              value={newProduct.productImage[2]}
+              onChange={(e) =>
+                setNewProduct({
+                  ...newProduct,
+                  productImage: [
+                    ...newProduct.productImage.slice(0, 2),
+                    e.target.value,
+                  ],
+                })
+              }
+            />
+          </div>
+          <div className={styles["list-input-item"]}>
+            <p>Product Image 4</p>
+            <input
+              type="text"
+              value={newProduct.productImage[3]}
+              onChange={(e) =>
+                setNewProduct({
+                  ...newProduct,
+                  productImage: [
+                    ...newProduct.productImage.slice(0, 3),
+                    e.target.value,
+                  ],
+                })
+              }
+            />
+          </div>
         </div>
       </Modal>
     </>
   );
 };
 
-export default AddModalUser;
+export default AddModalProduct;

@@ -3,13 +3,12 @@ import Table from "react-bootstrap/Table";
 import DeleteButtonProduct from "./Button/DeleteProduct/DeleteButtonProduct";
 import DetailButtonProduct from "./Button/DetailProduct/DetailButtonProduct";
 import DetailModalProduct from "./Button/DetailProduct/DetailModalProduct";
-
+import { Modal, notification } from "antd";
 import { Product } from "../../../../database";
 import axios from "axios";
 import AddModalProduct from "../ManageProducts/Button/AddProduct/AddModalProduct";
 
 import styles from "../../AdminPage.module.css";
-import { notification } from "antd";
 
 function ManageProducts() {
   const [products, setProducts] = useState<null | Product[]>(null);
@@ -78,9 +77,23 @@ function ManageProducts() {
     axios
       .post("http://localhost:7373/products", newProduct)
       .then(() => {
-        fetchUsers(); // Cập nhật lại dữ liệu users sau khi thêm
+        fetchUsers(); // Cập nhật lại dữ liệu products sau khi thêm
         notification.success({
           message: "Product Added",
+        });
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+  const handleDeleteProduct = (productId: number) => {
+    axios
+      .delete(`http://localhost:7373/products/${productId}`)
+      .then(() => {
+        fetchUsers(); // Cập nhật lại dữ liệu products sau khi xóa
+        notification.success({
+          message: "Product Deleted",
         });
       })
       .catch((error) => {
@@ -159,7 +172,7 @@ function ManageProducts() {
                   <DeleteButtonProduct
                     value="Delete"
                     className={styles["delete-product-btn"]}
-                    // handleFunctionBtn={() => handleDeleteProduct(product.id)}
+                    handleFunctionBtn={() => handleDeleteProduct(product.id)}
                   ></DeleteButtonProduct>
                 </td>
               </tr>

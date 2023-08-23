@@ -12,10 +12,7 @@ interface DetailModalProps {
 const DeleteModalProduct: React.FC<DetailModalProps> = ({
   className,
   value,
-  content,
   handleFunctionBtn,
-  title,
-  width,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
