@@ -49,7 +49,7 @@ function ManageProducts() {
                 .includes(searchText.trim().toLowerCase()) ||
               product.price
                 .toString()
-                .includes(searchText.trim().toLowerCase()) ||
+                .includes(searchText.trim()) ||
               product.vendor
                 .toLowerCase()
                 .includes(searchText.trim().toLowerCase()) ||
@@ -58,7 +58,7 @@ function ManageProducts() {
                 .includes(searchText.trim().toLowerCase()) ||
               product.quantity_stock
                 .toString()
-                .includes(searchText.trim().toLowerCase())
+                .includes(searchText.trim())
             ) {
               return true;
             }
