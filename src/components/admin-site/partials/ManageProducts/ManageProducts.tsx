@@ -163,23 +163,7 @@ function ManageProducts() {
                     value="Detail"
                     title="Detail Product"
                     className={styles["detail-product-btn"]}
-                    content={
-                      <DetailModalProduct
-                        productId={product.id}
-                        productImage={[
-                          product.productImage[0],
-                          product.productImage[1],
-                          product.productImage[2],
-                          product.productImage[3],
-                        ]}
-                        name={product.name}
-                        description={product.description}
-                        price={product.price}
-                        vendor={product.vendor}
-                        sku={product.sku}
-                        quantity_stock={product.quantity_stock}
-                      ></DetailModalProduct>
-                    }
+                    getProductId={product.id}
                   ></DetailButtonProduct>
                   <DeleteButtonProduct
                     value="Delete"
