@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import DeleteButtonProduct from "./Button/DeleteProduct/DeleteButtonProduct";
 import DetailButtonProduct from "./Button/DetailProduct/DetailButtonProduct";
-import DetailModalProduct from "./Button/DetailProduct/DetailModalProduct";
 import { Modal, notification } from "antd";
 import { Product } from "../../../../database";
 import axios from "axios";
@@ -14,7 +13,7 @@ function ManageProducts() {
   const [products, setProducts] = useState<null | Product[]>(null);
   const [searchText, setSearchText] = useState<string>("");
 
-  const fetchUsers = () => {
+  const fetchProducts = () => {
     axios
       .get("http://localhost:7373/products")
       .then((response) => {
@@ -26,13 +25,13 @@ function ManageProducts() {
   };
 
   useEffect(() => {
-    fetchUsers();
+    fetchProducts();
   }, []);
 
   const handleSearchProduct = () => {
     if (searchText === "") {
-      // Nếu searchText rỗng, gọi lại fetchUsers để lấy tất cả người dùng
-      fetchUsers();
+      // Nếu searchText rỗng, gọi lại fetchProducts để lấy tất cả người dùng
+      fetchProducts();
     } else {
       // Nếu có searchText, thực hiện tìm kiếm và cập nhật state
       axios
@@ -73,7 +72,7 @@ function ManageProducts() {
     axios
       .post("http://localhost:7373/products", newProduct)
       .then(() => {
-        fetchUsers(); // Cập nhật lại dữ liệu products sau khi thêm
+        fetchProducts(); // Cập nhật lại dữ liệu products sau khi thêm
         notification.success({
           message: "Product Added",
         });
@@ -87,9 +86,23 @@ function ManageProducts() {
     axios
       .delete(`http://localhost:7373/products/${productId}`)
       .then(() => {
-        fetchUsers(); // Cập nhật lại dữ liệu products sau khi xóa
+        fetchProducts(); // Cập nhật lại dữ liệu products sau khi xóa
         notification.success({
           message: "Product Deleted",
+        });
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+  const handleUpdateProduct = () => {
+    axios
+      .get("http://localhost:7373/products")
+      .then(() => {
+        fetchProducts(); // Cập nhật lại dữ liệu users sau khi thêm
+        notification.success({
+          message: "Product Updated",
         });
       })
       .catch((error) => {
@@ -164,6 +177,7 @@ function ManageProducts() {
                     title="Detail Product"
                     className={styles["detail-product-btn"]}
                     getProductId={product.id}
+                    handleFunctionOk={handleUpdateProduct}
                   ></DetailButtonProduct>
                   <DeleteButtonProduct
                     value="Delete"

@@ -84,12 +84,14 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
       .put(`http://localhost:7373/products/${getProductId}`, updateProduct)
       .then((response) => {
         console.log("Product updated successfully:", response.data);
-        setIsModalOpen(false);
-        setProducts(response.data); // Cập nhật lại state products sau khi cập nhật thành công
+        setIsModalOpen(false); // Close the modal
       })
       .catch((error) => {
         console.error("Error updating product:", error);
       });
+    if (handleFunctionOk) {
+      handleFunctionOk();
+    }
   };
 
   const handleCancel = () => {
