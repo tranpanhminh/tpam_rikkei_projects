@@ -1,6 +1,7 @@
 import React from "react";
 import aboutImage from "../../../../assets/images/about-store.jpg";
 import styles from "../../ClientPage.module.css";
+import { NavLink } from "react-router-dom";
 
 function ClientAboutStore() {
   return (
@@ -24,7 +25,7 @@ function ClientAboutStore() {
                   all the essential nutrients. your cat needs.
                 </p>
                 <button className={styles["read-more-btn"]}>
-                  <a href="./about.html">READ MORE</a>
+                  <NavLink to="/about">READ MORE</NavLink>
                 </button>
               </div>
             </div>

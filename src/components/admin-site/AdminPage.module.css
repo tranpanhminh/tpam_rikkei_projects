@@ -60,10 +60,13 @@ ul.main-menu {
   margin-top: 20px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
 }
 
-.vertical-menu ul div:hover {
+.navlink-menu-admin {
+  text-decoration: none;
+}
+
+.main-menu .vertical-menu ul div:hover {
   background-color: #33d6bb;
   cursor: pointer;
   border-radius: 10px;
@@ -75,10 +78,13 @@ ul.main-menu {
 
 .admin-btn {
   color: inherit;
+  padding: 5px;
 }
 
 .admin-btn:hover {
   opacity: 85%;
+  background-color: #33d6bb;
+  border-radius: 5px;
   color: white;
 }
 

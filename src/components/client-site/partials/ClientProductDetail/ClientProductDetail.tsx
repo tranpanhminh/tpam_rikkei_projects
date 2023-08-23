@@ -53,7 +53,9 @@ function ClientProductDetail() {
                     {products && products.name}
                   </h2>
                   <p className={styles["product-description"]}>
-                    {products && products.description}
+                    {React.createElement("div", {
+                      dangerouslySetInnerHTML: { __html: products.description },
+                    })}
                   </p>
                   <div className={styles["product-price"]}>
                     <span>Price</span>
@@ -69,7 +71,7 @@ function ClientProductDetail() {
                   </div>
                   <div className={styles["product-add-quantity"]}>
                     <p>Quantity:</p>
-                    <input type="number" min="1" />
+                    <input type="number" min="1" defaultValue={1} />
                   </div>
                   <button
                     className={styles["product-detail-page-add-to-cart-btn"]}

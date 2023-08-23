@@ -1,6 +1,7 @@
 import React from "react";
 import logo from "../../../../assets/images/pet-shop.png";
 import styles from "../../ClientPage.module.css";
+import { NavLink } from "react-router-dom";
 function ClientFooter() {
   return (
     <footer>
@@ -24,7 +25,7 @@ function ClientFooter() {
             <p className={styles["footer-headline"]}>HELP & INFORMATION</p>
             <ul>
               <li>
-                <a href="./about.html">About Us</a>
+                <NavLink to="./about">About Us</NavLink>
               </li>
               <li>
                 <a href="./special-page/contact-us.html">Contact Us</a>

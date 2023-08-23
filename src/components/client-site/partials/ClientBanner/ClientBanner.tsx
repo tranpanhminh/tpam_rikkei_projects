@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "../../ClientPage.module.css";
+import { NavLink } from "react-router-dom";
 
 function ClientBanner() {
   return (
@@ -16,12 +17,9 @@ function ClientBanner() {
               Get 25% off your order of $50 or more when you buy online and
               pickup in-store!
             </p>
-            <a
-              href="./products-category.html"
-              className={styles["shop-now-btn"]}
-            >
+            <NavLink to="/" className={styles["shop-now-btn"]}>
               Shop now
-            </a>
+            </NavLink>
           </div>
         </div>
       </section>

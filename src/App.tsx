@@ -13,6 +13,13 @@ import ClientSignupPage from "./components/client-site/layouts/ClientSignupPage"
 import ClientServicesPage from "./components/client-site/layouts/ClientServicesPage";
 import ClientAboutPage from "./components/client-site/layouts/ClientAboutPage";
 import ClientServiceDetailPage from "./components/client-site/layouts/ClientServiceDetailPage";
+import Page404 from "./components/client-site/layouts/404";
+import AdminUsersPage from "./components/admin-site/layouts/AdminUsersPage";
+import AdminProductsPage from "./components/admin-site/layouts/AdminProductsPage";
+import AdminServicesPage from "./components/admin-site/layouts/AdminServicesPage";
+import AdminCouponPage from "./components/admin-site/layouts/AdminCouponPage";
+import AdminBookingPage from "./components/admin-site/layouts/AdminBookingPage";
+import AdminOrderPage from "./components/admin-site/layouts/AdminOrderPage";
 
 function App() {
   return (
@@ -40,9 +47,35 @@ function App() {
             path="/services/:serviceId"
             element={<ClientServiceDetailPage />}
           ></Route>
-
-          <Route path="/admin" element={<AdminHeader />}></Route>
+          <Route path="/admin/" element={<AdminUsersPage />}></Route>
+          <Route
+            path="/admin/manage-users"
+            element={<AdminUsersPage />}
+          ></Route>
+          <Route
+            path="/admin/manage-products"
+            element={<AdminProductsPage />}
+          ></Route>
+          <Route
+            path="/admin/manage-orders"
+            element={<AdminOrderPage />}
+          ></Route>
+          <Route
+            path="/admin/manage-services"
+            element={<AdminServicesPage />}
+          ></Route>{" "}
+          <Route
+            path="/admin/manage-booking"
+            element={<AdminBookingPage />}
+          ></Route>
+          <Route
+            path="/admin/manage-coupons"
+            element={<AdminCouponPage />}
+          ></Route>
           <Route path="/user" element={<ClientProfilePage />}></Route>
+          <Route path="/logout" element={<ClientHomePage />}></Route>
+          <Route path="/user" element={<ClientProfilePage />}></Route>
+          <Route path="*" element={<Page404 />}></Route>
         </Routes>
       </BrowserRouter>
     </>

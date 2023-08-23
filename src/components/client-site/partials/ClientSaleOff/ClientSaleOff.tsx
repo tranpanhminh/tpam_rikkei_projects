@@ -2,6 +2,7 @@ import React from "react";
 import leftBanner from "../../../../assets/images/dog-banner-homepage.jpg";
 import rightBanner from "../../../../assets/images/cat-banner-homepage.jpg";
 import styles from "../../ClientPage.module.css";
+import { NavLink } from "react-router-dom";
 function ClientSaleOff() {
   return (
     <>
@@ -25,12 +26,9 @@ function ClientSaleOff() {
                   <span className={styles["text-shop-left"]}>
                     Save 10% on pets clothing
                   </span>
-                  <a
-                    href="/products-category.html"
-                    className={styles["shop-now-banner-btn"]}
-                  >
+                  <NavLink to="/" className={styles["shop-now-banner-btn"]}>
                     SHOP NOW
-                  </a>
+                  </NavLink>
                 </div>
               </div>
             </div>
@@ -49,12 +47,9 @@ function ClientSaleOff() {
                   <span className={styles["text-shop-right"]}>
                     Best Toys for dogs!
                   </span>
-                  <a
-                    href="/products-category.html"
-                    className={styles["shop-now-banner-btn"]}
-                  >
+                  <NavLink to="/" className={styles["shop-now-banner-btn"]}>
                     SHOP NOW
-                  </a>
+                  </NavLink>
                 </div>
               </div>
             </div>
