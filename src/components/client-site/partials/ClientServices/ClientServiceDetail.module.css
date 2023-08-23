@@ -1,0 +1,86 @@
+/* CSS Product Detail Page */
+.wrap-service-detail-page {
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+.service-detail-info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-align: left;
+}
+
+.service-title-name {
+  text-align: center;
+  color: #0c337c;
+  font-weight: bold;
+}
+
+.service-description {
+  text-align: justify;
+  font-size: 16px;
+}
+
+.service-price {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+}
+
+.service-price span:first-child {
+  width: 120px;
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: bold;
+  background-color: #33d6bb;
+}
+
+.booking-service-btn {
+  background-color: #eb6300;
+  border: none;
+  color: white;
+  padding: 10px;
+  width: 50%;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.booking-service-btn:hover {
+  opacity: 85%;
+}
+
+.services-detail-table th,
+.services-detail-table td {
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+.services-detail-table th {
+  text-align: center;
+}
+
+.services-detail-table td:last-child {
+  text-align: center;
+}
+
+@media only screen and (max-width: 1079px) {
+  .service-title-name {
+    margin-top: 30px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .service-detail {
+    margin-bottom: 25px;
+  }
+  .service-title-name {
+    margin-top: 30px;
+  }
+
+  .booking-service-btn {
+    width: 100%;
+  }
+}

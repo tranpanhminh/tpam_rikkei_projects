@@ -12,6 +12,7 @@ import ClientProfilePage from "./components/client-site/layouts/ClientProfilePag
 import ClientSignupPage from "./components/client-site/layouts/ClientSignupPage";
 import ClientServicesPage from "./components/client-site/layouts/ClientServicesPage";
 import ClientAboutPage from "./components/client-site/layouts/ClientAboutPage";
+import ClientServiceDetailPage from "./components/client-site/layouts/ClientServiceDetailPage";
 
 function App() {
   return (
@@ -30,11 +31,16 @@ function App() {
             path="/products"
             element={<ClientProductCategoryPage />}
           ></Route>
-          <Route path="/services" element={<ClientServicesPage />}></Route>
           <Route
             path="/products/:productId"
             element={<ClientProductDetailPage />}
           ></Route>
+          <Route path="/services" element={<ClientServicesPage />}></Route>
+          <Route
+            path="/services/:serviceId"
+            element={<ClientServiceDetailPage />}
+          ></Route>
+
           <Route path="/admin" element={<AdminHeader />}></Route>
           <Route path="/user" element={<ClientProfilePage />}></Route>
         </Routes>

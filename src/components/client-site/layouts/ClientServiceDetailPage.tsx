@@ -1,13 +1,12 @@
 import React from "react";
 // Import Client Partials
 import ClientHeaderPC from "../partials/ClientHeader/ClientHeaderPC";
-import ClientHeaderMobile from "../partials/ClientHeader/ClientHeaderMobile";
 import ClientBanner from "../partials/ClientBanner/ClientBanner";
-import ProductsCategoryBreadCrumb from "../partials/Breadcrumbs/ProductsCategoryBreadCrumb";
-import ClientProductDetail from "../partials/ClientProductDetail/ClientProductDetail";
 import ClientFooter from "../partials/ClientFooter/ClientFooter";
+import ClientServiceDetail from "./../partials/ClientServices/ClientServiceDetail";
+import ProductsServiceBreadCrumb from "../partials/Breadcrumbs/ProductsServiceBreadCrumb";
 
-function ClientProductDetailPage() {
+function ClientServiceDetailPage() {
   return (
     <>
       {/* Client Product Detail Page */}
@@ -15,12 +14,12 @@ function ClientProductDetailPage() {
       {/* <ClientHeaderMobile /> */}
       <div className="main">
         <ClientBanner />
-        <ProductsCategoryBreadCrumb />
-        <ClientProductDetail />
+        <ProductsServiceBreadCrumb />
+        <ClientServiceDetail />
       </div>
       <ClientFooter />
     </>
   );
 }
 
-export default ClientProductDetailPage;
+export default ClientServiceDetailPage;

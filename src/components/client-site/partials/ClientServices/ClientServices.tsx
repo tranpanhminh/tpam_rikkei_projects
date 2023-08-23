@@ -1,9 +1,25 @@
-import React from "react";
-import veterianarian from "../../../../assets/images/veterinary-service.jpg";
-import petGrooming from "../../../../assets/images/dog-grooming-service.jpg";
-import petSitting from "../../../../assets/images/pet-sitting-service.png";
+import React, { useEffect, useState } from "react";
+
 import styles from "../../ClientPage.module.css";
+import axios from "axios";
+import { Service } from "../../../../database";
+import { NavLink } from "react-router-dom";
 function ClientServices() {
+  const [services, setServices] = useState<null | Service[]>(null);
+  const fetchServices = () => {
+    axios
+      .get(`http://localhost:7373/services/`)
+      .then((response) => {
+        setServices(response.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+  useEffect(() => {
+    fetchServices();
+  }, []);
   return (
     <>
       <div className={styles["for-your-pet"]}>
@@ -14,30 +30,27 @@ function ClientServices() {
 
         <div className="container text-center">
           <div className="row align-items-start">
-            <div className="col-12 col-sm-12 col-md-6 col-xl-4 px-3 my-2">
-              <div className={styles["collection-item"]}>
-                <img src={veterianarian} alt="" className="collection-image" />
-                <div className={styles["collection-caption"]}>
-                  <p className={styles["collection-title"]}>Veterinarian</p>
-                </div>
-              </div>
-            </div>
-            <div className="col-12 col-sm-12 col-md-6 col-xl-4 px-3 my-2">
-              <div className={styles["collection-item"]}>
-                <img src={petGrooming} alt="" className="collection-image" />
-                <div className={styles["collection-caption"]}>
-                  <p className={styles["collection-title"]}>Pet Grooming</p>
-                </div>
-              </div>
-            </div>
-            <div className="col-12 col-sm-12 col-md-6 col-xl-4 px-3 my-2">
-              <div className={styles["collection-item"]}>
-                <img src={petSitting} alt="" className="collection-image" />
-                <div className={styles["collection-caption"]}>
-                  <p className={styles["collection-title"]}>Pet Sitting</p>
-                </div>
-              </div>
-            </div>
+            {services &&
+              services.map((service) => {
+                return (
+                  <div className="col-12 col-sm-12 col-md-6 col-xl-4 px-3 my-2">
+                    <div className={styles["collection-item"]}>
+                      <img
+                        src={service.serviceImage}
+                        alt=""
+                        className="collection-image"
+                      />
+                      <div className={styles["collection-caption"]}>
+                        <NavLink to={`/services/${service.id}`}>
+                          <p className={styles["collection-title"]}>
+                            {service.name}
+                          </p>
+                        </NavLink>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
           </div>
         </div>
       </div>

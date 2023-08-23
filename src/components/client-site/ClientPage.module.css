@@ -30,7 +30,8 @@ img {
 
 .header-main-menu {
   display: flex;
-  gap: 20px;
+  gap: 10px;
+  flex-wrap: nowrap !important;
 }
 
 .button-icon-menu {
@@ -1449,7 +1450,7 @@ table.table.table-cart {
     justify-content: center;
     gap: 20px;
     height: 100%;
-    margin-left: 40px;
+    margin-left: 20px;
   }
 
   .caption-discount {
