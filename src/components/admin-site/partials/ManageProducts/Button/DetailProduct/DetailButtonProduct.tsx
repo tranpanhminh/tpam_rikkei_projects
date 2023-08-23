@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button, Modal } from "antd";
+import { Product } from "../../../../../../database";
 
 interface DetailModalProps {
   className?: string; // Thêm khai báo cho thuộc tính className
@@ -12,10 +13,10 @@ interface DetailModalProps {
 const DetailButtonProduct: React.FC<DetailModalProps> = ({
   className,
   value,
-  handleFunctionBtn,
-  handleFunctionOk,
   title,
   content,
+  handleFunctionOk,
+  handleFunctionBtn,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -24,10 +25,11 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
   };
 
   const handleOk = () => {
-    handleFunctionOk();
+    if (handleFunctionOk) {
+      handleFunctionOk();
+    }
     setIsModalOpen(false);
   };
-
   const handleCancel = () => {
     setIsModalOpen(false);
   };

@@ -47,18 +47,14 @@ function ManageProducts() {
               product.name
                 .toLowerCase()
                 .includes(searchText.trim().toLowerCase()) ||
-              product.price
-                .toString()
-                .includes(searchText.trim()) ||
+              product.price.toString().includes(searchText.trim()) ||
               product.vendor
                 .toLowerCase()
                 .includes(searchText.trim().toLowerCase()) ||
               product.sku
                 .toLowerCase()
                 .includes(searchText.trim().toLowerCase()) ||
-              product.quantity_stock
-                .toString()
-                .includes(searchText.trim())
+              product.quantity_stock.toString().includes(searchText.trim())
             ) {
               return true;
             }
@@ -167,7 +163,26 @@ function ManageProducts() {
                     value="Detail"
                     title="Detail Product"
                     className={styles["detail-product-btn"]}
-                    content={<DetailModalProduct productId={product.id} />}
+                    handleFunctionOk={() =>
+                      console.log("Product ID", product.id)
+                    }
+                    content={
+                      <DetailModalProduct
+                        productId={product.id}
+                        productImage={[
+                          product.productImage[0],
+                          product.productImage[1],
+                          product.productImage[2],
+                          product.productImage[3],
+                        ]}
+                        name={product.name}
+                        description={product.description}
+                        price={product.price}
+                        vendor={product.vendor}
+                        sku={product.sku}
+                        quantity_stock={product.quantity_stock}
+                      ></DetailModalProduct>
+                    }
                   ></DetailButtonProduct>
                   <DeleteButtonProduct
                     value="Delete"
