@@ -12,7 +12,7 @@ function ClientCartPage() {
     <>
       {/* Client Product Detail Page */}
       <ClientHeaderPC />
-      <ClientHeaderMobile />
+      {/* <ClientHeaderMobile /> */}
       <div className="main">
         <ClientBanner />
         <ProductsCategoryBreadCrumb />

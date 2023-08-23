@@ -18,18 +18,10 @@ function ClientHomePage() {
     <>
       {/* Homepage */}
       <ClientHeaderPC />
-      {/* <ClientHeaderMobile /> */}
       <div className="main">
         {" "}
         <ClientBanner />
-        <ClientPromotionGroup />
-        <ClientFeaturedCategories />
         <ClientAboutStore />
-        <ClientServices />
-        <ClientFeaturedProducts />
-        <ClientSaleOff />
-        <ClientReviews />
-        <ClientNewsletter />{" "}
       </div>
       <ClientFooter />
     </>

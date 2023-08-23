@@ -11,7 +11,7 @@ function ClientSignupPage() {
     <>
       {/* Signup Page */}
       <ClientHeaderPC />
-      <ClientHeaderMobile />
+      {/* <ClientHeaderMobile /> */}
       <div className="main">
         <ClientBanner />
         <SignupForm />

@@ -1,8 +1,23 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect } from "react";
 import logo from "../../../../assets/images/pet-shop-remove-bg.png";
 import styles from "../../ClientPage.module.css";
+import {
+  Button,
+  Container,
+  Form,
+  Nav,
+  NavDropdown,
+  Navbar,
+} from "react-bootstrap";
+import { NavLink } from "react-router-dom";
 
 function ClientHeaderPC() {
+  const NavLinkStyle = ({ isActive }: { isActive: boolean }) => ({
+    color: isActive ? "white" : "black",
+    fontWeight: "bold",
+    backgroundColor: isActive ? "#33d6bb" : "",
+  });
   // useEffect(() => {
   //   const openMenu = document.querySelector("." + styles.open) as HTMLElement;
   //   const overlay = document.querySelector(
@@ -51,72 +66,95 @@ function ClientHeaderPC() {
 
   return (
     <header className={styles["header"]}>
-      <nav className={styles["main-menu"]}>
-        <div className={styles["logo"]}>
-          <a href="/index.html">
-            <img
-              src={logo}
-              alt="Logo Petshop"
-              className={styles["logo-petshop"]}
+      <Navbar
+        expand="lg"
+        className="bg-body-tertiary"
+        id={styles["background-main-menu"]}
+      >
+        <Container fluid className={styles["header-main-menu"]}>
+          <NavLink to="/">
+            <img src={logo} className={styles["header-menu-logo"]}></img>
+          </NavLink>
+          <Form className="d-flex">
+            <Form.Control
+              type="search"
+              placeholder="Search"
+              className="me-2"
+              aria-label="Search"
             />
-          </a>
-        </div>
-        <div className={styles["menu"]}>
-          <ul className={styles["nav-main-menu"]}>
-            <li>
-              <a href="/index.html" className={styles["menu-item"]}>
+            <Button variant="outline-success">Search</Button>
+          </Form>
+          <Navbar.Toggle aria-controls="navbarScroll" />
+          <Navbar.Collapse id="navbarScroll">
+            <Nav
+              className="me-auto my-2 my-lg-0"
+              id={styles["menu-navlink"]}
+              style={{ maxHeight: "100px" }}
+              navbarScroll
+            >
+              <NavLink
+                to="/"
+                className={styles["navlink-main-menu"]}
+                style={NavLinkStyle}
+              >
                 Home
-              </a>
-            </li>
-            <li>
-              <a href="/about.html" className={styles["menu-item"]}>
+              </NavLink>
+              <NavLink
+                to="/about"
+                className={styles["navlink-main-menu"]}
+                style={NavLinkStyle}
+              >
                 About
-              </a>
-            </li>
-            <li>
-              <a href="/services-category.html" className={styles["menu-item"]}>
-                Services
-              </a>
-            </li>
-            <li>
-              <a href="/products-category.html" className={styles["menu-item"]}>
+              </NavLink>
+              <NavLink
+                to="/products"
+                className={styles["navlink-main-menu"]}
+                style={NavLinkStyle}
+              >
                 Products
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div className={styles["search-bar"]}>
-          <input type="text" placeholder="Search" id={styles["search-bar"]} />
-          <i
-            className="fa-solid fa-magnifying-glass"
-            id={styles["search-icon"]}
-            // onClick={handleSearch}
-          ></i>
-        </div>
-        <div className={styles["group-user"]}>
-          <a href="/login-page.html">
-            <button className={styles["login-btn my-button"]}>Login</button>
-          </a>
-          <a href="/signup-page.html">
-            <button className={styles["signup-btn my-button"]}>Signup</button>
-          </a>
-          <button
-            className={styles["logout-btn my-button"]}
-            // onClick={handleLogout}
-          >
-            <a href="/">Logout</a>
-          </button>
-          <a href="/my-cart.html">
-            <i
-              className="fa-solid fa-cart-shopping"
-              id={styles["shopping-cart-icon"]}
-            ></i>
-          </a>
-          <a href="/admin/manage-users.html" id={styles["admin-icon"]}>
-            <i className="fa-solid fa-user"></i>
-          </a>
-        </div>
-      </nav>
+              </NavLink>
+              <NavLink
+                to="/services"
+                className={styles["navlink-main-menu"]}
+                style={NavLinkStyle}
+              >
+                Services
+              </NavLink>
+              <NavLink
+                to="/login"
+                className={styles["navlink-main-menu"]}
+                style={NavLinkStyle}
+              >
+                Login
+              </NavLink>
+              <NavLink
+                to="/signup"
+                className={styles["navlink-main-menu"]}
+                style={NavLinkStyle}
+              >
+                Signup
+              </NavLink>
+
+              <NavLink to="/cart">
+                <Button
+                  variant="primary"
+                  className={styles["button-icon-menu"]}
+                >
+                  <i className="fa-solid fa-cart-shopping"></i>
+                </Button>
+              </NavLink>
+              <NavLink to="/admin">
+                <Button
+                  variant="primary"
+                  className={styles["button-icon-menu"]}
+                >
+                  <i className="fa-solid fa-user"></i>
+                </Button>
+              </NavLink>
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
     </header>
   );
 }

@@ -15,6 +15,44 @@ img {
 }
 
 /* CSS Chung */
+#background-main-menu {
+  background-color: white;
+}
+.navlink-main-menu {
+  text-decoration: none !important ;
+  padding: 10px 15px 10px 15px;
+}
+
+.navlink-main-menu:hover {
+  background-color: #33d6bb;
+  color: white !important;
+}
+
+.header-main-menu {
+  display: flex;
+  gap: 20px;
+}
+
+.button-icon-menu {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.button-icon-menu i {
+  margin: 0;
+}
+
+#menu-navlink {
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  gap: 20px;
+}
+
+.header-menu-logo {
+  width: 80px;
+}
 .shipping-label-shipped {
   background-color: #50a851;
   padding: 10px;
@@ -95,7 +133,7 @@ img {
 }
 
 .header {
-  position: fixed;
+  position: sticky;
   background-color: white;
   width: 100%;
   z-index: 1;
@@ -233,6 +271,7 @@ img {
   justify-content: center;
   gap: 10px;
   height: 100%;
+  margin-left: 150px;
 }
 
 .banner-caption-group a {
@@ -1410,6 +1449,7 @@ table.table.table-cart {
     justify-content: center;
     gap: 20px;
     height: 100%;
+    margin-left: 40px;
   }
 
   .caption-discount {

@@ -10,7 +10,7 @@ function ClientCartPage() {
   return (
     <>
       <ClientHeaderPC />
-      <ClientHeaderMobile />
+      {/* <ClientHeaderMobile /> */}
       <div className="main">
         <ClientBanner />
         <ClientCart />

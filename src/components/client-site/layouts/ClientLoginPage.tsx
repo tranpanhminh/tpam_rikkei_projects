@@ -11,7 +11,7 @@ function ClientLoginPage() {
     <>
       {/* Login Page */}
       <ClientHeaderPC />
-      <ClientHeaderMobile />
+      {/* <ClientHeaderMobile /> */}
       <div className="main">
         <ClientBanner />
         <LoginForm />

@@ -10,6 +10,8 @@ import ClientProductCategoryPage from "./components/client-site/layouts/ClientPr
 import ClientProductDetailPage from "./components/client-site/layouts/ClientProductDetailPage";
 import ClientProfilePage from "./components/client-site/layouts/ClientProfilePage";
 import ClientSignupPage from "./components/client-site/layouts/ClientSignupPage";
+import ClientServicesPage from "./components/client-site/layouts/ClientServicesPage";
+import ClientAboutPage from "./components/client-site/layouts/ClientAboutPage";
 
 function App() {
   return (
@@ -20,7 +22,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<ClientHomePage />}></Route>
-          {/* <Route path="/about" element={<ClientAboutPage />}></Route> */}
+          <Route path="/about" element={<ClientAboutPage />}></Route>
           <Route path="/cart" element={<ClientCartPage />}></Route>
           <Route path="/login" element={<ClientLoginPage />}></Route>
           <Route path="/signup" element={<ClientSignupPage />}></Route>
@@ -28,10 +30,7 @@ function App() {
             path="/products"
             element={<ClientProductCategoryPage />}
           ></Route>
-          {/* <Route
-            path="/services"
-            element={<ClientServicesCategoryPage />}
-          ></Route> */}
+          <Route path="/services" element={<ClientServicesPage />}></Route>
           <Route
             path="/products/:productId"
             element={<ClientProductDetailPage />}

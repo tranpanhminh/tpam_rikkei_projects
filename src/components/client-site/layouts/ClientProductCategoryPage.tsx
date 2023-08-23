@@ -12,7 +12,7 @@ function ClientProductCategoryPage() {
     <>
       {/* Product Category */}
       <ClientHeaderPC />
-      <ClientHeaderMobile />
+      {/* <ClientHeaderMobile /> */}
       <div className="main">
         <ClientBanner />
         <ProductsCategoryBreadCrumb />
