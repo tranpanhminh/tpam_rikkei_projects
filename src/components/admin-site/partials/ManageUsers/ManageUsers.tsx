@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import logo from "../../../../assets/images/pet-shop.png";
 import AddModalUser from "../ManageUsers/Button/AddUser/AddModalUser";
 
 import DetailButtonUser from "./Button/DetailUser/DetailButtonUser";
@@ -10,26 +9,19 @@ import styles from "../../AdminPage.module.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-interface User {
-  id: number;
-  email: string;
-  fullName: string;
-  role: string;
-  status: string;
-}
+import { Account } from "../../../../database";
 
 function ManageUsers() {
-  const [users, setUsers] = useState<null | User[]>(null);
+  const [users, setUsers] = useState<null | Account[]>(null);
   const [searchText, setSearchText] = useState<string>("");
-  console.log(users);
 
   const navigate = useNavigate();
 
   const fetchUsers = () => {
-    fetch("http://localhost:7373/accounts")
-      .then((response) => response.json())
+    axios
+      .get("http://localhost:7373/accounts")
       .then((response) => {
-        setUsers(response);
+        setUsers(response.data);
       })
       .catch((error) => {
         console.log(error.message);
@@ -41,18 +33,47 @@ function ManageUsers() {
   }, []);
 
   const handleSearchUser = () => {
-    fetch(`http://localhost:7373/accounts?search=${searchText}`)
-      .then((response) => response.json())
-      .then((response) => {
-        setUsers(response);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  };
+    if (searchText === "") {
+      // Nếu searchText rỗng, gọi lại fetchUsers để lấy tất cả người dùng
+      fetchUsers();
+    } else {
+      // Nếu có searchText, thực hiện tìm kiếm và cập nhật state
+      axios
+        .get(`http://localhost:7373/accounts`)
+        .then((response) => {
+          // Lấy dữ liệu từ response
+          const allUsers = response.data;
 
+          // Tìm kiếm trong dữ liệu và cập nhật state
+          const filteredUsers = allUsers.filter((user: Account) => {
+            if (
+              user.email
+                .toLowerCase()
+                .includes(searchText.trim().toLowerCase()) ||
+              user.fullName
+                .toLowerCase()
+                .includes(searchText.trim().toLowerCase()) ||
+              user.role
+                .toLowerCase()
+                .includes(searchText.trim().toLowerCase()) ||
+              user.status
+                .toLowerCase()
+                .includes(searchText.trim().toLowerCase())
+            ) {
+              return true;
+            }
+            return false;
+          });
+
+          setUsers(filteredUsers);
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    }
+  };
   const handleChangeUser = (userId: number) => {
-    const updatedUsers: any = users?.map((user) => {
+    const updatedUsers = users?.map((user) => {
       if (user.id === userId) {
         return {
           ...user,
@@ -62,33 +83,28 @@ function ManageUsers() {
       return user;
     });
 
-    // Đẩy dữ liệu lên server
-    axios
-      .put(
-        `http://localhost:7373/accounts/${userId}`,
-        updatedUsers.find((user: any) => user.id === userId)
-      )
-      .then(() => {
-        setUsers(updatedUsers);
-        notification.success({
-          message: "User Status Changed",
+    if (updatedUsers) {
+      axios
+        .put(
+          `http://localhost:7373/accounts/${userId}`,
+          updatedUsers.find((user) => user.id === userId)
+        )
+        .then(() => {
+          setUsers(updatedUsers);
+          notification.success({
+            message: "User Status Changed",
+          });
+        })
+        .catch((error) => {
+          console.log(error.message);
         });
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+    }
   };
 
-  const handleAddUser = (newUser: User) => {
-    fetch("http://localhost:7373/accounts", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newUser),
-    })
-      .then((response) => response.json())
-      .then((response) => {
+  const handleAddUser = (newUser: Account) => {
+    axios
+      .post("http://localhost:7373/accounts", newUser)
+      .then(() => {
         fetchUsers(); // Cập nhật lại dữ liệu users sau khi thêm
         notification.success({
           message: "User Added",
@@ -99,85 +115,20 @@ function ManageUsers() {
       });
   };
 
-  const handleDeleteUser = async (userId: number) => {
-    try {
-      await fetch(`http://localhost:7373/accounts/${userId}`, {
-        method: "DELETE",
+  const handleDeleteUser = (userId: number) => {
+    axios
+      .delete(`http://localhost:7373/accounts/${userId}`)
+      .then(() => {
+        fetchUsers(); // Cập nhật lại dữ liệu users sau khi xóa
+        notification.success({
+          message: "User Deleted",
+        });
+      })
+      .catch((error) => {
+        console.log(error.message);
       });
-  
-      await fetchUsers(); // Đợi cập nhật xong trước khi hiển thị thông báo
-      notification.success({
-        message: "User Deleted",
-      });
-    } catch (error: any) {
-      console.log(error.message);
-    }
   };
-  
 
-  // // Tổng hợp các hàm
-  // const handleSearchUser = () => {
-  //   const filterUser : any = users?.filter(function (user) {
-  //     if (
-  //       user.email.toLowerCase().includes(searchText.trim().toLowerCase()) ||
-  //       user.fullName.toLowerCase().includes(searchText.trim().toLowerCase()) ||
-  //       user.role.toLowerCase().includes(searchText.trim().toLowerCase()) ||
-  //       user.status.toLowerCase().includes(searchText.trim().toLowerCase())
-  //     ) {
-  //       return true;
-  //     }
-  //     return false;
-  //   });
-
-  //   setUsers(filterUser);
-  // };
-  // const handleChangeUser = (userId: number) => {
-  //   // Tìm người dùng theo userId
-  //   // const userToUpdate = users.find((user) => user.id === userId);
-
-  //   // if (userToUpdate) {
-  //   //   // Đảo ngược trạng thái
-  //   //   userToUpdate.status =
-  //   //     userToUpdate.status === "Active" ? "Inactive" : "Active";
-
-  //   //   // Cập nhật dữ liệu vào mảng users
-  //   //   const updatedUsers = users.map((user) =>
-  //   //     user.id === userId ? userToUpdate : user
-  //   //   );
-
-  //   //   // Cập nhật dữ liệu vào localStorage
-  //   //   setDataToLocal("accountsDatabase", updatedUsers);
-
-  //   //   // Cập nhật state để render lại giao diện
-  //   //   setUsers(updatedUsers);
-
-  //   //   notification.success({
-  //   //     message: "User Status Changed",
-  //   //     // description: "Please use another Email.",
-  //   //   });
-  //   // }
-  // };
-
-  // const handleDeleteUser = (userId: number) => {
-  //   // const updatedUsers = users.filter((user) => user.id !== userId);
-  //   // setUsers(updatedUsers);
-
-  //   // // Update localStorage with new user data
-  //   // setDataToLocal("accountsDatabase", updatedUsers);
-  //   // notification.success({
-  //   //   message: "User Deleted",
-  //   //   // description: "Please use another Email.",
-  //   // });
-  // };
-
-  // const handleAddUser = (newUser: User) => {
-  //   // const updatedUsers = [...users, newUser];
-  //   // setUsers(updatedUsers);
-  //   // notification.success({
-  //   //   message: "User Added",
-  //   //   // description: "Please use another Email.",
-  //   // });
-  // };
   return (
     <>
       <div className={styles["breadcrumb"]}>
@@ -210,7 +161,7 @@ function ManageUsers() {
           className={styles["add-user-btn"]}
           value="Add User"
           title="Add User"
-          onAddUser={handleAddUser}
+          handleClickOk={handleAddUser}
         />
       </div>
       <div className={styles["search-result"]}></div>
@@ -237,7 +188,7 @@ function ManageUsers() {
                 <td>{user.role}</td>
                 <td>{user.status}</td>
                 <td className={styles["group-btn-admin"]}>
-                  {user.role !== "admin" && (
+                  {user.role !== "superadmin" && (
                     <>
                       <DetailButtonUser
                         width={700}

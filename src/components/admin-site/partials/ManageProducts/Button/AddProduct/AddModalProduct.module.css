@@ -1,0 +1,41 @@
+.list-input-add-student {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.list-input-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+
+.list-input-item p {
+  width: 100px;
+  margin: 0;
+}
+
+.list-input-item:first-child {
+  margin-top: 20px;
+}
+
+.list-input-item input {
+  width: 80%;
+  border-radius: 5px;
+  padding: 5px;
+  border: 1px ridge #ccc;
+}
+
+.datepicker {
+  color: black;
+  width: 100%;
+}
+
+.ant-picker-suffix {
+  color: black !important;
+}
+
+.group-action-user-profile {
+  display: flex;
+}

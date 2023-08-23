@@ -1,59 +1,91 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import DeleteButtonProduct from "./Button/DeleteProduct/DeleteButtonProduct";
 import DetailButtonProduct from "./Button/DetailProduct/DetailButtonProduct";
-
 import DetailModalProduct from "./Button/DetailProduct/DetailModalProduct";
 
-import styles from "../../AdminPage.module.css";
+import { Product } from "../../../../database";
+import axios from "axios";
+import AddModalProduct from "../ManageProducts/Button/AddProduct/AddModalProduct";
 
-import {
-  initializeDatabase,
-  getDataFromLocal,
-  setDataToLocal,
-  Product,
-} from "../../../../database"; // Import your data fetching and setting functions
+import styles from "../../AdminPage.module.css";
+import { notification } from "antd";
 
 function ManageProducts() {
-  const [database, setDatabase] = useState(initializeDatabase());
-  const [products, setProducts] = useState<Product[]>(
-    getDataFromLocal<Product[]>("productsDatabase") || []
-  );
+  const [products, setProducts] = useState<null | Product[]>(null);
   const [searchText, setSearchText] = useState<string>("");
 
-  const handleSearchProduct = () => {
-    const productsDatabaseAdmin: Product[] = JSON.parse(
-      localStorage.getItem("productsDatabase") || "[]"
-    );
-
-    const filterProduct = productsDatabaseAdmin.filter(function (product) {
-      if (
-        product.name.toLowerCase().includes(searchText.trim().toLowerCase()) ||
-        product.price.toString().includes(searchText.trim().toLowerCase()) ||
-        product.vendor
-          .toLowerCase()
-          .includes(searchText.trim().toLowerCase()) ||
-        product.sku.toLowerCase().includes(searchText.trim().toLowerCase()) ||
-        product.quantity_stock
-          .toString()
-          .includes(searchText.trim().toLowerCase())
-      ) {
-        return true;
-      }
-      return false;
-    });
-
-    setProducts(filterProduct);
+  const fetchUsers = () => {
+    axios
+      .get("http://localhost:7373/products")
+      .then((response) => {
+        setProducts(response.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   };
 
-  const handleDeleteProduct = (productId: number) => {
-    const updatedProducts = products.filter(
-      (product) => product.id !== productId
-    );
-    setProducts(updatedProducts);
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
-    // Update localStorage with new user data
-    setDataToLocal("productsDatabase", updatedProducts);
+  const handleSearchProduct = () => {
+    if (searchText === "") {
+      // Nếu searchText rỗng, gọi lại fetchUsers để lấy tất cả người dùng
+      fetchUsers();
+    } else {
+      // Nếu có searchText, thực hiện tìm kiếm và cập nhật state
+      axios
+        .get(`http://localhost:7373/products`)
+        .then((response) => {
+          // Lấy dữ liệu từ response
+          const allProducts = response.data;
+
+          // Tìm kiếm trong dữ liệu và cập nhật state
+          const filterProducts = allProducts.filter((product: Product) => {
+            if (
+              product.name
+                .toLowerCase()
+                .includes(searchText.trim().toLowerCase()) ||
+              product.price
+                .toString()
+                .includes(searchText.trim().toLowerCase()) ||
+              product.vendor
+                .toLowerCase()
+                .includes(searchText.trim().toLowerCase()) ||
+              product.sku
+                .toLowerCase()
+                .includes(searchText.trim().toLowerCase()) ||
+              product.quantity_stock
+                .toString()
+                .includes(searchText.trim().toLowerCase())
+            ) {
+              return true;
+            }
+            return false;
+          });
+
+          setProducts(filterProducts);
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    }
+  };
+
+  const handleAddProduct = (newProduct: Product) => {
+    axios
+      .post("http://localhost:7373/products", newProduct)
+      .then(() => {
+        fetchUsers(); // Cập nhật lại dữ liệu users sau khi thêm
+        notification.success({
+          message: "Product Added",
+        });
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   };
 
   return (
@@ -84,7 +116,12 @@ function ManageProducts() {
           </button>
         </div>
 
-        <button className={styles["add-user-btn"]}>Add Product</button>
+        <AddModalProduct
+          className={styles["add-product-btn"]}
+          value="Add Product"
+          title="Add Product"
+          handleClickOk={handleAddProduct}
+        />
       </div>
 
       <div className={styles["search-result"]}></div>
@@ -103,14 +140,11 @@ function ManageProducts() {
             </tr>
           </thead>
           <tbody>
-            {products.map((product) => (
+            {products?.map((product) => (
               <tr key={product.id}>
                 <td>{product.id}</td>
                 <td>
-                  <img
-                    src={require(`../../../../assets/images/product-images/${product.productImage[0]}`)}
-                    alt=""
-                  />
+                  <img src={product.productImage[0]} alt="" />
                 </td>
                 <td>{product.name}</td>
                 <td>{product.price}</td>
@@ -125,7 +159,7 @@ function ManageProducts() {
                   <DeleteButtonProduct
                     value="Delete"
                     className={styles["delete-product-btn"]}
-                    handleFunctionBtn={() => handleDeleteProduct(product.id)}
+                    // handleFunctionBtn={() => handleDeleteProduct(product.id)}
                   ></DeleteButtonProduct>
                 </td>
               </tr>

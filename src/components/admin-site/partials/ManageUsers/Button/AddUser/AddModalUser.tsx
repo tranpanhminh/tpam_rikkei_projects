@@ -1,20 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Modal, notification } from "antd";
 import styles from "../AddUser/AddModalUser.module.css";
 
-import {
-  initializeDatabase,
-  getDataFromLocal,
-  setDataToLocal,
-  Account,
-} from "../../../../../../database";
+import { Account } from "../../../../../../database";
+import axios from "axios";
 
 interface AddModalProps {
   className?: string;
   value?: string;
   title?: string;
   width?: number;
-  onAddUser?: (newUser: Account) => void;
+  handleClickOk?: (newUser: Account) => void;
 }
 
 const AddModalUser: React.FC<AddModalProps> = ({
@@ -22,11 +18,9 @@ const AddModalUser: React.FC<AddModalProps> = ({
   value,
   title,
   width,
-  onAddUser,
+  handleClickOk,
 }) => {
-  const [users, setUsers] = useState<Account[]>(
-    getDataFromLocal<Account[]>("accountsDatabase") || []
-  );
+  const [users, setUsers] = useState<null | Account[]>(null);
 
   const [newUser, setNewUser] = useState<Account>({
     id: 0,
@@ -42,7 +36,22 @@ const AddModalUser: React.FC<AddModalProps> = ({
     booking_history: [],
   });
 
-  const maxId = Math.max(...users.map((user) => user.id));
+  const fetchUsers = () => {
+    axios
+      .get("http://localhost:7373/accounts")
+      .then((response) => {
+        setUsers(response.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const maxId = users ? Math.max(...users.map((user) => user.id)) : 0;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -68,7 +77,7 @@ const AddModalUser: React.FC<AddModalProps> = ({
     }
 
     // Kiểm tra Email có tồn tại không
-    const emailExists = users.some((user) => user.email === newUser.email);
+    const emailExists = users?.some((user) => user.email === newUser.email);
     if (emailExists) {
       notification.warning({
         message: "Email is exist",
@@ -103,13 +112,13 @@ const AddModalUser: React.FC<AddModalProps> = ({
       id: maxId + 1,
     };
 
-    const updatedUsers = [...users, updatedUser];
+    const updatedUsers = users ? [...users, updatedUser] : null;
 
     setUsers(updatedUsers);
-    setDataToLocal("accountsDatabase", updatedUsers);
+    // setDataToLocal("accountsDatabase", updatedUsers);
     setIsModalOpen(false);
-    if (onAddUser) {
-      onAddUser(updatedUser);
+    if (handleClickOk) {
+      handleClickOk(updatedUser);
     }
     setNewUser({
       id: 0,
