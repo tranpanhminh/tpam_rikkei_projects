@@ -163,9 +163,6 @@ function ManageProducts() {
                     value="Detail"
                     title="Detail Product"
                     className={styles["detail-product-btn"]}
-                    handleFunctionOk={() =>
-                      console.log("Product ID", product.id)
-                    }
                     content={
                       <DetailModalProduct
                         productId={product.id}

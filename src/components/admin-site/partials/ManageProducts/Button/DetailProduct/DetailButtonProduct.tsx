@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Modal } from "antd";
 import { Product } from "../../../../../../database";
+import DetailModalProduct from "./DetailModalProduct";
 
 interface DetailModalProps {
   className?: string; // Thêm khai báo cho thuộc tính className
@@ -30,6 +31,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
     }
     setIsModalOpen(false);
   };
+
   const handleCancel = () => {
     setIsModalOpen(false);
   };
