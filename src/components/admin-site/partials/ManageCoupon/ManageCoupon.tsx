@@ -136,8 +136,9 @@ function ManageNewsletter() {
             <tr>
               <th rowSpan={2}>Coupon ID</th>
               <th rowSpan={2}>Name</th>
-              <th rowSpan={2}>Description</th>
+              <th rowSpan={2}>Code</th>
               <th rowSpan={2}>Slot</th>
+              <th rowSpan={2}>Usage</th>
               <th colSpan={2}>Date</th>
               <th rowSpan={2}>Status</th>
               <th rowSpan={2}>Action</th>
@@ -153,8 +154,9 @@ function ManageNewsletter() {
                 <tr key={coupon.id}>
                   <td>{coupon.id}</td>
                   <td>{coupon.name}</td>
-                  <td>{coupon.description}</td>
+                  <td>{coupon.code}</td>
                   <td> {coupon.slot === 0 ? 0 : coupon.slot || "Unlimited"}</td>
+                  <td> {coupon.usage}</td>
                   <td>{coupon.startDate}</td>
                   <td>{coupon.endDate}</td>
                   <td>
@@ -162,7 +164,7 @@ function ManageNewsletter() {
                     (coupon.endDate &&
                       new Date() >
                         parse(coupon.endDate, "dd/MM/yyyy", new Date()))
-                      ? "Đã hết"
+                      ? "Ended"
                       : ""}
                   </td>
                   <td className={styles["group-btn-admin"]}>

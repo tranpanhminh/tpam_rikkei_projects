@@ -73,10 +73,12 @@ export interface Booking {
 export interface Coupon {
   id: number;
   name: string;
-  description: string;
+  code: string;
+  discount: number;
   slot?: number | string;
   startDate?: string;
   endDate?: string;
+  usage?: number;
 }
 
 let accounts: Account[] = [
@@ -469,58 +471,42 @@ let coupons: Coupon[] = [
   {
     id: 1,
     name: "SALEOFF25%",
-    description: "CODE SALEOFF25%",
+    code: "saleoff25",
+    discount: 25,
     slot: 10,
     startDate: "18/09/2023",
     endDate: "21/09/2023",
+    usage: 5,
   },
   {
     id: 2,
     name: "SALEOFF50%",
-    description: "CODE SALEOFF50%",
+    code: "saleoff50",
+    discount: 50,
     slot: 5,
-    startDate: "18/09/2023",
-    endDate: "21/09/2023",
-  },
-  {
-    id: 3,
-    name: "SALEOFF60%",
-    description: "CODE SALEOFF60%",
-    slot: 2,
-    startDate: "18/09/2023",
-    endDate: "21/09/2023",
+    startDate: "18/02/2023",
+    endDate: "21/02/2023",
+    usage: 5,
   },
   {
     id: 4,
-    name: "SALEOFF100%",
-    description: "CODE SALEOFF100%",
+    name: "SALEOFF5%",
+    code: "saleoff5",
+    discount: 5,
     slot: 0,
     startDate: "18/09/2023",
     endDate: "21/09/2023",
+    usage: 5,
   },
   {
     id: 5,
-    name: "SALEOFF100%",
-    description: "CODE SALEOFF100%",
+    name: "SALEOFF2%",
+    code: "saleoff2",
+    discount: 5,
     slot: "unlimited",
     startDate: "18/09/2023",
     endDate: "21/09/2023",
-  },
-  {
-    id: 6,
-    name: "SALEOFF100%",
-    description: "CODE SALEOFF100%",
-    slot: "unlimited",
-    startDate: "18/02/2023",
-    endDate: "21/03/2023",
-  },
-  {
-    id: 6,
-    name: "SALEOFF100%",
-    description: "CODE SALEOFF100%",
-    slot: "unlimited",
-    startDate: "15/02/2023",
-    endDate: "19/08/2023",
+    usage: 5,
   },
 ];
 
