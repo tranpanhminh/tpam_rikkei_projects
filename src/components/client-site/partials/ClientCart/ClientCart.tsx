@@ -101,8 +101,8 @@ function ClientCart() {
                     className="form-control form-control-lg"
                     size={17}
                     placeholder="Card Numbers"
-                    minLength={19}
-                    maxLength={19}
+                    minLength={16}
+                    maxLength={16}
                   />
                 </div>
 
