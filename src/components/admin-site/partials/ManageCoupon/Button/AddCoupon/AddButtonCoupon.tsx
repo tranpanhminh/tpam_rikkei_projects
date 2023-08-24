@@ -19,23 +19,7 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
   title,
   handleClickOk,
 }) => {
-  const [selectedDateRange, setSelectedDateRange] = useState<
-    [Dayjs | null, Dayjs | null]
-  >([null, null]);
-
-  const handleDateRangeChange = (
-    dates: [Dayjs | null, Dayjs | null],
-    dateStrings: [string, string]
-  ) => {
-    setSelectedDateRange(dates);
-
-    if (dates[0] && dates[1]) {
-      const startDate = dates[0];
-      const endDate = dates[1];
-      console.log("Start Date:", startDate.format("DD/MM/YYYY"));
-      console.log("End Date:", endDate.format("DD/MM/YYYY"));
-    }
-  };
+  const [dates, setDates] = useState<string[]>([]);
 
   const [coupons, setCoupons] = useState<null | Coupon[]>(null);
   const [editorInitialValue, setEditorInitialValue] = useState("");
@@ -180,7 +164,7 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
           <div className={styles["list-input-item"]}>
             <p>Select Date</p>
             <Space direction="vertical" size={12}>
-              <RangePicker onChange={() => handleDateRangeChange} />
+              <RangePicker onChange={(values) => console.log(values)} />
             </Space>
           </div>{" "}
         </div>
