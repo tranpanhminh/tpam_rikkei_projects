@@ -1,18 +1,57 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../../AdminPage.module.css";
 
-import {
-  initializeDatabase,
-  getDataFromLocal,
-  setDataToLocal,
-  Service,
-} from "../../../../database"; // Import your data fetching and setting functions
+import { Service } from "../../../../database"; // Import your data fetching and setting functions
+import axios from "axios";
 function ManageServices() {
-  const [database, setDatabase] = useState(initializeDatabase);
-  const [services, setServices] = useState<Service[]>(
-    getDataFromLocal<Service[]>("servicesDatabase" || [])
-  );
-  console.log(services);
+  const [services, setServices] = useState<null | Service[]>(null);
+  const [searchText, setSearchText] = useState<string>("");
+
+  const fetchServices = () => {
+    axios
+      .get("http://localhost:7373/services")
+      .then((response) => {
+        setServices(response.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+  useEffect(() => {
+    fetchServices();
+  }, []);
+
+  const handleSearchServices = () => {
+    if (searchText === "") {
+      fetchServices();
+    } else {
+      axios
+        .get(`http://localhost:7373/services`)
+        .then((response) => {
+          // Lấy dữ liệu từ response
+          const allServices = response.data;
+
+          // Tìm kiếm trong dữ liệu và cập nhật state
+          const filterServices = allServices.filter((service: Service) => {
+            if (
+              service.name
+                .toLowerCase()
+                .includes(searchText.trim().toLowerCase())
+            ) {
+              return true;
+            }
+            return false;
+          });
+
+          setServices(filterServices);
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    }
+  };
+
   return (
     <>
       <div className={styles["breadcrumb"]}>
@@ -28,11 +67,14 @@ function ManageServices() {
             placeholder="Search"
             aria-label="Search"
             id={styles["search-bar"]}
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
           />
           <button
             className={`btn  ${styles["btn-outline-success"]}`}
             type="submit"
             id={styles["search-btn"]}
+            onClick={handleSearchServices}
           >
             Search
           </button>
@@ -69,10 +111,7 @@ function ManageServices() {
                 <tr key={service.id}>
                   <td>{service.id}</td>
                   <td>
-                    <img
-                      src={require(`../../../../assets/images/${service.serviceImage}`)}
-                      alt=""
-                    />
+                    <img src={service.serviceImage} alt="" />
                   </td>
                   <td>{service.name}</td>
                   <td>{service.price}</td>
