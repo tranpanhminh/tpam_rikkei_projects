@@ -9,7 +9,7 @@ interface DetailModalProps {
   handleFunctionBtn?: any;
   width?: number;
 }
-const DeleteModalProduct: React.FC<DetailModalProps> = ({
+const DeleteModalService: React.FC<DetailModalProps> = ({
   className,
   value,
   handleFunctionBtn,
@@ -47,4 +47,4 @@ const DeleteModalProduct: React.FC<DetailModalProps> = ({
   );
 };
 
-export default DeleteModalProduct;
+export default DeleteModalService;

@@ -5,6 +5,8 @@ import { Service } from "../../../../database"; // Import your data fetching and
 import axios from "axios";
 import AddModalService from "./Button/AddService/AddButtonService";
 import { notification } from "antd";
+import DeleteButtonService from "./Button/DeleteService/DeleteButtonService";
+import DetailButtonService from "./Button/DetailService/DetailButtonService";
 function ManageServices() {
   const [services, setServices] = useState<null | Service[]>(null);
   const [searchText, setSearchText] = useState<string>("");
@@ -61,6 +63,34 @@ function ManageServices() {
         fetchServices(); // Cập nhật lại dữ liệu products sau khi thêm
         notification.success({
           message: "Service Added",
+        });
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+  const handleDeleteService = (serviceId: number) => {
+    axios
+      .delete(`http://localhost:7373/services/${serviceId}`)
+      .then(() => {
+        fetchServices(); // Cập nhật lại dữ liệu products sau khi xóa
+        notification.success({
+          message: "Service Deleted",
+        });
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+  const handleUpdateService = () => {
+    axios
+      .get("http://localhost:7373/services")
+      .then(() => {
+        fetchServices(); // Cập nhật lại dữ liệu users sau khi thêm
+        notification.success({
+          message: "Service Updated",
         });
       })
       .catch((error) => {
@@ -151,13 +181,19 @@ function ManageServices() {
                         </tr>
                       ))}
                   </td>
-                  <td>
-                    <button className={styles["detail-product-btn"]}>
-                      Detail
-                    </button>
-                    <button className={styles["delete-product-btn"]}>
-                      Delete
-                    </button>
+                  <td className={styles["group-btn-admin-manage-product"]}>
+                    <DetailButtonService
+                      value="Detail"
+                      title="Detail Product"
+                      className={styles["detail-product-btn"]}
+                      getServiceId={service.id}
+                      handleFunctionOk={handleUpdateService}
+                    ></DetailButtonService>
+                    <DeleteButtonService
+                      value="Delete"
+                      className={styles["delete-product-btn"]}
+                      handleFunctionBtn={() => handleDeleteService(service.id)}
+                    ></DeleteButtonService>
                   </td>
                 </tr>
               ))}
