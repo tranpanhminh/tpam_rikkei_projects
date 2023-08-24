@@ -3,6 +3,8 @@ import styles from "../../AdminPage.module.css";
 
 import { Service } from "../../../../database"; // Import your data fetching and setting functions
 import axios from "axios";
+import AddModalService from "./Button/AddService/AddButtonService";
+import { notification } from "antd";
 function ManageServices() {
   const [services, setServices] = useState<null | Service[]>(null);
   const [searchText, setSearchText] = useState<string>("");
@@ -52,6 +54,20 @@ function ManageServices() {
     }
   };
 
+  const handleAddService = (newService: Service) => {
+    axios
+      .post("http://localhost:7373/services", newService)
+      .then(() => {
+        fetchServices(); // Cập nhật lại dữ liệu products sau khi thêm
+        notification.success({
+          message: "Service Added",
+        });
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
   return (
     <>
       <div className={styles["breadcrumb"]}>
@@ -79,8 +95,12 @@ function ManageServices() {
             Search
           </button>
         </div>
-
-        <button className={styles["add-product-btn"]}>Add Service</button>
+        <AddModalService
+          className={styles["add-service-btn"]}
+          value="Add Service"
+          title="Add Service"
+          handleClickOk={handleAddService}
+        />
       </div>
 
       <div className={styles["search-result"]}></div>
