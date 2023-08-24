@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Modal } from "antd";
 import { Product } from "../../../../../../database";
-import DetailModalProduct from "./DetailModalProduct";
 import { Editor } from "@tinymce/tinymce-react";
 import axios from "axios";
 import styles from "../DetailProduct/DetailModalProduct.module.css";
