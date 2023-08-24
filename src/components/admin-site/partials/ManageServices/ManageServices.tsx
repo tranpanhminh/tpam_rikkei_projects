@@ -3,7 +3,7 @@ import styles from "../../AdminPage.module.css";
 
 import { Service } from "../../../../database"; // Import your data fetching and setting functions
 import axios from "axios";
-import AddModalService from "./Button/AddService/AddButtonService";
+import AddButtonService from "./Button/AddService/AddButtonService";
 import { notification } from "antd";
 import DeleteButtonService from "./Button/DeleteService/DeleteButtonService";
 import DetailButtonService from "./Button/DetailService/DetailButtonService";
@@ -125,7 +125,7 @@ function ManageServices() {
             Search
           </button>
         </div>
-        <AddModalService
+        <AddButtonService
           className={styles["add-service-btn"]}
           value="Add Service"
           title="Add Service"

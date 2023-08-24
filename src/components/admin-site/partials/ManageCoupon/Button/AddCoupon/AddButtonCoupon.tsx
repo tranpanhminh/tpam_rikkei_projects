@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Modal, notification } from "antd";
-import styles from "../AddService/AddButtonService.module.css";
-import { Service } from "../../../../../../database";
+import styles from "../AddCoupon/AddButtonCoupon.module.css";
+import { Coupon, Service } from "../../../../../../database";
 import axios from "axios";
 import { Editor } from "@tinymce/tinymce-react";
 
@@ -12,15 +12,15 @@ interface AddModalProps {
   handleClickOk?: (newService: Service) => void;
 }
 
-const AddModalService: React.FC<AddModalProps> = ({
+const AddModalCoupon: React.FC<AddModalProps> = ({
   className,
   value,
   title,
   handleClickOk,
 }) => {
-  const [services, setServices] = useState<null | Service[]>(null);
+  const [coupons, setCoupons] = useState<null | Coupon[]>(null);
   const [editorInitialValue, setEditorInitialValue] = useState("");
-  const [newService, setNewService] = useState<Service>({
+  const [newCoupon, setNewCoupon] = useState<Coupon>({
     id: 0,
     name: "",
     serviceImage: "",
@@ -37,7 +37,7 @@ const AddModalService: React.FC<AddModalProps> = ({
 
   const fetchServices = () => {
     axios
-      .get("http://localhost:7373/services")
+      .get("http://localhost:7373/coupons")
       .then((response) => {
         setServices(response.data);
       })
@@ -175,4 +175,4 @@ const AddModalService: React.FC<AddModalProps> = ({
   );
 };
 
-export default AddModalService;
+export default AddModalCoupon;

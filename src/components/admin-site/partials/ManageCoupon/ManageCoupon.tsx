@@ -4,6 +4,8 @@ import styles from "../../AdminPage.module.css";
 import { Coupon } from "../../../../database"; // Import your data fetching and setting functions
 import DeleteButtonCoupon from "./Button/DeleteCoupon/DeleteButtonCoupon";
 import axios from "axios";
+import { notification } from "antd";
+import AddButtonCoupon from "./Button/AddCoupon/AddButtonCoupon";
 
 function ManageNewsletter() {
   const [coupons, setCoupons] = useState<null | Coupon[]>(null);
@@ -24,63 +26,63 @@ function ManageNewsletter() {
     fetchCoupons();
   }, []);
 
-  const handleSearchCoupons = () => {
-    if (searchText === "") {
-      fetchCoupons();
-    } else {
-      axios
-        .get(`http://localhost:7373/coupons`)
-        .then((response) => {
-          // Lấy dữ liệu từ response
-          const allCoupons = response.data;
+  // const handleSearchCoupons = () => {
+  //   if (searchText === "") {
+  //     fetchCoupons();
+  //   } else {
+  //     axios
+  //       .get(`http://localhost:7373/coupons`)
+  //       .then((response) => {
+  //         // Lấy dữ liệu từ response
+  //         const allCoupons = response.data;
 
-          // Tìm kiếm trong dữ liệu và cập nhật state
-          const filterCoupons = allCoupons.filter((coupon: Coupon) => {
-            if (
-              coupon.name
-                .toLowerCase()
-                .includes(searchText.trim().toLowerCase())
-            ) {
-              return true;
-            }
-            return false;
-          });
+  //         // Tìm kiếm trong dữ liệu và cập nhật state
+  //         const filterCoupons = allCoupons.filter((coupon: Coupon) => {
+  //           if (
+  //             coupon.name
+  //               .toLowerCase()
+  //               .includes(searchText.trim().toLowerCase())
+  //           ) {
+  //             return true;
+  //           }
+  //           return false;
+  //         });
 
-          setCoupons(filterCoupons);
-        })
-        .catch((error) => {
-          console.log(error.message);
+  //         setCoupons(filterCoupons);
+  //       })
+  //       .catch((error) => {
+  //         console.log(error.message);
+  //       });
+  //   }
+  // };
+
+  const handleAddCoupon = (newCoupon: Coupon) => {
+    axios
+      .post("http://localhost:7373/coupons", newCoupon)
+      .then(() => {
+        fetchCoupons(); // Cập nhật lại dữ liệu products sau khi thêm
+        notification.success({
+          message: "Coupon Added",
         });
-    }
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   };
 
-  // const handleAddService = (newService: Service) => {
-  //   axios
-  //     .post("http://localhost:7373/services", newService)
-  //     .then(() => {
-  //       fetchServices(); // Cập nhật lại dữ liệu products sau khi thêm
-  //       notification.success({
-  //         message: "Service Added",
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       console.log(error.message);
-  //     });
-  // };
-
-  // const handleDeleteCoupon = (couponId: number) => {
-  //   axios
-  //     .delete(`http://localhost:7373/coupons/${couponId}`)
-  //     .then(() => {
-  //       fetchServices(); // Cập nhật lại dữ liệu products sau khi xóa
-  //       notification.success({
-  //         message: "Service Deleted",
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       console.log(error.message);
-  //     });
-  // };
+  const handleDeleteCoupon = (couponId: number) => {
+    axios
+      .delete(`http://localhost:7373/coupons/${couponId}`)
+      .then(() => {
+        fetchCoupons(); // Cập nhật lại dữ liệu products sau khi xóa
+        notification.success({
+          message: "Coupon Deleted",
+        });
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
 
   // const handleUpdateService = () => {
   //   axios
@@ -119,6 +121,12 @@ function ManageNewsletter() {
             Search
           </button>
         </div>
+        <AddButtonCoupon
+          className={styles["add-coupon-btn"]}
+          value="Add Coupon"
+          title="Add Coupon"
+          handleClickOk={handleAddCoupon}
+        />
       </div>
 
       <div className={styles["main-content"]}>
@@ -164,7 +172,7 @@ function ManageNewsletter() {
                     <DeleteButtonCoupon
                       value="Delete"
                       className={styles["delete-coupon-btn"]}
-                      handleFunctionBtn={() => handleDeleteService(service.id)}
+                      handleFunctionBtn={() => handleDeleteCoupon(coupon.id)}
                     ></DeleteButtonCoupon>
                   </td>
                 </tr>
