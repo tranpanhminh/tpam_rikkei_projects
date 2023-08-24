@@ -1,19 +1,100 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { parse } from "date-fns";
 import styles from "../../AdminPage.module.css";
-import {
-  initializeDatabase,
-  getDataFromLocal,
-  setDataToLocal,
-  Coupon,
-} from "../../../../database"; // Import your data fetching and setting functions
+import { Coupon } from "../../../../database"; // Import your data fetching and setting functions
+import DeleteButtonCoupon from "./Button/DeleteCoupon/DeleteButtonCoupon";
+import axios from "axios";
 
 function ManageNewsletter() {
-  const [database, setDatabase] = useState(initializeDatabase);
-  const [coupons, setCoupons] = useState<Coupon[]>(
-    getDataFromLocal<Coupon[]>("couponsDatabase" || [])
-  );
+  const [coupons, setCoupons] = useState<null | Coupon[]>(null);
+  const [searchText, setSearchText] = useState<string>("");
 
+  const fetchCoupons = () => {
+    axios
+      .get("http://localhost:7373/coupons")
+      .then((response) => {
+        setCoupons(response.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+  useEffect(() => {
+    fetchCoupons();
+  }, []);
+
+  const handleSearchCoupons = () => {
+    if (searchText === "") {
+      fetchCoupons();
+    } else {
+      axios
+        .get(`http://localhost:7373/coupons`)
+        .then((response) => {
+          // Lấy dữ liệu từ response
+          const allCoupons = response.data;
+
+          // Tìm kiếm trong dữ liệu và cập nhật state
+          const filterCoupons = allCoupons.filter((coupon: Coupon) => {
+            if (
+              coupon.name
+                .toLowerCase()
+                .includes(searchText.trim().toLowerCase())
+            ) {
+              return true;
+            }
+            return false;
+          });
+
+          setCoupons(filterCoupons);
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    }
+  };
+
+  // const handleAddService = (newService: Service) => {
+  //   axios
+  //     .post("http://localhost:7373/services", newService)
+  //     .then(() => {
+  //       fetchServices(); // Cập nhật lại dữ liệu products sau khi thêm
+  //       notification.success({
+  //         message: "Service Added",
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.message);
+  //     });
+  // };
+
+  // const handleDeleteCoupon = (couponId: number) => {
+  //   axios
+  //     .delete(`http://localhost:7373/coupons/${couponId}`)
+  //     .then(() => {
+  //       fetchServices(); // Cập nhật lại dữ liệu products sau khi xóa
+  //       notification.success({
+  //         message: "Service Deleted",
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.message);
+  //     });
+  // };
+
+  // const handleUpdateService = () => {
+  //   axios
+  //     .get("http://localhost:7373/services")
+  //     .then(() => {
+  //       fetchServices(); // Cập nhật lại dữ liệu users sau khi thêm
+  //       notification.success({
+  //         message: "Service Updated",
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.message);
+  //     });
+  // };
   return (
     <>
       <div className={styles["breadcrumb"]}>
@@ -59,7 +140,7 @@ function ManageNewsletter() {
             </tr>
           </thead>
           <tbody>
-            {coupons.map((coupon) => {
+            {coupons?.map((coupon) => {
               return (
                 <tr key={coupon.id}>
                   <td>{coupon.id}</td>
@@ -80,9 +161,11 @@ function ManageNewsletter() {
                     <button className={styles["detail-product-btn"]}>
                       Detail
                     </button>
-                    <button className={styles["delete-product-btn"]}>
-                      Delete
-                    </button>
+                    <DeleteButtonCoupon
+                      value="Delete"
+                      className={styles["delete-coupon-btn"]}
+                      handleFunctionBtn={() => handleDeleteService(service.id)}
+                    ></DeleteButtonCoupon>
                   </td>
                 </tr>
               );
