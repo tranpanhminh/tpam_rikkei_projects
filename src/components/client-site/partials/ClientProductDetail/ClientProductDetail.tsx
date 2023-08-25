@@ -27,7 +27,10 @@ function ClientProductDetail() {
     <>
       {products && (
         <div className={styles["product-detail"]}>
-          <div className="container text-center">
+          <div
+            className="container text-center"
+            style={{ marginTop: 50, marginBottom: 50 }}
+          >
             <div className="row align-items-center">
               <div className="col-xl-8 col-sm-12">
                 <div className="container text-center">

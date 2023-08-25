@@ -2,8 +2,8 @@ import React from "react";
 // Import Client Partials
 import ClientHeaderPC from "../partials/ClientHeader/ClientHeaderPC";
 import ClientBanner from "../partials/ClientBanner/ClientBanner";
-import ClientAboutStore from "../partials/ClientAboutStore/ClientAboutStore";
 import ClientFooter from "../partials/ClientFooter/ClientFooter";
+import AboutStore from "../partials/ClientAboutStore/AboutStore";
 // import image from "../../../assets/images/about-store.jpg";
 
 function ClientHomePage() {
@@ -13,7 +13,7 @@ function ClientHomePage() {
       <ClientHeaderPC />
       <div className="main">
         <ClientBanner />
-        <ClientAboutStore />
+        <AboutStore />
       </div>
       <ClientFooter />
     </>

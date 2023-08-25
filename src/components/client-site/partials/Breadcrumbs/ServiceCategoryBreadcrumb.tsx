@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../../ClientPage.module.css";
 import { NavLink } from "react-router-dom";
 
-function ProductsServiceBreadCrumby() {
+function ServiceCategoryBreadcrumb() {
   return (
     <>
       <div className={styles["page-info"]}>
@@ -17,4 +17,4 @@ function ProductsServiceBreadCrumby() {
   );
 }
 
-export default ProductsServiceBreadCrumby;
+export default ServiceCategoryBreadcrumb;

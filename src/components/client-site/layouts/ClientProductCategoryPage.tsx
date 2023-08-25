@@ -3,7 +3,7 @@ import React from "react";
 import ClientHeaderPC from "../partials/ClientHeader/ClientHeaderPC";
 import ClientHeaderMobile from "../partials/ClientHeader/ClientHeaderMobile";
 import ClientBanner from "../partials/ClientBanner/ClientBanner";
-import ProductsCategoryBreadCrumb from "../partials/Breadcrumbs/ProductsCategoryBreadCrumb";
+import ProductsCategoryBreadCrumb from "../partials/Breadcrumbs/ProductsCategoryBreadcrumb";
 import ClientListProducts from "../partials/ClientFeaturedProducts/ClientListProducts";
 import ClientFooter from "../partials/ClientFooter/ClientFooter";
 

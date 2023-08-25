@@ -4,7 +4,7 @@ import ClientHeaderPC from "../partials/ClientHeader/ClientHeaderPC";
 import ClientBanner from "../partials/ClientBanner/ClientBanner";
 import ClientFooter from "../partials/ClientFooter/ClientFooter";
 import ClientServiceDetail from "./../partials/ClientServices/ClientServiceDetail";
-import ProductsServiceBreadCrumb from "../partials/Breadcrumbs/ProductsServiceBreadCrumb";
+import ServiceCategoryBreadcrumb from "../partials/Breadcrumbs/ServiceCategoryBreadcrumb";
 
 function ClientServiceDetailPage() {
   return (
@@ -14,7 +14,7 @@ function ClientServiceDetailPage() {
       {/* <ClientHeaderMobile /> */}
       <div className="main">
         <ClientBanner />
-        <ProductsServiceBreadCrumb />
+        <ServiceCategoryBreadcrumb />
         <ClientServiceDetail />
       </div>
       <ClientFooter />

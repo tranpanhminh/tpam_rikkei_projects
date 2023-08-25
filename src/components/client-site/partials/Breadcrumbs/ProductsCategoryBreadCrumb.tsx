@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../../ClientPage.module.css";
 import { NavLink } from "react-router-dom";
 
-function ProductsCategoryBreadCrumb() {
+function ProductsCategoryBreadcrumb() {
   return (
     <>
       <div className={styles["page-info"]}>
@@ -17,4 +17,4 @@ function ProductsCategoryBreadCrumb() {
   );
 }
 
-export default ProductsCategoryBreadCrumb;
+export default ProductsCategoryBreadcrumb;
