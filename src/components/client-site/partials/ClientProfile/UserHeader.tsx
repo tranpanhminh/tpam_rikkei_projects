@@ -18,7 +18,7 @@ const ClientProfileHeader: React.FC = () => {
               <img src={logo} alt="" />
             </a>
           </NavLink>
-          <p className={styles["user-title"]}>Admin</p>
+          <p className={styles["user-title"]}>User Panel</p>
         </div>
 
         <ul className={styles["main-menu"]}>
