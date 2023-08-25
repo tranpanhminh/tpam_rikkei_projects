@@ -7,6 +7,7 @@ import { Account } from "../../../../database";
 
 function SignupForm() {
   const [listAccounts, setListAccounts] = useState<Account[]>([]);
+  const [listEmail, setListEmail] = useState<string[]>([]);
   const [email, setEmail] = useState("");
   const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
@@ -17,18 +18,19 @@ function SignupForm() {
       .get("http://localhost:7373/accounts")
       .then((response) => {
         setListAccounts(response.data);
+        let filterEmail = response.data.map((account: any) => {
+          return account.email;
+        });
+        setListEmail(filterEmail);
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
   useEffect(() => {
     fetchUsers();
   }, []);
-
-  let filterEmail = listAccounts.map((account) => {
-    return account.email;
-  });
 
   const handleSignUp = () => {
     if (email === "" || email === null) {
@@ -81,16 +83,16 @@ function SignupForm() {
       return false;
     }
 
-    if (filterEmail.includes(email)) {
+    if (listEmail.includes(email)) {
       notification.warning({
         message: "Email is already taken",
       });
     } else {
-      let listId: any = listAccounts.map((account) => {
+      const listId: any = listAccounts.map((account) => {
         return account.id;
       });
 
-      let maxId = Math.max(...listId);
+      const maxId = listId.length > 0 ? Math.max(...listId) : 0;
       const newUser = {
         id: maxId + 1,
         email: email,
@@ -111,20 +113,18 @@ function SignupForm() {
         .then((response) => {
           setListAccounts(response.data);
           console.log(listAccounts);
+          notification.success({
+            message: "Signup Successfully",
+          });
+          setEmail("");
+          setFullName("");
+          setPassword("");
+          setRePassword("");
+          fetchUsers();
         })
         .catch((error) => {
           console.log(error);
         });
-
-      notification.success({
-        message: "Signup Successfully",
-      });
-
-      setEmail("");
-      setFullName("");
-      setPassword("");
-      setRePassword("");
-      fetchUsers();
     }
   };
 
