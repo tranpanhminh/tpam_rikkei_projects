@@ -11,6 +11,7 @@ import {
   Navbar,
 } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+import axios from "axios";
 
 function ClientHeaderPC() {
   const NavLinkStyle = ({ isActive }: { isActive: boolean }) => ({
@@ -18,52 +19,6 @@ function ClientHeaderPC() {
     fontWeight: "bold",
     backgroundColor: isActive ? "#33d6bb" : "",
   });
-  // useEffect(() => {
-  //   const openMenu = document.querySelector("." + styles.open) as HTMLElement;
-  //   const overlay = document.querySelector(
-  //     "." + styles["wrapper-mobile-menu"]
-  //   ) as HTMLElement;
-  //   const menuMobile = document.querySelector("." + styles["menu-mobile"]) as HTMLElement;
-  //   const hideMenuMobile = document.querySelector(
-  //     "." + styles["icon-close-menu"]
-  //   ) as HTMLElement;
-
-  //   const openMenuClickHandler = () => {
-  //     overlay.classList.add(styles.active);
-  //     menuMobile.classList.add(styles.active);
-  //   };
-
-  //   const overlayClickHandler = (e: Event) => {
-  //     if (e.target === overlay) {
-  //       overlay.classList.remove(styles.active);
-  //       menuMobile.classList.remove(styles.active);
-  //     }
-  //   };
-
-  //   const hideMenuMobileClickHandler = () => {
-  //     overlay.classList.remove(styles.active);
-  //     menuMobile.classList.remove(styles.active);
-  //   };
-
-  //   openMenu.addEventListener("click", openMenuClickHandler);
-  //   overlay.addEventListener("click", overlayClickHandler);
-  //   hideMenuMobile.addEventListener("click", hideMenuMobileClickHandler);
-
-  //   return () => {
-  //     openMenu.removeEventListener("click", openMenuClickHandler);
-  //     overlay.removeEventListener("click", overlayClickHandler);
-  //     hideMenuMobile.removeEventListener("click", hideMenuMobileClickHandler);
-  //   };
-  // }, []);
-
-  // const handleSearch = () => {
-  //   console.log("Searched");
-  // };
-
-  // const handleLogout = () => {
-  //   console.log("Log out");
-  // };
-
   return (
     <header className={styles["header"]}>
       <Navbar

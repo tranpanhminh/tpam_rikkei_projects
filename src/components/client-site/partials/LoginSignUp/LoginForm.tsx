@@ -1,8 +1,57 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "../../ClientPage.module.css";
+import axios from "axios";
+import { userAccount } from "../../../../database";
+
 function LoginForm() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [dataLogin, setDataLogin] = useState("");
+
   const handleLogin = () => {
-    // Handle login logic here
+    if (email === "" || email === null) {
+      console.log("Email not be blank");
+      return false;
+    }
+    if (password === "" || password === null) {
+      console.log("Password not be blank");
+      return false;
+    }
+
+    axios
+      .get(`http://localhost:7373/accounts/?email=${email}`)
+      .then((response) => {
+        if (response.data.length === 0) {
+          console.log("Email không tồn tại");
+        } else {
+          const account = response.data.find(
+            (acc: userAccount) => acc.email === email
+          );
+
+          if (account.password !== password) {
+            console.log("Try password");
+          } else {
+            console.log("Success");
+            const newData = {
+              userLoginID: account.id,
+            };
+            // Update user login status using axios.put
+            axios
+              .post(`http://localhost:7373/userLogin/`, newData)
+              .then((response) => {
+                console.log(response);
+                console.log("User login status updated successfully");
+              })
+              .catch((error) => {
+                console.log(error);
+                console.log("Failed to update userLogin");
+              });
+          }
+        }
+      })
+      .catch((error) => {
+        console.log("Failed");
+      });
   };
 
   return (
@@ -14,11 +63,16 @@ function LoginForm() {
           placeholder="Email"
           id={styles["input-login-email"]}
           required
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
         />
         <input
           type="password"
           placeholder="Password"
           id={styles["input-login-password"]}
+          required
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
         />
         <p className={styles["forgot-password"]}>
           <a href="#" className={styles["forgot-password-text"]}>

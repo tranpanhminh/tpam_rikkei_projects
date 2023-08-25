@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../common/Page404.module.css";
+import styles from "../NotFoundPage/Page404.module.css";
 import { NavLink } from "react-router-dom";
 
 function Page404() {

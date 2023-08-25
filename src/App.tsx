@@ -13,7 +13,7 @@ import ClientSignupPage from "./components/client-site/layouts/ClientSignupPage"
 import ClientServicesPage from "./components/client-site/layouts/ClientServicesPage";
 import ClientAboutPage from "./components/client-site/layouts/ClientAboutPage";
 import ClientServiceDetailPage from "./components/client-site/layouts/ClientServiceDetailPage";
-import Page404 from "./components/common/404";
+import Page404 from "../src/components/common/NotFoundPage/404";
 import AdminUsersPage from "./components/admin-site/layouts/AdminUsersPage";
 import AdminProductsPage from "./components/admin-site/layouts/AdminProductsPage";
 import AdminServicesPage from "./components/admin-site/layouts/AdminServicesPage";

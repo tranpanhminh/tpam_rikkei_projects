@@ -31,7 +31,7 @@ const AddModalProduct: React.FC<AddModalProps> = ({
     quantity_stock: 0,
   });
 
-  const fetchUsers = () => {
+  const fetchProducts = () => {
     axios
       .get("http://localhost:7373/products")
       .then((response) => {
@@ -43,7 +43,7 @@ const AddModalProduct: React.FC<AddModalProps> = ({
   };
 
   useEffect(() => {
-    fetchUsers();
+    fetchProducts();
   }, []);
 
   const maxId = products

@@ -1,3 +1,8 @@
+export interface userAccount {
+  email: string;
+  password: string;
+}
+
 export interface Account {
   id: number;
   email: string;
