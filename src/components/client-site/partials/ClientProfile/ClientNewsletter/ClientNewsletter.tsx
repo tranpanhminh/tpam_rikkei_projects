@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../ClientProfile.module.css";
+import styles from "../UserProfile.module.css";
 function ClientNewsletter() {
   return (
     <>

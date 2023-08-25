@@ -3,9 +3,7 @@ import { Button, Modal, Space, notification, DatePicker } from "antd";
 import styles from "../AddCoupon/AddButtonCoupon.module.css";
 import { Coupon } from "../../../../../../database";
 import axios from "axios";
-import moment from "moment";
 import dayjs, { Dayjs } from "dayjs";
-import { useNavigate } from "react-router-dom";
 const { RangePicker } = DatePicker;
 
 interface AddModalProps {
@@ -21,9 +19,10 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
   title,
   handleClickOk,
 }) => {
-  const navigate = useNavigate();
+  const [dates, setDates] = useState<string[]>([]);
+
   const [coupons, setCoupons] = useState<null | Coupon[]>(null);
-  const [editorInitialValue, setEditorInitialValue] = useState<any>("");
+  const [editorInitialValue, setEditorInitialValue] = useState("");
   const [newCoupon, setNewCoupon] = useState<Coupon>({
     id: 0,
     name: "",
@@ -96,6 +95,10 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
     setIsModalOpen(false);
   };
 
+  const dateTime = (start: string, end: string) => {
+    console.log(start, end);
+  };
+
   return (
     <>
       <Button
@@ -142,7 +145,6 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
             <input
               type="number"
               min={1}
-              defaultValue={1}
               value={newCoupon.discount}
               onChange={(e) =>
                 setNewCoupon({ ...newCoupon, discount: Number(e.target.value) })
@@ -162,21 +164,7 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
           <div className={styles["list-input-item"]}>
             <p>Select Date</p>
             <Space direction="vertical" size={12}>
-              <RangePicker
-                defaultValue={editorInitialValue}
-                onChange={(values) => {
-                  if (values && values.length === 2) {
-                    const start = values[0]?.format("DD/MM/YYYY");
-                    const end = values[1]?.format("DD/MM/YYYY");
-                    console.log(start, end);
-                    setNewCoupon({
-                      ...newCoupon,
-                      startDate: start,
-                      endDate: end,
-                    });
-                  }
-                }}
-              />
+              <RangePicker onChange={(values) => console.log(values)} />
             </Space>
           </div>{" "}
         </div>

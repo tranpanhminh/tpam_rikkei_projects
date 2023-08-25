@@ -1,8 +1,6 @@
 import React from "react";
 // Import CSS
-// import styles from "../ClientOrder/ClientOrder.module.css";
-import styles from "../ClientProfile.module.css";
-
+import styles from "../UserProfile.module.css";
 function ClientOrder() {
   return (
     <div>

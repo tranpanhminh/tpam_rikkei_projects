@@ -79,7 +79,6 @@ export interface Coupon {
   startDate?: string;
   endDate?: string;
   usage?: number;
-  status?: string;
 }
 
 let accounts: Account[] = [

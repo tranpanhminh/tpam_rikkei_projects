@@ -4,7 +4,7 @@
   box-sizing: border-box;
 } */
 
-.body {
+.body-user-panel {
   display: grid;
   grid-template-columns: 1fr 7fr;
   gap: 20px;
@@ -30,12 +30,16 @@ img {
   width: 20px;
 }
 
-.active {
+/* .active {
   background-color: #33d6bb;
   width: 100%;
   border-radius: 10px;
   padding: 5px;
   color: white;
+} */
+
+.navlink-menu-user-panel {
+  text-decoration: none;
 }
 
 .vertical-menu {

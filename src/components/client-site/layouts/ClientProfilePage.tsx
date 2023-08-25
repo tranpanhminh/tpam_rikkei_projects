@@ -1,10 +1,10 @@
 import React from "react";
-import ClientProfileHeader from "./../partials/ClientProfile/ClientProfileHeader";
+import UserHeader from "../partials/ClientProfile/UserHeader";
 
 function ClientProfilePage() {
   return (
     <>
-      <ClientProfileHeader />
+      <UserHeader />
     </>
   );
 }
