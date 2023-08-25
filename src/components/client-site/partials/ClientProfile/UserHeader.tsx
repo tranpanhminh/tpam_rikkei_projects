@@ -29,7 +29,7 @@ const ClientProfileHeader: React.FC = () => {
             >
               <li className={styles["admin-btn"]}>
                 <i className="fa-solid fa-user"></i>
-                Edit Profile
+                My Profile
               </li>
             </NavLink>
           </div>
