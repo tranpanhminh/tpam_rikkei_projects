@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../../../../assets/images/pet-shop-remove-bg.png";
 import styles from "../../ClientPage.module.css";
 import {
@@ -10,7 +10,7 @@ import {
   NavDropdown,
   Navbar,
 } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function ClientHeaderPC() {
@@ -19,6 +19,48 @@ function ClientHeaderPC() {
     fontWeight: "bold",
     backgroundColor: isActive ? "#33d6bb" : "",
   });
+  const navigate = useNavigate();
+
+  const [userLoginId, setUserLoginID] = useState("");
+  const fetchUserLogin = () => {
+    axios
+      .get("http://localhost:7373/userLogin")
+      .then((response) => {
+        if (response.data.length !== 0) {
+          setUserLoginID(response.data);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  console.log(userLoginId);
+
+  useEffect(() => {
+    fetchUserLogin();
+  }, []);
+
+  const navigateToLogin = () => {
+    navigate("/login");
+  };
+
+  const handleLogout = () => {
+    if (userLoginId) {
+      axios
+        .delete(`http://localhost:7373/userLogin/${userLoginId}`)
+        .then((response) => {
+          console.log(response);
+          console.log("Logged out successfully");
+          setUserLoginID(""); // Reset userLoginId after successful logout
+          navigate("/");
+        })
+        .catch((error) => {
+          console.log("Failed to logout:", error);
+        });
+    } else {
+      navigateToLogin();
+    }
+  };
   return (
     <header className={styles["header"]}>
       <Navbar
@@ -88,6 +130,13 @@ function ClientHeaderPC() {
                 style={NavLinkStyle}
               >
                 Signup
+              </NavLink>
+              <NavLink
+                className={styles["navlink-main-menu"]}
+                to={""}
+                onClick={handleLogout}
+              >
+                Logout
               </NavLink>
 
               <NavLink to="/cart">

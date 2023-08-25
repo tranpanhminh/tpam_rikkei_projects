@@ -84,7 +84,7 @@ function App() {
           <Route path="/user/my-orders" element={<AdminOrderPage />}></Route>
           <Route path="/user/my-booking" element={<AdminBookingPage />}></Route>
           <Route path="/user" element={<ClientProfilePage />}></Route>
-          <Route path="/logout" element={<ClientHomePage />}></Route>
+          <Route path="/" element={<ClientHomePage />}></Route>
           <Route path="/user" element={<ClientProfilePage />}></Route>
           <Route path="*" element={<Page404 />}></Route>
         </Routes>

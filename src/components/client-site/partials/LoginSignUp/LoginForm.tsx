@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "../../ClientPage.module.css";
 import axios from "axios";
 import { userAccount } from "../../../../database";
+import { notification } from "antd";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
@@ -10,11 +11,15 @@ function LoginForm() {
 
   const handleLogin = () => {
     if (email === "" || email === null) {
-      console.log("Email not be blank");
+      notification.warning({
+        message: "Email not be blank",
+      });
       return false;
     }
     if (password === "" || password === null) {
-      console.log("Password not be blank");
+      notification.warning({
+        message: "Password not be blank",
+      });
       return false;
     }
 
@@ -22,16 +27,22 @@ function LoginForm() {
       .get(`http://localhost:7373/accounts/?email=${email}`)
       .then((response) => {
         if (response.data.length === 0) {
-          console.log("Email không tồn tại");
+          notification.warning({
+            message: "Email is not exist",
+          });
         } else {
           const account = response.data.find(
             (acc: userAccount) => acc.email === email
           );
 
           if (account.password !== password) {
-            console.log("Try password");
+            notification.warning({
+              message: "Password is not valid",
+            });
           } else {
-            console.log("Success");
+            notification.success({
+              message: "Login Successfully",
+            });
             const newData = {
               userLoginID: account.id,
             };
