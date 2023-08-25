@@ -7,6 +7,7 @@ export interface Account {
   status: string;
   cart: any[];
   order_history: any[];
+  newsletter_register: boolean;
   newsletter: string[];
   booking: any[];
   booking_history: any[];
@@ -91,6 +92,7 @@ let accounts: Account[] = [
     status: "Active",
     cart: [],
     order_history: [],
+    newsletter_register: true,
     newsletter: [],
     booking: [],
     booking_history: [],
@@ -104,6 +106,7 @@ let accounts: Account[] = [
     status: "Active",
     cart: [],
     order_history: [],
+    newsletter_register: false,
     newsletter: [],
     booking: [],
     booking_history: [],
@@ -117,6 +120,7 @@ let accounts: Account[] = [
     status: "Active",
     cart: [],
     order_history: [],
+    newsletter_register: true,
     newsletter: [],
     booking: [],
     booking_history: [],
@@ -130,6 +134,7 @@ let accounts: Account[] = [
     status: "Inactive",
     cart: [],
     order_history: [],
+    newsletter_register: true,
     newsletter: [],
     booking: [],
     booking_history: [],
