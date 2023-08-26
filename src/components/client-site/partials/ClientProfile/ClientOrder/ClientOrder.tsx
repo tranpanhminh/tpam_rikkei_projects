@@ -9,12 +9,16 @@ import { Account } from "../../../../../database";
 function ClientOrder() {
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
-  const [user, setUser] = useState<Account[]>([]);
+  const [user, setUser] = useState<any>([]);
+  const [userOrder, setUserOrder] = useState<any>([]);
+  const [orderProduct, setOrderProduct] = useState<any>([]);
   const fetchUser = () => {
     axios
       .get(`http://localhost:7373/accounts/${getLoginData.loginId}`)
       .then((response) => {
         setUser(response.data);
+        setUserOrder(response.data.order_history);
+        setOrderProduct(response.data.order_history.orderProduct);
       })
       .catch((error) => {
         console.log(error);
@@ -24,7 +28,6 @@ function ClientOrder() {
   useEffect(() => {
     fetchUser();
   }, []);
-  console.log(user);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -39,7 +42,10 @@ function ClientOrder() {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  console.log("User", user);
+
+  console.log("User Item", user);
+  console.log("User Order", userOrder);
+
   return (
     <div>
       <div className={styles.breadcrumb}>
@@ -82,121 +88,108 @@ function ClientOrder() {
             </tr>
           </thead>
           <tbody>
-            {user.length > 0 &&
-              user?.map((userItem: any) => {
-                return userItem.order_history?.map((item: any) => {
-                  return (
-                    <tr>
-                      <td>{item.orderId}</td>
-                      <td>{item.date}</td>
-                      <td>Tổng tiền</td>
-                      <td>{item.status}</td>
-                      <td>Pending</td>
-                      <td>
-                        <Button type="primary" onClick={showModal}>
-                          Detail
-                        </Button>
-                        <Modal
-                          title="Order Detail"
-                          open={isModalOpen}
-                          onOk={handleOk}
-                          onCancel={handleCancel}
-                          width={1000}
-                        >
-                          <div className={styles["list-input-my-profile"]}>
-                            <div className={styles["my-profile-input-item"]}>
-                              <p>Phone</p>
-                              <input
-                                type="text"
-                                disabled
-                                value={userItem.phone}
-                              />
-                            </div>
-                            <div className={styles["my-profile-input-item"]}>
-                              <p>Address</p>
-                              <input
-                                type="text"
-                                disabled
-                                value={userItem.address}
-                              />
-                            </div>
-                            <div className={styles["my-profile-input-item"]}>
-                              <p>Status</p>
-                              <input
-                                type="text"
-                                disabled
-                                value={userItem.status}
-                              />
-                            </div>
-                            <div className={styles["my-profile-input-item"]}>
-                              <p>Request Cancel</p>
-                              <select name="" id="">
-                                <option value="No Cancel Order" selected>
-                                  --Choose Reason--
-                                </option>
-                                <option value="Ordered the wrong product">
-                                  1. Ordered the wrong product
-                                </option>
-                                <option value="Duplicate order">
-                                  2. Duplicate order
-                                </option>
-                                <option value="I don't want to buy anymore">
-                                  3. I don't want to buy anymore
-                                </option>
-                                <option value="Ordered the wrong product">
-                                  4. Delivery time too long
-                                </option>
-                                <option value="Ordered the wrong product">
-                                  5. Another reason...
-                                </option>
-                              </select>
-                            </div>
-                          </div>
-                          <br />
-                          <table
-                            className="table table-striped"
-                            id={styles["table-user"]}
-                          >
-                            <thead>
-                              <tr>
-                                <th>#</th>
-                                <th>Product Image</th>
-                                <th>Product Name</th>
-                                <th>Quantity</th>
-                                <th>Price</th>
-                                <th>Total</th>
-                              </tr>
-                            </thead>
+            {userOrder.map((order: any) => {
+              return (
+                <tr>
+                  <td>{order.orderId}</td>
+                  <td>{order.date}</td>
+                  <td>Tổng tiền</td>
+                  <td>{order.status}</td>
+                  <td>Pending</td>
+                  <td>
+                    <Button type="primary" onClick={showModal}>
+                      Detail
+                    </Button>
+                    <Modal
+                      title="Order Detail"
+                      open={isModalOpen}
+                      onOk={handleOk}
+                      onCancel={handleCancel}
+                      width={1000}
+                    >
+                      <div className={styles["list-input-my-profile"]}>
+                        <div className={styles["my-profile-input-item"]}>
+                          <p>Phone</p>
+                          <input type="text" disabled value={order.phone} />
+                        </div>
+                        <div className={styles["my-profile-input-item"]}>
+                          <p>Address</p>
+                          <input type="text" disabled value={order.address} />
+                        </div>
+                        <div className={styles["my-profile-input-item"]}>
+                          <p>Status</p>
+                          <input type="text" disabled value={order.status} />
+                        </div>
+                        <div className={styles["my-profile-input-item"]}>
+                          <p>Request Cancel</p>
+                          <select name="" id="">
+                            <option value="No Cancel Order" selected>
+                              --Choose Reason--
+                            </option>
+                            <option value="Ordered the wrong product">
+                              1. Ordered the wrong product
+                            </option>
+                            <option value="Duplicate order">
+                              2. Duplicate order
+                            </option>
+                            <option value="I don't want to buy anymore">
+                              3. I don't want to buy anymore
+                            </option>
+                            <option value="Ordered the wrong product">
+                              4. Delivery time too long
+                            </option>
+                            <option value="Ordered the wrong product">
+                              5. Another reason...
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                      <br />
+                      <table
+                        className="table table-striped"
+                        id={styles["table-user"]}
+                      >
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Product Image</th>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                          </tr>
+                        </thead>
 
-                            <tbody>
+                        <tbody>
+                          {order.orderProduct.map((item: any) => {
+                            return (
                               <tr>
                                 <td>{item.productId}</td>
-                                <td>{item.productImage}</td>
+                                <td></td>
                                 <td>{item.productName}</td>
                                 <td>{item.productQuantity}</td>
                                 <td>{item.productPrice}</td>
-                                <td>
-                                  {item.productQuantity * item.productPrice}
-                                </td>
+                                <td>{item.productId}</td>
                               </tr>
-                            </tbody>
-                          </table>
-                          <div className={styles["my-profile-my-order-card"]}>
-                            <span className={styles["my-order-card-item"]}>
-                              Item: {userItem.order_history.length}
-                            </span>
-                            <span
-                              className={styles["my-order-card-total-quantity"]}
-                            >
-                              Total: $270
-                            </span>
-                          </div>
-                        </Modal>
-                      </td>
-                    </tr>
-                  );
-                });
-              })}
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                      <div className={styles["my-profile-my-order-card"]}>
+                        <span className={styles["my-order-card-item"]}>
+                          Item: 2
+                        </span>
+                        <span
+                          className={styles["my-order-card-total-quantity"]}
+                        >
+                          Total: $270
+                        </span>
+                      </div>
+                    </Modal>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
