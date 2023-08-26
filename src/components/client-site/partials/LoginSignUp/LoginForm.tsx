@@ -47,7 +47,7 @@ function LoginForm() {
             navigate("/");
             const loginData = {
               loginId: account.id,
-              loginRole: account.role,
+              role: account.role,
             };
             // Update user login status using axios.put
             // axios

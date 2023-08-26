@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 // Import AdminPage
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import AdminHeader from "./components/admin-site/partials/AdminHeader/AdminHeader";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useNavigate,
+  useNavigation,
+  useLocation,
+} from "react-router-dom";
 import ClientCartPage from "./components/client-site/layouts/ClientCartPage";
 import ClientHomePage from "./components/client-site/layouts/ClientHomePage";
 import ClientLoginPage from "./components/client-site/layouts/ClientLoginPage";
@@ -25,6 +31,29 @@ import MyOrders from "./components/client-site/layouts/UserProfile/MyOrders";
 import MyNewsletter from "./components/client-site/layouts/UserProfile/MyNewsletter";
 import MyBooking from "./components/client-site/layouts/UserProfile/MyBooking";
 
+export function RoleNavigation() {
+  const getData: any = localStorage.getItem("auth");
+  const getLoginData = JSON.parse(getData) || "";
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (getLoginData.role === "admin" && location.pathname.includes("user")) {
+      // Redirect to "/"
+      navigate("/");
+    }
+    if (
+      getLoginData.role === "customer" &&
+      location.pathname.includes("admin")
+    ) {
+      // Redirect to "/"
+      navigate("/");
+    }
+  }, [getLoginData.role, location.pathname, navigate]);
+
+  return null; // Return null or an empty component
+}
+
 function App() {
   return (
     <>
@@ -32,7 +61,9 @@ function App() {
       {/* <AdminPage /> */}
       {/* <ClientProfileHeader /> */}
       <BrowserRouter>
+        <RoleNavigation />
         <Routes>
+          {<Route></Route>}
           <Route path="/" element={<ClientHomePage />}></Route>
           <Route path="/about" element={<ClientAboutPage />}></Route>
           <Route path="/cart" element={<ClientCartPage />}></Route>
@@ -76,7 +107,7 @@ function App() {
             path="/admin/manage-coupons"
             element={<AdminCouponPage />}
           ></Route>
-          <Route path="/user/" element={<MyProfile />}></Route>
+          <Route path="/user" element={<MyProfile />}></Route>
           <Route path="/user/my-profile" element={<MyProfile />}></Route>
           <Route path="/user/my-orders" element={<MyOrders />}></Route>
           <Route path="/user/my-booking" element={<MyBooking />}></Route>
@@ -85,7 +116,7 @@ function App() {
           <Route path="/user/my-booking" element={<AdminBookingPage />}></Route>
           <Route path="/user" element={<ClientProfilePage />}></Route>
           <Route path="/" element={<ClientHomePage />}></Route>
-          <Route path="/user" element={<ClientProfilePage />}></Route>
+          {/* <Route path="/user" element={<ClientProfilePage />}></Route> */}
           <Route path="*" element={<Page404 />}></Route>
         </Routes>
       </BrowserRouter>

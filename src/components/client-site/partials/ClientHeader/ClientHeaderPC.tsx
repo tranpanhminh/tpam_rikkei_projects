@@ -172,7 +172,14 @@ function ClientHeaderPC() {
 
               <NavLink
                 to="/cart"
-                style={{ display: getLoginData.role === "admin" ? "" : "none" }}
+                style={{
+                  display:
+                    getLoginData.role === "admin"
+                      ? "none"
+                      : getLoginData.role === "customer"
+                      ? ""
+                      : "none",
+                }}
               >
                 <Button
                   variant="primary"
@@ -183,9 +190,9 @@ function ClientHeaderPC() {
               </NavLink>
               <NavLink
                 to={
-                  getLoginData.loginRole === "admin"
+                  getLoginData.role === "admin"
                     ? "/admin"
-                    : getLoginData.loginRole === "customer"
+                    : getLoginData.role === "customer"
                     ? "/user"
                     : "/"
                 }
