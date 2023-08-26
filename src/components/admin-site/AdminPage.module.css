@@ -262,11 +262,6 @@ td.group-btn-admin-manage-product:last-child {
 
 .detail-order-btn {
   background-color: #0c337c;
-  padding: 5px 10px;
-  border: none;
-  color: white;
-  border-radius: 10px;
-  font-size: 20px;
 }
 
 .detail-user-btn {

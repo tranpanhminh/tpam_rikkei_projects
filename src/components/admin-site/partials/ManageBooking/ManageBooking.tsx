@@ -9,8 +9,6 @@ import DetailBooking from "../ManageBooking/Button/DetailBooking/DetailBooking";
 import { notification } from "antd";
 
 function ManageBooking() {
-  const getData: any = localStorage.getItem("auth");
-  const getLoginData = JSON.parse(getData) || "";
   const [searchText, setSearchText] = useState<string>("");
 
   const [booking, setBooking] = useState<any>([]);
@@ -139,7 +137,7 @@ function ManageBooking() {
             </tr>
           </thead>
           <tbody>
-            {booking.map((item: any) => {
+            {booking?.map((item: any) => {
               return (
                 <tr key={item.id}>
                   <td>{item.id}</td>
@@ -148,88 +146,12 @@ function ManageBooking() {
                   <td>{item.date}</td>
                   <td>{item.status}</td>
                   <td className={styles["group-btn-admin"]}>
-                    {/* <button className={styles["detail-product-btn"]}>
-                      Detail
-                    </button>
-
-                    <button className={styles["delete-product-btn"]}>
-                      Delete
-                    </button> */}
-                    <Button
-                      type="primary"
-                      onClick={showModal}
+                    <DetailBooking
+                      value="Detail"
+                      title="Detail Product"
                       className={styles["detail-product-btn"]}
-                    >
-                      Detail
-                    </Button>
-                    <Modal
-                      title="Detail Booking"
-                      open={isModalOpen}
-                      onOk={handleOk}
-                      onCancel={handleCancel}
-                    >
-                      <div className={styles["list-input-manage-booking"]}>
-                        <div className={styles["manage-booking-input-item"]}>
-                          <p>Phone</p>
-                          <input type="text" disabled value={item.phone} />
-                        </div>
-                        <div className={styles["manage-booking-input-item"]}>
-                          <p>Booking Date</p>
-                          <input type="text" disabled value={item.date} />
-                        </div>
-                        <div className={styles["manage-booking-input-item"]}>
-                          <p>Service Name</p>
-                          <input
-                            type="text"
-                            disabled
-                            value={item.booking.serviceName}
-                          />
-                        </div>
-                        <div className={styles["manage-booking-input-item"]}>
-                          <p>Service Time</p>
-                          <input
-                            type="text"
-                            disabled
-                            value={item.booking.serviceTime}
-                          />
-                        </div>
-                        <div className={styles["manage-booking-input-item"]}>
-                          <p>Service Price</p>
-                          <input
-                            type="text"
-                            disabled
-                            value={item.booking.servicePrice}
-                          />
-                        </div>
-                        <div className={styles["manage-booking-input-item"]}>
-                          <p>Status</p>
-                          <select name="" id="">
-                            <option value="">--Choose Status--</option>
-                            <option
-                              value="Done"
-                              selected={item.status === "Done" ? true : false}
-                            >
-                              Done
-                            </option>
-                            <option
-                              value="Processing"
-                              selected={
-                                item.status === "Processing" ? true : false
-                              }
-                            >
-                              Processing
-                            </option>
-                            <option
-                              value="Cancel"
-                              selected={item.status === "Cancel" ? true : false}
-                            >
-                              Cancel
-                            </option>
-                          </select>
-                        </div>
-                      </div>
-                    </Modal>
-
+                      getBookingId={item.id}
+                    ></DetailBooking>
                     <DeleteBooking
                       value="Delete"
                       className={styles["delete-product-btn"]}

@@ -1,33 +1,60 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Modal } from "antd";
+import axios from "axios";
+import { Booking } from "../../../../../../database";
+import styles from "../../../../AdminPage.module.css";
 
 interface DetailModalProps {
   className?: string; // Thêm khai báo cho thuộc tính className
   value?: string; // Thêm khai báo cho thuộc tính className
-  content?: any;
   title?: string;
+  handleFunctionOk?: any;
   handleFunctionBtn?: any;
-  width?: number;
+  getBookingId: number;
 }
 const DetailBooking: React.FC<DetailModalProps> = ({
   className,
   value,
+  title,
+  handleFunctionOk,
   handleFunctionBtn,
+  getBookingId,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [bookings, setBookings] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchProduct = () => {
+      axios
+        .get(`http://localhost:7373/bookings/${getBookingId}`)
+        .then((response) => {
+          setBookings(response.data);
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    };
+
+    fetchProduct();
+  }, [getBookingId]);
+  console.log(bookings);
 
   const showModal = () => {
     setIsModalOpen(true);
   };
 
   const handleOk = () => {
-    setIsModalOpen(false);
+    console.log("handleSubmit is called");
+
+    if (handleFunctionOk) {
+      handleFunctionOk();
+    }
   };
 
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
   return (
     <>
       <Button
@@ -42,7 +69,58 @@ const DetailBooking: React.FC<DetailModalProps> = ({
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
-      ></Modal>
+      >
+        <div className={styles["list-input-manage-booking"]}>
+          <div className={styles["manage-booking-input-item"]}>
+            <p>Phone</p>
+            <input type="text" disabled value={bookings?.phone} />
+          </div>
+          <div className={styles["manage-booking-input-item"]}>
+            <p>Booking Date</p>
+            <input type="text" disabled value={bookings?.date} />
+          </div>
+          <div className={styles["manage-booking-input-item"]}>
+            <p>Service Name</p>
+            <input type="text" disabled value={bookings?.booking.serviceName} />
+          </div>
+          <div className={styles["manage-booking-input-item"]}>
+            <p>Service Time</p>
+            <input type="text" disabled value={bookings?.booking.serviceTime} />
+          </div>
+          <div className={styles["manage-booking-input-item"]}>
+            <p>Service Price</p>
+            <input
+              type="text"
+              disabled
+              value={bookings?.booking.servicePrice}
+            />
+          </div>
+          <div className={styles["manage-booking-input-item"]}>
+            <p>Status</p>
+            <select name="" id="">
+              <option value="">-- Choose Status --</option>
+              <option
+                value="Done"
+                selected={bookings?.status === "Done" ? true : false}
+              >
+                Done
+              </option>
+              <option
+                value="Processing"
+                selected={bookings?.status === "Processing" ? true : false}
+              >
+                Processing
+              </option>
+              <option
+                value="Cancel"
+                selected={bookings?.status === "Cancel" ? true : false}
+              >
+                Cancel
+              </option>
+            </select>
+          </div>
+        </div>
+      </Modal>
     </>
   );
 };

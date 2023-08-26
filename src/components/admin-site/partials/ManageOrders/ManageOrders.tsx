@@ -1,17 +1,86 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Button, Modal } from "antd";
 import styles from "../../AdminPage.module.css";
-import {
-  initializeDatabase,
-  getDataFromLocal,
-  setDataToLocal,
-  Order,
-} from "../../../../database"; // Import your data fetching and setting functions
+import { Order } from "../../../../database"; // Import your data fetching and setting functions
+import axios from "axios";
+import DeleteOrder from "./Button/DeleteOrder/DeleteOrder";
+import { notification } from "antd";
+import DetailOrder from "./Button/DetailOrder/DetailOrder";
 
 function ManageOrders() {
-  const [database, setDatabase] = useState(initializeDatabase);
-  const [orders, setOrders] = useState<Order[]>(
-    getDataFromLocal<Order[]>("ordersDatabase" || [])
-  );
+  const [orders, setOrders] = useState<null | Order[]>(null);
+  const [searchText, setSearchText] = useState<string>("");
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const fetchOrders = () => {
+    axios
+      .get("http://localhost:7373/orders")
+      .then((response) => {
+        setOrders(response.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+
+  const handleSearchOrders = () => {
+    if (searchText === "") {
+      fetchOrders();
+    } else {
+      axios
+        .get(`http://localhost:7373/orders`)
+        .then((response) => {
+          // Lấy dữ liệu từ response
+          const allOrders = response.data;
+
+          // Tìm kiếm trong dữ liệu và cập nhật state
+          const filterOrders = allOrders.filter((order: Order) => {
+            if (
+              order.name.toLowerCase().includes(searchText.trim().toLowerCase())
+            ) {
+              return true;
+            }
+            return false;
+          });
+
+          setOrders(filterOrders);
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    }
+  };
+
+  const handleDeleteOrder = (orderId: number) => {
+    axios
+      .delete(`http://localhost:7373/orders/${orderId}`)
+      .then(() => {
+        fetchOrders(); // Cập nhật lại dữ liệu products sau khi xóa
+        notification.success({
+          message: "Order Deleted",
+        });
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
 
   return (
     <>
@@ -28,11 +97,14 @@ function ManageOrders() {
             placeholder="Search"
             aria-label="Search"
             id="search-bar"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
           />
           <button
             className="btn btn-outline-success"
             type="submit"
             id={styles["search-btn"]}
+            onClick={handleSearchOrders}
           >
             Search
           </button>
@@ -63,31 +135,28 @@ function ManageOrders() {
             </tr>
           </thead>
           <tbody>
-            {orders.map((order) => {
-              return (
-                <tr key={order.id}>
-                  <td>{order.id}</td>
-                  <td>{order.name}</td>
-                  <td>{order.email}</td>
-                  <td>{order.phone}</td>
-                  <td>{order.date}</td>
-                  <td>{order.status}</td>
-                  <td>Chưa tính</td>
-                  <td className={styles["group-btn-admin"]}>
-                    <button
-                      data-bs-toggle="modal"
-                      data-bs-target="#exampleModal"
-                      className={styles["detail-order-btn"]}
-                    >
-                      Detail
-                    </button>
-                    <button className={styles["delete-order-btn"]}>
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
+            {orders &&
+              orders.map((order) => {
+                return (
+                  <tr key={order.id}>
+                    <td>{order.id}</td>
+                    <td>{order.name}</td>
+                    <td>{order.email}</td>
+                    <td>{order.phone}</td>
+                    <td>{order.date}</td>
+                    <td>{order.status}</td>
+                    <td>Chưa tính</td>
+                    <td className={styles["group-btn-admin"]}>
+                      <DetailOrder value="Detail"></DetailOrder>
+                      <DeleteOrder
+                        value="Delete"
+                        className={styles["delete-order-btn"]}
+                        handleFunctionBtn={() => handleDeleteOrder(order.id)}
+                      ></DeleteOrder>
+                    </td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
       </div>
