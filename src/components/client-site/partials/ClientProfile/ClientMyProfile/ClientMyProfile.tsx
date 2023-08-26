@@ -7,9 +7,9 @@ import axios from "axios";
 
 function ClientEditProfile() {
   const [userFullName, setUserFullName] = useState("");
-  const [userEmail, setUserEmail] = useState("");
-  const [userPassword, setUserPassword] = useState("");
-  const [userNewPassword, setUserNewpassword] = useState("");
+  const [newFullName, setNewFullName] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
   console.log(getLoginData);
@@ -34,8 +34,6 @@ function ClientEditProfile() {
       .then((response) => {
         setUser(response.data);
         setUserFullName(response.data.fullName);
-        setUserEmail(response.data.email);
-        setUserPassword(response.data.password);
       })
       .catch((error) => {
         console.log(error);
@@ -54,36 +52,56 @@ function ClientEditProfile() {
   };
 
   const handleOk = () => {
-    // Check if New Password is at least 8 characters
-    if (userNewPassword && userNewPassword.length < 8) {
+    // Kiểm tra Full Name
+
+    if (!userFullName) {
       notification.error({
         message: "Error",
-        description: "New Password must be at least 8 characters.",
+        description: "Please Enter Full Name",
+      });
+      return;
+    } else if (!/^[a-zA-Z\s]*$/.test(userFullName)) {
+      notification.warning({
+        message: "Full Name cannot contain special characters or numbers",
+      });
+      return false;
+    } else {
+      setNewFullName(userFullName);
+    }
+
+    // Kiểm tra Old Password
+    if (oldPassword !== user.password) {
+      console.log("UserPassword", oldPassword);
+      console.log("user.password", user.password);
+      notification.warning({
+        message: "Old Password is not correct",
       });
       return;
     }
-
-    // Check if both Old Password and New Password are provided
-    if (!userPassword) {
-      notification.error({
-        message: "Error",
-        description: "Please enter the Old Password.",
+    if (!newPassword) {
+      notification.warning({
+        message: "New Password must not be blank",
       });
       return;
     }
-
-    // Check if Old Password matches the stored password
-    if (userPassword !== user.password) {
-      notification.error({
-        message: "Error",
-        description: "Old Password is incorrect.",
+    if (newPassword.length < 8) {
+      notification.warning({
+        message: "Password must be at least 8 characters",
+      });
+      return false;
+    }
+    if (newPassword === user.password) {
+      notification.warning({
+        message: "New Password & Old password must not be the same",
       });
       return;
+    } else {
+      setNewPassword(user.password);
     }
 
     const updatedUserData = {
-      fullName: userFullName,
-      password: userNewPassword || user.password, // Keep the same password if not changed
+      fullName: newFullName,
+      password: newPassword, // Keep the same password if not changed
     };
 
     // Make PUT request to update user data
@@ -95,6 +113,9 @@ function ClientEditProfile() {
         notification.success({
           message: "Updated Profile",
         });
+        setUserFullName("");
+        setOldPassword("");
+        setNewPassword("");
         fetchUser();
       })
       .catch((error) => {
@@ -103,6 +124,8 @@ function ClientEditProfile() {
   };
 
   const handleCancel = () => {
+    setOldPassword("");
+    setNewPassword("");
     setIsModalOpen(false);
   };
   return (
@@ -152,11 +175,23 @@ function ClientEditProfile() {
           </div>
           <div className={styles["my-profile-input-item"]}>
             <p>Old Password</p>
-            <input type="text" />
+            <input
+              type="password"
+              value={oldPassword}
+              onChange={(event) => {
+                setOldPassword(event?.target.value);
+              }}
+            />
           </div>
           <div className={styles["my-profile-input-item"]}>
             <p>New Password</p>
-            <input type="text" />
+            <input
+              type="password"
+              value={newPassword}
+              onChange={(event) => {
+                setNewPassword(event?.target.value);
+              }}
+            />
           </div>
         </div>
       </Modal>

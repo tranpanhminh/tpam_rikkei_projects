@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../../../../assets/images/pet-shop.png";
 
 // Import CSS Admin Page
@@ -7,8 +7,42 @@ import "../../../../assets/bootstrap-5.3.0-dist/css/bootstrap.min.css";
 
 // Import Components
 import { NavLink, useNavigate } from "react-router-dom";
+import { Account } from "../../../../database";
+import axios from "axios";
 
 const UserHeader: React.FC = () => {
+  const getData: any = localStorage.getItem("auth");
+  const getLoginData = JSON.parse(getData) || "";
+  console.log(getLoginData);
+  const [user, setUser] = useState<Account>({
+    id: 0,
+    email: "",
+    fullName: "",
+    password: "",
+    role: "",
+    status: "",
+    cart: [],
+    order_history: [],
+    newsletter_register: false,
+    newsletter: [],
+    booking: [],
+    booking_history: [],
+  });
+  const fetchUser = () => {
+    axios
+      .get(`http://localhost:7373/accounts/${getLoginData.loginId}`)
+      .then((response) => {
+        setUser(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem("auth");
@@ -19,9 +53,7 @@ const UserHeader: React.FC = () => {
       <header className={styles["vertical-menu"]}>
         <div className={styles["user-panel"]}>
           <NavLink to="/" className={styles["navlink-menu-user-panel"]}>
-            <a href="/index.html">
-              <img src={logo} alt="" />
-            </a>
+            <img src={logo} alt="" />
           </NavLink>
           <p className={styles["user-title"]}>User Panel</p>
         </div>
