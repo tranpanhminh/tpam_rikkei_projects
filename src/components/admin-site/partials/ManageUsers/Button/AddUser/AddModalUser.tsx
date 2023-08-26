@@ -33,7 +33,6 @@ const AddModalUser: React.FC<AddModalProps> = ({
     order_history: [],
     newsletter_register: false,
     newsletter: [],
-    booking: [],
     booking_history: [],
   });
 
@@ -132,7 +131,6 @@ const AddModalUser: React.FC<AddModalProps> = ({
       order_history: [],
       newsletter_register: false,
       newsletter: [],
-      booking: [],
       booking_history: [],
     });
   };

@@ -48,7 +48,6 @@ function ClientOrder() {
         </div>
       </div>
 
-
       <div className={styles["main-content"]}>
         <h3 className={styles["main-title-content"]}>List Orders</h3>
         <table className="table table-striped" id="table-user">
@@ -81,10 +80,6 @@ function ClientOrder() {
                   width={1000}
                 >
                   <div className={styles["list-input-my-profile"]}>
-                    <div className={styles["my-profile-input-item"]}>
-                      <p>Email</p>
-                      <input type="text" disabled />
-                    </div>
                     <div className={styles["my-profile-input-item"]}>
                       <p>Phone</p>
                       <input type="text" disabled />

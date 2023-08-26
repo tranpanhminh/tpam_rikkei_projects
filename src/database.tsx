@@ -14,7 +14,6 @@ export interface Account {
   order_history: any[];
   newsletter_register: boolean;
   newsletter: string[];
-  booking: any[];
   booking_history: any[];
 }
 export interface Product {
@@ -99,7 +98,6 @@ let accounts: Account[] = [
     order_history: [],
     newsletter_register: true,
     newsletter: [],
-    booking: [],
     booking_history: [],
   },
   {
@@ -113,7 +111,6 @@ let accounts: Account[] = [
     order_history: [],
     newsletter_register: false,
     newsletter: [],
-    booking: [],
     booking_history: [],
   },
   {
@@ -127,7 +124,6 @@ let accounts: Account[] = [
     order_history: [],
     newsletter_register: true,
     newsletter: [],
-    booking: [],
     booking_history: [],
   },
   {
@@ -141,7 +137,6 @@ let accounts: Account[] = [
     order_history: [],
     newsletter_register: true,
     newsletter: [],
-    booking: [],
     booking_history: [],
   },
 ];
