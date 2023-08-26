@@ -3,13 +3,19 @@ import logo from "../../../../assets/images/pet-shop.png";
 
 import styles from "../../AdminPage.module.css";
 
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const AdminHeader: React.FC = () => {
+  const navigate = useNavigate();
   const navLinkStyle = ({ isActive }: { isActive: boolean }) => ({
     // color: isActive ? "black" : "",
     color: isActive ? "#33d6bb" : "",
   });
+
+  const handleLogout = () => {
+    localStorage.removeItem("auth");
+    navigate("/");
+  };
 
   return (
     <>
@@ -99,6 +105,7 @@ const AdminHeader: React.FC = () => {
               to="/"
               style={navLinkStyle}
               className={styles["navlink-menu-admin"]}
+              onClick={handleLogout}
             >
               <li className={styles["admin-btn"]}>
                 <i className="fa-solid fa-right-from-bracket"></i>Logout

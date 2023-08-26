@@ -21,11 +21,12 @@ function ClientHeaderPC() {
     backgroundColor: isActive ? "#33d6bb" : "",
   });
   const navigate = useNavigate();
-  const [userLoginId, setUserLoginId] = useState("");
+  // const [userLoginId, setUserLoginId] = useState("");
 
   const getData: any = localStorage.getItem("auth");
-  const getLoginData = JSON.parse(getData) || [];
-  setUserLoginId(getLoginData.loginId);
+  const getLoginData = JSON.parse(getData) || "";
+  console.log(getLoginData);
+  // setUserLoginId(getLoginData.loginId);
 
   // const fetchUserLogin = () => {
   //   axios
@@ -43,16 +44,16 @@ function ClientHeaderPC() {
   // }, []);
 
   const handleLogout = () => {
-    axios
-      .delete(`http://localhost:7373/userLogin/${userLoginId}`)
-      .then((response) => {
-        localStorage.removeItem("auth");
-        navigate("/");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    localStorage.removeItem("auth");
+    navigate("/");
 
+    // axios
+    //   .delete(`http://localhost:7373/userLogin/${userLoginId}`)
+    //   .then((response) => {
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
     // if (userLoginId.length !== 0) {
     //   axios
     //     .delete(`http://localhost:7373/userLogin/${userLoginId}`)
@@ -128,31 +129,51 @@ function ClientHeaderPC() {
               >
                 Services
               </NavLink>
-              <NavLink
-                to="/login"
-                className={styles["navlink-main-menu"]}
-                style={NavLinkStyle}
-                onClick={handleLogout}
-              >
-                Login
-              </NavLink>
-              <NavLink
-                to="/signup"
-                className={styles["navlink-main-menu"]}
-                style={NavLinkStyle}
-              >
-                Signup
-              </NavLink>
-              <NavLink
-                to="/"
-                className={styles["navlink-main-menu"]}
-                style={NavLinkStyle}
-                onClick={handleLogout}
-              >
-                Logout
-              </NavLink>
+              {
+                <>
+                  <NavLink
+                    to="/login"
+                    className={styles["navlink-main-menu"]}
+                    style={{
+                      ...NavLinkStyle,
+                      display: getLoginData ? "none" : "",
+                      color: "black",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Login
+                  </NavLink>
+                  <NavLink
+                    to="/signup"
+                    className={styles["navlink-main-menu"]}
+                    style={{
+                      ...NavLinkStyle,
+                      display: getLoginData ? "none" : "",
+                      color: "black",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Signup
+                  </NavLink>
+                  <NavLink
+                    to="/"
+                    className={styles["navlink-main-menu"]}
+                    style={{
+                      display: getLoginData ? "" : "none",
+                      color: "black",
+                      fontWeight: "bold",
+                    }}
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </NavLink>
+                </>
+              }
 
-              <NavLink to="/cart">
+              <NavLink
+                to="/cart"
+                style={{ display: getLoginData.role === "admin" ? "" : "none" }}
+              >
                 <Button
                   variant="primary"
                   className={styles["button-icon-menu"]}
@@ -160,7 +181,15 @@ function ClientHeaderPC() {
                   <i className="fa-solid fa-cart-shopping"></i>
                 </Button>
               </NavLink>
-              <NavLink to="/admin">
+              <NavLink
+                to={
+                  getLoginData.loginRole === "admin"
+                    ? "/admin"
+                    : getLoginData.loginRole === "customer"
+                    ? "/user"
+                    : "/"
+                }
+              >
                 <Button
                   variant="primary"
                   className={styles["button-icon-menu"]}

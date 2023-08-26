@@ -6,9 +6,14 @@ import styles from "./UserProfile.module.css";
 import "../../../../assets/bootstrap-5.3.0-dist/css/bootstrap.min.css";
 
 // Import Components
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
-const ClientProfileHeader: React.FC = () => {
+const UserHeader: React.FC = () => {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("auth");
+    navigate("/");
+  };
   return (
     <>
       <header className={styles["vertical-menu"]}>
@@ -67,7 +72,11 @@ const ClientProfileHeader: React.FC = () => {
             </NavLink>
           </div>
           <div>
-            <NavLink to="/" className={styles["navlink-menu-user-panel"]}>
+            <NavLink
+              to="/"
+              className={styles["navlink-menu-user-panel"]}
+              onClick={handleLogout}
+            >
               <li className={styles["admin-btn"]}>
                 <i className="fa-solid fa-right-from-bracket"></i>Logout
               </li>
@@ -79,4 +88,4 @@ const ClientProfileHeader: React.FC = () => {
   );
 };
 
-export default ClientProfileHeader;
+export default UserHeader;

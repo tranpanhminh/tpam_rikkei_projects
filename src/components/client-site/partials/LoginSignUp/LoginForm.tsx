@@ -3,7 +3,7 @@ import styles from "../../ClientPage.module.css";
 import axios from "axios";
 import { userAccount } from "../../../../database";
 import { notification } from "antd";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
@@ -47,18 +47,16 @@ function LoginForm() {
             navigate("/");
             const loginData = {
               loginId: account.id,
+              loginRole: account.role,
             };
             // Update user login status using axios.put
-            axios
-              .post(`http://localhost:7373/userLogin/`, loginData)
-              .then((response) => {
-                console.log(response);
-                console.log("User login status updated successfully");
-              })
-              .catch((error) => {
-                console.log(error);
-                console.log("Failed to update userLogin");
-              });
+            // axios
+            //   .post(`http://localhost:7373/userLogin/`, loginData)
+            //   .then((response) => {})
+            //   .catch((error) => {
+            //     console.log(error);
+            //     console.log("Failed to update userLogin");
+            //   });
             localStorage.setItem("auth", JSON.stringify(loginData));
           }
         }
@@ -98,9 +96,9 @@ function LoginForm() {
         </button>
         <p className={styles["signup-sentence"]}>
           Don't have an account?{" "}
-          <a href="./signup-page.html" className={styles["signup-text"]}>
+          <NavLink to="/signup" className={styles["signup-text"]}>
             Signup
-          </a>
+          </NavLink>
         </p>
       </section>
     </div>

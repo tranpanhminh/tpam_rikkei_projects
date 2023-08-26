@@ -4,6 +4,7 @@ import { notification } from "antd";
 import axios from "axios";
 
 import { Account } from "../../../../database";
+import { NavLink } from "react-router-dom";
 
 function SignupForm() {
   const [listAccounts, setListAccounts] = useState<Account[]>([]);
@@ -178,9 +179,9 @@ function SignupForm() {
         </button>
         <p className={styles["login-sentence"]}>
           Already have an account?{" "}
-          <a href="./login-page.html" className={styles["login-text"]}>
+          <NavLink to="/login" className={styles["login-text"]}>
             Login
-          </a>
+          </NavLink>
         </p>
       </form>
     </div>
