@@ -46,6 +46,9 @@ function ClientHeaderPC() {
   const handleLogout = () => {
     localStorage.removeItem("auth");
     navigate("/");
+    notification.success({
+      message: "Logout Successfully",
+    });
 
     // axios
     //   .delete(`http://localhost:7373/userLogin/${userLoginId}`)
@@ -196,6 +199,7 @@ function ClientHeaderPC() {
                     ? "/user"
                     : "/"
                 }
+                style={{ display: getLoginData ? "" : "none" }}
               >
                 <Button
                   variant="primary"

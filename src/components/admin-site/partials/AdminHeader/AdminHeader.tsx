@@ -4,6 +4,7 @@ import logo from "../../../../assets/images/pet-shop.png";
 import styles from "../../AdminPage.module.css";
 
 import { NavLink, useNavigate } from "react-router-dom";
+import { notification } from "antd";
 
 const AdminHeader: React.FC = () => {
   const navigate = useNavigate();
@@ -15,6 +16,9 @@ const AdminHeader: React.FC = () => {
   const handleLogout = () => {
     localStorage.removeItem("auth");
     navigate("/");
+    notification.success({
+      message: "Logout Successfully",
+    });
   };
 
   return (

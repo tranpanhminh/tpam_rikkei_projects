@@ -40,28 +40,29 @@ export function RoleNavigation() {
 
   useEffect(() => {
     if (
-      (getLoginData.role === "admin" && location.pathname.includes("user")) ||
-      (getLoginData.role === "admin" && location.pathname.includes("cart")) ||
-      (getLoginData.role === "admin" && location.pathname.includes("signup")) ||
-      (getLoginData.role === "admin" && location.pathname.includes("login"))
+      (getLoginData.role === "admin" && location.pathname.includes("/user")) ||
+      (getLoginData.role === "admin" && location.pathname.includes("/cart")) ||
+      (getLoginData.role === "admin" &&
+        location.pathname.includes("/signup")) ||
+      (getLoginData.role === "admin" && location.pathname.includes("/login"))
     ) {
       // Redirect to "/"
       navigate("/");
     }
     if (
       (getLoginData.role === "customer" &&
-        location.pathname.includes("admin")) ||
+        location.pathname.includes("/admin")) ||
       (getLoginData.role === "customer" &&
-        location.pathname.includes("signup")) ||
-      (getLoginData.role === "customer" && location.pathname.includes("login"))
+        location.pathname.includes("/signup")) ||
+      (getLoginData.role === "customer" && location.pathname.includes("/login"))
     ) {
       // Redirect to "/"
       navigate("/");
     }
     if (
-      (!getLoginData && location.pathname.includes("cart")) ||
-      (!getLoginData && location.pathname.includes("admin")) ||
-      (!getLoginData && location.pathname.includes("user"))
+      (!getLoginData && location.pathname.includes("/cart")) ||
+      (!getLoginData && location.pathname.includes("/admin")) ||
+      (!getLoginData && location.pathname.includes("/user"))
     ) {
       // Redirect to "/"
       navigate("/");
@@ -134,7 +135,7 @@ function App() {
           <Route path="/user" element={<ClientProfilePage />}></Route>
           <Route path="/" element={<ClientHomePage />}></Route>
           <Route path="/search?q=" element={<ClientSearchPage />}></Route>
-          {/* <Route path="/user" element={<ClientProfilePage />}></Route> */}
+          <Route path="/user" element={<ClientProfilePage />}></Route>
           <Route path="*" element={<Page404 />}></Route>
         </Routes>
       </BrowserRouter>
