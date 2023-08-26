@@ -57,6 +57,21 @@ const DetailOrders: React.FC<DetailModalProps> = ({
     setIsModalOpen(false);
   };
 
+  const handleSumOrder = () => {
+    if (orderCart) {
+      const totalOrder = orderCart.reduce(
+        (accumulator: number, currentItem: any) => {
+          return (
+            accumulator = currentItem.productQuantity * currentItem.productPrice
+          );
+        },
+        0
+      );
+      return totalOrder;
+    }
+    return 0;
+  };
+
   return (
     <>
       <Button
@@ -154,10 +169,10 @@ const DetailOrders: React.FC<DetailModalProps> = ({
         </table>
         <div className={styles["admin-order-my-order-card"]}>
           <span className={styles["my-order-card-item"]}>
-            Item: {orderCart.length}
+            Item: {orderCart?.length}
           </span>
           <span className={styles["my-order-card-total-quantity"]}>
-            Total: $270
+            Total: ${handleSumOrder().toLocaleString()}
           </span>
         </div>
       </Modal>

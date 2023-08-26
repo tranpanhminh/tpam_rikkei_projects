@@ -11,20 +11,6 @@ function ManageOrders() {
   const [orders, setOrders] = useState<null | Order[]>(null);
   const [searchText, setSearchText] = useState<string>("");
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-
   const fetchOrders = () => {
     axios
       .get("http://localhost:7373/orders")
