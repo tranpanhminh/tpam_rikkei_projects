@@ -8,7 +8,8 @@ import { notification } from "antd";
 import DetailOrder from "./Button/DetailOrder/DetailOrder";
 
 function ManageOrders() {
-  const [orders, setOrders] = useState<null | Order[]>(null);
+  const [orders, setOrders] = useState<any>(null);
+  const [orderCart, setOrderCart] = useState<any>(null);
   const [searchText, setSearchText] = useState<string>("");
 
   const fetchOrders = () => {
@@ -16,6 +17,7 @@ function ManageOrders() {
       .get("http://localhost:7373/orders")
       .then((response) => {
         setOrders(response.data);
+        setOrderCart(response.data.cart);
       })
       .catch((error) => {
         console.log(error.message);
@@ -66,6 +68,20 @@ function ManageOrders() {
       .catch((error) => {
         console.log(error.message);
       });
+  };
+
+  const handleSumOrder = (orderId: number) => {
+    if (orders) {
+      const totalOrder = orders[orderId - 1]?.cart.reduce(
+        (accumulator: number, currentItem: any) => {
+          return (accumulator =
+            currentItem.productQuantity * currentItem.productPrice);
+        },
+        0
+      );
+      return totalOrder;
+    }
+    return 0;
   };
 
   return (
@@ -122,7 +138,7 @@ function ManageOrders() {
           </thead>
           <tbody>
             {orders &&
-              orders.map((order) => {
+              orders.map((order: any) => {
                 return (
                   <tr key={order.id}>
                     <td>{order.id}</td>
@@ -131,7 +147,7 @@ function ManageOrders() {
                     <td>{order.phone}</td>
                     <td>{order.date}</td>
                     <td>{order.status}</td>
-                    <td>Chưa tính</td>
+                    <td>{handleSumOrder(order.id)}</td>
                     <td className={styles["group-btn-admin"]}>
                       <DetailOrder
                         value="Detail"
