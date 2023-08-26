@@ -25,6 +25,14 @@ function ClientCart() {
     fetchUser();
   }, []);
 
+  console.log("UserCart", userCart);
+  const handleTotalCart = () => {
+    let totalCart = userCart.reduce((accumulator: any, currentItem: any) => {
+      return (accumulator += currentItem.productQuantity * currentItem.price);
+    }, 0);
+    return totalCart;
+  };
+
   return (
     <>
       <div className={styles["background-outside-shopping-cart"]}>
@@ -74,7 +82,11 @@ function ClientCart() {
                               />
                             </td>
                             <td>{item.price}</td>
-                            <td>{item.productQuantity * item.price}</td>
+                            <td>
+                              {(
+                                item.productQuantity * item.price
+                              ).toLocaleString()}
+                            </td>
                             <td>
                               <i
                                 className="fa-solid fa-xmark"
@@ -170,7 +182,7 @@ function ClientCart() {
                 </div>
                 <div className={styles["card-info-item-detail"]}>
                   <span>Subtotal</span>
-                  <span>$4798.00</span>
+                  <span>${Number(handleTotalCart()).toLocaleString()}</span>
                 </div>
                 <div className={styles["card-info-item-detail"]}>
                   <span>Shipping</span>
@@ -178,7 +190,7 @@ function ClientCart() {
                 </div>
                 <div className={styles["card-info-item-detail"]}>
                   <span>Total</span>
-                  <span>$4818.00</span>
+                  <span>${Number(handleTotalCart() + 5).toLocaleString()}</span>
                 </div>
               </div>
 
