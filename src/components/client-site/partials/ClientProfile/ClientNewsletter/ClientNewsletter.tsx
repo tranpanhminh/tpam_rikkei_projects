@@ -1,11 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { Button, Modal } from "antd";
 // Import CSS
 import styles from "../UserProfile.module.css";
 import "../../../../../assets/bootstrap-5.3.0-dist/css/bootstrap.min.css";
+import axios from "axios";
 function ClientNewsLetter() {
+  const getData: any = localStorage.getItem("auth");
+  const getLoginData = JSON.parse(getData) || "";
+  const [user, setUser] = useState<any>([]);
+  const [userNewsletter, setUserNewsletter] = useState<any>([]);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const fetchUser = () => {
+    axios
+      .get(`http://localhost:7373/accounts/${getLoginData.loginId}`)
+      .then((response) => {
+        setUser(response.data);
+        setUserNewsletter(response.data.newsletter);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -53,7 +75,6 @@ function ClientNewsLetter() {
         <table className="table table-striped" id="table-user">
           <thead>
             <tr>
-              <th>#</th>
               <th>Newsletter ID</th>
               <th>Coupon Name</th>
               <th>Coupon Code</th>
@@ -61,13 +82,17 @@ function ClientNewsLetter() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>1</td>
-              <td>Sale Off 50%</td>
-              <td>213123123123123</td>
-              <td>Usable</td>
-            </tr>
+            {userNewsletter &&
+              userNewsletter.map((item: any) => {
+                return (
+                  <tr>
+                    <td>{item.newsletterId}</td>
+                    <td>{item.couponName}</td>
+                    <td>{item.counponCode}</td>
+                    <td>{item.status}</td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
       </div>
