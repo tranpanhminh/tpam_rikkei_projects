@@ -561,3 +561,45 @@ table tr td img {
 .user-details-info-manage-page select {
   padding: 10px;
 }
+
+/* CSS Admin Order Page */
+.list-input-admin-order {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.admin-order-input-item {
+  display: flex;
+  align-items: center;
+}
+
+.admin-order-input-item p {
+  margin: 0;
+  width: 130px;
+}
+
+.admin-order-input-item input {
+  width: 400px;
+}
+
+.admin-order-input-item select {
+  width: 400px;
+}
+
+.admin-order-my-order-card {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  align-items: center;
+}
+
+.my-order-card-item,
+.my-order-card-total-quantity {
+  font-size: 20px;
+  background-color: #0c337c;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: bold;
+}

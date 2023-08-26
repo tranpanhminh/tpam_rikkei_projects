@@ -147,7 +147,10 @@ function ManageOrders() {
                     <td>{order.status}</td>
                     <td>Chưa tính</td>
                     <td className={styles["group-btn-admin"]}>
-                      <DetailOrder value="Detail"></DetailOrder>
+                      <DetailOrder
+                        value="Detail"
+                        getOrderId={order.id}
+                      ></DetailOrder>
                       <DeleteOrder
                         value="Delete"
                         className={styles["delete-order-btn"]}
