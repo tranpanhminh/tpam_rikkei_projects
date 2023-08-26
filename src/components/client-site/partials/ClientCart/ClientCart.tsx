@@ -1,8 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./ClientCart.module.css";
 import logo from "../../../../assets/images/pet-shop.png";
+import axios from "axios";
 
 function ClientCart() {
+  const getData: any = localStorage.getItem("auth");
+  const getLoginData = JSON.parse(getData) || "";
+  const [user, setUser] = useState<any>([]);
+  const [userCart, setUserCart] = useState<any>([]);
+
+  const fetchUser = () => {
+    axios
+      .get(`http://localhost:7373/accounts/${getLoginData.loginId}`)
+      .then((response) => {
+        setUser(response.data);
+        setUserCart(response.data.cart);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   return (
     <>
       <div className={styles["background-outside-shopping-cart"]}>
@@ -17,10 +39,10 @@ function ClientCart() {
                         #
                       </th>
                       <th scope="col" style={{ minWidth: "100px" }}>
-                        Product Image
+                        Image
                       </th>
                       <th scope="col" style={{ minWidth: "300px" }}>
-                        Product Name
+                        Product
                       </th>
                       <th scope="col" style={{ minWidth: "50px" }}>
                         Quantity
@@ -34,27 +56,34 @@ function ClientCart() {
                     </tr>
                   </thead>
                   <tbody id={styles["table-my-cart"]}>
-                    <tr>
-                      <th>1</th>
-                      <td>
-                        <img src="/assets/images/product-05.jpg" alt="" />
-                      </td>
-                      <td>My Alphapet Dog Poop Bags Refill Rolls</td>
-                      <td>
-                        <input
-                          type="number"
-                          min="1"
-                          className={styles["product-cart-quantity"]}
-                        />
-                      </td>
-                      <td>1000000</td>
-                      <td>
-                        <i
-                          className="fa-solid fa-xmark"
-                          id={styles["delete-product-icon"]}
-                        />
-                      </td>
-                    </tr>
+                    {userCart &&
+                      userCart.map((item: any) => {
+                        return (
+                          <tr>
+                            <td>{item.productId}</td>
+                            <td>
+                              <img src={item.productImage} alt="" />
+                            </td>
+                            <td>{item.productName}</td>
+                            <td>
+                              <input
+                                type="number"
+                                min="1"
+                                className={styles["product-cart-quantity"]}
+                                value={item.productQuantity}
+                              />
+                            </td>
+                            <td>{item.price}</td>
+                            <td>{item.productQuantity * item.price}</td>
+                            <td>
+                              <i
+                                className="fa-solid fa-xmark"
+                                id={styles["delete-product-icon"]}
+                              />
+                            </td>
+                          </tr>
+                        );
+                      })}
                   </tbody>
                 </table>
               </div>
@@ -136,25 +165,26 @@ function ClientCart() {
 
               <div className={styles["card-info-item"]}>
                 <div className={styles["card-info-item-detail"]}>
+                  <span>Coupon Code</span>
+                  <input type="text" placeholder="code" />
+                </div>
+                <div className={styles["card-info-item-detail"]}>
                   <span>Subtotal</span>
                   <span>$4798.00</span>
                 </div>
                 <div className={styles["card-info-item-detail"]}>
                   <span>Shipping</span>
-                  <span>$20.00</span>
+                  <span>${5}</span>
                 </div>
                 <div className={styles["card-info-item-detail"]}>
-                  <span>Total(incl. taxes)</span>
+                  <span>Total</span>
                   <span>$4818.00</span>
                 </div>
               </div>
 
               <div className={styles["card-total"]}>
                 <span>$4818.00</span>
-                <span>
-                  Checkout
-                  <i className="fa-solid fa-arrow-right arrow-right-icon"></i>
-                </span>
+                <button>Checkout</button>
               </div>
             </div>
           </div>
