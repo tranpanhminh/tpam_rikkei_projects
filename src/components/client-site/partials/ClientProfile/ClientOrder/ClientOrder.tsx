@@ -165,11 +165,19 @@ function ClientOrder() {
                             return (
                               <tr>
                                 <td>{item.productId}</td>
-                                <td></td>
+                                <td>
+                                  {" "}
+                                  <img src={item.productImage} alt="" />{" "}
+                                </td>
                                 <td>{item.productName}</td>
                                 <td>{item.productQuantity}</td>
                                 <td>{item.productPrice}</td>
-                                <td>{item.productId}</td>
+                                <td>
+                                  $
+                                  {(
+                                    item.productQuantity * item.productPrice
+                                  ).toLocaleString()}
+                                </td>
                               </tr>
                             );
                           })}
@@ -177,7 +185,7 @@ function ClientOrder() {
                       </table>
                       <div className={styles["my-profile-my-order-card"]}>
                         <span className={styles["my-order-card-item"]}>
-                          Item: 2
+                          Item: {order.orderProduct.length}
                         </span>
                         <span
                           className={styles["my-order-card-total-quantity"]}
