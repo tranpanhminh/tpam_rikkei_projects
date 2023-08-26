@@ -14,19 +14,7 @@ const UserHeader: React.FC = () => {
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
   console.log(getLoginData);
-  const [user, setUser] = useState<Account>({
-    id: 0,
-    email: "",
-    fullName: "",
-    password: "",
-    role: "",
-    status: "",
-    cart: [],
-    order_history: [],
-    newsletter_register: false,
-    newsletter: [],
-    booking_history: [],
-  });
+  const [user, setUser] = useState<Account[]>([]);
   const fetchUser = () => {
     axios
       .get(`http://localhost:7373/accounts/${getLoginData.loginId}`)
