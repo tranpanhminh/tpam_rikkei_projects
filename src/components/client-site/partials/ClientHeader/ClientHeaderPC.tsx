@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import logo from "../../../../assets/images/pet-shop-remove-bg.png";
 import styles from "../../ClientPage.module.css";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import axios from "axios";
 import {
   Button,
   Container,
@@ -10,8 +12,7 @@ import {
   NavDropdown,
   Navbar,
 } from "react-bootstrap";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { notification } from "antd";
 
 function ClientHeaderPC() {
   const NavLinkStyle = ({ isActive }: { isActive: boolean }) => ({
@@ -20,46 +21,56 @@ function ClientHeaderPC() {
     backgroundColor: isActive ? "#33d6bb" : "",
   });
   const navigate = useNavigate();
+  const [userLoginId, setUserLoginId] = useState("");
 
-  const [userLoginId, setUserLoginID] = useState("");
-  const fetchUserLogin = () => {
+  const getData: any = localStorage.getItem("auth");
+  const getLoginData = JSON.parse(getData) || [];
+  setUserLoginId(getLoginData.loginId);
+
+  // const fetchUserLogin = () => {
+  //   axios
+  //     .get(`http://localhost:7373/userLogin/${userLoginId}`)
+  //     .then((response) => {
+  //       setUserLoginId(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+
+  // useEffect(() => {
+  //   fetchUserLogin();
+  // }, []);
+
+  const handleLogout = () => {
     axios
-      .get("http://localhost:7373/userLogin")
+      .delete(`http://localhost:7373/userLogin/${userLoginId}`)
       .then((response) => {
-        if (response.data.length !== 0) {
-          setUserLoginID(response.data);
-        }
+        localStorage.removeItem("auth");
+        navigate("/");
       })
       .catch((error) => {
         console.log(error);
       });
-  };
-  console.log(userLoginId);
 
-  useEffect(() => {
-    fetchUserLogin();
-  }, []);
-
-  const navigateToLogin = () => {
-    navigate("/login");
-  };
-
-  const handleLogout = () => {
-    if (userLoginId) {
-      axios
-        .delete(`http://localhost:7373/userLogin/${userLoginId}`)
-        .then((response) => {
-          console.log(response);
-          console.log("Logged out successfully");
-          setUserLoginID(""); // Reset userLoginId after successful logout
-          navigate("/");
-        })
-        .catch((error) => {
-          console.log("Failed to logout:", error);
-        });
-    } else {
-      navigateToLogin();
-    }
+    // if (userLoginId.length !== 0) {
+    //   axios
+    //     .delete(`http://localhost:7373/userLogin/${userLoginId}`)
+    //     .then((response) => {
+    //       console.log(response);
+    //       notification.success({
+    //         message: "Logout Successfully",
+    //       });
+    //       setUserLoginID(""); // Reset userLoginId after successful logout
+    //       navigate("/");
+    //     })
+    //     .catch((error) => {
+    //       notification.warning({
+    //         message: "Failed to logout",
+    //       });
+    //       console.log("Failed to logout:", error);
+    //     });
+    // }
   };
   return (
     <header className={styles["header"]}>
@@ -121,6 +132,7 @@ function ClientHeaderPC() {
                 to="/login"
                 className={styles["navlink-main-menu"]}
                 style={NavLinkStyle}
+                onClick={handleLogout}
               >
                 Login
               </NavLink>
@@ -132,8 +144,9 @@ function ClientHeaderPC() {
                 Signup
               </NavLink>
               <NavLink
+                to="/"
                 className={styles["navlink-main-menu"]}
-                to={""}
+                style={NavLinkStyle}
                 onClick={handleLogout}
               >
                 Logout

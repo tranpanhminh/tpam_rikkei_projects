@@ -3,12 +3,13 @@ import styles from "../../ClientPage.module.css";
 import axios from "axios";
 import { userAccount } from "../../../../database";
 import { notification } from "antd";
+import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [dataLogin, setDataLogin] = useState("");
-
+  const navigate = useNavigate();
   const handleLogin = () => {
     if (email === "" || email === null) {
       notification.warning({
@@ -43,12 +44,13 @@ function LoginForm() {
             notification.success({
               message: "Login Successfully",
             });
-            const newData = {
-              userLoginID: account.id,
+            navigate("/");
+            const loginData = {
+              loginId: account.id,
             };
             // Update user login status using axios.put
             axios
-              .post(`http://localhost:7373/userLogin/`, newData)
+              .post(`http://localhost:7373/userLogin/`, loginData)
               .then((response) => {
                 console.log(response);
                 console.log("User login status updated successfully");
@@ -57,6 +59,7 @@ function LoginForm() {
                 console.log(error);
                 console.log("Failed to update userLogin");
               });
+            localStorage.setItem("auth", JSON.stringify(loginData));
           }
         }
       })
