@@ -74,15 +74,12 @@ function ClientCart() {
     return item.couponCode === couponCode;
   });
 
-  // let findCouponCodeIndex = newsletter?.findIndex((item: any) => {
-  //   return item.couponCode === couponCode;
-  // });
-
   // Lấy MaxID Order
   let listOrder = orderProducts?.map((order: any) => {
     return order.id;
   });
-  let maxIdOrder = Math.max(...listOrder);
+
+  let maxIdOrder = Number(Math.max(...listOrder));
 
   let sumCart = userCart.map((item: any) => {
     return item.productQuantity * item.price;
@@ -156,20 +153,23 @@ function ClientCart() {
   console.log("User Cart", user.cart);
 
   const handleCheckout = () => {
+    if (!findCouponCode) {
+      notification.warning({
+        message: "Coupon Code is not valid",
+      });
+      return;
+    }
     // Kiểm tra Phone & Address
+    const phoneNumberPattern = /^1\d{10}$/;
+
     if (!phone || !address) {
       notification.warning({
         message: "Please fill Phone & Address",
       });
       return;
-    }
-
-    // Kiểm tra số điện thoại Mỹ
-    const phoneNumberPattern = /^1?\d{10}$/;
-
-    if (phoneNumberPattern.test(phone)) {
+    } else if (!phoneNumberPattern.test(phone)) {
       notification.warning({
-        message: "Invalid Phone Number (Use the format (123) 456-7890)",
+        message: "Invalid Phone Number (Use the format 1234567890)",
       });
       return;
     }
@@ -496,7 +496,7 @@ function ClientCart() {
                     type="text"
                     id="typeText"
                     className="form-control form-control-lg"
-                    size={17}
+                    size={16}
                     placeholder="Phone"
                     minLength={16}
                     maxLength={16}
