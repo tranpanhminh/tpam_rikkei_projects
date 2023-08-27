@@ -3,6 +3,7 @@ import styles from "./ClientCart.module.css";
 import logo from "../../../../assets/images/pet-shop.png";
 import axios from "axios";
 import { notification } from "antd";
+import { format, parse } from "date-fns";
 import { Button, Modal } from "antd";
 import { NavLink } from "react-router-dom";
 
@@ -16,9 +17,9 @@ function ClientCart() {
   const [card, setCard] = useState<any>(null);
 
   const [cardName, setCardName] = useState("");
-  const [cardNumber, setCardNumber] = useState(0);
+  const [cardNumber, setCardNumber] = useState("");
   const [expiration, setExpiration] = useState("");
-  const [cvv, setCVV] = useState(0);
+  const [cvv, setCVV] = useState("");
   const [couponCode, setCouponCode] = useState("");
 
   const fetchProducts = () => {
@@ -130,41 +131,59 @@ function ClientCart() {
       });
       return;
     }
-
-    let inputCard = {
-      cardName: cardName,
-      cardNumber: cardNumber,
-      expiredDate: expiration,
-      cvv: cvv,
-    };
-    console.log(typeof cardName);
-    console.log(typeof cardNumber);
-    console.log(typeof expiration);
-    console.log(typeof cvv);
-
-    const checkValidCard = card.some((item: any) => {
+    // let inputCard = {
+    //   cardName: cardName,
+    //   cardNumber: cardNumber,
+    //   expiredDate: expiration,
+    //   cvv: cvv,
+    // };
+    const checkValidCard = card.find((item: any) => {
       return (
-        item.cardName === cardName &&
-        item.cardNumber === cardNumber &&
+        item.cardName.toUpperCase() === cardName.toUpperCase() &&
+        Number(item.cardNumber) === Number(cardNumber) &&
         item.expiredDate === expiration &&
-        item.cvv === cvv
+        Number(item.cvv) === Number(cvv)
       );
     });
     console.log(checkValidCard);
-    if (checkValidCard) {
-      notification.success({
-        message: "Card Is Valid",
-      });
-      return;
-    } else {
+    // Kiểm tra Card có Valid hay không
+    if (!checkValidCard) {
       notification.warning({
         message: "Card Is not valid",
       });
       return;
     }
-    // notification.success({
-    //   message: "Order Completed",
-    // });
+    // Kiểm tra Card có còn hạn sử dụng
+    const currentDateTime = new Date();
+    const checkValidCardDate = parse(
+      checkValidCard.expiredDate,
+      "MM/yyyy",
+      new Date()
+    );
+    const formattedDateTime = new Date(
+      currentDateTime.getFullYear(),
+      currentDateTime.getMonth(),
+      1
+    );
+
+    if (checkValidCardDate < formattedDateTime) {
+      notification.warning({
+        message: "Card Is Expired",
+      });
+      return;
+    }
+
+    // Kiểm tra số dư trong Card
+    if (checkValidCard.balance < Number(handleTotalCart() + 5)) {
+      notification.warning({
+        message: "Card Balance is not enough",
+      });
+      return;
+    }
+
+    notification.success({
+      message: "Order Completed",
+    });
   };
 
   return (
@@ -309,9 +328,9 @@ function ClientCart() {
                     placeholder="Card Numbers"
                     minLength={16}
                     maxLength={16}
-                    value={Number(cardNumber)}
+                    value={cardNumber}
                     onChange={(event) => {
-                      setCardNumber(Number(event.target.value));
+                      Number(setCardNumber(event.target.value));
                     }}
                   />
                 </div>
@@ -340,12 +359,11 @@ function ClientCart() {
                       id="typeText"
                       className="form-control form-control-lg"
                       placeholder="&#9679;&#9679;&#9679;"
-                      size={1}
                       minLength={3}
                       maxLength={3}
-                      value={Number(cvv)}
+                      value={cvv}
                       onChange={(event) => {
-                        setCVV(Number(event.target.value));
+                        Number(setCVV(event.target.value));
                       }}
                     />
                   </div>
