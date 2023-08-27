@@ -84,18 +84,25 @@ function ClientCart() {
   });
   let maxIdOrder = Math.max(...listOrder);
 
+  let sumCart = userCart.map((item: any) => {
+    return item.productQuantity * item.price;
+  });
+  console.log("SumCart", sumCart);
   const handleTotalCart = () => {
-    let sumCart = userCart?.reduce(
-      (accumulator: number, currentItem: any) => {
-        accumulator += Number(currentItem.productQuantity * currentItem.price);
-        return setTotalCart(accumulator);
+    let sumTotalCart = sumCart.reduce(
+      (accumulator: any, currentValue: number) => {
+        return (accumulator += currentValue);
       },
       0
     );
+
+    if (findCouponCode) {
+      return (sumTotalCart =
+        5 + sumTotalCart - (findCouponCode?.discount * sumTotalCart) / 100);
+    } else {
+      return sumTotalCart + 5;
+    }
   };
-  // const sumCart = Number(
-  //   totalCart + 5 - (totalCart * findCouponCode?.discount) / 100
-  // );
 
   const handleDeleteProduct = (productId: number) => {
     let findProductIndexIncart = userCart.findIndex((item: any) => {
@@ -240,10 +247,6 @@ function ClientCart() {
     };
 
     user.cart = [];
-
-    const updatedCart = {
-      cart: [],
-    };
 
     axios
       .patch(
@@ -539,7 +542,7 @@ function ClientCart() {
                 </div>
                 <div className={styles["card-info-item-detail"]}>
                   <span>Subtotal</span>
-                  <span>${totalCart}</span>
+                  <span>${handleTotalCart()}</span>
                 </div>
                 <div className={styles["card-info-item-detail"]}>
                   <span>Shipping</span>
@@ -547,12 +550,12 @@ function ClientCart() {
                 </div>
                 <div className={styles["card-info-item-detail"]}>
                   <span>Total</span>
-                  <span>${totalCart}</span>
+                  <span>${handleTotalCart()}</span>
                 </div>
               </div>
 
               <div className={styles["card-total"]}>
-                <span>${totalCart}</span>
+                <span>$ {handleTotalCart()}</span>
                 <button onClick={handleCheckout}>Checkout</button>
               </div>
             </div>
