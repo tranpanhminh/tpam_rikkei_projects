@@ -13,7 +13,7 @@ function ClientProductDetail() {
   const [user, setUser] = useState<any>(null);
   const [userCart, setUserCart] = useState<any>(null);
   const [products, setProducts] = useState<any>(null);
-  const [quantity, setQuantity] = useState<number>(0);
+  const [quantity, setQuantity] = useState<number>(1);
 
   const fetchProducts = () => {
     axios
@@ -192,7 +192,7 @@ function ClientProductDetail() {
                     <p>Quantity:</p>
                     <input
                       type="number"
-                      min="1"
+                      min={1}
                       defaultValue={1}
                       value={Number(quantity)}
                       onChange={(event) =>
