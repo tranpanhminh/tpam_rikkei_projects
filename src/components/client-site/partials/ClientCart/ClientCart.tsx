@@ -77,11 +77,9 @@ function ClientCart() {
         updatedCart
       )
       .then((response) => {
-        notification.success({
-          message: "Product Deleted",
-        });
         fetchUser();
         fetchProducts();
+        setUserCart(response.data.cart);
       })
       .catch((error) => {
         console.log(error);
