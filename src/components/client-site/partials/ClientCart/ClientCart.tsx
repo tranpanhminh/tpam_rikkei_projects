@@ -21,6 +21,7 @@ function ClientCart() {
   const [expiration, setExpiration] = useState("");
   const [cvv, setCVV] = useState("");
   const [couponCode, setCouponCode] = useState("");
+  const [newsletter, setNewsletter] = useState<any>(null);
 
   const fetchProducts = () => {
     axios
@@ -39,6 +40,7 @@ function ClientCart() {
       .then((response) => {
         setUser(response.data);
         setUserCart(response.data.cart);
+        setNewsletter(response.data.newsletter);
       })
       .catch((error) => {
         console.log(error);
@@ -118,6 +120,13 @@ function ClientCart() {
       });
   };
 
+  console.log(newsletter);
+  // Kiểm tra Coupon Code
+  let findCouponCode = newsletter?.find((item: any) => {
+    return item.couponCode === couponCode;
+  });
+
+  console.log(findCouponCode);
   const handleCheckout = () => {
     if (userCart?.length === 0) {
       notification.warning({
@@ -131,12 +140,7 @@ function ClientCart() {
       });
       return;
     }
-    // let inputCard = {
-    //   cardName: cardName,
-    //   cardNumber: cardNumber,
-    //   expiredDate: expiration,
-    //   cvv: cvv,
-    // };
+
     const checkValidCard = card.find((item: any) => {
       return (
         item.cardName.toUpperCase() === cardName.toUpperCase() &&
@@ -181,9 +185,9 @@ function ClientCart() {
       return;
     }
 
-    notification.success({
-      message: "Order Completed",
-    });
+    // notification.success({
+    //   message: "Order Completed",
+    // });
   };
 
   return (
@@ -381,6 +385,10 @@ function ClientCart() {
                       setCouponCode(event.target.value);
                     }}
                   />
+                </div>
+                <div className={styles["card-info-item-detail"]}>
+                  <span>Discount</span>
+                  <span>{findCouponCode?.discount}%</span>
                 </div>
                 <div className={styles["card-info-item-detail"]}>
                   <span>Subtotal</span>
