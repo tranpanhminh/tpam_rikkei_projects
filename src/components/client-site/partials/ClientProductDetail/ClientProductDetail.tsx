@@ -135,10 +135,32 @@ function ClientProductDetail() {
                 console.log(error);
               });
           } else {
-            notification.warning({
-              message: "Sản phẩm chưa tồn tại",
-            });
-            return;
+            let newProductAdd = {
+              productId: products.id,
+              productImage: products.productImage,
+              productName: products.name,
+              productQuantity: quantity,
+              price: products.price,
+            };
+            userCart.push(newProductAdd);
+            let updatedCart = {
+              cart: userCart,
+            };
+            axios
+              .patch(
+                `http://localhost:7373/accounts/${getLoginData.loginId}/`,
+                updatedCart
+              )
+              .then(() => {
+                fetchProducts();
+                fetchUsers();
+                notification.success({
+                  message: "New Product Added To Cart",
+                });
+              })
+              .catch((error) => {
+                console.log(error.message);
+              });
           }
           // notification.success({
           //   message: "Product Added",
