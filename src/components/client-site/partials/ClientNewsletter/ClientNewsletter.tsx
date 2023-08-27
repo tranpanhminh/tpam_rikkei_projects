@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "../../ClientPage.module.css";
 import axios from "axios";
 import { notification } from "antd";
+import { format } from "date-fns";
 
 function ClientNewsletter() {
   const [email, setEmail] = useState("");
@@ -70,10 +71,15 @@ function ClientNewsletter() {
       const updateNewsletter = {
         newsletter_register: true,
       };
+
+      const currentDateTime = new Date();
+      const formattedDateTime = format(currentDateTime, "dd/MM/yyyy HH:mm:ss");
+
       const newSubscriber = {
         user_id: 2,
         email: email,
         status: "Subscribed",
+        date: formattedDateTime,
       };
 
       // Check if email is already subscribed

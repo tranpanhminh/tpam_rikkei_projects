@@ -21,6 +21,7 @@ export interface Subscriber {
   id: number;
   user_id: number;
   email: string;
+  date: string;
   status: string;
 }
 

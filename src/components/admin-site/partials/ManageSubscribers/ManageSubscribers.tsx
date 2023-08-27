@@ -113,6 +113,7 @@ function ManageSubscribers() {
             <tr>
               <th>Subscriber ID</th>
               <th>Subscriber Email</th>
+              <th>Subscribe Date</th>
               <th>Subscriber Status</th>
             </tr>
           </thead>
@@ -122,6 +123,7 @@ function ManageSubscribers() {
                 <tr key={subscriber.id}>
                   <td>{subscriber.id}</td>
                   <td>{subscriber.email}</td>
+                  <td>{subscriber.date}</td>
                   <td>{subscriber.status}</td>
                 </tr>
               );
