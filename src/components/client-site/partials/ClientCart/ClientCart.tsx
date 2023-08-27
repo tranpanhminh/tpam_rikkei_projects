@@ -24,12 +24,24 @@ function ClientCart() {
   const [cvv, setCVV] = useState("");
   const [couponCode, setCouponCode] = useState("");
   const [newsletter, setNewsletter] = useState<any>(null);
+  const [orders, setOrders] = useState<any>(null);
 
   const fetchProducts = () => {
     axios
       .get(`http://localhost:7373/products/`)
       .then((response) => {
         setProducts(response.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+  const fetchOrders = () => {
+    axios
+      .get(`http://localhost:7373/orders/`)
+      .then((response) => {
+        setOrders(response.data);
       })
       .catch((error) => {
         console.log(error.message);
@@ -65,6 +77,7 @@ function ClientCart() {
     fetchUser();
     fetchProducts();
     fetchCard();
+    fetchOrders();
   }, []);
 
   // Kiểm tra Coupon Code
@@ -76,7 +89,7 @@ function ClientCart() {
   });
   console.log(findCouponIndex);
 
-  // Lấy MaxID Order
+  // Lấy MaxID Của Order đưa vào order history
   let listOrder = orderProducts?.map((order: any) => {
     return order.orderId;
   });
@@ -86,6 +99,13 @@ function ClientCart() {
   let sumCart = userCart.map((item: any) => {
     return item.productQuantity * item.price;
   });
+
+  //  Lấy MaxID của order để đưa vào List Order đẩy cho Admin
+  // let listOrdersDatabase = orders?.map((order: any) => {
+  //   return order.id;
+  // });
+
+  // let maxIdOrderDatabase = Number(Math.max(...listOrdersDatabase));
 
   console.log("List Newsletter", newsletter);
 
@@ -227,7 +247,7 @@ function ClientCart() {
 
     const newOrder = {
       orderId: listOrder.length > 0 ? maxIdOrder + 1 : 1,
-      date: new Date(),
+      date: format(new Date(), "dd/MM/yyyy HH:mm:ss"),
       status: "Pending",
       phone: phone,
       address: address,
@@ -239,6 +259,30 @@ function ClientCart() {
       order_history: [...user.order_history, newOrder],
       cart: [], // Clear the cart after creating the order
     };
+
+    // Xử lý Post vào Orders
+    // let pushNewOrder = {
+    //   id: listOrdersDatabase.length > 0 ? maxIdOrderDatabase + 1 : 1,
+    //   user_id: user.id,
+    //   name: user.name,
+    //   email: user.email,
+    //   phone: phone,
+    //   date: format(new Date(), "dd/MM/yyyy HH:mm:ss"),
+    //   status: "Pending",
+    //   address: address,
+    //   cart: user.cart,
+    // };
+    // axios
+    //   .post(
+    //     `http://localhost:7373/orders/${getLoginData.loginId}`,
+    //     pushNewOrder
+    //   )
+    //   .then((response) => {
+    //     fetchUser(); // Refresh user data after the update
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
 
     user.cart = [];
 
@@ -271,7 +315,6 @@ function ClientCart() {
         console.log(error);
       });
 
-    // Xử lý chuyển trạng thái của Coupon Code đã sử dụng sang Used
     // Xử lý chuyển trạng thái của Coupon Code đã sử dụng sang Used
     if (findCouponIndex !== -1) {
       findCouponCode.status = "Used";
@@ -306,6 +349,23 @@ function ClientCart() {
     setExpiration("");
     setCVV("");
     setCouponCode("");
+  };
+
+  const handleQuantityChange = (newQuantity: number, item: any) => {
+    if (!isNaN(newQuantity) && newQuantity >= 0) {
+      const updatedUserCart = userCart.map((cartItem: any) => {
+        if (cartItem.productId === item.productId) {
+          return {
+            ...cartItem,
+            productQuantity: newQuantity,
+          };
+        }
+        return cartItem;
+      });
+
+      return updatedUserCart;
+    }
+    return null;
   };
 
   return (
@@ -358,7 +418,7 @@ function ClientCart() {
                                   const newQuantity = Number(
                                     event.target.value
                                   );
-                                  if (newQuantity >= 1) {
+                                  if (!isNaN(newQuantity) && newQuantity >= 0) {
                                     const updatedUserCart = userCart.map(
                                       (cartItem: any) => {
                                         if (
@@ -383,6 +443,21 @@ function ClientCart() {
                                       // Tính toán sự thay đổi của quantity_stock
                                       const stockChange =
                                         item.productQuantity - newQuantity;
+
+                                      // Kiểm tra xem newQuantity có vượt quá hàng tồn kho không
+                                      if (
+                                        updatedProduct.quantity_stock +
+                                          stockChange <
+                                        0
+                                      ) {
+                                        const maxAllowedQuantity =
+                                          item.productQuantity +
+                                          updatedProduct.quantity_stock;
+                                        notification.error({
+                                          message: `Số lượng vượt quá số lượng tồn kho. Số lượng tối đa cho phép là ${maxAllowedQuantity}`,
+                                        });
+                                        return; // Dừng việc cập nhật nếu vượt quá hàng tồn kho
+                                      }
 
                                       // Cập nhật quantity_stock của sản phẩm tương ứng
                                       const updatedStock =
