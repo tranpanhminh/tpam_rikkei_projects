@@ -67,11 +67,14 @@ function ClientCart() {
     fetchProducts();
     fetchCard();
   }, []);
-
   // Kiểm tra Coupon Code
   let findCouponCode = newsletter?.find((item: any) => {
     return item.couponCode === couponCode;
   });
+  let findCouponIndex = newsletter?.findIndex((item: any) => {
+    return item.couponCode === couponCode;
+  });
+  console.log(findCouponIndex);
 
   // Lấy MaxID Order
   let listOrder = orderProducts?.map((order: any) => {
@@ -83,6 +86,8 @@ function ClientCart() {
   let sumCart = userCart.map((item: any) => {
     return item.productQuantity * item.price;
   });
+
+  console.log("List Newsletter", newsletter);
 
   const handleTotalCart = () => {
     let sumTotalCart = sumCart.reduce(
@@ -149,12 +154,6 @@ function ClientCart() {
   };
 
   const handleCheckout = () => {
-    // if (couponCode !== "") {
-    //   notification.warning({
-    //     message: "Coupon Code is not valid",
-    //   });
-    //   return;
-    // }
     // Kiểm tra Phone & Address
     const phoneNumberPattern = /^1\d{10}$/;
 
@@ -273,33 +272,28 @@ function ClientCart() {
       });
 
     // Xử lý chuyển trạng thái của Coupon Code đã sử dụng sang Used
+    // Xử lý chuyển trạng thái của Coupon Code đã sử dụng sang Used
+    if (findCouponIndex !== -1) {
+      findCouponCode.status = "Used";
+      newsletter.splice(findCouponIndex, 1, findCouponCode);
 
-    // const newBalance = checkValidCard.balance - Number(handleTotalCart());
-    // findCouponCode.status = "Used";
+      const updatedNewsletter = {
+        newsletter: newsletter,
+      };
 
-    // const updatedBalance = {
-    //   balance: newBalance,
-    // };
+      axios
+        .patch(
+          `http://localhost:7373/accounts/${getLoginData.loginId}`,
+          updatedNewsletter
+        )
+        .then((response) => {
+          fetchUser(); // Refresh user data after the update
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
 
-    // axios
-    //   .patch(`http://localhost:7373/accounts/${getLoginData.loginId}`)
-    //   .then((response) => {
-    //     setCard(response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-    // axios
-    //   .patch(
-    //     `http://localhost:7373/banking/${checkValidCard.id}`,
-    //     updatedBalance
-    //   )
-    //   .then((response) => {
-    //     setCard(response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
     notification.success({
       message: "Order Completed",
     });
