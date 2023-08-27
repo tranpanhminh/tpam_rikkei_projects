@@ -67,7 +67,6 @@ function ClientCart() {
     fetchProducts();
     fetchCard();
   }, []);
-  console.log("List Card", card);
 
   // Kiểm tra Coupon Code
   let findCouponCode = newsletter?.find((item: any) => {
@@ -76,7 +75,7 @@ function ClientCart() {
 
   // Lấy MaxID Order
   let listOrder = orderProducts?.map((order: any) => {
-    return order.id;
+    return order.orderId;
   });
 
   let maxIdOrder = Number(Math.max(...listOrder));
@@ -84,7 +83,7 @@ function ClientCart() {
   let sumCart = userCart.map((item: any) => {
     return item.productQuantity * item.price;
   });
-  console.log("SumCart", sumCart);
+
   const handleTotalCart = () => {
     let sumTotalCart = sumCart.reduce(
       (accumulator: any, currentValue: number) => {
@@ -105,7 +104,7 @@ function ClientCart() {
     let findProductIndexIncart = userCart.findIndex((item: any) => {
       return item.productId === productId;
     });
-    console.log(findProductIndexIncart);
+
     let findProductIndex = products.findIndex((item: any) => {
       return item.id === productId;
     });
@@ -149,16 +148,13 @@ function ClientCart() {
       });
   };
 
-  console.log(newsletter);
-  console.log("User Cart", user.cart);
-
   const handleCheckout = () => {
-    if (!findCouponCode) {
-      notification.warning({
-        message: "Coupon Code is not valid",
-      });
-      return;
-    }
+    // if (couponCode !== "") {
+    //   notification.warning({
+    //     message: "Coupon Code is not valid",
+    //   });
+    //   return;
+    // }
     // Kiểm tra Phone & Address
     const phoneNumberPattern = /^1\d{10}$/;
 
@@ -195,7 +191,6 @@ function ClientCart() {
         Number(item.cvv) === Number(cvv)
       );
     });
-    console.log(checkValidCard);
     // Kiểm tra Card có Valid hay không
     if (!checkValidCard) {
       notification.warning({
@@ -259,6 +254,26 @@ function ClientCart() {
       .catch((error) => {
         console.log(error);
       });
+
+    //  Xử lý giảm Balance trong Cart
+    const updatedBalance = {
+      balance: checkValidCard.balance - handleTotalCart(),
+    };
+
+    axios
+      .patch(
+        `http://localhost:7373/banking/${checkValidCard.id}`,
+        updatedBalance
+      )
+      .then((response) => {
+        fetchCard();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    // Xử lý chuyển trạng thái của Coupon Code đã sử dụng sang Used
+
     // const newBalance = checkValidCard.balance - Number(handleTotalCart());
     // findCouponCode.status = "Used";
 
@@ -266,17 +281,6 @@ function ClientCart() {
     //   balance: newBalance,
     // };
 
-    // axios
-    //   .patch(
-    //     `http://localhost:7373/banking/${checkValidCard.id}`,
-    //     updatedBalance
-    //   )
-    //   .then((response) => {
-    //     setCard(response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
     // axios
     //   .patch(`http://localhost:7373/accounts/${getLoginData.loginId}`)
     //   .then((response) => {
