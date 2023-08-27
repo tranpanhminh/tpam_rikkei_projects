@@ -8,7 +8,6 @@ import { notification } from "antd";
 function ClientProductDetail() {
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
-  console.log(getLoginData);
 
   const { productId } = useParams();
   const [user, setUser] = useState<any>(null);
@@ -44,7 +43,7 @@ function ClientProductDetail() {
     fetchUsers();
   }, []);
   console.log(user);
-  console.log(userCart);
+  console.log("User Cart", userCart);
   console.log("Mã sản phẩm", productId);
 
   const handleAddToCart = () => {
@@ -75,17 +74,53 @@ function ClientProductDetail() {
           let findProduct = userCart.find((item: any) => {
             return item.productId === products.id;
           });
+          console.log("FindProduct", findProduct);
 
           if (findProduct) {
-            console.log(findProduct);
-            console.log("Old Quantity", typeof findProduct.productQuantity);
-            console.log("Add Quantity", typeof quantity);
-            // let newQuantity = Number(findProduct.productQuantity) + quantity;
-            // console.log("New Quantity", newQuantity);
-            notification.warning({
-              message: "Sản phẩm đã tồn tại",
+            let findCart = userCart.findIndex((item: any) => {
+              return item.productId === findProduct.productId;
             });
-            return;
+            userCart[findCart].productQuantity += quantity;
+            let updatedCart = {
+              cart: userCart,
+            };
+            products.quantity_stock -= quantity;
+            let updatedStock = {
+              quantity_stock: products.quantity_stock,
+            };
+
+            // Cập nhật productQuantity trong giỏ hàng của người dùng trực tiếp trong cơ sở dữ liệu
+
+            // Gửi request PATCH để cập nhật productQuantity
+            axios
+              .patch(
+                `http://localhost:7373/products/${productId}`,
+                updatedStock
+              )
+              .then((response) => {
+                // Cập nhật userCart trong state hoặc gửi request fetch lại giỏ hàng
+                fetchProducts();
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+
+            axios
+              .patch(
+                `http://localhost:7373/accounts/${getLoginData.loginId}`,
+                updatedCart
+              )
+              .then((response) => {
+                console.log("User", user);
+                // Cập nhật userCart trong state hoặc gửi request fetch lại giỏ hàng
+                fetchUsers();
+                notification.success({
+                  message: `${quantity} Product Added`,
+                });
+              })
+              .catch((error) => {
+                console.log(error);
+              });
           } else {
             notification.warning({
               message: "Sản phẩm chưa tồn tại",
