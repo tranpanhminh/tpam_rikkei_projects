@@ -24,6 +24,10 @@ function ClientProductDetail() {
     setIsModalOpen(false);
   };
 
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
   const fetchProducts = () => {
     axios
       .get(`http://localhost:7373/products/${productId}`)
@@ -55,9 +59,6 @@ function ClientProductDetail() {
   console.log("User Cart", userCart);
   console.log("Mã sản phẩm", productId);
 
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
 
   const handleAddToCart = () => {
     if (getLoginData.role === "admin") {
@@ -257,7 +258,6 @@ function ClientProductDetail() {
                       <NavLink to="/signup">Don't have an account?</NavLink>
                     </p>
                   </Modal>
-                  ;
                 </div>
               </div>
             </div>

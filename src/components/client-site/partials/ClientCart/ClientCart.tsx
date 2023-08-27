@@ -3,6 +3,8 @@ import styles from "./ClientCart.module.css";
 import logo from "../../../../assets/images/pet-shop.png";
 import axios from "axios";
 import { notification } from "antd";
+import { Button, Modal } from "antd";
+import { NavLink } from "react-router-dom";
 
 function ClientCart() {
   const getData: any = localStorage.getItem("auth");
@@ -11,6 +13,12 @@ function ClientCart() {
   const [products, setProducts] = useState<any>(null);
   const [userCart, setUserCart] = useState<any>([]);
   const [initQuantity, setInitQuantity] = useState<any>(0);
+
+  const [cardHolderName, setCardHolderName] = useState("");
+  const [cardNumber, setCardNumber] = useState("");
+  const [expiration, setExpiration] = useState("");
+  const [cvv, setCVV] = useState("");
+  const [couponCode, setCouponCode] = useState("");
 
   const fetchProducts = () => {
     axios
@@ -40,7 +48,6 @@ function ClientCart() {
     fetchProducts();
   }, []);
 
-  console.log("UserCart", userCart);
   const handleTotalCart = () => {
     let totalCart = userCart.reduce((accumulator: any, currentItem: any) => {
       return (accumulator += currentItem.productQuantity * currentItem.price);
@@ -49,7 +56,6 @@ function ClientCart() {
   };
 
   const handleDeleteProduct = (productId: number) => {
-    console.log(productId);
     let findProductIndexIncart = userCart.findIndex((item: any) => {
       return item.productId === productId;
     });
@@ -57,13 +63,11 @@ function ClientCart() {
     let findProductIndex = products.findIndex((item: any) => {
       return item.id === productId;
     });
-    console.log("Find Product", findProductIndex);
 
     products[findProductIndex].quantity_stock += Number(
       userCart[findProductIndexIncart].productQuantity
     );
 
-    console.log(products[findProductIndex]);
     userCart.splice(findProductIndexIncart, 1);
     const updatedCart = {
       cart: userCart,
@@ -97,6 +101,12 @@ function ClientCart() {
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const handleCheckout = () => {
+    notification.success({
+      message: "Order Completed",
+    });
   };
 
   return (
@@ -224,6 +234,10 @@ function ClientCart() {
                     type="text"
                     className="form-control form-control-lg"
                     placeholder="Cardholder's Name"
+                    value={cardHolderName}
+                    onChange={(event) => {
+                      setCardHolderName(event.target.value);
+                    }}
                   />
                 </div>
 
@@ -237,6 +251,10 @@ function ClientCart() {
                     placeholder="Card Numbers"
                     minLength={16}
                     maxLength={16}
+                    value={cardNumber}
+                    onChange={(event) => {
+                      setCardNumber(event.target.value);
+                    }}
                   />
                 </div>
 
@@ -251,6 +269,10 @@ function ClientCart() {
                       size={7}
                       minLength={7}
                       maxLength={7}
+                      value={expiration}
+                      onChange={(event) => {
+                        setExpiration(event.target.value);
+                      }}
                     />
                   </div>
                   <div className={styles["card-info-item-special-detail"]}>
@@ -263,6 +285,10 @@ function ClientCart() {
                       size={1}
                       minLength={3}
                       maxLength={3}
+                      value={cvv}
+                      onChange={(event) => {
+                        setCVV(event.target.value);
+                      }}
                     />
                   </div>
                 </div>
@@ -271,7 +297,14 @@ function ClientCart() {
               <div className={styles["card-info-item"]}>
                 <div className={styles["card-info-item-detail"]}>
                   <span>Coupon Code</span>
-                  <input type="text" placeholder="code" />
+                  <input
+                    type="text"
+                    placeholder="code"
+                    value={couponCode}
+                    onChange={(event) => {
+                      setCouponCode(event.target.value);
+                    }}
+                  />
                 </div>
                 <div className={styles["card-info-item-detail"]}>
                   <span>Subtotal</span>
@@ -289,7 +322,7 @@ function ClientCart() {
 
               <div className={styles["card-total"]}>
                 <span>$4818.00</span>
-                <button>Checkout</button>
+                <button onClick={handleCheckout}>Checkout</button>
               </div>
             </div>
           </div>
