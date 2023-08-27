@@ -77,7 +77,7 @@ function ClientNewsletter() {
       const formattedDateTime = format(currentDateTime, "dd/MM/yyyy HH:mm:ss");
 
       const newSubscriber = {
-        user_id: 2,
+        user_id: foundAccount?.id,
         email: email,
         status: "Subscribed",
         date: formattedDateTime,

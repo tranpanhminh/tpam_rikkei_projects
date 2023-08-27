@@ -15,13 +15,16 @@ function ClientCart() {
   const [userCart, setUserCart] = useState<any>([]);
   const [initQuantity, setInitQuantity] = useState<any>(0);
   const [card, setCard] = useState<any>(null);
-
+  const [orderProducts, setOrderProducts] = useState<any>([]);
   const [cardName, setCardName] = useState("");
   const [cardNumber, setCardNumber] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
   const [expiration, setExpiration] = useState("");
   const [cvv, setCVV] = useState("");
   const [couponCode, setCouponCode] = useState("");
   const [newsletter, setNewsletter] = useState<any>(null);
+  const [totalCart, setTotalCart] = useState(0);
 
   const fetchProducts = () => {
     axios
@@ -41,6 +44,7 @@ function ClientCart() {
         setUser(response.data);
         setUserCart(response.data.cart);
         setNewsletter(response.data.newsletter);
+        setOrderProducts(response.data.order_history);
       })
       .catch((error) => {
         console.log(error);
@@ -65,12 +69,33 @@ function ClientCart() {
   }, []);
   console.log("List Card", card);
 
+  // Kiểm tra Coupon Code
+  let findCouponCode = newsletter?.find((item: any) => {
+    return item.couponCode === couponCode;
+  });
+
+  // let findCouponCodeIndex = newsletter?.findIndex((item: any) => {
+  //   return item.couponCode === couponCode;
+  // });
+
+  // Lấy MaxID Order
+  let listOrder = orderProducts?.map((order: any) => {
+    return order.id;
+  });
+  let maxIdOrder = Math.max(...listOrder);
+
   const handleTotalCart = () => {
-    let totalCart = userCart.reduce((accumulator: any, currentItem: any) => {
-      return (accumulator += currentItem.productQuantity * currentItem.price);
-    }, 0);
-    return totalCart;
+    let totalCart = userCart?.reduce(
+      (accumulator: number, currentItem: any) => {
+        accumulator += Number(currentItem.productQuantity * currentItem.price);
+        return setTotalCart(accumulator);
+      },
+      0
+    );
   };
+  const sumCart = Number(
+    totalCart + 5 - (totalCart * findCouponCode?.discount) / 100
+  );
 
   const handleDeleteProduct = (productId: number) => {
     let findProductIndexIncart = userCart.findIndex((item: any) => {
@@ -121,12 +146,8 @@ function ClientCart() {
   };
 
   console.log(newsletter);
-  // Kiểm tra Coupon Code
-  let findCouponCode = newsletter?.find((item: any) => {
-    return item.couponCode === couponCode;
-  });
+  console.log("User Cart", user.cart);
 
-  console.log(findCouponCode);
   const handleCheckout = () => {
     if (userCart?.length === 0) {
       notification.warning({
@@ -178,16 +199,97 @@ function ClientCart() {
     }
 
     // Kiểm tra số dư trong Card
-    if (checkValidCard.balance < Number(handleTotalCart() + 5)) {
+    if (checkValidCard.balance < Number(handleTotalCart())) {
       notification.warning({
         message: "Card Balance is not enough",
       });
       return;
     }
 
-    // notification.success({
-    //   message: "Order Completed",
-    // });
+    const newOrder = {
+      id: listOrder.length > 0 ? maxIdOrder + 1 : 1,
+      date: new Date(),
+      status: "Pending",
+      phone: phone,
+      address: address,
+      orderProduct: user.cart,
+    };
+
+    const updatedUser = {
+      ...user,
+      order_history: [...user.order_history, newOrder],
+      cart: [], // Clear the cart after creating the order
+    };
+
+    user.cart = [];
+
+    const updatedCart = {
+      cart: [],
+    };
+
+    axios
+      .patch(
+        `http://localhost:7373/accounts/${getLoginData.loginId}`,
+        updatedUser
+      )
+      .then((response) => {
+        fetchUser(); // Refresh user data after the update
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    axios
+      .patch(
+        `http://localhost:7373/accounts/${getLoginData.loginId}`,
+        updatedCart
+      )
+      .then((response) => {
+        fetchUser();
+        setUserCart("");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    // const newBalance = checkValidCard.balance - Number(handleTotalCart());
+    // findCouponCode.status = "Used";
+
+    // const updatedBalance = {
+    //   balance: newBalance,
+    // };
+
+    // axios
+    //   .patch(
+    //     `http://localhost:7373/banking/${checkValidCard.id}`,
+    //     updatedBalance
+    //   )
+    //   .then((response) => {
+    //     setCard(response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+    // axios
+    //   .patch(`http://localhost:7373/accounts/${getLoginData.loginId}`)
+    //   .then((response) => {
+    //     setCard(response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+    // axios
+    //   .patch(
+    //     `http://localhost:7373/banking/${checkValidCard.id}`,
+    //     updatedBalance
+    //   )
+    //   .then((response) => {
+    //     setCard(response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+    notification.success({
+      message: "Order Completed",
+    });
   };
 
   return (
@@ -321,7 +423,6 @@ function ClientCart() {
                     }}
                   />
                 </div>
-
                 <div className={styles["card-info-item"]}>
                   {/* <label htmlFor="">Card Number</label> */}
                   <input
@@ -338,7 +439,6 @@ function ClientCart() {
                     }}
                   />
                 </div>
-
                 <div className={styles["card-info-item-special"]}>
                   <div className={styles["card-info-item-special-detail"]}>
                     <label htmlFor="">Expiration</label>
@@ -372,6 +472,38 @@ function ClientCart() {
                     />
                   </div>
                 </div>
+                <div className={styles["card-info-item"]}>
+                  {/* <label htmlFor="">Card Number</label> */}
+                  <input
+                    type="text"
+                    id="typeText"
+                    className="form-control form-control-lg"
+                    size={17}
+                    placeholder="Phone"
+                    minLength={16}
+                    maxLength={16}
+                    value={phone}
+                    onChange={(event) => {
+                      setPhone(event.target.value);
+                    }}
+                  />
+                </div>{" "}
+                <div className={styles["card-info-item"]}>
+                  {/* <label htmlFor="">Card Number</label> */}
+                  <input
+                    type="text"
+                    id="typeText"
+                    className="form-control form-control-lg"
+                    size={17}
+                    placeholder="Address"
+                    minLength={16}
+                    maxLength={16}
+                    value={address}
+                    onChange={(event) => {
+                      setAddress(event.target.value);
+                    }}
+                  />
+                </div>
               </div>
 
               <div className={styles["card-info-item"]}>
@@ -392,7 +524,7 @@ function ClientCart() {
                 </div>
                 <div className={styles["card-info-item-detail"]}>
                   <span>Subtotal</span>
-                  <span>${Number(handleTotalCart()).toLocaleString()}</span>
+                  <span>${sumCart}</span>
                 </div>
                 <div className={styles["card-info-item-detail"]}>
                   <span>Shipping</span>
@@ -400,12 +532,12 @@ function ClientCart() {
                 </div>
                 <div className={styles["card-info-item-detail"]}>
                   <span>Total</span>
-                  <span>${Number(handleTotalCart() + 5).toLocaleString()}</span>
+                  <span>${sumCart}</span>
                 </div>
               </div>
 
               <div className={styles["card-total"]}>
-                <span>${Number(handleTotalCart() + 5).toLocaleString()}</span>
+                <span>${sumCart}</span>
                 <button onClick={handleCheckout}>Checkout</button>
               </div>
             </div>

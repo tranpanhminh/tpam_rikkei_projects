@@ -89,7 +89,7 @@ function ClientBooking() {
               userBooking.map((item: any) => {
                 return (
                   <tr>
-                    <td>{item.bookingId}</td>
+                    <td>{item.id}</td>
                     <td>{item.bookingService}</td>
                     <td>{item.bookingDate}</td>
                     <td>{item.bookingCalendar}</td>
