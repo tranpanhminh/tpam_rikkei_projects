@@ -33,6 +33,10 @@ function ClientCart() {
     return totalCart;
   };
 
+  const handleDeleteProduct = (productId: number) => {
+    console.log(productId);
+  };
+
   return (
     <>
       <div className={styles["background-outside-shopping-cart"]}>
@@ -83,6 +87,7 @@ function ClientCart() {
                             </td>
                             <td>{item.price}</td>
                             <td>
+                              $
                               {(
                                 item.productQuantity * item.price
                               ).toLocaleString()}
@@ -91,6 +96,10 @@ function ClientCart() {
                               <i
                                 className="fa-solid fa-xmark"
                                 id={styles["delete-product-icon"]}
+                                style={{ cursor: "pointer" }}
+                                onClick={() => {
+                                  handleDeleteProduct(item.productId);
+                                }}
                               />
                             </td>
                           </tr>
