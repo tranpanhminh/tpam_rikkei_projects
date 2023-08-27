@@ -13,8 +13,9 @@ function ClientCart() {
   const [products, setProducts] = useState<any>(null);
   const [userCart, setUserCart] = useState<any>([]);
   const [initQuantity, setInitQuantity] = useState<any>(0);
+  const [card, setCard] = useState<any>([]);
 
-  const [cardHolderName, setCardHolderName] = useState("");
+  const [cardName, setCardName] = useState("");
   const [cardNumber, setCardNumber] = useState("");
   const [expiration, setExpiration] = useState("");
   const [cvv, setCVV] = useState("");
@@ -43,10 +44,23 @@ function ClientCart() {
       });
   };
 
+  const fetchCard = () => {
+    axios
+      .get(`http://localhost:7373/banking/`)
+      .then((response) => {
+        setCard(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
     fetchUser();
     fetchProducts();
+    fetchCard();
   }, []);
+  console.log("List Card", card);
 
   const handleTotalCart = () => {
     let totalCart = userCart.reduce((accumulator: any, currentItem: any) => {
@@ -104,9 +118,47 @@ function ClientCart() {
   };
 
   const handleCheckout = () => {
-    notification.success({
-      message: "Order Completed",
+    if (userCart?.length === 0) {
+      notification.warning({
+        message: "Your Cart Is Empty",
+      });
+      return;
+    }
+    if (!cardName || !cardNumber || !expiration || !cvv) {
+      notification.warning({
+        message: "Card Payment must not be empty",
+      });
+      return;
+    }
+
+    let inputCard = {
+      cardName: cardName,
+      cardNumber: cardNumber,
+      expiredDate: expiration,
+      cvv: cvv,
+    };
+    const checkValidCard = card.some((item: any) => {
+      return (
+        item.cardName === cardName &&
+        item.cardNumber === cardNumber &&
+        item.expiredDate === expiration &&
+        item.cvv === cvv
+      );
     });
+    if (checkValidCard) {
+      notification.success({
+        message: "Card Is Valid",
+      });
+      return;
+    } else {
+      notification.warning({
+        message: "Card Is not valid",
+      });
+      return;
+    }
+    // notification.success({
+    //   message: "Order Completed",
+    // });
   };
 
   return (
@@ -234,9 +286,9 @@ function ClientCart() {
                     type="text"
                     className="form-control form-control-lg"
                     placeholder="Cardholder's Name"
-                    value={cardHolderName}
+                    value={cardName.toUpperCase()}
                     onChange={(event) => {
-                      setCardHolderName(event.target.value);
+                      setCardName(event.target.value);
                     }}
                   />
                 </div>
@@ -321,7 +373,7 @@ function ClientCart() {
               </div>
 
               <div className={styles["card-total"]}>
-                <span>$4818.00</span>
+                <span>${Number(handleTotalCart() + 5).toLocaleString()}</span>
                 <button onClick={handleCheckout}>Checkout</button>
               </div>
             </div>
