@@ -16,6 +16,14 @@ export interface Account {
   newsletter: string[];
   booking_history: any[];
 }
+
+export interface Subscriber {
+  id: number;
+  user_id: number;
+  email: string;
+  status: string;
+}
+
 export interface Product {
   id: number;
   productImage: string[];

@@ -6,12 +6,21 @@ import { notification } from "antd";
 function ClientNewsletter() {
   const [email, setEmail] = useState("");
   const [accounts, setAccounts] = useState([]);
+  const [subscribers, setSubscribers] = useState([]);
 
   const fetchEmail = () => {
     axios
       .get("http://localhost:7373/accounts")
       .then((response) => {
         setAccounts(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    axios
+      .get("http://localhost:7373/subscribers")
+      .then((response) => {
+        setSubscribers(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -45,6 +54,7 @@ function ClientNewsletter() {
       (account) => account.email === email
     );
     console.log("ID", foundAccount?.id);
+
     if (!foundAccount) {
       notification.warning({
         message:
@@ -60,9 +70,28 @@ function ClientNewsletter() {
       const updateNewsletter = {
         newsletter_register: true,
       };
+      const newSubscriber = {
+        user_id: 2,
+        email: email,
+        status: "Subscribed",
+      };
+
+      // Check if email is already subscribed
+      const isAlreadySubscribed = subscribers.some(
+        (subscriber: any) => subscriber.email === email
+      );
+
+      if (isAlreadySubscribed) {
+        notification.warning({
+          message: "This email is already subscired",
+        });
+        return;
+      }
+
       notification.success({
         message: "Sign up to receive newsletter successfully",
       });
+
       axios
         .patch(
           `http://localhost:7373/accounts/${foundAccount?.id}`,
@@ -70,6 +99,12 @@ function ClientNewsletter() {
         )
         .then((response) => fetchEmail())
         .catch((error) => console.log(error));
+
+      axios
+        .post(`http://localhost:7373/subscribers/`, newSubscriber)
+        .then((response) => fetchEmail())
+        .catch((error) => console.log(error));
+
       setEmail("");
     }
   };
