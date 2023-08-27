@@ -78,6 +78,7 @@ function ClientNewsLetter() {
               <th>Newsletter ID</th>
               <th>Coupon Name</th>
               <th>Coupon Code</th>
+              <th>Discount</th>
               <th>Status</th>
             </tr>
           </thead>
@@ -86,9 +87,10 @@ function ClientNewsLetter() {
               userNewsletter.map((item: any) => {
                 return (
                   <tr>
-                    <td>{item.newsletterId}</td>
+                    <td>{item.id}</td>
                     <td>{item.couponName}</td>
                     <td>{item.counponCode}</td>
+                    <td>{item.discount}</td>
                     <td>{item.status}</td>
                   </tr>
                 );
