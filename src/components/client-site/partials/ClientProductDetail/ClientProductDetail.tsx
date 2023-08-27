@@ -14,7 +14,7 @@ function ClientProductDetail() {
   const [user, setUser] = useState<any>(null);
   const [userCart, setUserCart] = useState<any>(null);
   const [products, setProducts] = useState<any>(null);
-  const [quantity, setQuantity] = useState<any>(0);
+  const [quantity, setQuantity] = useState<number>(0);
 
   const fetchProducts = () => {
     axios
@@ -77,6 +77,11 @@ function ClientProductDetail() {
           });
 
           if (findProduct) {
+            console.log(findProduct);
+            console.log("Old Quantity", typeof findProduct.productQuantity);
+            console.log("Add Quantity", typeof quantity);
+            // let newQuantity = Number(findProduct.productQuantity) + quantity;
+            // console.log("New Quantity", newQuantity);
             notification.warning({
               message: "Sản phẩm đã tồn tại",
             });
@@ -154,8 +159,10 @@ function ClientProductDetail() {
                       type="number"
                       min="1"
                       defaultValue={1}
-                      value={quantity}
-                      onChange={(event) => setQuantity(event.target.value)}
+                      value={Number(quantity)}
+                      onChange={(event) =>
+                        setQuantity(Number(event.target.value))
+                      }
                     />
                   </div>
                   <button
