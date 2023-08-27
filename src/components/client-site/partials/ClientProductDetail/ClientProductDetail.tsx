@@ -2,18 +2,27 @@ import React, { useEffect, useState } from "react";
 import styles from "../../ClientPage.module.css";
 import axios from "axios";
 import { Product } from "../../../../database";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { notification } from "antd";
+import { Button, Modal } from "antd";
 
 function ClientProductDetail() {
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { productId } = useParams();
   const [user, setUser] = useState<any>(null);
   const [userCart, setUserCart] = useState<any>(null);
   const [products, setProducts] = useState<any>(null);
   const [quantity, setQuantity] = useState<number>(1);
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   const fetchProducts = () => {
     axios
@@ -45,6 +54,10 @@ function ClientProductDetail() {
   console.log(user);
   console.log("User Cart", userCart);
   console.log("Mã sản phẩm", productId);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
 
   const handleAddToCart = () => {
     if (getLoginData.role === "admin") {
@@ -203,11 +216,26 @@ function ClientProductDetail() {
                   <button
                     className={styles["product-detail-page-add-to-cart-btn"]}
                     onClick={() => {
-                      handleAddToCart();
+                      getLoginData ? handleAddToCart() : showModal();
                     }}
                   >
                     Add To Cart
                   </button>
+                  <Modal
+                    title="Notification"
+                    open={isModalOpen}
+                    onOk={handleOk}
+                    onCancel={handleCancel}
+                    width={400}
+                  >
+                    <p>
+                      Please <NavLink to="/login">Login</NavLink> to buy Product
+                    </p>
+                    <p>
+                      <NavLink to="/signup">Don't have an account?</NavLink>
+                    </p>
+                  </Modal>
+                  ;
                 </div>
               </div>
             </div>
