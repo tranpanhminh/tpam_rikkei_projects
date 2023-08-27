@@ -24,7 +24,6 @@ function ClientCart() {
   const [cvv, setCVV] = useState("");
   const [couponCode, setCouponCode] = useState("");
   const [newsletter, setNewsletter] = useState<any>(null);
-  const [totalCart, setTotalCart] = useState(0);
 
   const fetchProducts = () => {
     axios
@@ -67,6 +66,7 @@ function ClientCart() {
     fetchProducts();
     fetchCard();
   }, []);
+
   // Kiểm tra Coupon Code
   let findCouponCode = newsletter?.find((item: any) => {
     return item.couponCode === couponCode;
@@ -355,7 +355,7 @@ function ClientCart() {
                                 className={styles["product-cart-quantity"]}
                                 value={item.productQuantity}
                                 onChange={(event) => {
-                                  const newQuantity = parseInt(
+                                  const newQuantity = Number(
                                     event.target.value
                                   );
                                   if (newQuantity >= 1) {
@@ -372,8 +372,57 @@ function ClientCart() {
                                         return cartItem;
                                       }
                                     );
-                                    setUserCart(updatedUserCart);
-                                    console.log("New User Cart", userCart);
+
+                                    // Tìm sản phẩm tương ứng trong danh sách products
+                                    const updatedProduct = products.find(
+                                      (product: any) =>
+                                        product.id === item.productId
+                                    );
+
+                                    if (updatedProduct) {
+                                      // Tính toán sự thay đổi của quantity_stock
+                                      const stockChange =
+                                        item.productQuantity - newQuantity;
+
+                                      // Cập nhật quantity_stock của sản phẩm tương ứng
+                                      const updatedStock =
+                                        updatedProduct.quantity_stock +
+                                        stockChange;
+                                      updatedProduct.quantity_stock =
+                                        updatedStock;
+
+                                      // Gửi HTTP request để cập nhật giỏ hàng trên REST API
+                                      axios
+                                        .patch(
+                                          `http://localhost:7373/accounts/${getLoginData.loginId}`,
+                                          {
+                                            cart: updatedUserCart,
+                                          }
+                                        )
+                                        .then((response) => {
+                                          // Cập nhật userCart sau khi nhận phản hồi từ REST API
+                                          setUserCart(updatedUserCart);
+                                        })
+                                        .catch((error) => {
+                                          console.log(error);
+                                        });
+
+                                      // Gửi HTTP request để cập nhật quantity_stock của sản phẩm trên REST API
+                                      axios
+                                        .patch(
+                                          `http://localhost:7373/products/${item.productId}`,
+                                          {
+                                            quantity_stock: updatedStock,
+                                          }
+                                        )
+                                        .then((response) => {
+                                          // Gọi lại API để lấy dữ liệu sản phẩm mới nhất
+                                          fetchProducts();
+                                        })
+                                        .catch((error) => {
+                                          console.log(error);
+                                        });
+                                    }
                                   }
                                 }}
                               />
