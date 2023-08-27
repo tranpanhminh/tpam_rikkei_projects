@@ -85,7 +85,7 @@ function ClientCart() {
   let maxIdOrder = Math.max(...listOrder);
 
   const handleTotalCart = () => {
-    let totalCart = userCart?.reduce(
+    let sumCart = userCart?.reduce(
       (accumulator: number, currentItem: any) => {
         accumulator += Number(currentItem.productQuantity * currentItem.price);
         return setTotalCart(accumulator);
@@ -93,9 +93,9 @@ function ClientCart() {
       0
     );
   };
-  const sumCart = Number(
-    totalCart + 5 - (totalCart * findCouponCode?.discount) / 100
-  );
+  // const sumCart = Number(
+  //   totalCart + 5 - (totalCart * findCouponCode?.discount) / 100
+  // );
 
   const handleDeleteProduct = (productId: number) => {
     let findProductIndexIncart = userCart.findIndex((item: any) => {
@@ -149,6 +149,24 @@ function ClientCart() {
   console.log("User Cart", user.cart);
 
   const handleCheckout = () => {
+    // Kiểm tra Phone & Address
+    if (!phone || !address) {
+      notification.warning({
+        message: "Please fill Phone & Address",
+      });
+      return;
+    }
+
+    // Kiểm tra số điện thoại Mỹ
+    const phoneNumberPattern = /^1?\d{10}$/;
+
+    if (phoneNumberPattern.test(phone)) {
+      notification.warning({
+        message: "Invalid Phone Number (Use the format (123) 456-7890)",
+      });
+      return;
+    }
+
     if (userCart?.length === 0) {
       notification.warning({
         message: "Your Cart Is Empty",
@@ -207,7 +225,7 @@ function ClientCart() {
     }
 
     const newOrder = {
-      id: listOrder.length > 0 ? maxIdOrder + 1 : 1,
+      orderId: listOrder.length > 0 ? maxIdOrder + 1 : 1,
       date: new Date(),
       status: "Pending",
       phone: phone,
@@ -234,18 +252,6 @@ function ClientCart() {
       )
       .then((response) => {
         fetchUser(); // Refresh user data after the update
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    axios
-      .patch(
-        `http://localhost:7373/accounts/${getLoginData.loginId}`,
-        updatedCart
-      )
-      .then((response) => {
-        fetchUser();
-        setUserCart("");
       })
       .catch((error) => {
         console.log(error);
@@ -290,6 +296,15 @@ function ClientCart() {
     notification.success({
       message: "Order Completed",
     });
+
+    // Trả về rỗng
+    setCardName("");
+    setCardNumber("");
+    setPhone("");
+    setAddress("");
+    setExpiration("");
+    setCVV("");
+    setCouponCode("");
   };
 
   return (
@@ -524,7 +539,7 @@ function ClientCart() {
                 </div>
                 <div className={styles["card-info-item-detail"]}>
                   <span>Subtotal</span>
-                  <span>${sumCart}</span>
+                  <span>${totalCart}</span>
                 </div>
                 <div className={styles["card-info-item-detail"]}>
                   <span>Shipping</span>
@@ -532,12 +547,12 @@ function ClientCart() {
                 </div>
                 <div className={styles["card-info-item-detail"]}>
                   <span>Total</span>
-                  <span>${sumCart}</span>
+                  <span>${totalCart}</span>
                 </div>
               </div>
 
               <div className={styles["card-total"]}>
-                <span>${sumCart}</span>
+                <span>${totalCart}</span>
                 <button onClick={handleCheckout}>Checkout</button>
               </div>
             </div>
