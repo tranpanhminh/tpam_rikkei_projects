@@ -89,7 +89,7 @@ function ClientNewsLetter() {
                   <tr>
                     <td>{item.id}</td>
                     <td>{item.couponName}</td>
-                    <td>{item.counponCode}</td>
+                    <td>{item.couponCode}</td>
                     <td>{item.discount}%</td>
                     <td>{item.status}</td>
                   </tr>
