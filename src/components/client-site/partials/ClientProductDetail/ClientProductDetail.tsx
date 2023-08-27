@@ -138,7 +138,7 @@ function ClientProductDetail() {
           } else {
             let newProductAdd = {
               productId: products.id,
-              productImage: products.productImage,
+              productImage: products.productImage[0],
               productName: products.name,
               productQuantity: quantity,
               price: products.price,

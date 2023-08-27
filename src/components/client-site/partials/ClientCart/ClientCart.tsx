@@ -174,7 +174,7 @@ function ClientCart() {
                                       }
                                     );
                                     setUserCart(updatedUserCart);
-                                    console.log(userCart);
+                                    console.log("New User Cart", userCart);
                                   }
                                 }}
                               />
