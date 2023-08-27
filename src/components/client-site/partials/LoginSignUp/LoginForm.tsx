@@ -48,6 +48,7 @@ function LoginForm() {
             const loginData = {
               loginId: account.id,
               role: account.role,
+              status: account.status,
             };
             // Update user login status using axios.put
             // axios

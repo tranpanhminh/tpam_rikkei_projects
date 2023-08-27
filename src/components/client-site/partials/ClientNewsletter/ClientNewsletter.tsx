@@ -72,6 +72,7 @@ function ClientNewsletter() {
         newsletter_register: true,
       };
 
+      // Định dạng ngày giờ
       const currentDateTime = new Date();
       const formattedDateTime = format(currentDateTime, "dd/MM/yyyy HH:mm:ss");
 

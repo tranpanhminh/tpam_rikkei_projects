@@ -3,11 +3,19 @@ import styles from "../../ClientPage.module.css";
 import axios from "axios";
 import { Product } from "../../../../database";
 import { useParams } from "react-router-dom";
+import { notification } from "antd";
 
 function ClientProductDetail() {
-  const { productId } = useParams();
+  const getData: any = localStorage.getItem("auth");
+  const getLoginData = JSON.parse(getData) || "";
+  console.log(getLoginData);
 
-  const [products, setProducts] = useState<null | Product>(null);
+  const { productId } = useParams();
+  const [user, setUser] = useState<any>(null);
+  const [userCart, setUserCart] = useState<any>(null);
+  const [products, setProducts] = useState<any>(null);
+  const [quantity, setQuantity] = useState<any>(0);
+
   const fetchProducts = () => {
     axios
       .get(`http://localhost:7373/products/${productId}`)
@@ -19,9 +27,73 @@ function ClientProductDetail() {
       });
   };
 
+  const fetchUsers = () => {
+    axios
+      .get(`http://localhost:7373/accounts/${getLoginData.loginId}`)
+      .then((response) => {
+        setUser(response.data);
+        setUserCart(response.data.cart);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
   useEffect(() => {
     fetchProducts();
+    fetchUsers();
   }, []);
+  console.log(user);
+  console.log(userCart);
+  console.log("Mã sản phẩm", productId);
+
+  const handleAddToCart = () => {
+    if (getLoginData.role === "admin") {
+      notification.warning({
+        message: "Admin is not allowed to buy product",
+      });
+    } else if (
+      getLoginData.role === "customer" &&
+      getLoginData.status === "Inactive"
+    ) {
+      notification.warning({
+        message:
+          "Your account status is Inactive, please wait for admin's verification",
+      });
+    } else {
+      if (products?.quantity_stock <= 0) {
+        notification.warning({
+          message: "Product is out of stock",
+        });
+        return;
+      } else {
+        if (quantity > products.quantity_stock) {
+          notification.warning({
+            message: "Quantity exceed Stock",
+          });
+        } else {
+          let findProduct = userCart.find((item: any) => {
+            return item.productId === products.id;
+          });
+
+          if (findProduct) {
+            notification.warning({
+              message: "Sản phẩm đã tồn tại",
+            });
+            return;
+          } else {
+            notification.warning({
+              message: "Sản phẩm chưa tồn tại",
+            });
+            return;
+          }
+          // notification.success({
+          //   message: "Product Added",
+          // });
+        }
+      }
+    }
+  };
 
   return (
     <>
@@ -72,14 +144,27 @@ function ClientProductDetail() {
                     <span>SKU:</span>
                     <span>{products && products.sku}</span>
                   </div>
+                  <div className={styles["product-sku"]}>
+                    <span>Stock:</span>
+                    <span>{products && products.quantity_stock}</span>
+                  </div>
                   <div className={styles["product-add-quantity"]}>
                     <p>Quantity:</p>
-                    <input type="number" min="1" defaultValue={1} />
+                    <input
+                      type="number"
+                      min="1"
+                      defaultValue={1}
+                      value={quantity}
+                      onChange={(event) => setQuantity(event.target.value)}
+                    />
                   </div>
                   <button
                     className={styles["product-detail-page-add-to-cart-btn"]}
+                    onClick={() => {
+                      handleAddToCart();
+                    }}
                   >
-                    ADD TO CART
+                    Add To Cart
                   </button>
                 </div>
               </div>
