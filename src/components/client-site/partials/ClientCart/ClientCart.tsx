@@ -10,6 +10,7 @@ function ClientCart() {
   const [user, setUser] = useState<any>([]);
   const [products, setProducts] = useState<any>(null);
   const [userCart, setUserCart] = useState<any>([]);
+  const [initQuantity, setInitQuantity] = useState<any>(0);
 
   const fetchProducts = () => {
     axios
@@ -143,7 +144,29 @@ function ClientCart() {
                                 type="number"
                                 min="1"
                                 className={styles["product-cart-quantity"]}
-                                value={Number(item.productQuantity)}
+                                value={item.productQuantity}
+                                onChange={(event) => {
+                                  const newQuantity = parseInt(
+                                    event.target.value
+                                  );
+                                  if (newQuantity >= 1) {
+                                    const updatedUserCart = userCart.map(
+                                      (cartItem: any) => {
+                                        if (
+                                          cartItem.productId === item.productId
+                                        ) {
+                                          return {
+                                            ...cartItem,
+                                            productQuantity: newQuantity,
+                                          };
+                                        }
+                                        return cartItem;
+                                      }
+                                    );
+                                    setUserCart(updatedUserCart);
+                                    console.log(userCart);
+                                  }
+                                }}
                               />
                             </td>
                             <td>{item.price}</td>
