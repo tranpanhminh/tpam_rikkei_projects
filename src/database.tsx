@@ -3,6 +3,16 @@ export interface userAccount {
   password: string;
 }
 
+export interface Banking {
+  id: number;
+  cardName: string;
+  cardNumber: number;
+  expiredDate: string;
+  cvv: number;
+  balance: number;
+  type: string;
+}
+
 export interface Account {
   id: number;
   email: string;

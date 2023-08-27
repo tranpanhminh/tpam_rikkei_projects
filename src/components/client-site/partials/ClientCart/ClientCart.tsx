@@ -13,12 +13,12 @@ function ClientCart() {
   const [products, setProducts] = useState<any>(null);
   const [userCart, setUserCart] = useState<any>([]);
   const [initQuantity, setInitQuantity] = useState<any>(0);
-  const [card, setCard] = useState<any>([]);
+  const [card, setCard] = useState<any>(null);
 
   const [cardName, setCardName] = useState("");
-  const [cardNumber, setCardNumber] = useState("");
+  const [cardNumber, setCardNumber] = useState(0);
   const [expiration, setExpiration] = useState("");
-  const [cvv, setCVV] = useState("");
+  const [cvv, setCVV] = useState(0);
   const [couponCode, setCouponCode] = useState("");
 
   const fetchProducts = () => {
@@ -137,6 +137,11 @@ function ClientCart() {
       expiredDate: expiration,
       cvv: cvv,
     };
+    console.log(typeof cardName);
+    console.log(typeof cardNumber);
+    console.log(typeof expiration);
+    console.log(typeof cvv);
+
     const checkValidCard = card.some((item: any) => {
       return (
         item.cardName === cardName &&
@@ -145,6 +150,7 @@ function ClientCart() {
         item.cvv === cvv
       );
     });
+    console.log(checkValidCard);
     if (checkValidCard) {
       notification.success({
         message: "Card Is Valid",
@@ -303,9 +309,9 @@ function ClientCart() {
                     placeholder="Card Numbers"
                     minLength={16}
                     maxLength={16}
-                    value={cardNumber}
+                    value={Number(cardNumber)}
                     onChange={(event) => {
-                      setCardNumber(event.target.value);
+                      setCardNumber(Number(event.target.value));
                     }}
                   />
                 </div>
@@ -337,9 +343,9 @@ function ClientCart() {
                       size={1}
                       minLength={3}
                       maxLength={3}
-                      value={cvv}
+                      value={Number(cvv)}
                       onChange={(event) => {
-                        setCVV(event.target.value);
+                        setCVV(Number(event.target.value));
                       }}
                     />
                   </div>
