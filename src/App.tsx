@@ -31,6 +31,7 @@ import MyOrders from "./components/client-site/layouts/UserProfile/MyOrders";
 import MyNewsletter from "./components/client-site/layouts/UserProfile/MyNewsletter";
 import MyBooking from "./components/client-site/layouts/UserProfile/MyBooking";
 import ClientSearchPage from "./components/client-site/layouts/ClientSearchPage";
+import AdminSubscribersPage from "./components/admin-site/layouts/AdminSubscribersPage";
 
 export function RoleNavigation() {
   const getData: any = localStorage.getItem("auth");
@@ -120,6 +121,10 @@ function App() {
           <Route
             path="/admin/manage-booking"
             element={<AdminBookingPage />}
+          ></Route>
+          <Route
+            path="/admin/manage-subscribers"
+            element={<AdminSubscribersPage />}
           ></Route>
           <Route
             path="/admin/manage-coupons"
