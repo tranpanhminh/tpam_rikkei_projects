@@ -2,12 +2,25 @@ import React, { useEffect, useState } from "react";
 import styles from "./ClientCart.module.css";
 import logo from "../../../../assets/images/pet-shop.png";
 import axios from "axios";
+import { notification } from "antd";
 
 function ClientCart() {
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
   const [user, setUser] = useState<any>([]);
+  const [products, setProducts] = useState<any>(null);
   const [userCart, setUserCart] = useState<any>([]);
+
+  const fetchProducts = () => {
+    axios
+      .get(`http://localhost:7373/products/`)
+      .then((response) => {
+        setProducts(response.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
 
   const fetchUser = () => {
     axios
@@ -23,6 +36,7 @@ function ClientCart() {
 
   useEffect(() => {
     fetchUser();
+    fetchProducts();
   }, []);
 
   console.log("UserCart", userCart);
@@ -35,6 +49,55 @@ function ClientCart() {
 
   const handleDeleteProduct = (productId: number) => {
     console.log(productId);
+    let findProductIndexIncart = userCart.findIndex((item: any) => {
+      return item.productId === productId;
+    });
+    console.log(findProductIndexIncart);
+    let findProductIndex = products.findIndex((item: any) => {
+      return item.id === productId;
+    });
+    console.log("Find Product", findProductIndex);
+
+    products[findProductIndex].quantity_stock += Number(
+      userCart[findProductIndexIncart].productQuantity
+    );
+
+    console.log(products[findProductIndex]);
+    userCart.splice(findProductIndexIncart, 1);
+    const updatedCart = {
+      cart: userCart,
+    };
+    const updatedProducts = {
+      quantity_stock: products[findProductIndex].quantity_stock,
+    };
+
+    axios
+      .patch(
+        `http://localhost:7373/accounts/${getLoginData.loginId}`,
+        updatedCart
+      )
+      .then((response) => {
+        notification.success({
+          message: "Product Deleted",
+        });
+        fetchUser();
+        fetchProducts();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    axios
+      .patch(`http://localhost:7373/products/${productId}`, updatedProducts)
+      .then((response) => {
+        notification.success({
+          message: "Product Deleted",
+        });
+        fetchUser();
+        fetchProducts();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -69,10 +132,10 @@ function ClientCart() {
                   </thead>
                   <tbody id={styles["table-my-cart"]}>
                     {userCart &&
-                      userCart.map((item: any) => {
+                      userCart.map((item: any, index: number) => {
                         return (
                           <tr>
-                            <td>{item.productId}</td>
+                            <td>{index + 1}</td>
                             <td>
                               <img src={item.productImage} alt="" />
                             </td>
@@ -82,7 +145,7 @@ function ClientCart() {
                                 type="number"
                                 min="1"
                                 className={styles["product-cart-quantity"]}
-                                value={item.productQuantity}
+                                value={Number(item.productQuantity)}
                               />
                             </td>
                             <td>{item.price}</td>
