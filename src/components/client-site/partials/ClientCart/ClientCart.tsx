@@ -13,7 +13,7 @@ function ClientCart() {
   const [user, setUser] = useState<any>([]);
   const [products, setProducts] = useState<any>(null);
   const [userCart, setUserCart] = useState<any>([]);
-  const [initQuantity, setInitQuantity] = useState<any>(0);
+  // const [initQuantity, setInitQuantity] = useState<any>(0);
   const [card, setCard] = useState<any>(null);
   const [orderProducts, setOrderProducts] = useState<any>([]);
   const [cardName, setCardName] = useState("");
@@ -313,10 +313,9 @@ function ClientCart() {
         console.log(error);
       });
 
-    // Xử lý chuyển trạng thái của Coupon Code đã sử dụng sang Used
+    // Xử lý xóa Coupon Code đã sử dụng ra khỏi Newsletter
     if (findCouponIndex !== -1) {
-      findCouponCode.status = "Used";
-      newsletter.splice(findCouponIndex, 1, findCouponCode);
+      newsletter.splice(findCouponIndex, 1);
 
       const updatedNewsletter = {
         newsletter: newsletter,

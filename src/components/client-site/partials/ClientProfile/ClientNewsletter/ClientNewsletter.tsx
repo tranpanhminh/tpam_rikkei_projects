@@ -8,6 +8,7 @@ import axios from "axios";
 function ClientNewsLetter() {
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
+  const [searchText, setSearchText] = useState<string>("");
   const [user, setUser] = useState<any>([]);
   const [subscriberId, setSubscriberId] = useState<number>(0);
   const [subscribers, setSubscribers] = useState<any>([]);
@@ -97,6 +98,36 @@ function ClientNewsLetter() {
       });
   };
 
+  const handleSearchNewsletter = () => {
+    console.log(searchText);
+    if (searchText === "") {
+      // Nếu searchText rỗng, gọi lại fetchUsers để lấy tất cả người dùng
+      fetchUser();
+    } else {
+      // Nếu có searchText, thực hiện tìm kiếm và cập nhật state
+      axios
+        .get(`http://localhost:7373/accounts`)
+        .then((response) => {
+          // Tìm kiếm trong dữ liệu và cập nhật state
+          const filterNewsletter = userNewsletter?.filter((item: any) => {
+            if (
+              item.couponName
+                .toLowerCase()
+                .includes(searchText.trim().toLowerCase()) ||
+              item.discount.toString().includes(searchText.trim())
+            ) {
+              return true;
+            }
+            return false;
+          });
+          setUserNewsletter(filterNewsletter);
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    }
+  };
+
   return (
     <div>
       <div className={styles.breadcrumb}>
@@ -112,14 +143,14 @@ function ClientNewsLetter() {
             placeholder="Search"
             aria-label="Search"
             id="search-bar"
-            // value={searchText}
-            // onChange={(e) => setSearchText(e.target.value)}
+            value={searchText}
+            onChange={(event) => setSearchText(event.target.value)}
           />
           <button
             className="btn btn-outline-success"
             type="submit"
             id={styles["search-btn"]}
-            // onClick={handleSearchUser}
+            onClick={handleSearchNewsletter}
           >
             Search
           </button>
@@ -142,7 +173,6 @@ function ClientNewsLetter() {
               <th>Coupon Name</th>
               <th>Coupon Code</th>
               <th>Discount</th>
-              <th>Status</th>
             </tr>
           </thead>
           <tbody>
@@ -154,7 +184,6 @@ function ClientNewsLetter() {
                     <td>{item.couponName}</td>
                     <td>{item.couponCode}</td>
                     <td>{item.discount}%</td>
-                    <td>{item.status}</td>
                   </tr>
                 );
               })}

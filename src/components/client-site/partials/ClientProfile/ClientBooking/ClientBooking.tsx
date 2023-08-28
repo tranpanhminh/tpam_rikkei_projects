@@ -5,9 +5,11 @@ import { Button, Modal } from "antd";
 import styles from "../UserProfile.module.css";
 import "../../../../../assets/bootstrap-5.3.0-dist/css/bootstrap.min.css";
 import axios from "axios";
+import { Badge } from "react-bootstrap";
 function ClientBooking() {
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
+  const [searchText, setSearchText] = useState<string>("");
   const [user, setUser] = useState<any>([]);
   const [userBooking, setUserBooking] = useState<any>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,16 +30,47 @@ function ClientBooking() {
     fetchUser();
   }, []);
 
-  const showModal = () => {
-    setIsModalOpen(true);
+  const handleSearchBooking = () => {
+    console.log(searchText);
+    if (searchText === "") {
+      // Nếu searchText rỗng, gọi lại fetchUsers để lấy tất cả người dùng
+      fetchUser();
+    } else {
+      // Nếu có searchText, thực hiện tìm kiếm và cập nhật state
+      axios
+        .get(`http://localhost:7373/accounts`)
+        .then((response) => {
+          // Tìm kiếm trong dữ liệu và cập nhật state
+          const filterBooking = userBooking?.filter((item: any) => {
+            if (
+              item.bookingService
+                .toLowerCase()
+                .includes(searchText.trim().toLowerCase())
+            ) {
+              return true;
+            }
+            return false;
+          });
+          console.log("ABC", filterBooking);
+          setUserBooking(filterBooking);
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    }
   };
 
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
+  const changeColor = (status: string) => {
+    switch (status) {
+      case "Done":
+        return "success";
+      case "Processing":
+        return "primary";
+      case "Cancel":
+        return "secondary";
+      default:
+        return;
+    }
   };
 
   console.log("User", user);
@@ -57,14 +90,14 @@ function ClientBooking() {
             placeholder="Search"
             aria-label="Search"
             id="search-bar"
-            // value={searchText}
-            // onChange={(e) => setSearchText(e.target.value)}
+            value={searchText}
+            onChange={(event) => setSearchText(event.target.value)}
           />
           <button
             className="btn btn-outline-success"
             type="submit"
             id={styles["search-btn"]}
-            // onClick={handleSearchUser}
+            onClick={handleSearchBooking}
           >
             Search
           </button>
@@ -94,45 +127,24 @@ function ClientBooking() {
                     <td>{item.bookingDate}</td>
                     <td>{item.bookingCalendar}</td>
                     <td>{item.bookingPrice}</td>
-                    <td>{item.status}</td>
                     <td>
-                      <Button type="primary" onClick={showModal}>
-                        Detail
-                      </Button>
-                      <Modal
-                        title="Cancel Booking"
-                        open={isModalOpen}
-                        onOk={handleOk}
-                        onCancel={handleCancel}
-                        width={500}
-                      >
-                        <div className={styles["list-input-my-profile"]}>
-                          <div className={styles["my-profile-input-item"]}>
-                            <p>Request Cancel</p>
-                            <select name="" id="">
-                              <option value="No Cancel Order" selected>
-                                --Choose Reason--
-                              </option>
-                              <option value="Ordered the wrong product">
-                                1. Ordered the wrong product
-                              </option>
-                              <option value="Duplicate order">
-                                2. Duplicate order
-                              </option>
-                              <option value="I don't want to buy anymore">
-                                3. I don't want to buy anymore
-                              </option>
-                              <option value="Ordered the wrong product">
-                                4. Delivery time too long
-                              </option>
-                              <option value="Ordered the wrong product">
-                                5. Another reason...
-                              </option>
-                            </select>
-                          </div>
-                        </div>
-                        <br />
-                      </Modal>
+                      <Badge bg={changeColor(item.status)}>{item.status}</Badge>
+                    </td>
+                    <td>
+                      {item.status === "Processing" ? (
+                        <Button
+                          type="primary"
+                          disabled={
+                            item.status === "Done" || item.status === "Cancel"
+                              ? true
+                              : false
+                          }
+                        >
+                          Cancel Booking
+                        </Button>
+                      ) : (
+                        ""
+                      )}
                     </td>
                   </tr>
                 );
