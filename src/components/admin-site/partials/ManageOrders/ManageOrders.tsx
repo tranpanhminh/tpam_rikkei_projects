@@ -138,7 +138,7 @@ function ManageOrders() {
           </thead>
           <tbody>
             {orders &&
-              orders.map((order: any) => {
+              orders?.map((order: any) => {
                 return (
                   <tr key={order.id}>
                     <td>{order.id}</td>
@@ -147,7 +147,7 @@ function ManageOrders() {
                     <td>{order.phone}</td>
                     <td>{order.date}</td>
                     <td>{order.status}</td>
-                    <td>{handleSumOrder(order.id)}</td>
+                    <td>${handleSumOrder(order.id).toLocaleString()}</td>
                     <td className={styles["group-btn-admin"]}>
                       <DetailOrder
                         value="Detail"

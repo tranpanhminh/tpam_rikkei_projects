@@ -265,7 +265,7 @@ function ClientCart() {
     let pushNewOrder = {
       // id: listOrdersDatabase.length > 0 ? maxIdOrderDatabase + 1 : 1,
       user_id: user.id,
-      name: user.name,
+      name: user.fullName,
       email: user.email,
       phone: phone,
       date: format(new Date(), "dd/MM/yyyy HH:mm:ss"),
