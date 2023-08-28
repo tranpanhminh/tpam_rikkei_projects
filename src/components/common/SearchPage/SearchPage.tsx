@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styles from "../../ClientPage.module.css";
-import { Product } from "../../../database";
+import { Product, Service } from "../../../database";
 import axios from "axios";
 import { NavLink, useNavigate } from "react-router-dom";
 
 function SearchPage() {
   const navigate = useNavigate();
   const [products, setProducts] = useState<Product[]>([]);
+  const [services, setServices] = useState<Service[]>([]);
   const fetchProducts = () => {
     axios
       .get("http://localhost:7373/products")
@@ -17,9 +18,20 @@ function SearchPage() {
         console.log(error.message);
       });
   };
+  const fetchServices = () => {
+    axios
+      .get("http://localhost:7373/services")
+      .then((response) => {
+        setServices(response.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
 
   useEffect(() => {
     fetchProducts();
+    fetchServices();
   }, []);
 
   return (

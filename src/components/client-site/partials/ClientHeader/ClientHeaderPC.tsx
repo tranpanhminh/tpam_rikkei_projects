@@ -15,33 +15,17 @@ import {
 import { notification } from "antd";
 
 function ClientHeaderPC() {
+  const [searchTerm, setSearchTerm] = useState("");
   const NavLinkStyle = ({ isActive }: { isActive: boolean }) => ({
     color: isActive ? "white" : "black",
     fontWeight: "bold",
     backgroundColor: isActive ? "#33d6bb" : "",
   });
   const navigate = useNavigate();
-  // const [userLoginId, setUserLoginId] = useState("");
 
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
   console.log(getLoginData);
-  // setUserLoginId(getLoginData.loginId);
-
-  // const fetchUserLogin = () => {
-  //   axios
-  //     .get(`http://localhost:7373/userLogin/${userLoginId}`)
-  //     .then((response) => {
-  //       setUserLoginId(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
-
-  // useEffect(() => {
-  //   fetchUserLogin();
-  // }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("auth");
@@ -49,32 +33,10 @@ function ClientHeaderPC() {
     notification.success({
       message: "Logout Successfully",
     });
+  };
 
-    // axios
-    //   .delete(`http://localhost:7373/userLogin/${userLoginId}`)
-    //   .then((response) => {
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-    // if (userLoginId.length !== 0) {
-    //   axios
-    //     .delete(`http://localhost:7373/userLogin/${userLoginId}`)
-    //     .then((response) => {
-    //       console.log(response);
-    //       notification.success({
-    //         message: "Logout Successfully",
-    //       });
-    //       setUserLoginID(""); // Reset userLoginId after successful logout
-    //       navigate("/");
-    //     })
-    //     .catch((error) => {
-    //       notification.warning({
-    //         message: "Failed to logout",
-    //       });
-    //       console.log("Failed to logout:", error);
-    //     });
-    // }
+  const handleSearch = () => {
+    console.log(searchTerm);
   };
   return (
     <header className={styles["header"]}>
@@ -93,8 +55,14 @@ function ClientHeaderPC() {
               placeholder="Search"
               className="me-2"
               aria-label="Search"
+              value={searchTerm}
+              onChange={(event) => {
+                setSearchTerm(event.target.value);
+              }}
             />
-            <Button variant="outline-success">Search</Button>
+            <Button variant="outline-success" onClick={handleSearch}>
+              Search
+            </Button>
           </Form>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
