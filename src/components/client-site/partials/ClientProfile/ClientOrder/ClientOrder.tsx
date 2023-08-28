@@ -6,6 +6,7 @@ import styles from "../UserProfile.module.css";
 import "../../../../../assets/bootstrap-5.3.0-dist/css/bootstrap.min.css";
 import axios from "axios";
 import { Account } from "../../../../../database";
+import { Badge } from "react-bootstrap";
 function ClientOrder() {
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
@@ -44,8 +45,54 @@ function ClientOrder() {
     setIsModalOpen(false);
   };
 
-  console.log("User Item", user);
-  console.log("User Order", userOrder);
+  const hanldeSearchOrder = () => {
+    console.log(searchText);
+    if (searchText === "") {
+      // Nếu searchText rỗng, gọi lại fetchUsers để lấy tất cả người dùng
+      fetchUser();
+    } else {
+      // Nếu có searchText, thực hiện tìm kiếm và cập nhật state
+      axios
+        .get(`http://localhost:7373/accounts`)
+        .then((response) => {
+          // Tìm kiếm trong dữ liệu và cập nhật state
+          const filterOrder = userOrder?.filter((item: any) => {
+            if (
+              item.date
+                .toLowerCase()
+                .includes(searchText.trim().toLowerCase()) ||
+              item.status
+                .toLowerCase()
+                .includes(searchText.trim().toLowerCase())
+            ) {
+              return true;
+            }
+            return false;
+          });
+          setUserOrder(filterOrder);
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    }
+  };
+
+  const changeColor = (status: string) => {
+    switch (status) {
+      case "Shipped":
+        return "success";
+      case "Shipping":
+        return "primary";
+      case "Processing":
+        return "info";
+      case "Pending":
+        return "warning";
+      case "Cancel":
+        return "danger";
+      default:
+        return;
+    }
+  };
 
   return (
     <div>
@@ -69,7 +116,7 @@ function ClientOrder() {
             className="btn btn-outline-success"
             type="submit"
             id={styles["search-btn"]}
-            // onClick={handleSearchUser}
+            onClick={hanldeSearchOrder}
           >
             Search
           </button>
@@ -95,8 +142,9 @@ function ClientOrder() {
                   <td>{order.orderId}</td>
                   <td>{order.date}</td>
                   <td>Tổng tiền</td>
-                  <td>{order.status}</td>
-                  <td>Pending</td>
+                  <td>
+                    <Badge bg={changeColor(order.status)}>{order.status}</Badge>
+                  </td>
                   <td>
                     <Button type="primary" onClick={showModal}>
                       Detail
