@@ -5,6 +5,7 @@ import { Button, Modal } from "antd";
 import { Subscriber } from "../../../../database"; // Import your data fetching and setting functions
 import axios from "axios";
 import { notification } from "antd";
+import { Badge } from "react-bootstrap";
 
 function ManageSubscribers() {
   const [searchText, setSearchText] = useState<string>("");
@@ -74,6 +75,17 @@ function ManageSubscribers() {
     }
   };
 
+  const changeColor = (status: string) => {
+    switch (status) {
+      case "Subscribed":
+        return "success";
+      case "Unsubscribed":
+        return "secondary";
+      default:
+        return;
+    }
+  };
+
   return (
     <>
       <div className={styles["breadcrumb"]}>
@@ -124,7 +136,11 @@ function ManageSubscribers() {
                   <td>{subscriber.id}</td>
                   <td>{subscriber.email}</td>
                   <td>{subscriber.date}</td>
-                  <td>{subscriber.status}</td>
+                  <td>
+                    <Badge bg={changeColor(subscriber.status)}>
+                      {subscriber.status}
+                    </Badge>
+                  </td>
                 </tr>
               );
             })}

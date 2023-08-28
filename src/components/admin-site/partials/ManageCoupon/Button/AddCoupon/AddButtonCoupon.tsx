@@ -19,10 +19,13 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
   title,
   handleClickOk,
 }) => {
-  const [dates, setDates] = useState<string[]>([]);
-
+  // const [dates, setDates] = useState<string[]>([]);
+  // const [editorInitialValue, setEditorInitialValue] = useState("");
+  const [couponName, setCouponName] = useState("");
+  const [couponCode, setCouponCode] = useState("");
+  const [couponDiscount, setCouponDiscount] = useState(1);
+  const [couponSlot, setCouponSlot] = useState(1);
   const [coupons, setCoupons] = useState<null | Coupon[]>(null);
-  const [editorInitialValue, setEditorInitialValue] = useState("");
   const [newCoupon, setNewCoupon] = useState<Coupon>({
     id: 0,
     name: "",
@@ -67,28 +70,31 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
       return;
     }
 
-    const updatedCoupon = {
-      ...newCoupon,
-      id: maxId + 1,
-    };
+    // const updatedCoupon = {
+    //   ...newCoupon,
+    //   id: maxId + 1,
+    // };
 
-    const updatedCoupons = coupons ? [...coupons, updatedCoupon] : null;
+    // const updatedCoupons = coupons ? [...coupons, updatedCoupon] : null;
 
-    setCoupons(updatedCoupons);
-    setIsModalOpen(false);
-    if (handleClickOk) {
-      handleClickOk(updatedCoupon);
-    }
-    setNewCoupon({
-      id: 0,
-      name: "",
-      code: "",
-      discount: 0,
-      slot: 0,
-      startDate: "",
-      endDate: "",
-    });
-    setEditorInitialValue("Type service description here.........");
+    // setCoupons(updatedCoupons);
+    // setIsModalOpen(false);
+    // if (handleClickOk) {
+    //   handleClickOk(updatedCoupon);
+    // }
+    // setNewCoupon({
+    //   id: 0,
+    //   name: "",
+    //   code: "",
+    //   discount: 0,
+    //   slot: 0,
+    //   startDate: "",
+    //   endDate: "",
+    // });
+    // setEditorInitialValue("Type service description here.........");
+    // const newCoupon = {
+    //   name:
+    // }
   };
 
   const handleCancel = () => {
@@ -113,7 +119,7 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
         visible={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
-        width={800}
+        width={500}
       >
         <div className={styles["list-input-add-student"]}>
           <div className={styles["list-input-item"]}>
@@ -124,30 +130,25 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
             <p>Coupon Name</p>
             <input
               type="text"
-              value={newCoupon.name}
-              onChange={(e) =>
-                setNewCoupon({ ...newCoupon, name: e.target.value })
-              }
+              value={couponName}
+              onChange={(event) => setCouponName(event.target.value)}
             />
           </div>
           <div className={styles["list-input-item"]}>
             <p>Code</p>
             <input
-              type="text"
-              value={newCoupon.code}
-              onChange={(e) =>
-                setNewCoupon({ ...newCoupon, code: e.target.value })
-              }
+              type="string"
+              value={couponCode}
+              onChange={(event) => setCouponCode(event.target.value)}
             />
           </div>
           <div className={styles["list-input-item"]}>
             <p>Discount</p>
             <input
-              type="number"
-              min={1}
-              value={newCoupon.discount}
-              onChange={(e) =>
-                setNewCoupon({ ...newCoupon, discount: Number(e.target.value) })
+              type="text"
+              value={Number(couponDiscount)}
+              onChange={(event) =>
+                setCouponDiscount(Number(event.target.value))
               }
             />
           </div>
@@ -155,18 +156,16 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
             <p>Slot</p>
             <input
               type="text"
-              value={newCoupon.slot}
-              onChange={(e) =>
-                setNewCoupon({ ...newCoupon, slot: Number(e.target.value) })
-              }
+              value={Number(couponSlot)}
+              onChange={(event) => setCouponSlot(Number(event.target.value))}
             />
           </div>
-          <div className={styles["list-input-item"]}>
+          {/* <div className={styles["list-input-item"]}>
             <p>Select Date</p>
             <Space direction="vertical" size={12}>
               <RangePicker onChange={(values) => console.log(values)} />
             </Space>
-          </div>{" "}
+          </div>{" "} */}
         </div>
       </Modal>
     </>

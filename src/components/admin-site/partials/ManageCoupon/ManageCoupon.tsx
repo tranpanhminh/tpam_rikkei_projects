@@ -26,35 +26,35 @@ function ManageNewsletter() {
     fetchCoupons();
   }, []);
 
-  // const handleSearchCoupons = () => {
-  //   if (searchText === "") {
-  //     fetchCoupons();
-  //   } else {
-  //     axios
-  //       .get(`http://localhost:7373/coupons`)
-  //       .then((response) => {
-  //         // Lấy dữ liệu từ response
-  //         const allCoupons = response.data;
+  const handleSearchCoupons = () => {
+    if (searchText === "") {
+      fetchCoupons();
+    } else {
+      axios
+        .get(`http://localhost:7373/coupons`)
+        .then((response) => {
+          // Lấy dữ liệu từ response
+          const allCoupons = response.data;
 
-  //         // Tìm kiếm trong dữ liệu và cập nhật state
-  //         const filterCoupons = allCoupons.filter((coupon: Coupon) => {
-  //           if (
-  //             coupon.name
-  //               .toLowerCase()
-  //               .includes(searchText.trim().toLowerCase())
-  //           ) {
-  //             return true;
-  //           }
-  //           return false;
-  //         });
+          // Tìm kiếm trong dữ liệu và cập nhật state
+          const filterCoupons = allCoupons.filter((coupon: Coupon) => {
+            if (
+              coupon.name
+                .toLowerCase()
+                .includes(searchText.trim().toLowerCase())
+            ) {
+              return true;
+            }
+            return false;
+          });
 
-  //         setCoupons(filterCoupons);
-  //       })
-  //       .catch((error) => {
-  //         console.log(error.message);
-  //       });
-  //   }
-  // };
+          setCoupons(filterCoupons);
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    }
+  };
 
   const handleAddCoupon = (newCoupon: Coupon) => {
     axios
@@ -112,11 +112,14 @@ function ManageNewsletter() {
             placeholder="Search"
             aria-label="Search"
             id={styles["search-bar"]}
+            value={searchText}
+            onChange={(event) => setSearchText(event.target.value)}
           />
           <button
             className={`btn  ${styles["btn-outline-success"]}`}
             type="submit"
             id={styles["search-btn"]}
+            onClick={handleSearchCoupons}
           >
             Search
           </button>
@@ -134,18 +137,10 @@ function ManageNewsletter() {
         <table className="table table-striped" id={styles["table-order-list"]}>
           <thead>
             <tr>
-              <th rowSpan={2}>Coupon ID</th>
-              <th rowSpan={2}>Name</th>
-              <th rowSpan={2}>Code</th>
-              <th rowSpan={2}>Slot</th>
-              <th rowSpan={2}>Usage</th>
-              <th colSpan={2}>Date</th>
-              <th rowSpan={2}>Status</th>
-              <th rowSpan={2}>Action</th>
-            </tr>
-            <tr>
-              <th>Start Date</th>
-              <th>End Date</th>
+              <th>Coupon ID</th>
+              <th>Name</th>
+              <th>Code</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -155,18 +150,6 @@ function ManageNewsletter() {
                   <td>{coupon.id}</td>
                   <td>{coupon.name}</td>
                   <td>{coupon.code}</td>
-                  <td> {coupon.slot === 0 ? 0 : coupon.slot || "Unlimited"}</td>
-                  <td> {coupon.usage}</td>
-                  <td>{coupon.startDate}</td>
-                  <td>{coupon.endDate}</td>
-                  <td>
-                    {coupon.slot === 0 ||
-                    (coupon.endDate &&
-                      new Date() >
-                        parse(coupon.endDate, "dd/MM/yyyy", new Date()))
-                      ? "Ended"
-                      : ""}
-                  </td>
                   <td className={styles["group-btn-admin"]}>
                     <button className={styles["detail-product-btn"]}>
                       Detail
