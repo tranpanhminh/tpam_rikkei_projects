@@ -60,7 +60,10 @@ function SearchPage() {
     <>
       <div
         className={styles["list-products"]}
-        style={{ marginTop: 0, marginBottom: 100 }}
+        style={{
+          marginTop: 0,
+          marginBottom: 100,
+        }}
       >
         <div className="container text-center">
           <div
@@ -68,7 +71,13 @@ function SearchPage() {
             id="container-product-homepage"
           >
             <h1 style={{ marginTop: 50 }}>Search: {searchTerm}</h1>
-            <h4 style={{ textAlign: "left" }}>
+            <h4
+              style={{
+                marginTop: "50px",
+                textAlign: "left",
+                display: `${filterProducts.length !== 0 ? "" : "none"}`,
+              }}
+            >
               {filterProducts.length !== 0
                 ? `Found ${filterProducts.length} products`
                 : "No product found"}
@@ -118,6 +127,7 @@ function SearchPage() {
               textAlign: "left",
               marginTop: "50px",
               marginBottom: "50px",
+              display: `${filterServices.length !== 0 ? "" : "none"}`,
             }}
           >
             {filterServices.length !== 0
