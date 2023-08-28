@@ -38,10 +38,24 @@ function SearchPage() {
     fetchServices();
   }, []);
 
-  useEffect(() => {
-    setAllProductService([...products, ...services]);
-  }, [products, services]);
-  console.log("list", allProductService);
+  // useEffect(() => {
+  //   setAllProductService([...products, ...services]);
+  // }, [products, services]);
+
+  // Kiểm tra Search Term
+  // let filterProductService = allProductService.filter((item: any) => {
+  //   return item.name.toLowerCase().includes(searchTerm?.trim().toLowerCase());
+  // });
+  // console.log(filterProductService);
+
+  let filterProducts = products.filter((item: any) => {
+    return item.name.toLowerCase().includes(searchTerm?.trim().toLowerCase());
+  });
+
+  let filterServices = services.filter((item: any) => {
+    return item.name.toLowerCase().includes(searchTerm?.trim().toLowerCase());
+  });
+
   return (
     <>
       <div
@@ -54,8 +68,13 @@ function SearchPage() {
             id="container-product-homepage"
           >
             <h1 style={{ marginTop: 50 }}>Search: {searchTerm}</h1>
-            {products &&
-              products.map((product) => {
+            <h4 style={{ textAlign: "left" }}>
+              {filterProducts.length !== 0
+                ? `Found ${filterProducts.length} products`
+                : "No product found"}
+            </h4>
+            {filterProducts &&
+              filterProducts.map((product) => {
                 return (
                   <div
                     className={`col-12 col-sm-12 col-md-6 col-xl-3 mt-5 px-2 ${styles["product-card"]}`}
@@ -74,9 +93,9 @@ function SearchPage() {
                             {product && product.name}
                           </h5>
                         </NavLink>
-                        {/* <p className={styles["card-price"]}>
+                        <p className={styles["card-price"]}>
                           Price: ${product && product.price.toLocaleString()}
-                        </p> */}
+                        </p>
                       </div>
                       <div className={styles["card-foot"]}>
                         <button
@@ -90,6 +109,50 @@ function SearchPage() {
                   </div>
                 );
               })}
+          </div>
+        </div>
+
+        <div className="container text-center">
+          <h4
+            style={{
+              textAlign: "left",
+              marginTop: "50px",
+              marginBottom: "50px",
+            }}
+          >
+            {filterServices.length !== 0
+              ? `Found ${filterServices.length} servies`
+              : "No service found"}
+          </h4>
+          <div
+            className="row align-items-start"
+            id="container-product-homepage"
+          >
+            <div className="container text-center">
+              <div className="row align-items-start">
+                {filterServices &&
+                  filterServices.map((service) => {
+                    return (
+                      <div className="col-12 col-sm-12 col-md-6 col-xl-4 px-3 my-2">
+                        <div className={styles["collection-item"]}>
+                          <img
+                            src={service.serviceImage}
+                            alt=""
+                            className="collection-image"
+                          />
+                          <div className={styles["collection-caption"]}>
+                            <NavLink to={`/services/${service.id}`}>
+                              <p className={styles["collection-title"]}>
+                                {service.name}
+                              </p>
+                            </NavLink>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
           </div>
         </div>
       </div>
