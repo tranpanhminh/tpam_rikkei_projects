@@ -4,12 +4,24 @@ import styles from "../../AdminPage.module.css";
 import { Coupon } from "../../../../database"; // Import your data fetching and setting functions
 import DeleteButtonCoupon from "./Button/DeleteCoupon/DeleteButtonCoupon";
 import axios from "axios";
-import { notification } from "antd";
+import { Button, notification } from "antd";
 import AddButtonCoupon from "./Button/AddCoupon/AddButtonCoupon";
 
 function ManageNewsletter() {
   const [coupons, setCoupons] = useState<null | Coupon[]>(null);
+  const [users, setUsers] = useState<any>(null);
   const [searchText, setSearchText] = useState<string>("");
+
+  const fetchUsers = () => {
+    axios
+      .get("http://localhost:7373/accounts")
+      .then((response) => {
+        setUsers(response.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
 
   const fetchCoupons = () => {
     axios
@@ -24,6 +36,7 @@ function ManageNewsletter() {
 
   useEffect(() => {
     fetchCoupons();
+    fetchUsers();
   }, []);
 
   const handleSearchCoupons = () => {
@@ -84,19 +97,25 @@ function ManageNewsletter() {
       });
   };
 
-  // const handleUpdateService = () => {
-  //   axios
-  //     .get("http://localhost:7373/services")
-  //     .then(() => {
-  //       fetchServices(); // Cập nhật lại dữ liệu users sau khi thêm
-  //       notification.success({
-  //         message: "Service Updated",
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       console.log(error.message);
-  //     });
-  // };
+  const handleSendCoupon = (couponId: number) => {
+    let newCoupon = coupons?.find((coupon) => {
+      return coupon.id === couponId;
+    });
+    console.log(newCoupon);
+
+    // Push Coupon vào newsletter của tất cả người dùng đã đăng ký, với điều kiện Subscribed là true
+    // B1: Lọc lấy ra những User có newsletter_register là true
+    let filterUserRegister = users.filter((user: any) => {
+      return user.newsletter_register === true;
+    });
+
+    console.log(filterUserRegister);
+
+    // B2: Xác định ID lớn nhất trong Newsletter của từng User
+
+    // B3: Push Coupon vào newsletter của các phần tử trong mảng đã tìm ở trên
+  };
+
   return (
     <>
       <div className={styles["breadcrumb"]}>
@@ -153,9 +172,15 @@ function ManageNewsletter() {
                   <td>{coupon.code}</td>
                   <td>{coupon.discount}%</td>
                   <td className={styles["group-btn-admin"]}>
-                    <button className={styles["detail-product-btn"]}>
-                      Detail
-                    </button>
+                    <Button
+                      type="primary"
+                      className={styles["detail-product-btn"]}
+                      onClick={() => {
+                        handleSendCoupon(coupon.id);
+                      }}
+                    >
+                      Send
+                    </Button>
                     <DeleteButtonCoupon
                       value="Delete"
                       className={styles["delete-coupon-btn"]}
