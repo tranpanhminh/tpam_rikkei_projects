@@ -276,8 +276,7 @@ function ClientCart() {
     axios
       .post(`http://localhost:7373/orders/`, pushNewOrder)
       .then((response) => {
-        fetchUser(); // Refresh user data after the update
-        fetchOrders();
+        console.log(response);
       })
       .catch((error) => {
         console.log(error);
