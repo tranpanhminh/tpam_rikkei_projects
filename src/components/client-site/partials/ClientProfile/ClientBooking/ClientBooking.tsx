@@ -69,7 +69,6 @@ function ClientBooking() {
     }
   };
 
-  console.log("ABC", userBooking);
   const handleCancelBooking = (bookingId: number) => {
     console.log(bookingId);
     let findBooking = userBooking.find((booking: any) => {
@@ -87,28 +86,11 @@ function ClientBooking() {
 
     // Cập nhật lại lên API
     axios
-      .patch(`http://localhost:7373/accounts/${getLoginData.loginId}`)
+      .patch(`http://localhost:7373/accounts/${getLoginData.loginId}`, {
+        booking_history: userBooking,
+      })
       .then((response) => {
-        // Tìm kiếm trong dữ liệu và cập nhật state
-        const filterBooking = userBooking?.filter((item: any) => {
-          if (
-            item.bookingService
-              .toLowerCase()
-              .includes(searchText.trim().toLowerCase()) ||
-            item.bookingDate
-              .toLowerCase()
-              .includes(searchText.trim().toLowerCase()) ||
-            item.bookingCalendar
-              .toLowerCase()
-              .includes(searchText.trim().toLowerCase()) ||
-            item.status.toLowerCase().includes(searchText.trim().toLowerCase())
-          ) {
-            return true;
-          }
-          return false;
-        });
-        console.log("ABC", filterBooking);
-        setUserBooking(filterBooking);
+        fetchUser();
       })
       .catch((error) => {
         console.log(error.message);
