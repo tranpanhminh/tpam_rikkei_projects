@@ -1,7 +1,6 @@
 import React from "react";
 // Import Client Partials
 import ClientHeaderPC from "../partials/ClientHeader/ClientHeaderPC";
-import ClientHeaderMobile from "../partials/ClientHeader/ClientHeaderMobile";
 import ClientBanner from "../partials/ClientBanner/ClientBanner";
 import ProductsCategoryBreadCrumb from "../partials/Breadcrumbs/ProductsCategoryBreadcrumb";
 import ClientProductDetail from "../partials/ClientProductDetail/ClientProductDetail";

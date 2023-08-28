@@ -38,16 +38,6 @@ function SearchPage() {
     fetchServices();
   }, []);
 
-  // useEffect(() => {
-  //   setAllProductService([...products, ...services]);
-  // }, [products, services]);
-
-  // Kiểm tra Search Term
-  // let filterProductService = allProductService.filter((item: any) => {
-  //   return item.name.toLowerCase().includes(searchTerm?.trim().toLowerCase());
-  // });
-  // console.log(filterProductService);
-
   let filterProducts = products.filter((item: any) => {
     return item.name.toLowerCase().includes(searchTerm?.trim().toLowerCase());
   });
