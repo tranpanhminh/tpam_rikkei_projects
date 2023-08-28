@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styles from "../../ClientPage.module.css";
+import styles from "../../client-site/ClientPage.module.css";
 import { Product, Service } from "../../../database";
 import axios from "axios";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -45,6 +45,7 @@ function SearchPage() {
             className="row align-items-start"
             id="container-product-homepage"
           >
+            <h1 style={{ marginTop: 50 }}>Search: </h1>
             {products &&
               products.map((product) => {
                 return (
@@ -65,9 +66,9 @@ function SearchPage() {
                             {product && product.name}
                           </h5>
                         </NavLink>
-                        <p className={styles["card-price"]}>
+                        {/* <p className={styles["card-price"]}>
                           Price: ${product && product.price.toLocaleString()}
-                        </p>
+                        </p> */}
                       </div>
                       <div className={styles["card-foot"]}>
                         <button

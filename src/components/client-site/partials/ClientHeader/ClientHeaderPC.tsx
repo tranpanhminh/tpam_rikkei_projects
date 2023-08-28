@@ -36,7 +36,7 @@ function ClientHeaderPC() {
   };
 
   const handleSearch = () => {
-    console.log(searchTerm);
+    navigate(`/search/${searchTerm}`);
   };
   return (
     <header className={styles["header"]}>
