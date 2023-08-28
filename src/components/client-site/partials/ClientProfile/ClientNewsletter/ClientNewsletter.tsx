@@ -104,7 +104,7 @@ function ClientNewsLetter() {
     } else {
       // Nếu có searchText, thực hiện tìm kiếm và cập nhật state
       axios
-        .get(`http://localhost:7373/accounts`)
+        .get(`http://localhost:7373/accounts/${getLoginData.loginId}`)
         .then((response) => {
           // Tìm kiếm trong dữ liệu và cập nhật state
           const filterNewsletter = userNewsletter?.filter((item: any) => {

@@ -38,7 +38,7 @@ function ClientBooking() {
     } else {
       // Nếu có searchText, thực hiện tìm kiếm và cập nhật state
       axios
-        .get(`http://localhost:7373/accounts`)
+        .get(`http://localhost:7373/accounts/${getLoginData.loginId}`)
         .then((response) => {
           // Tìm kiếm trong dữ liệu và cập nhật state
           const filterBooking = userBooking?.filter((item: any) => {
@@ -67,6 +67,52 @@ function ClientBooking() {
           console.log(error.message);
         });
     }
+  };
+
+  console.log("ABC", userBooking);
+  const handleCancelBooking = (bookingId: number) => {
+    console.log(bookingId);
+    let findBooking = userBooking.find((booking: any) => {
+      return booking.id === bookingId;
+    });
+    if (findBooking) {
+      findBooking.status = "Cancel";
+    }
+    console.log(findBooking);
+    let findIndexBooking = userBooking.findIndex((booking: any) => {
+      return booking.id === bookingId;
+    });
+    userBooking.splice(findIndexBooking, 1, findBooking);
+    console.log("ABC", userBooking);
+
+    // Cập nhật lại lên API
+    axios
+      .patch(`http://localhost:7373/accounts/${getLoginData.loginId}`)
+      .then((response) => {
+        // Tìm kiếm trong dữ liệu và cập nhật state
+        const filterBooking = userBooking?.filter((item: any) => {
+          if (
+            item.bookingService
+              .toLowerCase()
+              .includes(searchText.trim().toLowerCase()) ||
+            item.bookingDate
+              .toLowerCase()
+              .includes(searchText.trim().toLowerCase()) ||
+            item.bookingCalendar
+              .toLowerCase()
+              .includes(searchText.trim().toLowerCase()) ||
+            item.status.toLowerCase().includes(searchText.trim().toLowerCase())
+          ) {
+            return true;
+          }
+          return false;
+        });
+        console.log("ABC", filterBooking);
+        setUserBooking(filterBooking);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   };
 
   const changeColor = (status: string) => {
@@ -148,6 +194,7 @@ function ClientBooking() {
                               ? true
                               : false
                           }
+                          onClick={() => handleCancelBooking(item.id)}
                         >
                           Cancel Booking
                         </Button>
