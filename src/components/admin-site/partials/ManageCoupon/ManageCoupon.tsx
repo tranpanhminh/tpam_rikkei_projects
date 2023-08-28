@@ -140,6 +140,7 @@ function ManageNewsletter() {
               <th>Coupon ID</th>
               <th>Name</th>
               <th>Code</th>
+              <th>Discount</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -150,6 +151,7 @@ function ManageNewsletter() {
                   <td>{coupon.id}</td>
                   <td>{coupon.name}</td>
                   <td>{coupon.code}</td>
+                  <td>{coupon.discount}%</td>
                   <td className={styles["group-btn-admin"]}>
                     <button className={styles["detail-product-btn"]}>
                       Detail

@@ -75,11 +75,11 @@ function ManageSubscribers() {
     }
   };
 
-  const changeColor = (status: string) => {
+  const changeColor = (status: boolean) => {
     switch (status) {
-      case "Subscribed":
+      case true:
         return "success";
-      case "Unsubscribed":
+      case false:
         return "secondary";
       default:
         return;
@@ -138,7 +138,7 @@ function ManageSubscribers() {
                   <td>{subscriber.date}</td>
                   <td>
                     <Badge bg={changeColor(subscriber.status)}>
-                      {subscriber.status}
+                      {subscriber.status ? "Subscribed" : "Unsubscribed"}
                     </Badge>
                   </td>
                 </tr>

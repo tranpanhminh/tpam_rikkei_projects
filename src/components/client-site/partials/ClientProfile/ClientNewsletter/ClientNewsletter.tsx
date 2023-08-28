@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { Button, Modal } from "antd";
+import { Button, Modal, notification } from "antd";
 // Import CSS
 import styles from "../UserProfile.module.css";
 import "../../../../../assets/bootstrap-5.3.0-dist/css/bootstrap.min.css";
@@ -9,6 +9,8 @@ function ClientNewsLetter() {
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
   const [user, setUser] = useState<any>([]);
+  const [subscriberId, setSubscriberId] = useState<number>(0);
+  const [subscribers, setSubscribers] = useState<any>([]);
   const [userNewsletter, setUserNewsletter] = useState<any>([]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,8 +27,20 @@ function ClientNewsLetter() {
       });
   };
 
+  const fetchSubscriber = () => {
+    axios
+      .get(`http://localhost:7373/subscribers`)
+      .then((response) => {
+        setSubscribers(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
     fetchUser();
+    fetchSubscriber();
   }, []);
 
   const showModal = () => {
@@ -39,6 +53,48 @@ function ClientNewsLetter() {
 
   const handleCancel = () => {
     setIsModalOpen(false);
+  };
+
+  const handleChangeSubscribe = (userId: number) => {
+    const updatedNewsletterRegister = !user.newsletter_register;
+    axios
+      .patch(`http://localhost:7373/accounts/${userId}`, {
+        newsletter_register: updatedNewsletterRegister,
+      })
+      .then((response) => {
+        // Cập nhật user state sau khi hoàn thành PATCH request
+        setUser(response.data);
+        fetchUser();
+        notification.success({
+          message: `${
+            user.newsletter_register === true
+              ? "Subscribed Newsletter Successfully"
+              : "Unsubscribed Newsletter Successfully"
+          }`,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    let findSubscriber = subscribers?.find((subscriber: any) => {
+      return subscriber.user_id === userId;
+    });
+    console.log(findSubscriber);
+    if (findSubscriber) {
+      setSubscriberId(findSubscriber.id);
+    }
+    console.log(subscriberId);
+    axios
+      .patch(`http://localhost:7373/subscribers/${subscriberId}`, {
+        status: !findSubscriber.status,
+      })
+      .then((response) => {
+        fetchSubscriber();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -68,7 +124,14 @@ function ClientNewsLetter() {
             Search
           </button>
         </div>
-        <Button type="primary">Cancel Newsletter</Button>
+        <Button
+          type="primary"
+          onClick={() => handleChangeSubscribe(getLoginData.loginId)}
+        >
+          {user.newsletter_register === true
+            ? "Subscribed Newsletter"
+            : "Unsubscribed Newsletter"}
+        </Button>
       </div>
       <div className={styles["main-content"]}>
         <h3 className={styles["main-title-content"]}>List Newsletter</h3>
