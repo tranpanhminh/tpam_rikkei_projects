@@ -81,11 +81,9 @@ function ClientNewsLetter() {
     let findSubscriber = subscribers?.find((subscriber: any) => {
       return subscriber.user_id === userId;
     });
-    console.log(findSubscriber);
     if (findSubscriber) {
       setSubscriberId(findSubscriber.id);
     }
-    console.log(subscriberId);
     axios
       .patch(`http://localhost:7373/subscribers/${subscriberId}`, {
         status: !findSubscriber.status,

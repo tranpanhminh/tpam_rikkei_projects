@@ -9,6 +9,7 @@ import { Account } from "../../../../../database";
 function ClientOrder() {
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
+  const [searchText, setSearchText] = useState<string>("");
   const [user, setUser] = useState<any>([]);
   const [userOrder, setUserOrder] = useState<any>([]);
   const [orderProduct, setOrderProduct] = useState<any>([]);
@@ -61,8 +62,8 @@ function ClientOrder() {
             placeholder="Search"
             aria-label="Search"
             id="search-bar"
-            // value={searchText}
-            // onChange={(e) => setSearchText(e.target.value)}
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
           />
           <button
             className="btn btn-outline-success"

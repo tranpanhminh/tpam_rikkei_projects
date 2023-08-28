@@ -45,6 +45,15 @@ function ClientBooking() {
             if (
               item.bookingService
                 .toLowerCase()
+                .includes(searchText.trim().toLowerCase()) ||
+              item.bookingDate
+                .toLowerCase()
+                .includes(searchText.trim().toLowerCase()) ||
+              item.bookingCalendar
+                .toLowerCase()
+                .includes(searchText.trim().toLowerCase()) ||
+              item.status
+                .toLowerCase()
                 .includes(searchText.trim().toLowerCase())
             ) {
               return true;
