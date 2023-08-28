@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import styles from "../../client-site/ClientPage.module.css";
 import { Product, Service } from "../../../database";
 import axios from "axios";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 
 function SearchPage() {
   const navigate = useNavigate();
+  const { searchTerm } = useParams();
   const [products, setProducts] = useState<Product[]>([]);
   const [services, setServices] = useState<Service[]>([]);
+  const [allProductService, setAllProductService] = useState<any>([]);
+  console.log("Search Term", searchTerm);
   const fetchProducts = () => {
     axios
       .get("http://localhost:7373/products")
@@ -18,6 +21,7 @@ function SearchPage() {
         console.log(error.message);
       });
   };
+
   const fetchServices = () => {
     axios
       .get("http://localhost:7373/services")
@@ -34,6 +38,10 @@ function SearchPage() {
     fetchServices();
   }, []);
 
+  useEffect(() => {
+    setAllProductService([...products, ...services]);
+  }, [products, services]);
+  console.log("list", allProductService);
   return (
     <>
       <div
@@ -45,7 +53,7 @@ function SearchPage() {
             className="row align-items-start"
             id="container-product-homepage"
           >
-            <h1 style={{ marginTop: 50 }}>Search: </h1>
+            <h1 style={{ marginTop: 50 }}>Search: {searchTerm}</h1>
             {products &&
               products.map((product) => {
                 return (

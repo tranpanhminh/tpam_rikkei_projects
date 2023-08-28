@@ -31,7 +31,6 @@ img {
 .header-main-menu {
   display: flex;
   gap: 10px;
-  flex-wrap: nowrap !important;
 }
 
 .button-icon-menu {

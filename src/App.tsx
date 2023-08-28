@@ -139,7 +139,7 @@ function App() {
           <Route path="/user/my-booking" element={<AdminBookingPage />}></Route>
           <Route path="/user" element={<ClientProfilePage />}></Route>
           <Route path="/" element={<ClientHomePage />}></Route>
-          <Route path="/search/:term" element={<ClientSearchPage />}></Route>
+          <Route path="/search/:searchTerm" element={<ClientSearchPage />}></Route>
           <Route path="/user" element={<ClientProfilePage />}></Route>
           <Route path="*" element={<Page404 />}></Route>
         </Routes>

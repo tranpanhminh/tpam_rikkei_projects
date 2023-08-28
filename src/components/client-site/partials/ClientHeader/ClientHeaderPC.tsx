@@ -49,27 +49,13 @@ function ClientHeaderPC() {
           <NavLink to="/">
             <img src={logo} className={styles["header-menu-logo"]}></img>
           </NavLink>
-          <Form className="d-flex">
-            <Form.Control
-              type="search"
-              placeholder="Search"
-              className="me-2"
-              aria-label="Search"
-              value={searchTerm}
-              onChange={(event) => {
-                setSearchTerm(event.target.value);
-              }}
-            />
-            <Button variant="outline-success" onClick={handleSearch}>
-              Search
-            </Button>
-          </Form>
+
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav
               className="me-auto my-2 my-lg-0"
               id={styles["menu-navlink"]}
-              style={{ maxHeight: "100px" }}
+              // style={{ maxHeight: "100px" }}
               navbarScroll
             >
               <NavLink
@@ -177,6 +163,21 @@ function ClientHeaderPC() {
                 </Button>
               </NavLink>
             </Nav>
+            <Form className="d-flex">
+              <Form.Control
+                type="search"
+                placeholder="Search"
+                className="me-2"
+                aria-label="Search"
+                value={searchTerm}
+                onChange={(event) => {
+                  setSearchTerm(event.target.value);
+                }}
+              />
+              <Button variant="outline-success" onClick={handleSearch}>
+                Search
+              </Button>
+            </Form>
           </Navbar.Collapse>
         </Container>
       </Navbar>
