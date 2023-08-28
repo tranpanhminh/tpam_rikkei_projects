@@ -171,11 +171,11 @@ function ClientOrder() {
                                 </td>
                                 <td>{item.productName}</td>
                                 <td>{item.productQuantity}</td>
-                                <td>{item.productPrice}</td>
+                                <td>{Number(item.price)}</td>
                                 <td>
                                   $
                                   {(
-                                    item.productQuantity * item.productPrice
+                                    item.productQuantity * item.price
                                   ).toLocaleString()}
                                 </td>
                               </tr>

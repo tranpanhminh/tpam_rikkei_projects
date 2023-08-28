@@ -75,7 +75,7 @@ function ManageOrders() {
       const totalOrder = orders[orderId - 1]?.cart.reduce(
         (accumulator: number, currentItem: any) => {
           return (accumulator +=
-            currentItem.productQuantity * currentItem.productPrice);
+            currentItem.productQuantity * currentItem.price);
         },
         0
       );

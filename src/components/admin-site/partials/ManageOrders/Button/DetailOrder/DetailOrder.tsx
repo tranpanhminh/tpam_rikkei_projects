@@ -62,7 +62,7 @@ const DetailOrders: React.FC<DetailModalProps> = ({
       const totalOrder = orderCart.reduce(
         (accumulator: number, currentItem: any) => {
           return (accumulator =
-            currentItem.productQuantity * currentItem.productPrice);
+            currentItem.productQuantity * currentItem.price);
         },
         0
       );
@@ -154,8 +154,10 @@ const DetailOrders: React.FC<DetailModalProps> = ({
                   </td>
                   <td>{item.productName}</td>
                   <td>{item.productQuantity}</td>
-                  <td>${item.productPrice}</td>
-                  <td>${item.productPrice * item.productQuantity}</td>
+                  <td>${Number(item.price)}</td>
+                  <td>
+                    ${(item.price * item.productQuantity).toLocaleString()}
+                  </td>
                 </tr>
               );
             })}
