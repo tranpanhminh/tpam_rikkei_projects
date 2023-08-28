@@ -205,7 +205,7 @@ function ManageUsers() {
                   {user.role !== "superadmin" && (
                     <>
                       <DetailButtonUser
-                        width={700}
+                        width={500}
                         className={styles["detail-user-btn"]}
                         value="Detail"
                         title="Manage Users"
