@@ -202,37 +202,39 @@ function ManageUsers() {
                   <Badge bg={changeColor(user.status)}>{user.status}</Badge>
                 </td>
                 <td className={styles["group-btn-admin"]}>
-                  {user.role !== "superadmin" && (
-                    <>
-                      <DetailButtonUser
-                        width={500}
-                        className={styles["detail-user-btn"]}
-                        value="Detail"
-                        title="Manage Users"
-                        handleFunctionOk={() => console.log(user.id)}
-                        content={
-                          <DetailModalUserProfile
-                            userId={user.id}
-                            fullName={user.fullName}
-                            email={user.email}
-                            role={user.role}
-                            status={user.status}
-                            feature="Detail"
-                          ></DetailModalUserProfile>
-                        }
-                      ></DetailButtonUser>
+                  <DetailButtonUser
+                    width={500}
+                    className={styles["detail-user-btn"]}
+                    value="Detail"
+                    title="Manage Users"
+                    handleFunctionOk={() => console.log(user.id)}
+                    content={
+                      <DetailModalUserProfile
+                        userId={user.id}
+                        fullName={user.fullName}
+                        email={user.email}
+                        role={user.role}
+                        status={user.status}
+                        feature="Detail"
+                      ></DetailModalUserProfile>
+                    }
+                  ></DetailButtonUser>
 
+                  {user.fullName === "Super Admin" && user.role === "admin" ? (
+                    ""
+                  ) : (
+                    <>
                       <DetailButtonUser
                         value="Change"
                         className={styles["change-user-btn"]}
                         handleFunctionBtn={() => handleChangeUser(user.id)}
-                      ></DetailButtonUser>
+                      />
 
                       <DetailButtonUser
                         value="Delete"
                         className={styles["delete-user-btn"]}
                         handleFunctionBtn={() => handleDeleteUser(user.id)}
-                      ></DetailButtonUser>
+                      />
                     </>
                   )}
                 </td>
