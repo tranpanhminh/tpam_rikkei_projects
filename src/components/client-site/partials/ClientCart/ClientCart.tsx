@@ -24,7 +24,7 @@ function ClientCart() {
   const [cvv, setCVV] = useState("");
   const [couponCode, setCouponCode] = useState("");
   const [newsletter, setNewsletter] = useState<any>(null);
-  const [orders, setOrders] = useState<any>(null);
+  const [listOrders, setListOrders] = useState<any>(null);
 
   const fetchProducts = () => {
     axios
@@ -41,7 +41,7 @@ function ClientCart() {
     axios
       .get(`http://localhost:7373/orders/`)
       .then((response) => {
-        setOrders(response.data);
+        setListOrders(response.data);
       })
       .catch((error) => {
         console.log(error.message);
@@ -101,11 +101,12 @@ function ClientCart() {
   });
 
   //  Lấy MaxID của order để đưa vào List Order đẩy cho Admin
-  // let listOrdersDatabase = orders?.map((order: any) => {
-  //   return order.id;
+  // let listOrdersDatabase = listOrders?.map((item: any) => {
+  //   return item.id;
   // });
 
   // let maxIdOrderDatabase = Number(Math.max(...listOrdersDatabase));
+  // console.log(maxIdOrderDatabase);
 
   console.log("List Newsletter", newsletter);
 
@@ -261,28 +262,26 @@ function ClientCart() {
     };
 
     // Xử lý Post vào Orders
-    // let pushNewOrder = {
-    //   id: listOrdersDatabase.length > 0 ? maxIdOrderDatabase + 1 : 1,
-    //   user_id: user.id,
-    //   name: user.name,
-    //   email: user.email,
-    //   phone: phone,
-    //   date: format(new Date(), "dd/MM/yyyy HH:mm:ss"),
-    //   status: "Pending",
-    //   address: address,
-    //   cart: user.cart,
-    // };
-    // axios
-    //   .post(
-    //     `http://localhost:7373/orders/${getLoginData.loginId}`,
-    //     pushNewOrder
-    //   )
-    //   .then((response) => {
-    //     fetchUser(); // Refresh user data after the update
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
+    let pushNewOrder = {
+      // id: listOrdersDatabase.length > 0 ? maxIdOrderDatabase + 1 : 1,
+      user_id: user.id,
+      name: user.name,
+      email: user.email,
+      phone: phone,
+      date: format(new Date(), "dd/MM/yyyy HH:mm:ss"),
+      status: "Pending",
+      address: address,
+      cart: user.cart,
+    };
+    axios
+      .post(`http://localhost:7373/orders/`, pushNewOrder)
+      .then((response) => {
+        fetchUser(); // Refresh user data after the update
+        fetchOrders();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
     user.cart = [];
 
