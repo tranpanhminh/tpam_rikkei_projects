@@ -11,6 +11,8 @@ function ManageNewsletter() {
   const [coupons, setCoupons] = useState<null | Coupon[]>(null);
   const [users, setUsers] = useState<any>(null);
   const [searchText, setSearchText] = useState<string>("");
+  const [sentCoupons, setSentCoupons] = useState<number[]>([]);
+  const [clickedCoupons, setClickedCoupons] = useState<number[]>([]);
 
   const fetchUsers = () => {
     axios
@@ -98,22 +100,61 @@ function ManageNewsletter() {
   };
 
   const handleSendCoupon = (couponId: number) => {
-    let newCoupon = coupons?.find((coupon) => {
+    if (sentCoupons.includes(couponId)) {
+      return; // Đã gửi coupon với couponId này rồi, không thực hiện gì thêm
+    }
+
+    // Thêm couponId vào danh sách các coupon đã gửi
+    setSentCoupons([...sentCoupons, couponId]);
+
+    if (clickedCoupons.includes(couponId)) {
+      return; // Đã click nút Send cho couponId này rồi, không thực hiện gì thêm
+    }
+
+    // Thêm couponId vào danh sách các coupon đã click
+    setClickedCoupons([...clickedCoupons, couponId]);
+
+    // Tìm coupon theo couponId
+    let findCoupon = coupons?.find((coupon) => {
       return coupon.id === couponId;
     });
-    console.log(newCoupon);
 
-    // Push Coupon vào newsletter của tất cả người dùng đã đăng ký, với điều kiện Subscribed là true
-    // B1: Lọc lấy ra những User có newsletter_register là true
+    // Lọc lấy ra những User có newsletter_register là true
     let filterUserRegister = users.filter((user: any) => {
       return user.newsletter_register === true;
     });
 
-    console.log(filterUserRegister);
+    // Lặp qua từng User để xử lý và cập nhật newsletter
+    filterUserRegister.forEach((user: any) => {
+      // Tìm ID lớn nhất trong Newsletter của từng User
+      let maxNewsletterId = Math.max(
+        ...user.newsletter.map((item: any) => item.id),
+        0
+      );
 
-    // B2: Xác định ID lớn nhất trong Newsletter của từng User
+      // Tạo một object mới để đưa vào newsletter của User
+      const newCoupon = {
+        id: maxNewsletterId + 1,
+        couponName: findCoupon?.name,
+        couponCode: findCoupon?.code,
+        discount: findCoupon?.discount,
+      };
 
-    // B3: Push Coupon vào newsletter của các phần tử trong mảng đã tìm ở trên
+      // Gửi request PATCH để cập nhật newsletter của User
+      axios
+        .patch(`http://localhost:7373/accounts/${user.id}`, {
+          newsletter: [...user.newsletter, newCoupon],
+        })
+        .then((response) => {
+          // fetchUsers();
+          notification.success({
+            message: `Coupon sent successfully`,
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
   };
 
   return (
@@ -178,6 +219,7 @@ function ManageNewsletter() {
                       onClick={() => {
                         handleSendCoupon(coupon.id);
                       }}
+                      disabled={clickedCoupons.includes(coupon.id)}
                     >
                       Send
                     </Button>
