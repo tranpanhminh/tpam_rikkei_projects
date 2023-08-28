@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import { Account } from "../../../../database";
+import { Badge } from "react-bootstrap";
 
 function ManageUsers() {
   const [users, setUsers] = useState<null | Account[]>(null);
@@ -129,6 +130,17 @@ function ManageUsers() {
       });
   };
 
+  const changeColor = (status: string) => {
+    switch (status) {
+      case "Active":
+        return "success";
+      case "Inactive":
+        return "secondary";
+      default:
+        return;
+    }
+  };
+
   return (
     <>
       <div className={styles["breadcrumb"]}>
@@ -186,7 +198,9 @@ function ManageUsers() {
                 <td>{user.email}</td>
                 <td>{user.fullName}</td>
                 <td>{user.role}</td>
-                <td>{user.status}</td>
+                <td>
+                  <Badge bg={changeColor(user.status)}>{user.status}</Badge>
+                </td>
                 <td className={styles["group-btn-admin"]}>
                   {user.role !== "superadmin" && (
                     <>

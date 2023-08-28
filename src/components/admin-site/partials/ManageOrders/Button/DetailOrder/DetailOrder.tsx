@@ -3,6 +3,7 @@ import { Button, Modal } from "antd";
 import axios from "axios";
 import { Order } from "../../../../../../database";
 import styles from "../../../../AdminPage.module.css";
+import { Badge } from "react-bootstrap";
 
 interface DetailModalProps {
   className?: string; // Thêm khai báo cho thuộc tính className
@@ -21,7 +22,6 @@ const DetailOrders: React.FC<DetailModalProps> = ({
   getOrderId,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [orders, setOrders] = useState<any>(null);
   const [orderCart, setOrderCart] = useState<any>(null);
 
@@ -53,6 +53,7 @@ const DetailOrders: React.FC<DetailModalProps> = ({
     }
   };
 
+  console.log("Order", orderCart);
   const handleCancel = () => {
     setIsModalOpen(false);
   };
@@ -61,7 +62,7 @@ const DetailOrders: React.FC<DetailModalProps> = ({
     if (orderCart) {
       const totalOrder = orderCart.reduce(
         (accumulator: number, currentItem: any) => {
-          return (accumulator =
+          return (accumulator +=
             currentItem.productQuantity * currentItem.price);
         },
         0
@@ -70,7 +71,7 @@ const DetailOrders: React.FC<DetailModalProps> = ({
     }
     return 0;
   };
-
+  
   return (
     <>
       <Button
@@ -109,7 +110,7 @@ const DetailOrders: React.FC<DetailModalProps> = ({
                 value="Shipping"
                 selected={orders?.status === "Shipping" ? true : false}
               >
-                Shipping
+              Shipping
               </option>
               <option
                 value="Processing"
@@ -145,10 +146,10 @@ const DetailOrders: React.FC<DetailModalProps> = ({
             </tr>
           </thead>
           <tbody>
-            {orderCart?.map((item: any) => {
+            {orderCart?.map((item: any, index: number) => {
               return (
                 <tr>
-                  <td>{item.productId}</td>
+                  <td>{index + 1}</td>
                   <td>
                     <img src={item.productImage} alt="" />
                   </td>

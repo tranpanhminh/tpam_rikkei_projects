@@ -6,6 +6,7 @@ import axios from "axios";
 import DeleteOrder from "./Button/DeleteOrder/DeleteOrder";
 import { notification } from "antd";
 import DetailOrder from "./Button/DetailOrder/DetailOrder";
+import { Badge } from "react-bootstrap";
 
 function ManageOrders() {
   const [orders, setOrders] = useState<any>(null);
@@ -84,6 +85,23 @@ function ManageOrders() {
     return 0;
   };
 
+  const changeColor = (status: string) => {
+    switch (status) {
+      case "Shipped":
+        return "success";
+      case "Shipping":
+        return "primary";
+      case "Processing":
+        return "info";
+      case "Pending":
+        return "warning";
+      case "Cancel":
+        return "danger";
+      default:
+        return;
+    }
+  };
+
   return (
     <>
       <div className={styles["breadcrumb"]}>
@@ -146,7 +164,11 @@ function ManageOrders() {
                     <td>{order.email}</td>
                     <td>{order.phone}</td>
                     <td>{order.date}</td>
-                    <td>{order.status}</td>
+                    <td>
+                      <Badge bg={`${changeColor(order.status)}`}>
+                        {order.status}
+                      </Badge>
+                    </td>
                     <td>${handleSumOrder(order.id).toLocaleString()}</td>
                     <td className={styles["group-btn-admin"]}>
                       <DetailOrder
