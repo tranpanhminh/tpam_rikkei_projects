@@ -146,7 +146,7 @@ function ManageNewsletter() {
           newsletter: [...user.newsletter, newCoupon],
         })
         .then((response) => {
-          // fetchUsers();
+          fetchUsers();
           notification.success({
             message: `Coupon sent successfully`,
           });
