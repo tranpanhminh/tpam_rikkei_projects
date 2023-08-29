@@ -90,23 +90,27 @@ function ClientCart() {
   console.log(findCouponIndex);
 
   // Lấy MaxID Của Order đưa vào order history
-  let listOrder = orderProducts?.map((order: any) => {
-    return order.orderId;
-  });
+  // let listOrder = orderProducts?.map((order: any) => {
+  //   return order.orderId;
+  // });
 
-  let maxIdOrder = Number(Math.max(...listOrder));
+  // let maxIdOrder = Number(Math.max(...listOrder));
+  // console.log(maxIdOrder)
 
   let sumCart = userCart.map((item: any) => {
     return item.productQuantity * item.price;
   });
 
   //  Lấy MaxID của order để đưa vào List Order đẩy cho Admin
-  // let listOrdersDatabase = listOrders?.map((item: any) => {
-  //   return item.id;
-  // });
+  let listOrdersDatabase = [];
+  if (listOrders) {
+    listOrdersDatabase = listOrders?.map((item: any) => {
+      return item.id;
+    });
+  }
 
-  // let maxIdOrderDatabase = Number(Math.max(...listOrdersDatabase));
-  // console.log(maxIdOrderDatabase);
+  let maxIdOrderDatabase = Number(Math.max(...listOrdersDatabase));
+  console.log("Max ID", maxIdOrderDatabase);
 
   console.log("List Newsletter", newsletter);
 
@@ -247,7 +251,7 @@ function ClientCart() {
     }
 
     const newOrder = {
-      orderId: listOrder.length > 0 ? maxIdOrder + 1 : 1,
+      orderId: listOrders.length > 0 ? maxIdOrderDatabase + 1 : 1,
       date: format(new Date(), "dd/MM/yyyy HH:mm:ss"),
       status: "Pending",
       phone: phone,
