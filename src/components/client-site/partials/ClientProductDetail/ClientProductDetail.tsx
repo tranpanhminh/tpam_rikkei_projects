@@ -55,9 +55,6 @@ function ClientProductDetail() {
     fetchProducts();
     fetchUsers();
   }, []);
-  console.log(user);
-  console.log("User Cart", userCart);
-  console.log("Mã sản phẩm", productId);
 
   const handleAddToCart = () => {
     if (getLoginData.role === "admin") {
@@ -97,26 +94,26 @@ function ClientProductDetail() {
             let updatedCart = {
               cart: userCart,
             };
-            products.quantity_stock -= quantity;
-            let updatedStock = {
-              quantity_stock: products.quantity_stock,
-            };
+            // products.quantity_stock -= quantity;
+            // let updatedStock = {
+            //   quantity_stock: products.quantity_stock,
+            // };
 
             // Cập nhật productQuantity trong giỏ hàng của người dùng trực tiếp trong cơ sở dữ liệu
 
             // Gửi request PATCH để cập nhật productQuantity
-            axios
-              .patch(
-                `http://localhost:7373/products/${productId}`,
-                updatedStock
-              )
-              .then((response) => {
-                // Cập nhật userCart trong state hoặc gửi request fetch lại giỏ hàng
-                fetchProducts();
-              })
-              .catch((error) => {
-                console.log(error);
-              });
+            // axios
+            //   .patch(
+            //     `http://localhost:7373/products/${productId}`,
+            //     updatedStock
+            //   )
+            //   .then((response) => {
+            //     // Cập nhật userCart trong state hoặc gửi request fetch lại giỏ hàng
+            //     fetchProducts();
+            //   })
+            //   .catch((error) => {
+            //     console.log(error);
+            //   });
 
             axios
               .patch(

@@ -147,9 +147,9 @@ function ClientCart() {
     const updatedCart = {
       cart: userCart,
     };
-    const updatedProducts = {
-      quantity_stock: products[findProductIndex].quantity_stock,
-    };
+    // const updatedProducts = {
+    //   quantity_stock: products[findProductIndex].quantity_stock,
+    // };
 
     axios
       .patch(
@@ -157,6 +157,9 @@ function ClientCart() {
         updatedCart
       )
       .then((response) => {
+        notification.success({
+          message: "Product Deleted",
+        });
         fetchUser();
         fetchProducts();
         setUserCart(response.data.cart);
@@ -164,20 +167,21 @@ function ClientCart() {
       .catch((error) => {
         console.log(error);
       });
-    axios
-      .patch(`http://localhost:7373/products/${productId}`, updatedProducts)
-      .then((response) => {
-        notification.success({
-          message: "Product Deleted",
-        });
-        fetchUser();
-        fetchProducts();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    // axios
+    //   .patch(`http://localhost:7373/products/${productId}`, updatedProducts)
+    //   .then((response) => {
+    //     notification.success({
+    //       message: "Product Deleted",
+    //     });
+    //     fetchUser();
+    //     fetchProducts();
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   };
 
+  console.log("USER CART", user.cart);
   const handleCheckout = () => {
     // Kiểm tra Phone & Address
     const phoneNumberPattern = /^1\d{10}$/;
@@ -289,6 +293,28 @@ function ClientCart() {
 
     // user.cart = [];
 
+    // Xử lý giảm số lượng sản phẩm tồn kho
+    user.cart.forEach((cartItem: any) => {
+      const product = products.find(
+        (product: any) => product.id === cartItem.productId
+      );
+
+      if (product) {
+        const updatedStock = product.quantity_stock - cartItem.productQuantity;
+
+        axios
+          .patch(`http://localhost:7373/products/${product.id}`, {
+            quantity_stock: updatedStock,
+          })
+          .then((response) => {
+            fetchProducts();
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    });
+
     axios
       .patch(
         `http://localhost:7373/accounts/${getLoginData.loginId}`,
@@ -353,22 +379,45 @@ function ClientCart() {
     setCouponCode("");
   };
 
-  // const handleQuantityChange = (newQuantity: number, item: any) => {
-  //   if (!isNaN(newQuantity) && newQuantity >= 0) {
-  //     const updatedUserCart = userCart.map((cartItem: any) => {
-  //       if (cartItem.productId === item.productId) {
-  //         return {
-  //           ...cartItem,
-  //           productQuantity: newQuantity,
-  //         };
-  //       }
-  //       return cartItem;
-  //     });
+  const handleQuantityInputChange = (event: any, item: any) => {
+    const newQuantity = Number(event.target.value);
+    if (!isNaN(newQuantity) && newQuantity >= 0) {
+      const updatedProduct = products.find(
+        (product: any) => product.id === item.productId
+      );
 
-  //     return updatedUserCart;
-  //   }
-  //   return null;
-  // };
+      if (updatedProduct) {
+        if (newQuantity > updatedProduct.quantity_stock) {
+          notification.error({
+            message: `Số lượng vượt quá số lượng tồn kho. Số lượng tối đa cho phép là ${updatedProduct.quantity_stock}`,
+          });
+          return;
+        }
+
+        // const stockChange = item.productQuantity - newQuantity;
+        const updatedUserCart = userCart.map((cartItem: any) => {
+          if (cartItem.productId === item.productId) {
+            return {
+              ...cartItem,
+              productQuantity: newQuantity,
+            };
+          }
+          return cartItem;
+        });
+
+        axios
+          .patch(`http://localhost:7373/accounts/${getLoginData.loginId}`, {
+            cart: updatedUserCart,
+          })
+          .then((response) => {
+            setUserCart(updatedUserCart);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    }
+  };
 
   return (
     <>
@@ -416,92 +465,9 @@ function ClientCart() {
                                 min="1"
                                 className={styles["product-cart-quantity"]}
                                 value={item.productQuantity}
-                                onChange={(event) => {
-                                  const newQuantity = Number(
-                                    event.target.value
-                                  );
-                                  if (!isNaN(newQuantity) && newQuantity >= 0) {
-                                    const updatedUserCart = userCart.map(
-                                      (cartItem: any) => {
-                                        if (
-                                          cartItem.productId === item.productId
-                                        ) {
-                                          return {
-                                            ...cartItem,
-                                            productQuantity: newQuantity,
-                                          };
-                                        }
-                                        return cartItem;
-                                      }
-                                    );
-
-                                    // Tìm sản phẩm tương ứng trong danh sách products
-                                    const updatedProduct = products.find(
-                                      (product: any) =>
-                                        product.id === item.productId
-                                    );
-
-                                    if (updatedProduct) {
-                                      // Tính toán sự thay đổi của quantity_stock
-                                      const stockChange =
-                                        item.productQuantity - newQuantity;
-
-                                      // Kiểm tra xem newQuantity có vượt quá hàng tồn kho không
-                                      if (
-                                        updatedProduct.quantity_stock +
-                                          stockChange <
-                                        0
-                                      ) {
-                                        const maxAllowedQuantity =
-                                          item.productQuantity +
-                                          updatedProduct.quantity_stock;
-                                        notification.error({
-                                          message: `Số lượng vượt quá số lượng tồn kho. Số lượng tối đa cho phép là ${maxAllowedQuantity}`,
-                                        });
-                                        return; // Dừng việc cập nhật nếu vượt quá hàng tồn kho
-                                      }
-
-                                      // Cập nhật quantity_stock của sản phẩm tương ứng
-                                      const updatedStock =
-                                        updatedProduct.quantity_stock +
-                                        stockChange;
-                                      updatedProduct.quantity_stock =
-                                        updatedStock;
-
-                                      // Gửi HTTP request để cập nhật giỏ hàng trên REST API
-                                      axios
-                                        .patch(
-                                          `http://localhost:7373/accounts/${getLoginData.loginId}`,
-                                          {
-                                            cart: updatedUserCart,
-                                          }
-                                        )
-                                        .then((response) => {
-                                          // Cập nhật userCart sau khi nhận phản hồi từ REST API
-                                          setUserCart(updatedUserCart);
-                                        })
-                                        .catch((error) => {
-                                          console.log(error);
-                                        });
-
-                                      // Gửi HTTP request để cập nhật quantity_stock của sản phẩm trên REST API
-                                      axios
-                                        .patch(
-                                          `http://localhost:7373/products/${item.productId}`,
-                                          {
-                                            quantity_stock: updatedStock,
-                                          }
-                                        )
-                                        .then((response) => {
-                                          // Gọi lại API để lấy dữ liệu sản phẩm mới nhất
-                                          fetchProducts();
-                                        })
-                                        .catch((error) => {
-                                          console.log(error);
-                                        });
-                                    }
-                                  }
-                                }}
+                                onChange={(event) =>
+                                  handleQuantityInputChange(event, item)
+                                }
                               />
                             </td>
                             <td>{item.price}</td>
