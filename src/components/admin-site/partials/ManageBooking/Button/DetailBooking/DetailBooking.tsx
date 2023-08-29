@@ -21,7 +21,7 @@ const DetailBooking: React.FC<DetailModalProps> = ({
   getBookingId,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [status, setStatus] = useState("");
+  const [bookingStatus, setBookingStatus] = useState("");
   const [bookings, setBookings] = useState<any>(null);
 
   useEffect(() => {
@@ -44,12 +44,24 @@ const DetailBooking: React.FC<DetailModalProps> = ({
     setIsModalOpen(true);
   };
 
-  console.log("ASDADA", status);
-
   const handleOk = () => {
-    if (handleFunctionOk) {
-      handleFunctionOk();
-    }
+    console.log(getBookingId);
+    const updateBookingStatus = {
+      status: bookingStatus,
+    };
+    axios
+      .patch(
+        `http://localhost:7373/bookings/${getBookingId}`,
+        updateBookingStatus
+      )
+      .then((response) => {
+        setBookings(response.data);
+      });
+
+    setIsModalOpen(false);
+    // if (handleFunctionOk) {
+    //   handleFunctionOk();
+    // }
   };
 
   const handleCancel = () => {
@@ -105,7 +117,7 @@ const DetailBooking: React.FC<DetailModalProps> = ({
                 (bookings?.status === "Cancel" && true)
               }
               value={bookings?.status}
-              onChange={(event) => setStatus(event?.target.value)}
+              onChange={(event) => setBookingStatus(event?.target.value)}
             >
               <option value="" disabled>
                 -- Choose Status --

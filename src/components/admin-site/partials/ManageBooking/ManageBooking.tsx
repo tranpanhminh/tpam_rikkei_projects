@@ -91,11 +91,11 @@ function ManageBooking() {
     }
   };
 
-  const handleUpdateBooking = (bookingId: number) => {
-    let findUserBooking = booking.find((item: any) => {
-      return item.id === bookingId;
-    });
-  };
+  // const handleUpdateBooking = (bookingId: number) => {
+  //   let findUserBooking = booking.find((item: any) => {
+  //     return item.id === bookingId;
+  //   });
+  // };
 
   const changeColor = (status: string) => {
     switch (status) {
@@ -172,7 +172,7 @@ function ManageBooking() {
                       title="Detail Product"
                       className={styles["detail-product-btn"]}
                       getBookingId={item.id}
-                      handleFunctionOk={() => handleUpdateBooking(item.id)}
+                      // handleFunctionOk={() => handleUpdateBooking(item.id)}
                     ></DetailBooking>
                     <DeleteBooking
                       value="Delete"
