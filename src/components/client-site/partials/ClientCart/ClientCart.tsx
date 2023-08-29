@@ -13,9 +13,9 @@ function ClientCart() {
   const [user, setUser] = useState<any>([]);
   const [products, setProducts] = useState<any>(null);
   const [userCart, setUserCart] = useState<any>([]);
-  // const [initQuantity, setInitQuantity] = useState<any>(0);
+
   const [card, setCard] = useState<any>(null);
-  const [orderProducts, setOrderProducts] = useState<any>([]);
+
   const [cardName, setCardName] = useState("");
   const [cardNumber, setCardNumber] = useState("");
   const [phone, setPhone] = useState("");
@@ -26,6 +26,7 @@ function ClientCart() {
   const [newsletter, setNewsletter] = useState<any>(null);
   const [listOrders, setListOrders] = useState<any>(null);
 
+  // Get List Products
   const fetchProducts = () => {
     axios
       .get(`http://localhost:7373/products/`)
@@ -37,6 +38,7 @@ function ClientCart() {
       });
   };
 
+  // Get List Orders
   const fetchOrders = () => {
     axios
       .get(`http://localhost:7373/orders/`)
@@ -48,6 +50,7 @@ function ClientCart() {
       });
   };
 
+  // Get User Data
   const fetchUser = () => {
     axios
       .get(`http://localhost:7373/accounts/${getLoginData.loginId}`)
@@ -55,7 +58,6 @@ function ClientCart() {
         setUser(response.data);
         setUserCart(response.data.cart);
         setNewsletter(response.data.newsletter);
-        setOrderProducts(response.data.order_history);
       })
       .catch((error) => {
         console.log(error);
@@ -110,9 +112,6 @@ function ClientCart() {
   }
 
   let maxIdOrderDatabase = Number(Math.max(...listOrdersDatabase));
-  console.log("Max ID", maxIdOrderDatabase);
-
-  console.log("List Newsletter", newsletter);
 
   const handleTotalCart = () => {
     let sumTotalCart = sumCart.reduce(
@@ -131,18 +130,15 @@ function ClientCart() {
   };
 
   const handleDeleteProduct = (productId: number) => {
-    // Tìm vị trí của productId trong userCart
-    let findProductIndexInCart = userCart.findIndex((item: any) => {
-      return item.productId === productId;
+    let filterProduct = userCart.filter((item: any) => {
+      return item.productId !== productId;
     });
+    console.log(filterProduct);
 
-    if (findProductIndexInCart !== -1) {
-      let editCart = userCart.splice(findProductIndexInCart, 1);
-      setUserCart(editCart);
-    }
+    setUserCart(filterProduct);
 
     let updatedCart = {
-      cart: userCart,
+      cart: filterProduct,
     };
 
     axios
@@ -227,7 +223,7 @@ function ClientCart() {
       return;
     }
 
-    // Kiểm tra số dư trong Card
+    // // Kiểm tra số dư trong Card
     if (checkValidCard.balance < Number(handleTotalCart())) {
       notification.warning({
         message: "Card Balance is not enough",
@@ -249,6 +245,7 @@ function ClientCart() {
       order_history: [...user.order_history, newOrder],
       cart: [], // Clear the cart after creating the order
     };
+    console.log("SDADSSA", updatedUser);
 
     // Xử lý Post vào Orders
     let pushNewOrder = {
@@ -262,6 +259,8 @@ function ClientCart() {
       address: address,
       cart: userCart,
     };
+
+    // console.log("PushNewOrder", pushNewOrder);
     axios
       .post(`http://localhost:7373/orders/`, pushNewOrder)
       .then((response) => {
@@ -280,13 +279,14 @@ function ClientCart() {
         updatedUser
       )
       .then((response) => {
+        // setUserCart([]);
         fetchUser(); // Refresh user data after the update
       })
       .catch((error) => {
         console.log(error);
       });
 
-    //  Xử lý giảm Balance trong Cart
+    // //  Xử lý giảm Balance trong Cart
     const updatedBalance = {
       balance: checkValidCard.balance - handleTotalCart(),
     };
@@ -303,7 +303,7 @@ function ClientCart() {
         console.log(error);
       });
 
-    // Xử lý xóa Coupon Code đã sử dụng ra khỏi Newsletter
+    // // Xử lý xóa Coupon Code đã sử dụng ra khỏi Newsletter
     if (findCouponIndex !== -1) {
       newsletter.splice(findCouponIndex, 1);
 
@@ -324,6 +324,19 @@ function ClientCart() {
         });
     }
 
+    // Xử lý giảm hàng tồn kho cho từng sản phẩm trong userCart
+    products.forEach((product: any) => {
+      userCart.forEach((item: any) => {
+        if (product.id === item.productId) {
+          product.quantity_stock -= item.productQuantity;
+          axios.patch(`http://localhost:7373/products/${product.id}`, {
+            quantity_stock: product.quantity_stock,
+          });
+        }
+        return;
+      });
+    });
+
     notification.success({
       message: "Order Completed",
     });
@@ -338,9 +351,7 @@ function ClientCart() {
     setCouponCode("");
   };
 
-  console.log("User Cart", userCart);
   const handleQuantityInputChange = (event: any, item: any) => {
-    console.log("ITEM", item);
     const newQuantity = Number(event.target.value);
     if (!isNaN(newQuantity) && newQuantity >= 0) {
       const updatedUserCart = userCart.map((cartItem: any) => {
@@ -358,11 +369,11 @@ function ClientCart() {
       );
 
       if (updatedProduct) {
-        const stockChange = item.productQuantity - newQuantity;
+        const stockChange = newQuantity - item.productQuantity;
 
         if (updatedProduct.quantity_stock + stockChange < 0) {
           const maxAllowedQuantity =
-            item.productQuantity + updatedProduct.quantity_stock;
+            updatedProduct.quantity_stock + item.productQuantity;
           notification.error({
             message: `Số lượng vượt quá số lượng tồn kho. Số lượng tối đa cho phép là ${maxAllowedQuantity}`,
           });
@@ -378,17 +389,6 @@ function ClientCart() {
           })
           .then((response) => {
             setUserCart(updatedUserCart);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-
-        axios
-          .patch(`http://localhost:7373/products/${item.productId}`, {
-            quantity_stock: updatedStock,
-          })
-          .then((response) => {
-            fetchProducts();
           })
           .catch((error) => {
             console.log(error);

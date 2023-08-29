@@ -100,8 +100,6 @@ function ClientProductDetail() {
       return item.productId === products.id;
     });
 
-    // Nếu như sản phẩm tồn tại trong giỏ hàng thì cộng số lượng với quantity mà người dùng nhập vào
-
     // Nếu như sản phẩm không tồn tại trong giỏ hàng thì sẽ tạo ra 1 sản phẩm mới
     if (!findProduct) {
       let newProductAdd = {
@@ -112,10 +110,14 @@ function ClientProductDetail() {
         price: products.price,
       };
 
-      let updatedUserCart = [...userCart, newProductAdd];
+      console.log("1", userCart);
+      userCart.push(newProductAdd);
+      console.log("2", userCart);
+
       let updatedCart = {
-        cart: updatedUserCart,
+        cart: userCart,
       };
+      console.log(updatedCart);
 
       axios
         .patch(
@@ -123,9 +125,10 @@ function ClientProductDetail() {
           updatedCart
         )
         .then((response) => {
+          fetchUsers();
           setUserCart(response.data.cart);
           notification.success({
-            message: "New Product Added To Cart",
+            message: "Product Added To Cart",
           });
         })
         .catch((error) => {
@@ -136,10 +139,14 @@ function ClientProductDetail() {
         return item.productId === findProduct.productId;
       });
 
+      // Cập nhật số lượng sản phẩm trong bản sao của mảng userCart
       userCart[findCartIndex].productQuantity += quantity;
+      console.log("ADSAD", userCart);
+
       let updatedCart = {
-        cart: userCart,
+        cart: [...userCart],
       };
+      console.log(updatedCart);
 
       axios
         .patch(
@@ -148,6 +155,7 @@ function ClientProductDetail() {
         )
         .then((response) => {
           fetchUsers();
+          setUserCart(response.data.cart);
           notification.success({
             message: `${quantity} Product Added`,
           });
