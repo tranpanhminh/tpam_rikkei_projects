@@ -97,7 +97,14 @@ const DetailBooking: React.FC<DetailModalProps> = ({
           </div>
           <div className={styles["manage-booking-input-item"]}>
             <p>Status</p>
-            <select name="" id="">
+            <select
+              name=""
+              id=""
+              disabled={
+                bookings?.status === "Done" ||
+                (bookings?.status === "Cancel" && true)
+              }
+            >
               <option value="">-- Choose Status --</option>
               <option
                 value="Done"
