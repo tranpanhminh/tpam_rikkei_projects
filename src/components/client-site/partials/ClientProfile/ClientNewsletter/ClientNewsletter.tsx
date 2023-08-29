@@ -69,8 +69,8 @@ function ClientNewsLetter() {
         notification.success({
           message: `${
             user.newsletter_register === true
-              ? "Subscribed Newsletter Successfully"
-              : "Unsubscribed Newsletter Successfully"
+              ? "Unsubscribed Newsletter Successfully"
+              : "Subscribed Newsletter Successfully"
           }`,
         });
       })
@@ -158,8 +158,8 @@ function ClientNewsLetter() {
           onClick={() => handleChangeSubscribe(getLoginData.loginId)}
         >
           {user.newsletter_register === true
-            ? "Subscribed Newsletter"
-            : "Unsubscribed Newsletter"}
+            ? "Unsubscribed Newsletter"
+            : "Subscribed Newsletter"}
         </Button>
       </div>
       <div className={styles["main-content"]}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { parse } from "date-fns";
 import styles from "../../AdminPage.module.css";
 import { Coupon } from "../../../../database"; // Import your data fetching and setting functions
@@ -99,63 +99,63 @@ function ManageNewsletter() {
       });
   };
 
-  const handleSendCoupon = (couponId: number) => {
-    if (sentCoupons.includes(couponId)) {
-      return; // Đã gửi coupon với couponId này rồi, không thực hiện gì thêm
-    }
+  const handleSendCoupon = useCallback(
+    (couponId: number) => {
+      if (sentCoupons.includes(couponId)) {
+        return;
+      }
 
-    // Thêm couponId vào danh sách các coupon đã gửi
-    setSentCoupons([...sentCoupons, couponId]);
+      setSentCoupons([...sentCoupons, couponId]);
 
-    if (clickedCoupons.includes(couponId)) {
-      return; // Đã click nút Send cho couponId này rồi, không thực hiện gì thêm
-    }
+      if (clickedCoupons.includes(couponId)) {
+        return;
+      }
 
-    // Thêm couponId vào danh sách các coupon đã click
-    setClickedCoupons([...clickedCoupons, couponId]);
+      setClickedCoupons([...clickedCoupons, couponId]);
 
-    // Tìm coupon theo couponId
-    let findCoupon = coupons?.find((coupon) => {
-      return coupon.id === couponId;
-    });
+      let findCoupon = coupons?.find((coupon) => {
+        return coupon.id === couponId;
+      });
 
-    // Lọc lấy ra những User có newsletter_register là true
-    let filterUserRegister = users.filter((user: any) => {
-      return user.newsletter_register === true;
-    });
+      let filterUserRegister = users.filter((user: any) => {
+        return user.newsletter_register === true;
+      });
 
-    // Lặp qua từng User để xử lý và cập nhật newsletter
-    filterUserRegister.forEach((user: any) => {
-      // Tìm ID lớn nhất trong Newsletter của từng User
-      let maxNewsletterId = Math.max(
-        ...user.newsletter.map((item: any) => item.id),
-        0
-      );
+      filterUserRegister.forEach((user: any) => {
+        let maxNewsletterId = Math.max(
+          ...user.newsletter.map((item: any) => item.id),
+          0
+        );
 
-      // Tạo một object mới để đưa vào newsletter của User
-      const newCoupon = {
-        id: maxNewsletterId + 1,
-        couponName: findCoupon?.name,
-        couponCode: findCoupon?.code,
-        discount: findCoupon?.discount,
-      };
+        const newCoupon = {
+          id: maxNewsletterId + 1,
+          couponName: findCoupon?.name,
+          couponCode: findCoupon?.code,
+          discount: findCoupon?.discount,
+        };
 
-      // Gửi request PATCH để cập nhật newsletter của User
-      axios
-        .patch(`http://localhost:7373/accounts/${user.id}`, {
-          newsletter: [...user.newsletter, newCoupon],
-        })
-        .then((response) => {
-          fetchUsers();
-          notification.success({
-            message: `Coupon sent successfully`,
+        axios
+          .patch(`http://localhost:7373/accounts/${user.id}`, {
+            newsletter: [...user.newsletter, newCoupon],
+          })
+          .then((response) => {
+            fetchUsers();
+          })
+          .catch((error) => {
+            console.log(error);
           });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    });
-  };
+      });
+      notification.success({
+        message: `Coupon sent successfully`,
+      });
+    },
+    [sentCoupons, clickedCoupons, coupons, users]
+  );
+
+  useEffect(() => {
+    fetchCoupons();
+    fetchUsers();
+  }, []);
 
   return (
     <>
