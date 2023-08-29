@@ -95,9 +95,6 @@ function ManageBooking() {
     let findUserBooking = booking.find((item: any) => {
       return item.id === bookingId;
     });
-
-    
-    console.log("ABC", findUserBooking);
   };
 
   const changeColor = (status: string) => {

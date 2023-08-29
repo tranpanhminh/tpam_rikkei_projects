@@ -21,7 +21,7 @@ const DetailBooking: React.FC<DetailModalProps> = ({
   getBookingId,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [status, setStatus] = useState("");
   const [bookings, setBookings] = useState<any>(null);
 
   useEffect(() => {
@@ -44,9 +44,9 @@ const DetailBooking: React.FC<DetailModalProps> = ({
     setIsModalOpen(true);
   };
 
-  const handleOk = () => {
-    console.log("handleSubmit is called");
+  console.log("ASDADA", status);
 
+  const handleOk = () => {
     if (handleFunctionOk) {
       handleFunctionOk();
     }
@@ -104,8 +104,12 @@ const DetailBooking: React.FC<DetailModalProps> = ({
                 bookings?.status === "Done" ||
                 (bookings?.status === "Cancel" && true)
               }
+              value={bookings?.status}
+              onChange={(event) => setStatus(event?.target.value)}
             >
-              <option value="">-- Choose Status --</option>
+              <option value="" disabled>
+                -- Choose Status --
+              </option>
               <option
                 value="Done"
                 selected={bookings?.status === "Done" ? true : false}
