@@ -21,8 +21,8 @@ const DetailBooking: React.FC<DetailModalProps> = ({
   getBookingId,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [bookingStatus, setBookingStatus] = useState("");
   const [bookings, setBookings] = useState<any>(null);
+  const [bookingStatus, setBookingStatus] = useState("");
 
   useEffect(() => {
     const fetchProduct = () => {
@@ -30,6 +30,7 @@ const DetailBooking: React.FC<DetailModalProps> = ({
         .get(`http://localhost:7373/bookings/${getBookingId}`)
         .then((response) => {
           setBookings(response.data);
+          setBookingStatus(response.data.status);
         })
         .catch((error) => {
           console.log(error.message);
@@ -116,7 +117,7 @@ const DetailBooking: React.FC<DetailModalProps> = ({
                 bookings?.status === "Done" ||
                 (bookings?.status === "Cancel" && true)
               }
-              value={bookings?.status}
+              value={bookingStatus}
               onChange={(event) => setBookingStatus(event?.target.value)}
             >
               <option value="" disabled>
