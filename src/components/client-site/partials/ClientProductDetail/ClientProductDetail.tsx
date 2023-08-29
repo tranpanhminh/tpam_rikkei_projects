@@ -56,12 +56,18 @@ function ClientProductDetail() {
     fetchUsers();
   }, []);
 
+  console.log("User", user);
+  console.log("User Cart", userCart);
   const handleAddToCart = () => {
+    // Kiểm tra User có phải là Admin
     if (getLoginData.role === "admin") {
       notification.warning({
-        message: "Admin is not allowed to buy product",
+        message: "Admin is not allowed to buy products",
       });
-    } else if (
+    }
+
+    // Kiểm tra User có phải là Customer và tài khoản bị Inactive
+    if (
       getLoginData.role === "customer" &&
       getLoginData.status === "Inactive"
     ) {
@@ -69,101 +75,86 @@ function ClientProductDetail() {
         message:
           "Your account status is Inactive, please wait for admin's verification",
       });
-    } else {
-      if (products?.quantity_stock <= 0) {
-        notification.warning({
-          message: "Product is out of stock",
+      return;
+    }
+
+    // Kiểm tra số lượng hàng tồn kho
+    if (products && products.quantity_stock <= 0) {
+      notification.warning({
+        message: "Product is out of stock",
+      });
+      return;
+    }
+
+    // Kiểm tra số lượng mà User nhập vào có lớn hơn hàng tồn kho không
+    if (quantity > products.quantity_stock) {
+      notification.warning({
+        message: "Input quantity exceeds stock",
+      });
+      return;
+    }
+
+    // Nếu số lượng nhập vào dưới hàng tồn kho sẽ tiếp tục các logic bên dưới
+    // Kiểm tra xem sản phẩm có tồn tại trong giỏ hàng hay không
+    let findProduct = userCart.find((item: any) => {
+      return item.productId === products.id;
+    });
+
+    // Nếu như sản phẩm tồn tại trong giỏ hàng thì cộng số lượng với quantity mà người dùng nhập vào
+
+    // Nếu như sản phẩm không tồn tại trong giỏ hàng thì sẽ tạo ra 1 sản phẩm mới
+    if (!findProduct) {
+      let newProductAdd = {
+        productId: products.id,
+        productImage: products.productImage[0],
+        productName: products.name,
+        productQuantity: quantity,
+        price: products.price,
+      };
+
+      let updatedUserCart = [...userCart, newProductAdd];
+      let updatedCart = {
+        cart: updatedUserCart,
+      };
+
+      axios
+        .patch(
+          `http://localhost:7373/accounts/${getLoginData.loginId}`,
+          updatedCart
+        )
+        .then((response) => {
+          setUserCart(response.data.cart);
+          notification.success({
+            message: "New Product Added To Cart",
+          });
+        })
+        .catch((error) => {
+          console.log(error.message);
         });
-        return;
-      } else {
-        if (quantity > products.quantity_stock) {
-          notification.warning({
-            message: "Quantity exceed Stock",
+    } else {
+      let findCartIndex = userCart.findIndex((item: any) => {
+        return item.productId === findProduct.productId;
+      });
+
+      userCart[findCartIndex].productQuantity += quantity;
+      let updatedCart = {
+        cart: userCart,
+      };
+
+      axios
+        .patch(
+          `http://localhost:7373/accounts/${getLoginData.loginId}`,
+          updatedCart
+        )
+        .then((response) => {
+          fetchUsers();
+          notification.success({
+            message: `${quantity} Product Added`,
           });
-        } else {
-          let findProduct = userCart.find((item: any) => {
-            return item.productId === products.id;
-          });
-          console.log("FindProduct", findProduct);
-
-          if (findProduct) {
-            let findCart = userCart.findIndex((item: any) => {
-              return item.productId === findProduct.productId;
-            });
-            userCart[findCart].productQuantity += quantity;
-            let updatedCart = {
-              cart: userCart,
-            };
-            // products.quantity_stock -= quantity;
-            // let updatedStock = {
-            //   quantity_stock: products.quantity_stock,
-            // };
-
-            // Cập nhật productQuantity trong giỏ hàng của người dùng trực tiếp trong cơ sở dữ liệu
-
-            // Gửi request PATCH để cập nhật productQuantity
-            // axios
-            //   .patch(
-            //     `http://localhost:7373/products/${productId}`,
-            //     updatedStock
-            //   )
-            //   .then((response) => {
-            //     // Cập nhật userCart trong state hoặc gửi request fetch lại giỏ hàng
-            //     fetchProducts();
-            //   })
-            //   .catch((error) => {
-            //     console.log(error);
-            //   });
-
-            axios
-              .patch(
-                `http://localhost:7373/accounts/${getLoginData.loginId}`,
-                updatedCart
-              )
-              .then((response) => {
-                console.log("User", user);
-                // Cập nhật userCart trong state hoặc gửi request fetch lại giỏ hàng
-                fetchUsers();
-                notification.success({
-                  message: `${quantity} Product Added`,
-                });
-              })
-              .catch((error) => {
-                console.log(error);
-              });
-          } else {
-            let newProductAdd = {
-              productId: products.id,
-              productImage: products.productImage[0],
-              productName: products.name,
-              productQuantity: quantity,
-              price: products.price,
-            };
-            userCart.push(newProductAdd);
-            let updatedCart = {
-              cart: userCart,
-            };
-            axios
-              .patch(
-                `http://localhost:7373/accounts/${getLoginData.loginId}/`,
-                updatedCart
-              )
-              .then(() => {
-                fetchProducts();
-                fetchUsers();
-                notification.success({
-                  message: "New Product Added To Cart",
-                });
-              })
-              .catch((error) => {
-                console.log(error.message);
-              });
-          }
-          // notification.success({
-          //   message: "Product Added",
-          // });
-        }
-      }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
 
@@ -225,7 +216,6 @@ function ClientProductDetail() {
                     <input
                       type="number"
                       min={1}
-                      defaultValue={1}
                       value={Number(quantity)}
                       onChange={(event) =>
                         setQuantity(Number(event.target.value))

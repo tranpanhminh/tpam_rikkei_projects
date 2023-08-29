@@ -131,57 +131,38 @@ function ClientCart() {
   };
 
   const handleDeleteProduct = (productId: number) => {
-    let findProductIndexIncart = userCart.findIndex((item: any) => {
+    // Tìm vị trí của productId trong userCart
+    let findProductIndexInCart = userCart.findIndex((item: any) => {
       return item.productId === productId;
     });
 
-    let findProductIndex = products.findIndex((item: any) => {
-      return item.id === productId;
-    });
+    if (findProductIndexInCart !== -1) {
+      let editCart = userCart.splice(findProductIndexInCart, 1);
+      setUserCart(editCart);
+    }
 
-    products[findProductIndex].quantity_stock += Number(
-      userCart[findProductIndexIncart].productQuantity
-    );
-
-    userCart.splice(findProductIndexIncart, 1);
-    const updatedCart = {
+    let updatedCart = {
       cart: userCart,
     };
-    // const updatedProducts = {
-    //   quantity_stock: products[findProductIndex].quantity_stock,
-    // };
 
     axios
       .patch(
         `http://localhost:7373/accounts/${getLoginData.loginId}`,
         updatedCart
       )
-      .then((response) => {
+      .then(() => {
         notification.success({
           message: "Product Deleted",
         });
+        fetchOrders();
         fetchUser();
         fetchProducts();
-        setUserCart(response.data.cart);
       })
       .catch((error) => {
         console.log(error);
       });
-    // axios
-    //   .patch(`http://localhost:7373/products/${productId}`, updatedProducts)
-    //   .then((response) => {
-    //     notification.success({
-    //       message: "Product Deleted",
-    //     });
-    //     fetchUser();
-    //     fetchProducts();
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
   };
 
-  console.log("USER CART", user.cart);
   const handleCheckout = () => {
     // Kiểm tra Phone & Address
     const phoneNumberPattern = /^1\d{10}$/;
@@ -260,7 +241,7 @@ function ClientCart() {
       status: "Pending",
       phone: phone,
       address: address,
-      orderProduct: user.cart,
+      orderProduct: userCart,
     };
 
     const updatedUser = {
@@ -279,7 +260,7 @@ function ClientCart() {
       date: format(new Date(), "dd/MM/yyyy HH:mm:ss"),
       status: "Pending",
       address: address,
-      cart: user.cart,
+      cart: userCart,
     };
     axios
       .post(`http://localhost:7373/orders/`, pushNewOrder)
@@ -292,28 +273,6 @@ function ClientCart() {
       });
 
     // user.cart = [];
-
-    // Xử lý giảm số lượng sản phẩm tồn kho
-    user.cart.forEach((cartItem: any) => {
-      const product = products.find(
-        (product: any) => product.id === cartItem.productId
-      );
-
-      if (product) {
-        const updatedStock = product.quantity_stock - cartItem.productQuantity;
-
-        axios
-          .patch(`http://localhost:7373/products/${product.id}`, {
-            quantity_stock: updatedStock,
-          })
-          .then((response) => {
-            fetchProducts();
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }
-    });
 
     axios
       .patch(
@@ -379,31 +338,39 @@ function ClientCart() {
     setCouponCode("");
   };
 
+  console.log("User Cart", userCart);
   const handleQuantityInputChange = (event: any, item: any) => {
+    console.log("ITEM", item);
     const newQuantity = Number(event.target.value);
     if (!isNaN(newQuantity) && newQuantity >= 0) {
+      const updatedUserCart = userCart.map((cartItem: any) => {
+        if (cartItem.productId === item.productId) {
+          return {
+            ...cartItem,
+            productQuantity: newQuantity,
+          };
+        }
+        return cartItem;
+      });
+
       const updatedProduct = products.find(
         (product: any) => product.id === item.productId
       );
 
       if (updatedProduct) {
-        if (newQuantity > updatedProduct.quantity_stock) {
+        const stockChange = item.productQuantity - newQuantity;
+
+        if (updatedProduct.quantity_stock + stockChange < 0) {
+          const maxAllowedQuantity =
+            item.productQuantity + updatedProduct.quantity_stock;
           notification.error({
-            message: `Số lượng vượt quá số lượng tồn kho. Số lượng tối đa cho phép là ${updatedProduct.quantity_stock}`,
+            message: `Số lượng vượt quá số lượng tồn kho. Số lượng tối đa cho phép là ${maxAllowedQuantity}`,
           });
           return;
         }
 
-        // const stockChange = item.productQuantity - newQuantity;
-        const updatedUserCart = userCart.map((cartItem: any) => {
-          if (cartItem.productId === item.productId) {
-            return {
-              ...cartItem,
-              productQuantity: newQuantity,
-            };
-          }
-          return cartItem;
-        });
+        const updatedStock = updatedProduct.quantity_stock + stockChange;
+        updatedProduct.quantity_stock = updatedStock;
 
         axios
           .patch(`http://localhost:7373/accounts/${getLoginData.loginId}`, {
@@ -411,6 +378,17 @@ function ClientCart() {
           })
           .then((response) => {
             setUserCart(updatedUserCart);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+
+        axios
+          .patch(`http://localhost:7373/products/${item.productId}`, {
+            quantity_stock: updatedStock,
+          })
+          .then((response) => {
+            fetchProducts();
           })
           .catch((error) => {
             console.log(error);
