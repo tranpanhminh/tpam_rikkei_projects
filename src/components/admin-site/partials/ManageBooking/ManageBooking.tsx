@@ -11,7 +11,6 @@ import { Badge } from "react-bootstrap";
 
 function ManageBooking() {
   const [searchText, setSearchText] = useState<string>("");
-
   const [booking, setBooking] = useState<any>([]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -92,6 +91,15 @@ function ManageBooking() {
     }
   };
 
+  const handleUpdateBooking = (bookingId: number) => {
+    let findUserBooking = booking.find((item: any) => {
+      return item.id === bookingId;
+    });
+
+    
+    console.log("ABC", findUserBooking);
+  };
+
   const changeColor = (status: string) => {
     switch (status) {
       case "Done":
@@ -167,6 +175,7 @@ function ManageBooking() {
                       title="Detail Product"
                       className={styles["detail-product-btn"]}
                       getBookingId={item.id}
+                      handleFunctionOk={() => handleUpdateBooking(item.id)}
                     ></DetailBooking>
                     <DeleteBooking
                       value="Delete"
