@@ -7,6 +7,7 @@ import axios from "axios";
 import DeleteBooking from "../ManageBooking/Button/DeleteBooking/DeleteBooking";
 import DetailBooking from "../ManageBooking/Button/DetailBooking/DetailBooking";
 import { notification } from "antd";
+import { Badge } from "react-bootstrap";
 
 function ManageBooking() {
   const [searchText, setSearchText] = useState<string>("");
@@ -91,6 +92,19 @@ function ManageBooking() {
     }
   };
 
+  const changeColor = (status: string) => {
+    switch (status) {
+      case "Done":
+        return "success";
+      case "Processing":
+        return "primary";
+      case "Cancel":
+        return "secondary";
+      default:
+        return;
+    }
+  };
+
   return (
     <>
       <div className={styles["breadcrumb"]}>
@@ -144,7 +158,9 @@ function ManageBooking() {
                   <td>{item.name}</td>
                   <td>{item.phone}</td>
                   <td>{item.date}</td>
-                  <td>{item.status}</td>
+                  <td>
+                    <Badge bg={changeColor(item.status)}>{item.status}</Badge>
+                  </td>
                   <td className={styles["group-btn-admin"]}>
                     <DetailBooking
                       value="Detail"
