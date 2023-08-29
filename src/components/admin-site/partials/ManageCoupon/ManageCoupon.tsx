@@ -140,13 +140,13 @@ function ManageNewsletter() {
           })
           .then((response) => {
             fetchUsers();
+            notification.success({
+              message: `Coupon sent successfully`,
+            });
           })
           .catch((error) => {
             console.log(error);
           });
-      });
-      notification.success({
-        message: `Coupon sent successfully`,
       });
     },
     [sentCoupons, clickedCoupons, coupons, users]
