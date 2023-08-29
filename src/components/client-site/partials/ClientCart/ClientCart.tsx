@@ -288,7 +288,6 @@ function ClientCart() {
       });
 
     // user.cart = [];
-    
 
     axios
       .patch(
@@ -354,22 +353,22 @@ function ClientCart() {
     setCouponCode("");
   };
 
-  const handleQuantityChange = (newQuantity: number, item: any) => {
-    if (!isNaN(newQuantity) && newQuantity >= 0) {
-      const updatedUserCart = userCart.map((cartItem: any) => {
-        if (cartItem.productId === item.productId) {
-          return {
-            ...cartItem,
-            productQuantity: newQuantity,
-          };
-        }
-        return cartItem;
-      });
+  // const handleQuantityChange = (newQuantity: number, item: any) => {
+  //   if (!isNaN(newQuantity) && newQuantity >= 0) {
+  //     const updatedUserCart = userCart.map((cartItem: any) => {
+  //       if (cartItem.productId === item.productId) {
+  //         return {
+  //           ...cartItem,
+  //           productQuantity: newQuantity,
+  //         };
+  //       }
+  //       return cartItem;
+  //     });
 
-      return updatedUserCart;
-    }
-    return null;
-  };
+  //     return updatedUserCart;
+  //   }
+  //   return null;
+  // };
 
   return (
     <>
