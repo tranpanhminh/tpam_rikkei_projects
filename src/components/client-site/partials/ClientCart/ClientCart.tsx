@@ -259,12 +259,6 @@ function ClientCart() {
       orderProduct: user.cart,
     };
 
-    const updatedUser = {
-      ...user,
-      order_history: [...user.order_history, newOrder],
-      cart: [], // Clear the cart after creating the order
-    };
-
     // Xử lý Post vào Orders
     let pushNewOrder = {
       // id: listOrdersDatabase.length > 0 ? maxIdOrderDatabase + 1 : 1,
@@ -281,12 +275,18 @@ function ClientCart() {
       .post(`http://localhost:7373/orders/`, pushNewOrder)
       .then((response) => {
         console.log(response);
+        fetchOrders();
       })
       .catch((error) => {
         console.log(error);
       });
 
     user.cart = [];
+    const updatedUser = {
+      ...user,
+      order_history: [...user.order_history, newOrder],
+      cart: user.cart, // Clear the cart after creating the order
+    };
 
     axios
       .patch(
