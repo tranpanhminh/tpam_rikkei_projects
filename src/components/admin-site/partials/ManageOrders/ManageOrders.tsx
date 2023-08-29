@@ -57,19 +57,19 @@ function ManageOrders() {
     }
   };
 
-  const handleDeleteOrder = (orderId: number) => {
-    axios
-      .delete(`http://localhost:7373/orders/${orderId}`)
-      .then(() => {
-        fetchOrders(); // Cập nhật lại dữ liệu products sau khi xóa
-        notification.success({
-          message: "Order Deleted",
-        });
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  };
+  // const handleDeleteOrder = (orderId: number) => {
+  //   axios
+  //     .delete(`http://localhost:7373/orders/${orderId}`)
+  //     .then(() => {
+  //       fetchOrders(); // Cập nhật lại dữ liệu products sau khi xóa
+  //       notification.success({
+  //         message: "Order Deleted",
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.message);
+  //     });
+  // };
 
   const handleSumOrder = (orderId: number) => {
     if (orders) {
@@ -169,17 +169,24 @@ function ManageOrders() {
                         {order.status}
                       </Badge>
                     </td>
-                    <td>${handleSumOrder(order.id).toLocaleString()}</td>
+                    <td>${handleSumOrder(order.id)}</td>
                     <td className={styles["group-btn-admin"]}>
                       <DetailOrder
                         value="Detail"
                         getOrderId={order.id}
                       ></DetailOrder>
-                      <DeleteOrder
+                      {/* <Button
+                        type="primary"
+                        className={styles["delete-order-btn"]}
+                        onClick={() => handleDeleteOrder(order.id)}
+                      >
+                        Delete
+                      </Button> */}
+                      {/* <DeleteOrder
                         value="Delete"
                         className={styles["delete-order-btn"]}
                         handleFunctionBtn={() => handleDeleteOrder(order.id)}
-                      ></DeleteOrder>
+                      ></DeleteOrder> */}
                     </td>
                   </tr>
                 );
