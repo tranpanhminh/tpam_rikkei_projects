@@ -59,7 +59,6 @@ function ClientProductDetail() {
   console.log("User Cart", userCart);
   console.log("Mã sản phẩm", productId);
 
-
   const handleAddToCart = () => {
     if (getLoginData.role === "admin") {
       notification.warning({
