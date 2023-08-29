@@ -351,24 +351,16 @@ function ClientCart() {
     setCouponCode("");
   };
 
-  const handleQuantityInputChange = (event: any, item: any) => {
+  const handleQuantityInputChange = async (event: any, item: any) => {
     const newQuantity = Number(event.target.value);
+
     if (!isNaN(newQuantity) && newQuantity >= 0) {
-      const updatedUserCart = userCart.map((cartItem: any) => {
-        if (cartItem.productId === item.productId) {
-          return {
-            ...cartItem,
-            productQuantity: newQuantity,
-          };
-        }
-        return cartItem;
-      });
+      try {
+        const response = await axios.get(
+          `http://localhost:7373/products/${item.productId}`
+        );
+        const updatedProduct = response.data;
 
-      const updatedProduct = products.find(
-        (product: any) => product.id === item.productId
-      );
-
-      if (updatedProduct) {
         const stockChange = newQuantity - item.productQuantity;
 
         if (updatedProduct.quantity_stock + stockChange < 0) {
@@ -383,16 +375,27 @@ function ClientCart() {
         const updatedStock = updatedProduct.quantity_stock + stockChange;
         updatedProduct.quantity_stock = updatedStock;
 
-        axios
-          .patch(`http://localhost:7373/accounts/${getLoginData.loginId}`, {
-            cart: updatedUserCart,
-          })
-          .then((response) => {
-            setUserCart(updatedUserCart);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        axios.patch(`http://localhost:7373/products/${item.productId}`, {
+          quantity_stock: updatedStock,
+        });
+
+        const updatedUserCart = userCart.map((cartItem: any) => {
+          if (cartItem.productId === item.productId) {
+            return {
+              ...cartItem,
+              productQuantity: newQuantity,
+            };
+          }
+          return cartItem;
+        });
+
+        axios.patch(`http://localhost:7373/accounts/${getLoginData.loginId}`, {
+          cart: updatedUserCart,
+        });
+
+        setUserCart(updatedUserCart);
+      } catch (error) {
+        console.log(error);
       }
     }
   };
