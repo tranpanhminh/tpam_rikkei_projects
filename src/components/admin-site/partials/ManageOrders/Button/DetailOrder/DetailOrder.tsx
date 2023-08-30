@@ -90,40 +90,17 @@ const DetailOrders: React.FC<DetailModalProps> = ({
         console.log(error);
       });
 
-    // const updatedOrderHistory = user.order_history.map((order: any) => {
-    //   if (order.orderId === getOrderId) {
-    //     return { ...order, status: shippingStatus };
-    //   }
-    //   return order;
-    // });
-
-    // // Cập nhật trạng thái đơn hàng trong cơ sở dữ liệu của người dùng
-    // axios.patch(`http://localhost:7373/accounts/${userId}`, {
-    //   order_history: updatedOrderHistory,
-    // });
-
-    let findOrder = user.order_history.find((item: any) => {
-      return item.orderId === getOrderId;
-    });
-    let findOrderIndex = user.order_history.findIndex((item: any) => {
-      return item.orderId === getOrderId;
+    // Cập nhật trạng thái đơn hàng trong cơ sở dữ liệu của người dùng
+    const updatedOrderHistory = user.order_history.map((order: any) => {
+      if (order.orderId === getOrderId) {
+        return { ...order, status: shippingStatus };
+      }
+      return order;
     });
 
-    findOrder.status = shippingStatus;
-
-    user.order_history.splice(findOrderIndex, 1, findOrder);
-
-    console.log("New Order Database", user.order_history);
-
-    const updateOrderDatabase = {
-      order_history: user.order_history,
-    };
-    console.log("updateOrderDatabase", updateOrderDatabase);
-
-    axios.patch(
-      `http://localhost:7373/accounts/${userId}`,
-      updateOrderDatabase
-    );
+    axios.patch(`http://localhost:7373/accounts/${userId}`, {
+      order_history: updatedOrderHistory,
+    });
 
     notification.success({
       message: "Shipping Status Updated Successfully",

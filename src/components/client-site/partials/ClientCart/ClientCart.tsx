@@ -247,7 +247,6 @@ function ClientCart() {
       order_history: [...user.order_history, newOrder],
       cart: [], // Clear the cart after creating the order
     };
-    console.log("SDADSSA", updatedUser);
 
     // Xử lý Post vào Orders
     let pushNewOrder = {
