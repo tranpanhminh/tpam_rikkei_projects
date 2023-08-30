@@ -238,6 +238,7 @@ function ClientCart() {
       phone: phone,
       address: address,
       orderProduct: userCart,
+      discount: couponCode ? couponCode : 0,
     };
 
     const updatedUser = {
@@ -363,7 +364,9 @@ function ClientCart() {
         console.log(updatedProduct, "updatePtoduct");
 
         if (newQuantity > updatedProduct.quantity_stock) {
-          alert(`Không được nhập quá ${updatedProduct.quantity_stock}`);
+          notification.warning({
+            message: `Quantity must not be exceeds ${updatedProduct.quantity_stock} `,
+          });
         } else {
           item.productQuantity = newQuantity;
         }
