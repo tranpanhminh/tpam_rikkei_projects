@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Modal } from "antd";
+import { Button, Modal, notification } from "antd";
 import axios from "axios";
 import { Order } from "../../../../../../database";
 import styles from "../../../../AdminPage.module.css";
@@ -22,8 +22,11 @@ const DetailOrders: React.FC<DetailModalProps> = ({
   getOrderId,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [shippingStatus, setShippingStatus] = useState("");
   const [orders, setOrders] = useState<any>(null);
   const [orderCart, setOrderCart] = useState<any>(null);
+  const [userId, setUserId] = useState<any>();
+  const [user, setUser] = useState<any>();
 
   useEffect(() => {
     const fetchOrders = () => {
@@ -32,6 +35,9 @@ const DetailOrders: React.FC<DetailModalProps> = ({
         .then((response) => {
           setOrders(response.data);
           setOrderCart(response.data.cart);
+          setUserId(response.data.user_id);
+
+          fetchUser();
         })
         .catch((error) => {
           console.log(error.message);
@@ -41,19 +47,91 @@ const DetailOrders: React.FC<DetailModalProps> = ({
     fetchOrders();
   }, [getOrderId]);
 
+  const fetchUser = () => {
+    axios
+      .get(`http://localhost:7373/accounts/${userId}`)
+      .then((response) => {
+        setUser(response.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+  useEffect(() => {
+    if (userId) {
+      fetchUser();
+    }
+  }, [userId]);
+
   const showModal = () => {
     setIsModalOpen(true);
   };
 
+  console.log("orders", orders);
+  console.log("userId", userId);
+  console.log("user", user);
   const handleOk = () => {
-    console.log("handleSubmit is called");
-
-    if (handleFunctionOk) {
-      handleFunctionOk();
+    if (shippingStatus === "") {
+      setIsModalOpen(false);
+      return;
     }
+
+    axios
+      .patch(`http://localhost:7373/orders/${getOrderId}`, {
+        status: shippingStatus,
+      })
+      .then((response) => {
+        // Cập nhật lại trạng thái trong dữ liệu order cụ thể
+        const updatedOrder = { ...orders, status: shippingStatus };
+        setOrders(updatedOrder);
+        handleFunctionOk(shippingStatus, getOrderId);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    // const updatedOrderHistory = user.order_history.map((order: any) => {
+    //   if (order.orderId === getOrderId) {
+    //     return { ...order, status: shippingStatus };
+    //   }
+    //   return order;
+    // });
+
+    // // Cập nhật trạng thái đơn hàng trong cơ sở dữ liệu của người dùng
+    // axios.patch(`http://localhost:7373/accounts/${userId}`, {
+    //   order_history: updatedOrderHistory,
+    // });
+
+    let findOrder = user.order_history.find((item: any) => {
+      return item.orderId === getOrderId;
+    });
+    let findOrderIndex = user.order_history.findIndex((item: any) => {
+      return item.orderId === getOrderId;
+    });
+
+    findOrder.status = shippingStatus;
+
+    user.order_history.splice(findOrderIndex, 1, findOrder);
+
+    console.log("New Order Database", user.order_history);
+
+    const updateOrderDatabase = {
+      order_history: user.order_history,
+    };
+    console.log("updateOrderDatabase", updateOrderDatabase);
+
+    axios.patch(
+      `http://localhost:7373/accounts/${userId}`,
+      updateOrderDatabase
+    );
+
+    notification.success({
+      message: "Shipping Status Updated Successfully",
+    });
+    setShippingStatus("");
+    setIsModalOpen(false);
   };
 
-  console.log("Order", orderCart);
   const handleCancel = () => {
     setIsModalOpen(false);
   };
@@ -71,6 +149,8 @@ const DetailOrders: React.FC<DetailModalProps> = ({
     }
     return 0;
   };
+
+  console.log("shippingStatus", shippingStatus);
 
   return (
     <>
@@ -110,7 +190,13 @@ const DetailOrders: React.FC<DetailModalProps> = ({
             <select
               name=""
               id=""
-              disabled={orders?.status === "Cancel" ? true : false}
+              disabled={
+                orders?.status === "Cancel" || orders?.status === "Shipped"
+                  ? true
+                  : false
+              }
+              // value={shippingStatus}
+              onChange={(event) => setShippingStatus(event.target.value)}
             >
               <option
                 value="Shipped"

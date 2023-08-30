@@ -102,6 +102,26 @@ function ManageOrders() {
     }
   };
 
+  const handleUpdateStatus = (shippingStatus: any, orderId: any) => {
+    axios
+      .patch(`http://localhost:7373/orders/${orderId}`, {
+        status: shippingStatus,
+      })
+      .then((response) => {
+        // Cập nhật lại orders bằng cách tạo mảng mới với orders đã cập nhật
+        const updatedOrders = orders.map((order: any) => {
+          if (order.id === orderId) {
+            return { ...order, status: shippingStatus };
+          }
+          return order;
+        });
+        setOrders(updatedOrders);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <>
       <div className={styles["breadcrumb"]}>
@@ -156,7 +176,7 @@ function ManageOrders() {
           </thead>
           <tbody>
             {orders &&
-              orders?.map((order: any) => {
+              orders.map((order: any) => {
                 return (
                   <tr key={order.id}>
                     <td>{order.id}</td>
@@ -174,6 +194,7 @@ function ManageOrders() {
                       <DetailOrder
                         value="Detail"
                         getOrderId={order.id}
+                        handleFunctionOk={handleUpdateStatus}
                       ></DetailOrder>
                       {/* <Button
                         type="primary"
