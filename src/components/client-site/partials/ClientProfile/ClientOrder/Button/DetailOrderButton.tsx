@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Button, Modal } from "antd";
+import { Button, Modal, notification } from "antd";
 import styles from "../../UserProfile.module.css";
 import axios from "axios";
 
 interface DetailOrderProps {
   orderId: number;
+  handleFunctionOk: any;
 }
 
-const DetailOrderButton: React.FC<DetailOrderProps> = ({ orderId }) => {
+const DetailOrderButton: React.FC<DetailOrderProps> = ({
+  orderId,
+  handleFunctionOk,
+}) => {
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -88,7 +92,11 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({ orderId }) => {
           console.log("response.order Data", response.data);
           fetchOrders();
         });
-
+      notification.success({
+        message: "Cancel Order Successfully",
+      });
+      // Gọi hàm cập nhật trạng thái đơn hàng
+      handleFunctionOk("Cancel", orderId);
       setIsModalOpen(false);
     }
   };
@@ -130,13 +138,17 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({ orderId }) => {
         Detail
       </Button>
       <Modal
-        title="Basic Modal"
+        title="Order Detail"
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
         width={1200}
       >
         <div className={styles["list-input-my-profile"]}>
+          <div className={styles["my-profile-input-item"]}>
+            <p>Order ID</p>
+            <input type="text" disabled value={findOrder?.orderId} />
+          </div>
           <div className={styles["my-profile-input-item"]}>
             <p>Name</p>
             <input type="text" disabled value={findOrder?.name} />

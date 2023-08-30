@@ -122,6 +122,29 @@ function ClientOrder() {
     }
   };
 
+  const handleUpdateStatus = (updatedStatus: string, orderId: number) => {
+    // Cập nhật trạng thái đơn hàng trong order history
+    const updatedOrderHistory = userOrder.map((order: any) => {
+      if (order.orderId === orderId) {
+        return { ...order, status: updatedStatus };
+      }
+      return order;
+    });
+
+    // Cập nhật trạng thái đơn hàng trong cơ sở dữ liệu
+    axios
+      .patch(`http://localhost:7373/accounts/${getLoginData.loginId}`, {
+        order_history: updatedOrderHistory,
+      })
+      .then((response) => {
+        setUserOrder(updatedOrderHistory);
+        // Gọi handleFunctionOk để đóng modal sau khi cập nhật
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <div>
       <div className={styles.breadcrumb}>
@@ -176,6 +199,7 @@ function ClientOrder() {
                   <td>
                     <DetailOrderButton
                       orderId={order.orderId}
+                      handleFunctionOk={handleUpdateStatus}
                     ></DetailOrderButton>
                   </td>
                 </tr>
