@@ -15,6 +15,7 @@ function ClientOrder() {
   const [user, setUser] = useState<any>([]);
   const [userOrder, setUserOrder] = useState<any>([]);
   const [orderProduct, setOrderProduct] = useState<any>([]);
+
   const fetchUser = () => {
     axios
       .get(`http://localhost:7373/accounts/${getLoginData.loginId}`)
@@ -45,6 +46,10 @@ function ClientOrder() {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
+  console.log("USER", user);
+  console.log("userOrder", userOrder);
+  console.log("orderProduct", orderProduct);
 
   const hanldeSearchOrder = () => {
     console.log(searchText);
@@ -78,6 +83,28 @@ function ClientOrder() {
     }
   };
 
+  const handleSumOrder = (orderId: number) => {
+    // Tìm đơn hàng dựa trên orderId
+    let findOrder = userOrder.find((item: any) => {
+      return item.orderId === orderId;
+    });
+
+    if (findOrder) {
+      // Tính tổng giá trị của đơn hàng
+      let sumOrder = findOrder.orderProduct.reduce(
+        (accumulator: number, currentValue: any) => {
+          return (accumulator +=
+            currentValue.productQuantity * currentValue.price);
+        },
+        0
+      );
+
+      return sumOrder;
+    }
+
+    return 0; // Trả về 0 nếu không tìm thấy đơn hàng
+  };
+
   const changeColor = (status: string) => {
     switch (status) {
       case "Shipped":
@@ -94,7 +121,6 @@ function ClientOrder() {
         return;
     }
   };
-
 
   return (
     <div>
@@ -143,7 +169,7 @@ function ClientOrder() {
                 <tr>
                   <td>{order.orderId}</td>
                   <td>{order.date}</td>
-                  <td>Tổng tiền</td>
+                  <td>${handleSumOrder(order.orderId).toLocaleString()}</td>
                   <td>
                     <Badge bg={changeColor(order.status)}>{order.status}</Badge>
                   </td>

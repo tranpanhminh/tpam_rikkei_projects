@@ -233,6 +233,7 @@ function ClientCart() {
 
     const newOrder = {
       orderId: listOrders.length > 0 ? maxIdOrderDatabase + 1 : 1,
+      name: user.fullName,
       date: format(new Date(), "dd/MM/yyyy HH:mm:ss"),
       status: "Pending",
       phone: phone,

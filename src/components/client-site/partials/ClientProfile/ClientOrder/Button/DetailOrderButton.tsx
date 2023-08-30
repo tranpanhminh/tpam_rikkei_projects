@@ -51,6 +51,20 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({ orderId }) => {
 
   console.log("Find Order", findOrder);
 
+  const handleSumOrder = () => {
+    if (findOrder) {
+      const totalOrder = findOrder.orderProduct.reduce(
+        (accumulator: number, currentItem: any) => {
+          return (accumulator +=
+            currentItem.productQuantity * currentItem.price);
+        },
+        0
+      );
+      return totalOrder;
+    }
+    return 0;
+  };
+
   return (
     <>
       <Button type="primary" onClick={showModal}>
@@ -65,6 +79,10 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({ orderId }) => {
       >
         <div className={styles["list-input-my-profile"]}>
           <div className={styles["my-profile-input-item"]}>
+            <p>Name</p>
+            <input type="text" disabled value={findOrder?.name} />
+          </div>
+          <div className={styles["my-profile-input-item"]}>
             <p>Phone</p>
             <input type="text" disabled value={findOrder?.phone} />
           </div>
@@ -76,27 +94,29 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({ orderId }) => {
             <p>Status</p>
             <input type="text" disabled value={findOrder?.status} />
           </div>
-          <div className={styles["my-profile-input-item"]}>
-            <p>Request Cancel</p>
-            <select name="" id="">
-              <option value="No Cancel Order" selected>
-                --Choose Reason--
-              </option>
-              <option value="Ordered the wrong product">
-                1. Ordered the wrong product
-              </option>
-              <option value="Duplicate order">2. Duplicate order</option>
-              <option value="I don't want to buy anymore">
-                3. I don't want to buy anymore
-              </option>
-              <option value="Ordered the wrong product">
-                4. Delivery time too long
-              </option>
-              <option value="Ordered the wrong product">
-                5. Another reason...
-              </option>
-            </select>
-          </div>
+          {findOrder?.status === "Pending" && (
+            <div className={styles["my-profile-input-item"]}>
+              <p>Request Cancel</p>
+              <select name="" id="">
+                <option value="No Cancel Order" selected>
+                  --Choose Reason--
+                </option>
+                <option value="Ordered the wrong product">
+                  1. Ordered the wrong product
+                </option>
+                <option value="Duplicate order">2. Duplicate order</option>
+                <option value="I don't want to buy anymore">
+                  3. I don't want to buy anymore
+                </option>
+                <option value="Ordered the wrong product">
+                  4. Delivery time too long
+                </option>
+                <option value="Ordered the wrong product">
+                  5. Another reason...
+                </option>
+              </select>
+            </div>
+          )}
         </div>
         <br />
         <table className="table table-striped" id={styles["table-user"]}>
@@ -136,7 +156,7 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({ orderId }) => {
             Item: {findOrder?.length}
           </span>
           <span className={styles["my-order-card-total-quantity"]}>
-            Total: $270
+            Total: ${handleSumOrder().toLocaleString()}
           </span>
         </div>
       </Modal>
