@@ -359,7 +359,6 @@ function ClientCart() {
         const response = await axios.get(
           `http://localhost:7373/products/${item.productId}`
         );
-        // .then((res) => res);
         const updatedProduct = response.data;
         console.log(updatedProduct, "updatePtoduct");
 
@@ -368,28 +367,6 @@ function ClientCart() {
         } else {
           item.productQuantity = newQuantity;
         }
-
-        // const stockChange = newQuantity - item.productQuantity;
-        // console.log(stockChange, "stockChange");
-        console.log(newQuantity, "newQuantity");
-        console.log(item.productQuantity, "item.productQuantity");
-        console.log(item, "item");
-
-        // if (updatedProduct.quantity_stock + stockChange < 0) {
-        //   const maxAllowedQuantity =
-        //     updatedProduct.quantity_stock + item.productQuantity;
-        //   notification.error({
-        //     message: `Số lượng vượt quá số lượng tồn kho. Số lượng tối đa cho phép là ${maxAllowedQuantity}`,
-        //   });
-        //   return;
-        // }
-
-        // const updatedStock = updatedProduct.quantity_stock + stockChange;
-        // updatedProduct.quantity_stock = updatedStock;
-
-        // axios.patch(`http://localhost:7373/products/${item.productId}`, {
-        //   quantity_stock: updatedStock,
-        // });
 
         const updatedUserCart = userCart.map((cartItem: any) => {
           if (cartItem.productId === item.productId) {
