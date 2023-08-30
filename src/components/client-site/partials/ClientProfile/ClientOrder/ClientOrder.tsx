@@ -156,7 +156,7 @@ function ClientOrder() {
         <table className="table table-striped" id="table-user">
           <thead>
             <tr>
-              <th>Order ID</th>
+              <th>#</th>
               <th>Date</th>
               <th>Total</th>
               <th>Status</th>
@@ -164,10 +164,10 @@ function ClientOrder() {
             </tr>
           </thead>
           <tbody>
-            {userOrder.map((order: any) => {
+            {userOrder.map((order: any, index: number) => {
               return (
                 <tr>
-                  <td>{order.orderId}</td>
+                  <td>{index + 1}</td>
                   <td>{order.date}</td>
                   <td>${handleSumOrder(order.orderId).toLocaleString()}</td>
                   <td>

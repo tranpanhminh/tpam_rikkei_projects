@@ -354,43 +354,48 @@ function ClientCart() {
     setCouponCode("");
   };
 
-  const handleQuantityInputChange = async (event: any, item: any) => {
+  const handleQuantityInputChange = (event: any, item: any) => {
     const newQuantity = Number(event.target.value);
 
     if (!isNaN(newQuantity) && newQuantity >= 0) {
-      try {
-        const response = await axios.get(
-          `http://localhost:7373/products/${item.productId}`
-        );
-        const updatedProduct = response.data;
-        console.log(updatedProduct, "updatePtoduct");
+      axios
+        .get(`http://localhost:7373/products/${item.productId}`)
+        .then((response) => {
+          const updatedProduct = response.data;
+          console.log(updatedProduct, "updateProduct");
 
-        if (newQuantity > updatedProduct.quantity_stock) {
-          notification.warning({
-            message: `Quantity must not be exceeds ${updatedProduct.quantity_stock} `,
-          });
-        } else {
-          item.productQuantity = newQuantity;
-        }
-
-        const updatedUserCart = userCart.map((cartItem: any) => {
-          if (cartItem.productId === item.productId) {
-            return {
-              ...cartItem,
-              productQuantity: newQuantity,
-            };
+          if (newQuantity > updatedProduct.quantity_stock) {
+            notification.warning({
+              message: `Quantity must not exceed ${updatedProduct.quantity_stock}`,
+            });
+          } else {
+            item.productQuantity = newQuantity;
           }
-          return cartItem;
-        });
 
-        axios.patch(`http://localhost:7373/accounts/${getLoginData.loginId}`, {
-          cart: updatedUserCart,
-        });
+          const updatedUserCart = userCart.map((cartItem: any) => {
+            if (cartItem.productId === item.productId) {
+              return {
+                ...cartItem,
+                productQuantity: newQuantity,
+              };
+            }
+            return cartItem;
+          });
 
-        setUserCart(updatedUserCart);
-      } catch (error) {
-        console.log(error);
-      }
+          axios
+            .patch(`http://localhost:7373/accounts/${getLoginData.loginId}`, {
+              cart: updatedUserCart,
+            })
+            .then(() => {
+              setUserCart(updatedUserCart);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
 

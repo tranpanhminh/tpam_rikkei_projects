@@ -167,7 +167,7 @@ function ClientNewsLetter() {
         <table className="table table-striped" id="table-user">
           <thead>
             <tr>
-              <th>Newsletter ID</th>
+              <th>#</th>
               <th>Coupon Name</th>
               <th>Coupon Code</th>
               <th>Discount</th>
@@ -175,10 +175,10 @@ function ClientNewsLetter() {
           </thead>
           <tbody>
             {userNewsletter &&
-              userNewsletter.map((item: any) => {
+              userNewsletter.map((item: any, index: number) => {
                 return (
                   <tr>
-                    <td>{item.id}</td>
+                    <td>{index + 1}</td>
                     <td>{item.couponName}</td>
                     <td>{item.couponCode}</td>
                     <td>{item.discount}%</td>
