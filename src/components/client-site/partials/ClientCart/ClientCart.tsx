@@ -259,6 +259,7 @@ function ClientCart() {
       status: "Pending",
       address: address,
       cart: userCart,
+      discount: findCouponCode?.discount ? findCouponCode?.discount : 0,
     };
 
     // console.log("PushNewOrder", pushNewOrder);

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import DeleteButtonProduct from "./Button/DeleteProduct/DeleteButtonProduct";
 import DetailButtonProduct from "./Button/DetailProduct/DetailButtonProduct";
-import { Modal, notification } from "antd";
+import { Button, Modal, notification } from "antd";
 import { Product } from "../../../../database";
 import axios from "axios";
 import AddModalProduct from "../ManageProducts/Button/AddProduct/AddModalProduct";
@@ -175,7 +175,6 @@ function ManageProducts() {
                   <DetailButtonProduct
                     value="Detail"
                     title="Detail Product"
-                    className={styles["detail-product-btn"]}
                     getProductId={product.id}
                     handleFunctionOk={handleUpdateProduct}
                   ></DetailButtonProduct>
