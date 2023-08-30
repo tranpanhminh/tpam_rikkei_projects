@@ -87,6 +87,7 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
       axios
         .patch(`http://localhost:7373/orders/${orderId}`, {
           status: "Cancel",
+          cancel_reason: cancelReason,
         })
         .then((response) => {
           console.log("response.order Data", response.data);
@@ -165,34 +166,34 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
             <p>Status</p>
             <input type="text" disabled value={findOrder?.status} />
           </div>
-          {/* {findOrder?.status === "Pending" && ( */}
-          <div className={styles["my-profile-input-item"]}>
-            <p>Request Cancel</p>
-            <select
-              name=""
-              id=""
-              value={cancelReason}
-              onChange={(event) => setCancelReason(event?.target.value)}
-            >
-              <option value="No Cancel Order" selected>
-                -- Choose Reason --
-              </option>
-              <option value="Ordered the wrong product">
-                1. Ordered the wrong product
-              </option>
-              <option value="Duplicate order">2. Duplicate order</option>
-              <option value="I don't want to buy anymore">
-                3. I don't want to buy anymore
-              </option>
-              <option value="Ordered the wrong product">
-                4. Delivery time too long
-              </option>
-              <option value="Ordered the wrong product">
-                5. Another reason...
-              </option>
-            </select>
-          </div>
-          {/* )} */}
+          {findOrder?.status === "Pending" && (
+            <div className={styles["my-profile-input-item"]}>
+              <p>Request Cancel</p>
+              <select
+                name=""
+                id=""
+                value={cancelReason}
+                onChange={(event) => setCancelReason(event?.target.value)}
+              >
+                <option value="No Cancel Order" selected>
+                  -- Choose Reason --
+                </option>
+                <option value="Ordered the wrong product">
+                  1. Ordered the wrong product
+                </option>
+                <option value="Duplicate order">2. Duplicate order</option>
+                <option value="I don't want to buy anymore">
+                  3. I don't want to buy anymore
+                </option>
+                <option value="Ordered the wrong product">
+                  4. Delivery time too long
+                </option>
+                <option value="Ordered the wrong product">
+                  5. Another reason...
+                </option>
+              </select>
+            </div>
+          )}
         </div>
         <br />
         <table className="table table-striped" id={styles["table-user"]}>

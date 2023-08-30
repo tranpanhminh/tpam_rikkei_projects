@@ -500,7 +500,6 @@ function ClientCart() {
 
               <div className={styles["card-info"]}>
                 <div className={styles["card-info-item"]}>
-                  {/* <label htmlFor="">Cardholder's Name</label> */}
                   <input
                     type="text"
                     className="form-control form-control-lg"
@@ -512,7 +511,6 @@ function ClientCart() {
                   />
                 </div>
                 <div className={styles["card-info-item"]}>
-                  {/* <label htmlFor="">Card Number</label> */}
                   <input
                     type="text"
                     id="typeText"
@@ -561,7 +559,6 @@ function ClientCart() {
                   </div>
                 </div>
                 <div className={styles["card-info-item"]}>
-                  {/* <label htmlFor="">Card Number</label> */}
                   <input
                     type="text"
                     id="typeText"
@@ -575,9 +572,8 @@ function ClientCart() {
                       setPhone(event.target.value);
                     }}
                   />
-                </div>{" "}
+                </div>
                 <div className={styles["card-info-item"]}>
-                  {/* <label htmlFor="">Card Number</label> */}
                   <input
                     type="text"
                     id="typeText"

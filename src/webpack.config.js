@@ -1,7 +1,7 @@
 const path = require("path");
 
 module.exports = {
-  entry: "./src/index.js", // Đường dẫn tới file chính của ứng dụng
+  entry: "./src/index.tsx", // Đường dẫn tới file chính của ứng dụng
   output: {
     filename: "bundle.js",
     path: path.resolve(__dirname, "dist"),

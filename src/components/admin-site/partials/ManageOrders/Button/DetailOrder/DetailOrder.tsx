@@ -71,7 +71,7 @@ const DetailOrders: React.FC<DetailModalProps> = ({
     }
     return 0;
   };
-  
+
   return (
     <>
       <Button
@@ -86,9 +86,17 @@ const DetailOrders: React.FC<DetailModalProps> = ({
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
-        width={800}
+        width={1200}
       >
         <div className={styles["list-input-admin-order"]}>
+          <div className={styles["admin-order-input-item"]}>
+            <p>Order ID</p>
+            <input type="text" disabled value={orders?.id} />
+          </div>
+          <div className={styles["admin-order-input-item"]}>
+            <p>Name</p>
+            <input type="text" disabled value={orders?.name} />
+          </div>
           <div className={styles["admin-order-input-item"]}>
             <p>Phone</p>
             <input type="text" disabled value={orders?.phone} />
@@ -99,7 +107,11 @@ const DetailOrders: React.FC<DetailModalProps> = ({
           </div>
           <div className={styles["admin-order-input-item"]}>
             <p>Status</p>
-            <select name="" id="">
+            <select
+              name=""
+              id=""
+              disabled={orders?.status === "Cancel" ? true : false}
+            >
               <option
                 value="Shipped"
                 selected={orders?.status === "Shipped" ? true : false}
@@ -110,7 +122,7 @@ const DetailOrders: React.FC<DetailModalProps> = ({
                 value="Shipping"
                 selected={orders?.status === "Shipping" ? true : false}
               >
-              Shipping
+                Shipping
               </option>
               <option
                 value="Processing"
