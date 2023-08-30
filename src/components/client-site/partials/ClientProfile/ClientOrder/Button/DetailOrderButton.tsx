@@ -11,21 +11,11 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({ orderId }) => {
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-
+  const [cancelReason, setCancelReason] = useState("");
   const [user, setUser] = useState<any>(null);
   const [orderDatabase, setOrderDatabase] = useState<any>([]);
+  const [listOrders, setListOrders] = useState<any>([]);
+
   const fetchUser = () => {
     axios
       .get(`http://localhost:7373/accounts/${getLoginData.loginId}`)
@@ -38,9 +28,78 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({ orderId }) => {
       });
   };
 
+  const fetchOrders = () => {
+    axios
+      .get(`http://localhost:7373/orders/`)
+      .then((response) => {
+        setListOrders(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
     fetchUser();
+    fetchOrders();
   }, []);
+
+  const handleOk = () => {
+    if (cancelReason === "" || cancelReason === "No Cancel Order") {
+      setIsModalOpen(false);
+      return;
+    }
+
+    if (cancelReason !== "" || cancelReason || "No Cancel Order") {
+      let findOrder = orderDatabase.find((item: any) => {
+        return item.orderId === orderId;
+      });
+      let findOrderIndex = orderDatabase.findIndex((item: any) => {
+        return item.orderId === orderId;
+      });
+
+      // findOrder.status = "Cancel";
+
+      // orderDatabase.splice(findOrderIndex, 1, findOrder);
+
+      // console.log("New Order Database", orderDatabase);
+
+      // const updateOrderDatabase = {
+      //   order_history: orderDatabase,
+      // };
+      // console.log("updateOrderDatabase", updateOrderDatabase);
+
+      axios
+        .patch(
+          `http://localhost:7373/accounts/${getLoginData.loginId}`,
+          updateOrderDatabase
+        )
+        .then((response) => {
+          setOrderDatabase(response.data.order_history);
+          fetchUser();
+          setUser(response.data);
+        });
+
+      axios
+        .patch(`http://localhost:7373/orders/${orderId}`, {
+          status: "Cancel",
+        })
+        .then((response) => {
+          console.log("response.order Data", response.data);
+          fetchOrders();
+        });
+
+      setIsModalOpen(false);
+    }
+  };
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   console.log("Order ID Clicked", orderId);
   console.log("orderDatabase", orderDatabase);
@@ -94,29 +153,34 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({ orderId }) => {
             <p>Status</p>
             <input type="text" disabled value={findOrder?.status} />
           </div>
-          {findOrder?.status === "Pending" && (
-            <div className={styles["my-profile-input-item"]}>
-              <p>Request Cancel</p>
-              <select name="" id="">
-                <option value="No Cancel Order" selected>
-                  --Choose Reason--
-                </option>
-                <option value="Ordered the wrong product">
-                  1. Ordered the wrong product
-                </option>
-                <option value="Duplicate order">2. Duplicate order</option>
-                <option value="I don't want to buy anymore">
-                  3. I don't want to buy anymore
-                </option>
-                <option value="Ordered the wrong product">
-                  4. Delivery time too long
-                </option>
-                <option value="Ordered the wrong product">
-                  5. Another reason...
-                </option>
-              </select>
-            </div>
-          )}
+          {/* {findOrder?.status === "Pending" && ( */}
+          <div className={styles["my-profile-input-item"]}>
+            <p>Request Cancel</p>
+            <select
+              name=""
+              id=""
+              value={cancelReason}
+              onChange={(event) => setCancelReason(event?.target.value)}
+            >
+              <option value="No Cancel Order" selected>
+                -- Choose Reason --
+              </option>
+              <option value="Ordered the wrong product">
+                1. Ordered the wrong product
+              </option>
+              <option value="Duplicate order">2. Duplicate order</option>
+              <option value="I don't want to buy anymore">
+                3. I don't want to buy anymore
+              </option>
+              <option value="Ordered the wrong product">
+                4. Delivery time too long
+              </option>
+              <option value="Ordered the wrong product">
+                5. Another reason...
+              </option>
+            </select>
+          </div>
+          {/* )} */}
         </div>
         <br />
         <table className="table table-striped" id={styles["table-user"]}>
