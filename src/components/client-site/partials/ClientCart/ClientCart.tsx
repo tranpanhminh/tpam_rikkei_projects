@@ -238,7 +238,7 @@ function ClientCart() {
       phone: phone,
       address: address,
       orderProduct: userCart,
-      discount: couponCode ? couponCode : 0,
+      discount: findCouponCode?.discount ? findCouponCode?.discount : 0,
     };
 
     const updatedUser = {
