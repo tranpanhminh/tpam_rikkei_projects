@@ -359,25 +359,37 @@ function ClientCart() {
         const response = await axios.get(
           `http://localhost:7373/products/${item.productId}`
         );
+        // .then((res) => res);
         const updatedProduct = response.data;
+        console.log(updatedProduct, "updatePtoduct");
 
-        const stockChange = newQuantity - item.productQuantity;
-
-        if (updatedProduct.quantity_stock + stockChange < 0) {
-          const maxAllowedQuantity =
-            updatedProduct.quantity_stock + item.productQuantity;
-          notification.error({
-            message: `Số lượng vượt quá số lượng tồn kho. Số lượng tối đa cho phép là ${maxAllowedQuantity}`,
-          });
-          return;
+        if (newQuantity > updatedProduct.quantity_stock) {
+          alert(`Không được nhập quá ${updatedProduct.quantity_stock}`);
+        } else {
+          item.productQuantity = newQuantity;
         }
 
-        const updatedStock = updatedProduct.quantity_stock + stockChange;
-        updatedProduct.quantity_stock = updatedStock;
+        // const stockChange = newQuantity - item.productQuantity;
+        // console.log(stockChange, "stockChange");
+        console.log(newQuantity, "newQuantity");
+        console.log(item.productQuantity, "item.productQuantity");
+        console.log(item, "item");
 
-        axios.patch(`http://localhost:7373/products/${item.productId}`, {
-          quantity_stock: updatedStock,
-        });
+        // if (updatedProduct.quantity_stock + stockChange < 0) {
+        //   const maxAllowedQuantity =
+        //     updatedProduct.quantity_stock + item.productQuantity;
+        //   notification.error({
+        //     message: `Số lượng vượt quá số lượng tồn kho. Số lượng tối đa cho phép là ${maxAllowedQuantity}`,
+        //   });
+        //   return;
+        // }
+
+        // const updatedStock = updatedProduct.quantity_stock + stockChange;
+        // updatedProduct.quantity_stock = updatedStock;
+
+        // axios.patch(`http://localhost:7373/products/${item.productId}`, {
+        //   quantity_stock: updatedStock,
+        // });
 
         const updatedUserCart = userCart.map((cartItem: any) => {
           if (cartItem.productId === item.productId) {
