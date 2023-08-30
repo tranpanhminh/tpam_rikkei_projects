@@ -79,13 +79,11 @@ const DetailOrders: React.FC<DetailModalProps> = ({
 
     // Cập nhật trạng thái đơn hàng trong cơ sở dữ liệu của người dùng
 
-   
-
     notification.success({
       message: "Shipping Status Updated Successfully",
     });
     setShippingStatus("");
-    // setIsModalOpen(false);
+    setIsModalOpen(false);
   };
 
   const handleCancel = () => {
