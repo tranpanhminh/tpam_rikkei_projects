@@ -75,38 +75,17 @@ const DetailOrders: React.FC<DetailModalProps> = ({
       setIsModalOpen(false);
       return;
     }
-
-    axios
-      .patch(`http://localhost:7373/orders/${getOrderId}`, {
-        status: shippingStatus,
-      })
-      .then((response) => {
-        // Cập nhật lại trạng thái trong dữ liệu order cụ thể
-        const updatedOrder = { ...orders, status: shippingStatus };
-        setOrders(updatedOrder);
-        handleFunctionOk(shippingStatus, getOrderId);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    handleFunctionOk(shippingStatus, getOrderId);
 
     // Cập nhật trạng thái đơn hàng trong cơ sở dữ liệu của người dùng
-    const updatedOrderHistory = user.order_history.map((order: any) => {
-      if (order.orderId === getOrderId) {
-        return { ...order, status: shippingStatus };
-      }
-      return order;
-    });
 
-    axios.patch(`http://localhost:7373/accounts/${userId}`, {
-      order_history: updatedOrderHistory,
-    });
+   
 
     notification.success({
       message: "Shipping Status Updated Successfully",
     });
     setShippingStatus("");
-    setIsModalOpen(false);
+    // setIsModalOpen(false);
   };
 
   const handleCancel = () => {

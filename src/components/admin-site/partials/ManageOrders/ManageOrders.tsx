@@ -120,6 +120,17 @@ function ManageOrders() {
       .catch((error) => {
         console.log(error);
       });
+
+    // const updatedOrderHistory = user.order_history.map((order: any) => {
+    //   if (order.orderId === orderId) {
+    //     return { ...order, status: shippingStatus };
+    //   }
+    //   return order;
+    // });
+
+    // axios.patch(`http://localhost:7373/accounts/${userId}`, {
+    //   order_history: updatedOrderHistory,
+    // });
   };
 
   return (
