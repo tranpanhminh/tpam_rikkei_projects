@@ -58,16 +58,16 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({ orderId }) => {
         return item.orderId === orderId;
       });
 
-      // findOrder.status = "Cancel";
+      findOrder.status = "Cancel";
 
-      // orderDatabase.splice(findOrderIndex, 1, findOrder);
+      orderDatabase.splice(findOrderIndex, 1, findOrder);
 
-      // console.log("New Order Database", orderDatabase);
+      console.log("New Order Database", orderDatabase);
 
-      // const updateOrderDatabase = {
-      //   order_history: orderDatabase,
-      // };
-      // console.log("updateOrderDatabase", updateOrderDatabase);
+      const updateOrderDatabase = {
+        order_history: orderDatabase,
+      };
+      console.log("updateOrderDatabase", updateOrderDatabase);
 
       axios
         .patch(
