@@ -184,6 +184,12 @@ const DetailOrders: React.FC<DetailModalProps> = ({
               </option>
             </select>
           </div>
+          {orders?.status === "Cancel" && (
+            <div className={styles["admin-order-input-item"]}>
+              <p>Cancel Reason</p>
+              <input type="text" disabled value={orders?.cancel_reason} />
+            </div>
+          )}
         </div>
         <br />
         <table className="table table-striped" id={styles["table-user"]}>
