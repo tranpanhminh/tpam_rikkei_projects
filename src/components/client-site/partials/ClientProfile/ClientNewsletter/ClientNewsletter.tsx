@@ -97,7 +97,6 @@ function ClientNewsLetter() {
   };
 
   const handleSearchNewsletter = () => {
-    console.log(searchText);
     if (searchText === "") {
       // Nếu searchText rỗng, gọi lại fetchUsers để lấy tất cả người dùng
       fetchUser();

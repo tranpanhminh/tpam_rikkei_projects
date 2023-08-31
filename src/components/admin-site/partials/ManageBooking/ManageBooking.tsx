@@ -4,7 +4,6 @@ import { Button, Modal } from "antd";
 
 import { Booking } from "../../../../database"; // Import your data fetching and setting functions
 import axios from "axios";
-import DeleteBooking from "../ManageBooking/Button/DeleteBooking/DeleteBooking";
 import DetailBooking from "../ManageBooking/Button/DetailBooking/DetailBooking";
 import { notification } from "antd";
 import { Badge } from "react-bootstrap";
@@ -174,11 +173,13 @@ function ManageBooking() {
                       getBookingId={item.id}
                       // handleFunctionOk={() => handleUpdateBooking(item.id)}
                     ></DetailBooking>
-                    <DeleteBooking
-                      value="Delete"
+                    <Button
+                      type="primary"
                       className={styles["delete-product-btn"]}
-                      handleFunctionBtn={() => handleDeleteBooking(item.id)}
-                    ></DeleteBooking>
+                      onClick={() => handleDeleteBooking(item.id)}
+                    >
+                      Delete
+                    </Button>
                   </td>
                 </tr>
               );

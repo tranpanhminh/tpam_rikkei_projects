@@ -4,8 +4,7 @@ import styles from "../../AdminPage.module.css";
 import { Service } from "../../../../database"; // Import your data fetching and setting functions
 import axios from "axios";
 import AddButtonService from "./Button/AddService/AddButtonService";
-import { notification } from "antd";
-import DeleteButtonService from "./Button/DeleteService/DeleteButtonService";
+import { Button, notification } from "antd";
 import DetailButtonService from "./Button/DetailService/DetailButtonService";
 function ManageServices() {
   const [services, setServices] = useState<null | Service[]>(null);
@@ -189,11 +188,13 @@ function ManageServices() {
                       getServiceId={service.id}
                       handleFunctionOk={handleUpdateService}
                     ></DetailButtonService>
-                    <DeleteButtonService
-                      value="Delete"
+                    <Button
+                      type="primary"
                       className={styles["delete-product-btn"]}
-                      handleFunctionBtn={() => handleDeleteService(service.id)}
-                    ></DeleteButtonService>
+                      onClick={() => handleDeleteService(service.id)}
+                    >
+                      Delete
+                    </Button>
                   </td>
                 </tr>
               ))}

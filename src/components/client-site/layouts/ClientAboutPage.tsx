@@ -4,9 +4,7 @@ import ClientHeaderPC from "../partials/ClientHeader/ClientHeaderPC";
 import ClientBanner from "../partials/ClientBanner/ClientBanner";
 import ClientFooter from "../partials/ClientFooter/ClientFooter";
 import AboutStore from "../partials/ClientAboutStore/AboutStore";
-// import image from "../../../assets/images/about-store.jpg";
-
-function ClientHomePage() {
+function CLientAboutPage() {
   return (
     <>
       {/* Homepage */}
@@ -20,4 +18,4 @@ function ClientHomePage() {
   );
 }
 
-export default ClientHomePage;
+export default CLientAboutPage;

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import DeleteButtonProduct from "./Button/DeleteProduct/DeleteButtonProduct";
 import DetailButtonProduct from "./Button/DetailProduct/DetailButtonProduct";
-import { Button, Modal, notification } from "antd";
+import { Button, notification } from "antd";
 import { Product } from "../../../../database";
 import axios from "axios";
 import AddModalProduct from "../ManageProducts/Button/AddProduct/AddModalProduct";
@@ -177,11 +176,13 @@ function ManageProducts() {
                     getProductId={product.id}
                     handleFunctionOk={handleUpdateProduct}
                   ></DetailButtonProduct>
-                  <DeleteButtonProduct
-                    value="Delete"
+                  <Button
+                    type="primary"
                     className={styles["delete-product-btn"]}
-                    handleFunctionBtn={() => handleDeleteProduct(product.id)}
-                  ></DeleteButtonProduct>
+                    onClick={() => handleDeleteProduct(product.id)}
+                  >
+                    Delete
+                  </Button>
                 </td>
               </tr>
             ))}

@@ -2,11 +2,9 @@ import React from "react";
 import logo from "../../../../assets/images/pet-shop.png";
 import styles from "../../ClientPage.module.css";
 import { NavLink } from "react-router-dom";
-import NotificationSale from "../NotificationSale/NotificationSale";
 function ClientFooter() {
   return (
     <>
-      {/* <NotificationSale /> */}
       <footer>
         <div className="container">
           <div className="row">
