@@ -60,7 +60,7 @@ function ClientProductDetail() {
   useEffect(() => {
     fetchProducts();
     fetchUsers();
-  }, []);
+  }, [editorContent]);
 
   console.log("User", user);
   console.log("User Cart", userCart);
@@ -342,7 +342,11 @@ function ClientProductDetail() {
             </div>
 
             <div className={styles["comment-input"]}>
-              <Editor init={editorConfig} onEditorChange={handleEditorChange} />
+              <Editor
+                init={editorConfig}
+                onEditorChange={handleEditorChange}
+                value={editorContent}
+              />
               <div className={styles["send-comment-btn"]}>
                 <Button type="primary" onClick={handleComment}>
                   Comment
