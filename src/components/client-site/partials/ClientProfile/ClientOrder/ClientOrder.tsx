@@ -232,6 +232,7 @@ function ClientOrder() {
   const [orderDatabase, setOrderDatabase] = useState<any>(null);
   const [userOrder, setUserOrder] = useState<any>([]);
   const [userOrderId, setUserOrderId] = useState<number>(0);
+  const [listCard, setListCard] = useState<any>([]);
 
   const fetchUser = () => {
     axios
@@ -255,7 +256,19 @@ function ClientOrder() {
       });
   };
 
+  const fetchCard = () => {
+    axios
+      .get(`http://localhost:7373/banking/`)
+      .then((response) => {
+        setListCard(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
+    fetchCard();
     fetchOrders();
     fetchUser();
   }, []);
@@ -282,6 +295,7 @@ function ClientOrder() {
   console.log("orderDatabase", orderDatabase);
   console.log("userOrder", userOrder);
   console.log("filterUserOrder", filterUserOrder);
+  console.log("listCard", listCard);
 
   const hanldeSearchOrder = () => {
     console.log(searchText);
@@ -348,10 +362,32 @@ function ClientOrder() {
       })
       .then((response) => {
         fetchOrders();
+        setUserOrder(response.data);
       });
-    notification.success({
-      message: "Cancel Order Successfully",
+
+    let findCard = listCard?.find((card: any) => {
+      return card.cardNumber === userOrder.cardNumber;
     });
+
+    if (findCard) {
+      console.log("FINDCARDID", findCard?.id);
+      console.log("findCard?.balance", findCard?.balance);
+      console.log("userOrder.sumOrderNoDiscount", userOrder.sumOrderNoDiscount);
+      let updatedBalance = {
+        balance: findCard?.balance + userOrder.sumOrderNoDiscount,
+      };
+
+      axios
+        .patch(`http://localhost:7373/orders/${findCard?.id}`, {
+          updatedBalance,
+        })
+        .then((response) => {
+          fetchCard();
+        });
+      notification.success({
+        message: "Cancel Order Successfully",
+      });
+    }
   };
 
   return (

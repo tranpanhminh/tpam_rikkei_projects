@@ -10,7 +10,7 @@ interface AddModalProps {
   className?: string;
   value?: string;
   title?: string;
-  handleClickOk?: (newCoupon: Coupon) => void;
+  handleClickOk?: any;
 }
 
 const AddModalCoupon: React.FC<AddModalProps> = ({
@@ -24,17 +24,7 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
   const [couponName, setCouponName] = useState("");
   const [couponCode, setCouponCode] = useState("");
   const [couponDiscount, setCouponDiscount] = useState(1);
-  const [couponSlot, setCouponSlot] = useState(1);
-  const [coupons, setCoupons] = useState<null | Coupon[]>(null);
-  const [newCoupon, setNewCoupon] = useState<Coupon>({
-    id: 0,
-    name: "",
-    code: "",
-    discount: 0,
-    slot: 0,
-    startDate: "",
-    endDate: "",
-  });
+  const [coupons, setCoupons] = useState<any>([]);
 
   const fetchCoupons = () => {
     axios
@@ -51,8 +41,12 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
     fetchCoupons();
   }, []);
 
-  const maxId = coupons ? Math.max(...coupons.map((coupon) => coupon.id)) : 0;
+  let listIdCoupon = coupons?.map((coupon: any) => {
+    return coupon.id;
+  });
 
+  const maxId = listIdCoupon?.length > 0 ? Math.max(...listIdCoupon) : 0;
+  console.log("MAX ID", maxId);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -61,40 +55,38 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
 
   const handleOk = () => {
     // Kiểm tra thông tin đầy đủ
-    if (!newCoupon.name || !newCoupon.code || newCoupon.discount <= 0) {
+    if (couponName === "" || couponCode === "") {
       notification.warning({
         message: "Notification",
         description:
           "Please make sure all information filled, Discount must be integer",
       });
       return;
+    } else {
+      const updatedCoupon = {
+        name: couponName,
+        code: couponCode,
+        discount: couponDiscount,
+      };
+      axios
+        .post("http://localhost:7373/coupons", updatedCoupon)
+        .then((response) => {
+          fetchCoupons(); // Cập nhật lại dữ liệu products sau khi thêm
+          notification.success({
+            message: "Coupon Added",
+          });
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+      handleClickOk();
+
+      setIsModalOpen(false);
+
+      setCouponName("");
+      setCouponCode("");
+      setCouponDiscount(1);
     }
-
-    // const updatedCoupon = {
-    //   ...newCoupon,
-    //   id: maxId + 1,
-    // };
-
-    // const updatedCoupons = coupons ? [...coupons, updatedCoupon] : null;
-
-    // setCoupons(updatedCoupons);
-    // setIsModalOpen(false);
-    // if (handleClickOk) {
-    //   handleClickOk(updatedCoupon);
-    // }
-    // setNewCoupon({
-    //   id: 0,
-    //   name: "",
-    //   code: "",
-    //   discount: 0,
-    //   slot: 0,
-    //   startDate: "",
-    //   endDate: "",
-    // });
-    // setEditorInitialValue("Type service description here.........");
-    // const newCoupon = {
-    //   name:
-    // }
   };
 
   const handleCancel = () => {
@@ -123,7 +115,7 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
       >
         <div className={styles["list-input-add-student"]}>
           <div className={styles["list-input-item"]}>
-            <p>User ID</p>
+            <p>Coupon ID</p>
             <input type="text" value={maxId + 1} disabled />
           </div>
           <div className={styles["list-input-item"]}>
@@ -137,7 +129,7 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
           <div className={styles["list-input-item"]}>
             <p>Code</p>
             <input
-              type="string"
+              type="text"
               value={couponCode}
               onChange={(event) => setCouponCode(event.target.value)}
             />
@@ -152,14 +144,14 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
               }
             />
           </div>
-          <div className={styles["list-input-item"]}>
+          {/* <div className={styles["list-input-item"]}>
             <p>Slot</p>
             <input
               type="text"
               value={Number(couponSlot)}
               onChange={(event) => setCouponSlot(Number(event.target.value))}
             />
-          </div>
+          </div> */}
           {/* <div className={styles["list-input-item"]}>
             <p>Select Date</p>
             <Space direction="vertical" size={12}>

@@ -71,14 +71,23 @@ function ManageNewsletter() {
     }
   };
 
-  const handleAddCoupon = (newCoupon: Coupon) => {
+  const handleAddCoupon = () => {
+    // axios
+    //   .post("http://localhost:7373/coupons", newCoupon)
+    //   .then((response) => {
+    //     fetchCoupons(); // Cập nhật lại dữ liệu products sau khi thêm
+    //     notification.success({
+    //       message: "Coupon Added",
+    //     });
+    //   })
+    //   .catch((error) => {
+    //     console.log(error.message);
+    //   });
+
     axios
-      .post("http://localhost:7373/coupons", newCoupon)
-      .then(() => {
+      .get("http://localhost:7373/coupons")
+      .then((response) => {
         fetchCoupons(); // Cập nhật lại dữ liệu products sau khi thêm
-        notification.success({
-          message: "Coupon Added",
-        });
       })
       .catch((error) => {
         console.log(error.message);

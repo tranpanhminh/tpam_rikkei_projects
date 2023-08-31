@@ -900,7 +900,7 @@ function ClientCart() {
       discount: findCouponCode?.discount ? findCouponCode?.discount : 0,
       sumOrderNoDiscount: handleTotalCartNoDiscount(),
       sumOrderWithDiscount: handleTotalCart(),
-      paymentCardNumber: cardNumber,
+      cardNumber: cardNumber,
     };
 
     // console.log("PushNewOrder", pushNewOrder);

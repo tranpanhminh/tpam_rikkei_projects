@@ -100,8 +100,6 @@ export interface Coupon {
   code: string;
   discount: number;
   slot?: number | string;
-  startDate?: string;
-  endDate?: string;
   usage?: number;
 }
 
@@ -498,8 +496,8 @@ let coupons: Coupon[] = [
     code: "saleoff25",
     discount: 25,
     slot: 10,
-    startDate: "18/09/2023",
-    endDate: "21/09/2023",
+    // startDate: "18/09/2023",
+    // endDate: "21/09/2023",
     usage: 5,
   },
   {
@@ -508,8 +506,8 @@ let coupons: Coupon[] = [
     code: "saleoff50",
     discount: 50,
     slot: 5,
-    startDate: "18/02/2023",
-    endDate: "21/02/2023",
+    // startDate: "18/02/2023",
+    // endDate: "21/02/2023",
     usage: 5,
   },
   {
@@ -518,8 +516,8 @@ let coupons: Coupon[] = [
     code: "saleoff5",
     discount: 5,
     slot: 0,
-    startDate: "18/09/2023",
-    endDate: "21/09/2023",
+    // startDate: "18/09/2023",
+    // endDate: "21/09/2023",
     usage: 5,
   },
   {
@@ -528,8 +526,8 @@ let coupons: Coupon[] = [
     code: "saleoff2",
     discount: 5,
     slot: "unlimited",
-    startDate: "18/09/2023",
-    endDate: "21/09/2023",
+    // startDate: "18/09/2023",
+    // endDate: "21/09/2023",
     usage: 5,
   },
 ];
