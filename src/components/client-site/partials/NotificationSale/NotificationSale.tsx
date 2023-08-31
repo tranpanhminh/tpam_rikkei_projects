@@ -1,12 +1,5 @@
-import {
-  RadiusBottomleftOutlined,
-  RadiusBottomrightOutlined,
-  RadiusUpleftOutlined,
-  RadiusUprightOutlined,
-} from "@ant-design/icons";
 import React, { useEffect, useMemo, useState } from "react";
-import { Button, Divider, Space, notification } from "antd";
-import type { NotificationPlacement } from "antd/es/notification/interface";
+import { notification } from "antd";
 import axios from "axios";
 
 const Context = React.createContext({ name: "Default" });
@@ -20,31 +13,18 @@ const NotificationSale: React.FC = () => {
         .get(`http://localhost:7373/orders/`)
         .then((response) => setListOrders(response.data));
     };
+    fetchOrders();
   }, []);
 
-  const [api, contextHolder] = notification.useNotification();
-
-  const openNotification = (placement: NotificationPlacement) => {
-    api.info({
-      message: `Notification ${placement}`,
-      description: (
-        <Context.Consumer>{({ name }) => `Hello, ${name}!`}</Context.Consumer>
-      ),
-      placement,
-    });
+  const showNotificationSale = () => {
+    setInterval(() => {
+      notification.success({
+        message: `${listOrders[1].id}`,
+      });
+    }, 3000);
   };
 
-  return (
-    <>
-      <Button
-        type="primary"
-        onClick={() => openNotification("bottomLeft")}
-        icon={<RadiusBottomleftOutlined />}
-      >
-        bottomLeft
-      </Button>
-    </>
-  );
+  return <>{showNotificationSale()}</>;
 };
 
 export default NotificationSale;

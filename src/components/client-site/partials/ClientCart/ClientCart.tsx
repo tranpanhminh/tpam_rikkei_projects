@@ -633,7 +633,6 @@
 
 // export default ClientCart;
 
-
 import React, { useEffect, useState } from "react";
 import styles from "./ClientCart.module.css";
 import logo from "../../../../assets/images/pet-shop.png";
@@ -748,6 +747,16 @@ function ClientCart() {
   }
 
   let maxIdOrderDatabase = Number(Math.max(...listOrdersDatabase));
+
+  const handleTotalCartNoDiscount = () => {
+    let sumTotalCart = sumCart.reduce(
+      (accumulator: any, currentValue: number) => {
+        return (accumulator += currentValue);
+      },
+      0
+    );
+    return sumTotalCart + 5;
+  };
 
   const handleTotalCart = () => {
     let sumTotalCart = sumCart.reduce(
@@ -889,6 +898,8 @@ function ClientCart() {
       address: address,
       cart: userCart,
       discount: findCouponCode?.discount ? findCouponCode?.discount : 0,
+      // sumOrderNohDiscount: handleTotalCartNoDiscount(),
+      // sumOrderWithDiscount: handleTotalCart(),
     };
 
     // console.log("PushNewOrder", pushNewOrder);
@@ -1236,7 +1247,7 @@ function ClientCart() {
                 </div>
                 <div className={styles["card-info-item-detail"]}>
                   <span>Subtotal</span>
-                  <span>${handleTotalCart()}</span>
+                  <span>${handleTotalCartNoDiscount()}</span>
                 </div>
                 <div className={styles["card-info-item-detail"]}>
                   <span>Shipping</span>
