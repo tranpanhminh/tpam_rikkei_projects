@@ -1399,6 +1399,10 @@ table.table.table-cart {
   margin-top: 20px;
 }
 
+.delete-comment-btn {
+  background-color: #ed5e68;
+}
+
 @media screen and (max-width: 1079px) {
   .main-content {
     width: 100%;

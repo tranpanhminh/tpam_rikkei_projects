@@ -8,6 +8,7 @@ import { Button, Modal } from "antd";
 import { Rate } from "antd";
 import avatar from "../../../../assets/images/dogs-reviews-01.png";
 import { Editor } from "@tinymce/tinymce-react";
+import { Badge } from "react-bootstrap";
 
 function ClientProductDetail() {
   const getData: any = localStorage.getItem("auth");
@@ -19,6 +20,7 @@ function ClientProductDetail() {
   const [products, setProducts] = useState<any>(null);
   const [quantity, setQuantity] = useState<number>(1);
   const [editorContent, setEditorContent] = useState("");
+  const [rateValue, setRateValue] = useState(0);
 
   const handleOk = () => {
     setIsModalOpen(false);
@@ -171,14 +173,64 @@ function ClientProductDetail() {
   };
 
   const editorConfig = {
-    height: "200px", // Điều chỉnh chiều cao ở đây
-    // Các tùy chọn khác bạn muốn cấu hình
+    height: "300px",
+    // plugins: "maxlength", // Sử dụng plugin maxlength
+    // toolbar: "undo redo | bold italic | maxlength", // Thêm nút maxlength vào thanh công cụ
+    // max_chars: 200, // Giới hạn số ký tự
+    // // Các tùy chọn khác bạn muốn cấu hình
   };
 
   const handleEditorChange = (content: string) => {
-    if (content.length <= 200) {
-      setEditorContent(content);
+    setEditorContent(content);
+  };
+
+  const handleRateChange = (value: number) => {
+    setRateValue(value);
+    console.log(value);
+  };
+
+  const handleComment = () => {
+    if (editorContent === "") {
+      notification.warning({
+        message: "Please fill comment",
+      });
+      return;
     }
+
+    console.log(products.comments, "dasdsa");
+    let listCommentId = products.comments.map((item: any) => {
+      return item.commentId;
+    });
+
+    let maxId = products.comments.length > 0 ? Math.max(...listCommentId) : 0;
+
+    const newComment = {
+      commentId: maxId + 1,
+      productId: Number(productId),
+      userId: getLoginData.loginId,
+      content: editorContent,
+      rating: rateValue,
+    };
+
+    console.log("New Comment", newComment);
+
+    products.comments.push(newComment);
+
+    console.log("Products", products);
+
+    axios
+      .patch(`http://localhost:7373/products/${productId}`, {
+        comments: products.comments,
+      })
+      .then((response) => {
+        setProducts(response.data);
+        handleEditorChange("");
+        setRateValue(0);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+    console.log("Update Products", products);
   };
 
   return (
@@ -285,14 +337,16 @@ function ClientProductDetail() {
               </h3>
               <div>
                 <span className={styles["rating-text"]}>Rating: </span>
-                <Rate allowHalf defaultValue={2.5} />
+                <Rate allowHalf value={rateValue} onChange={handleRateChange} />
               </div>
             </div>
 
             <div className={styles["comment-input"]}>
               <Editor init={editorConfig} onEditorChange={handleEditorChange} />
               <div className={styles["send-comment-btn"]}>
-                <Button type="primary">Comment</Button>
+                <Button type="primary" onClick={handleComment}>
+                  Comment
+                </Button>
               </div>
             </div>
 
@@ -301,32 +355,17 @@ function ClientProductDetail() {
                 <div className={styles["user-comment-info"]}>
                   <img src={avatar} alt="" className={styles["user-avatar"]} />
                   <span>User Name</span>
-                </div>
-                <div className={styles["comment-content"]}>
-                  Absolutely delighted with this pet product! It's truly a
-                  game-changer for pet owners. From the quality craftsmanship to
-                  the thoughtful design, it's evident that the creators care
-                  deeply about pets' well-being.
-                </div>
-              </section>
-              <section className={styles["product-comment-item"]}>
-                <div className={styles["user-comment-info"]}>
-                  <img src={avatar} alt="" className={styles["user-avatar"]} />
-                  <span>User Name</span>
-                </div>
-                <div>
-                  <div className={styles["comment-content"]}>
-                    Absolutely delighted with this pet product! It's truly a
-                    game-changer for pet owners. From the quality craftsmanship
-                    to the thoughtful design, it's evident that the creators
-                    care deeply about pets' well-being.
-                  </div>
-                </div>
-              </section>
-              <section className={styles["product-comment-item"]}>
-                <div className={styles["user-comment-info"]}>
-                  <img src={avatar} alt="" className={styles["user-avatar"]} />
-                  <span>User Name</span>
+                  <Badge bg="warning" text="dark">
+                    Loyal customers
+                  </Badge>
+                  {user?.role === "admin" && (
+                    <Button
+                      type="primary"
+                      className={styles["delete-comment-btn"]}
+                    >
+                      Delete
+                    </Button>
+                  )}
                 </div>
                 <div className={styles["comment-content"]}>
                   Absolutely delighted with this pet product! It's truly a
