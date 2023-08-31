@@ -55,7 +55,7 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
 
   const handleOk = () => {
     // Kiểm tra thông tin đầy đủ
-    if (couponName === "" || couponCode === "") {
+    if (couponName === "" || couponCode === "" || couponDiscount <= 0) {
       notification.warning({
         message: "Notification",
         description:
