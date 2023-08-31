@@ -50,6 +50,7 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
+    fetchCoupons();
     setIsModalOpen(true);
   };
 

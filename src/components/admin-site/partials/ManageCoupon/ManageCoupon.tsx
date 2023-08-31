@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import { parse } from "date-fns";
 import styles from "../../AdminPage.module.css";
 import { Coupon } from "../../../../database"; // Import your data fetching and setting functions
-import DeleteButtonCoupon from "./Button/DeleteCoupon/DeleteButtonCoupon";
 import axios from "axios";
 import { Button, notification } from "antd";
 import AddButtonCoupon from "./Button/AddCoupon/AddButtonCoupon";
@@ -72,18 +71,6 @@ function ManageNewsletter() {
   };
 
   const handleAddCoupon = () => {
-    // axios
-    //   .post("http://localhost:7373/coupons", newCoupon)
-    //   .then((response) => {
-    //     fetchCoupons(); // Cập nhật lại dữ liệu products sau khi thêm
-    //     notification.success({
-    //       message: "Coupon Added",
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     console.log(error.message);
-    //   });
-
     axios
       .get("http://localhost:7373/coupons")
       .then((response) => {
@@ -232,11 +219,13 @@ function ManageNewsletter() {
                     >
                       Send
                     </Button>
-                    <DeleteButtonCoupon
-                      value="Delete"
-                      className={styles["delete-coupon-btn"]}
-                      handleFunctionBtn={() => handleDeleteCoupon(coupon.id)}
-                    ></DeleteButtonCoupon>
+                    <Button
+                      type="primary"
+                      className={styles["delete-product-btn"]}
+                      onClick={() => handleDeleteCoupon(coupon.id)}
+                    >
+                      Delete
+                    </Button>
                   </td>
                 </tr>
               );
