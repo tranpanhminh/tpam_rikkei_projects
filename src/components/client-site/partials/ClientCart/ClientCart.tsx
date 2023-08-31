@@ -898,8 +898,9 @@ function ClientCart() {
       address: address,
       cart: userCart,
       discount: findCouponCode?.discount ? findCouponCode?.discount : 0,
-      // sumOrderNohDiscount: handleTotalCartNoDiscount(),
-      // sumOrderWithDiscount: handleTotalCart(),
+      sumOrderNoDiscount: handleTotalCartNoDiscount(),
+      sumOrderWithDiscount: handleTotalCart(),
+      paymentCardNumber: cardNumber,
     };
 
     // console.log("PushNewOrder", pushNewOrder);
