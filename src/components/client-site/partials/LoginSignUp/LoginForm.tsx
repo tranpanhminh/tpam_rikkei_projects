@@ -47,6 +47,7 @@ function LoginForm() {
             navigate("/");
             const loginData = {
               loginId: account.id,
+              fullName: account.fullName,
               role: account.role,
               status: account.status,
             };

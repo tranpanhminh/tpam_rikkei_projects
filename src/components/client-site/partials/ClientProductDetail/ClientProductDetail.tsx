@@ -18,10 +18,11 @@ function ClientProductDetail() {
   const [user, setUser] = useState<any>(null);
   const [userCart, setUserCart] = useState<any>(null);
   const [products, setProducts] = useState<any>(null);
+  const [comments, setComments] = useState<any>([]);
   const [quantity, setQuantity] = useState<number>(1);
   const [editorContent, setEditorContent] = useState("");
   const [rateValue, setRateValue] = useState(0);
-
+  console.log("getLoginData", getLoginData);
   const handleOk = () => {
     setIsModalOpen(false);
   };
@@ -39,6 +40,7 @@ function ClientProductDetail() {
       .get(`http://localhost:7373/products/${productId}`)
       .then((response) => {
         setProducts(response.data);
+        setComments(response.data.comments);
       })
       .catch((error) => {
         console.log(error.message);
@@ -190,6 +192,13 @@ function ClientProductDetail() {
   };
 
   const handleComment = () => {
+    if (!getLoginData) {
+      notification.warning({
+        message: `Please login to comment`,
+      });
+      return;
+    }
+
     if (editorContent === "") {
       notification.warning({
         message: "Please fill comment",
@@ -208,6 +217,8 @@ function ClientProductDetail() {
       commentId: maxId + 1,
       productId: Number(productId),
       userId: getLoginData.loginId,
+      userName: getLoginData.fullName,
+      userRole: getLoginData.role,
       content: editorContent,
       rating: rateValue,
     };
@@ -223,6 +234,7 @@ function ClientProductDetail() {
         comments: products.comments,
       })
       .then((response) => {
+        fetchProducts();
         setProducts(response.data);
         handleEditorChange("");
         setRateValue(0);
@@ -231,6 +243,10 @@ function ClientProductDetail() {
         console.log(error.message);
       });
     console.log("Update Products", products);
+  };
+
+  const handleDeleteComment = (commentId: number) => {
+    console.log("Comment ID", commentId);
   };
 
   return (
@@ -333,7 +349,7 @@ function ClientProductDetail() {
           >
             <div className={styles["comment-heading"]}>
               <h3 className={styles["user-comment-product"]}>
-                Total 10 comments
+                Total {comments.length} comments
               </h3>
               <div>
                 <span className={styles["rating-text"]}>Rating: </span>
@@ -353,32 +369,47 @@ function ClientProductDetail() {
                 </Button>
               </div>
             </div>
+            {products &&
+              products.comments.map((item: any) => {
+                return (
+                  <div className={styles["main-content-comment"]}>
+                    <section className={styles["product-comment-item"]}>
+                      <div className={styles["user-comment-info"]}>
+                        <img
+                          src={avatar}
+                          alt=""
+                          className={styles["user-avatar"]}
+                        />
 
-            <div className={styles["main-content-comment"]}>
-              <section className={styles["product-comment-item"]}>
-                <div className={styles["user-comment-info"]}>
-                  <img src={avatar} alt="" className={styles["user-avatar"]} />
-                  <span>User Name</span>
-                  <Badge bg="warning" text="dark">
-                    Loyal customers
-                  </Badge>
-                  {user?.role === "admin" && (
-                    <Button
-                      type="primary"
-                      className={styles["delete-comment-btn"]}
-                    >
-                      Delete
-                    </Button>
-                  )}
-                </div>
-                <div className={styles["comment-content"]}>
-                  Absolutely delighted with this pet product! It's truly a
-                  game-changer for pet owners. From the quality craftsmanship to
-                  the thoughtful design, it's evident that the creators care
-                  deeply about pets' well-being.
-                </div>
-              </section>
-            </div>
+                        <span>{item.userName}</span>
+                        {item.userRole === "admin" ? (
+                          <Badge bg="success">Admin</Badge>
+                        ) : item.order_history?.length !== 0 ? (
+                          <Badge bg="warning" text="dark">
+                            Loyal Customer
+                          </Badge>
+                        ) : (
+                          ""
+                        )}
+                        {user?.role === "admin" && (
+                          <Button
+                            type="primary"
+                            className={styles["delete-comment-btn"]}
+                            onClick={() => handleDeleteComment(item.commentId)}
+                          >
+                            Delete
+                          </Button>
+                        )}
+                      </div>
+                      <div className={styles["comment-content"]}>
+                        {React.createElement("div", {
+                          dangerouslySetInnerHTML: { __html: item.content },
+                        })}
+                      </div>
+                    </section>
+                  </div>
+                );
+              })}
           </div>
         </div>
       </div>

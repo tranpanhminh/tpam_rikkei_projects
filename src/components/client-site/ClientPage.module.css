@@ -1394,6 +1394,10 @@ table.table.table-cart {
   margin: 0 auto;
 }
 
+.comment-content img {
+  width: 200px;
+}
+
 .send-comment-btn {
   text-align: left;
   margin-top: 20px;
