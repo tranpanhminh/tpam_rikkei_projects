@@ -22,7 +22,6 @@ function ClientProductDetail() {
   const [quantity, setQuantity] = useState<number>(1);
   const [editorContent, setEditorContent] = useState("");
   const [rateValue, setRateValue] = useState(0);
-  console.log("getLoginData", getLoginData);
   const handleOk = () => {
     setIsModalOpen(false);
   };

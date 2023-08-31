@@ -1332,8 +1332,6 @@ table.table.table-cart {
 }
 
 /* CSS Comment Section */
-
-/* CSS Tablet */
 .comment-heading {
   display: flex;
   justify-content: space-between;
@@ -1406,6 +1404,8 @@ table.table.table-cart {
 .delete-comment-btn {
   background-color: #ed5e68;
 }
+
+/* CSS Tablet */
 
 @media screen and (max-width: 1079px) {
   .main-content {
