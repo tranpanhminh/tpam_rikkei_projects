@@ -9,7 +9,6 @@ function SearchPage() {
   const { searchTerm } = useParams();
   const [products, setProducts] = useState<Product[]>([]);
   const [services, setServices] = useState<Service[]>([]);
-  const [allProductService, setAllProductService] = useState<any>([]);
   console.log("Search Term", searchTerm);
   const fetchProducts = () => {
     axios

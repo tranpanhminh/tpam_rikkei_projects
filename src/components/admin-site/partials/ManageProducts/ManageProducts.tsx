@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Table from "react-bootstrap/Table";
 import DeleteButtonProduct from "./Button/DeleteProduct/DeleteButtonProduct";
 import DetailButtonProduct from "./Button/DetailProduct/DetailButtonProduct";
 import { Button, Modal, notification } from "antd";

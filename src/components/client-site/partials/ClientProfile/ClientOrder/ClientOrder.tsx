@@ -365,29 +365,22 @@ function ClientOrder() {
         setUserOrder(response.data);
       });
 
-    let findCard = listCard?.find((card: any) => {
-      return card.cardNumber === userOrder.cardNumber;
-    });
+    // let findCard = listCard?.find((card: any) => {
+    //   return Number(card.cardNumber) === Number(userOrder.cardNumber);
+    // });
 
-    if (findCard) {
-      console.log("FINDCARDID", findCard?.id);
-      console.log("findCard?.balance", findCard?.balance);
-      console.log("userOrder.sumOrderNoDiscount", userOrder.sumOrderNoDiscount);
-      let updatedBalance = {
-        balance: findCard?.balance + userOrder.sumOrderNoDiscount,
-      };
-
-      axios
-        .patch(`http://localhost:7373/orders/${findCard?.id}`, {
-          updatedBalance,
-        })
-        .then((response) => {
-          fetchCard();
-        });
-      notification.success({
-        message: "Cancel Order Successfully",
-      });
-    }
+    // if (findCard) {
+    //   axios
+    //     .patch(`http://localhost:7373/banking/${findCard.id}`, {
+    //       balance: findCard.balance + userOrder.sumOrderNoDiscount,
+    //     })
+    //     .then((response) => {
+    //       fetchCard();
+    //       notification.success({
+    //         message: "Cancel Order Successfully",
+    //       });
+    //     });
+    // }
   };
 
   return (
@@ -438,7 +431,7 @@ function ClientOrder() {
                   <tr>
                     <td>{index + 1}</td>
                     <td>{order.date}</td>
-                    <td>${handleSumOrder(order.id).toLocaleString()}</td>
+                    <td>${order.sumOrderWithDiscount}</td>
                     <td>
                       <Badge bg={changeColor(order.status)}>
                         {order.status}

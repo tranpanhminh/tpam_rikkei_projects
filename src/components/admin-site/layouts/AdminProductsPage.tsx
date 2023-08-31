@@ -1,6 +1,5 @@
 import React from "react";
 import AdminHeader from "../partials/AdminHeader/AdminHeader";
-import ManageUsers from "../partials/ManageUsers/ManageUsers";
 import styles from "../AdminPage.module.css";
 import ManageProducts from "../partials/ManageProducts/ManageProducts";
 

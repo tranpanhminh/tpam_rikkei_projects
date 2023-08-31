@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Modal, notification } from "antd";
 import axios from "axios";
-import { Order } from "../../../../../../database";
 import styles from "../../../../AdminPage.module.css";
-import { Badge } from "react-bootstrap";
 
 interface DetailModalProps {
   className?: string; // Thêm khai báo cho thuộc tính className

@@ -755,7 +755,7 @@ function ClientCart() {
       },
       0
     );
-    return sumTotalCart + 5;
+    return Number(sumTotalCart + 5);
   };
 
   const handleTotalCart = () => {
@@ -767,10 +767,11 @@ function ClientCart() {
     );
 
     if (findCouponCode) {
-      return (sumTotalCart =
-        5 + sumTotalCart - (findCouponCode?.discount * sumTotalCart) / 100);
+      return (sumTotalCart = Number(
+        5 + sumTotalCart - (findCouponCode?.discount * sumTotalCart) / 100
+      ));
     } else {
-      return sumTotalCart + 5;
+      return Number(sumTotalCart + 5);
     }
   };
 
@@ -900,7 +901,7 @@ function ClientCart() {
       discount: findCouponCode?.discount ? findCouponCode?.discount : 0,
       sumOrderNoDiscount: handleTotalCartNoDiscount(),
       sumOrderWithDiscount: handleTotalCart(),
-      cardNumber: cardNumber,
+      cardNumber: Number(cardNumber),
     };
 
     // console.log("PushNewOrder", pushNewOrder);
@@ -1159,7 +1160,7 @@ function ClientCart() {
                     placeholder="Card Numbers"
                     minLength={16}
                     maxLength={16}
-                    value={cardNumber}
+                    value={Number(cardNumber)}
                     onChange={(event) => {
                       Number(setCardNumber(event.target.value));
                     }}

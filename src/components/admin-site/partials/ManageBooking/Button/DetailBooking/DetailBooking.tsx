@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Modal } from "antd";
 import axios from "axios";
-import { Booking } from "../../../../../../database";
 import styles from "../../../../AdminPage.module.css";
 
 interface DetailModalProps {
