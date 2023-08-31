@@ -89,7 +89,7 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
         {value}
       </Button>
       <Modal
-        width={900}
+        width={800}
         title={title}
         open={isModalOpen}
         onOk={handleOk}
@@ -97,9 +97,8 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
       >
         {services && (
           <div className={styles["product-detail-information-container"]}>
-            <div className={styles["left-product-detail-item"]}>
-              <img src={services && services.serviceImage} alt="" />
-            </div>
+            <img src={services && services.serviceImage} alt="" />
+            <div className={styles["left-product-detail-item"]}></div>
 
             <div className={styles["right-product-detail-item"]}>
               <div className={styles["product-info-item"]}>
@@ -115,7 +114,7 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
               </div>
               <div className={styles["product-info-item"]}>
                 <label className={styles["label-product"]} htmlFor="">
-                  Product Title
+                  Service Name
                 </label>
                 <input
                   type="text"

@@ -1331,7 +1331,73 @@ table.table.table-cart {
   font-weight: bold;
 }
 
+/* CSS Comment Section */
+
 /* CSS Tablet */
+.comment-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 800px;
+  margin: 0 auto;
+}
+
+.user-comment-product {
+  text-align: left;
+  margin: 0;
+}
+
+.rating-text {
+  font-size: 22px;
+}
+
+.main-content-comment {
+  text-align: justify;
+}
+
+.main-content-comment {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.comment-input {
+  width: 800px;
+  margin: 0 auto;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.product-comment-item {
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  padding: 20px;
+  border-radius: 20px;
+  width: 800px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 0.5fr 3fr;
+  gap: 20px;
+}
+
+.user-comment-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.user-avatar {
+  width: 50px;
+  margin: 0 auto;
+}
+
+.send-comment-btn {
+  text-align: left;
+  margin-top: 20px;
+}
 
 @media screen and (max-width: 1079px) {
   .main-content {

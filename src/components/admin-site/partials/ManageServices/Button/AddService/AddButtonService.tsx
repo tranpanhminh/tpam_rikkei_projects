@@ -62,12 +62,7 @@ const AddModalService: React.FC<AddModalProps> = ({
 
   const handleOk = () => {
     // Kiểm tra thông tin đầy đủ
-    if (
-      !newService.name ||
-      !newService.description ||
-      newService.price <= 0 ||
-      newService.price <= 0
-    ) {
+    if (!newService.name || !newService.description || newService.price <= 0) {
       notification.warning({
         message: "Notification",
         description:
@@ -131,7 +126,7 @@ const AddModalService: React.FC<AddModalProps> = ({
             <input type="text" value={maxId + 1} disabled />
           </div>
           <div className={styles["list-input-item"]}>
-            <p>Product Name</p>
+            <p>Service Name</p>
             <input
               type="text"
               value={newService.name}

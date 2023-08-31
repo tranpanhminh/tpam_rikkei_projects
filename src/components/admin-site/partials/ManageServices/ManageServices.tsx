@@ -183,7 +183,7 @@ function ManageServices() {
                   <td className={styles["group-btn-admin-manage-product"]}>
                     <DetailButtonService
                       value="Detail"
-                      title="Detail Product"
+                      title="Detail Service"
                       className={styles["detail-product-btn"]}
                       getServiceId={service.id}
                       handleFunctionOk={handleUpdateService}

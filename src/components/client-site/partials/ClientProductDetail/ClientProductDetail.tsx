@@ -5,6 +5,9 @@ import { Product } from "../../../../database";
 import { NavLink, useParams } from "react-router-dom";
 import { notification } from "antd";
 import { Button, Modal } from "antd";
+import { Rate } from "antd";
+import avatar from "../../../../assets/images/dogs-reviews-01.png";
+import { Editor } from "@tinymce/tinymce-react";
 
 function ClientProductDetail() {
   const getData: any = localStorage.getItem("auth");
@@ -15,6 +18,7 @@ function ClientProductDetail() {
   const [userCart, setUserCart] = useState<any>(null);
   const [products, setProducts] = useState<any>(null);
   const [quantity, setQuantity] = useState<number>(1);
+  const [editorContent, setEditorContent] = useState("");
 
   const handleOk = () => {
     setIsModalOpen(false);
@@ -166,6 +170,17 @@ function ClientProductDetail() {
     }
   };
 
+  const editorConfig = {
+    height: "200px", // Điều chỉnh chiều cao ở đây
+    // Các tùy chọn khác bạn muốn cấu hình
+  };
+
+  const handleEditorChange = (content: string) => {
+    if (content.length <= 200) {
+      setEditorContent(content);
+    }
+  };
+
   return (
     <>
       {products && (
@@ -258,6 +273,72 @@ function ClientProductDetail() {
           </div>
         </div>
       )}
+      <div className={styles["comment-product-section"]}>
+        <div className={styles["product-detail"]}>
+          <div
+            className="container text-center"
+            style={{ marginTop: 50, marginBottom: 50 }}
+          >
+            <div className={styles["comment-heading"]}>
+              <h3 className={styles["user-comment-product"]}>
+                Total 10 comments
+              </h3>
+              <div>
+                <span className={styles["rating-text"]}>Rating: </span>
+                <Rate allowHalf defaultValue={2.5} />
+              </div>
+            </div>
+
+            <div className={styles["comment-input"]}>
+              <Editor init={editorConfig} onEditorChange={handleEditorChange} />
+              <div className={styles["send-comment-btn"]}>
+                <Button type="primary">Comment</Button>
+              </div>
+            </div>
+
+            <div className={styles["main-content-comment"]}>
+              <section className={styles["product-comment-item"]}>
+                <div className={styles["user-comment-info"]}>
+                  <img src={avatar} alt="" className={styles["user-avatar"]} />
+                  <span>User Name</span>
+                </div>
+                <div className={styles["comment-content"]}>
+                  Absolutely delighted with this pet product! It's truly a
+                  game-changer for pet owners. From the quality craftsmanship to
+                  the thoughtful design, it's evident that the creators care
+                  deeply about pets' well-being.
+                </div>
+              </section>
+              <section className={styles["product-comment-item"]}>
+                <div className={styles["user-comment-info"]}>
+                  <img src={avatar} alt="" className={styles["user-avatar"]} />
+                  <span>User Name</span>
+                </div>
+                <div>
+                  <div className={styles["comment-content"]}>
+                    Absolutely delighted with this pet product! It's truly a
+                    game-changer for pet owners. From the quality craftsmanship
+                    to the thoughtful design, it's evident that the creators
+                    care deeply about pets' well-being.
+                  </div>
+                </div>
+              </section>
+              <section className={styles["product-comment-item"]}>
+                <div className={styles["user-comment-info"]}>
+                  <img src={avatar} alt="" className={styles["user-avatar"]} />
+                  <span>User Name</span>
+                </div>
+                <div className={styles["comment-content"]}>
+                  Absolutely delighted with this pet product! It's truly a
+                  game-changer for pet owners. From the quality craftsmanship to
+                  the thoughtful design, it's evident that the creators care
+                  deeply about pets' well-being.
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 }
