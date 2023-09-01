@@ -49,7 +49,7 @@ const AddModalService: React.FC<AddModalProps> = ({
 
   const handleOk = () => {
     // Kiểm tra thông tin đầy đủ
-    if (!newService.name || !newService.description || newService.price <= 0) {
+    if (!newService?.name || !newService?.description || newService?.price <= 0) {
       notification.warning({
         message: "Notification",
         description:
@@ -104,7 +104,7 @@ const AddModalService: React.FC<AddModalProps> = ({
         onCancel={handleCancel}
         width={800}
       >
-        {/* <div className={styles["list-input-add-student"]}>
+        <div className={styles["list-input-add-student"]}>
           <div className={styles["list-input-item"]}>
             <p>User ID</p>
             <input type="text" value={maxId + 1} disabled />
@@ -113,7 +113,7 @@ const AddModalService: React.FC<AddModalProps> = ({
             <p>Service Name</p>
             <input
               type="text"
-              value={newService.name}
+              value={newService?.name}
               onChange={(e) =>
                 setNewService({ ...newService, name: e.target.value })
               }
@@ -132,7 +132,7 @@ const AddModalService: React.FC<AddModalProps> = ({
             <p>Price</p>
             <input
               type="text"
-              value={newService.price}
+              value={newService?.price}
               onChange={(e) =>
                 setNewService({ ...newService, price: Number(e.target.value) })
               }
@@ -142,13 +142,13 @@ const AddModalService: React.FC<AddModalProps> = ({
             <p>Service Image</p>
             <input
               type="text"
-              value={newService.serviceImage}
+              value={newService?.serviceImage}
               onChange={(e) =>
                 setNewService({ ...newService, serviceImage: e.target.value })
               }
             />
           </div>
-        </div> */}
+        </div>
       </Modal>
     </>
   );
