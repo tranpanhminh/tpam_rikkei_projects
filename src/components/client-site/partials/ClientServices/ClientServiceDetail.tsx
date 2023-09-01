@@ -7,7 +7,8 @@ import avatar from "../../../../assets/images/dogs-reviews-01.png";
 import { Badge } from "react-bootstrap";
 import { Editor } from "@tinymce/tinymce-react";
 import type { DatePickerProps } from "antd";
-import { DatePicker, Space } from "antd";
+import { DatePicker } from "antd";
+import { format, parse } from "date-fns";
 
 function ClientServiceDetail() {
   const getData: any = localStorage.getItem("auth");
@@ -18,6 +19,8 @@ function ClientServiceDetail() {
   const [comments, setComments] = useState<any>([]);
   const [editorContent, setEditorContent] = useState("");
   const [rateValue, setRateValue] = useState(0);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [dateBooking, setDateBooking] = useState("");
   const [timeZone, setTimeZone] = useState("");
 
@@ -162,7 +165,14 @@ function ClientServiceDetail() {
   };
 
   const handleBooking = (userId: number, serviceId: number) => {
-    console.log(dateBooking, timeZone, userId, serviceId);
+    const newBooking = {
+      userId: userId,
+      serviceId: serviceId,
+      date: dateBooking,
+      timeZone: timeZone,
+      price: services.price,
+    };
+    console.log(newBooking);
   };
 
   const onChangeDatePicker: DatePickerProps["onChange"] = (
@@ -244,10 +254,24 @@ function ClientServiceDetail() {
           <div className={styles["booking-form"]}>
             <h3>Booking Service</h3>
             <div className={styles["booking-input-form"]}>
-              <input type="text" placeholder="Customer Name" />
-              <input type="text" placeholder="Phone" />
+              <input
+                type="text"
+                placeholder="Name"
+                value={name}
+                onChange={(event) => {
+                  setName(event.target.value);
+                }}
+              />
+              <input
+                type="text"
+                placeholder="Phone"
+                value={phone}
+                onChange={(event) => {
+                  setPhone(event.target.value);
+                }}
+              />
               <div className={styles["booking-calendar-pick"]}>
-                <DatePicker onChange={onChangeDatePicker} />
+                <DatePicker format="DD/MM/YYYY" onChange={onChangeDatePicker} />
                 <Select
                   defaultValue="09:00 AM - 11:30 AM"
                   style={{ width: 200 }}
