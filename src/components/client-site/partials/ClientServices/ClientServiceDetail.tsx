@@ -183,10 +183,39 @@ function ClientServiceDetail() {
   console.log("dataBookings", dataBookings);
 
   const handleBooking = (userId: number, serviceId: number) => {
-    const newBooking = {
-      date: dateBooking,
-      listBookings: [],
-    };
+    // Định dạng ngày trong `dateBooking` (VD: '10/09/2023')
+    const dateParts = dateBooking.split("/");
+    const day = parseInt(dateParts[0], 10);
+    const month = parseInt(dateParts[1], 10) - 1; // Lưu ý: Tháng trong JavaScript là từ 0 đến 11
+    const year = parseInt(dateParts[2], 10);
+
+    // Tạo một đối tượng Date từ các phần tử trích xuất
+    const selectedDate = new Date(year, month, day);
+
+    // Kiểm tra xem ngày đó có phải là ngày chủ nhật hay không
+    if (selectedDate.getDay() === 0) {
+      // Ngày chủ nhật (0 = Chủ nhật, 1 = Thứ hai, ..., 6 = Thứ bảy)
+      notification.warning({
+        message: "Notification",
+        description: "Sunday is not our working day",
+      });
+      return;
+    }
+
+    // Kiểm tra Phone & Address
+    const phoneNumberPattern = /^1\d{10}$/;
+
+    if (!phone || !name) {
+      notification.warning({
+        message: "Please fill Name & Phone",
+      });
+      return;
+    } else if (!phoneNumberPattern.test(phone)) {
+      notification.warning({
+        message: "Invalid Phone Number (Use the format 1234567890)",
+      });
+      return;
+    }
 
     let maxBookingId = 0;
 
@@ -227,6 +256,50 @@ function ClientServiceDetail() {
       return booking.date === dateBooking;
     });
     console.log("findDate", findDate);
+
+    // Kiểm tra listBookings.length
+    if (findDate && findDate.listBookings.length >= 2) {
+      notification.warning({
+        message: "Notification",
+        description: "This day is fully booked",
+      });
+      return;
+    }
+
+    // Kiểm tra timeZone
+    if (timeZone === "09:00 AM - 11:30 AM") {
+      // Kiểm tra số lượng slot đã đặt trong khung giờ này
+      const bookedSlotsCount = findDate
+        ? findDate.listBookings.filter(
+            (booking: any) => booking.calendar === timeZone
+          ).length
+        : 0;
+
+      if (bookedSlotsCount >= 10) {
+        notification.warning({
+          message: "Notification",
+          description:
+            "The time frame of 09:00 AM - 11:30 AM of this day is fully booked.",
+        });
+        return;
+      }
+    } else if (timeZone === "14:00 PM - 16:30 PM") {
+      // Kiểm tra số lượng slot đã đặt trong khung giờ này
+      const bookedSlotsCount = findDate
+        ? findDate.listBookings.filter(
+            (booking: any) => booking.calendar === timeZone
+          ).length
+        : 0;
+
+      if (bookedSlotsCount >= 10) {
+        notification.warning({
+          message: "Notification",
+          description:
+            "The time frame of 14:00 PM - 16:30 PM of this day is fully booked.",
+        });
+        return;
+      }
+    }
 
     if (findDate) {
       // Nếu ngày đã tồn tại, thêm newDataBooking vào listBookings của findDate

@@ -142,16 +142,12 @@ function ManageServices() {
         >
           <thead>
             <tr>
-              <th rowSpan={2}>#</th>
-              <th rowSpan={2}>Image</th>
-              <th rowSpan={2}>Name</th>
-              <th rowSpan={2}>Price</th>
-              <th colSpan={2}>Time</th>
-              <th rowSpan={2}>Action</th>
-            </tr>
-            <tr>
-              <th style={{ width: "250px" }}>Calendar</th>
-              <th>Seat</th>
+              <th>#</th>
+              <th>Image</th>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Time</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -167,10 +163,6 @@ function ManageServices() {
                   <td>
                     <p>{service.morningTime}</p>
                     <p>{service.afternoonTime}</p>
-                  </td>
-                  <td>
-                    <p>{service.morningSlot}</p>
-                    <p>{service.afternoonSlot}</p>
                   </td>
                   <td className={styles["group-btn-admin-manage-product"]}>
                     <DetailButtonService
