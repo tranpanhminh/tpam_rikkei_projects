@@ -227,15 +227,16 @@ function ClientServiceDetail() {
                           <th>Slot</th>
                         </tr>
                       </thead>
+
                       <tbody>
                         <tr>
                           <td rowSpan={2}>Monday - Saturday</td>
-                          <td>09:00 AM - 11:30 AM</td>
-                          <td>15</td>
+                          <td>{services?.morningTime}</td>
+                          <td>{services?.morningSlot}</td>
                         </tr>
                         <tr>
-                          <td>14:00 PM - 16:30 PM</td>
-                          <td>15</td>
+                          <td>{services?.afternoonTime}</td>
+                          <td>{services?.morningSlot}</td>
                         </tr>
                       </tbody>
                     </table>
