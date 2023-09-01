@@ -18,6 +18,8 @@ function ClientServiceDetail() {
   const [comments, setComments] = useState<any>([]);
   const [editorContent, setEditorContent] = useState("");
   const [rateValue, setRateValue] = useState(0);
+  const [dateBooking, setDateBooking] = useState("");
+  const [timeZone, setTimeZone] = useState("");
 
   const fetchUsers = () => {
     axios
@@ -159,17 +161,21 @@ function ClientServiceDetail() {
     height: "300px",
   };
 
-  const handleBooking = (userId: number, serviceId: number) => {};
+  const handleBooking = (userId: number, serviceId: number) => {
+    console.log(dateBooking, timeZone, userId, serviceId);
+  };
 
   const onChangeDatePicker: DatePickerProps["onChange"] = (
     date,
     dateString
   ) => {
     console.log(date, dateString);
+    setDateBooking(dateString);
   };
 
   const handleSelect = (value: string) => {
     console.log(`selected ${value}`);
+    setTimeZone(value);
   };
 
   return (
@@ -243,15 +249,28 @@ function ClientServiceDetail() {
               <div className={styles["booking-calendar-pick"]}>
                 <DatePicker onChange={onChangeDatePicker} />
                 <Select
-                  defaultValue="morning"
+                  defaultValue="09:00 AM - 11:30 AM"
                   style={{ width: 200 }}
                   onChange={handleSelect}
                   options={[
-                    { value: "morning", label: "09:00 AM - 11:30 AM" },
-                    { value: "afternoon", label: "14:00 PM - 16:30 PM" },
+                    {
+                      value: "09:00 AM - 11:30 AM",
+                      label: "09:00 AM - 11:30 AM",
+                    },
+                    {
+                      value: "14:00 PM - 16:30 PM",
+                      label: "14:00 PM - 16:30 PM",
+                    },
                   ]}
                 />
-                <button className={styles["booking-btn"]}>Book</button>
+                <button
+                  className={styles["booking-btn"]}
+                  onClick={() => {
+                    handleBooking(getLoginData.loginId, services.id);
+                  }}
+                >
+                  Book
+                </button>
               </div>
             </div>
           </div>
