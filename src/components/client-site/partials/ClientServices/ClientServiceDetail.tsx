@@ -78,7 +78,7 @@ function ClientServiceDetail() {
 
     const newComment = {
       commentId: maxId + 1,
-      productId: Number(serviceId),
+      serviceId: Number(serviceId),
       userId: getLoginData.loginId,
       userName: getLoginData.fullName,
       userRole: getLoginData.role,
@@ -109,7 +109,48 @@ function ClientServiceDetail() {
   };
 
   const handleDeleteComment = (commentId: number) => {
-    console.log("Comment ID", commentId);
+    let findCommentIndex = comments.findIndex((comment: any) => {
+      return comment.commentId === commentId;
+    });
+    console.log(findCommentIndex);
+
+    comments.splice(findCommentIndex, 1);
+
+    axios
+      .patch(`http://localhost:7373/services/${serviceId}`, {
+        comments: comments,
+      })
+      .then((response) => {
+        fetchServices();
+        setServices(response.data);
+        setComments(response.data.comments);
+        notification.success({
+          message: "Comment Deleted",
+        });
+        handleEditorChange("");
+        setRateValue(0);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+  const averageRating = () => {
+    let filterComment = comments.filter((comment: any) => {
+      return comment.userRole === "customer";
+    });
+
+    let sumRating = filterComment.reduce(
+      (accumulator: number, currentValue: any) => {
+        return accumulator + currentValue.rating;
+      },
+      0
+    );
+    if (sumRating === 0) {
+      return "No Rating";
+    } else {
+      return (sumRating / filterComment.length).toFixed(1);
+    }
   };
 
   const editorConfig = {
@@ -147,27 +188,24 @@ function ClientServiceDetail() {
                     >
                       <thead>
                         <tr>
-                          <th>Calendar</th>
-                          <th>Seat</th>
-                          <th>Booking</th>
+                          <th rowSpan={2}>Day</th>
+                          <th colSpan={2}>Calendar</th>
+                        </tr>
+                        <tr>
+                          <th>Time</th>
+                          <th>Slot</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {services.time.map((item: any) => {
-                          return (
-                            <tr>
-                              <td>{item.calendar}</td>
-                              <td>{item.seat}</td>
-                              <td>
-                                <button
-                                  className={styles["booking-service-btn"]}
-                                >
-                                  Book
-                                </button>
-                              </td>
-                            </tr>
-                          );
-                        })}
+                        <tr>
+                          <td rowSpan={2}>Monday - Saturday</td>
+                          <td>09:00 AM - 11:30 AM</td>
+                          <td>15</td>
+                        </tr>
+                        <tr>
+                          <td>14:00 PM - 16:30 PM</td>
+                          <td>15</td>
+                        </tr>
                       </tbody>
                     </table>
                   </div>
@@ -177,6 +215,21 @@ function ClientServiceDetail() {
           </div>
         )}
       </div>
+      <div className={styles["booking-section"]}>
+        <div
+          className="container text-center"
+          style={{ marginTop: 50, marginBottom: 50 }}
+        >
+          <div className={styles["booking-form"]}>
+            <h3>Booking Service</h3>
+            <div className={styles["booking-input-form"]}>
+              <input type="text" placeholder="Name" />
+              <input type="text" placeholder="Phone" />
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className={styles["comment-product-section"]}>
         <div className={styles["comment-detail"]}>
           <div
@@ -185,12 +238,19 @@ function ClientServiceDetail() {
           >
             <div className={styles["comment-heading"]}>
               <h3 className={styles["user-comment-product"]}>
-                Total {comments.length} comments
+                {comments.length} comments
               </h3>
-              <div>
-                <span className={styles["rating-text"]}>Rating: </span>
-                <Rate allowHalf value={rateValue} onChange={handleRateChange} />
-              </div>
+
+              {getLoginData.role !== "admin" && (
+                <div>
+                  <span className={styles["rating-text"]}>Rating: </span>
+                  <Rate
+                    allowHalf
+                    value={rateValue}
+                    onChange={handleRateChange}
+                  />
+                </div>
+              )}
             </div>
 
             <div className={styles["comment-input"]}>
@@ -205,10 +265,12 @@ function ClientServiceDetail() {
                 </Button>
               </div>
             </div>
-            {services &&
-              services.comments.map((item: any) => {
-                return (
-                  <div className={styles["main-content-comment"]}>
+            <div
+              className={`${styles["main-content-comment"]} ${styles["comment-scrollable"]}`}
+            >
+              {services &&
+                services.comments.map((item: any) => {
+                  return (
                     <section className={styles["product-comment-item"]}>
                       <div className={styles["user-comment-info"]}>
                         <img
@@ -217,16 +279,20 @@ function ClientServiceDetail() {
                           className={styles["user-avatar"]}
                         />
 
-                        <span>{item.userName}</span>
+                        <span>{item.userName.split(" ")[0]}</span>
                         {item.userRole === "admin" ? (
                           <Badge bg="success">Admin</Badge>
                         ) : item.order_history?.length !== 0 ? (
                           <Badge bg="warning" text="dark">
-                            Loyal Customer
+                            Customer
                           </Badge>
                         ) : (
                           ""
                         )}
+                        <span className={styles["rating-section"]}>
+                          {item.rating}
+                          <i className="fa-solid fa-star"></i>
+                        </span>
                         {user?.role === "admin" && (
                           <Button
                             type="primary"
@@ -237,15 +303,17 @@ function ClientServiceDetail() {
                           </Button>
                         )}
                       </div>
-                      <div className={styles["comment-content"]}>
+                      <div
+                        className={`${styles["comment-content"]} ${styles["comment-scrollable"]}`}
+                      >
                         {React.createElement("div", {
                           dangerouslySetInnerHTML: { __html: item.content },
                         })}
                       </div>
                     </section>
-                  </div>
-                );
-              })}
+                  );
+                })}
+            </div>
           </div>
         </div>
       </div>

@@ -140,7 +140,7 @@ function ManageServices() {
           className="table table-striped"
           id={styles["table-products-manage-page"]}
         >
-          <thead>
+          {/* <thead>
             <tr>
               <th rowSpan={2}>#</th>
               <th rowSpan={2}>Image</th>
@@ -198,7 +198,7 @@ function ManageServices() {
                   </td>
                 </tr>
               ))}
-          </tbody>
+          </tbody> */}
         </table>
       </div>
     </>

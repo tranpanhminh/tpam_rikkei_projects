@@ -245,7 +245,31 @@ function ClientProductDetail() {
   };
 
   const handleDeleteComment = (commentId: number) => {
-    console.log("Comment ID", commentId);
+    let findCommentIndex = comments.findIndex((comment: any) => {
+      return comment.commentId === commentId;
+    });
+    console.log(findCommentIndex);
+
+    comments.splice(findCommentIndex, 1);
+
+    axios
+      .patch(`http://localhost:7373/products/${productId}`, {
+        comments: comments,
+      })
+      .then((response) => {
+        fetchProducts();
+        setProducts(response.data);
+        setComments(response.data.comments);
+        notification.success({
+          message: "Comment Deleted",
+        });
+        handleEditorChange("");
+        setRateValue(0);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+    console.log("Update Products", products);
   };
 
   const averageRating = () => {
