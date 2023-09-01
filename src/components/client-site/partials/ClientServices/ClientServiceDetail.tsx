@@ -420,12 +420,8 @@ function ClientServiceDetail() {
                     >
                       <thead>
                         <tr>
-                          <th rowSpan={2}>Day</th>
-                          <th colSpan={2}>Calendar</th>
-                        </tr>
-                        <tr>
-                          <th>Time</th>
-                          <th>Slot</th>
+                          <th>Day</th>
+                          <th>Calendar</th>
                         </tr>
                       </thead>
 
@@ -433,11 +429,9 @@ function ClientServiceDetail() {
                         <tr>
                           <td rowSpan={2}>Monday - Saturday</td>
                           <td>{services?.morningTime}</td>
-                          <td>{services?.morningSlot}</td>
                         </tr>
                         <tr>
                           <td>{services?.afternoonTime}</td>
-                          <td>{services?.morningSlot}</td>
                         </tr>
                       </tbody>
                     </table>
