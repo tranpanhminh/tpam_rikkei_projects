@@ -1357,8 +1357,12 @@ table.table.table-cart {
   display: flex;
   flex-direction: column;
   gap: 40px;
-  max-height: 1000px;
-  overflow-x: auto;
+  max-height: 800px;
+  overflow-y: auto;
+  width: 900px;
+  margin: 0 auto;
+
+  
 }
 
 .comment-input {
@@ -1410,10 +1414,6 @@ table.table.table-cart {
   max-height: 160px; /* Thay đổi chiều cao cố định tùy theo mong muốn */
   overflow-y: auto; /* Thanh cuộn dọc sẽ xuất hiện khi nội dung vượt quá chiều cao */
   word-wrap: break-word; /* Cắt chữ nếu vượt quá chiều rộng */
-}
-
-.comment-scrollable {
-  overflow-y: auto;
 }
 
 .rating-section {
@@ -1981,6 +1981,7 @@ table.table.table-cart {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    width: 400px;
   }
 
   .comment-input {

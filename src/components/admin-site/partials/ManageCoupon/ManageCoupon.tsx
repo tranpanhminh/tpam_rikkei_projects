@@ -117,7 +117,8 @@ function ManageNewsletter() {
         return user.newsletter_register === true;
       });
 
-      filterUserRegister.forEach((user: any) => {
+      // filterUserRegister.forEach((user: any) => {
+      filterUserRegister.map((user: any) => {
         let maxNewsletterId = Math.max(
           ...user.newsletter.map((item: any) => item.id),
           0

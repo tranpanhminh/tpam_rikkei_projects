@@ -248,6 +248,24 @@ function ClientProductDetail() {
     console.log("Comment ID", commentId);
   };
 
+  const averageRating = () => {
+    let filterComment = comments.filter((comment: any) => {
+      return comment.userRole === "customer";
+    });
+
+    let sumRating = filterComment.reduce(
+      (accumulator: number, currentValue: any) => {
+        return accumulator + currentValue.rating;
+      },
+      0
+    );
+    if (sumRating === 0) {
+      return "No Rating";
+    } else {
+      return (sumRating / filterComment.length).toFixed(1);
+    }
+  };
+
   return (
     <>
       {products && (
@@ -313,11 +331,11 @@ function ClientProductDetail() {
                     />
                   </div>
                   <div className={styles["product-rating"]}>
-                    <span>Rating</span>{" "}
-                    <span className={styles["rating-section"]}>
-                      {5}
+                    <span>Rating</span>
+                    <div className={styles["rating-section"]}>
+                      {averageRating()}
                       <i className="fa-solid fa-star"></i>
-                    </span>
+                    </div>
                   </div>
                   <button
                     className={styles["product-detail-page-add-to-cart-btn"]}
@@ -357,10 +375,17 @@ function ClientProductDetail() {
               <h3 className={styles["user-comment-product"]}>
                 {comments.length} comments
               </h3>
-              <div>
-                <span className={styles["rating-text"]}>Rating: </span>
-                <Rate allowHalf value={rateValue} onChange={handleRateChange} />
-              </div>
+
+              {getLoginData.role !== "admin" && (
+                <div>
+                  <span className={styles["rating-text"]}>Rating: </span>
+                  <Rate
+                    allowHalf
+                    value={rateValue}
+                    onChange={handleRateChange}
+                  />
+                </div>
+              )}
             </div>
 
             <div className={styles["comment-input"]}>

@@ -114,10 +114,6 @@ function ClientServiceDetail() {
 
   const editorConfig = {
     height: "300px",
-    // plugins: "maxlength", // Sử dụng plugin maxlength
-    // toolbar: "undo redo | bold italic | maxlength", // Thêm nút maxlength vào thanh công cụ
-    // max_chars: 200, // Giới hạn số ký tự
-    // // Các tùy chọn khác bạn muốn cấu hình
   };
 
   return (
