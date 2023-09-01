@@ -23,6 +23,9 @@ function ClientServiceDetail() {
   const [phone, setPhone] = useState("");
   const [dateBooking, setDateBooking] = useState("");
   const [timeZone, setTimeZone] = useState("");
+  const [bookings, setBookings] = useState<any>([]);
+  const [dataBookings, setDataBookings] = useState<any>([]);
+  const [dataBookingId, setDataBookingId] = useState<any>([]);
 
   const fetchUsers = () => {
     axios
@@ -47,9 +50,21 @@ function ClientServiceDetail() {
       });
   };
 
+  const fetchBooking = () => {
+    axios
+      .get(`http://localhost:7373/bookings/`)
+      .then((response) => {
+        setBookings(response.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
   useEffect(() => {
     fetchServices();
     fetchUsers();
+    fetchBooking();
   }, []);
 
   const handleEditorChange = (content: string) => {
@@ -164,15 +179,86 @@ function ClientServiceDetail() {
     height: "300px",
   };
 
+  console.log("List Bookings", bookings);
+  console.log("dataBookings", dataBookings);
+
   const handleBooking = (userId: number, serviceId: number) => {
     const newBooking = {
-      userId: userId,
-      serviceId: serviceId,
       date: dateBooking,
-      timeZone: timeZone,
-      price: services.price,
+      listBookings: [],
     };
-    console.log(newBooking);
+
+    let maxBookingId = 0;
+
+    // Tìm `bookingId` lớn nhất trong tất cả các phần tử `listBookings` của mảng `bookings`
+    if (bookings.length > 0) {
+      maxBookingId = bookings.reduce((max: any, booking: any) => {
+        const maxInBooking = booking.listBookings
+          ? Math.max(...booking.listBookings.map((data: any) => data.bookingId))
+          : 0;
+        return maxInBooking > max ? maxInBooking : max;
+      }, 0);
+    }
+
+    // Khi bạn thêm một người dùng mới
+    // Bạn cần cập nhật `maxBookingId` bằng cách tăng giá trị hiện tại lên 1
+    maxBookingId += 1;
+
+    // Định dạng ngày giờ
+    const currentDateTime = new Date();
+    const formattedDateTime = format(currentDateTime, "dd/MM/yyyy HH:mm:ss");
+
+    let newDataBooking = {
+      bookingId: maxBookingId,
+      bookingDate: dateBooking,
+      time: formattedDateTime,
+      userId: userId,
+      userName: name,
+      userPhone: phone,
+      calendar: timeZone,
+      serviceId: serviceId,
+      serviceName: services.name,
+      serviceImage: services.serviceImage,
+      servicePrice: services.price,
+    };
+
+    // Kiểm tra xem dateBooking đã được tồn tại trong Data Bookings chưa
+    let findDate = bookings.find((booking: any) => {
+      return booking.date === dateBooking;
+    });
+    console.log("findDate", findDate);
+
+    if (findDate) {
+      // Nếu ngày đã tồn tại, thêm newDataBooking vào listBookings của findDate
+      findDate.listBookings.push(newDataBooking);
+
+      // Gọi API patch để cập nhật listBookings của findDate
+      axios
+        .patch(`http://localhost:7373/bookings/${findDate.id}`, {
+          listBookings: findDate.listBookings,
+        })
+        .then((response) => {
+          fetchBooking();
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    } else {
+      // Nếu ngày chưa tồn tại, tạo một booking mới
+      const newBooking = {
+        date: dateBooking,
+        listBookings: [newDataBooking], // Thêm newDataBooking vào listBookings mới
+      };
+
+      axios
+        .post(`http://localhost:7373/bookings/`, newBooking)
+        .then((response) => {
+          fetchBooking();
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    }
   };
 
   const onChangeDatePicker: DatePickerProps["onChange"] = (
@@ -274,10 +360,14 @@ function ClientServiceDetail() {
               <div className={styles["booking-calendar-pick"]}>
                 <DatePicker format="DD/MM/YYYY" onChange={onChangeDatePicker} />
                 <Select
-                  defaultValue="09:00 AM - 11:30 AM"
+                  defaultValue="Select time"
                   style={{ width: 200 }}
                   onChange={handleSelect}
                   options={[
+                    {
+                      value: "Select time",
+                      label: "Select time",
+                    },
                     {
                       value: "09:00 AM - 11:30 AM",
                       label: "09:00 AM - 11:30 AM",
