@@ -3,8 +3,8 @@ import styles from "../../ClientPage.module.css";
 import axios from "axios";
 import { Product } from "../../../../database";
 import { NavLink, useParams } from "react-router-dom";
-import { notification } from "antd";
-import { Button, Modal } from "antd";
+import { notification, Button, Modal } from "antd";
+import {} from "antd";
 import { Rate } from "antd";
 import avatar from "../../../../assets/images/dogs-reviews-01.png";
 import { Editor } from "@tinymce/tinymce-react";
@@ -341,14 +341,14 @@ function ClientProductDetail() {
         </div>
       )}
       <div className={styles["comment-product-section"]}>
-        <div className={styles["product-detail"]}>
+        <div className={styles["comment-detail"]}>
           <div
             className="container text-center"
             style={{ marginTop: 50, marginBottom: 50 }}
           >
             <div className={styles["comment-heading"]}>
               <h3 className={styles["user-comment-product"]}>
-                Total {comments.length} comments
+                {comments.length} comments
               </h3>
               <div>
                 <span className={styles["rating-text"]}>Rating: </span>
@@ -400,7 +400,9 @@ function ClientProductDetail() {
                           </Button>
                         )}
                       </div>
-                      <div className={styles["comment-content"]}>
+                      <div
+                        className={`${styles["comment-content"]} ${styles["scrollable"]}`}
+                      >
                         {React.createElement("div", {
                           dangerouslySetInnerHTML: { __html: item.content },
                         })}

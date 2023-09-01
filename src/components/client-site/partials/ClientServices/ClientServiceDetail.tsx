@@ -182,7 +182,7 @@ function ClientServiceDetail() {
         )}
       </div>
       <div className={styles["comment-product-section"]}>
-        <div className={styles["product-detail"]}>
+        <div className={styles["comment-detail"]}>
           <div
             className="container text-center"
             style={{ marginTop: 50, marginBottom: 50 }}
