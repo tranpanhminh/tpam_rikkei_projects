@@ -1166,7 +1166,8 @@ table.table.table-cart {
 .product-vendor,
 .product-sku,
 .product-stock,
-.product-id {
+.product-id,
+.product-rating {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -1178,7 +1179,8 @@ table.table.table-cart {
 .product-vendor span:first-child,
 .product-sku span:first-child,
 .product-stock span:first-child,
-.product-id span:first-child {
+.product-id span:first-child,
+.product-rating span:first-child {
   width: 120px;
   padding: 10px;
   border-radius: 10px;
@@ -1351,13 +1353,12 @@ table.table.table-cart {
 
 .main-content-comment {
   text-align: justify;
-}
-
-.main-content-comment {
   padding: 30px;
   display: flex;
   flex-direction: column;
   gap: 40px;
+  max-height: 1000px;
+  overflow-x: auto;
 }
 
 .comment-input {
@@ -1403,6 +1404,25 @@ table.table.table-cart {
 
 .delete-comment-btn {
   background-color: #ed5e68;
+}
+
+.comment-content {
+  max-height: 160px; /* Thay đổi chiều cao cố định tùy theo mong muốn */
+  overflow-y: auto; /* Thanh cuộn dọc sẽ xuất hiện khi nội dung vượt quá chiều cao */
+  word-wrap: break-word; /* Cắt chữ nếu vượt quá chiều rộng */
+}
+
+.comment-scrollable {
+  overflow-y: auto;
+}
+
+.rating-section {
+  text-align: center;
+}
+
+.rating-section i {
+  color: #fadb14;
+  margin: 0;
 }
 
 /* CSS Tablet */
@@ -2014,5 +2034,9 @@ table.table.table-cart {
 
   .delete-comment-btn {
     background-color: #ed5e68;
+  }
+
+  .rating-section {
+    width: 60px;
   }
 }

@@ -312,6 +312,13 @@ function ClientProductDetail() {
                       }
                     />
                   </div>
+                  <div className={styles["product-rating"]}>
+                    <span>Rating</span>{" "}
+                    <span className={styles["rating-section"]}>
+                      {5}
+                      <i className="fa-solid fa-star"></i>
+                    </span>
+                  </div>
                   <button
                     className={styles["product-detail-page-add-to-cart-btn"]}
                     onClick={() => {
@@ -368,10 +375,12 @@ function ClientProductDetail() {
                 </Button>
               </div>
             </div>
-            {products &&
-              products.comments.map((item: any) => {
-                return (
-                  <div className={styles["main-content-comment"]}>
+            <div
+              className={`${styles["main-content-comment"]} ${styles["comment-scrollable"]}`}
+            >
+              {products &&
+                products.comments.map((item: any) => {
+                  return (
                     <section className={styles["product-comment-item"]}>
                       <div className={styles["user-comment-info"]}>
                         <img
@@ -380,16 +389,20 @@ function ClientProductDetail() {
                           className={styles["user-avatar"]}
                         />
 
-                        <span>{item.userName}</span>
+                        <span>{item.userName.split(" ")[0]}</span>
                         {item.userRole === "admin" ? (
                           <Badge bg="success">Admin</Badge>
                         ) : item.order_history?.length !== 0 ? (
                           <Badge bg="warning" text="dark">
-                            Loyal Customer
+                            Customer
                           </Badge>
                         ) : (
                           ""
                         )}
+                        <span className={styles["rating-section"]}>
+                          {item.rating}
+                          <i className="fa-solid fa-star"></i>
+                        </span>
                         {user?.role === "admin" && (
                           <Button
                             type="primary"
@@ -401,16 +414,16 @@ function ClientProductDetail() {
                         )}
                       </div>
                       <div
-                        className={`${styles["comment-content"]} ${styles["scrollable"]}`}
+                        className={`${styles["comment-content"]} ${styles["comment-scrollable"]}`}
                       >
                         {React.createElement("div", {
                           dangerouslySetInnerHTML: { __html: item.content },
                         })}
                       </div>
                     </section>
-                  </div>
-                );
-              })}
+                  );
+                })}
+            </div>
           </div>
         </div>
       </div>
