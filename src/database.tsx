@@ -52,11 +52,11 @@ export interface Service {
   serviceImage: string;
   description: string;
   price: number;
-  time: {
-    id: number;
-    calendar: string;
-    seat: number;
-  }[];
+  morningTime: string;
+  morningSlot: number;
+  afternoonTime: string;
+  afternoonSlot: number;
+  comments: string[];
 }
 
 export interface Order {
@@ -288,44 +288,6 @@ let products: Product[] = [
   },
 ];
 
-let services: Service[] = [
-  {
-    id: 1,
-    name: "Veterinarian",
-    serviceImage: "veterinary-service.jpg",
-    description:
-      "The health of your pets is our utmost priority. Our Veterinarian service provides health check-ups, vaccinations, diagnoses, and treatments as needed. Our experienced veterinary team ensures your pets are in prime condition, offering peace of mind for their well-being.",
-    price: 500,
-    time: [
-      { id: 1, calendar: "9:00 AM - 11:00 AM", seat: 25 },
-      { id: 2, calendar: "13:00 PM - 17:00 PM", seat: 10 },
-    ],
-  },
-  {
-    id: 2,
-    name: "Pet Grooming",
-    serviceImage: "dog-grooming-service.jpg",
-    description:
-      "Our Pet Grooming service offers your furry companions a professional pampering experience. Our pet care team will clean their coat, trim their nails, and style their fur, ensuring they look and feel their best, radiating a fresh and delightful appearance.",
-    price: 300,
-    time: [
-      { id: 1, calendar: "9:00 AM - 11:00 AM", seat: 10 },
-      { id: 2, calendar: "13:00 PM - 17:00 PM", seat: 10 },
-    ],
-  },
-  {
-    id: 3,
-    name: "Pet Sitting",
-    serviceImage: "pet-sitting-service.png",
-    description:
-      "When you require personal time away from your pet, our Pet Sitting service ensures they receive attentive care. Our dedicated team will visit your home to tend to your pets, providing feeding, walks, and all the love and attention they need, bridging the gap in your absence.",
-    price: 200,
-    time: [
-      { id: 1, calendar: "9:00 AM - 11:00 AM", seat: 10 },
-      { id: 2, calendar: "13:00 PM - 17:00 PM", seat: 10 },
-    ],
-  },
-];
 
 let orders: Order[] = [
   {
@@ -552,10 +514,6 @@ export function initializeDatabase() {
     localStorage.setItem("ordersDatabase", JSON.stringify(orders));
   }
 
-  if (!servicesToDatabase) {
-    localStorage.setItem("servicesDatabase", JSON.stringify(services));
-  }
-
   if (!bookingToDatabase) {
     localStorage.setItem("bookingDatabase", JSON.stringify(bookings));
   }
@@ -583,13 +541,6 @@ export function initOrdersDatabase() {
   const ordersToDatabase = localStorage.getItem("ordersDatabase");
   if (!ordersToDatabase) {
     localStorage.setItem("ordersDatabase", JSON.stringify(orders));
-  }
-}
-
-export function initServicesDatabase() {
-  const servicesToDatabase = localStorage.getItem("servicesDatabase");
-  if (!servicesToDatabase) {
-    localStorage.setItem("servicesDatabase", JSON.stringify(services));
   }
 }
 

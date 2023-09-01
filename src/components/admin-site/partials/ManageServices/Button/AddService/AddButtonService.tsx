@@ -20,20 +20,7 @@ const AddModalService: React.FC<AddModalProps> = ({
 }) => {
   const [services, setServices] = useState<null | Service[]>(null);
   const [editorInitialValue, setEditorInitialValue] = useState("");
-  const [newService, setNewService] = useState<Service>({
-    id: 0,
-    name: "",
-    serviceImage: "",
-    description: "",
-    price: 0,
-    time: [
-      {
-        id: 0,
-        calendar: "",
-        seat: 0,
-      },
-    ],
-  });
+  const [newService, setNewService] = useState<any>(null);
 
   const fetchServices = () => {
     axios
@@ -89,13 +76,10 @@ const AddModalService: React.FC<AddModalProps> = ({
       serviceImage: "",
       description: "",
       price: 0,
-      time: [
-        {
-          id: 0,
-          calendar: "",
-          seat: 0,
-        },
-      ],
+      morningTime: "",
+      morningSlot: 0,
+      afternoonTime: "",
+      afternoonSlot: 0,
     });
     setEditorInitialValue("Type service description here.........");
   };
@@ -120,7 +104,7 @@ const AddModalService: React.FC<AddModalProps> = ({
         onCancel={handleCancel}
         width={800}
       >
-        <div className={styles["list-input-add-student"]}>
+        {/* <div className={styles["list-input-add-student"]}>
           <div className={styles["list-input-item"]}>
             <p>User ID</p>
             <input type="text" value={maxId + 1} disabled />
@@ -164,7 +148,7 @@ const AddModalService: React.FC<AddModalProps> = ({
               }
             />
           </div>
-        </div>
+        </div> */}
       </Modal>
     </>
   );

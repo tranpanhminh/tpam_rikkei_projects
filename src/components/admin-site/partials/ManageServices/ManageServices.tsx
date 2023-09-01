@@ -140,7 +140,7 @@ function ManageServices() {
           className="table table-striped"
           id={styles["table-products-manage-page"]}
         >
-          {/* <thead>
+          <thead>
             <tr>
               <th rowSpan={2}>#</th>
               <th rowSpan={2}>Image</th>
@@ -165,20 +165,12 @@ function ManageServices() {
                   <td>{service.name}</td>
                   <td>{service.price}</td>
                   <td>
-                    {service.time &&
-                      service.time.map((item, index) => (
-                        <tr key={`${service.id}-calendar-${index}`}>
-                          <td>{item.calendar}</td>
-                        </tr>
-                      ))}
+                    <p>{service.morningTime}</p>
+                    <p>{service.afternoonTime}</p>
                   </td>
                   <td>
-                    {service.time &&
-                      service.time.map((item, index) => (
-                        <tr key={`${service.id}-seat-${index}`}>
-                          <td>{item.seat}</td>
-                        </tr>
-                      ))}
+                    <p>{service.morningSlot}</p>
+                    <p>{service.afternoonSlot}</p>
                   </td>
                   <td className={styles["group-btn-admin-manage-product"]}>
                     <DetailButtonService
@@ -198,7 +190,7 @@ function ManageServices() {
                   </td>
                 </tr>
               ))}
-          </tbody> */}
+          </tbody>
         </table>
       </div>
     </>
