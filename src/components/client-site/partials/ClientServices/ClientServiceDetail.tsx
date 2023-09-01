@@ -265,7 +265,7 @@ function ClientServiceDetail() {
     console.log("findDate", findDate);
 
     // Kiểm tra listBookings.length
-    if (findDate && findDate.listBookings.length >= 2) {
+    if (findDate && findDate.listBookings.length >= 10) {
       notification.warning({
         message: "Notification",
         description: "This day is fully booked",
@@ -318,7 +318,34 @@ function ClientServiceDetail() {
           listBookings: findDate.listBookings,
         })
         .then((response) => {
-          fetchBooking();
+          // Lấy thông tin người dùng từ API
+          axios
+            .get(`http://localhost:7373/accounts/${userId}`)
+            .then((userResponse) => {
+              const user = userResponse.data;
+
+              // Thêm bookingId vào booking_history của người dùng
+              if (user) {
+                user.booking_history.push({ orderId: maxBookingId });
+
+                // Cập nhật thông tin người dùng
+                axios
+                  .patch(`http://localhost:7373/accounts/${userId}`, user)
+                  .then((updateUserResponse) => {
+                    // Sau khi cập nhật thông tin người dùng, bạn có thể tiếp tục với các bước khác (nếu cần).
+                    fetchBooking();
+                    notification.success({
+                      message: "Booked Successfully",
+                    });
+                  })
+                  .catch((updateUserError) => {
+                    console.error("Error updating user data:", updateUserError);
+                  });
+              }
+            })
+            .catch((error) => {
+              console.error("Error fetching user data:", error);
+            });
         })
         .catch((error) => {
           console.log(error.message);
@@ -333,7 +360,34 @@ function ClientServiceDetail() {
       axios
         .post(`http://localhost:7373/bookings/`, newBooking)
         .then((response) => {
-          fetchBooking();
+          // Lấy thông tin người dùng từ API
+          axios
+            .get(`http://localhost:7373/accounts/${userId}`)
+            .then((userResponse) => {
+              const user = userResponse.data;
+
+              // Thêm bookingId vào booking_history của người dùng
+              if (user) {
+                user.booking_history.push({ orderId: maxBookingId });
+
+                // Cập nhật thông tin người dùng
+                axios
+                  .patch(`http://localhost:7373/accounts/${userId}`, user)
+                  .then((updateUserResponse) => {
+                    // Sau khi cập nhật thông tin người dùng, bạn có thể tiếp tục với các bước khác (nếu cần).
+                    fetchBooking();
+                    notification.success({
+                      message: "Booked Successfully",
+                    });
+                  })
+                  .catch((updateUserError) => {
+                    console.error("Error updating user data:", updateUserError);
+                  });
+              }
+            })
+            .catch((error) => {
+              console.error("Error fetching user data:", error);
+            });
         })
         .catch((error) => {
           console.log(error.message);
