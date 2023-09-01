@@ -21,7 +21,7 @@ function ClientServiceDetail() {
   const [rateValue, setRateValue] = useState(0);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [dateBooking, setDateBooking] = useState("");
+  const [dateBooking, setDateBooking] = useState<any>("");
   const [timeZone, setTimeZone] = useState("");
   const [bookings, setBookings] = useState<any>([]);
   const [dataBookings, setDataBookings] = useState<any>([]);
@@ -224,6 +224,13 @@ function ClientServiceDetail() {
       return;
     }
 
+    if (dateBooking === "" || dateBooking === null) {
+      notification.warning({
+        message: "Please choose booking date",
+      });
+      return;
+    }
+
     let maxBookingId = 0;
 
     // Tìm `bookingId` lớn nhất trong tất cả các phần tử `listBookings` của mảng `bookings`
@@ -264,52 +271,22 @@ function ClientServiceDetail() {
     });
     console.log("findDate", findDate);
 
-    // Kiểm tra listBookings.length
-    if (findDate && findDate.listBookings.length >= 10) {
-      notification.warning({
-        message: "Notification",
-        description: "This day is fully booked",
-      });
-      return;
-    }
-
-    // Kiểm tra timeZone
-    if (timeZone === "09:00 AM - 11:30 AM") {
-      // Kiểm tra số lượng slot đã đặt trong khung giờ này
-      const bookedSlotsCount = findDate
-        ? findDate.listBookings.filter(
-            (booking: any) => booking.calendar === timeZone
-          ).length
-        : 0;
-
-      if (bookedSlotsCount >= 10) {
-        notification.warning({
-          message: "Notification",
-          description:
-            "The time frame of 09:00 AM - 11:30 AM of this day is fully booked.",
-        });
-        return;
-      }
-    } else if (timeZone === "14:00 PM - 16:30 PM") {
-      // Kiểm tra số lượng slot đã đặt trong khung giờ này
-      const bookedSlotsCount = findDate
-        ? findDate.listBookings.filter(
-            (booking: any) => booking.calendar === timeZone
-          ).length
-        : 0;
-
-      if (bookedSlotsCount >= 10) {
-        notification.warning({
-          message: "Notification",
-          description:
-            "The time frame of 14:00 PM - 16:30 PM of this day is fully booked.",
-        });
-        return;
-      }
-    }
-
     if (findDate) {
-      // Nếu ngày đã tồn tại, thêm newDataBooking vào listBookings của findDate
+      // Kiểm tra xem đã có đặt lịch trong cùng ngày và cùng khung giờ trước đó không
+      const isDuplicateBooking = findDate.listBookings.some((booking: any) => {
+        return booking.calendar === timeZone;
+      });
+
+      if (isDuplicateBooking) {
+        notification.warning({
+          message: "Notification",
+          description:
+            "You have already booked this time slot for the selected date.",
+        });
+        return;
+      }
+
+      // Nếu không có đặt lịch trước đó, thêm newDataBooking vào listBookings của findDate
       findDate.listBookings.push(newDataBooking);
 
       // Gọi API patch để cập nhật listBookings của findDate
@@ -393,6 +370,10 @@ function ClientServiceDetail() {
           console.log(error.message);
         });
     }
+    setName("");
+    setPhone("");
+    setDateBooking(null);
+    setTimeZone("Select Time");
   };
 
   const onChangeDatePicker: DatePickerProps["onChange"] = (
