@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import styles from "../ClientServices/ClientServiceDetail.module.css";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { Button, Rate, notification } from "antd";
+import { Button, Rate, Select, notification } from "antd";
 import avatar from "../../../../assets/images/dogs-reviews-01.png";
 import { Badge } from "react-bootstrap";
 import { Editor } from "@tinymce/tinymce-react";
+import type { DatePickerProps } from "antd";
+import { DatePicker, Space } from "antd";
 
 function ClientServiceDetail() {
   const getData: any = localStorage.getItem("auth");
@@ -157,6 +159,19 @@ function ClientServiceDetail() {
     height: "300px",
   };
 
+  const handleBooking = (userId: number, serviceId: number) => {};
+
+  const onChangeDatePicker: DatePickerProps["onChange"] = (
+    date,
+    dateString
+  ) => {
+    console.log(date, dateString);
+  };
+
+  const handleSelect = (value: string) => {
+    console.log(`selected ${value}`);
+  };
+
   return (
     <>
       <div className={styles["wrap-service-detail-page"]}>
@@ -223,13 +238,25 @@ function ClientServiceDetail() {
           <div className={styles["booking-form"]}>
             <h3>Booking Service</h3>
             <div className={styles["booking-input-form"]}>
-              <input type="text" placeholder="Name" />
+              <input type="text" placeholder="Customer Name" />
               <input type="text" placeholder="Phone" />
+              <div className={styles["booking-calendar-pick"]}>
+                <DatePicker onChange={onChangeDatePicker} />
+                <Select
+                  defaultValue="morning"
+                  style={{ width: 200 }}
+                  onChange={handleSelect}
+                  options={[
+                    { value: "morning", label: "09:00 AM - 11:30 AM" },
+                    { value: "afternoon", label: "14:00 PM - 16:30 PM" },
+                  ]}
+                />
+                <button className={styles["booking-btn"]}>Book</button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-
       <div className={styles["comment-product-section"]}>
         <div className={styles["comment-detail"]}>
           <div

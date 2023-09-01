@@ -1,7 +1,7 @@
 /* CSS Product Detail Page */
 .wrap-service-detail-page {
   margin-top: 100px;
-  margin-bottom: 100px;
+  margin-bottom: 50px;
 }
 
 .service-detail-info {
@@ -66,13 +66,13 @@
   text-align: center;
 }
 
-/* CSS Comment */
+/* CSS Booking Form */
 .booking-form {
   width: 800px;
   margin: 0 auto;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  padding: 20px;
+  padding: 30px;
   background-color: #3b71ca;
 }
 
@@ -101,9 +101,23 @@
 }
 
 .booking-input-form input::placeholder {
-  color: #ccc;
+  color: #ddd;
 }
 
+.booking-calendar-pick {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 20px;
+}
+
+.booking-btn {
+  background-color: orange;
+  color: white;
+  font-weight: bold;
+  width: 150px;
+}
+
+/* CSS Comment */
 .comment-heading {
   display: flex;
   justify-content: space-between;
@@ -297,5 +311,51 @@
 
   .rating-section {
     width: 60px;
+  }
+
+  /* CSS Booking Form */
+  .booking-form {
+    width: 350px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .booking-form h3 {
+    margin-bottom: 20px;
+    color: white;
+  }
+
+  .booking-input-form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 200px;
+    margin: 0 auto;
+  }
+
+  .booking-input-form input {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    font-size: 15px;
+    color: white;
+    outline: none; /* Loại bỏ đường viền khi focus */
+  }
+
+  .booking-input-form input::placeholder {
+    color: #ccc;
+  }
+
+  .booking-calendar-pick {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 20px;
+  }
+
+  .booking-btn {
+    width: 100%;
   }
 }
