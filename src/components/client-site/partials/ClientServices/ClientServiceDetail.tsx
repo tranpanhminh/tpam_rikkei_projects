@@ -217,6 +217,13 @@ function ClientServiceDetail() {
       return;
     }
 
+    if (timeZone === "") {
+      notification.warning({
+        message: "Please choose booking time",
+      });
+      return;
+    }
+
     let maxBookingId = 0;
 
     // Tìm `bookingId` lớn nhất trong tất cả các phần tử `listBookings` của mảng `bookings`
