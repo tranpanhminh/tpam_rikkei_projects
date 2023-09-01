@@ -9,7 +9,7 @@
   grid-template-columns: 1fr 7fr;
   gap: 20px;
   background-color: #d1d1dae7;
-  height: 150vh;
+  height: 100vh;
 }
 
 /* html {
@@ -89,6 +89,8 @@ ul.main-menu {
 
 .main-content {
   background-color: #f8f8f9;
+  overflow-y: auto;
+  max-height: 600px;
 }
 
 main {

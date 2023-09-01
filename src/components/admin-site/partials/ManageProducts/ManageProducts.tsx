@@ -148,7 +148,10 @@ function ManageProducts() {
 
       <div className={styles["main-content"]}>
         <h3 className={styles["main-title-content"]}>List Products</h3>
-        <table className="table table-striped" id="table-products-manage-page">
+        <table
+          className="table table-striped"
+          id="table-products-manage-page"
+        >
           <thead>
             <tr>
               <th>#</th>
