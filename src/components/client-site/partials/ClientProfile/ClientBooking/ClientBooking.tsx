@@ -12,6 +12,8 @@ function ClientBooking() {
   const [searchText, setSearchText] = useState<string>("");
   const [user, setUser] = useState<any>([]);
   const [userBooking, setUserBooking] = useState<any>([]);
+  const [listUserBooking, setListUserBooking] = useState<any>([]);
+  const [dataBooking, setDataBooking] = useState<any>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const fetchUser = () => {
@@ -26,8 +28,20 @@ function ClientBooking() {
       });
   };
 
+  const fetchBookings = () => {
+    axios
+      .get(`http://localhost:7373/bookings/`)
+      .then((response) => {
+        setDataBooking(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
     fetchUser();
+    fetchBookings();
   }, []);
 
   const handleSearchBooking = () => {
@@ -69,32 +83,35 @@ function ClientBooking() {
     }
   };
 
-  const handleCancelBooking = (bookingId: number) => {
-    console.log(bookingId);
-    let findBooking = userBooking.find((booking: any) => {
-      return booking.id === bookingId;
-    });
-    if (findBooking) {
-      findBooking.status = "Cancel";
-    }
-    console.log(findBooking);
-    let findIndexBooking = userBooking.findIndex((booking: any) => {
-      return booking.id === bookingId;
-    });
-    userBooking.splice(findIndexBooking, 1, findBooking);
-    console.log("ABC", userBooking);
+  const handleCancelBooking = (bookingId: number, bookingDate: string) => {
+    // Tìm kiếm các lịch đặt theo ngày
+    const filterBooking = dataBooking.find(
+      (item: any) => item.date === bookingDate
+    );
 
-    // Cập nhật lại lên API
-    axios
-      .patch(`http://localhost:7373/accounts/${getLoginData.loginId}`, {
-        booking_history: userBooking,
-      })
-      .then((response) => {
-        fetchUser();
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+    console.log("FIlter Booking", filterBooking);
+
+    if (!filterBooking) {
+      console.log(`Không tìm thấy lịch đặt cho ngày ${bookingDate}`);
+      return; // Nếu không tìm thấy, thoát khỏi hàm
+    }
+
+    // Tìm kiếm lịch đặt cụ thể bằng bookingId trong danh sách lịch đặt của ngày đó
+    const findBooking = filterBooking.listBookings.find(
+      (item: any) => item.bookingId === bookingId
+    );
+
+    if (!findBooking) {
+      console.log(
+        `Không tìm thấy lịch đặt với bookingId ${bookingId} trong ngày ${bookingDate}`
+      );
+      return; // Nếu không tìm thấy, thoát khỏi hàm
+    }
+
+    // Đã tìm thấy lịch đặt, bạn có thể thực hiện các thao tác cần thiết ở đây
+    console.log("Tìm thấy lịch đặt:", findBooking);
+
+    // Tiếp theo, bạn có thể thực hiện việc cập nhật status của lịch đặt và gửi yêu cầu đến API để hủy đặt lịch.
   };
 
   const changeColor = (status: string) => {
@@ -110,8 +127,24 @@ function ClientBooking() {
     }
   };
 
-  console.log("User", user);
-  console.log("User Booking", userBooking);
+  const dataUserBooking: any = [];
+
+  userBooking.forEach((item: any) => {
+    const foundBooking = dataBooking.find(
+      (booking: any) => booking.date === item.bookingDate
+    );
+
+    if (foundBooking) {
+      const foundListBooking = foundBooking.listBookings.find(
+        (data: any) => data.bookingId === item.bookingId
+      );
+
+      if (foundListBooking) {
+        dataUserBooking.push(foundListBooking);
+      }
+    }
+  });
+
   return (
     <div>
       <div className={styles.breadcrumb}>
@@ -146,6 +179,8 @@ function ClientBooking() {
           <thead>
             <tr>
               <th>Booking ID</th>
+              <th>Name</th>
+              <th>Phone</th>
               <th>Booking Service</th>
               <th>Booking Date</th>
               <th>Booking Calendar</th>
@@ -155,15 +190,17 @@ function ClientBooking() {
             </tr>
           </thead>
           <tbody>
-            {userBooking &&
-              userBooking.map((item: any) => {
+            {dataUserBooking &&
+              dataUserBooking.map((item: any) => {
                 return (
                   <tr>
-                    <td>{item.id}</td>
-                    <td>{item.bookingService}</td>
-                    <td>{item.bookingDate}</td>
-                    <td>{item.bookingCalendar}</td>
-                    <td>{item.bookingPrice}</td>
+                    <td>{item.bookingId}</td>
+                    <td>{item.userName}</td>
+                    <td>{item.userPhone}</td>
+                    <td>{item.serviceName}</td>
+                    <td>{item.time}</td>
+                    <td>{`${item.bookingDate} | ${item.calendar}`}</td>
+                    <td>${item.servicePrice}</td>
                     <td>
                       <Badge bg={changeColor(item.status)}>{item.status}</Badge>
                     </td>
@@ -176,7 +213,12 @@ function ClientBooking() {
                               ? true
                               : false
                           }
-                          onClick={() => handleCancelBooking(item.id)}
+                          onClick={() =>
+                            handleCancelBooking(
+                              item.bookingId,
+                              item.bookingDate
+                            )
+                          }
                         >
                           Cancel Booking
                         </Button>
