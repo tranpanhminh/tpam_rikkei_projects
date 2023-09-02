@@ -31,6 +31,7 @@ import MyNewsletter from "./components/client-site/layouts/UserProfile/MyNewslet
 import MyBooking from "./components/client-site/layouts/UserProfile/MyBooking";
 import ClientSearchPage from "./components/client-site/layouts/ClientSearchPage";
 import AdminSubscribersPage from "./components/admin-site/layouts/AdminSubscribersPage";
+import ClientBlogPost from "./components/client-site/layouts/ClientBlogPost";
 
 export function RoleNavigation() {
   const getData: any = localStorage.getItem("auth");
@@ -87,6 +88,7 @@ function App() {
           <Route path="/cart" element={<ClientCartPage />}></Route>
           <Route path="/login" element={<ClientLoginPage />}></Route>
           <Route path="/signup" element={<ClientSignupPage />}></Route>
+          <Route path="/blogs" element={<ClientBlogPost />}></Route>
           <Route
             path="/products"
             element={<ClientProductCategoryPage />}
