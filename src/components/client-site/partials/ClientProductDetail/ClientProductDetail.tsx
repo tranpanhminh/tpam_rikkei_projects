@@ -66,6 +66,13 @@ function ClientProductDetail() {
   console.log("User", user);
   console.log("User Cart", userCart);
   const handleAddToCart = () => {
+    if (quantity === 0) {
+      notification.warning({
+        message: "Quantity must be at least 1",
+      });
+      return;
+    }
+
     // Kiểm tra User có phải là Admin
     if (getLoginData.role === "admin") {
       notification.warning({

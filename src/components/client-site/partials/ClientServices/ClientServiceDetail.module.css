@@ -122,10 +122,15 @@
 }
 
 /* CSS Comment */
-.rating-section {
+.rating-service-section {
   display: flex;
   gap: 5px;
   align-items: center;
+}
+
+.rating-service-section i {
+  color: #fadb14;
+  margin: 0;
 }
 
 .rating-service-label {

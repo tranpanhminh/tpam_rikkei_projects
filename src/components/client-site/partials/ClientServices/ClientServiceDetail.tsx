@@ -514,7 +514,7 @@ function ClientServiceDetail() {
                       </tbody>
                     </table>
 
-                    <div className={styles["rating-section"]}>
+                    <div className={styles["rating-service-section"]}>
                       <span className={styles["rating-service-label"]}>
                         Rating:
                       </span>
