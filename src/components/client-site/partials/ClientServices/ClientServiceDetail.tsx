@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "../ClientServices/ClientServiceDetail.module.css";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { Button, Rate, Select, notification } from "antd";
 import avatar from "../../../../assets/images/dogs-reviews-01.png";
 import { Badge } from "react-bootstrap";
@@ -474,7 +474,11 @@ function ClientServiceDetail() {
                   <div className="container text-center">
                     <div className="row row-cols-2">
                       <div className="col-12">
-                        <img src={services && services.serviceImage} alt="" />
+                        <img
+                          src={services && services.serviceImage}
+                          alt=""
+                          className={styles["service-image"]}
+                        />
                       </div>
                     </div>
                   </div>
@@ -509,6 +513,16 @@ function ClientServiceDetail() {
                         </tr>
                       </tbody>
                     </table>
+
+                    <div className={styles["rating-section"]}>
+                      <span className={styles["rating-service-label"]}>
+                        Rating:
+                      </span>
+                      <span style={{ fontSize: "20px" }}>
+                        {averageRating()}
+                      </span>
+                      <i className="fa-solid fa-star"></i>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -541,10 +555,7 @@ function ClientServiceDetail() {
                 }}
               />
               <div className={styles["booking-calendar-pick"]}>
-                <DatePicker
-                  format="DD/MM/YYYY"
-                  onChange={onChangeDatePicker}
-                />
+                <DatePicker format="DD/MM/YYYY" onChange={onChangeDatePicker} />
                 <Select
                   value={timeZone}
                   // defaultValue="Select time"
@@ -608,9 +619,15 @@ function ClientServiceDetail() {
                 value={editorContent}
               />
               <div className={styles["send-comment-btn"]}>
-                <Button type="primary" onClick={handleComment}>
-                  Comment
-                </Button>
+                {getLoginData ? (
+                  <Button type="primary" onClick={handleComment}>
+                    Comment
+                  </Button>
+                ) : (
+                  <NavLink to="/login">
+                    <Button type="primary">Login to comment</Button>
+                  </NavLink>
+                )}
               </div>
             </div>
             <div

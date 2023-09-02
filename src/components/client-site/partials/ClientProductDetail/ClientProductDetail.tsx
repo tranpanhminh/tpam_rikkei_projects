@@ -420,9 +420,15 @@ function ClientProductDetail() {
                 value={editorContent}
               />
               <div className={styles["send-comment-btn"]}>
-                <Button type="primary" onClick={handleComment}>
-                  Comment
-                </Button>
+                {getLoginData ? (
+                  <Button type="primary" onClick={handleComment}>
+                    Comment
+                  </Button>
+                ) : (
+                  <NavLink to="/login">
+                    <Button type="primary">Login to comment</Button>
+                  </NavLink>
+                )}
               </div>
             </div>
             <div

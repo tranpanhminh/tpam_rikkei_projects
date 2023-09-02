@@ -117,7 +117,22 @@
   width: 150px;
 }
 
+.service-image {
+  border-radius: 10px;
+}
+
 /* CSS Comment */
+.rating-section {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.rating-service-label {
+  font-size: 20px;
+  font-weight: bold;
+}
+
 .comment-heading {
   display: flex;
   justify-content: space-between;
