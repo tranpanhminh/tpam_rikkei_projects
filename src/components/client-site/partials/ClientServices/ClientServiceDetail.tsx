@@ -182,6 +182,244 @@ function ClientServiceDetail() {
   console.log("List Bookings", bookings);
   console.log("dataBookings", dataBookings);
 
+  // const handleBooking = (userId: number, serviceId: number) => {
+  //   // Định dạng ngày trong `dateBooking` (VD: '10/09/2023')
+  //   const dateParts = dateBooking.split("/");
+  //   const day = parseInt(dateParts[0], 10);
+  //   const month = parseInt(dateParts[1], 10) - 1; // Lưu ý: Tháng trong JavaScript là từ 0 đến 11
+  //   const year = parseInt(dateParts[2], 10);
+
+  //   // Tạo một đối tượng Date từ các phần tử trích xuất
+  //   const selectedDate = new Date(year, month, day);
+
+  //   // Kiểm tra Phone & Address
+  //   const phoneNumberPattern = /^1\d{10}$/;
+
+  //   if (!phone || !name) {
+  //     notification.warning({
+  //       message: "Please fill Name & Phone",
+  //     });
+  //     return;
+  //   } else if (!phoneNumberPattern.test(phone)) {
+  //     notification.warning({
+  //       message: "Invalid Phone Number (Use the format 1234567890)",
+  //     });
+  //     return;
+  //   }
+
+  //   if (timeZone === "") {
+  //     notification.warning({
+  //       message: "Please choose booking time",
+  //     });
+  //     return;
+  //   }
+
+  //   if (dateBooking === "" || dateBooking === null) {
+  //     notification.warning({
+  //       message: "Please choose booking date",
+  //     });
+  //     return;
+  //   }
+
+  //   // Kiểm tra xem ngày đặt lịch có nhỏ hơn ngày hiện tại không
+  //   const currentDate = new Date();
+  //   if (selectedDate < currentDate) {
+  //     notification.warning({
+  //       message: "Notification",
+  //       description: "You cannot choose a date in the past.",
+  //     });
+  //     return;
+  //   }
+
+  //   let maxBookingId = 0;
+
+  //   // Tìm `bookingId` lớn nhất trong tất cả các phần tử `listBookings` của mảng `bookings`
+  //   if (bookings.length > 0) {
+  //     maxBookingId = bookings.reduce((max: any, booking: any) => {
+  //       const maxInBooking = booking.listBookings
+  //         ? Math.max(...booking.listBookings.map((data: any) => data.bookingId))
+  //         : 0;
+  //       return maxInBooking > max ? maxInBooking : max;
+  //     }, 0);
+  //   }
+
+  //   // Khi bạn thêm một người dùng mới
+  //   // Bạn cần cập nhật `maxBookingId` bằng cách tăng giá trị hiện tại lên 1
+  //   maxBookingId += 1;
+
+  //   // Định dạng ngày giờ
+  //   const currentDateTime = new Date();
+  //   const formattedDateTime = format(currentDateTime, "dd/MM/yyyy HH:mm:ss");
+
+  //   let newDataBooking = {
+  //     bookingId: maxBookingId,
+  //     bookingDate: dateBooking,
+  //     time: formattedDateTime,
+  //     userId: userId,
+  //     userName: name,
+  //     userPhone: phone,
+  //     calendar: timeZone,
+  //     serviceId: serviceId,
+  //     serviceName: services.name,
+  //     serviceImage: services.serviceImage,
+  //     servicePrice: services.price,
+  //   };
+
+  //   // Kiểm tra xem dateBooking đã được tồn tại trong Data Bookings chưa
+  //   let findDate = bookings.find((booking: any) => {
+  //     return booking.date === dateBooking;
+  //   });
+  //   console.log("findDate", findDate);
+
+  //   // Kiểm tra listBookings.length
+  //   if (findDate && findDate.listBookings.length >= 10) {
+  //     notification.warning({
+  //       message: "Notification",
+  //       description: "This day is fully booked",
+  //     });
+  //     return;
+  //   }
+
+  //   // Kiểm tra timeZone
+  //   if (timeZone === "09:00 AM - 11:30 AM") {
+  //     // Kiểm tra số lượng slot đã đặt trong khung giờ này
+  //     const bookedSlotsCount = findDate
+  //       ? findDate.listBookings.filter(
+  //           (booking: any) => booking.calendar === timeZone
+  //         ).length
+  //       : 0;
+
+  //     if (bookedSlotsCount >= 1) {
+  //       notification.warning({
+  //         message: "Notification",
+  //         description:
+  //           "The time frame of 09:00 AM - 11:30 AM of this day is fully booked.",
+  //       });
+  //       return;
+  //     }
+  //   } else if (timeZone === "14:00 PM - 16:30 PM") {
+  //     // Kiểm tra số lượng slot đã đặt trong khung giờ này
+  //     const bookedSlotsCount = findDate
+  //       ? findDate.listBookings.filter(
+  //           (booking: any) => booking.calendar === timeZone
+  //         ).length
+  //       : 0;
+
+  //     if (bookedSlotsCount >= 1) {
+  //       notification.warning({
+  //         message: "Notification",
+  //         description:
+  //           "The time frame of 14:00 PM - 16:30 PM of this day is fully booked.",
+  //       });
+  //       return;
+  //     }
+  //   }
+
+  //   if (findDate) {
+  //     // Kiểm tra xem đã có đặt lịch trong cùng ngày và cùng khung giờ trước đó không
+  //     const isDuplicateBooking = findDate.listBookings.some((booking: any) => {
+  //       return booking.calendar === timeZone;
+  //     });
+
+  //     if (isDuplicateBooking) {
+  //       notification.warning({
+  //         message: "Notification",
+  //         description:
+  //           "You have already booked this time slot for the selected date.",
+  //       });
+  //       return;
+  //     }
+
+  //     // Nếu không có đặt lịch trước đó, thêm newDataBooking vào listBookings của findDate
+  //     findDate.listBookings.push(newDataBooking);
+
+  //     // Gọi API patch để cập nhật listBookings của findDate
+  //     axios
+  //       .patch(`http://localhost:7373/bookings/${findDate.id}`, {
+  //         listBookings: findDate.listBookings,
+  //       })
+  //       .then((response) => {
+  //         // Lấy thông tin người dùng từ API
+  //         axios
+  //           .get(`http://localhost:7373/accounts/${userId}`)
+  //           .then((userResponse) => {
+  //             const user = userResponse.data;
+
+  //             // Thêm bookingId vào booking_history của người dùng
+  //             if (user) {
+  //               user.booking_history.push({ orderId: maxBookingId });
+
+  //               // Cập nhật thông tin người dùng
+  //               axios
+  //                 .patch(`http://localhost:7373/accounts/${userId}`, user)
+  //                 .then((updateUserResponse) => {
+  //                   // Sau khi cập nhật thông tin người dùng, bạn có thể tiếp tục với các bước khác (nếu cần).
+  //                   fetchBooking();
+  //                   notification.success({
+  //                     message: "Booked Successfully",
+  //                   });
+  //                 })
+  //                 .catch((updateUserError) => {
+  //                   console.error("Error updating user data:", updateUserError);
+  //                 });
+  //             }
+  //           })
+  //           .catch((error) => {
+  //             console.error("Error fetching user data:", error);
+  //           });
+  //       })
+  //       .catch((error) => {
+  //         console.log(error.message);
+  //       });
+  //   } else {
+  //     // Nếu ngày chưa tồn tại, tạo một booking mới
+  //     const newBooking = {
+  //       date: dateBooking,
+  //       listBookings: [newDataBooking], // Thêm newDataBooking vào listBookings mới
+  //     };
+
+  //     axios
+  //       .post(`http://localhost:7373/bookings/`, newBooking)
+  //       .then((response) => {
+  //         // Lấy thông tin người dùng từ API
+  //         axios
+  //           .get(`http://localhost:7373/accounts/${userId}`)
+  //           .then((userResponse) => {
+  //             const user = userResponse.data;
+
+  //             // Thêm bookingId vào booking_history của người dùng
+  //             if (user) {
+  //               user.booking_history.push({ orderId: maxBookingId });
+
+  //               // Cập nhật thông tin người dùng
+  //               axios
+  //                 .patch(`http://localhost:7373/accounts/${userId}`, user)
+  //                 .then((updateUserResponse) => {
+  //                   // Sau khi cập nhật thông tin người dùng, bạn có thể tiếp tục với các bước khác (nếu cần).
+  //                   fetchBooking();
+  //                   notification.success({
+  //                     message: "Booked Successfully",
+  //                   });
+  //                 })
+  //                 .catch((updateUserError) => {
+  //                   console.error("Error updating user data:", updateUserError);
+  //                 });
+  //             }
+  //           })
+  //           .catch((error) => {
+  //             console.error("Error fetching user data:", error);
+  //           });
+  //       })
+  //       .catch((error) => {
+  //         console.log(error.message);
+  //       });
+  //   }
+  //   setName("");
+  //   setPhone("");
+  //   setDateBooking(null);
+  //   setTimeZone("Select Time");
+  // };
+
   const handleBooking = (userId: number, serviceId: number) => {
     // Định dạng ngày trong `dateBooking` (VD: '10/09/2023')
     const dateParts = dateBooking.split("/");
@@ -191,16 +429,6 @@ function ClientServiceDetail() {
 
     // Tạo một đối tượng Date từ các phần tử trích xuất
     const selectedDate = new Date(year, month, day);
-
-    // Kiểm tra xem ngày đó có phải là ngày chủ nhật hay không
-    if (selectedDate.getDay() === 0) {
-      // Ngày chủ nhật (0 = Chủ nhật, 1 = Thứ hai, ..., 6 = Thứ bảy)
-      notification.warning({
-        message: "Notification",
-        description: "Sunday is not our working day",
-      });
-      return;
-    }
 
     // Kiểm tra Phone & Address
     const phoneNumberPattern = /^1\d{10}$/;
@@ -227,6 +455,16 @@ function ClientServiceDetail() {
     if (dateBooking === "" || dateBooking === null) {
       notification.warning({
         message: "Please choose booking date",
+      });
+      return;
+    }
+
+    // Kiểm tra xem ngày đặt lịch có nhỏ hơn ngày hiện tại không
+    const currentDate = new Date();
+    if (selectedDate < currentDate) {
+      notification.warning({
+        message: "Notification",
+        description: "You cannot choose a date in the past.",
       });
       return;
     }
@@ -263,18 +501,68 @@ function ClientServiceDetail() {
       serviceName: services.name,
       serviceImage: services.serviceImage,
       servicePrice: services.price,
+      status: "Pending", // Đặt trạng thái là "Pending" ban đầu
     };
 
     // Kiểm tra xem dateBooking đã được tồn tại trong Data Bookings chưa
     let findDate = bookings.find((booking: any) => {
       return booking.date === dateBooking;
     });
-    console.log("findDate", findDate);
+
+    // Kiểm tra listBookings.length và trạng thái của các booking có khác "Cancel"
+    if (findDate && findDate.listBookings.length >= 20) {
+      notification.warning({
+        message: "Notification",
+        description: "This day is fully booked",
+      });
+      return;
+    }
+
+    // Kiểm tra timeZone
+    if (timeZone === "09:00 AM - 11:30 AM") {
+      // Kiểm tra số lượng slot đã đặt trong khung giờ này
+      const bookedSlotsCount = findDate
+        ? findDate.listBookings.filter(
+            (booking: any) =>
+              booking.calendar === timeZone && booking.status !== "Cancel"
+          ).length
+        : 0;
+
+      if (bookedSlotsCount >= 1) {
+        notification.warning({
+          message: "Notification",
+          description:
+            "The time frame of 09:00 AM - 11:30 AM of this day is fully booked.",
+        });
+        return;
+      }
+    } else if (timeZone === "14:00 PM - 16:30 PM") {
+      // Kiểm tra số lượng slot đã đặt trong khung giờ này
+      const bookedSlotsCount = findDate
+        ? findDate.listBookings.filter(
+            (booking: any) =>
+              booking.calendar === timeZone && booking.status !== "Cancel"
+          ).length
+        : 0;
+
+      if (bookedSlotsCount >= 1) {
+        notification.warning({
+          message: "Notification",
+          description:
+            "The time frame of 14:00 PM - 16:30 PM of this day is fully booked.",
+        });
+        return;
+      }
+    }
 
     if (findDate) {
-      // Kiểm tra xem đã có đặt lịch trong cùng ngày và cùng khung giờ trước đó không
+      // Kiểm tra xem đã có đặt lịch trong cùng ngày, cùng khung giờ và cho cùng một người dùng trước đó không
       const isDuplicateBooking = findDate.listBookings.some((booking: any) => {
-        return booking.calendar === timeZone;
+        return (
+          booking.calendar === timeZone &&
+          booking.status !== "Cancel" &&
+          booking.userId === getLoginData.loginId
+        );
       });
 
       if (isDuplicateBooking) {
