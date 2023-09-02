@@ -23,12 +23,13 @@ const DetailBooking: React.FC<DetailModalProps> = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [booking, setBooking] = useState<any>(null);
   const [listBooking, setListBooking] = useState<any>(null);
+  const [selectedBooking, setSelectedBooking] = useState<any>(null);
   const [bookingStatus, setBookingStatus] = useState("");
   const [status, setStatus] = useState("");
   const [isModalOpenUpdateStatus, setIsModalOpenUpdateStatus] = useState(false);
 
   useEffect(() => {
-    const fetchProduct = () => {
+    const fetchBookings = () => {
       axios
         .get(`http://localhost:7373/bookings/${getBookingId}`)
         .then((response) => {
@@ -40,7 +41,7 @@ const DetailBooking: React.FC<DetailModalProps> = ({
         });
     };
 
-    fetchProduct();
+    fetchBookings();
   }, [getBookingId]);
   console.log(booking);
 
@@ -104,11 +105,14 @@ const DetailBooking: React.FC<DetailModalProps> = ({
     }
   };
 
-  const showModalUpdateStatus = (bookingId: number) => {
+  const handleDetailClick = (item: any) => {
+    setSelectedBooking(item);
     setIsModalOpenUpdateStatus(true);
+    console.log(selectedBooking);
   };
 
-  const handleOkUpdateStatus = () => {
+  const handleOkUpdateStatus = (bookingId: number) => {
+    console.log("Bla", bookingId);
     setIsModalOpenUpdateStatus(false);
   };
 
@@ -130,7 +134,7 @@ const DetailBooking: React.FC<DetailModalProps> = ({
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
-        width={1400}
+        width={1200}
       >
         <Table striped bordered hover variant="dark" responsive>
           <thead>
@@ -141,7 +145,6 @@ const DetailBooking: React.FC<DetailModalProps> = ({
               <th>Booking Time</th>
               <th>Booking Date</th>
               <th>Service</th>
-              <th>Price</th>
               <th>Status</th>
               <th>Action</th>
             </tr>
@@ -161,24 +164,24 @@ const DetailBooking: React.FC<DetailModalProps> = ({
                         <p>{item.calendar}</p>
                       </td>
                       <td>{item.serviceName}</td>
-                      <td>${item.servicePrice}</td>
                       <td>
                         <Badge bg={`${changeColor(item.status)}`}>
                           {item.status}
                         </Badge>
                       </td>
                       <td>
-                        {" "}
                         <Button
                           type="primary"
-                          onClick={() => showModalUpdateStatus(item.bookingId)}
+                          onClick={() => handleDetailClick(item)}
                         >
                           Detail
                         </Button>
                         <Modal
                           title="Update Status"
                           open={isModalOpenUpdateStatus}
-                          onOk={handleOkUpdateStatus}
+                          onOk={() =>
+                            handleOkUpdateStatus(selectedBooking.bookingId)
+                          }
                           onCancel={handleCancelUpdateStatus}
                           width={600}
                         >
@@ -188,7 +191,7 @@ const DetailBooking: React.FC<DetailModalProps> = ({
                               <input
                                 type="text"
                                 disabled
-                                value={item?.bookingId}
+                                value={selectedBooking?.bookingId}
                               />
                             </div>
                             <div className={styles["admin-order-input-item"]}>
@@ -196,7 +199,7 @@ const DetailBooking: React.FC<DetailModalProps> = ({
                               <input
                                 type="text"
                                 disabled
-                                value={item?.userName}
+                                value={selectedBooking?.userName}
                               />
                             </div>
                             <div className={styles["admin-order-input-item"]}>
@@ -204,19 +207,23 @@ const DetailBooking: React.FC<DetailModalProps> = ({
                               <input
                                 type="text"
                                 disabled
-                                value={item?.userPhone}
+                                value={selectedBooking?.userPhone}
                               />
                             </div>
                             <div className={styles["admin-order-input-item"]}>
                               <p>Booking Time</p>
-                              <input type="text" disabled value={item?.time} />
+                              <input
+                                type="text"
+                                disabled
+                                value={selectedBooking?.time}
+                              />
                             </div>
                             <div className={styles["admin-order-input-item"]}>
                               <p>Booking Date</p>
                               <input
                                 type="text"
                                 disabled
-                                value={item?.bookingDate}
+                                value={selectedBooking?.bookingDate}
                               />
                             </div>
                             <div className={styles["admin-order-input-item"]}>
@@ -224,7 +231,7 @@ const DetailBooking: React.FC<DetailModalProps> = ({
                               <input
                                 type="text"
                                 disabled
-                                value={item?.calendar}
+                                value={selectedBooking?.calendar}
                               />
                             </div>
                             <div className={styles["admin-order-input-item"]}>
@@ -232,7 +239,7 @@ const DetailBooking: React.FC<DetailModalProps> = ({
                               <input
                                 type="text"
                                 disabled
-                                value={item?.serviceName}
+                                value={selectedBooking?.serviceName}
                               />
                             </div>
                             <div className={styles["admin-order-input-item"]}>
@@ -240,7 +247,7 @@ const DetailBooking: React.FC<DetailModalProps> = ({
                               <input
                                 type="text"
                                 disabled
-                                value={`${`$`}${item?.servicePrice}`}
+                                value={`${`$`}${selectedBooking?.servicePrice}`}
                               />
                             </div>
                             <div className={styles["admin-order-input-item"]}>
@@ -252,8 +259,8 @@ const DetailBooking: React.FC<DetailModalProps> = ({
                                   setBookingStatus(event.target.value)
                                 }
                                 disabled={
-                                  item?.status === "Done" ||
-                                  item?.status === "Cancel"
+                                  selectedBooking?.status === "Done" ||
+                                  selectedBooking?.status === "Cancel"
                                     ? true
                                     : false
                                 }
@@ -261,7 +268,9 @@ const DetailBooking: React.FC<DetailModalProps> = ({
                                 <option
                                   value="Done"
                                   selected={
-                                    item?.status === "Done" ? true : false
+                                    selectedBooking?.status === "Done"
+                                      ? true
+                                      : false
                                   }
                                 >
                                   Done
@@ -269,7 +278,9 @@ const DetailBooking: React.FC<DetailModalProps> = ({
                                 <option
                                   value="Processing"
                                   selected={
-                                    item?.status === "Processing" ? true : false
+                                    selectedBooking?.status === "Processing"
+                                      ? true
+                                      : false
                                   }
                                 >
                                   Processing
@@ -277,7 +288,9 @@ const DetailBooking: React.FC<DetailModalProps> = ({
                                 <option
                                   value="Cancel"
                                   selected={
-                                    item?.status === "Cancel" ? true : false
+                                    selectedBooking?.status === "Cancel"
+                                      ? true
+                                      : false
                                   }
                                 >
                                   Cancel
