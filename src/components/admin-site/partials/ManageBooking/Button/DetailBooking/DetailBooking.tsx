@@ -25,22 +25,21 @@ const DetailBooking: React.FC<DetailModalProps> = ({
   const [listBooking, setListBooking] = useState<any>(null);
   const [selectedBooking, setSelectedBooking] = useState<any>(null);
   const [bookingStatus, setBookingStatus] = useState("");
-  const [status, setStatus] = useState("");
   const [isModalOpenUpdateStatus, setIsModalOpenUpdateStatus] = useState(false);
 
-  useEffect(() => {
-    const fetchBookings = () => {
-      axios
-        .get(`http://localhost:7373/bookings/${getBookingId}`)
-        .then((response) => {
-          setBooking(response.data);
-          setListBooking(response.data.listBookings);
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
-    };
+  const fetchBookings = () => {
+    axios
+      .get(`http://localhost:7373/bookings/${getBookingId}`)
+      .then((response) => {
+        setBooking(response.data);
+        setListBooking(response.data.listBookings);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
 
+  useEffect(() => {
     fetchBookings();
   }, [getBookingId]);
   console.log(booking);
@@ -111,8 +110,40 @@ const DetailBooking: React.FC<DetailModalProps> = ({
     console.log(selectedBooking);
   };
 
-  const handleOkUpdateStatus = (bookingId: number) => {
-    console.log("Bla", bookingId);
+  const updateBookingStatus = (bookingId: number, status: string) => {
+    // Gửi yêu cầu cập nhật trạng thái đặt hàng lên máy chủ
+    return axios.patch(`http://localhost:7373/bookings/${bookingId}`, {
+      status: status,
+    });
+  };
+
+  const handleOkUpdateStatus = () => {
+    const updatedListBookings = listBooking.map((item: any) => {
+      if (item.bookingId === selectedBooking.bookingId) {
+        return {
+          ...item,
+          status: bookingStatus,
+        };
+      }
+      return item;
+    });
+
+    axios
+      .patch(`http://localhost:7373/bookings/${getBookingId}`, {
+        listBookings: updatedListBookings,
+      })
+      .then(() => {
+        fetchBookings();
+        // Cập nhật lại trạng thái sau khi cập nhật thành công
+        setSelectedBooking((prevSelectedBooking: any) => ({
+          ...prevSelectedBooking,
+          status: bookingStatus,
+        }));
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+
     setIsModalOpenUpdateStatus(false);
   };
 
@@ -179,9 +210,7 @@ const DetailBooking: React.FC<DetailModalProps> = ({
                         <Modal
                           title="Update Status"
                           open={isModalOpenUpdateStatus}
-                          onOk={() =>
-                            handleOkUpdateStatus(selectedBooking.bookingId)
-                          }
+                          onOk={() => handleOkUpdateStatus()}
                           onCancel={handleCancelUpdateStatus}
                           width={600}
                         >
