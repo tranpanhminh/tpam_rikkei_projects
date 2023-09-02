@@ -207,6 +207,7 @@ function ClientBooking() {
                       {item.status === "Processing" ? (
                         <Button
                           type="primary"
+                          danger
                           disabled={
                             item.status === "Done" || item.status === "Cancel"
                               ? true
