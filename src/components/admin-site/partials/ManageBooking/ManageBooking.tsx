@@ -41,19 +41,19 @@ function ManageBooking() {
     fetchBooking();
   }, []);
 
-  const handleDeleteBooking = (bookingId: number) => {
-    axios
-      .delete(`http://localhost:7373/bookings/${bookingId}`)
-      .then(() => {
-        notification.success({
-          message: "Booking Deleted",
-        });
-        fetchBooking(); // Cập nhật lại dữ liệu products sau khi xóa
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  };
+  // const handleDeleteBooking = (bookingId: number) => {
+  //   axios
+  //     .delete(`http://localhost:7373/bookings/${bookingId}`)
+  //     .then(() => {
+  //       notification.success({
+  //         message: "Booking Deleted",
+  //       });
+  //       fetchBooking(); // Cập nhật lại dữ liệu products sau khi xóa
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.message);
+  //     });
+  // };
   const handleSearchBooking = () => {
     if (searchText === "") {
       // Nếu searchText rỗng, gọi lại fetchUsers để lấy tất cả người dùng
@@ -69,11 +69,7 @@ function ManageBooking() {
           // Tìm kiếm trong dữ liệu và cập nhật state
           const filteredBooking = allBooking.filter((booking: Booking) => {
             if (
-              booking.name
-                .toLowerCase()
-                .includes(searchText.trim().toLowerCase()) ||
-              booking.phone
-                .toString()
+              booking.date
                 .toLowerCase()
                 .includes(searchText.trim().toLowerCase())
             ) {
@@ -89,12 +85,6 @@ function ManageBooking() {
         });
     }
   };
-
-  // const handleUpdateBooking = (bookingId: number) => {
-  //   let findUserBooking = booking.find((item: any) => {
-  //     return item.id === bookingId;
-  //   });
-  // };
 
   const changeColor = (status: string) => {
     switch (status) {
@@ -125,7 +115,7 @@ function ManageBooking() {
             aria-label="Search"
             id="search-bar"
             value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
+            onChange={(event) => setSearchText(event.target.value)}
           />
           <button
             className={`btn  ${styles["btn-outline-success"]}`}
@@ -163,7 +153,8 @@ function ManageBooking() {
                       title="Detail Product"
                       className={styles["detail-product-btn"]}
                       getBookingId={booking.id}
-                      // handleFunctionOk={() => handleUpdateBooking(item.id)}
+                      getBookingDate={booking.date}
+                      getBooking={booking.listBookings}
                     ></DetailBooking>
                   </td>
                 </tr>

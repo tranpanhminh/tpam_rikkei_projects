@@ -170,6 +170,32 @@ i {
   width: 400px;
 }
 
+.booking-headline {
+  text-align: center;
+  padding: 20px;
+}
+
+.sub-headline-booking {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.search-booking-item-group {
+  display: flex;
+}
+
+.search-booking-item-group input {
+  width: 200px;
+}
+
+.group-total-booking span {
+  font-size: 20px;
+  font-weight: bold;
+}
+
 /* CSS Main Content */
 .main-content {
   padding: 20px;
