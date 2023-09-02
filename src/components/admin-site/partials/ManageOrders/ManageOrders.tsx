@@ -31,7 +31,8 @@ function ManageOrders() {
 
   const handleSearchOrders = () => {
     if (searchText === "") {
-      fetchOrders();
+      fetchOrders(); // Không có searchText, fetch toàn bộ đơn hàng
+      return;
     } else {
       axios
         .get(`http://localhost:7373/orders`)
@@ -44,7 +45,7 @@ function ManageOrders() {
             if (
               order.name.toLowerCase().includes(searchText.trim().toLowerCase())
             ) {
-              return true;
+              return true; // Bạn có thể sử dụng `.toLowerCase()` để làm cho tìm kiếm không phân biệt chữ hoa, chữ thường.
             }
             return false;
           });
@@ -54,6 +55,7 @@ function ManageOrders() {
         .catch((error) => {
           console.log(error.message);
         });
+      console.log("ÓDASDAS", orders);
     }
   };
 
@@ -72,17 +74,16 @@ function ManageOrders() {
   // };
 
   const handleSumOrder = (orderId: number) => {
-    if (orders) {
-      const totalOrder = orders[orderId - 1]?.cart.reduce(
-        (accumulator: number, currentItem: any) => {
-          return (accumulator +=
-            currentItem.productQuantity * currentItem.price);
-        },
-        0
-      );
-      return totalOrder;
-    }
-    return 0;
+    // if (orders) {
+    const totalOrder = orders[orderId - 1]?.cart.reduce(
+      (accumulator: number, currentItem: any) => {
+        return accumulator + currentItem.productQuantity * currentItem.price;
+      },
+      0
+    );
+    return totalOrder;
+    // }
+    // return 0;
   };
 
   const changeColor = (status: string) => {
@@ -120,17 +121,6 @@ function ManageOrders() {
       .catch((error) => {
         console.log(error);
       });
-
-    // const updatedOrderHistory = user.order_history.map((order: any) => {
-    //   if (order.orderId === orderId) {
-    //     return { ...order, status: shippingStatus };
-    //   }
-    //   return order;
-    // });
-
-    // axios.patch(`http://localhost:7373/accounts/${userId}`, {
-    //   order_history: updatedOrderHistory,
-    // });
   };
 
   return (
@@ -149,7 +139,7 @@ function ManageOrders() {
             aria-label="Search"
             id="search-bar"
             value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
+            onChange={(event) => setSearchText(event.target.value)}
           />
           <button
             className="btn btn-outline-success"
@@ -200,25 +190,13 @@ function ManageOrders() {
                         {order.status}
                       </Badge>
                     </td>
-                    <td>${handleSumOrder(order.id)}</td>
+                    <td>${order.sumOrderWithDiscount}</td>
                     <td className={styles["group-btn-admin"]}>
                       <DetailOrder
                         value="Detail"
                         getOrderId={order.id}
                         handleFunctionOk={handleUpdateStatus}
                       ></DetailOrder>
-                      {/* <Button
-                        type="primary"
-                        className={styles["delete-order-btn"]}
-                        onClick={() => handleDeleteOrder(order.id)}
-                      >
-                        Delete
-                      </Button> */}
-                      {/* <DeleteOrder
-                        value="Delete"
-                        className={styles["delete-order-btn"]}
-                        handleFunctionBtn={() => handleDeleteOrder(order.id)}
-                      ></DeleteOrder> */}
                     </td>
                   </tr>
                 );

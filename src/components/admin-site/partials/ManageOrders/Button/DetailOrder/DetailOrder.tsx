@@ -225,7 +225,10 @@ const DetailOrders: React.FC<DetailModalProps> = ({
             Item: {orderCart?.length}
           </span>
           <span className={styles["my-order-card-total-quantity"]}>
-            Total: ${handleSumOrder().toLocaleString()}
+            Discount: {orders?.discount}%
+          </span>
+          <span className={styles["my-order-card-total-quantity"]}>
+            Total: ${orders?.sumOrderWithDiscount}
           </span>
         </div>
       </Modal>

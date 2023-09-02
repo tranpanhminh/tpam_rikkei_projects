@@ -71,6 +71,7 @@ function ClientProductDetail() {
       notification.warning({
         message: "Admin is not allowed to buy products",
       });
+      return;
     }
 
     // Kiểm tra User có phải là Customer và tài khoản bị Inactive
