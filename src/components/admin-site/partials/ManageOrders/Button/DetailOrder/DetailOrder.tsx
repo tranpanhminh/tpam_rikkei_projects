@@ -225,6 +225,9 @@ const DetailOrders: React.FC<DetailModalProps> = ({
             Item: {orderCart?.length}
           </span>
           <span className={styles["my-order-card-total-quantity"]}>
+            Shipping Fee: $5
+          </span>
+          <span className={styles["my-order-card-total-quantity"]}>
             Discount: {orders?.discount}%
           </span>
           <span className={styles["my-order-card-total-quantity"]}>

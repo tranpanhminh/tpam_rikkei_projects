@@ -250,6 +250,9 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
             Item: {listOrders?.cart.length}
           </span>
           <span className={styles["my-order-card-total-quantity"]}>
+            Shipping Fee: $5
+          </span>
+          <span className={styles["my-order-card-total-quantity"]}>
             Discount: {listOrders?.discount}%
           </span>
           <span className={styles["my-order-card-total-quantity"]}>
