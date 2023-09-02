@@ -4,6 +4,28 @@
   box-sizing: border-box;
 } */
 
+.update-booking-status {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-direction: column;
+}
+
+.ant-select-selection-item [title="Done"] {
+  color: #42f548 !important; /* Thay đổi màu nền ở đây */
+  font-weight: bold;
+}
+
+.ant-select-selection-item [title="Processing"] {
+  color: #4290f5 !important; /* Thay đổi màu nền ở đây */
+  font-weight: bold;
+}
+
+.ant-select-selection-item [title="Cancel"] {
+  color: #f54251 !important; /* Thay đổi màu nền ở đây */
+  font-weight: bold;
+}
+
 .main-body {
   display: grid;
   grid-template-columns: 1fr 7fr;

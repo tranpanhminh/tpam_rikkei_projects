@@ -10,7 +10,7 @@ import { Badge } from "react-bootstrap";
 
 function ManageBooking() {
   const [searchText, setSearchText] = useState<string>("");
-  const [booking, setBooking] = useState<any>([]);
+  const [bookings, setBookings] = useState<any>([]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -30,7 +30,7 @@ function ManageBooking() {
     axios
       .get(`http://localhost:7373/bookings/`)
       .then((response) => {
-        setBooking(response.data);
+        setBookings(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -82,7 +82,7 @@ function ManageBooking() {
             return false;
           });
 
-          setBooking(filteredBooking);
+          setBookings(filteredBooking);
         })
         .catch((error) => {
           console.log(error.message);
@@ -146,40 +146,25 @@ function ManageBooking() {
         >
           <thead>
             <tr>
-              <th>Booking ID</th>
-              <th>Name</th>
-              <th>Phone</th>
               <th>Booking Date</th>
-              <th>Status</th>
+              <th>Available</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {booking?.map((item: any) => {
+            {bookings?.map((booking: any) => {
               return (
-                <tr key={item.id}>
-                  <td>{item.id}</td>
-                  <td>{item.name}</td>
-                  <td>{item.phone}</td>
-                  <td>{item.date}</td>
-                  <td>
-                    <Badge bg={changeColor(item.status)}>{item.status}</Badge>
-                  </td>
+                <tr key={1}>
+                  <td>{booking.date}</td>
+                  <td>{booking.listBookings.length} / 20</td>
                   <td className={styles["group-btn-admin"]}>
                     <DetailBooking
                       value="Detail"
                       title="Detail Product"
                       className={styles["detail-product-btn"]}
-                      getBookingId={item.id}
+                      getBookingId={booking.id}
                       // handleFunctionOk={() => handleUpdateBooking(item.id)}
                     ></DetailBooking>
-                    <Button
-                      type="primary"
-                      className={styles["delete-product-btn"]}
-                      onClick={() => handleDeleteBooking(item.id)}
-                    >
-                      Delete
-                    </Button>
                   </td>
                 </tr>
               );
