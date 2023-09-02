@@ -167,174 +167,178 @@ const DetailBooking: React.FC<DetailModalProps> = ({
         onCancel={handleCancel}
         width={1200}
       >
-        <Table striped bordered hover variant="dark" responsive>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Phone</th>
-              <th>Booking Time</th>
-              <th>Booking Date</th>
-              <th>Service</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {listBooking &&
-              listBooking.map((item: any) => {
-                return (
-                  <>
-                    <tr>
-                      <td>{item.bookingId}</td>
-                      <td>{item.userName}</td>
-                      <td>{item.userPhone}</td>
-                      <td>{item.time}</td>
-                      <td>
-                        <p>{item.bookingDate}</p>
-                        <p>{item.calendar}</p>
-                      </td>
-                      <td>{item.serviceName}</td>
-                      <td>
-                        <Badge bg={`${changeColor(item.status)}`}>
-                          {item.status}
-                        </Badge>
-                      </td>
-                      <td>
-                        <Button
-                          type="primary"
-                          onClick={() => handleDetailClick(item)}
-                        >
-                          Detail
-                        </Button>
-                        <Modal
-                          title="Update Status"
-                          open={isModalOpenUpdateStatus}
-                          onOk={() => handleOkUpdateStatus()}
-                          onCancel={handleCancelUpdateStatus}
-                          width={600}
-                        >
-                          <div className={styles["update-booking-status"]}>
-                            <div className={styles["admin-order-input-item"]}>
-                              <p>Booking ID</p>
-                              <input
-                                type="text"
-                                disabled
-                                value={selectedBooking?.bookingId}
-                              />
-                            </div>
-                            <div className={styles["admin-order-input-item"]}>
-                              <p>Name</p>
-                              <input
-                                type="text"
-                                disabled
-                                value={selectedBooking?.userName}
-                              />
-                            </div>
-                            <div className={styles["admin-order-input-item"]}>
-                              <p>Phone</p>
-                              <input
-                                type="text"
-                                disabled
-                                value={selectedBooking?.userPhone}
-                              />
-                            </div>
-                            <div className={styles["admin-order-input-item"]}>
-                              <p>Booking Time</p>
-                              <input
-                                type="text"
-                                disabled
-                                value={selectedBooking?.time}
-                              />
-                            </div>
-                            <div className={styles["admin-order-input-item"]}>
-                              <p>Booking Date</p>
-                              <input
-                                type="text"
-                                disabled
-                                value={selectedBooking?.bookingDate}
-                              />
-                            </div>
-                            <div className={styles["admin-order-input-item"]}>
-                              <p>Booking Calendar</p>
-                              <input
-                                type="text"
-                                disabled
-                                value={selectedBooking?.calendar}
-                              />
-                            </div>
-                            <div className={styles["admin-order-input-item"]}>
-                              <p>Booking Service</p>
-                              <input
-                                type="text"
-                                disabled
-                                value={selectedBooking?.serviceName}
-                              />
-                            </div>
-                            <div className={styles["admin-order-input-item"]}>
-                              <p>Booking Price</p>
-                              <input
-                                type="text"
-                                disabled
-                                value={`${`$`}${selectedBooking?.servicePrice}`}
-                              />
-                            </div>
-                            <div className={styles["admin-order-input-item"]}>
-                              <p>Booking Status</p>
-                              <select
-                                name=""
-                                id=""
-                                onChange={(event) =>
-                                  setBookingStatus(event.target.value)
-                                }
-                                disabled={
-                                  selectedBooking?.status === "Done" ||
-                                  selectedBooking?.status === "Cancel"
-                                    ? true
-                                    : false
-                                }
-                              >
-                                <option
-                                  value="Done"
-                                  selected={
-                                    selectedBooking?.status === "Done"
-                                      ? true
-                                      : false
+        <div style={{ maxHeight: "500px", overflowY: "auto" }}>
+          <Table striped bordered hover variant="dark" responsive>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Booking Time</th>
+                <th>Booking Date</th>
+                <th>Service</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {listBooking &&
+                listBooking.map((item: any) => {
+                  return (
+                    <>
+                      <tr>
+                        <td>{item.bookingId}</td>
+                        <td>{item.userName}</td>
+                        <td>{item.userPhone}</td>
+                        <td>{item.time}</td>
+                        <td>
+                          <p>{item.bookingDate}</p>
+                          <p>{item.calendar}</p>
+                        </td>
+                        <td>{item.serviceName}</td>
+                        <td>
+                          <Badge bg={`${changeColor(item.status)}`}>
+                            {item.status}
+                          </Badge>
+                        </td>
+                        <td>
+                          <Button
+                            type="primary"
+                            onClick={() => handleDetailClick(item)}
+                          >
+                            Detail
+                          </Button>
+                          <Modal
+                            title="Update Status"
+                            open={isModalOpenUpdateStatus}
+                            onOk={() => handleOkUpdateStatus()}
+                            onCancel={handleCancelUpdateStatus}
+                            width={600}
+                          >
+                            <div className={styles["update-booking-status"]}>
+                              <div className={styles["admin-order-input-item"]}>
+                                <p>Booking ID</p>
+                                <input
+                                  type="text"
+                                  disabled
+                                  value={selectedBooking?.bookingId}
+                                />
+                              </div>
+                              <div className={styles["admin-order-input-item"]}>
+                                <p>Name</p>
+                                <input
+                                  type="text"
+                                  disabled
+                                  value={selectedBooking?.userName}
+                                />
+                              </div>
+                              <div className={styles["admin-order-input-item"]}>
+                                <p>Phone</p>
+                                <input
+                                  type="text"
+                                  disabled
+                                  value={selectedBooking?.userPhone}
+                                />
+                              </div>
+                              <div className={styles["admin-order-input-item"]}>
+                                <p>Booking Time</p>
+                                <input
+                                  type="text"
+                                  disabled
+                                  value={selectedBooking?.time}
+                                />
+                              </div>
+                              <div className={styles["admin-order-input-item"]}>
+                                <p>Booking Date</p>
+                                <input
+                                  type="text"
+                                  disabled
+                                  value={selectedBooking?.bookingDate}
+                                />
+                              </div>
+                              <div className={styles["admin-order-input-item"]}>
+                                <p>Booking Calendar</p>
+                                <input
+                                  type="text"
+                                  disabled
+                                  value={selectedBooking?.calendar}
+                                />
+                              </div>
+                              <div className={styles["admin-order-input-item"]}>
+                                <p>Booking Service</p>
+                                <input
+                                  type="text"
+                                  disabled
+                                  value={selectedBooking?.serviceName}
+                                />
+                              </div>
+                              <div className={styles["admin-order-input-item"]}>
+                                <p>Booking Price</p>
+                                <input
+                                  type="text"
+                                  disabled
+                                  value={`${`$`}${
+                                    selectedBooking?.servicePrice
+                                  }`}
+                                />
+                              </div>
+                              <div className={styles["admin-order-input-item"]}>
+                                <p>Booking Status</p>
+                                <select
+                                  name=""
+                                  id=""
+                                  onChange={(event) =>
+                                    setBookingStatus(event.target.value)
                                   }
-                                >
-                                  Done
-                                </option>
-                                <option
-                                  value="Processing"
-                                  selected={
-                                    selectedBooking?.status === "Processing"
-                                      ? true
-                                      : false
-                                  }
-                                >
-                                  Processing
-                                </option>
-                                <option
-                                  value="Cancel"
-                                  selected={
+                                  disabled={
+                                    selectedBooking?.status === "Done" ||
                                     selectedBooking?.status === "Cancel"
                                       ? true
                                       : false
                                   }
                                 >
-                                  Cancel
-                                </option>
-                              </select>
+                                  <option
+                                    value="Done"
+                                    selected={
+                                      selectedBooking?.status === "Done"
+                                        ? true
+                                        : false
+                                    }
+                                  >
+                                    Done
+                                  </option>
+                                  <option
+                                    value="Processing"
+                                    selected={
+                                      selectedBooking?.status === "Processing"
+                                        ? true
+                                        : false
+                                    }
+                                  >
+                                    Processing
+                                  </option>
+                                  <option
+                                    value="Cancel"
+                                    selected={
+                                      selectedBooking?.status === "Cancel"
+                                        ? true
+                                        : false
+                                    }
+                                  >
+                                    Cancel
+                                  </option>
+                                </select>
+                              </div>
                             </div>
-                          </div>
-                        </Modal>
-                      </td>
-                    </tr>
-                  </>
-                );
-              })}
-          </tbody>
-        </Table>
+                          </Modal>
+                        </td>
+                      </tr>
+                    </>
+                  );
+                })}
+            </tbody>
+          </Table>
+        </div>
       </Modal>
     </>
   );
