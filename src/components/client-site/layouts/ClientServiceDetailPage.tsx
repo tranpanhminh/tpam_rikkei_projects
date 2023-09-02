@@ -5,6 +5,7 @@ import ClientBanner from "../partials/ClientBanner/ClientBanner";
 import ClientFooter from "../partials/ClientFooter/ClientFooter";
 import ClientServiceDetail from "./../partials/ClientServices/ClientServiceDetail";
 import ServiceCategoryBreadcrumb from "../partials/Breadcrumbs/ServiceCategoryBreadcrumb";
+import NotificationSale from "../partials/NotificationSale/Notification";
 
 function ClientServiceDetailPage() {
   return (
@@ -18,6 +19,7 @@ function ClientServiceDetailPage() {
         <ClientServiceDetail />
       </div>
       <ClientFooter />
+      <NotificationSale />
     </>
   );
 }

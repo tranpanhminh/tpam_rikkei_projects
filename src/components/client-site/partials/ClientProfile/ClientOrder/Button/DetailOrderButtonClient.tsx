@@ -213,38 +213,40 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
           )}
         </div>
         <br />
-        <table className="table table-striped" id={styles["table-user"]}>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Product Image</th>
-              <th>Product Name</th>
-              <th>Quantity</th>
-              <th>Price</th>
-              <th>Total</th>
-            </tr>
-          </thead>
+        <div className={styles["order-detail-table"]}>
+          <table className="table table-striped" id={styles["table-user"]}>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Product Image</th>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+              </tr>
+            </thead>
 
-          <tbody>
-            {listOrders &&
-              listOrders.cart.map((item: any, index: number) => {
-                return (
-                  <tr>
-                    <td>{index + 1}</td>
-                    <td>
-                      <img src={item.productImage} alt="" />
-                    </td>
-                    <td>{item.productName}</td>
-                    <td>{item.productQuantity}</td>
-                    <td>${Number(item.price)}</td>
-                    <td>
-                      ${(item.productQuantity * item.price).toLocaleString()}
-                    </td>
-                  </tr>
-                );
-              })}
-          </tbody>
-        </table>
+            <tbody>
+              {listOrders &&
+                listOrders.cart.map((item: any, index: number) => {
+                  return (
+                    <tr>
+                      <td>{index + 1}</td>
+                      <td>
+                        <img src={item.productImage} alt="" />
+                      </td>
+                      <td>{item.productName}</td>
+                      <td>{item.productQuantity}</td>
+                      <td>${Number(item.price)}</td>
+                      <td>
+                        ${(item.productQuantity * item.price).toLocaleString()}
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </table>
+        </div>
         <div className={styles["my-profile-my-order-card"]}>
           <span className={styles["my-order-card-item"]}>
             Item: {listOrders?.cart.length}

@@ -4,6 +4,7 @@ import ClientHeaderPC from "../partials/ClientHeader/ClientHeaderPC";
 import ClientBanner from "../partials/ClientBanner/ClientBanner";
 import SignupForm from "../partials/LoginSignUp/SignupForm";
 import ClientFooter from "../partials/ClientFooter/ClientFooter";
+import NotificationSale from "../partials/NotificationSale/Notification";
 
 function ClientSignupPage() {
   return (
@@ -16,6 +17,7 @@ function ClientSignupPage() {
         <SignupForm />
       </div>
       <ClientFooter />
+      <NotificationSale />
     </>
   );
 }

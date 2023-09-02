@@ -5,7 +5,7 @@ import ClientBanner from "../partials/ClientBanner/ClientBanner";
 import ProductsCategoryBreadCrumb from "../partials/Breadcrumbs/ProductsCategoryBreadcrumb";
 import ClientListProducts from "../partials/ClientFeaturedProducts/ClientListProducts";
 import ClientFooter from "../partials/ClientFooter/ClientFooter";
-
+import NotificationSale from "../partials/NotificationSale/Notification";
 function ClientProductCategoryPage() {
   return (
     <>
@@ -18,6 +18,7 @@ function ClientProductCategoryPage() {
         <ClientListProducts />
       </div>
       <ClientFooter />
+      <NotificationSale />
     </>
   );
 }

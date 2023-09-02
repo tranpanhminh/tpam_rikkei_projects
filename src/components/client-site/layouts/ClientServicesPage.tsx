@@ -5,6 +5,7 @@ import ClientBanner from "../partials/ClientBanner/ClientBanner";
 import ClientFooter from "../partials/ClientFooter/ClientFooter";
 import ClientListServices from "../partials/ClientServices/ClientListServices";
 import ProductsServiceBreadCrumby from "../partials/Breadcrumbs/ServiceCategoryBreadcrumb";
+import NotificationSale from "../partials/NotificationSale/Notification";
 
 function ClientHomePage() {
   return (
@@ -19,6 +20,7 @@ function ClientHomePage() {
         <ClientListServices />
       </div>
       <ClientFooter />
+      <NotificationSale />
     </>
   );
 }

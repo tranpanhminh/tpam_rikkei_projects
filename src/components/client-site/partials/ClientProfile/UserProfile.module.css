@@ -167,6 +167,11 @@ i {
   font-weight: bold;
 }
 
+.order-detail-table {
+  max-height: 600px;
+  overflow-y: auto;
+}
+
 /* CSS Main Content */
 .main-content {
   padding: 20px;

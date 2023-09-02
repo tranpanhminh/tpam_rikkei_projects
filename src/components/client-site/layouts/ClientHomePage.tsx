@@ -11,13 +11,12 @@ import ClientSaleOff from "../partials/ClientSaleOff/ClientSaleOff";
 import ClientReviews from "../partials/ClientReviews/ClientReviews";
 import ClientNewsletter from "../partials/ClientNewsletter/ClientNewsletter";
 import ClientFooter from "../partials/ClientFooter/ClientFooter";
+import NotificationSale from "../partials/NotificationSale/Notification";
 
 function ClientHomePage() {
   return (
     <>
-      {/* Homepage */}
       <ClientHeaderPC />
-      {/* <ClientHeaderMobile /> */}
       <div className="main">
         {" "}
         <ClientBanner />
@@ -28,9 +27,10 @@ function ClientHomePage() {
         <ClientFeaturedProducts />
         <ClientSaleOff />
         <ClientReviews />
-        <ClientNewsletter />{" "}
+        <ClientNewsletter />
       </div>
       <ClientFooter />
+      <NotificationSale />
     </>
   );
 }

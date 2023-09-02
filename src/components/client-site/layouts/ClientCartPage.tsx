@@ -4,7 +4,7 @@ import ClientHeaderPC from "../partials/ClientHeader/ClientHeaderPC";
 import ClientBanner from "../partials/ClientBanner/ClientBanner";
 import ClientCart from "../partials/ClientCart/ClientCart";
 import ClientFooter from "../partials/ClientFooter/ClientFooter";
-
+import NotificationSale from "../partials/NotificationSale/Notification";
 function ClientCartPage() {
   return (
     <>
@@ -15,6 +15,7 @@ function ClientCartPage() {
         <ClientCart />
       </div>
       <ClientFooter />
+      <NotificationSale />
     </>
   );
 }

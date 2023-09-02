@@ -198,40 +198,40 @@ function ClientOrder() {
 
       <div className={styles["main-content"]}>
         <h3 className={styles["main-title-content"]}>List Orders</h3>
-        <table className="table table-striped" id="table-user">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Date</th>
-              <th>Total</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filterUserOrder &&
-              filterUserOrder.map((order: any, index: number) => {
-                return (
-                  <tr>
-                    <td>{index + 1}</td>
-                    <td>{order.date}</td>
-                    <td>${order.sumOrderWithDiscount}</td>
-                    <td>
-                      <Badge bg={changeColor(order.status)}>
-                        {order.status}
-                      </Badge>
-                    </td>
-                    <td>
-                      <DetailOrderButton
-                        orderId={order.id}
-                        handleFunctionOk={handleUpdateStatus}
-                      ></DetailOrderButton>
-                    </td>
-                  </tr>
-                );
-              })}
-          </tbody>
-        </table>
+          <table className="table table-striped" id="table-user">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Date</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filterUserOrder &&
+                filterUserOrder.map((order: any, index: number) => {
+                  return (
+                    <tr>
+                      <td>{index + 1}</td>
+                      <td>{order.date}</td>
+                      <td>${order.sumOrderWithDiscount}</td>
+                      <td>
+                        <Badge bg={changeColor(order.status)}>
+                          {order.status}
+                        </Badge>
+                      </td>
+                      <td>
+                        <DetailOrderButton
+                          orderId={order.id}
+                          handleFunctionOk={handleUpdateStatus}
+                        ></DetailOrderButton>
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </table>
       </div>
     </div>
   );

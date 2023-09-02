@@ -3,6 +3,7 @@ import ClientHeaderPC from "../partials/ClientHeader/ClientHeaderPC";
 import ClientBanner from "../partials/ClientBanner/ClientBanner";
 import ClientFooter from "../partials/ClientFooter/ClientFooter";
 import SearchPage from "../../common/SearchPage/SearchPage";
+import NotificationSale from "../partials/NotificationSale/Notification";
 
 function ClientSearchPage() {
   return (
@@ -15,6 +16,7 @@ function ClientSearchPage() {
         <SearchPage />
       </div>
       <ClientFooter />
+      <NotificationSale />
     </>
   );
 }
