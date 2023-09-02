@@ -85,33 +85,32 @@ function ClientBooking() {
 
   const handleCancelBooking = (bookingId: number, bookingDate: string) => {
     // Tìm kiếm các lịch đặt theo ngày
-    const filterBooking = dataBooking.find(
+    const filterBooking = dataBooking?.find(
       (item: any) => item.date === bookingDate
     );
 
-    console.log("FIlter Booking", filterBooking);
+    console.log("FilterBooking", filterBooking);
 
-    if (!filterBooking) {
-      console.log(`Không tìm thấy lịch đặt cho ngày ${bookingDate}`);
-      return; // Nếu không tìm thấy, thoát khỏi hàm
+    if (filterBooking) {
+      const bookingToUpdate = filterBooking.listBookings.find((item: any) => {
+        return item.bookingId === bookingId;
+      });
+
+      if (bookingToUpdate) {
+        bookingToUpdate.status = "Cancel";
+
+        axios
+          .patch(`http://localhost:7373/bookings/${filterBooking.id}`, {
+            listBookings: filterBooking.listBookings,
+          })
+          .then((response) => {
+            fetchBookings();
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     }
-
-    // Tìm kiếm lịch đặt cụ thể bằng bookingId trong danh sách lịch đặt của ngày đó
-    const findBooking = filterBooking.listBookings.find(
-      (item: any) => item.bookingId === bookingId
-    );
-
-    if (!findBooking) {
-      console.log(
-        `Không tìm thấy lịch đặt với bookingId ${bookingId} trong ngày ${bookingDate}`
-      );
-      return; // Nếu không tìm thấy, thoát khỏi hàm
-    }
-
-    // Đã tìm thấy lịch đặt, bạn có thể thực hiện các thao tác cần thiết ở đây
-    console.log("Tìm thấy lịch đặt:", findBooking);
-
-    // Tiếp theo, bạn có thể thực hiện việc cập nhật status của lịch đặt và gửi yêu cầu đến API để hủy đặt lịch.
   };
 
   const changeColor = (status: string) => {
@@ -127,14 +126,14 @@ function ClientBooking() {
     }
   };
 
-  const dataUserBooking: any = [];
+  const dataUserBooking: any[] = [];
 
   userBooking.forEach((item: any) => {
-    const foundBooking = dataBooking.find(
+    const foundBooking = dataBooking?.find(
       (booking: any) => booking.date === item.bookingDate
     );
 
-    if (foundBooking) {
+    if (foundBooking && Array.isArray(foundBooking.listBookings)) {
       const foundListBooking = foundBooking.listBookings.find(
         (data: any) => data.bookingId === item.bookingId
       );
