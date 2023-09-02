@@ -99,7 +99,8 @@ function BlogPost() {
 
                     <div className={styles["post-item-content"]}>
                       <h2 className={styles["post-item-title"]}>
-                        {post.post_title}
+                        {/* {post.post_title} */}
+                        {Array.from(post.post_title).slice(0, 50).join("")}
                       </h2>
                       <span className={styles["post-item-description"]}>
                         {Array.from(post.post_content).slice(0, 200).join("")}
