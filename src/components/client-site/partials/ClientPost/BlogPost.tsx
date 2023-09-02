@@ -7,7 +7,11 @@ import axios from "axios";
 
 function BlogPost() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [listPosts, setListPosts] = useState<any>([]);
+  const [posts, setPosts] = useState<any>([]);
+  const [total, setTotal] = useState<any>("");
+  const [page, setPage] = useState<any>(1); // Đặt giá trị mặc định cho page
+  const [postPerPage, setPostPerPage] = useState<any>(6);
+
   const [listProducts, setListProducts] = useState<any>([]);
   const [listServices, setListServices] = useState<any>([]);
 
@@ -26,7 +30,8 @@ function BlogPost() {
     axios
       .get(`http://localhost:7373/posts`)
       .then((response) => {
-        setListPosts(response.data);
+        setPosts(response.data);
+        setTotal(response.data.length);
       })
       .catch((error) => {
         console.log(error.message);
@@ -54,12 +59,33 @@ function BlogPost() {
   const handleSearch = () => {
     navigate(`/search/${searchTerm}`);
   };
+
+  const indexOfLastPage = page + postPerPage;
+  const indexOfFirstPage = indexOfLastPage - postPerPage;
+  const currentPosts = posts.slice(indexOfFirstPage, indexOfLastPage);
+  const onShowSizeChange = (current: any, pageSize: any) => {
+    setPostPerPage(pageSize);
+  };
+
+  const handlePageChange = (value: number) => {
+    setPage(value); // Cập nhật trang hiện tại
+  };
+
+  const itemRender = (current: any, type: any, originalElement: any) => {
+    if (type === "prev") {
+      return <a>Previous</a>;
+    }
+    if (type === "next") {
+      return <a>Next</a>;
+    }
+    return originalElement;
+  };
   return (
     <>
       <div className={styles["wrap-blog"]}>
         <div className={styles["list-blogs"]}>
-          {listPosts &&
-            listPosts.map((post: any) => {
+          {currentPosts &&
+            currentPosts.map((post: any) => {
               return (
                 <>
                   <div className={styles["post-item"]}>
@@ -88,7 +114,16 @@ function BlogPost() {
             })}
 
           <div className={styles["blogs-post-pagination"]}>
-            <Pagination defaultCurrent={6} total={500} />
+            <Pagination
+              pageSize={postPerPage}
+              total={total}
+              current={page} // Sử dụng page để xác định trang hiện tại
+              onChange={handlePageChange} // Sử dụng handlePageChange để cập nhật trang
+              showSizeChanger
+              showQuickJumper
+              onShowSizeChange={onShowSizeChange}
+              itemRender={itemRender}
+            />
           </div>
         </div>
 
