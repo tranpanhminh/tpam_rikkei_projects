@@ -75,7 +75,8 @@ const AdminHeader: React.FC = () => {
               className={styles["navlink-menu-admin"]}
             >
               <li className={styles["admin-btn"]}>
-                <i className="fa-solid fa-briefcase"></i>
+                {/* <i className="fa-solid fa-briefcase"></i> */}
+                <i className="fa-solid fa-city"></i>
                 Manage Services
               </li>
             </NavLink>
@@ -87,7 +88,8 @@ const AdminHeader: React.FC = () => {
               className={styles["navlink-menu-admin"]}
             >
               <li className={styles["admin-btn"]}>
-                <i className="fa-solid fa-calendar-days"></i>
+                {/* <i className="fa-solid fa-calendar-days"></i> */}
+                <i className="fa-solid fa-suitcase"></i>
                 Manage Booking
               </li>
             </NavLink>
@@ -123,7 +125,7 @@ const AdminHeader: React.FC = () => {
               className={styles["navlink-menu-admin"]}
             >
               <li className={styles["admin-btn"]}>
-                <i className="fa-solid fa-right-from-bracket"></i>Manage Posts
+                <i className="fa-solid fa-list"></i>Manage Posts
               </li>
             </NavLink>
           </div>
