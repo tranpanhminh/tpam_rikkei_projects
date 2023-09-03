@@ -9,6 +9,7 @@ import { Rate } from "antd";
 import avatar from "../../../../assets/images/dogs-reviews-01.png";
 import { Editor } from "@tinymce/tinymce-react";
 import { Badge } from "react-bootstrap";
+import { format } from "date-fns";
 
 function ClientProductDetail() {
   const getData: any = localStorage.getItem("auth");
@@ -228,6 +229,8 @@ function ClientProductDetail() {
       userRole: getLoginData.role,
       content: editorContent,
       rating: rateValue,
+      date: format(new Date(), "dd/MM/yyyy HH:mm:ss"),
+      type: "product",
     };
 
     console.log("New Comment", newComment);

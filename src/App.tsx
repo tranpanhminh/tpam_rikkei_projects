@@ -34,6 +34,7 @@ import AdminSubscribersPage from "./components/admin-site/layouts/AdminSubscribe
 import ClientBlogCategory from "./components/client-site/layouts/ClientBlogCategory";
 import ClientBlogPost from "./components/client-site/layouts/ClientBlogPost";
 import AdminPostsPage from "./components/admin-site/layouts/AdminPostsPage";
+import AdminManageComments from "./components/admin-site/layouts/AdminManageComments";
 
 export function RoleNavigation() {
   const getData: any = localStorage.getItem("auth");
@@ -137,6 +138,10 @@ function App() {
           <Route
             path="/admin/manage-posts"
             element={<AdminPostsPage />}
+          ></Route>
+          <Route
+            path="/admin/manage-comments"
+            element={<AdminManageComments />}
           ></Route>
           <Route path="/user" element={<MyProfile />}></Route>
           <Route path="/user/my-profile" element={<MyProfile />}></Route>

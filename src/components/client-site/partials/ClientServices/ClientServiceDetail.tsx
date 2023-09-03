@@ -106,6 +106,8 @@ function ClientServiceDetail() {
       userRole: getLoginData.role,
       content: editorContent,
       rating: rateValue,
+      date: format(new Date(), "dd/MM/yyyy HH:mm:ss"),
+      type: "service",
     };
 
     console.log("New Comment", newComment);
