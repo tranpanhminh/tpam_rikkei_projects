@@ -101,7 +101,7 @@ const AddPostButton: React.FC = () => {
                 name=""
                 id=""
                 className={styles["post-editor-select-status"]}
-                onChange={(event) => setPublishedDate(event.target.value)}
+                onChange={(event) => setStatus(event.target.value)}
               >
                 <option value="Select Status" selected disabled>
                   Select Status
