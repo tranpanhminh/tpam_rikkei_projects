@@ -677,6 +677,7 @@ function ClientServiceDetail() {
                           dangerouslySetInnerHTML: { __html: item.content },
                         })}
                       </div>
+                      {/* <div>{item.date}</div> */}
                     </section>
                   );
                 })}

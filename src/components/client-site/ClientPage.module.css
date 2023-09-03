@@ -2014,7 +2014,7 @@ table.table.table-cart {
 
   .comment-content {
     max-height: 200px; /* Thay đổi chiều cao cố định tùy theo mong muốn */
-    overflow-y: auto; /* Thanh cuộn dọc sẽ xuất hiện khi nội dung vượt quá chiều cao */
+    /* overflow-y: auto;  */
     word-wrap: break-word; /* Cắt chữ nếu vượt quá chiều rộng */
   }
 
