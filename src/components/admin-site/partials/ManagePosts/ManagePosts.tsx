@@ -69,7 +69,15 @@ function ManagePosts() {
   };
 
   const handleAddPost = () => {
-    console.log("ABC");
+    axios
+      .get(`http://localhost:7373/posts/`)
+      .then((response) => {
+        fetchPosts();
+        setPosts(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -100,7 +108,7 @@ function ManagePosts() {
           </button>
         </div>
 
-        <AddPostButton />
+        <AddPostButton handleClickOk={handleAddPost} />
       </div>
 
       <div className={styles["main-content"]}>

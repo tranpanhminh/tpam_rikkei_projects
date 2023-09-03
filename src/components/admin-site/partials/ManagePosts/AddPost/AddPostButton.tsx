@@ -1,17 +1,38 @@
-import React, { useState } from "react";
-import { Button, DatePicker, DatePickerProps, Modal } from "antd";
+import React, { useEffect, useState } from "react";
+import { Button, DatePicker, DatePickerProps, Modal, notification } from "antd";
 import axios from "axios";
 import styles from "../../../AdminPage.module.css";
 import { Editor } from "@tinymce/tinymce-react";
+import moment from "moment";
 
-const AddPostButton: React.FC = () => {
+export interface Props {
+  handleClickOk: Function;
+}
+
+const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [title, setTitle] = useState<any>("");
   const [image, setImage] = useState<any>("");
   const [content, setContent] = useState<any>("");
   const [status, setStatus] = useState<any>("");
   const [author, setAuthor] = useState<any>("");
-  const [publishedDate, setPublishedDate] = useState<any>();
+  const [posts, setPosts] = useState<any>("");
+  // const [publishedDate, setPublishedDate] = useState<any>();
+
+  const fetchPosts = () => {
+    axios
+      .get("http://localhost:7373/posts")
+      .then((response) => {
+        setPosts(response.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -34,25 +55,77 @@ const AddPostButton: React.FC = () => {
     setContent(content);
   };
 
-  const onChangeDatePicker: DatePickerProps["onChange"] = (
-    date,
-    dateString
-  ) => {
-    console.log(date, dateString);
-    setPublishedDate(dateString);
-  };
+  // const onChangeDatePicker: DatePickerProps["onChange"] = (
+  //   date,
+  //   dateString
+  // ) => {
+  //   console.log(date, dateString);
+  //   setPublishedDate(dateString);
+  // };
 
   const handleAddPost = () => {
+    if (title === "") {
+      notification.warning({
+        message: "Please fill Post Title",
+      });
+      return;
+    }
+
+    if (image === "") {
+      notification.warning({
+        message: "Please fill Image Url",
+      });
+      return;
+    }
+
+    if (status === "") {
+      notification.warning({
+        message: "Please select Post Status",
+      });
+      return;
+    }
+
+    if (author === "") {
+      notification.warning({
+        message: "Please fill Author Name",
+      });
+      return;
+    }
+
+    if (content === "") {
+      notification.warning({
+        message: "Please fill Post Content",
+      });
+      return;
+    }
+
+    const currentDate = moment().format("DD/MM/YYYY HH:mm:ss");
+
     const newPost = {
       post_title: title,
       post_content: content,
       author: author,
-      publish_date: publishedDate,
+      publish_date: currentDate,
       image_url: image,
       status: status,
     };
-    console.log("New Post", newPost);
+
+    axios
+      .post(`http://localhost:7373/posts`, newPost)
+      .then((response) => {
+        fetchPosts();
+        setPosts(response.data);
+        notification.success({
+          message: "Post Added",
+        });
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+    handleClickOk();
   };
+
+  console.log("Updated Posts", posts);
 
   return (
     <>
@@ -110,7 +183,16 @@ const AddPostButton: React.FC = () => {
                 <option value="Draft">Draft</option>
               </select>
             </div>
-            <div className={styles["test"]}>
+
+            {/* <div className={styles["info-editor-post-item"]}>
+              <span>Published Date</span>
+              <input
+                type="text"
+                value={author}
+                onChange={(event) => setAuthor(event.target.value)}
+              />
+            </div> */}
+            {/* <div className={styles["test"]}>
               <span>Published Date</span>
 
               <DatePicker
@@ -118,7 +200,7 @@ const AddPostButton: React.FC = () => {
                 onChange={onChangeDatePicker}
                 style={{ width: "160px" }}
               />
-            </div>
+            </div> */}
 
             <div className={styles["info-editor-post-item"]}>
               <span>Author</span>
