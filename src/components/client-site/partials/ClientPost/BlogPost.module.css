@@ -12,7 +12,7 @@
 .list-blogs {
   display: flex;
   flex-direction: column;
-  gap: 60px;
+  gap: 50px;
 }
 
 .post-item {
@@ -43,7 +43,7 @@
 .post-item-content {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
 }
 
 .post-item-content a {
@@ -208,7 +208,7 @@
 /* CSS Related Post */
 .related-post {
   display: flex;
-  gap: 20px;
+  gap: 30px;
   flex-direction: column;
 }
 
