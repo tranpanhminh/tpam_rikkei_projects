@@ -140,41 +140,58 @@ function BlogPost() {
           </section>
         </div>
 
+        <section className={styles["writer-moderator"]}>
+          <section className={styles["fast-checked"]}>
+            <div>
+              <img
+                className={styles["moderator-thumbnail"]}
+                src="https://rabbunny.com/wp-content/uploads/2023/06/Barney-Gordon.jpg"
+                alt="Fact Checked by Barney Gordon"
+              />
+            </div>
+            <div className={styles["moderator-info"]}>
+              <span className={styles["fact-check-icon"]}>
+                <span className={styles["fact-check-text"]}>
+                  ✅ Fact-Checked by
+                </span>
+              </span>
+              <p className={styles["moderator-check"]}>
+                <b>Barney Gordon</b>
+              </p>
+              <p className={styles["moderator-check"]}>
+                Veterinarian, Content Moderator
+              </p>
+            </div>
+          </section>
+        </section>
+
         <div className={styles["related-post"]}>
           <span className={styles["related-post-headline"]}>
             Related Content
           </span>
-          {allPosts &&
-            allPosts.slice(0, 3).map((post: any) => {
-              return (
-                <div className={styles["related-post-item"]}>
-                  <div className={styles["post-thumbnail-item"]}>
-                    <img
-                      src={post.image_url}
-                      alt=""
-                      className={styles["img-thumbnail-item"]}
-                    />
-                  </div>
+          <div className={styles["related-post-group"]}>
+            {allPosts &&
+              allPosts.slice(0, 3).map((post: any) => {
+                return (
+                  <div className={styles["related-post-item"]}>
+                    <div className={styles["related-post-thumbnail-item"]}>
+                      <img
+                        src={post.image_url}
+                        alt=""
+                        className={styles["img-thumbnail-related-post"]}
+                      />
+                    </div>
 
-                  <div className={styles["post-item-content"]}>
                     <NavLink to={`/blogs/${post.id}`}>
-                      <h2 className={styles["post-item-title"]}>
+                      <h2 className={styles["related-post-title"]}>
                         {post.post_title}
                         {/* {Array.from(post.post_title).slice(0, 50).join("")} */}
                       </h2>
                     </NavLink>
-                    <span className={styles["post-item-description"]}>
-                      {Array.from(post.post_content).slice(0, 200).join("")}
-                    </span>
-                    <div>
-                      <NavLink to={`/blogs/${post.id}`}>
-                        <Button variant="primary">Read More</Button>
-                      </NavLink>
-                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+          </div>
         </div>
       </div>
     </>
