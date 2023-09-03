@@ -4,6 +4,7 @@ import axios from "axios";
 import { Button } from "antd";
 import { Badge } from "react-bootstrap";
 import DetailPostButton from "./DetailPost/DetailPostButton";
+import AddPostButton from "./AddPost/AddPostButton";
 
 function ManagePosts() {
   const [searchText, setSearchText] = useState<string>("");
@@ -67,6 +68,10 @@ function ManagePosts() {
     }
   };
 
+  const handleAddPost = () => {
+    console.log("ABC");
+  };
+
   return (
     <>
       <div className={styles["breadcrumb"]}>
@@ -94,6 +99,8 @@ function ManagePosts() {
             Search
           </button>
         </div>
+
+        <AddPostButton />
       </div>
 
       <div className={styles["main-content"]}>

@@ -1,42 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { Button, Modal, notification } from "antd";
+import React, { useState } from "react";
+import { Button, Modal } from "antd";
 import axios from "axios";
 import styles from "../../../AdminPage.module.css";
 import { Editor } from "@tinymce/tinymce-react";
 
-interface DetailModalProps {
-  className?: string; // Thêm khai báo cho thuộc tính className
-  value?: string; // Thêm khai báo cho thuộc tính className
-  title?: string;
-  // handleFunctionOk?: any;
-  handleFunctionBtn?: any;
-  getPost: any;
-}
-const AddPostButton: React.FC<DetailModalProps> = ({
-  className,
-  value,
-  title,
-  // handleFunctionOk,
-  handleFunctionBtn,
-  getPost,
-}) => {
+const AddPostButton: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [shippingStatus, setShippingStatus] = useState("");
-  const [orders, setOrders] = useState<any>(null);
-  const [orderCart, setOrderCart] = useState<any>(null);
-  const [userId, setUserId] = useState<any>();
-  const [user, setUser] = useState<any>();
 
   const showModal = () => {
     setIsModalOpen(true);
   };
 
   const handleOk = () => {
-    // notification.success({
-    //   message: "Shipping Status Updated Successfully",
-    // });
-    // setShippingStatus("");
-    // setIsModalOpen(false);
+    setIsModalOpen(false);
   };
 
   const handleCancel = () => {
@@ -45,15 +21,11 @@ const AddPostButton: React.FC<DetailModalProps> = ({
 
   return (
     <>
-      <Button
-        type="primary"
-        onClick={handleFunctionBtn || showModal}
-        className={className}
-      >
-        {value}
+      <Button type="primary" onClick={showModal}>
+        Add Post
       </Button>
       <Modal
-        title="Detail Post"
+        title="Add Post"
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -73,7 +45,7 @@ const AddPostButton: React.FC<DetailModalProps> = ({
           <div className={styles["info-editor-post"]}>
             <div>
               <img
-                src={getPost.image_url}
+                // src={getPost.image_url}
                 alt=""
                 className={styles["post-editor-thumbnail"]}
               />
@@ -95,7 +67,7 @@ const AddPostButton: React.FC<DetailModalProps> = ({
             </div>
             <div className={styles["info-editor-post-item"]}>
               <span>Published Date</span>
-              <input type="text" disabled value={getPost.publish_date} />
+              {/* <input type="text" disabled value={getPost.publish_date} /> */}
             </div>
             <div className={styles["info-editor-post-item"]}>
               <span>Author</span>
