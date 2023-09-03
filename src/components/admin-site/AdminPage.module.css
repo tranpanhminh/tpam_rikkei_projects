@@ -704,6 +704,11 @@ table tr td img {
   font-size: 15px;
 }
 
+.info-editor-post-item input {
+  border-radius: 5px;
+  border: 1px ridge #ccc;
+}
+
 .post-editor-thumbnail {
   border-radius: 10px;
   margin-bottom: 20px;
