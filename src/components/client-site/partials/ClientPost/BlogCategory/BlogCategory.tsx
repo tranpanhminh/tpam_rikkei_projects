@@ -10,8 +10,8 @@ function BlogCategory() {
   const [searchTerm, setSearchTerm] = useState("");
   const [posts, setPosts] = useState<any>([]);
   const [total, setTotal] = useState<any>("");
-  const [page, setPage] = useState<any>(1); // Đặt giá trị mặc định cho page
-  const [postPerPage, setPostPerPage] = useState<any>(6);
+  const [page, setPage] = useState<any>(0); // Đặt giá trị mặc định cho page
+  const [postPerPage, setPostPerPage] = useState<any>(5);
   const { pageNumber } = useParams(); // Lấy giá trị slug từ URL
 
   const [listProducts, setListProducts] = useState<any>([]);
@@ -64,7 +64,7 @@ function BlogCategory() {
 
   const indexOfLastPage = page + postPerPage;
   const indexOfFirstPage = indexOfLastPage - postPerPage;
-  const currentPosts = posts.slice(0, indexOfLastPage);
+  const currentPosts = posts.slice(indexOfFirstPage, indexOfLastPage);
   const onShowSizeChange = (current: any, pageSize: any) => {
     setPostPerPage(pageSize);
   };

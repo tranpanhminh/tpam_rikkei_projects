@@ -54,7 +54,7 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
       image_url: image !== "" ? image : getPost.image_url,
       status: status !== "" ? status : getPost.status,
     };
-
+    console.log("DSADASDSA", status);
     console.log("Updated Post", updatedPost);
     axios
       .put(`http://localhost:7373/posts/${getPost.id}`, updatedPost)
@@ -138,6 +138,7 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
                 name=""
                 id=""
                 className={styles["post-editor-select-status"]}
+                onChange={(event) => setStatus(event.target.value)}
               >
                 <option
                   defaultValue="Published"

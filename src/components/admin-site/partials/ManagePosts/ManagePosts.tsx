@@ -138,7 +138,9 @@ function ManagePosts() {
       </div>
 
       <div className={styles["main-content"]}>
-        <h3 className={styles["main-title-content"]}>List Posts</h3>
+        <h3 className={styles["main-title-content"]}>
+          List Posts: {posts.length}
+        </h3>
         <table
           className="table table-striped"
           id={styles["table-products-manage-page"]}

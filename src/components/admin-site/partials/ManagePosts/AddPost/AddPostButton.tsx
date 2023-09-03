@@ -14,7 +14,7 @@ const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
   const [title, setTitle] = useState<any>("");
   const [image, setImage] = useState<any>("");
   const [content, setContent] = useState<any>("");
-  const [status, setStatus] = useState<any>("");
+  const [status, setStatus] = useState<any>("Draft");
   const [author, setAuthor] = useState<any>("");
   const [posts, setPosts] = useState<any>("");
   // const [publishedDate, setPublishedDate] = useState<any>();
@@ -184,6 +184,7 @@ const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
             <div className={styles["info-editor-post-item"]}>
               <span>Status</span>
               <select
+                value={status}
                 name=""
                 id=""
                 className={styles["post-editor-select-status"]}
