@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "../BlogPost.module.css";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
 import { Pagination } from "antd";
 import axios from "axios";
@@ -10,8 +10,9 @@ function BlogPost() {
   const [searchTerm, setSearchTerm] = useState("");
   const { postId } = useParams(); // Lấy giá trị slug từ URL
   const [post, setPost] = useState<any>(null);
+  const [allPosts, setAllPosts] = useState<any>(null);
 
-  const fetchPosts = () => {
+  const fetchPost = () => {
     axios
       .get(`http://localhost:7373/posts/${postId}`)
       .then((response) => {
@@ -22,8 +23,20 @@ function BlogPost() {
       });
   };
 
+  const fetchAllPosts = () => {
+    axios
+      .get(`http://localhost:7373/posts/`)
+      .then((response) => {
+        setAllPosts(response.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
   useEffect(() => {
-    fetchPosts();
+    fetchPost();
+    fetchAllPosts();
   }, []);
 
   const navigate = useNavigate();
@@ -131,6 +144,37 @@ function BlogPost() {
           <span className={styles["related-post-headline"]}>
             Related Content
           </span>
+          {allPosts &&
+            allPosts.slice(0, 3).map((post: any) => {
+              return (
+                <div className={styles["related-post-item"]}>
+                  <div className={styles["post-thumbnail-item"]}>
+                    <img
+                      src={post.image_url}
+                      alt=""
+                      className={styles["img-thumbnail-item"]}
+                    />
+                  </div>
+
+                  <div className={styles["post-item-content"]}>
+                    <NavLink to={`/blogs/${post.id}`}>
+                      <h2 className={styles["post-item-title"]}>
+                        {post.post_title}
+                        {/* {Array.from(post.post_title).slice(0, 50).join("")} */}
+                      </h2>
+                    </NavLink>
+                    <span className={styles["post-item-description"]}>
+                      {Array.from(post.post_content).slice(0, 200).join("")}
+                    </span>
+                    <div>
+                      <NavLink to={`/blogs/${post.id}`}>
+                        <Button variant="primary">Read More</Button>
+                      </NavLink>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
         </div>
       </div>
     </>
