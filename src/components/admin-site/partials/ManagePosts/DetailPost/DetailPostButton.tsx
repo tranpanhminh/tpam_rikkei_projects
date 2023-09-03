@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Modal, notification } from "antd";
 import axios from "axios";
 import styles from "../../../AdminPage.module.css";
+import { Editor } from "@tinymce/tinymce-react";
 
 interface DetailModalProps {
   className?: string; // Thêm khai báo cho thuộc tính className
@@ -9,7 +10,7 @@ interface DetailModalProps {
   title?: string;
   // handleFunctionOk?: any;
   handleFunctionBtn?: any;
-  // getOrderId: number;
+  getPost: any;
 }
 const DetailPostButton: React.FC<DetailModalProps> = ({
   className,
@@ -17,7 +18,7 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
   title,
   // handleFunctionOk,
   handleFunctionBtn,
-  // getOrderId,
+  getPost,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [shippingStatus, setShippingStatus] = useState("");
@@ -58,46 +59,46 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
         onCancel={handleCancel}
         width={1200}
       >
-        <div className={styles["list-input-admin-order"]}>
-          <div className={styles["admin-order-input-item"]}>
-            <p>Post ID</p>
-            <input type="text" disabled value={orders?.id} />
+        <div className={styles["wrap-editor-post"]}>
+          <div className={styles["main-editor-post"]}>
+            <input
+              type="text"
+              placeholder="Post Title"
+              className={styles["post-title-editor"]}
+            />
+            <div className={styles["post-content-editor"]}>
+              <Editor />
+            </div>
           </div>
-          <div className={styles["admin-order-input-item"]}>
-            <p>Post Title</p>
-            <input type="text" disabled value={orders?.name} />
-          </div>
-          <div className={styles["admin-order-input-item"]}>
-            <p>Published Date</p>
-            <input type="text" disabled value={orders?.phone} />
-          </div>
-          <div className={styles["admin-order-input-item"]}>
-            <p>Author</p>
-            <input type="text" disabled value={orders?.address} />
-          </div>
-          <div className={styles["admin-order-input-item"]}>
-            <p>Status</p>
-            <select
-              name=""
-              id=""
-              onChange={(event) => setShippingStatus(event.target.value)}
-            >
-              <option
-                value="Published"
-                selected={orders?.status === "Published" ? true : false}
-              >
-                Shipped
-              </option>
-              <option
-                value="Draft"
-                selected={orders?.status === "Draft" ? true : false}
-              >
-                Shipping
-              </option>
-            </select>
+          <div className={styles["info-editor-post"]}>
+            <div>
+              <img
+                src={getPost.image_url}
+                alt=""
+                className={styles["post-editor-thumbnail"]}
+              />
+            </div>
+            <div className={styles["info-editor-post-item"]}>
+              <span>Image URL</span>
+              <input type="text" />
+            </div>
+            <div className={styles["info-editor-post-item"]}>
+              <span>Status</span>
+              <select name="" id="" className={styles["post-editor-select-status"]}>
+                <option value="Published">Published</option>
+                <option value="Draft">Draft</option>
+              </select>
+            </div>
+            <div className={styles["info-editor-post-item"]}>
+              <span>Published Date</span>
+              <input type="text" disabled value={getPost.publish_date} />
+            </div>
+            <div className={styles["info-editor-post-item"]}>
+              <span>Author</span>
+              <input type="text" />
+            </div>
           </div>
         </div>
-        <br />
       </Modal>
     </>
   );

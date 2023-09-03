@@ -3,7 +3,7 @@ import styles from "../../AdminPage.module.css";
 import axios from "axios";
 import { Button } from "antd";
 import { Badge } from "react-bootstrap";
-import DetailPostButton from "./DetailPosts/DetailPostButton";
+import DetailPostButton from "./DetailPost/DetailPostButton";
 
 function ManagePosts() {
   const [searchText, setSearchText] = useState<string>("");
@@ -122,7 +122,7 @@ function ManagePosts() {
                     </Badge>
                   </td>
                   <td className={styles["group-btn-admin-manage-posts"]}>
-                    <DetailPostButton value="Detail" />
+                    <DetailPostButton value="Detail" getPost={post} />
                     <Button
                       type="primary"
                       className={styles["delete-product-btn"]}

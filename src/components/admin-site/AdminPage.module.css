@@ -662,3 +662,53 @@ table tr td img {
   border-radius: 10px;
   font-weight: bold;
 }
+
+/* CSS Manage Posts */
+.wrap-editor-post {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 40px;
+}
+
+.post-content-editor {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.post-title-editor {
+  width: 100%;
+  padding: 10px;
+  outline: none;
+  margin-bottom: 20px;
+  border: 1px ridge #ccc;
+  border-radius: 10px;
+}
+
+.info-editor-post {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.info-editor-post-item {
+  display: flex;
+  gap: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.info-editor-post-item span:first-child {
+  width: 100px;
+  font-size: 15px;
+}
+
+.post-editor-thumbnail {
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.post-editor-select-status {
+  width: 60%;
+}
