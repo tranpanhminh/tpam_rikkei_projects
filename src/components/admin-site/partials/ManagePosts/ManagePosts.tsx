@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "../../AdminPage.module.css";
 import axios from "axios";
-import { Button } from "antd";
+import { Button, notification } from "antd";
 import { Badge } from "react-bootstrap";
 import DetailPostButton from "./DetailPost/DetailPostButton";
 import AddPostButton from "./AddPost/AddPostButton";
@@ -80,6 +80,20 @@ function ManagePosts() {
       });
   };
 
+  const handleDeletePost = (postId: number) => {
+    axios
+      .delete(`http://localhost:7373/posts/${postId}`)
+      .then((response) => {
+        fetchPosts();
+        notification.success({
+          message: "Post Deleted",
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <>
       <div className={styles["breadcrumb"]}>
@@ -141,6 +155,7 @@ function ManagePosts() {
                     <Button
                       type="primary"
                       className={styles["delete-product-btn"]}
+                      onClick={() => handleDeletePost(post.id)}
                     >
                       Delete
                     </Button>

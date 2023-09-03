@@ -87,36 +87,38 @@ function BlogCategory() {
     <div className={styles["list-blogs"]}>
       {currentPosts &&
         currentPosts.map((post: any) => {
-          return (
-            <>
-              <div className={styles["post-item"]}>
-                <div className={styles["post-thumbnail-item"]}>
-                  <img
-                    src={post.image_url}
-                    alt=""
-                    className={styles["img-thumbnail-item"]}
-                  />
-                </div>
+          if (post.status === "Published") {
+            return (
+              <>
+                <div className={styles["post-item"]}>
+                  <div className={styles["post-thumbnail-item"]}>
+                    <img
+                      src={post.image_url}
+                      alt=""
+                      className={styles["img-thumbnail-item"]}
+                    />
+                  </div>
 
-                <div className={styles["post-item-content"]}>
-                  <NavLink to={`/blogs/${post.id}`}>
-                    <h2 className={styles["post-item-title"]}>
-                      {post.post_title}
-                      {/* {Array.from(post.post_title).slice(0, 50).join("")} */}
-                    </h2>
-                  </NavLink>
-                  <span className={styles["post-item-description"]}>
-                    {Array.from(post.post_content).slice(0, 200).join("")}
-                  </span>
-                  <div>
+                  <div className={styles["post-item-content"]}>
                     <NavLink to={`/blogs/${post.id}`}>
-                      <Button variant="primary">Read More</Button>
+                      <h2 className={styles["post-item-title"]}>
+                        {post.post_title}
+                        {/* {Array.from(post.post_title).slice(0, 50).join("")} */}
+                      </h2>
                     </NavLink>
+                    <span className={styles["post-item-description"]}>
+                      {Array.from(post.post_content).slice(0, 200).join("")}
+                    </span>
+                    <div>
+                      <NavLink to={`/blogs/${post.id}`}>
+                        <Button variant="primary">Read More</Button>
+                      </NavLink>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </>
-          );
+              </>
+            );
+          }
         })}
 
       <div className={styles["blogs-post-pagination"]}>

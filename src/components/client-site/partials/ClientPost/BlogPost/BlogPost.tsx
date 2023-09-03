@@ -172,24 +172,26 @@ function BlogPost() {
           <div className={styles["related-post-group"]}>
             {allPosts &&
               allPosts.slice(0, 3).map((post: any) => {
-                return (
-                  <div className={styles["related-post-item"]}>
-                    <div className={styles["related-post-thumbnail-item"]}>
-                      <img
-                        src={post.image_url}
-                        alt=""
-                        className={styles["img-thumbnail-related-post"]}
-                      />
-                    </div>
+                if (post.status === "Published") {
+                  return (
+                    <div className={styles["related-post-item"]}>
+                      <div className={styles["related-post-thumbnail-item"]}>
+                        <img
+                          src={post.image_url}
+                          alt=""
+                          className={styles["img-thumbnail-related-post"]}
+                        />
+                      </div>
 
-                    <NavLink to={`/blogs/${post.id}`}>
-                      <h2 className={styles["related-post-title"]}>
-                        {post.post_title}
-                        {/* {Array.from(post.post_title).slice(0, 50).join("")} */}
-                      </h2>
-                    </NavLink>
-                  </div>
-                );
+                      <NavLink to={`/blogs/${post.id}`}>
+                        <h2 className={styles["related-post-title"]}>
+                          {post.post_title}
+                          {/* {Array.from(post.post_title).slice(0, 50).join("")} */}
+                        </h2>
+                      </NavLink>
+                    </div>
+                  );
+                }
               })}
           </div>
         </div>
