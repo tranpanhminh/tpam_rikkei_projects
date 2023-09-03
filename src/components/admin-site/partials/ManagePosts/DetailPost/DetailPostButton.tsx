@@ -8,16 +8,14 @@ interface DetailModalProps {
   className?: string; // Thêm khai báo cho thuộc tính className
   value?: string; // Thêm khai báo cho thuộc tính className
   title?: string;
-  // handleFunctionOk?: any;
-  handleFunctionBtn?: any;
+  handleFunctionOk: any;
   getPost: any;
 }
 const DetailPostButton: React.FC<DetailModalProps> = ({
   className,
   value,
   title,
-  // handleFunctionOk,
-  handleFunctionBtn,
+  handleFunctionOk,
   getPost,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,48 +24,28 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
   const [content, setContent] = useState<any>("");
   const [status, setStatus] = useState<any>("");
   const [author, setAuthor] = useState<any>("");
-  const [posts, setPosts] = useState<any>("");
+  const [post, setPost] = useState<any>("");
+
+  const fetchPost = () => {
+    axios
+      .get(`http://localhost:7373/posts/${getPost.id}`)
+      .then((response) => {
+        setPost(response.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+  useEffect(() => {
+    fetchPost();
+  }, [getPost.id]);
 
   const showModal = () => {
     setIsModalOpen(true);
   };
 
   const handleOk = () => {
-    if (title === "") {
-      notification.warning({
-        message: "Please fill Post Title",
-      });
-      return;
-    }
-
-    if (image === "") {
-      notification.warning({
-        message: "Please fill Image Url",
-      });
-      return;
-    }
-
-    if (status === "") {
-      notification.warning({
-        message: "Please select Post Status",
-      });
-      return;
-    }
-
-    if (author === "") {
-      notification.warning({
-        message: "Please fill Author Name",
-      });
-      return;
-    }
-
-    if (content === "") {
-      notification.warning({
-        message: "Please fill Post Content",
-      });
-      return;
-    }
-
     const updatedPost = {
       post_title: postTitle !== "" ? postTitle : getPost.post_title,
       post_content: content !== "" ? content : getPost.post_content,
@@ -78,12 +56,19 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
     };
 
     console.log("Updated Post", updatedPost);
-
-    // notification.success({
-    //   message: "Shipping Status Updated Successfully",
-    // });
-
-    // setIsModalOpen(false);
+    axios
+      .put(`http://localhost:7373/posts/${getPost.id}`, updatedPost)
+      .then((response) => {
+        fetchPost();
+        notification.success({
+          message: "Post Updated Successfully",
+        });
+      })
+      .catch((error) => {
+        console.error("Error updating post:", error);
+      });
+    handleFunctionOk();
+    setIsModalOpen(false); // Close the modal
   };
 
   const handleCancel = () => {
@@ -100,11 +85,7 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
 
   return (
     <>
-      <Button
-        type="primary"
-        onClick={handleFunctionBtn || showModal}
-        className={className}
-      >
+      <Button type="primary" onClick={showModal} className={className}>
         {value}
       </Button>
       <Modal
@@ -174,11 +155,7 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
             </div>
             <div className={styles["info-editor-post-item"]}>
               <span>Published Date</span>
-              <input
-                type="text"
-                disabled
-                defaultValue={getPost?.publish_date}
-              />
+              <input type="text" disabled value={getPost?.publish_date} />
             </div>
             <div className={styles["info-editor-post-item"]}>
               <span>Author</span>

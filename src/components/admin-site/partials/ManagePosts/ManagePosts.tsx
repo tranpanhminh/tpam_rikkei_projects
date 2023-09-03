@@ -94,6 +94,18 @@ function ManagePosts() {
       });
   };
 
+  const handleUpdatePost = () => {
+    axios
+      .get(`http://localhost:7373/posts/`)
+      .then((response) => {
+        fetchPosts();
+        setPosts(response.data); // Cập nhật lại dữ liệu users sau khi thêm
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
   return (
     <>
       <div className={styles["breadcrumb"]}>
@@ -151,7 +163,11 @@ function ManagePosts() {
                     </Badge>
                   </td>
                   <td className={styles["group-btn-admin-manage-posts"]}>
-                    <DetailPostButton value="Detail" getPost={post} />
+                    <DetailPostButton
+                      value="Detail"
+                      getPost={post}
+                      handleFunctionOk={handleUpdatePost}
+                    />
                     <Button
                       type="primary"
                       className={styles["delete-product-btn"]}
