@@ -692,21 +692,23 @@ table tr td img {
 
 .info-editor-post-item {
   display: flex;
-  gap: 10px;
+  gap: 5px;
   padding-left: 20px;
   padding-right: 20px;
   padding-top: 10px;
   padding-bottom: 10px;
+  flex-direction: row;
 }
 
 .info-editor-post-item span:first-child {
-  width: 100px;
+  width: 200px;
   font-size: 15px;
 }
 
 .info-editor-post-item input {
   border-radius: 5px;
   border: 1px ridge #ccc;
+  width: 100%;
 }
 
 .post-editor-thumbnail {
@@ -715,5 +717,15 @@ table tr td img {
 }
 
 .post-editor-select-status {
-  width: 60%;
+  width: 100%;
+}
+
+.test {
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  gap: 30px;
 }

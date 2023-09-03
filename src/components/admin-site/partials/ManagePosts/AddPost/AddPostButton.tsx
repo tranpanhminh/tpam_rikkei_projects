@@ -64,7 +64,7 @@ const AddPostButton: React.FC = () => {
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
-        width={1200}
+        width={1300}
       >
         <div className={styles["wrap-editor-post"]}>
           <div className={styles["main-editor-post"]}>
@@ -110,14 +110,16 @@ const AddPostButton: React.FC = () => {
                 <option value="Draft">Draft</option>
               </select>
             </div>
-            <div className={styles["info-editor-post-item"]}>
+            <div className={styles["test"]}>
               <span>Published Date</span>
+
               <DatePicker
                 format="DD/MM/YYYY"
                 onChange={onChangeDatePicker}
-                style={{ width: "168px" }}
+                style={{ width: "160px" }}
               />
             </div>
+
             <div className={styles["info-editor-post-item"]}>
               <span>Author</span>
               <input
