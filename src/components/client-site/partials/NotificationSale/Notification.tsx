@@ -1,55 +1,3 @@
-// import { notification } from "antd";
-// import axios from "axios";
-// import React, { useEffect, useState } from "react";
-
-// function NotificationSale() {
-//   const [notificationDisplayed, setNotificationDisplayed] = useState(false);
-//   const [listOrders, setListOrders] = useState<any>([]);
-
-//   const fetchOrder = () => {
-//     axios
-//       .get("http://localhost:7373/orders")
-//       .then((response) => {
-//         setListOrders(response.data);
-//       })
-//       .catch((error) => {
-//         console.log(error.message);
-//       });
-//   };
-
-//   useEffect(() => {
-//     fetchOrder();
-//   }, []);
-//   console.log("List Orders", listOrders);
-//   const handleShowNotification = () => {
-//     if (!notificationDisplayed) {
-//       listOrders.forEach((item: any, index: number) => {
-//         notification.success({
-//           message: "Notification",
-//           description: `${index}`,
-//           placement: "bottomLeft",
-//         });
-//       });
-
-//       setNotificationDisplayed(true); // Đánh dấu thông báo đã hiển thị
-//     }
-//   };
-
-//   useEffect(() => {
-//     // Sử dụng setTimeout để gọi handleShowNotification sau 5 giây
-//     const timer = setInterval(() => {
-//       handleShowNotification();
-//     }, 1000);
-
-//     return () => {
-//       clearTimeout(timer); // Xóa timer nếu component bị unmount trước khi thông báo hiển thị
-//     };
-//   }, []);
-
-//   return <></>; // Không có nội dung render
-// }
-
-// export default NotificationSale;
 import { notification } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -93,7 +41,7 @@ function NotificationSale() {
     // Sử dụng setTimeout để gọi showNotification sau 5 giây
     const timer = setTimeout(() => {
       showNotification();
-    }, 10000);
+    }, 12000);
 
     return () => {
       clearTimeout(timer); // Xóa timer nếu component bị unmount trước khi thông báo hiển thị
