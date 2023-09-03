@@ -12,6 +12,7 @@ function ManageComments() {
   const [productComments, setProductComments] = useState<any>([]);
   const [listServices, setListServices] = useState<any>([]);
   const [serviceComments, setServiceComments] = useState<any>([]);
+  const [filteredComments, setFilteredComments] = useState<any>([]);
 
   let allComments: any[] = [];
 
@@ -52,110 +53,168 @@ function ManageComments() {
   console.log("All Comments", allComments);
 
   const handleSearchComment = () => {
-    // if (searchText === "") {
-    //   fetchCoupons();
-    // } else {
-    //   axios
-    //     .get(`http://localhost:7373/coupons`)
-    //     .then((response) => {
-    //       // Lấy dữ liệu từ response
-    //       const allCoupons = response.data;
-    //       // Tìm kiếm trong dữ liệu và cập nhật state
-    //       const filterCoupons = allCoupons.filter((coupon: Coupon) => {
-    //         if (
-    //           coupon.name
-    //             .toLowerCase()
-    //             .includes(searchText.trim().toLowerCase())
-    //         ) {
-    //           return true;
-    //         }
-    //         return false;
-    //       });
-    //       setCoupons(filterCoupons);
-    //     })
-    //     .catch((error) => {
-    //       console.log(error.message);
-    //     });
-    // }
+    // Tìm kiếm dựa trên searchText và cập nhật filteredComments
+    const filterComment = allComments.filter((comment) => {
+      return comment.content
+        .toString()
+        .toLowerCase()
+        .includes(searchText.trim().toLowerCase());
+    });
+
+    // Cập nhật trạng thái filteredComments với kết quả tìm kiếm
+    setFilteredComments(filterComment);
   };
 
   function stripHTMLTags(html: any) {
     return html.replace(/<\/?[^>]+(>|$)/g, "");
   }
 
+  // const handleDeleteComment = (
+  //   id: number,
+  //   commentId: number,
+  //   commentType: string
+  // ) => {
+  //   // Xóa Comment của Product
+  //   if (commentType === "product") {
+  //     axios
+  //       .get(`http://localhost:7373/products/${id}`)
+  //       .then((response) => {
+  //         setProductComments(response.data.comments);
+  //       })
+  //       .catch((error) => {
+  //         console.log(error.message);
+  //       });
+
+  //     let findCommentIndex = productComments.findIndex((comment: any) => {
+  //       return comment.commentId === commentId;
+  //     });
+  //     console.log(findCommentIndex);
+
+  //     productComments.splice(findCommentIndex, 1);
+
+  //     axios
+  //       .patch(`http://localhost:7373/products/${id}`, {
+  //         comments: productComments,
+  //       })
+  //       .then((response) => {
+  //         fetchProducts();
+  //         setProductComments(response.data.comments);
+  //         notification.success({
+  //           message: "Comment Deleted",
+  //         });
+  //       })
+  //       .catch((error) => {
+  //         console.log(error.message);
+  //       });
+  //     return;
+  //   }
+
+  //   // Xóa Comment của Service
+  //   if (commentType === "service") {
+  //     axios
+  //       .get(`http://localhost:7373/services/${id}`)
+  //       .then((response) => {
+  //         setServiceComments(response.data.comments);
+  //       })
+  //       .catch((error) => {
+  //         console.log(error.message);
+  //       });
+
+  //     let findCommentIndex = serviceComments.findIndex((comment: any) => {
+  //       return comment.commentId === commentId;
+  //     });
+  //     console.log(findCommentIndex);
+
+  //     serviceComments.splice(findCommentIndex, 1);
+
+  //     axios
+  //       .patch(`http://localhost:7373/services/${id}`, {
+  //         comments: serviceComments,
+  //       })
+  //       .then((response) => {
+  //         fetchServices();
+  //         setServiceComments(response.data.comments);
+  //         notification.success({
+  //           message: "Comment Deleted",
+  //         });
+  //       })
+  //       .catch((error) => {
+  //         console.log(error.message);
+  //       });
+  //     return;
+  //   }
+  // };
+
   const handleDeleteComment = (
     id: number,
     commentId: number,
     commentType: string
   ) => {
+    let updatedComments = []; // Danh sách comment đã được cập nhật
+
     // Xóa Comment của Product
     if (commentType === "product") {
       axios
         .get(`http://localhost:7373/products/${id}`)
         .then((response) => {
-          setProductComments(response.data.comments);
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
+          // Lấy danh sách comment từ máy chủ
+          const productComments = response.data.comments;
 
-      let findCommentIndex = productComments.findIndex((comment: any) => {
-        return comment.commentId === commentId;
-      });
-      console.log(findCommentIndex);
-
-      productComments.splice(findCommentIndex, 1);
-
-      axios
-        .patch(`http://localhost:7373/products/${id}`, {
-          comments: productComments,
-        })
-        .then((response) => {
-          fetchProducts();
-          setProductComments(response.data.comments);
-          notification.success({
-            message: "Comment Deleted",
+          // Loại bỏ comment cần xóa
+          updatedComments = productComments.filter((comment: any) => {
+            return comment.commentId !== commentId;
           });
+
+          // Cập nhật trạng thái sản phẩm với danh sách mới
+          setProductComments(updatedComments);
+
+          // Gọi yêu cầu PATCH để cập nhật danh sách comment trên máy chủ
+          axios
+            .patch(`http://localhost:7373/products/${id}`, {
+              comments: updatedComments,
+            })
+            .then((response) => {
+              fetchProducts(); // Lấy sản phẩm lại để cập nhật dữ liệu
+              notification.success({
+                message: "Comment Deleted",
+              });
+            })
+            .catch((error) => {
+              console.log(error.message);
+            });
         })
         .catch((error) => {
           console.log(error.message);
         });
-      return;
     }
 
-    // Xóa Comment của Service
+    // Tương tự cho việc xóa Comment của Service
     if (commentType === "service") {
       axios
         .get(`http://localhost:7373/services/${id}`)
         .then((response) => {
-          setServiceComments(response.data.comments);
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
-
-      let findCommentIndex = serviceComments.findIndex((comment: any) => {
-        return comment.commentId === commentId;
-      });
-      console.log(findCommentIndex);
-
-      serviceComments.splice(findCommentIndex, 1);
-
-      axios
-        .patch(`http://localhost:7373/services/${id}`, {
-          comments: serviceComments,
-        })
-        .then((response) => {
-          fetchServices();
-          setServiceComments(response.data.comments);
-          notification.success({
-            message: "Comment Deleted",
+          const serviceComments = response.data.comments;
+          updatedComments = serviceComments.filter((comment: any) => {
+            return comment.commentId !== commentId;
           });
+          setServiceComments(updatedComments);
+          axios
+            .patch(`http://localhost:7373/services/${id}`, {
+              comments: updatedComments,
+            })
+            .then((response) => {
+              fetchServices();
+              notification.success({
+                message: "Comment Deleted",
+              });
+            })
+            .catch((error) => {
+              console.log(error.message);
+            });
         })
         .catch((error) => {
           console.log(error.message);
         });
-      return;
     }
   };
 
@@ -201,8 +260,8 @@ function ManageComments() {
             </tr>
           </thead>
           <tbody>
-            {allComments &&
-              allComments.map((comment, index) => {
+            {(filteredComments.length > 0 ? filteredComments : allComments).map(
+              (comment: any, index: any) => {
                 return (
                   <tr>
                     <td>{index + 1}</td>
@@ -254,7 +313,8 @@ function ManageComments() {
                     </td>
                   </tr>
                 );
-              })}
+              }
+            )}
           </tbody>
         </table>
       </div>
