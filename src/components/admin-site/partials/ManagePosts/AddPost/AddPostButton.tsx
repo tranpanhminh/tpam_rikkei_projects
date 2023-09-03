@@ -123,10 +123,17 @@ const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
         console.log(error.message);
       });
     handleClickOk();
+
+    setIsModalOpen(false);
+    setTitle("");
+    setImage("");
+    setContent("");
+    setStatus("Draft");
+    setAuthor("");
   };
 
   const editorConfig = {
-    height: "1500px",
+    height: "600px",
   };
 
   return (
@@ -182,9 +189,6 @@ const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
                 className={styles["post-editor-select-status"]}
                 onChange={(event) => setStatus(event.target.value)}
               >
-                <option value="Select Status" selected disabled>
-                  Select Status
-                </option>
                 <option value="Published">Published</option>
                 <option value="Draft">Draft</option>
               </select>

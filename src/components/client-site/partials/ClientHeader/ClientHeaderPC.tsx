@@ -86,6 +86,13 @@ function ClientHeaderPC() {
               >
                 Services
               </NavLink>
+              <NavLink
+                to="/blogs"
+                className={styles["navlink-main-menu"]}
+                style={NavLinkStyle}
+              >
+                Blogs
+              </NavLink>
               {
                 <>
                   <NavLink

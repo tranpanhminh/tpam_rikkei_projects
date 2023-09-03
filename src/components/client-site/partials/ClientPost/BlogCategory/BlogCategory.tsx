@@ -64,7 +64,7 @@ function BlogCategory() {
 
   const indexOfLastPage = page + postPerPage;
   const indexOfFirstPage = indexOfLastPage - postPerPage;
-  const currentPosts = posts.slice(indexOfFirstPage, indexOfLastPage);
+  const currentPosts = posts.slice(0, indexOfLastPage);
   const onShowSizeChange = (current: any, pageSize: any) => {
     setPostPerPage(pageSize);
   };
@@ -83,6 +83,10 @@ function BlogCategory() {
     }
     return originalElement;
   };
+
+  function stripHTMLTags(html: any) {
+    return html.replace(/<\/?[^>]+(>|$)/g, "");
+  }
   return (
     <div className={styles["list-blogs"]}>
       {currentPosts &&
@@ -107,7 +111,20 @@ function BlogCategory() {
                       </h2>
                     </NavLink>
                     <span className={styles["post-item-description"]}>
-                      {Array.from(post.post_content).slice(0, 200).join("")}
+                      {/* {React.createElement("div", {
+                        dangerouslySetInnerHTML: { __html: post?.post_content },
+                      })} */}
+                      {post?.post_content.length > 200 ? (
+                        <div>
+                          {stripHTMLTags(post?.post_content.slice(0, 200))}...
+                        </div>
+                      ) : (
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html: post?.post_content,
+                          }}
+                        />
+                      )}
                     </span>
                     <div>
                       <NavLink to={`/blogs/${post.id}`}>
