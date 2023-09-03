@@ -125,7 +125,9 @@ const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
     handleClickOk();
   };
 
-  console.log("Updated Posts", posts);
+  const editorConfig = {
+    height: "1500px",
+  };
 
   return (
     <>
@@ -149,7 +151,11 @@ const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
               onChange={(event) => setTitle(event.target.value)}
             />
             <div className={styles["post-content-editor"]}>
-              <Editor onEditorChange={handleEditorChange} value={content} />
+              <Editor
+                onEditorChange={handleEditorChange}
+                value={content}
+                init={editorConfig}
+              />
             </div>
           </div>
           <div className={styles["info-editor-post"]}>

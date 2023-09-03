@@ -21,26 +21,81 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
   getPost,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [shippingStatus, setShippingStatus] = useState("");
-  const [orders, setOrders] = useState<any>(null);
-  const [orderCart, setOrderCart] = useState<any>(null);
-  const [userId, setUserId] = useState<any>();
-  const [user, setUser] = useState<any>();
+  const [postTitle, setPostTitle] = useState<any>("");
+  const [image, setImage] = useState<any>("");
+  const [content, setContent] = useState<any>("");
+  const [status, setStatus] = useState<any>("");
+  const [author, setAuthor] = useState<any>("");
+  const [posts, setPosts] = useState<any>("");
 
   const showModal = () => {
     setIsModalOpen(true);
   };
 
   const handleOk = () => {
+    if (title === "") {
+      notification.warning({
+        message: "Please fill Post Title",
+      });
+      return;
+    }
+
+    if (image === "") {
+      notification.warning({
+        message: "Please fill Image Url",
+      });
+      return;
+    }
+
+    if (status === "") {
+      notification.warning({
+        message: "Please select Post Status",
+      });
+      return;
+    }
+
+    if (author === "") {
+      notification.warning({
+        message: "Please fill Author Name",
+      });
+      return;
+    }
+
+    if (content === "") {
+      notification.warning({
+        message: "Please fill Post Content",
+      });
+      return;
+    }
+
+    const updatedPost = {
+      post_title: postTitle !== "" ? postTitle : getPost.post_title,
+      post_content: content !== "" ? content : getPost.post_content,
+      author: author !== "" ? author : getPost.author,
+      publish_date: getPost.publish_date,
+      image_url: image !== "" ? image : getPost.image_url,
+      status: status !== "" ? status : getPost.status,
+    };
+
+    console.log("Updated Post", updatedPost);
+
     // notification.success({
     //   message: "Shipping Status Updated Successfully",
     // });
-    // setShippingStatus("");
+
     // setIsModalOpen(false);
   };
 
   const handleCancel = () => {
     setIsModalOpen(false);
+  };
+
+  const editorConfig = {
+    height: "600px",
+  };
+
+  const handleChange = (content: string, editor: any) => {
+    setContent(content);
   };
 
   return (
@@ -57,7 +112,7 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
-        width={1200}
+        width={1500}
       >
         <div className={styles["wrap-editor-post"]}>
           <div className={styles["main-editor-post"]}>
@@ -65,37 +120,73 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
               type="text"
               placeholder="Post Title"
               className={styles["post-title-editor"]}
+              defaultValue={getPost?.post_title}
+              onChange={(event) => setPostTitle(event.target.value)}
             />
             <div className={styles["post-content-editor"]}>
-              <Editor />
+              <Editor
+                init={editorConfig}
+                initialValue={getPost?.post_content}
+                onEditorChange={handleChange}
+              />
             </div>
           </div>
           <div className={styles["info-editor-post"]}>
             <div>
               <img
-                src={getPost.image_url}
+                src={getPost?.image_url}
                 alt=""
                 className={styles["post-editor-thumbnail"]}
               />
             </div>
             <div className={styles["info-editor-post-item"]}>
+              <span>Post ID</span>
+              <input type="text" value={getPost.id} disabled />
+            </div>
+            <div className={styles["info-editor-post-item"]}>
               <span>Image URL</span>
-              <input type="text" />
+              <input
+                type="text"
+                defaultValue={getPost?.image_url}
+                onChange={(event) => setImage(event.target.value)}
+              />
             </div>
             <div className={styles["info-editor-post-item"]}>
               <span>Status</span>
-              <select name="" id="" className={styles["post-editor-select-status"]}>
-                <option value="Published">Published</option>
-                <option value="Draft">Draft</option>
+              <select
+                name=""
+                id=""
+                className={styles["post-editor-select-status"]}
+              >
+                <option
+                  defaultValue="Published"
+                  selected={getPost?.status === "Published" ? true : false}
+                >
+                  Published
+                </option>
+                <option
+                  defaultValue="Draft"
+                  selected={getPost?.status === "Draft" ? true : false}
+                >
+                  Draft
+                </option>
               </select>
             </div>
             <div className={styles["info-editor-post-item"]}>
               <span>Published Date</span>
-              <input type="text" disabled value={getPost.publish_date} />
+              <input
+                type="text"
+                disabled
+                defaultValue={getPost?.publish_date}
+              />
             </div>
             <div className={styles["info-editor-post-item"]}>
               <span>Author</span>
-              <input type="text" />
+              <input
+                type="text"
+                defaultValue={getPost?.author}
+                onChange={(event) => setAuthor(event.target.value)}
+              />
             </div>
           </div>
         </div>
