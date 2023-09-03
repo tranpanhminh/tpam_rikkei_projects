@@ -297,6 +297,14 @@ td.group-btn-admin-manage-product:last-child {
   height: 147.5px;
 }
 
+td.group-btn-admin-manage-posts:last-child {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  height: 90px;
+}
+
 .change-user-btn {
   background-color: #007aff;
 }

@@ -33,6 +33,7 @@ import ClientSearchPage from "./components/client-site/layouts/ClientSearchPage"
 import AdminSubscribersPage from "./components/admin-site/layouts/AdminSubscribersPage";
 import ClientBlogCategory from "./components/client-site/layouts/ClientBlogCategory";
 import ClientBlogPost from "./components/client-site/layouts/ClientBlogPost";
+import AdminPostsPage from "./components/admin-site/layouts/AdminPostsPage";
 
 export function RoleNavigation() {
   const getData: any = localStorage.getItem("auth");
@@ -132,6 +133,10 @@ function App() {
           <Route
             path="/admin/manage-coupons"
             element={<AdminCouponPage />}
+          ></Route>
+          <Route
+            path="/admin/manage-posts"
+            element={<AdminPostsPage />}
           ></Route>
           <Route path="/user" element={<MyProfile />}></Route>
           <Route path="/user/my-profile" element={<MyProfile />}></Route>
