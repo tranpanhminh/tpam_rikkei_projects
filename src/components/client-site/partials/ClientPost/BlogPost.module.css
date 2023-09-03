@@ -1,11 +1,12 @@
 .wrap-blog {
-  width: 1600px;
+  max-width: 1600px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 3fr 1fr;
   /* padding-left: 100px;
   padding-right: 100px; */
   margin-bottom: 50px;
+  padding: 20px;
 }
 
 .list-blogs {
@@ -16,11 +17,12 @@
 
 .post-item {
   /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
-  width: 1100px;
+  max-width: 1100px;
   margin: 0 auto;
   display: flex;
   gap: 20px;
   align-items: center;
+  padding: 10px;
 }
 
 .post-item-title {
@@ -56,6 +58,9 @@
 .blog-sidebar {
   border-left: 1px ridge #f5f5f5;
   padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 
 .blogs-post-pagination {
@@ -63,19 +68,221 @@
   margin: 0 auto;
 }
 
+/* CSS Sidebar Blog */
+.sidebar-featured-product {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sidebar-featured-product-headline {
+  background-color: #51beab;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 22px;
+  color: white;
+}
+
+.sidebar-featured-product-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  max-width: 100%;
+}
+
+.sidebar-featured-product-item a {
+  text-decoration: none;
+}
+
+.sidebar-featured-product-item img {
+  width: 100px;
+  border-radius: 10px;
+}
+
+.sidebar-featured-product-name {
+  color: #0d337c;
+  font-weight: bold;
+  font-size: 17px;
+}
+
+.sidebar-featured-product-name:hover {
+  color: #52bdab;
+  cursor: pointer;
+}
+
+.sidebar-banner-image {
+  border-radius: 10px;
+}
+
 /* CSS Breadcrumb */
 .breadcrumb-blogs-info {
-  width: 1500px;
+  max-width: 1500px;
   margin: 0 auto;
   text-align: left;
-  margin-top: 50px;
-  margin-bottom: 50px;
+  margin-top: 20px;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  padding: 20px;
 }
 
 .breadcrumb-page a {
   text-decoration: none;
   font-size: 18px;
+}
+
+/* CSS Post Content */
+.post-content-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.main-content-section {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.post-title {
+  text-align: center;
+  font-size: 28px;
+  padding: 10px;
+  color: #0d337c;
+  font-weight: bold;
+  line-height: 1.5;
+}
+
+.post-thumbnail {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.post-thumbnail-image {
+  border-radius: 20px;
+}
+
+.post-content {
+  text-align: justify;
+  line-height: 2.2;
+  font-size: 20px;
+}
+
+.post-content h2 {
+  font-size: 22px;
+  color: #0d337c;
+  font-weight: bold;
+  line-height: 2.2;
+}
+
+.post-content h3 {
+  font-size: 20px;
+  color: #0d337c;
+  font-weight: bold;
+  line-height: 2.2;
+}
+
+.post-content h4 {
+  font-size: 18px;
+  color: #0d337c;
+  font-weight: bold;
+  line-height: 2.2;
+}
+
+.post-content h5 {
+  font-size: 16px;
+  color: #0d337c;
+  font-weight: bold;
+  line-height: 2.2;
+}
+
+/* CSS Related Post */
+.related-post-headline {
+  font-size: 20px;
+  background-color: #51beab;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  color: white;
+  border-radius: 10px;
+  width: 100%;
+  font-weight: bold;
+}
+
+@media screen and (max-width: 1079px) {
+  .wrap-blog {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .post-item {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .post-thumbnail-item {
+    width: 100%;
+  }
+
+  .breadcrumb-blogs-info {
+    width: 100%;
+    padding: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .blogs-post-pagination {
+    width: 100%;
+  }
+
+  .blog-sidebar {
+    padding: 20px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .wrap-blog {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .post-item {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .post-thumbnail-item {
+    width: 100%;
+  }
+
+  .breadcrumb-blogs-info {
+    width: 100%;
+    padding: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .blogs-post-pagination {
+    width: 100%;
+  }
+
+  .blog-sidebar {
+    padding: 20px;
+  }
 }

@@ -6,9 +6,9 @@ import ClientFooter from "../partials/ClientFooter/ClientFooter";
 import NotificationSale from "../partials/NotificationSale/Notification";
 import BlogPostBreadcrumb from "../partials/ClientPost/BlogCategoryBreadcrumb";
 import BlogSidebar from "./../partials/ClientPost/BlogSidebar/BlogSidebar";
-import styles from "../partials/ClientPost/BlogPost.module.css";
-import BlogPost from "../partials/ClientPost/BlogPost/BlogPost";
-function ClientBlogPost() {
+import BlogCategory from "../partials/ClientPost/BlogCategory/BlogCategory";
+import styles from "../partials/ClientPost/BlogPost.module.css"
+function ClientBlogCategory() {
   return (
     <>
       {/* Homepage */}
@@ -17,7 +17,7 @@ function ClientBlogPost() {
         <ClientBanner />
         <BlogPostBreadcrumb />
         <div className={styles["wrap-blog"]}>
-          <BlogPost />
+          <BlogCategory />
           <BlogSidebar />
         </div>
       </div>
@@ -27,4 +27,4 @@ function ClientBlogPost() {
   );
 }
 
-export default ClientBlogPost;
+export default ClientBlogCategory;

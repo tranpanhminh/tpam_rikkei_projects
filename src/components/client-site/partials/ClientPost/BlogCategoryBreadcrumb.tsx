@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../ClientPost/BlogPost.module.css";
 import { NavLink } from "react-router-dom";
 
-function BlogPostBreadcrumb() {
+function BlogCategoryBreadcrumb() {
   return (
     <>
       <div className={styles["breadcrumb-blogs-info"]}>
@@ -17,4 +17,4 @@ function BlogPostBreadcrumb() {
   );
 }
 
-export default BlogPostBreadcrumb;
+export default BlogCategoryBreadcrumb;

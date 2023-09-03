@@ -31,6 +31,7 @@ import MyNewsletter from "./components/client-site/layouts/UserProfile/MyNewslet
 import MyBooking from "./components/client-site/layouts/UserProfile/MyBooking";
 import ClientSearchPage from "./components/client-site/layouts/ClientSearchPage";
 import AdminSubscribersPage from "./components/admin-site/layouts/AdminSubscribersPage";
+import ClientBlogCategory from "./components/client-site/layouts/ClientBlogCategory";
 import ClientBlogPost from "./components/client-site/layouts/ClientBlogPost";
 
 export function RoleNavigation() {
@@ -88,7 +89,7 @@ function App() {
           <Route path="/cart" element={<ClientCartPage />}></Route>
           <Route path="/login" element={<ClientLoginPage />}></Route>
           <Route path="/signup" element={<ClientSignupPage />}></Route>
-          <Route path="/blogs" element={<ClientBlogPost />}></Route>
+          <Route path="/blogs" element={<ClientBlogCategory />}></Route>
           <Route
             path="/products"
             element={<ClientProductCategoryPage />}
@@ -102,6 +103,7 @@ function App() {
             path="/services/:serviceId"
             element={<ClientServiceDetailPage />}
           ></Route>
+          <Route path="/blogs/:postId" element={<ClientBlogPost />}></Route>
           <Route path="/admin/" element={<AdminUsersPage />}></Route>
           <Route
             path="/admin/manage-users"
@@ -144,6 +146,10 @@ function App() {
             path="/search/:searchTerm"
             element={<ClientSearchPage />}
           ></Route>
+          {/* <Route
+            path="/blogs/page/:pageNumber"
+            element={<ClientBlogPost />}
+          ></Route> */}
           <Route path="/user" element={<ClientProfilePage />}></Route>
           <Route path="*" element={<Page404 />}></Route>
         </Routes>
