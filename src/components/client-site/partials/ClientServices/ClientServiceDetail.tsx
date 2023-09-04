@@ -641,7 +641,9 @@ function ClientServiceDetail() {
                     <section className={styles["product-comment-item"]}>
                       <div className={styles["user-comment-info"]}>
                         <img
-                          src={avatar}
+                          src={
+                            getLoginData.avatar ? getLoginData.avatar : avatar
+                          }
                           alt=""
                           className={styles["user-avatar"]}
                         />

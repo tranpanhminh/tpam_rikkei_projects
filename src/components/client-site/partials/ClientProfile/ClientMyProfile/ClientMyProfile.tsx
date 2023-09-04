@@ -9,6 +9,7 @@ function ClientEditProfile() {
   const [userFullName, setUserFullName] = useState("");
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [avatar, setAvatar] = useState("");
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
   console.log(getLoginData);
@@ -24,6 +25,7 @@ function ClientEditProfile() {
     newsletter_register: false,
     newsletter: [],
     booking_history: [],
+    image_avatar: "",
   });
 
   const fetchUser = () => {
@@ -100,6 +102,7 @@ function ClientEditProfile() {
     const updatedUserData = {
       fullName: userFullName,
       password: newPassword !== "" ? newPassword : user.password, // Keep the same password if not changed
+      image_avatar: avatar !== "" ? avatar : user.image_avatar,
     };
 
     // Make PUT request to update user data
@@ -169,6 +172,15 @@ function ClientEditProfile() {
               value={userFullName}
               onChange={(event) => {
                 setUserFullName(event?.target.value);
+              }}
+            />
+          </div>{" "}
+          <div className={styles["my-profile-input-item"]}>
+            <p>Avatar</p>
+            <input
+              value={avatar}
+              onChange={(event) => {
+                setAvatar(event?.target.value);
               }}
             />
           </div>

@@ -1,12 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../../../../assets/images/pet-shop.png";
 
 import styles from "../../AdminPage.module.css";
 
 import { NavLink, useNavigate } from "react-router-dom";
 import { notification } from "antd";
+import axios from "axios";
 
 const AdminHeader: React.FC = () => {
+  const getData: any = localStorage.getItem("auth");
+  const getLoginData = JSON.parse(getData) || "";
+  const [user, setUser] = useState<any>(null);
+
+  const fetchUser = () => {
+    axios
+      .get(`http://localhost:7373/accounts/${getLoginData.loginId}`)
+      .then((response) => {
+        setUser(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   const navigate = useNavigate();
   const navLinkStyle = ({ isActive }: { isActive: boolean }) => ({
     // color: isActive ? "black" : "",
@@ -26,7 +46,11 @@ const AdminHeader: React.FC = () => {
       <header className={styles["vertical-menu"]}>
         <div className={styles["user-panel"]}>
           <NavLink to="/">
-            <img src={logo} alt="" />
+            <img
+              src={getLoginData.avatar ? getLoginData.avatar : logo}
+              className={styles["admin-panel-avatar"]}
+              alt=""
+            />
           </NavLink>
           <p className={styles["user-title"]}>Admin</p>
         </div>

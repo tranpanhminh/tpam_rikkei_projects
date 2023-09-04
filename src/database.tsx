@@ -25,6 +25,7 @@ export interface Account {
   newsletter_register: boolean;
   newsletter: string[];
   booking_history: any[];
+  image_avatar: string;
 }
 
 export interface Subscriber {
@@ -116,6 +117,7 @@ let accounts: Account[] = [
     newsletter_register: true,
     newsletter: [],
     booking_history: [],
+    image_avatar: "",
   },
   {
     id: 2,
@@ -129,6 +131,7 @@ let accounts: Account[] = [
     newsletter_register: false,
     newsletter: [],
     booking_history: [],
+    image_avatar: "",
   },
   {
     id: 3,
@@ -142,6 +145,7 @@ let accounts: Account[] = [
     newsletter_register: true,
     newsletter: [],
     booking_history: [],
+    image_avatar: "",
   },
   {
     id: 4,
@@ -155,6 +159,7 @@ let accounts: Account[] = [
     newsletter_register: true,
     newsletter: [],
     booking_history: [],
+    image_avatar: "",
   },
 ];
 let products: Product[] = [
@@ -287,7 +292,6 @@ let products: Product[] = [
     quantity_stock: 100,
   },
 ];
-
 
 let orders: Order[] = [
   {

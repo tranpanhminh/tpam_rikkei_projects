@@ -1391,8 +1391,9 @@ table.table.table-cart {
 }
 
 .user-avatar {
-  width: 50px;
+  width: 100px;
   margin: 0 auto;
+  border-radius: 100%
 }
 
 .comment-content img {

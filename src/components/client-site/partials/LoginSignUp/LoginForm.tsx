@@ -50,6 +50,7 @@ function LoginForm() {
               fullName: account.fullName,
               role: account.role,
               status: account.status,
+              avatar: account.image_avatar,
             };
             // Update user login status using axios.put
             // axios

@@ -117,6 +117,10 @@ ul.main-menu {
   max-height: 600px;
 }
 
+.admin-panel-avatar {
+  border-radius: 15px;
+}
+
 main {
   margin: 30px;
   background-color: white;
@@ -147,6 +151,7 @@ i {
   color: white;
   padding: 5px 25px;
   border-radius: 10px;
+  margin-top: 30px;
 }
 
 /* CSS Manage Booking Page */

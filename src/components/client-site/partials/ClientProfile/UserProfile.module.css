@@ -123,6 +123,11 @@ i {
   color: white;
   padding: 5px 25px;
   border-radius: 10px;
+  margin-top: 30px;
+}
+
+.user-panel-avatar {
+  border-radius: 15px;
 }
 
 /* CSS Client Order Page */

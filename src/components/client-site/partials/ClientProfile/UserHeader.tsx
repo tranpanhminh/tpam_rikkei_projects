@@ -40,7 +40,11 @@ const UserHeader: React.FC = () => {
       <header className={styles["vertical-menu"]}>
         <div className={styles["user-panel"]}>
           <NavLink to="/" className={styles["navlink-menu-user-panel"]}>
-            <img src={logo} alt="" />
+            <img
+              src={getLoginData.avatar ? getLoginData.avatar : logo}
+              alt=""
+              className={styles["user-panel-avatar"]}
+            />
           </NavLink>
           <p className={styles["user-title"]}>User Panel</p>
         </div>

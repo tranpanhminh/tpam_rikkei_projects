@@ -215,6 +215,12 @@ function ClientProductDetail() {
     }
 
     console.log(products.comments, "dasdsa");
+
+    // Kiểm tra nếu products.comments là undefined hoặc null, thì khởi tạo nó là một mảng rỗng
+    if (!products.comments) {
+      products.comments = [];
+    }
+
     let listCommentId = products.comments.map((item: any) => {
       return item.commentId;
     });
@@ -284,20 +290,20 @@ function ClientProductDetail() {
   };
 
   const averageRating = () => {
-    let filterComment = comments.filter((comment: any) => {
+    let filterComment = comments?.filter((comment: any) => {
       return comment.userRole === "customer";
     });
 
-    let sumRating = filterComment.reduce(
+    let sumRating = filterComment?.reduce(
       (accumulator: number, currentValue: any) => {
         return accumulator + currentValue.rating;
       },
       0
     );
-    if (sumRating === 0) {
+    if (sumRating === 0 || isNaN(sumRating)) {
       return "No Rating";
     } else {
-      return (sumRating / filterComment.length).toFixed(1);
+      return (sumRating / filterComment?.length).toFixed(1);
     }
   };
 
@@ -408,7 +414,7 @@ function ClientProductDetail() {
           >
             <div className={styles["comment-heading"]}>
               <h3 className={styles["user-comment-product"]}>
-                {comments.length} comments
+                {comments?.length} comments
               </h3>
 
               {getLoginData.role !== "admin" && (
@@ -445,12 +451,14 @@ function ClientProductDetail() {
               className={`${styles["main-content-comment"]} ${styles["comment-scrollable"]}`}
             >
               {products &&
-                products.comments.map((item: any) => {
+                products.comments?.map((item: any) => {
                   return (
                     <section className={styles["product-comment-item"]}>
                       <div className={styles["user-comment-info"]}>
                         <img
-                          src={avatar}
+                          src={
+                            getLoginData.avatar ? getLoginData.avatar : avatar
+                          }
                           alt=""
                           className={styles["user-avatar"]}
                         />

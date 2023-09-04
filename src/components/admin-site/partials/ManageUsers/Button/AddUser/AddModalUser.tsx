@@ -34,6 +34,7 @@ const AddModalUser: React.FC<AddModalProps> = ({
     newsletter_register: false,
     newsletter: [],
     booking_history: [],
+    image_avatar: "",
   });
 
   const fetchUsers = () => {
@@ -132,6 +133,7 @@ const AddModalUser: React.FC<AddModalProps> = ({
       newsletter_register: false,
       newsletter: [],
       booking_history: [],
+      image_avatar: "",
     });
   };
 
