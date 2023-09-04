@@ -9,7 +9,6 @@ import { useParams } from "react-router-dom"; // Import useParams để lấy gi
 function BlogPost() {
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
-  const [searchTerm, setSearchTerm] = useState("");
   const { postId } = useParams(); // Lấy giá trị slug từ URL
   const [post, setPost] = useState<any>(null);
   const [allPosts, setAllPosts] = useState<any>(null);

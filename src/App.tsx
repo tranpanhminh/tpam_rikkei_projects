@@ -7,6 +7,7 @@ import {
   Route,
   useNavigate,
   useLocation,
+  Router,
 } from "react-router-dom";
 import ClientCartPage from "./components/client-site/layouts/ClientCartPage";
 import ClientHomePage from "./components/client-site/layouts/ClientHomePage";
@@ -36,6 +37,7 @@ import ClientBlogPost from "./components/client-site/layouts/ClientBlogPost";
 import AdminPostsPage from "./components/admin-site/layouts/AdminPostsPage";
 import AdminManageComments from "./components/admin-site/layouts/AdminManageComments";
 import AdminReportPage from "./components/admin-site/layouts/AdminReportPage";
+import BlogPost from "./components/client-site/partials/ClientPost/BlogPost/BlogPost";
 
 export function RoleNavigation() {
   const getData: any = localStorage.getItem("auth");
@@ -93,6 +95,7 @@ function App() {
           <Route path="/login" element={<ClientLoginPage />}></Route>
           <Route path="/signup" element={<ClientSignupPage />}></Route>
           <Route path="/blogs" element={<ClientBlogCategory />}></Route>
+          <Route path="/blogs/:postId" element={<ClientBlogPost />}></Route>
           <Route
             path="/products"
             element={<ClientProductCategoryPage />}
@@ -106,7 +109,6 @@ function App() {
             path="/services/:serviceId"
             element={<ClientServiceDetailPage />}
           ></Route>
-          <Route path="/blogs/:postId" element={<ClientBlogPost />}></Route>
           <Route path="/admin/" element={<AdminUsersPage />}></Route>
           <Route
             path="/admin/manage-users"
