@@ -204,6 +204,202 @@ function Report() {
   // In ra kết quả
   console.log(bookingService);
 
+  // Tìm sản phẩm được bán chạy nhất
+  // Tạo một đối tượng Map để lưu trữ số lượng đã bán của từng sản phẩm
+  const productSoldCounts = new Map();
+
+  // Lặp qua danh sách orders và tính tổng số lượng đã bán của từng sản phẩm
+  orders.forEach((order: any) => {
+    const { cart } = order;
+
+    cart.forEach((cartItem: any) => {
+      const { productId, productQuantity } = cartItem;
+      if (productSoldCounts.has(productId)) {
+        productSoldCounts.set(
+          productId,
+          productSoldCounts.get(productId) + productQuantity
+        );
+      } else {
+        productSoldCounts.set(productId, productQuantity);
+      }
+    });
+  });
+
+  // Tạo mảng mới chứa thông tin sản phẩm với productId, productName, productImage, totalSold, productPrice
+  const dataProduct = Array.from(productSoldCounts.keys()).map((productId) => {
+    const totalSold = productSoldCounts.get(productId);
+    const orderItem = orders.find((order: any) =>
+      order.cart.some((cartItem: any) => cartItem.productId === productId)
+    );
+    const { productName, productImage } = orderItem.cart.find(
+      (cartItem: any) => cartItem.productId === productId
+    );
+    const { price } = orderItem.cart.find(
+      (cartItem: any) => cartItem.productId === productId
+    );
+
+    return {
+      productId,
+      productName,
+      productImage,
+      totalSold,
+      productPrice: price,
+    };
+  });
+
+  // Tìm sản phẩm có số lượng bán nhiều nhất
+  let mostSoldProduct: any = null;
+  let maxTotalSold = 0;
+
+  dataProduct.forEach((product: any) => {
+    if (product.totalSold > maxTotalSold) {
+      maxTotalSold = product.totalSold;
+      mostSoldProduct = product;
+    }
+  });
+
+  console.log("Sản phẩm có số lượng bán nhiều nhất:");
+  console.log(mostSoldProduct);
+
+  // Tìm sản phẩm rating cao nhất
+  // Tạo mảng mới chứa thông tin sản phẩm, bao gồm: idProduct, productName, productImage, productRating, totalReview
+  const productData = products.map((product: any) => {
+    const { id, name, productImage, comments } = product;
+
+    // Tính tổng số lượt rating
+    const totalReview = comments.length;
+
+    // Tính trung bình rating
+    const totalRating = comments.reduce(
+      (sum: any, comment: any) => sum + comment.rating,
+      0
+    );
+    const productRating = totalReview > 0 ? totalRating / totalReview : 0;
+
+    return {
+      idProduct: id,
+      productName: name,
+      productImage: productImage[0], // Chọn hình ảnh đầu tiên
+      productRating,
+      totalReview,
+    };
+  });
+
+  // Tìm sản phẩm có rating cao nhất
+  let highestRatedProduct: any = null;
+  let highestRating = 0;
+
+  productData.forEach((product: any) => {
+    if (product.productRating > highestRating) {
+      highestRating = product.productRating;
+      highestRatedProduct = product;
+    }
+  });
+
+  console.log("Sản phẩm có rating cao nhất:");
+  console.log("highestRatedProduct", highestRatedProduct);
+
+  // Tạo một đối tượng Map để lưu trữ số lần booking của từng dịch vụ
+  const serviceBookingCounts = new Map();
+
+  // Lặp qua danh sách bookings và tính tổng số lần booking cho từng dịch vụ
+  bookings.forEach((booking: any) => {
+    const { listBookings } = booking;
+
+    listBookings.forEach((bookingItem: any) => {
+      const { serviceId } = bookingItem;
+      if (serviceBookingCounts.has(serviceId)) {
+        serviceBookingCounts.set(
+          serviceId,
+          serviceBookingCounts.get(serviceId) + 1
+        );
+      } else {
+        serviceBookingCounts.set(serviceId, 1);
+      }
+    });
+  });
+
+  // Tạo mảng mới chứa thông tin dịch vụ với serviceId, serviceName, serviceImage, totalBooked, servicePrice
+  const serviceData = Array.from(serviceBookingCounts.keys()).map(
+    (serviceId) => {
+      const totalBooked = serviceBookingCounts.get(serviceId);
+      const bookingService = bookings.find((booking: any) =>
+        booking.listBookings.some(
+          (bookingItem: any) => bookingItem.serviceId === serviceId
+        )
+      );
+      const { serviceName, serviceImage, servicePrice } =
+        bookingService.listBookings[0];
+
+      return {
+        serviceId,
+        serviceName,
+        serviceImage,
+        totalBooked,
+        servicePrice,
+      };
+    }
+  );
+
+  // Tìm dịch vụ có số lần booking nhiều nhất
+  let mostBookedService: any = null;
+  let maxTotalBooked = 0;
+
+  serviceData.forEach((service) => {
+    if (service.totalBooked > maxTotalBooked) {
+      maxTotalBooked = service.totalBooked;
+      mostBookedService = service;
+    }
+  });
+
+  console.log("Dịch vụ có số lần booking nhiều nhất:");
+  console.log("mostBookedService", mostBookedService);
+
+  // Tìm dịch vụ có Rating cao nhất
+  // Tạo một đối tượng Map để lưu trữ số lượng rating và tổng điểm rating cho từng dịch vụ
+  const serviceRatings = new Map();
+
+  services.forEach((service: any) => {
+    const { id, name, serviceImage, comments } = service;
+    let totalRating = 0;
+    let totalReviews = 0;
+
+    comments.forEach((comment: any) => {
+      if (comment.type === "service") {
+        totalRating += comment.rating;
+        totalReviews += 1;
+      }
+    });
+
+    if (serviceRatings.has(id)) {
+      const existingRating = serviceRatings.get(id);
+      existingRating.totalRating += totalRating;
+      existingRating.totalReviews += totalReviews;
+    } else {
+      serviceRatings.set(id, { name, serviceImage, totalRating, totalReviews });
+    }
+  });
+
+  // Tìm dịch vụ có tổng điểm rating cao nhất
+  let highestRatedService: any = null;
+  let highestTotalRating = 0;
+
+  serviceRatings.forEach((ratingInfo, serviceId) => {
+    if (ratingInfo.totalRating > highestTotalRating) {
+      highestTotalRating = ratingInfo.totalRating;
+      highestRatedService = {
+        serviceId,
+        serviceName: ratingInfo.name,
+        serviceImage: ratingInfo.serviceImage,
+        totalRating: ratingInfo.totalRating / ratingInfo.totalReviews,
+        totalReviews: ratingInfo.totalReviews,
+      };
+    }
+  });
+
+  console.log("Dịch vụ có tổng điểm rating cao nhất:");
+  console.log("highestRatedService", highestRatedService);
+
   const totalSaleOrders = () => {
     let totalSales = orders.reduce((accumulator: any, currentValue: any) => {
       return accumulator + currentValue.sumOrderWithDiscount;
@@ -266,12 +462,12 @@ function Report() {
         <div className={styles["best-report-overview-item"]}>
           <h4>Best Selling Product</h4>
           <img
-            src="https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/glendan_dog_brush_cat_brush_slicker_pet_grooming_brush_shedding_grooming_tools_1_640x_crop_top.jpg?v=1625752641"
+            src={mostSoldProduct?.productImage}
             alt=""
             className={styles["best-report-image"]}
           />
           <p className={styles["best-report-overview-name"]}>
-            Glendan Dog Brush Cat Brush Slicker
+            {mostSoldProduct?.productName}
           </p>
           <div className={styles["best-report-overview-statistic"]}>
             <div>
@@ -279,7 +475,7 @@ function Report() {
                 bg="primary"
                 className={styles["best-report-overview-badge"]}
               >
-                Total Sold: 250
+                Total Sold: {mostSoldProduct?.totalSold}
               </Badge>
             </div>
             <div>
@@ -288,7 +484,7 @@ function Report() {
                 text="dark"
                 className={styles["best-report-overview-badge"]}
               >
-                Price: $9
+                Price: ${mostSoldProduct?.productPrice}
               </Badge>
             </div>
           </div>
@@ -296,12 +492,12 @@ function Report() {
         <div className={styles["best-report-overview-item"]}>
           <h4>Best Rating Product</h4>
           <img
-            src="https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/senye_retractable_dog_leash_16ft_dog_traction_rope_1_640x_crop_top.jpg?v=1625752616"
+            src={highestRatedProduct?.productImage}
             alt=""
             className={styles["best-report-image"]}
           />
           <p className={styles["best-report-overview-name"]}>
-            Senye Retractable Dog Leash 16ft Dog Traction Rope
+            {highestRatedProduct?.productName}
           </p>
           <div className={styles["best-report-overview-statistic"]}>
             <div>
@@ -309,7 +505,7 @@ function Report() {
                 bg="primary"
                 className={styles["best-report-overview-badge"]}
               >
-                Rating: 5
+                Avg Rating: {highestRatedProduct?.productRating}
                 <i
                   className={`fa-solid fa-star  ${styles["best-rating-star-icon"]}`}
                 ></i>
@@ -321,7 +517,7 @@ function Report() {
                 text="dark"
                 className={styles["best-report-overview-badge"]}
               >
-                Total reviews: 25
+                Total reviews: {highestRatedProduct?.totalReview}
               </Badge>
             </div>
           </div>
@@ -329,18 +525,20 @@ function Report() {
         <div className={styles["best-report-overview-item"]}>
           <h4>Best Service</h4>
           <img
-            src="https://i.ibb.co/F5N9LXC/dog-grooming-service.jpg"
+            src={mostBookedService?.serviceImage}
             alt=""
             className={styles["best-report-image"]}
           />
-          <p className={styles["best-report-overview-name"]}>Pet Grooming</p>
+          <p className={styles["best-report-overview-name"]}>
+            {mostBookedService?.serviceName}
+          </p>
           <div className={styles["best-report-overview-statistic"]}>
             <div>
               <Badge
                 bg="primary"
                 className={styles["best-report-overview-badge"]}
               >
-                Total Booked: 10
+                Total Booked: {mostBookedService?.totalBooked}
               </Badge>
             </div>
             <div>
@@ -349,7 +547,7 @@ function Report() {
                 text="dark"
                 className={styles["best-report-overview-badge"]}
               >
-                Price: $300
+                Price: ${mostBookedService?.servicePrice}
               </Badge>
             </div>
           </div>
@@ -357,18 +555,20 @@ function Report() {
         <div className={styles["best-report-overview-item"]}>
           <h4>Best Rating Service</h4>
           <img
-            src="https://i.ibb.co/2Y4LnrD/veterinary-service.jpg"
+            src={highestRatedService?.serviceImage}
             alt=""
             className={styles["best-report-image"]}
           />
-          <p className={styles["best-report-overview-name"]}>Veterinarian</p>
+          <p className={styles["best-report-overview-name"]}>
+            {highestRatedService?.serviceName}
+          </p>
           <div className={styles["best-report-overview-statistic"]}>
             <div>
               <Badge
                 bg="primary"
                 className={styles["best-report-overview-badge"]}
               >
-                Rating: 5
+                Rating: {highestRatedService?.totalRating}
                 <i
                   className={`fa-solid fa-star  ${styles["best-rating-star-icon"]}`}
                 ></i>
@@ -380,7 +580,7 @@ function Report() {
                 text="dark"
                 className={styles["best-report-overview-badge"]}
               >
-                Total reviews: 25
+                Total reviews: {highestRatedService?.totalReviews}
               </Badge>
             </div>
           </div>
