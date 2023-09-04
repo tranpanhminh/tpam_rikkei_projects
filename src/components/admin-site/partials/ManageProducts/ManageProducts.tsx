@@ -6,6 +6,7 @@ import axios from "axios";
 import AddModalProduct from "../ManageProducts/Button/AddProduct/AddModalProduct";
 
 import styles from "../../AdminPage.module.css";
+import { NavLink } from "react-router-dom";
 
 function ManageProducts() {
   const [products, setProducts] = useState<null | Product[]>(null);
@@ -173,6 +174,14 @@ function ManageProducts() {
                 <td>{product.price}</td>
                 <td>{product.quantity_stock}</td>
                 <td className={styles["group-btn-admin-manage-product"]}>
+                  <NavLink to={`/products/${product.id}`} target="_blank">
+                    <Button
+                      type="primary"
+                      style={{ backgroundColor: "#0c337c" }}
+                    >
+                      View
+                    </Button>
+                  </NavLink>
                   <DetailButtonProduct
                     value="Detail"
                     title="Detail Product"

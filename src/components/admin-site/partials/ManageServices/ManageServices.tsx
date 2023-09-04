@@ -6,6 +6,7 @@ import axios from "axios";
 import AddButtonService from "./Button/AddService/AddButtonService";
 import { Button, notification } from "antd";
 import DetailButtonService from "./Button/DetailService/DetailButtonService";
+import { NavLink } from "react-router-dom";
 function ManageServices() {
   const [services, setServices] = useState<null | Service[]>(null);
   const [searchText, setSearchText] = useState<string>("");
@@ -165,10 +166,17 @@ function ManageServices() {
                     <p>{service.afternoonTime}</p>
                   </td>
                   <td className={styles["group-btn-admin-manage-product"]}>
+                    <NavLink to={`/services/${service.id}`} target="_blank">
+                      <Button
+                        type="primary"
+                        style={{ backgroundColor: "#0c337c" }}
+                      >
+                        View
+                      </Button>
+                    </NavLink>
                     <DetailButtonService
                       value="Detail"
                       title="Detail Service"
-                      className={styles["detail-product-btn"]}
                       getServiceId={service.id}
                       handleFunctionOk={handleUpdateService}
                     ></DetailButtonService>
