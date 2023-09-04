@@ -5,6 +5,7 @@ import axios from "axios";
 // Import thư viện Chart JS
 import { Chart } from "react-google-charts";
 
+// Orders & Sales Chart
 export const data = [
   ["Year", "Sales", "Expenses"],
   ["2004", 1000, 400],
@@ -17,6 +18,22 @@ export const options = {
   title: "Company Performance",
   curveType: "function",
   legend: { position: "bottom" },
+};
+
+// Booking Chart
+export const data2 = [
+  ["Year", "Sales", "Expenses", "Profit"],
+  ["2014", 1000, 400, 200],
+  ["2015", 1170, 460, 250],
+  ["2016", 660, 1120, 300],
+  ["2017", 1030, 540, 350],
+];
+
+export const options2 = {
+  chart: {
+    title: "Company Performance",
+    subtitle: "Sales, Expenses, and Profit: 2014-2017",
+  },
 };
 
 function Report() {
@@ -125,14 +142,42 @@ function Report() {
         </div>
       </div>
 
-      <div>
-        <Chart
-          chartType="LineChart"
-          width="100%"
-          height="400px"
-          data={data}
-          options={options}
-        />
+      <div className={styles["double-chart"]}>
+        <div className={styles["double-chart-item"]}>
+          <h4>Oders & Sales Statistic</h4>
+          <Chart
+            chartType="LineChart"
+            width="100%"
+            height="400px"
+            data={data}
+            options={options}
+          />
+        </div>
+        <div className={styles["double-chart-item"]}>
+          <h4>Booking Services Statistic</h4>
+          <Chart
+            chartType="Bar"
+            width="100%"
+            height="400px"
+            data={data2}
+            options={options2}
+          />
+        </div>
+      </div>
+
+      <div className={styles["best-report-overview"]}>
+        <div className={styles["best-report-overview-item"]}>
+          <h4>Best Selling Product</h4>
+        </div>
+        <div className={styles["best-report-overview-item"]}>
+          <h4>Best Rating Product</h4>
+        </div>
+        <div className={styles["best-report-overview-item"]}>
+          <h4> Best Service</h4>
+        </div>
+        <div className={styles["best-report-overview-item"]}>
+          <h4>Best Rating Service</h4>
+        </div>
       </div>
     </>
   );
