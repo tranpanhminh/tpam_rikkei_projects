@@ -1,0 +1,40 @@
+.report-overview {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+}
+
+.report-overview-item {
+  padding: 20px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.report-overview-item-orders {
+  background-color: #4591da;
+  color: white;
+}
+
+.report-overview-item-booking {
+  background-color: #6a7cce;
+  color: white;
+}
+
+.report-overview-item-sales {
+  background-color: #9e4a97;
+  color: white;
+}
+
+.report-overview-item-users {
+  background-color: #8964b7;
+  color: white;
+}
+
+.report-number {
+  font-weigth: bold;
+  font-size: 26px;
+}
