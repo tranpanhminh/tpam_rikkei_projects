@@ -1393,11 +1393,17 @@ table.table.table-cart {
 .user-avatar {
   width: 100px;
   margin: 0 auto;
-  border-radius: 100%
+  border-radius: 100%;
 }
 
 .comment-content img {
   width: 200px;
+}
+
+.comment-content-headline {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
 }
 
 .send-comment-btn {

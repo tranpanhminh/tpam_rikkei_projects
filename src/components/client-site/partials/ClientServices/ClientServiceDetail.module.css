@@ -228,6 +228,12 @@
   margin: 0;
 }
 
+.comment-content-headline {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
 @media only screen and (max-width: 1079px) {
   .service-title-name {
     margin-top: 30px;

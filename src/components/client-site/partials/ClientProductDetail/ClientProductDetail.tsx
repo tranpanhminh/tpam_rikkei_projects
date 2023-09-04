@@ -307,6 +307,13 @@ function ClientProductDetail() {
     }
   };
 
+  const totalComment = () => {
+    let filterComment = comments?.filter((comment: any) => {
+      return comment.userRole === "customer";
+    });
+    return filterComment.length;
+  };
+
   return (
     <>
       {products && (
@@ -372,10 +379,11 @@ function ClientProductDetail() {
                     />
                   </div>
                   <div className={styles["product-rating"]}>
-                    <span>Rating</span>
+                    <span>Rating:</span>
                     <div className={styles["rating-section"]}>
                       {averageRating()}
                       <i className="fa-solid fa-star"></i>
+                      <span>({totalComment()} reviews)</span>
                     </div>
                   </div>
                   <button
@@ -473,10 +481,12 @@ function ClientProductDetail() {
                         ) : (
                           ""
                         )}
-                        <span className={styles["rating-section"]}>
-                          {item.rating}
-                          <i className="fa-solid fa-star"></i>
-                        </span>
+                        {item.userRole !== "admin" && (
+                          <span className={styles["rating-section"]}>
+                            {item.rating}
+                            <i className="fa-solid fa-star"></i>
+                          </span>
+                        )}
                         {user?.role === "admin" && (
                           <Button
                             type="primary"
@@ -487,12 +497,19 @@ function ClientProductDetail() {
                           </Button>
                         )}
                       </div>
-                      <div
-                        className={`${styles["comment-content"]} ${styles["comment-scrollable"]}`}
-                      >
-                        {React.createElement("div", {
-                          dangerouslySetInnerHTML: { __html: item.content },
-                        })}
+                      <div>
+                        <div className={styles["comment-content-headline"]}>
+                          <div>
+                            <Badge bg="primary">{item.date}</Badge>
+                          </div>
+                        </div>
+                        <div
+                          className={`${styles["comment-content"]} ${styles["comment-scrollable"]}`}
+                        >
+                          {React.createElement("div", {
+                            dangerouslySetInnerHTML: { __html: item.content },
+                          })}
+                        </div>
                       </div>
                     </section>
                   );

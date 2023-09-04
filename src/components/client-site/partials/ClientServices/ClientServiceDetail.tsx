@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "../ClientServices/ClientServiceDetail.module.css";
 import axios from "axios";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useLocation, useParams } from "react-router-dom";
 import { Button, Rate, Select, notification } from "antd";
 import avatar from "../../../../assets/images/dogs-reviews-01.png";
 import { Badge } from "react-bootstrap";
@@ -26,6 +26,7 @@ function ClientServiceDetail() {
   const [bookings, setBookings] = useState<any>([]);
   const [dataBookings, setDataBookings] = useState<any>([]);
   const [dataBookingId, setDataBookingId] = useState<any>([]);
+  const location = useLocation();
 
   const fetchUsers = () => {
     axios
@@ -160,7 +161,7 @@ function ClientServiceDetail() {
   };
 
   const averageRating = () => {
-    let filterComment = comments.filter((comment: any) => {
+    let filterComment = comments?.filter((comment: any) => {
       return comment.userRole === "customer";
     });
 
@@ -175,6 +176,13 @@ function ClientServiceDetail() {
     } else {
       return (sumRating / filterComment.length).toFixed(1);
     }
+  };
+
+  const totalComment = () => {
+    let filterComment = comments?.filter((comment: any) => {
+      return comment.userRole === "customer";
+    });
+    return filterComment.length;
   };
 
   const editorConfig = {
@@ -524,6 +532,9 @@ function ClientServiceDetail() {
                         {averageRating()}
                       </span>
                       <i className="fa-solid fa-star"></i>
+                      <span style={{ fontSize: "20px" }}>
+                        ({totalComment()} reviews)
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -658,10 +669,12 @@ function ClientServiceDetail() {
                         ) : (
                           ""
                         )}
-                        <span className={styles["rating-section"]}>
-                          {item.rating}
-                          <i className="fa-solid fa-star"></i>
-                        </span>
+                        {item.userRole !== "admin" && (
+                          <span className={styles["rating-section"]}>
+                            {item.rating}
+                            <i className="fa-solid fa-star"></i>
+                          </span>
+                        )}
                         {user?.role === "admin" && (
                           <Button
                             type="primary"
@@ -672,12 +685,19 @@ function ClientServiceDetail() {
                           </Button>
                         )}
                       </div>
-                      <div
-                        className={`${styles["comment-content"]} ${styles["comment-scrollable"]}`}
-                      >
-                        {React.createElement("div", {
-                          dangerouslySetInnerHTML: { __html: item.content },
-                        })}
+                      <div>
+                        <div className={styles["comment-content-headline"]}>
+                          <div>
+                            <Badge bg="primary">{item.date}</Badge>
+                          </div>
+                        </div>
+                        <div
+                          className={`${styles["comment-content"]} ${styles["comment-scrollable"]}`}
+                        >
+                          {React.createElement("div", {
+                            dangerouslySetInnerHTML: { __html: item.content },
+                          })}
+                        </div>
                       </div>
                       {/* <div>{item.date}</div> */}
                     </section>
