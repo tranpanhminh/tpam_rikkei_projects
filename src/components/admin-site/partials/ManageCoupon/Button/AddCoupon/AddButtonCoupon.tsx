@@ -61,6 +61,7 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
         message: "Notification",
         description:
           "Please make sure all information filled, Discount must be integer",
+        // placement: "bottomLeft",
       });
       return;
     } else {
@@ -75,6 +76,7 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
           fetchCoupons(); // Cập nhật lại dữ liệu products sau khi thêm
           notification.success({
             message: "Coupon Added",
+            // placement: "bottomLeft",
           });
         })
         .catch((error) => {

@@ -88,6 +88,7 @@ function ManageNewsletter() {
         fetchCoupons(); // Cập nhật lại dữ liệu products sau khi xóa
         notification.success({
           message: "Coupon Deleted",
+          // placement: "bottomLeft",
         });
       })
       .catch((error) => {

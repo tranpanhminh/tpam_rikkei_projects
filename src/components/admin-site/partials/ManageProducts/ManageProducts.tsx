@@ -73,6 +73,7 @@ function ManageProducts() {
         fetchProducts(); // Cập nhật lại dữ liệu products sau khi thêm
         notification.success({
           message: "Product Added",
+          // placement: "bottomLeft",
         });
       })
       .catch((error) => {
@@ -87,6 +88,7 @@ function ManageProducts() {
         fetchProducts(); // Cập nhật lại dữ liệu products sau khi xóa
         notification.success({
           message: "Product Deleted",
+          // placement: "bottomLeft",
         });
       })
       .catch((error) => {
@@ -101,6 +103,7 @@ function ManageProducts() {
         fetchProducts(); // Cập nhật lại dữ liệu users sau khi thêm
         notification.success({
           message: "Product Updated",
+          // placement: "bottomLeft",
         });
       })
       .catch((error) => {
@@ -148,10 +151,7 @@ function ManageProducts() {
 
       <div className={styles["main-content"]}>
         <h3 className={styles["main-title-content"]}>List Products</h3>
-        <table
-          className="table table-striped"
-          id="table-products-manage-page"
-        >
+        <table className="table table-striped" id="table-products-manage-page">
           <thead>
             <tr>
               <th>#</th>
