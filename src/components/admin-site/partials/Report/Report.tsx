@@ -4,6 +4,7 @@ import axios from "axios";
 
 // Import thư viện Chart JS
 import { Chart } from "react-google-charts";
+import { Badge } from "react-bootstrap";
 
 // Orders & Sales Chart
 export const data = [
@@ -173,10 +174,18 @@ function Report() {
             alt=""
             className={styles["best-report-image"]}
           />
-          <p>Glendan Dog Brush Cat Brush Slicker</p>
+          <p className={styles["best-report-overview-name"]}>
+            Glendan Dog Brush Cat Brush Slicker
+          </p>
           <div className={styles["best-report-overview-statistic"]}>
-            <div>Total Sold: 250</div>
-            <div>Price: $9</div>
+            <div>
+              <Badge bg="primary">Total Sold: 250</Badge>
+            </div>
+            <div>
+              <Badge bg="warning" text="dark">
+                Price: $9
+              </Badge>
+            </div>
           </div>
         </div>
         <div className={styles["best-report-overview-item"]}>
@@ -186,15 +195,23 @@ function Report() {
             alt=""
             className={styles["best-report-image"]}
           />
-          <p>Senye Retractable Dog Leash 16ft Dog Traction Rope</p>
+          <p className={styles["best-report-overview-name"]}>
+            Senye Retractable Dog Leash 16ft Dog Traction Rope
+          </p>
           <div className={styles["best-report-overview-statistic"]}>
             <div>
-              Rating: 5
-              <i
-                className={`fa-solid fa-star  ${styles["best-rating-star-icon"]}`}
-              ></i>
+              <Badge bg="primary">
+                Rating: 5
+                <i
+                  className={`fa-solid fa-star  ${styles["best-rating-star-icon"]}`}
+                ></i>
+              </Badge>
             </div>
-            <div>Total reviews: 25</div>
+            <div>
+              <Badge bg="warning" text="dark">
+                Total reviews: 25
+              </Badge>
+            </div>
           </div>
         </div>
         <div className={styles["best-report-overview-item"]}>
@@ -204,10 +221,16 @@ function Report() {
             alt=""
             className={styles["best-report-image"]}
           />
-          <p>Pet Grooming</p>
+          <p className={styles["best-report-overview-name"]}>Pet Grooming</p>
           <div className={styles["best-report-overview-statistic"]}>
-            <div>Total Booked: 10</div>
-            <div>Price: $300</div>
+            <div>
+              <Badge bg="primary">Total Booked: 10</Badge>
+            </div>
+            <div>
+              <Badge bg="warning" text="dark">
+                Price: $300
+              </Badge>
+            </div>
           </div>
         </div>
         <div className={styles["best-report-overview-item"]}>
@@ -217,15 +240,21 @@ function Report() {
             alt=""
             className={styles["best-report-image"]}
           />
-          <p>Veterinarian</p>
+          <p className={styles["best-report-overview-name"]}>Veterinarian</p>
           <div className={styles["best-report-overview-statistic"]}>
             <div>
-              Rating: 5
-              <i
-                className={`fa-solid fa-star  ${styles["best-rating-star-icon"]}`}
-              ></i>
+              <Badge bg="primary">
+                Rating: 5
+                <i
+                  className={`fa-solid fa-star  ${styles["best-rating-star-icon"]}`}
+                ></i>
+              </Badge>
             </div>
-            <div>Total reviews: 25</div>
+            <div>
+              <Badge bg="warning" text="dark">
+                Total reviews: 25
+              </Badge>
+            </div>
           </div>
         </div>
       </div>

@@ -70,13 +70,18 @@
   gap: 20px;
   background-color: #1e2945;
   color: white;
+  justify-content: space-evenly;
 }
 
 .best-report-image {
   width: 100%;
-  height: 70%;
+  height: 50%;
   object-fit: cover;
   border-radius: 15px;
+}
+
+.best-report-overview-name {
+  font-size: 17px;
 }
 
 .best-report-overview-statistic {
@@ -87,4 +92,5 @@
 
 .best-rating-star-icon {
   color: #fadb14;
+  margin: 0;
 }
