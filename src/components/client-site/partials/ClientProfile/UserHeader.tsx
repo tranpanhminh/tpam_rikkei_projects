@@ -9,6 +9,7 @@ import "../../../../assets/bootstrap-5.3.0-dist/css/bootstrap.min.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Account } from "../../../../database";
 import axios from "axios";
+import { Badge } from "react-bootstrap";
 
 const UserHeader: React.FC = () => {
   const getData: any = localStorage.getItem("auth");
@@ -46,7 +47,12 @@ const UserHeader: React.FC = () => {
               className={styles["user-panel-avatar"]}
             />
           </NavLink>
-          <p className={styles["user-title"]}>User Panel</p>
+          {/* <p className={styles["user-title"]}>User Panel</p> */}
+          <Badge bg="success" style={{ fontSize: "16px", marginTop: "30px" }}>
+            {getLoginData.fullName.length > 15
+              ? getLoginData.fullName.split(" ")[0]
+              : getLoginData.fullName}
+          </Badge>
         </div>
 
         <ul className={styles["main-menu"]}>

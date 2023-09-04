@@ -6,6 +6,7 @@ import styles from "../../AdminPage.module.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import { notification } from "antd";
 import axios from "axios";
+import { Badge } from "react-bootstrap";
 
 const AdminHeader: React.FC = () => {
   const getData: any = localStorage.getItem("auth");
@@ -52,7 +53,12 @@ const AdminHeader: React.FC = () => {
               alt=""
             />
           </NavLink>
-          <p className={styles["user-title"]}>Admin</p>
+          {/* <p className={styles["user-title"]}>Admin</p> */}
+          <Badge bg="success" style={{ fontSize: "16px", marginTop: "30px" }}>
+            {getLoginData.fullName.length > 15
+              ? getLoginData.fullName.split(" ")[0]
+              : getLoginData.fullName}
+          </Badge>
         </div>
 
         <ul className={styles["main-menu"]}>
