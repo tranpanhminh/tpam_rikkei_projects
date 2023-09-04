@@ -1391,7 +1391,7 @@ table.table.table-cart {
 }
 
 .user-avatar {
-  width: 100px;
+  width: 60px;
   margin: 0 auto;
   border-radius: 100%;
 }
@@ -1404,6 +1404,22 @@ table.table.table-cart {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 10px;
+}
+
+.comment-content-headline-item {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.trash-comment-icon {
+  color: red;
+  cursor: pointer;
+}
+
+.trash-comment-icon:hover {
+  opacity: 85%;
 }
 
 .send-comment-btn {

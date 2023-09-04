@@ -675,7 +675,7 @@ function ClientServiceDetail() {
                             <i className="fa-solid fa-star"></i>
                           </span>
                         )}
-                        {user?.role === "admin" && (
+                        {/* {user?.role === "admin" && (
                           <Button
                             type="primary"
                             className={styles["delete-comment-btn"]}
@@ -683,12 +683,22 @@ function ClientServiceDetail() {
                           >
                             Delete
                           </Button>
-                        )}
+                        )} */}
                       </div>
                       <div>
                         <div className={styles["comment-content-headline"]}>
-                          <div>
+                          <div
+                            className={styles["comment-content-headline-item"]}
+                          >
                             <Badge bg="primary">{item.date}</Badge>
+                            {user?.role === "admin" && (
+                              <i
+                                onClick={() =>
+                                  handleDeleteComment(item.commentId)
+                                }
+                                className={`fa-solid fa-trash-can ${styles["trash-comment-icon"]}`}
+                              ></i>
+                            )}
                           </div>
                         </div>
                         <div

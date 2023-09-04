@@ -195,7 +195,7 @@
 }
 
 .user-avatar {
-  width: 100px;
+  width: 60px;
   margin: 0 auto;
   border-radius: 100%;
 }
@@ -211,6 +211,22 @@
 
 .delete-comment-btn {
   background-color: #ed5e68;
+}
+
+.comment-content-headline-item {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.trash-comment-icon {
+  color: red;
+  cursor: pointer;
+}
+
+.trash-comment-icon:hover {
+  opacity: 85%;
 }
 
 .comment-content {
