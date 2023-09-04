@@ -4,6 +4,7 @@ import { Product, Service } from "../../../../../../database";
 import { Editor } from "@tinymce/tinymce-react";
 import axios from "axios";
 import styles from "../DetailService/DetailModalService.module.css";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface DetailModalProps {
   className?: string; // Thêm khai báo cho thuộc tính className
@@ -21,14 +22,23 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
   handleFunctionBtn,
   getServiceId,
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [initName, setName] = useState("");
   const [initDescription, setDescription] = useState("");
   const [initPrice, setPrice] = useState("");
   const [initImage, setImage] = useState("");
-
   const [services, setServices] = useState<null | Service>(null);
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const serviceId = searchParams.get("edit-serviceId");
+    if (serviceId && Number(serviceId) === getServiceId) {
+      setIsModalOpen(true); // Nếu có edit-postId và nó trùng với postId của post hiện tại, mở modal
+    }
+  }, [location.search]);
 
   useEffect(() => {
     const fetchServices = () => {
@@ -52,6 +62,7 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
   };
 
   const showModal = () => {
+    navigate(`/admin/manage-services/?edit-serviceId=${getServiceId}`);
     setIsModalOpen(true);
   };
 

@@ -4,6 +4,7 @@ import { Product } from "../../../../../../database";
 import { Editor } from "@tinymce/tinymce-react";
 import axios from "axios";
 import styles from "../DetailProduct/DetailModalProduct.module.css";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface DetailModalProps {
   className?: string; // Thêm khai báo cho thuộc tính className
@@ -21,8 +22,9 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
   handleFunctionBtn,
   getProductId,
 }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [initName, setName] = useState("");
   const [initDescription, setDescription] = useState("");
   const [initPrice, setPrice] = useState("");
@@ -33,8 +35,15 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
   const [initImage2, setImage2] = useState("");
   const [initImage3, setImage3] = useState("");
   const [initImage4, setImage4] = useState("");
-
   const [products, setProducts] = useState<null | Product>(null);
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const productId = searchParams.get("edit-productId");
+    if (productId && Number(productId) === getProductId) {
+      setIsModalOpen(true); // Nếu có edit-postId và nó trùng với postId của post hiện tại, mở modal
+    }
+  }, [location.search]);
 
   useEffect(() => {
     const fetchProduct = () => {
@@ -58,6 +67,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
   };
 
   const showModal = () => {
+    navigate(`/admin/manage-products/?edit-productId=${getProductId}`);
     setIsModalOpen(true);
   };
 

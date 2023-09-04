@@ -77,6 +77,7 @@ function ClientServiceDetail() {
     console.log(value);
   };
 
+  // Function Comment
   const handleComment = () => {
     if (!getLoginData) {
       notification.warning({
@@ -133,6 +134,7 @@ function ClientServiceDetail() {
     console.log("Update Products", services);
   };
 
+  // Function Delete Comment
   const handleDeleteComment = (commentId: number) => {
     let findCommentIndex = comments.findIndex((comment: any) => {
       return comment.commentId === commentId;
@@ -192,6 +194,7 @@ function ClientServiceDetail() {
   console.log("List Bookings", bookings);
   console.log("dataBookings", dataBookings);
 
+  // Function Booking Service
   const handleBooking = (userId: number, serviceId: number) => {
     if (getLoginData.role === "admin") {
       notification.warning({
@@ -498,6 +501,18 @@ function ClientServiceDetail() {
                     <h2 className={styles["service-title-name"]}>
                       {services && services.name}
                     </h2>
+                    {getLoginData.role === "admin" && (
+                      <div className={styles["editor-post-bar"]}>
+                        <NavLink
+                          to={`/admin/manage-services/?edit-serviceId=${services.id}`}
+                          target="_blank"
+                        >
+                          <Badge bg="primary" style={{ fontSize: "16px" }}>
+                            Edit Service
+                          </Badge>
+                        </NavLink>
+                      </div>
+                    )}
                     <p className={styles["service-description"]}>
                       {services && services.description}
                     </p>

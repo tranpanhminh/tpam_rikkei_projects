@@ -53,7 +53,7 @@ function BlogPost() {
               className={styles["post-thumbnail-image"]}
             />
           </div>
-          {getLoginData && (
+          {getLoginData.role === "admin" && (
             <div className={styles["editor-post-bar"]}>
               <NavLink
                 to={`/admin/manage-posts/?edit-postId=${postId}`}

@@ -66,6 +66,8 @@ function ClientProductDetail() {
 
   console.log("User", user);
   console.log("User Cart", userCart);
+
+  // Function Add To Cart
   const handleAddToCart = () => {
     if (quantity === 0) {
       notification.warning({
@@ -199,6 +201,7 @@ function ClientProductDetail() {
     console.log(value);
   };
 
+  // Function Comment
   const handleComment = () => {
     if (!getLoginData) {
       notification.warning({
@@ -261,6 +264,7 @@ function ClientProductDetail() {
     console.log("Update Products", products);
   };
 
+  // Function Delete Comment
   const handleDeleteComment = (commentId: number) => {
     let findCommentIndex = comments.findIndex((comment: any) => {
       return comment.commentId === commentId;
@@ -346,6 +350,18 @@ function ClientProductDetail() {
                   <h2 className={styles["product-title-name"]}>
                     {products && products.name}
                   </h2>
+                  {getLoginData.role === "admin" && (
+                    <div className={styles["editor-post-bar"]}>
+                      <NavLink
+                        to={`/admin/manage-products/?edit-productId=${products.id}`}
+                        target="_blank"
+                      >
+                        <Badge bg="primary" style={{ fontSize: "16px" }}>
+                          Edit Product
+                        </Badge>
+                      </NavLink>
+                    </div>
+                  )}
                   <p className={styles["product-description"]}>
                     {React.createElement("div", {
                       dangerouslySetInnerHTML: { __html: products.description },

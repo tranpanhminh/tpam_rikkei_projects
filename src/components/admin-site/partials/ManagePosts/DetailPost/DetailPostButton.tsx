@@ -20,7 +20,6 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
   getPost,
 }) => {
   const location = useLocation();
-  const [editPostId, setEditPostId] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [postTitle, setPostTitle] = useState<any>("");
   const [image, setImage] = useState<any>("");
