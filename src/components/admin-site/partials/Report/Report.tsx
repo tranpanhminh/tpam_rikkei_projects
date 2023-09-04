@@ -6,37 +6,6 @@ import axios from "axios";
 import { Chart } from "react-google-charts";
 import { Badge } from "react-bootstrap";
 
-// Orders & Sales Chart
-export const data = [
-  ["Year", "Sales", "Expenses"],
-  ["2004", 1000, 400],
-  ["2005", 1170, 460],
-  ["2006", 660, 1120],
-  ["2007", 1030, 540],
-];
-
-export const options = {
-  title: "Company Performance",
-  curveType: "function",
-  legend: { position: "bottom" },
-};
-
-// Booking Chart
-export const data2 = [
-  ["Year", "Sales", "Expenses", "Profit"],
-  ["2014", 1000, 400, 200],
-  ["2015", 1170, 460, 250],
-  ["2016", 660, 1120, 300],
-  ["2017", 1030, 540, 350],
-];
-
-export const options2 = {
-  chart: {
-    title: "Company Performance",
-    subtitle: "Sales, Expenses, and Profit: 2014-2017",
-  },
-};
-
 function Report() {
   const [users, setUsers] = useState<any>([]);
   const [products, setProducts] = useState<any>([]);
@@ -107,6 +76,134 @@ function Report() {
     fetchBookings();
   }, []);
 
+  // Tạo một đối tượng Map để lưu trữ dữ liệu theo tháng
+  const monthMap = new Map();
+
+  // Lặp qua mảng đơn hàng ban đầu
+  orders.forEach((order: any) => {
+    const dateParts = order.date.split(" "); // Tách ngày và thời gian
+    const monthYear = dateParts[0].split("/").slice(1).join("/"); // Lấy tháng và năm
+
+    // Kiểm tra xem tháng đã tồn tại trong Map chưa
+    if (monthMap.has(monthYear)) {
+      // Nếu tồn tại, thêm đơn hàng vào mảng order của tháng đó
+      monthMap.get(monthYear).order.push(order);
+      // Cộng tổng giá trị đơn hàng có giảm giá vào sumorderwithdiscount của tháng
+      monthMap.get(monthYear).sumorderwithdiscount +=
+        order.sumOrderWithDiscount;
+    } else {
+      // Nếu chưa tồn tại, tạo một tháng mới với đơn hàng đầu tiên
+      monthMap.set(monthYear, {
+        month: monthYear,
+        sumorderwithdiscount: order.sumOrderWithDiscount,
+        order: [order],
+      });
+    }
+  });
+
+  // Chuyển dữ liệu từ Map sang mảng kết quả
+  const resultArray = Array.from(monthMap.values());
+
+  // In ra kết quả
+  console.log(resultArray);
+
+  // Tạo mảng dữ liệu cho biểu đồ
+  const saleOrderData = [["Month", "Sales", "Orders"]];
+
+  // Lặp qua mảng kết quả
+  resultArray.forEach((item: any) => {
+    saleOrderData.push([
+      item.month,
+      item.sumorderwithdiscount,
+      item.order.length,
+    ]);
+  });
+
+  const saleOrderDataOption = {
+    curveType: "function",
+    legend: { position: "bottom" },
+  };
+
+  // Khởi tạo mảng của Service Booking
+  // Khởi tạo đối tượng Map để lưu trữ số lần booking của từng dịch vụ theo tháng
+  const serviceCountByMonth = new Map();
+
+  // Lặp qua mảng bookings
+  bookings.forEach((booking: any) => {
+    const { date, listBookings } = booking;
+
+    // Khởi tạo biến đếm cho các dịch vụ
+    let countVeterinarian = 0;
+    let countPetGrooming = 0;
+    let countPetSitting = 0;
+
+    // Lặp qua danh sách đặt lịch trong mỗi ngày
+    listBookings.forEach((bookingItem: any) => {
+      // Đếm số lần booking của từng dịch vụ
+      switch (bookingItem.serviceName) {
+        case "Veterinarian":
+          countVeterinarian++;
+          break;
+        case "Pet Grooming":
+          countPetGrooming++;
+          break;
+        case "Pet Sitting":
+          countPetSitting++;
+          break;
+        default:
+          break;
+      }
+    });
+
+    // Chuyển đổi ngày thành đối tượng Date
+    const dateParts = date.split("/");
+    const year = parseInt(dateParts[2], 10);
+    const month = parseInt(dateParts[1], 10) - 1; // Lưu ý: Tháng trong JavaScript là 0-based (0: Tháng 1, 1: Tháng 2, ...)
+
+    // Tạo khóa dựa trên tháng và năm
+    const monthYear = `${(month + 1).toString().padStart(2, "0")}/${year}`; // Định dạng tháng và năm thành "MM/YYYY"
+
+    // Kiểm tra xem tháng đã tồn tại trong Map chưa
+    if (serviceCountByMonth.has(monthYear)) {
+      // Nếu tồn tại, cập nhật số lần booking của các dịch vụ
+      const existingData = serviceCountByMonth.get(monthYear);
+      existingData.countVeterinarian += countVeterinarian;
+      existingData.countPetGrooming += countPetGrooming;
+      existingData.countPetSitting += countPetSitting;
+    } else {
+      // Nếu chưa tồn tại, tạo một bản ghi mới
+      serviceCountByMonth.set(monthYear, {
+        Month: monthYear, // Thay đổi Month để hiển thị đúng định dạng "MM/YYYY"
+        countVeterinarian,
+        countPetGrooming,
+        countPetSitting,
+      });
+    }
+  });
+
+  // Chuyển dữ liệu từ Map sang mảng kết quả
+  const serviceBookingByMonth = Array.from(serviceCountByMonth.values());
+
+  // Tạo mảng dữ liệu cho biểu đồ
+  const bookingService = [
+    ["Month", "Veterinarian", "Pet Grooming", "Pet Sitting"],
+  ];
+
+  // Thêm dữ liệu vào mảng data2
+  serviceBookingByMonth.forEach((item) => {
+    const { Month, countVeterinarian, countPetGrooming, countPetSitting } =
+      item;
+    bookingService.push([
+      Month,
+      countVeterinarian,
+      countPetGrooming,
+      countPetSitting,
+    ]);
+  });
+
+  // In ra kết quả
+  console.log(bookingService);
+
   const totalSaleOrders = () => {
     let totalSales = orders.reduce((accumulator: any, currentValue: any) => {
       return accumulator + currentValue.sumOrderWithDiscount;
@@ -150,8 +247,8 @@ function Report() {
             chartType="LineChart"
             width="100%"
             height="400px"
-            data={data}
-            options={options}
+            data={saleOrderData} // Sử dụng saleOrderData thay cho data
+            options={saleOrderDataOption} // Sử dụng saleOrderDataOption thay cho options
           />
         </div>
         <div className={styles["double-chart-item"]}>
@@ -160,8 +257,7 @@ function Report() {
             chartType="Bar"
             width="100%"
             height="400px"
-            data={data2}
-            options={options2}
+            data={bookingService}
           />
         </div>
       </div>
