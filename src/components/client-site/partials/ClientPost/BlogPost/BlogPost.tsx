@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styles from "../BlogPost.module.css";
 import { NavLink, useNavigate } from "react-router-dom";
-import { Button, Form } from "react-bootstrap";
+import { Badge, Button, Form } from "react-bootstrap";
 import { Pagination } from "antd";
 import axios from "axios";
 import { useParams } from "react-router-dom"; // Import useParams để lấy giá trị slug từ URL
 
 function BlogPost() {
+  const getData: any = localStorage.getItem("auth");
+  const getLoginData = JSON.parse(getData) || "";
   const [searchTerm, setSearchTerm] = useState("");
   const { postId } = useParams(); // Lấy giá trị slug từ URL
   const [post, setPost] = useState<any>(null);
@@ -39,11 +41,6 @@ function BlogPost() {
     fetchAllPosts();
   }, []);
 
-  const navigate = useNavigate();
-  const handleSearch = () => {
-    navigate(`/search/${searchTerm}`);
-  };
-
   return (
     <>
       <div className={styles["post-content-section"]}>
@@ -56,6 +53,19 @@ function BlogPost() {
               className={styles["post-thumbnail-image"]}
             />
           </div>
+          {getLoginData && (
+            <div className={styles["editor-post-bar"]}>
+              <NavLink
+                to={`/admin/manage-posts/?edit-postId=${postId}`}
+                target="_blank"
+              >
+                <Badge bg="primary" style={{ fontSize: "16px" }}>
+                  Edit Post
+                </Badge>
+              </NavLink>
+            </div>
+          )}
+
           <section className={styles["post-content"]}>
             {React.createElement("div", {
               dangerouslySetInnerHTML: { __html: post?.post_content },

@@ -3,6 +3,7 @@ import { Button, Modal, notification } from "antd";
 import axios from "axios";
 import styles from "../../../AdminPage.module.css";
 import { Editor } from "@tinymce/tinymce-react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface DetailModalProps {
   className?: string; // Thêm khai báo cho thuộc tính className
@@ -18,6 +19,8 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
   handleFunctionOk,
   getPost,
 }) => {
+  const location = useLocation();
+  const [editPostId, setEditPostId] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [postTitle, setPostTitle] = useState<any>("");
   const [image, setImage] = useState<any>("");
@@ -25,6 +28,15 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
   const [status, setStatus] = useState<any>("");
   const [author, setAuthor] = useState<any>("");
   const [post, setPost] = useState<any>("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const postId = searchParams.get("edit-postId");
+    if (postId && Number(postId) === getPost.id) {
+      setIsModalOpen(true); // Nếu có edit-postId và nó trùng với postId của post hiện tại, mở modal
+    }
+  }, [location.search]);
 
   const fetchPost = () => {
     axios
@@ -42,6 +54,7 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
   }, [getPost.id]);
 
   const showModal = () => {
+    navigate(`/admin/manage-posts/?edit-postId=${getPost.id}`);
     setIsModalOpen(true);
   };
 

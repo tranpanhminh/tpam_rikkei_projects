@@ -119,6 +119,12 @@
   border-radius: 10px;
 }
 
+.editor-post-bar {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+}
+
 /* CSS Breadcrumb */
 .breadcrumb-blogs-info {
   max-width: 1500px;

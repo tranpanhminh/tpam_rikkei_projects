@@ -5,10 +5,12 @@ import { Button, notification } from "antd";
 import { Badge } from "react-bootstrap";
 import DetailPostButton from "./DetailPost/DetailPostButton";
 import AddPostButton from "./AddPost/AddPostButton";
+import { useNavigate } from "react-router-dom";
 
 function ManagePosts() {
   const [searchText, setSearchText] = useState<string>("");
   const [posts, setPosts] = useState<any>([]);
+  const navigate = useNavigate();
 
   const fetchPosts = () => {
     axios
@@ -104,6 +106,7 @@ function ManagePosts() {
       .catch((error) => {
         console.log(error.message);
       });
+    navigate("/admin/manage-posts");
   };
 
   return (
