@@ -168,15 +168,65 @@ function Report() {
       <div className={styles["best-report-overview"]}>
         <div className={styles["best-report-overview-item"]}>
           <h4>Best Selling Product</h4>
+          <img
+            src="https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/glendan_dog_brush_cat_brush_slicker_pet_grooming_brush_shedding_grooming_tools_1_640x_crop_top.jpg?v=1625752641"
+            alt=""
+            className={styles["best-report-image"]}
+          />
+          <p>Glendan Dog Brush Cat Brush Slicker</p>
+          <div className={styles["best-report-overview-statistic"]}>
+            <div>Total Sold: 250</div>
+            <div>Price: $9</div>
+          </div>
         </div>
         <div className={styles["best-report-overview-item"]}>
           <h4>Best Rating Product</h4>
+          <img
+            src="https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/senye_retractable_dog_leash_16ft_dog_traction_rope_1_640x_crop_top.jpg?v=1625752616"
+            alt=""
+            className={styles["best-report-image"]}
+          />
+          <p>Senye Retractable Dog Leash 16ft Dog Traction Rope</p>
+          <div className={styles["best-report-overview-statistic"]}>
+            <div>
+              Rating: 5
+              <i
+                className={`fa-solid fa-star  ${styles["best-rating-star-icon"]}`}
+              ></i>
+            </div>
+            <div>Total reviews: 25</div>
+          </div>
         </div>
         <div className={styles["best-report-overview-item"]}>
-          <h4> Best Service</h4>
+          <h4>Best Service</h4>
+          <img
+            src="https://i.ibb.co/F5N9LXC/dog-grooming-service.jpg"
+            alt=""
+            className={styles["best-report-image"]}
+          />
+          <p>Pet Grooming</p>
+          <div className={styles["best-report-overview-statistic"]}>
+            <div>Total Booked: 10</div>
+            <div>Price: $300</div>
+          </div>
         </div>
         <div className={styles["best-report-overview-item"]}>
           <h4>Best Rating Service</h4>
+          <img
+            src="https://i.ibb.co/2Y4LnrD/veterinary-service.jpg"
+            alt=""
+            className={styles["best-report-image"]}
+          />
+          <p>Veterinarian</p>
+          <div className={styles["best-report-overview-statistic"]}>
+            <div>
+              Rating: 5
+              <i
+                className={`fa-solid fa-star  ${styles["best-rating-star-icon"]}`}
+              ></i>
+            </div>
+            <div>Total reviews: 25</div>
+          </div>
         </div>
       </div>
     </>
