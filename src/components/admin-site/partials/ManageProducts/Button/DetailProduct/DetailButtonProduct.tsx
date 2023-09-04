@@ -97,6 +97,10 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
     setIsModalOpen(false);
   };
 
+  const editorConfig = {
+    height: "600px",
+  };
+
   return (
     <>
       <Button
@@ -153,6 +157,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
                   <Editor
                     initialValue={products && products.description}
                     onEditorChange={handleChange}
+                    init={editorConfig}
                   />
                 </div>
               </div>

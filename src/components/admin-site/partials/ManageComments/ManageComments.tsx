@@ -52,6 +52,7 @@ function ManageComments() {
   });
   console.log("All Comments", allComments);
 
+  // Function Search Comment
   const handleSearchComment = () => {
     // Tìm kiếm dựa trên searchText và cập nhật filteredComments
     const filterComment = allComments.filter((comment) => {
@@ -69,82 +70,7 @@ function ManageComments() {
     return html.replace(/<\/?[^>]+(>|$)/g, "");
   }
 
-  // const handleDeleteComment = (
-  //   id: number,
-  //   commentId: number,
-  //   commentType: string
-  // ) => {
-  //   // Xóa Comment của Product
-  //   if (commentType === "product") {
-  //     axios
-  //       .get(`http://localhost:7373/products/${id}`)
-  //       .then((response) => {
-  //         setProductComments(response.data.comments);
-  //       })
-  //       .catch((error) => {
-  //         console.log(error.message);
-  //       });
-
-  //     let findCommentIndex = productComments.findIndex((comment: any) => {
-  //       return comment.commentId === commentId;
-  //     });
-  //     console.log(findCommentIndex);
-
-  //     productComments.splice(findCommentIndex, 1);
-
-  //     axios
-  //       .patch(`http://localhost:7373/products/${id}`, {
-  //         comments: productComments,
-  //       })
-  //       .then((response) => {
-  //         fetchProducts();
-  //         setProductComments(response.data.comments);
-  //         notification.success({
-  //           message: "Comment Deleted",
-  //         });
-  //       })
-  //       .catch((error) => {
-  //         console.log(error.message);
-  //       });
-  //     return;
-  //   }
-
-  //   // Xóa Comment của Service
-  //   if (commentType === "service") {
-  //     axios
-  //       .get(`http://localhost:7373/services/${id}`)
-  //       .then((response) => {
-  //         setServiceComments(response.data.comments);
-  //       })
-  //       .catch((error) => {
-  //         console.log(error.message);
-  //       });
-
-  //     let findCommentIndex = serviceComments.findIndex((comment: any) => {
-  //       return comment.commentId === commentId;
-  //     });
-  //     console.log(findCommentIndex);
-
-  //     serviceComments.splice(findCommentIndex, 1);
-
-  //     axios
-  //       .patch(`http://localhost:7373/services/${id}`, {
-  //         comments: serviceComments,
-  //       })
-  //       .then((response) => {
-  //         fetchServices();
-  //         setServiceComments(response.data.comments);
-  //         notification.success({
-  //           message: "Comment Deleted",
-  //         });
-  //       })
-  //       .catch((error) => {
-  //         console.log(error.message);
-  //       });
-  //     return;
-  //   }
-  // };
-
+  // Function Delete Comment
   const handleDeleteComment = (
     id: number,
     commentId: number,

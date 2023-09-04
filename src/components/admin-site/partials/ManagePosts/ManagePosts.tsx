@@ -5,7 +5,7 @@ import { Button, notification } from "antd";
 import { Badge } from "react-bootstrap";
 import DetailPostButton from "./DetailPost/DetailPostButton";
 import AddPostButton from "./AddPost/AddPostButton";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function ManagePosts() {
   const [searchText, setSearchText] = useState<string>("");
@@ -27,6 +27,7 @@ function ManagePosts() {
     fetchPosts();
   }, []);
 
+  // Function Search Posts
   const handleSearchPosts = () => {
     if (searchText === "") {
       // Nếu searchText rỗng, gọi lại fetchUsers để lấy tất cả người dùng
@@ -70,6 +71,7 @@ function ManagePosts() {
     }
   };
 
+  // Function Add Post
   const handleAddPost = () => {
     axios
       .get(`http://localhost:7373/posts/`)
@@ -82,6 +84,7 @@ function ManagePosts() {
       });
   };
 
+  // Function Delete Post
   const handleDeletePost = (postId: number) => {
     axios
       .delete(`http://localhost:7373/posts/${postId}`)
@@ -96,6 +99,7 @@ function ManagePosts() {
       });
   };
 
+  // Function Update After Add Post
   const handleUpdatePost = () => {
     axios
       .get(`http://localhost:7373/posts/`)
@@ -151,6 +155,7 @@ function ManagePosts() {
           <thead>
             <tr>
               <th>#</th>
+              <th>Image</th>
               <th>Title</th>
               <th>Status</th>
               <th>Action</th>
@@ -161,6 +166,9 @@ function ManagePosts() {
               return (
                 <tr key={1}>
                   <td>{index + 1}</td>
+                  <td>
+                    <img src={post.image_url} alt="" />
+                  </td>
                   <td>{post.post_title}</td>
                   <td>
                     <Badge bg={`${changeColor(post.status)}`}>
@@ -168,6 +176,14 @@ function ManagePosts() {
                     </Badge>
                   </td>
                   <td className={styles["group-btn-admin-manage-posts"]}>
+                    <NavLink to={`/blogs/${post.id}`} target="_blank">
+                      <Button
+                        type="primary"
+                        style={{ backgroundColor: "#0c337c" }}
+                      >
+                        View
+                      </Button>
+                    </NavLink>
                     <DetailPostButton
                       value="Detail"
                       getPost={post}

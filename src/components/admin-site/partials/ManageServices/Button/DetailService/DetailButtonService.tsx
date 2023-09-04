@@ -79,6 +79,10 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
     setIsModalOpen(false);
   };
 
+  const editorConfig = {
+    height: "600px",
+  };
+
   return (
     <>
       <Button
@@ -131,6 +135,7 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
                   <Editor
                     initialValue={services && services.description}
                     onEditorChange={handleChange}
+                    init={editorConfig}
                   />
                 </div>
               </div>
