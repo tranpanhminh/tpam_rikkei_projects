@@ -7,7 +7,6 @@ import axios from "axios";
 
 function ClientEditProfile() {
   const [userFullName, setUserFullName] = useState("");
-  const [newFullName, setNewFullName] = useState("");
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const getData: any = localStorage.getItem("auth");
@@ -54,7 +53,7 @@ function ClientEditProfile() {
     // Kiểm tra Full Name
 
     if (!userFullName) {
-      notification.error({
+      notification.warning({
         message: "Error",
         description: "Please Enter Full Name",
       });
@@ -65,11 +64,11 @@ function ClientEditProfile() {
       });
       return false;
     } else {
-      setNewFullName(userFullName);
+      setUserFullName(userFullName);
     }
 
     // Kiểm tra Old Password
-    if (oldPassword !== user.password) {
+    if (oldPassword !== "" && oldPassword !== user.password) {
       console.log("UserPassword", oldPassword);
       console.log("user.password", user.password);
       notification.warning({
@@ -77,13 +76,13 @@ function ClientEditProfile() {
       });
       return;
     }
-    if (!newPassword) {
-      notification.warning({
-        message: "New Password must not be blank",
-      });
-      return;
-    }
-    if (newPassword.length < 8) {
+    // if (!newPassword) {
+    //   notification.warning({
+    //     message: "New Password must not be blank",
+    //   });
+    //   return;
+    // }
+    if (newPassword !== "" && newPassword.length < 8) {
       notification.warning({
         message: "Password must be at least 8 characters",
       });
@@ -99,8 +98,8 @@ function ClientEditProfile() {
     }
 
     const updatedUserData = {
-      fullName: newFullName,
-      password: newPassword, // Keep the same password if not changed
+      fullName: userFullName,
+      password: newPassword !== "" ? newPassword : user.password, // Keep the same password if not changed
     };
 
     // Make PUT request to update user data
@@ -157,12 +156,13 @@ function ClientEditProfile() {
         Edit Profile
       </Button>
       <Modal
-        title="Edit Profile"
+        // title="Edit Profile"
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
       >
         <div className={styles["list-input-my-profile"]}>
+          <h6>Edit Profile (Optional)</h6>
           <div className={styles["my-profile-input-item"]}>
             <p>Full Name</p>
             <input
@@ -172,6 +172,7 @@ function ClientEditProfile() {
               }}
             />
           </div>
+          <h6>Change Password (Optional)</h6>
           <div className={styles["my-profile-input-item"]}>
             <p>Old Password</p>
             <input
