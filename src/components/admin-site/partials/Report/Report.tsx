@@ -2,6 +2,23 @@ import React, { useEffect, useState } from "react";
 import styles from "../Report/Report.module.css";
 import axios from "axios";
 
+// Import thư viện Chart JS
+import { Chart } from "react-google-charts";
+
+export const data = [
+  ["Year", "Sales", "Expenses"],
+  ["2004", 1000, 400],
+  ["2005", 1170, 460],
+  ["2006", 660, 1120],
+  ["2007", 1030, 540],
+];
+
+export const options = {
+  title: "Company Performance",
+  curveType: "function",
+  legend: { position: "bottom" },
+};
+
 function Report() {
   const [users, setUsers] = useState<any>([]);
   const [products, setProducts] = useState<any>([]);
@@ -106,6 +123,16 @@ function Report() {
           <h4>Total Users</h4>
           <span className={styles["report-number"]}>{users?.length}</span>
         </div>
+      </div>
+
+      <div>
+        <Chart
+          chartType="LineChart"
+          width="100%"
+          height="400px"
+          data={data}
+          options={options}
+        />
       </div>
     </>
   );
