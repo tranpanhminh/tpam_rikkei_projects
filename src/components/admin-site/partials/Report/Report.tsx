@@ -179,10 +179,19 @@ function Report() {
           </p>
           <div className={styles["best-report-overview-statistic"]}>
             <div>
-              <Badge bg="primary">Total Sold: 250</Badge>
+              <Badge
+                bg="primary"
+                className={styles["best-report-overview-badge"]}
+              >
+                Total Sold: 250
+              </Badge>
             </div>
             <div>
-              <Badge bg="warning" text="dark">
+              <Badge
+                bg="warning"
+                text="dark"
+                className={styles["best-report-overview-badge"]}
+              >
                 Price: $9
               </Badge>
             </div>
@@ -200,7 +209,10 @@ function Report() {
           </p>
           <div className={styles["best-report-overview-statistic"]}>
             <div>
-              <Badge bg="primary">
+              <Badge
+                bg="primary"
+                className={styles["best-report-overview-badge"]}
+              >
                 Rating: 5
                 <i
                   className={`fa-solid fa-star  ${styles["best-rating-star-icon"]}`}
@@ -208,7 +220,11 @@ function Report() {
               </Badge>
             </div>
             <div>
-              <Badge bg="warning" text="dark">
+              <Badge
+                bg="warning"
+                text="dark"
+                className={styles["best-report-overview-badge"]}
+              >
                 Total reviews: 25
               </Badge>
             </div>
@@ -224,10 +240,19 @@ function Report() {
           <p className={styles["best-report-overview-name"]}>Pet Grooming</p>
           <div className={styles["best-report-overview-statistic"]}>
             <div>
-              <Badge bg="primary">Total Booked: 10</Badge>
+              <Badge
+                bg="primary"
+                className={styles["best-report-overview-badge"]}
+              >
+                Total Booked: 10
+              </Badge>
             </div>
             <div>
-              <Badge bg="warning" text="dark">
+              <Badge
+                bg="warning"
+                text="dark"
+                className={styles["best-report-overview-badge"]}
+              >
                 Price: $300
               </Badge>
             </div>
@@ -243,7 +268,10 @@ function Report() {
           <p className={styles["best-report-overview-name"]}>Veterinarian</p>
           <div className={styles["best-report-overview-statistic"]}>
             <div>
-              <Badge bg="primary">
+              <Badge
+                bg="primary"
+                className={styles["best-report-overview-badge"]}
+              >
                 Rating: 5
                 <i
                   className={`fa-solid fa-star  ${styles["best-rating-star-icon"]}`}
@@ -251,7 +279,11 @@ function Report() {
               </Badge>
             </div>
             <div>
-              <Badge bg="warning" text="dark">
+              <Badge
+                bg="warning"
+                text="dark"
+                className={styles["best-report-overview-badge"]}
+              >
                 Total reviews: 25
               </Badge>
             </div>
