@@ -172,6 +172,17 @@ const AdminHeader: React.FC = () => {
           </div>
           <div>
             <NavLink
+              to="/admin/report"
+              style={navLinkStyle}
+              className={styles["navlink-menu-admin"]}
+            >
+              <li className={styles["admin-btn"]}>
+                <i className="fa-solid fa-signal"></i>Report
+              </li>
+            </NavLink>
+          </div>
+          <div>
+            <NavLink
               to="/"
               style={navLinkStyle}
               className={styles["navlink-menu-admin"]}

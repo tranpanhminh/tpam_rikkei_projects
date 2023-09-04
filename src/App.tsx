@@ -142,9 +142,9 @@ function App() {
           ></Route>
           <Route
             path="/admin/manage-comments"
-            element={<AdminReportPage />}
+            element={<AdminManageComments />}
           ></Route>
-          <Route path="/admin/report" element={<AdminManageComments />}></Route>
+          <Route path="/admin/report" element={<AdminReportPage />}></Route>
           <Route path="/user" element={<MyProfile />}></Route>
           <Route path="/user/my-profile" element={<MyProfile />}></Route>
           <Route path="/user/my-orders" element={<MyOrders />}></Route>
