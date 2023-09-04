@@ -18,7 +18,7 @@ const AddModalProduct: React.FC<AddModalProps> = ({
   title,
   handleClickOk,
 }) => {
-  const [products, setProducts] = useState<null | Product[]>(null);
+  const [products, setProducts] = useState<any>(null);
   const [editorInitialValue, setEditorInitialValue] = useState("");
   const [newProduct, setNewProduct] = useState<Product>({
     id: 0,
@@ -46,13 +46,20 @@ const AddModalProduct: React.FC<AddModalProps> = ({
     fetchProducts();
   }, []);
 
-  const maxId = products
-    ? Math.max(...products.map((product) => product.id))
-    : 0;
+  let listIdProduct = products?.map((product: any) => {
+    return product.id;
+  });
+
+  const maxId = listIdProduct?.length > 0 ? Math.max(...listIdProduct) : 0;
+
+  // const maxId = products
+  //   ? Math.max(...products.map((product) => product.id))
+  //   : 0;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
+    fetchProducts();
     setIsModalOpen(true);
   };
 

@@ -18,7 +18,7 @@ const AddModalService: React.FC<AddModalProps> = ({
   title,
   handleClickOk,
 }) => {
-  const [services, setServices] = useState<null | Service[]>(null);
+  const [services, setServices] = useState<any>(null);
   const [editorInitialValue, setEditorInitialValue] = useState("");
   const [newService, setNewService] = useState<any>(null);
 
@@ -37,19 +37,30 @@ const AddModalService: React.FC<AddModalProps> = ({
     fetchServices();
   }, []);
 
-  const maxId = services
-    ? Math.max(...services.map((service) => service.id))
-    : 0;
+  let listIdService = services?.map((service: any) => {
+    return service.id;
+  });
+
+  const maxId = listIdService?.length > 0 ? Math.max(...listIdService) : 0;
+
+  // const maxId = services
+  //   ? Math.max(...services.map((service) => service.id))
+  //   : 0;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
+    fetchServices();
     setIsModalOpen(true);
   };
 
   const handleOk = () => {
     // Kiểm tra thông tin đầy đủ
-    if (!newService?.name || !newService?.description || newService?.price <= 0) {
+    if (
+      !newService?.name ||
+      !newService?.description ||
+      newService?.price <= 0
+    ) {
       notification.warning({
         message: "Notification",
         description:
