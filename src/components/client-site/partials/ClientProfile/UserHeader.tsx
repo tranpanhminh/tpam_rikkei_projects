@@ -44,21 +44,23 @@ const UserHeader: React.FC = () => {
   return (
     <>
       <header className={styles["vertical-menu"]}>
-        <div className={styles["user-panel"]}>
-          <NavLink to="/" className={styles["navlink-menu-user-panel"]}>
-            <img
-              src={user?.image_avatar ? user?.image_avatar : logo}
-              alt=""
-              className={styles["user-panel-avatar"]}
-            />
-          </NavLink>
-          {/* <p className={styles["user-title"]}>User Panel</p> */}
-          <Badge bg="success" style={{ fontSize: "16px", marginTop: "30px" }}>
-            {user?.fullName.length > 15
-              ? user?.fullName.split(" ")[0]
-              : user?.fullName}
-          </Badge>
-        </div>
+        {user && (
+          <div className={styles["user-panel"]}>
+            <NavLink to="/" className={styles["navlink-menu-user-panel"]}>
+              <img
+                src={user.image_avatar ? user.image_avatar : logo}
+                alt=""
+                className={styles["user-panel-avatar"]}
+              />
+            </NavLink>
+            {/* <p className={styles["user-title"]}>User Panel</p> */}
+            <Badge bg="success" style={{ fontSize: "16px", marginTop: "30px" }}>
+              {user.fullName.length > 15
+                ? user.fullName.split(" ")[0]
+                : user.fullName}
+            </Badge>
+          </div>
+        )}
 
         <ul className={styles["main-menu"]}>
           <div>

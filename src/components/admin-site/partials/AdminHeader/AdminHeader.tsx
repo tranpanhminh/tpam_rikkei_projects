@@ -57,37 +57,39 @@ const AdminHeader: React.FC = () => {
   return (
     <>
       <header className={styles["vertical-menu"]}>
-        <div className={styles["user-panel"]}>
-          <NavLink to="/">
-            <img
-              src={user?.image_avatar ? user?.image_avatar : logo}
-              className={styles["admin-panel-avatar"]}
-              alt=""
-            />
-          </NavLink>
-          {/* <p className={styles["user-title"]}>Admin</p> */}
-          <Badge
-            bg="success"
-            style={{
-              fontSize: "16px",
-              marginTop: "20px",
-              marginBottom: "20px",
-            }}
-          >
-            {user?.fullName.length > 15
-              ? user?.fullName.split(" ")[0]
-              : user?.fullName}
-          </Badge>
-          {user?.role === "admin" && (
-            <DetailButtonUser
-              getUser={user}
-              value="Edit Profile"
-              handleFunctionOk={() => {
-                handleUpdateUser();
+        {user && (
+          <div className={styles["user-panel"]}>
+            <NavLink to="/">
+              <img
+                src={user.image_avatar ? user.image_avatar : logo}
+                className={styles["admin-panel-avatar"]}
+                alt=""
+              />
+            </NavLink>
+            {/* <p className={styles["user-title"]}>Admin</p> */}
+            <Badge
+              bg="success"
+              style={{
+                fontSize: "16px",
+                marginTop: "20px",
+                marginBottom: "20px",
               }}
-            ></DetailButtonUser>
-          )}
-        </div>
+            >
+              {user.fullName.length > 15
+                ? user.fullName.split(" ")[0]
+                : user.fullName}
+            </Badge>
+            {user?.role === "admin" && (
+              <DetailButtonUser
+                getUser={user}
+                value="Edit Profile"
+                handleFunctionOk={() => {
+                  handleUpdateUser();
+                }}
+              ></DetailButtonUser>
+            )}
+          </div>
+        )}
 
         <ul className={styles["main-menu"]}>
           <div>
