@@ -315,7 +315,7 @@ function ClientProductDetail() {
     let filterComment = comments?.filter((comment: any) => {
       return comment.userRole === "customer";
     });
-    return filterComment.length;
+    return filterComment?.length;
   };
 
   return (

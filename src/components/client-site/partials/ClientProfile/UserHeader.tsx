@@ -15,7 +15,7 @@ const UserHeader: React.FC = () => {
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
   console.log(getLoginData);
-  const [user, setUser] = useState<Account[]>([]);
+  const [user, setUser] = useState<any>(null);
   const fetchUser = () => {
     axios
       .get(`http://localhost:7373/accounts/${getLoginData.loginId}`)
@@ -42,16 +42,16 @@ const UserHeader: React.FC = () => {
         <div className={styles["user-panel"]}>
           <NavLink to="/" className={styles["navlink-menu-user-panel"]}>
             <img
-              src={getLoginData.avatar ? getLoginData.avatar : logo}
+              src={user?.image_avatar ? user?.image_avatar : logo}
               alt=""
               className={styles["user-panel-avatar"]}
             />
           </NavLink>
           {/* <p className={styles["user-title"]}>User Panel</p> */}
           <Badge bg="success" style={{ fontSize: "16px", marginTop: "30px" }}>
-            {getLoginData.fullName.length > 15
-              ? getLoginData.fullName.split(" ")[0]
-              : getLoginData.fullName}
+            {user?.fullName.length > 15
+              ? user?.fullName.split(" ")[0]
+              : user?.fullName}
           </Badge>
         </div>
 

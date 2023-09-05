@@ -128,6 +128,9 @@ i {
 
 .user-panel-avatar {
   border-radius: 15px;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
 }
 
 /* CSS Client Order Page */
