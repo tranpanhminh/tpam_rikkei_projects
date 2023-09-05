@@ -3,7 +3,7 @@ import AddModalUser from "../ManageUsers/Button/AddUser/AddModalUser";
 
 import DetailButtonUser from "./Button/DetailUser/DetailButtonUser";
 import DetailModalUserProfile from "./Button/DetailUser/DetailModalUserProfile";
-import { Modal, notification } from "antd";
+import { Button, Modal, notification } from "antd";
 
 import styles from "../../AdminPage.module.css";
 import { useNavigate } from "react-router-dom";
@@ -203,38 +203,53 @@ function ManageUsers() {
                 </td>
                 <td className={styles["group-btn-admin"]}>
                   <DetailButtonUser
-                    width={500}
                     className={styles["detail-user-btn"]}
                     value="Detail"
-                    title="Manage Users"
-                    handleFunctionOk={() => console.log(user.id)}
-                    content={
-                      <DetailModalUserProfile
-                        userId={user.id}
-                        fullName={user.fullName}
-                        email={user.email}
-                        role={user.role}
-                        status={user.status}
-                        feature="Detail"
-                      ></DetailModalUserProfile>
-                    }
+                    title="Edit Profile"
+                    // handleFunctionOk={() => console.log(user.id)}
+                    getUser={user}
+                    // content={
+                    //   <DetailModalUserProfile
+                    //     userId={user.id}
+                    //     fullName={user.fullName}
+                    //     email={user.email}
+                    //     role={user.role}
+                    //     status={user.status}
+                    //     feature="Detail"
+                    //   ></DetailModalUserProfile>
+                    // }
                   ></DetailButtonUser>
 
                   {user.fullName === "Super Admin" && user.role === "admin" ? (
                     ""
                   ) : (
                     <>
-                      <DetailButtonUser
+                      <Button
+                        type="primary"
+                        className={styles["change-user-btn"]}
+                        onClick={() => handleChangeUser(user.id)}
+                      >
+                        Change
+                      </Button>
+                      {/* <DetailButtonUser
                         value="Change"
                         className={styles["change-user-btn"]}
                         handleFunctionBtn={() => handleChangeUser(user.id)}
-                      />
+                      /> */}
 
-                      <DetailButtonUser
+                      <Button
+                        type="primary"
+                        className={styles["delete-user-btn"]}
+                        onClick={() => handleChangeUser(user.id)}
+                      >
+                        Delete
+                      </Button>
+
+                      {/* <DetailButtonUser
                         value="Delete"
                         className={styles["delete-user-btn"]}
                         handleFunctionBtn={() => handleDeleteUser(user.id)}
-                      />
+                      /> */}
                     </>
                   )}
                 </td>
