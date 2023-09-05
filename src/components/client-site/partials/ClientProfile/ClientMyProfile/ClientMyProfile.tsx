@@ -34,6 +34,7 @@ function ClientEditProfile() {
       .then((response) => {
         setUser(response.data);
         setUserFullName(response.data.fullName);
+        setAvatar(response.data.image_avatar);
       })
       .catch((error) => {
         console.log(error);
@@ -78,12 +79,14 @@ function ClientEditProfile() {
       });
       return;
     }
-    // if (!newPassword) {
-    //   notification.warning({
-    //     message: "New Password must not be blank",
-    //   });
-    //   return;
-    // }
+
+    if (oldPassword !== "" && newPassword === "") {
+      notification.warning({
+        message: "Please fill New Password",
+      });
+      return;
+    }
+
     if (newPassword !== "" && newPassword.length < 8) {
       notification.warning({
         message: "Password must be at least 8 characters",
