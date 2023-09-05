@@ -153,7 +153,7 @@ const AddModalProduct: React.FC<AddModalProps> = ({
           <div className={styles["list-input-item"]}>
             <p>Price</p>
             <input
-              type="text"
+              type="number"
               value={newProduct.price}
               onChange={(e) =>
                 setNewProduct({ ...newProduct, price: Number(e.target.value) })
@@ -183,7 +183,7 @@ const AddModalProduct: React.FC<AddModalProps> = ({
           <div className={styles["list-input-item"]}>
             <p>Quantity Stock</p>
             <input
-              type="text"
+              type="number"
               value={newProduct.quantity_stock}
               onChange={(e) =>
                 setNewProduct({

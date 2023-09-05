@@ -514,7 +514,11 @@ function ClientServiceDetail() {
                       </div>
                     )}
                     <p className={styles["service-description"]}>
-                      {services && services.description}
+                      {React.createElement("div", {
+                        dangerouslySetInnerHTML: {
+                          __html: services?.description,
+                        },
+                      })}
                     </p>
                     <table
                       cellPadding={10}
@@ -540,16 +544,27 @@ function ClientServiceDetail() {
                     </table>
 
                     <div className={styles["rating-service-section"]}>
-                      <span className={styles["rating-service-label"]}>
-                        Rating:
-                      </span>
-                      <span style={{ fontSize: "20px" }}>
-                        {averageRating()}
-                      </span>
-                      <i className="fa-solid fa-star"></i>
-                      <span style={{ fontSize: "20px" }}>
-                        ({totalComment()} reviews)
-                      </span>
+                      <div className={styles["rating-service-section-item"]}>
+                        <span className={styles["rating-service-label"]}>
+                          Price:
+                        </span>
+                        <span style={{ fontSize: "20px" }}>
+                          ${services?.price}
+                        </span>
+                      </div>
+
+                      <div className={styles["rating-service-section-item"]}>
+                        <span className={styles["rating-service-label"]}>
+                          Rating:
+                        </span>
+                        <span style={{ fontSize: "20px" }}>
+                          {averageRating()}
+                        </span>
+                        <i className="fa-solid fa-star"></i>
+                        <span style={{ fontSize: "20px" }}>
+                          ({totalComment()} reviews)
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>

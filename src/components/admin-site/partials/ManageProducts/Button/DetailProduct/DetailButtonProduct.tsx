@@ -176,7 +176,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
                   Price
                 </label>
                 <input
-                  type="text"
+                  type="number"
                   name="Price"
                   defaultValue={products && products.price}
                   onChange={(event) => setPrice(event.target.value)}
@@ -209,7 +209,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
                   Quantity Stock
                 </label>
                 <input
-                  type="text"
+                  type="number"
                   name="Quantity Stock"
                   defaultValue={products && products.quantity_stock}
                   onChange={(event) => setStock(event.target.value)}

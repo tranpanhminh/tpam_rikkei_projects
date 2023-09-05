@@ -147,7 +147,7 @@ const AddModalService: React.FC<AddModalProps> = ({
           <div className={styles["list-input-item"]}>
             <p>Price</p>
             <input
-              type="text"
+              type="number"
               value={newService?.price}
               onChange={(e) =>
                 setNewService({ ...newService, price: Number(e.target.value) })

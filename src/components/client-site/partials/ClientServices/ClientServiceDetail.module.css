@@ -126,6 +126,13 @@
   display: flex;
   gap: 5px;
   align-items: center;
+  justify-content: space-between;
+}
+
+.rating-service-section-item {
+  display: flex;
+  gap: 5px;
+  align-items: center;
 }
 
 .rating-service-section i {
@@ -181,6 +188,7 @@
   width: 800px;
   margin: 0 auto;
   display: grid;
+  align-items: center;
   grid-template-columns: 0.5fr 3fr;
   gap: 20px;
 }

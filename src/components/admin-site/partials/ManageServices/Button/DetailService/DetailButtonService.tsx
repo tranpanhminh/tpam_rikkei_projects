@@ -70,10 +70,14 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
     console.log("handleSubmit is called");
     const updateService = {
       name: initName !== "" ? initName : services?.name,
+      serviceImage: initImage !== "" ? initImage : services?.serviceImage,
+      description:
+        initDescription !== "" ? initDescription : services?.description,
+      price: initPrice !== "" ? initPrice : services?.price,
     };
 
     axios
-      .put(`http://localhost:7373/services/${getServiceId}`, updateService)
+      .patch(`http://localhost:7373/services/${getServiceId}`, updateService)
       .then((response) => {
         console.log("Service updated successfully:", response.data);
         setIsModalOpen(false); // Close the modal
@@ -149,6 +153,17 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
                     init={editorConfig}
                   />
                 </div>
+              </div>
+              <div className={styles["product-info-item"]}>
+                <label className={styles["label-product"]} htmlFor="">
+                  Service Price
+                </label>
+                <input
+                  type="number"
+                  name="Product Title"
+                  defaultValue={services && services.price}
+                  onChange={(event) => setPrice(event.target.value)}
+                />
               </div>
             </div>
           </div>
