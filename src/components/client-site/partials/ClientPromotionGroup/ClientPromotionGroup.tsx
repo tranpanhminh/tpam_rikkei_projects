@@ -18,8 +18,8 @@ function ClientPromotionGroup() {
         <div className={styles["promotion-item"]}>
           <img src={freeshippingImage} alt="" />
           <div className={styles["promotion-content"]}>
-            <p>Free Shipping</p>
-            <p>Free shipping on all order</p>
+            <p>Fast Delivery</p>
+            <p>Fast delivery on all order</p>
           </div>
         </div>
 
