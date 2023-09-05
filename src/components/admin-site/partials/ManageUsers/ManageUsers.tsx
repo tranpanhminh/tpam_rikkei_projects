@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import AddModalUser from "../ManageUsers/Button/AddUser/AddModalUser";
 
 import DetailButtonUser from "./Button/DetailUser/DetailButtonUser";
-import DetailModalUserProfile from "./Button/DetailUser/DetailModalUserProfile";
 import { Button, Modal, notification } from "antd";
 
 import styles from "../../AdminPage.module.css";
@@ -140,7 +139,6 @@ function ManageUsers() {
         return;
     }
   };
-
   return (
     <>
       <div className={styles["breadcrumb"]}>
@@ -202,23 +200,23 @@ function ManageUsers() {
                   <Badge bg={changeColor(user.status)}>{user.status}</Badge>
                 </td>
                 <td className={styles["group-btn-admin"]}>
-                  <DetailButtonUser
+                  {/* <DetailButtonUser
                     className={styles["detail-user-btn"]}
                     value="Detail"
                     title="Edit Profile"
-                    // handleFunctionOk={() => console.log(user.id)}
+                    handleFunctionOk={() => handleUpdateUser()}
                     getUser={user}
-                    // content={
-                    //   <DetailModalUserProfile
-                    //     userId={user.id}
-                    //     fullName={user.fullName}
-                    //     email={user.email}
-                    //     role={user.role}
-                    //     status={user.status}
-                    //     feature="Detail"
-                    //   ></DetailModalUserProfile>
-                    // }
-                  ></DetailButtonUser>
+                    content={
+                      <DetailModalUserProfile
+                        userId={user.id}
+                        fullName={user.fullName}
+                        email={user.email}
+                        role={user.role}
+                        status={user.status}
+                        feature="Detail"
+                      ></DetailModalUserProfile>
+                    }
+                  ></DetailButtonUser> */}
 
                   {user.fullName === "Super Admin" && user.role === "admin" ? (
                     ""
@@ -240,7 +238,7 @@ function ManageUsers() {
                       <Button
                         type="primary"
                         className={styles["delete-user-btn"]}
-                        onClick={() => handleChangeUser(user.id)}
+                        onClick={() => handleDeleteUser(user.id)}
                       >
                         Delete
                       </Button>

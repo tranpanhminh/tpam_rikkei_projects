@@ -120,6 +120,9 @@ ul.main-menu {
 
 .admin-panel-avatar {
   border-radius: 15px;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
 }
 
 main {

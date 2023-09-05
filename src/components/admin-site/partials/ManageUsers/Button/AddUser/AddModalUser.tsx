@@ -121,6 +121,7 @@ const AddModalUser: React.FC<AddModalProps> = ({
     if (handleClickOk) {
       handleClickOk(updatedUser);
     }
+    fetchUsers();
     setNewUser({
       id: 0,
       email: "",

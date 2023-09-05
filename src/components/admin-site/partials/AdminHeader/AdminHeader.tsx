@@ -7,6 +7,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { notification } from "antd";
 import axios from "axios";
 import { Badge } from "react-bootstrap";
+import DetailButtonUser from "../ManageUsers/Button/DetailUser/DetailButtonUser";
 
 const AdminHeader: React.FC = () => {
   const getData: any = localStorage.getItem("auth");
@@ -42,23 +43,51 @@ const AdminHeader: React.FC = () => {
     });
   };
 
+  const handleUpdateUser = () => {
+    axios
+      .get(`http://localhost:7373/accounts/${getLoginData.loginId}`)
+      .then((response) => {
+        fetchUser();
+        setUser(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <>
       <header className={styles["vertical-menu"]}>
         <div className={styles["user-panel"]}>
           <NavLink to="/">
             <img
-              src={getLoginData.avatar ? getLoginData.avatar : logo}
+              src={user?.image_avatar ? user?.image_avatar : logo}
               className={styles["admin-panel-avatar"]}
               alt=""
             />
           </NavLink>
           {/* <p className={styles["user-title"]}>Admin</p> */}
-          <Badge bg="success" style={{ fontSize: "16px", marginTop: "30px" }}>
-            {getLoginData.fullName.length > 15
-              ? getLoginData.fullName.split(" ")[0]
-              : getLoginData.fullName}
+          <Badge
+            bg="success"
+            style={{
+              fontSize: "16px",
+              marginTop: "20px",
+              marginBottom: "20px",
+            }}
+          >
+            {user?.fullName.length > 15
+              ? user?.fullName.split(" ")[0]
+              : user?.fullName}
           </Badge>
+          {user?.role === "admin" && (
+            <DetailButtonUser
+              getUser={user}
+              value="Edit Profile"
+              handleFunctionOk={() => {
+                handleUpdateUser();
+              }}
+            ></DetailButtonUser>
+          )}
         </div>
 
         <ul className={styles["main-menu"]}>

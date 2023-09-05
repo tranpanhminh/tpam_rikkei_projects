@@ -90,7 +90,11 @@ function ClientEditProfile() {
       });
       return false;
     }
-    if (newPassword === user.password) {
+    if (
+      oldPassword !== "" &&
+      newPassword !== "" &&
+      newPassword === user.password
+    ) {
       notification.warning({
         message: "New Password & Old password must not be the same",
       });
