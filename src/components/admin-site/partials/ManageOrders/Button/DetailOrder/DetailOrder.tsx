@@ -65,9 +65,6 @@ const DetailOrders: React.FC<DetailModalProps> = ({
     setIsModalOpen(true);
   };
 
-  console.log("orders", orders);
-  console.log("userId", userId);
-  console.log("user", user);
   const handleOk = () => {
     if (shippingStatus === "") {
       setIsModalOpen(false);
@@ -102,7 +99,6 @@ const DetailOrders: React.FC<DetailModalProps> = ({
     return 0;
   };
 
-  console.log("shippingStatus", shippingStatus);
 
   return (
     <>

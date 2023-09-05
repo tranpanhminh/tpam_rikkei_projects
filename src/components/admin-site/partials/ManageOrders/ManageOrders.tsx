@@ -55,7 +55,6 @@ function ManageOrders() {
         .catch((error) => {
           console.log(error.message);
         });
-      console.log("ÓDASDAS", orders);
     }
   };
 

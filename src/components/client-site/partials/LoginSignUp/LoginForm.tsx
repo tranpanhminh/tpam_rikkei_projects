@@ -52,14 +52,7 @@ function LoginForm() {
               status: account.status,
               avatar: account.image_avatar,
             };
-            // Update user login status using axios.put
-            // axios
-            //   .post(`http://localhost:7373/userLogin/`, loginData)
-            //   .then((response) => {})
-            //   .catch((error) => {
-            //     console.log(error);
-            //     console.log("Failed to update userLogin");
-            //   });
+     
             localStorage.setItem("auth", JSON.stringify(loginData));
           }
         }

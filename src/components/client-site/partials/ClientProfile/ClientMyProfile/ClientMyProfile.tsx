@@ -12,7 +12,6 @@ function ClientEditProfile() {
   const [avatar, setAvatar] = useState("");
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
-  console.log(getLoginData);
   const [user, setUser] = useState<Account>({
     id: 0,
     email: "",
@@ -44,7 +43,6 @@ function ClientEditProfile() {
   useEffect(() => {
     fetchUser();
   }, []);
-  console.log("User Fetch:", user);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -72,8 +70,6 @@ function ClientEditProfile() {
 
     // Kiểm tra Old Password
     if (oldPassword !== "" && oldPassword !== user.password) {
-      console.log("UserPassword", oldPassword);
-      console.log("user.password", user.password);
       notification.warning({
         message: "Old Password is not correct",
       });
@@ -116,7 +112,6 @@ function ClientEditProfile() {
     axios
       .patch(`http://localhost:7373/accounts/${user.id}`, updatedUserData)
       .then((response) => {
-        console.log("User data updated successfully:", response.data);
         setIsModalOpen(false);
         notification.success({
           message: "Updated Profile",

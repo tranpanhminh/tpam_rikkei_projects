@@ -7,7 +7,6 @@ import axios from "axios";
 function SpecialPage() {
   const { pageName } = useParams();
   const [pages, setPages] = useState<any>([]);
-  console.log("PageName", pageName);
   const fetchPages = () => {
     axios
       .get(`http://localhost:7373/pages/`)
@@ -26,8 +25,6 @@ function SpecialPage() {
   let pageInfo = pages?.find((item: any) => {
     return item.page_title.toLowerCase().replace(/ /g, "-") === pageName;
   });
-
-  console.log("Page Info", pageInfo);
 
   return (
     <>

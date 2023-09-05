@@ -131,7 +131,6 @@ function ClientServiceDetail() {
       .catch((error) => {
         console.log(error.message);
       });
-    console.log("Update Products", services);
   };
 
   // Function Delete Comment
@@ -191,8 +190,6 @@ function ClientServiceDetail() {
     height: "300px",
   };
 
-  console.log("List Bookings", bookings);
-  console.log("dataBookings", dataBookings);
 
   // Function Booking Service
   const handleBooking = (userId: number, serviceId: number) => {
@@ -467,12 +464,10 @@ function ClientServiceDetail() {
     date,
     dateString
   ) => {
-    console.log(date, dateString);
     setDateBooking(dateString);
   };
 
   const handleSelect = (value: string) => {
-    console.log(`selected ${value}`);
     setTimeZone(value);
   };
 

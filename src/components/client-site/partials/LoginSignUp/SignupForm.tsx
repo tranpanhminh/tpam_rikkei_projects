@@ -113,7 +113,6 @@ function SignupForm() {
         .post("http://localhost:7373/accounts", newUser)
         .then((response) => {
           setListAccounts(response.data);
-          console.log(listAccounts);
           notification.success({
             message: "Signup Successfully",
           });
