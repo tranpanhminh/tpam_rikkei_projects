@@ -25,7 +25,7 @@ function NotificationSale() {
     if (listOrders.length > 0) {
       const item = listOrders[notificationIndex];
       notification.success({
-        message: "Notification",
+        message: "Recently Order",
         description: `${item.name} has ordered ${item.cart.length} products`,
         placement: "bottomLeft",
       });

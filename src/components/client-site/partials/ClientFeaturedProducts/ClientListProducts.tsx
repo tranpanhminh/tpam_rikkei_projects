@@ -3,15 +3,23 @@ import styles from "../../ClientPage.module.css";
 import { Product } from "../../../../database";
 import axios from "axios";
 import { NavLink, useNavigate } from "react-router-dom";
+import { Pagination } from "antd";
 
 function ClientListProducts() {
   const navigate = useNavigate();
   const [products, setProducts] = useState<Product[]>([]);
+  const [posts, setPosts] = useState<any>([]);
+  const [page, setPage] = useState<any>(0); // Đặt giá trị mặc định cho page
+  const [postPerPage, setPostPerPage] = useState<any>(8);
+  const [total, setTotal] = useState<any>("");
+
   const fetchProducts = () => {
     axios
       .get("http://localhost:7373/products")
       .then((response) => {
-        setProducts(response.data);
+        // setProducts(response.data);
+        setPosts(response.data);
+        setTotal(response.data.length);
       })
       .catch((error) => {
         console.log(error.message);
@@ -21,6 +29,28 @@ function ClientListProducts() {
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  const indexOfLastPage = page + postPerPage;
+  const indexOfFirstPage = indexOfLastPage - postPerPage;
+  const currentPosts = posts.slice(indexOfFirstPage, indexOfLastPage);
+  const onShowSizeChange = (current: any, pageSize: any) => {
+    setPostPerPage(pageSize);
+  };
+
+  const handlePageChange = (value: number) => {
+    setPage(value); // Cập nhật trang hiện tại
+    // window.history.replaceState({}, "", `/blogs/page/${value}`);
+  };
+
+  const itemRender = (current: any, type: any, originalElement: any) => {
+    if (type === "prev") {
+      return <a>Previous</a>;
+    }
+    if (type === "next") {
+      return <a>Next</a>;
+    }
+    return originalElement;
+  };
 
   return (
     <>
@@ -33,8 +63,8 @@ function ClientListProducts() {
             className="row align-items-start"
             id="container-product-homepage"
           >
-            {products &&
-              products.map((product) => {
+            {currentPosts &&
+              currentPosts.map((product: any) => {
                 return (
                   <div
                     className={`col-12 col-sm-12 col-md-6 col-xl-3 mt-5 px-2 ${styles["product-card"]}`}
@@ -69,6 +99,18 @@ function ClientListProducts() {
                   </div>
                 );
               })}
+          </div>
+          <div style={{ marginTop: "50px" }}>
+            <Pagination
+              pageSize={postPerPage}
+              total={total}
+              current={page} // Sử dụng page để xác định trang hiện tại
+              onChange={handlePageChange} // Sử dụng handlePageChange để cập nhật trang
+              showSizeChanger
+              showQuickJumper
+              onShowSizeChange={onShowSizeChange}
+              itemRender={itemRender}
+            />
           </div>
         </div>
       </div>

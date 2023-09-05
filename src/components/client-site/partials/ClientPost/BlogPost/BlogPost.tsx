@@ -38,13 +38,15 @@ function BlogPost() {
   useEffect(() => {
     fetchPost();
     fetchAllPosts();
-  }, []);
+  }, [postId]);
 
   return (
     <>
       <div className={styles["post-content-section"]}>
         <div className={styles["main-content-section"]}>
-          <h1 className={styles["post-title"]}>{post?.post_title}</h1>
+          <h1 className={styles["post-title"]} id="post_title">
+            {post?.post_title}
+          </h1>
           <div className={styles["post-thumbnail"]}>
             <img
               src={post?.image_url}

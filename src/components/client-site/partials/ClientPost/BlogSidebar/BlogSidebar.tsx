@@ -41,7 +41,7 @@ function BlogSidebar() {
   useEffect(() => {
     fetchProducts();
     fetchServices();
-  });
+  }, []);
 
   return (
     <div className={styles["blog-sidebar"]}>

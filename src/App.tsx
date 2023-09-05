@@ -38,6 +38,7 @@ import AdminPostsPage from "./components/admin-site/layouts/AdminPostsPage";
 import AdminManageComments from "./components/admin-site/layouts/AdminManageComments";
 import AdminReportPage from "./components/admin-site/layouts/AdminReportPage";
 import BlogPost from "./components/client-site/partials/ClientPost/BlogPost/BlogPost";
+import ScrollToTop from "./components/common/ScrollToTop/ScrollToTop";
 
 export function RoleNavigation() {
   const getData: any = localStorage.getItem("auth");
@@ -87,8 +88,8 @@ function App() {
       {/* <ClientProfileHeader /> */}
       <BrowserRouter>
         <RoleNavigation />
+        <ScrollToTop />
         <Routes>
-          {<Route></Route>}
           <Route path="/" element={<ClientHomePage />}></Route>
           <Route path="/about" element={<ClientAboutPage />}></Route>
           <Route path="/cart" element={<ClientCartPage />}></Route>

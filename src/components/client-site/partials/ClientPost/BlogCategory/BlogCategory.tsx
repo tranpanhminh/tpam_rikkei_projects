@@ -12,21 +12,21 @@ function BlogCategory() {
   const [total, setTotal] = useState<any>("");
   const [page, setPage] = useState<any>(0); // Đặt giá trị mặc định cho page
   const [postPerPage, setPostPerPage] = useState<any>(7);
-  const { pageNumber } = useParams(); // Lấy giá trị slug từ URL
+  // const { pageNumber } = useParams(); // Lấy giá trị slug từ URL
 
-  const [listProducts, setListProducts] = useState<any>([]);
-  const [listServices, setListServices] = useState<any>([]);
+  // const [listProducts, setListProducts] = useState<any>([]);
+  // const [listServices, setListServices] = useState<any>([]);
 
-  const fetchProducts = () => {
-    axios
-      .get(`http://localhost:7373/products`)
-      .then((response) => {
-        setListProducts(response.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  };
+  // const fetchProducts = () => {
+  //   axios
+  //     .get(`http://localhost:7373/products`)
+  //     .then((response) => {
+  //       setListProducts(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.message);
+  //     });
+  // };
 
   const fetchPosts = () => {
     axios
@@ -40,21 +40,21 @@ function BlogCategory() {
       });
   };
 
-  const fetchServices = () => {
-    axios
-      .get(`http://localhost:7373/products`)
-      .then((response) => {
-        setListServices(response.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  };
+  // const fetchServices = () => {
+  //   axios
+  //     .get(`http://localhost:7373/products`)
+  //     .then((response) => {
+  //       setListServices(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.message);
+  //     });
+  // };
 
   useEffect(() => {
     fetchPosts();
-    fetchProducts();
-    fetchServices();
+    // fetchProducts();
+    // fetchServices();
   }, []);
 
   const navigate = useNavigate();
