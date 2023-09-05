@@ -32,6 +32,11 @@ const UserHeader: React.FC = () => {
   }, []);
 
   const navigate = useNavigate();
+
+  const navLinkStyle = ({ isActive }: { isActive: boolean }) => ({
+    color: isActive ? "#33d6bb" : "",
+  });
+
   const handleLogout = () => {
     localStorage.removeItem("auth");
     navigate("/");
@@ -60,6 +65,7 @@ const UserHeader: React.FC = () => {
             <NavLink
               to="/user/my-profile"
               className={styles["navlink-menu-user-panel"]}
+              style={navLinkStyle}
             >
               <li className={styles["admin-btn"]}>
                 <i className="fa-solid fa-user"></i>
@@ -71,6 +77,7 @@ const UserHeader: React.FC = () => {
             <NavLink
               to="/user/my-orders"
               className={styles["navlink-menu-user-panel"]}
+              style={navLinkStyle}
             >
               <li className={styles["admin-btn"]}>
                 <i className="fa-solid fa-boxes-stacked"></i>
@@ -82,6 +89,7 @@ const UserHeader: React.FC = () => {
             <NavLink
               to="/user/my-booking"
               className={styles["navlink-menu-user-panel"]}
+              style={navLinkStyle}
             >
               <li className={styles["admin-btn"]}>
                 <i className="fa-solid fa-calendar-days"></i>
@@ -93,6 +101,7 @@ const UserHeader: React.FC = () => {
             <NavLink
               to="/user/my-newsletter"
               className={styles["navlink-menu-user-panel"]}
+              style={navLinkStyle}
             >
               <li className={styles["admin-btn"]}>
                 <i className="fa-solid fa-newspaper"></i>

@@ -31,7 +31,6 @@ const AdminHeader: React.FC = () => {
 
   const navigate = useNavigate();
   const navLinkStyle = ({ isActive }: { isActive: boolean }) => ({
-    // color: isActive ? "black" : "",
     color: isActive ? "#33d6bb" : "",
   });
 
