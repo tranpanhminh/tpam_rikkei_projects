@@ -40,6 +40,7 @@ import AdminReportPage from "./components/admin-site/layouts/AdminReportPage";
 import BlogPost from "./components/client-site/partials/ClientPost/BlogPost/BlogPost";
 import ScrollToTop from "./components/common/ScrollToTop/ScrollToTop";
 import { notification } from "antd";
+import ClientSpecialPage from "./components/client-site/layouts/ClientSpecialPage";
 
 export function RoleNavigation() {
   const getData: any = localStorage.getItem("auth");
@@ -177,6 +178,10 @@ function App() {
           <Route
             path="/search/:searchTerm"
             element={<ClientSearchPage />}
+          ></Route>
+          <Route
+            path="/special-page/:slug"
+            element={<ClientSpecialPage />}
           ></Route>
           {/* <Route
             path="/blogs/page/:pageNumber"

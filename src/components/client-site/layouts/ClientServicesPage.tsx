@@ -4,10 +4,10 @@ import ClientHeaderPC from "../partials/ClientHeader/ClientHeaderPC";
 import ClientBanner from "../partials/ClientBanner/ClientBanner";
 import ClientFooter from "../partials/ClientFooter/ClientFooter";
 import ClientListServices from "../partials/ClientServices/ClientListServices";
-import ProductsServiceBreadCrumby from "../partials/Breadcrumbs/ServiceCategoryBreadcrumb";
+import ProductsServiceBreadCrumb from "../partials/Breadcrumbs/ServiceCategoryBreadcrumb";
 import NotificationSale from "../partials/NotificationSale/Notification";
 
-function ClientHomePage() {
+function ClientServicesPage() {
   return (
     <>
       {/* Homepage */}
@@ -16,7 +16,7 @@ function ClientHomePage() {
       <div className="main">
         {" "}
         <ClientBanner />
-        <ProductsServiceBreadCrumby />
+        <ProductsServiceBreadCrumb />
         <ClientListServices />
       </div>
       <ClientFooter />
@@ -25,4 +25,4 @@ function ClientHomePage() {
   );
 }
 
-export default ClientHomePage;
+export default ClientServicesPage;
