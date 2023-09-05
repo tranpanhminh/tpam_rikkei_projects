@@ -69,8 +69,13 @@ const AddModalService: React.FC<AddModalProps> = ({
       return;
     }
 
+    const morningTime = "09:00 AM - 11:30 AM";
+    const afternoonTime = "14:00 PM - 16:30 PM";
+
     const updatedService = {
       ...newService,
+      morningTime: morningTime,
+      afternoonTime: afternoonTime,
       id: maxId + 1,
     };
 
@@ -88,11 +93,11 @@ const AddModalService: React.FC<AddModalProps> = ({
       description: "",
       price: 0,
       morningTime: "",
-      morningSlot: 0,
+      // morningSlot: 0,
       afternoonTime: "",
-      afternoonSlot: 0,
+      // afternoonSlot: 0,
     });
-    setEditorInitialValue("Type service description here.........");
+    setEditorInitialValue("");
   };
 
   const handleCancel = () => {
