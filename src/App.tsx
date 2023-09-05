@@ -104,8 +104,8 @@ function App() {
       {/* <AdminPage /> */}
       {/* <ClientProfileHeader /> */}
       <BrowserRouter>
-        <RoleNavigation />
         <ScrollToTop />
+        <RoleNavigation />
         <Routes>
           <Route path="/" element={<ClientHomePage />}></Route>
           <Route path="/about" element={<ClientAboutPage />}></Route>
