@@ -1,4 +1,4 @@
-import React, { useState, ReactNode } from "react";
+import React, { useState, ReactNode, useEffect } from "react";
 import { Button, Modal, notification } from "antd";
 import styles from "../DetailUser/DetailUserProfile.module.css";
 import axios from "axios";
@@ -9,7 +9,7 @@ interface DetailModalProps {
   handleFunctionOk?: any;
   title?: string;
   // handleFunctionBtn?: any;
-  getUser: any;
+  getUserId: any;
 }
 const DetailButtonUser: React.FC<DetailModalProps> = ({
   className,
@@ -18,13 +18,29 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
   handleFunctionOk,
   // handleFunctionBtn,
   title,
-  getUser,
+  getUserId,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [name, setName] = useState<any>("");
   const [oldPassword, setOldPassword] = useState<any>("");
   const [newPassword, setNewPassword] = useState<any>("");
   const [avatar, setAvatar] = useState<any>("");
+  const [user, setUser] = useState<any>(null);
+
+  const fetchUser = () => {
+    axios
+      .get(`http://localhost:7373/accounts/${getUserId}`)
+      .then((response) => {
+        setUser(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -48,7 +64,7 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
     }
 
     // Kiểm tra Old Password
-    if (oldPassword !== "" && oldPassword !== getUser.password) {
+    if (oldPassword !== "" && oldPassword !== user.password) {
       notification.warning({
         message: "Old Password is not correct",
       });
@@ -72,25 +88,25 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
     if (
       oldPassword !== "" &&
       newPassword !== "" &&
-      newPassword === getUser.password
+      newPassword === user.password
     ) {
       notification.warning({
         message: "New Password & Old password must not be the same",
       });
       return;
     } else {
-      setNewPassword(getUser.password);
+      setNewPassword(user.password);
     }
 
     const updatedUserData = {
-      fullName: name !== "" ? name : getUser.fullName,
-      password: newPassword !== "" ? newPassword : getUser.password, // Keep the same password if not changed
-      image_avatar: avatar !== "" ? avatar : getUser.image_avatar,
+      fullName: name !== "" ? name : user.fullName,
+      password: newPassword !== "" ? newPassword : user.password, // Keep the same password if not changed
+      image_avatar: avatar !== "" ? avatar : user.image_avatar,
     };
 
     // Make PUT request to update user data
     axios
-      .patch(`http://localhost:7373/accounts/${getUser.id}`, updatedUserData)
+      .patch(`http://localhost:7373/accounts/${getUserId}`, updatedUserData)
       .then((response) => {
         notification.success({
           message: "Updated Profile",
@@ -125,26 +141,26 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
           </span>
           <div className={styles["list-input-item"]}>
             <p>User ID</p>
-            <input type="text" value={getUser.id} disabled />
+            <input type="text" value={user?.id} disabled />
           </div>
           <div className={styles["list-input-item"]}>
             <p>Full Name</p>
             <input
               type="text"
-              defaultValue={getUser.fullName}
+              defaultValue={user?.fullName}
               onChange={(event) => setName(event.target.value)}
-              disabled={getUser.fullName === "Super Admin" ? true : false}
+              disabled={user?.fullName === "Super Admin" ? true : false}
             />
           </div>
           <div className={styles["list-input-item"]}>
             <p>Email</p>
-            <input type="text" value={getUser.email} disabled />
+            <input type="text" value={user?.email} disabled />
           </div>{" "}
           <div className={styles["list-input-item"]}>
             <p>Avatar</p>
             <input
               type="text"
-              defaultValue={getUser.image_avatar}
+              defaultValue={user?.image_avatar}
               onChange={(event) => {
                 setAvatar(event.target.value);
               }}

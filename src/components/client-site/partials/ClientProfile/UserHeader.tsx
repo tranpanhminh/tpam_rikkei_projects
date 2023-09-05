@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import logo from "../../../../assets/images/pet-shop.png";
 
 // Import CSS Admin Page
@@ -53,11 +53,9 @@ const UserHeader: React.FC = () => {
             />
           </NavLink>
           {/* <p className={styles["user-title"]}>User Panel</p> */}
-          {/* <Badge bg="success" style={{ fontSize: "16px", marginTop: "30px" }}>
-              {user?.fullName.length > 15
-                ? user?.fullName.split(" ")[0]
-                : user?.fullName}
-            </Badge> */}
+          <Badge bg="success" style={{ fontSize: "16px", marginTop: "30px" }}>
+           {getLoginData.fullName}
+          </Badge>
         </div>
 
         <ul className={styles["main-menu"]}>

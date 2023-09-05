@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import logo from "../../../../assets/images/pet-shop.png";
 
 import styles from "../../AdminPage.module.css";
@@ -74,13 +74,11 @@ const AdminHeader: React.FC = () => {
               marginBottom: "20px",
             }}
           >
-            {user?.fullName.length > 15
-              ? user?.fullName.split(" ")[0]
-              : user?.fullName}
+            {getLoginData.fullName}
           </Badge>
-          {user?.role === "admin" && (
+          {getLoginData?.role === "admin" && (
             <DetailButtonUser
-              getUser={user}
+              getUserId={getLoginData.loginId}
               value="Edit Profile"
               handleFunctionOk={() => {
                 handleUpdateUser();
