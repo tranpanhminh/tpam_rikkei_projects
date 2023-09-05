@@ -39,12 +39,19 @@ import AdminManageComments from "./components/admin-site/layouts/AdminManageComm
 import AdminReportPage from "./components/admin-site/layouts/AdminReportPage";
 import BlogPost from "./components/client-site/partials/ClientPost/BlogPost/BlogPost";
 import ScrollToTop from "./components/common/ScrollToTop/ScrollToTop";
+import { notification } from "antd";
 
 export function RoleNavigation() {
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
   const navigate = useNavigate();
   const location = useLocation();
+
+  const showModalAdminInactive = () => {
+    notification.warning({
+      message: "Your account is Inactive. Please wait for admin's verification",
+    });
+  };
 
   useEffect(() => {
     if (
@@ -74,6 +81,16 @@ export function RoleNavigation() {
     ) {
       // Redirect to "/"
       navigate("/");
+    }
+
+    if (
+      getLoginData.role === "admin" &&
+      getLoginData.status === "Inactive" &&
+      location.pathname.includes("/admin")
+    ) {
+      // Redirect to "/"
+      navigate("/");
+      showModalAdminInactive();
     }
   }, [getLoginData.role, location.pathname, navigate]);
 
