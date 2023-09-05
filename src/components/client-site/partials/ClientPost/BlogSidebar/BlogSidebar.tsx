@@ -95,7 +95,7 @@ function BlogSidebar() {
                 <img src={service.serviceImage} alt="" />
               </NavLink>
 
-              <NavLink to={`http://localhost:3000/products/${service.id}`}>
+              <NavLink to={`http://localhost:3000/services/${service.id}`}>
                 <p className={styles["sidebar-featured-product-name"]}>
                   {service.name}
                 </p>
