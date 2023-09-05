@@ -5,12 +5,12 @@ import axios from "axios";
 // import "../../../../assets/bootstrap-5.3.0-dist/css/bootstrap.min.css";
 
 function SpecialPage() {
-  const { slug } = useParams();
-  const [pages, setPages] = useState<any>({});
-
+  const { pageName } = useParams();
+  const [pages, setPages] = useState<any>([]);
+  console.log("PageName", pageName);
   const fetchPages = () => {
     axios
-      .get(`http://localhost:7373/pages/${slug}`)
+      .get(`http://localhost:7373/pages/`)
       .then((response) => {
         setPages(response.data);
       })
@@ -21,16 +21,22 @@ function SpecialPage() {
 
   useEffect(() => {
     fetchPages();
-  }, [slug]);
+  }, [pageName]);
+
+  let pageInfo = pages?.find((item: any) => {
+    return item.page_title.toLowerCase().replace(/ /g, "-") === pageName;
+  });
+
+  console.log("Page Info", pageInfo);
 
   return (
     <>
       <div className={styles["contact-us-banner"]}>
-        <h1>{pages?.page_title}</h1>
+        <h1>{pageInfo?.page_title}</h1>
       </div>
       <div className={styles["main-page-content"]}>
         {React.createElement("div", {
-          dangerouslySetInnerHTML: { __html: pages?.page_content },
+          dangerouslySetInnerHTML: { __html: pageInfo?.page_content },
         })}
       </div>
     </>

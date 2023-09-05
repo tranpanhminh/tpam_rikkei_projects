@@ -180,7 +180,7 @@ function App() {
             element={<ClientSearchPage />}
           ></Route>
           <Route
-            path="/special-page/:slug"
+            path="/special-page/:pageName"
             element={<ClientSpecialPage />}
           ></Route>
           {/* <Route

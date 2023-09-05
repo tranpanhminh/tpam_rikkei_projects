@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../../../../assets/images/pet-shop.png";
 import styles from "../../ClientPage.module.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 function ClientFooter() {
+  // const [pageName, setPageName] = useState("");
+  // const navigate = useNavigate();
+  // const navigateTo = (pageTitle: string) => {
+  //   // setPageName(pageTitle);
+  //   navigate(`/special-page/${pageTitle}`);
+  //   console.log("PageTItle", pageTitle);
+  // };
+
   return (
     <>
       <footer>
@@ -29,15 +37,22 @@ function ClientFooter() {
                   <NavLink to="./about">About Us</NavLink>
                 </li>
                 <li>
-                  <a href="./special-page/contact-us.html">Contact Us</a>
+                  <NavLink
+                    to="/special-page/contact-us"
+                    // onClick={() => {
+                    //   navigateTo("contact-us");
+                    // }}
+                  >
+                    Contact Us
+                  </NavLink>
                 </li>
                 <li>
-                  <a href="./special-page/faqs.html">FAQs</a>
+                  <NavLink to="/special-page/faqs">FAQs</NavLink>
                 </li>
                 <li>
-                  <a href="./special-page/secure-shopping.html">
+                  <NavLink to="/special-page/secure-shopping">
                     Secure Shopping
-                  </a>
+                  </NavLink>
                 </li>
               </ul>
             </div>
@@ -48,20 +63,24 @@ function ClientFooter() {
               <p className={styles["footer-headline"]}>CUSTOMER SERVICE</p>
               <ul>
                 <li>
-                  <a href="./special-page/return-policy.html">Return Policy</a>
+                  <NavLink to="/special-page/return-policy">
+                    Return Policy
+                  </NavLink>
                 </li>
                 <li>
-                  <a href="./special-page/refund-policy.html">Refund Policy</a>
+                  <NavLink to="/special-page/refund-policy">
+                    Refund Policy
+                  </NavLink>
                 </li>
                 <li>
-                  <a href="./special-page/privacy-policy.html">
+                  <NavLink to="/special-page/privacy-policy">
                     Privacy Policy
-                  </a>
+                  </NavLink>
                 </li>
                 <li>
-                  <a href="./special-page/shipping-policy.html">
+                  <NavLink to="/special-page/shipping-policy">
                     Shipping Policy
-                  </a>
+                  </NavLink>
                 </li>
               </ul>
             </div>
@@ -72,19 +91,19 @@ function ClientFooter() {
               <p className={styles["footer-headline"]}>SITE NAVIGATION</p>
               <ul>
                 <li>
-                  <a href="./special-page/billing-terms.html">
+                  <NavLink to="/special-page/billing-terms">
                     Billing Terms & Conditions
-                  </a>
+                  </NavLink>
                 </li>
                 <li>
-                  <a href="./special-page/copyright-dispute-policy.html">
+                  <NavLink to="/special-page/copyright-dispute-policy">
                     Copyright Dispute Policy
-                  </a>
+                  </NavLink>
                 </li>
                 <li>
-                  <a href="./special-page/terms-of-service.html">
+                  <NavLink to="/special-page/terms-of-service">
                     Terms of Service
-                  </a>
+                  </NavLink>
                 </li>
               </ul>
             </div>
