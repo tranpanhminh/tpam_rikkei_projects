@@ -54,7 +54,7 @@ const UserHeader: React.FC = () => {
           </NavLink>
           {/* <p className={styles["user-title"]}>User Panel</p> */}
           <Badge bg="success" style={{ fontSize: "16px", marginTop: "30px" }}>
-           {getLoginData.fullName}
+            {getLoginData.fullName}
           </Badge>
         </div>
 
@@ -97,13 +97,13 @@ const UserHeader: React.FC = () => {
           </div>
           <div>
             <NavLink
-              to="/user/my-newsletter"
+              to="/user/my-coupons"
               className={styles["navlink-menu-user-panel"]}
               style={navLinkStyle}
             >
               <li className={styles["admin-btn"]}>
                 <i className="fa-solid fa-newspaper"></i>
-                My Newsletters
+                My Coupons
               </li>
             </NavLink>
           </div>

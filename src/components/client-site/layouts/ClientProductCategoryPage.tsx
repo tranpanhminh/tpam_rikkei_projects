@@ -6,16 +6,26 @@ import ProductsCategoryBreadCrumb from "../partials/Breadcrumbs/ProductsCategory
 import ClientListProducts from "../partials/ClientFeaturedProducts/ClientListProducts";
 import ClientFooter from "../partials/ClientFooter/ClientFooter";
 import NotificationSale from "../partials/NotificationSale/Notification";
+import { Outlet } from "react-router-dom";
 function ClientProductCategoryPage() {
   return (
+    // <>
+    //   <ClientHeaderPC />
+    //   <div className="main">
+    //     <ClientBanner />
+    //     <ProductsCategoryBreadCrumb />
+    //     <ClientListProducts />
+    //   </div>
+    //   <ClientFooter />
+    //   <NotificationSale />
+    // </>
+
     <>
-      {/* Product Category */}
       <ClientHeaderPC />
-      {/* <ClientHeaderMobile /> */}
       <div className="main">
         <ClientBanner />
         <ProductsCategoryBreadCrumb />
-        <ClientListProducts />
+        <Outlet />
       </div>
       <ClientFooter />
       <NotificationSale />

@@ -1,17 +1,17 @@
 import React from "react";
 import AdminHeader from "../partials/AdminHeader/AdminHeader";
 import styles from "../AdminPage.module.css";
-import ManageCoupon from "../partials/ManageCoupon/ManageCoupons";
+import { Outlet } from "react-router-dom";
 
-function AdminCouponPage() {
+function AdminMainPage() {
   return (
     <body className={styles["main-body"]}>
       <AdminHeader />
       <main>
-        <ManageCoupon />
+        <Outlet />
       </main>
     </body>
   );
 }
 
-export default AdminCouponPage;
+export default AdminMainPage;

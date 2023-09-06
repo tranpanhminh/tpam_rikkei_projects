@@ -7,17 +7,31 @@ import NotificationSale from "../partials/NotificationSale/Notification";
 import BlogPostBreadcrumb from "../partials/ClientPost/BlogCategoryBreadcrumb";
 import BlogSidebar from "./../partials/ClientPost/BlogSidebar/BlogSidebar";
 import BlogCategory from "../partials/ClientPost/BlogCategory/BlogCategory";
-import styles from "../partials/ClientPost/BlogPost.module.css"
+import styles from "../partials/ClientPost/BlogPost.module.css";
+import { Outlet } from "react-router-dom";
 function ClientBlogCategory() {
   return (
+    // <>
+    //   <ClientHeaderPC />
+    //   <div className="main">
+    //     <ClientBanner />
+    //     <BlogPostBreadcrumb />
+    //     <div className={styles["wrap-blog"]}>
+    //       <BlogCategory />
+    //       <BlogSidebar />
+    //     </div>
+    //   </div>
+    //   <ClientFooter />
+    //   <NotificationSale />
+    // </>
+
     <>
-      {/* Homepage */}
       <ClientHeaderPC />
       <div className="main">
         <ClientBanner />
         <BlogPostBreadcrumb />
         <div className={styles["wrap-blog"]}>
-          <BlogCategory />
+          <Outlet />
           <BlogSidebar />
         </div>
       </div>

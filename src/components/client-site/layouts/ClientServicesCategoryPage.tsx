@@ -6,18 +6,27 @@ import ClientFooter from "../partials/ClientFooter/ClientFooter";
 import ClientListServices from "../partials/ClientServices/ClientListServices";
 import ProductsServiceBreadCrumb from "../partials/Breadcrumbs/ServiceCategoryBreadcrumb";
 import NotificationSale from "../partials/NotificationSale/Notification";
+import { Outlet } from "react-router-dom";
 
-function ClientServicesPage() {
+function ClientServicesCategoryPage() {
   return (
+    // <>
+    //   <ClientHeaderPC />
+    //   <div className="main">
+    //     <ClientBanner />
+    //     <ProductsServiceBreadCrumb />
+    //     <ClientListServices />
+    //   </div>
+    //   <ClientFooter />
+    //   <NotificationSale />
+    // </>
+
     <>
-      {/* Homepage */}
       <ClientHeaderPC />
-      {/* <ClientHeaderMobile /> */}
       <div className="main">
-        {" "}
         <ClientBanner />
         <ProductsServiceBreadCrumb />
-        <ClientListServices />
+        <Outlet />
       </div>
       <ClientFooter />
       <NotificationSale />
@@ -25,4 +34,4 @@ function ClientServicesPage() {
   );
 }
 
-export default ClientServicesPage;
+export default ClientServicesCategoryPage;
