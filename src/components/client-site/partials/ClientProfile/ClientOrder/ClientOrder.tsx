@@ -298,7 +298,7 @@ function ClientOrder() {
       .get(`http://localhost:7373/orders/`)
       .then((response) => {
         setOrderDatabase(response.data);
-        let filterUserOrder = orderDatabase?.filter((order: any) => {
+        let filterUserOrder = response.data?.filter((order: any) => {
           return order.user_id === getLoginData.loginId;
         });
         setUserOrder(filterUserOrder);
@@ -408,7 +408,7 @@ function ClientOrder() {
       })
       .then((response) => {
         fetchOrders();
-        setUserOrder(response.data);
+        // setUserOrder(response.data);
       });
 
     // let findCard = listCard?.find((card: any) => {
@@ -472,7 +472,7 @@ function ClientOrder() {
           </thead>
           <tbody>
             {userOrder &&
-              userOrder.map((order: any, index: number) => {
+              userOrder?.map((order: any, index: number) => {
                 return (
                   <tr>
                     <td>{index + 1}</td>

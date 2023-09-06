@@ -955,6 +955,16 @@ function ClientServiceDetail() {
       return;
     }
 
+    if (
+      getLoginData.role === "customer" &&
+      getLoginData.status === "Inactive"
+    ) {
+      notification.warning({
+        message: "You can't book service because your account is Inactive",
+      });
+      return;
+    }
+
     // Định dạng ngày trong `dateBooking` (VD: '10/09/2023')
     const dateParts = dateBooking.split("/");
     const day = parseInt(dateParts[0], 10);
