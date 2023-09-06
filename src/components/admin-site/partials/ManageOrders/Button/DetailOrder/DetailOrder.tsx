@@ -99,6 +99,22 @@ const DetailOrders: React.FC<DetailModalProps> = ({
     return 0;
   };
 
+  function maskCardNumber(cardNumber: string) {
+    if (cardNumber && cardNumber.length === 16) {
+      // Lấy 4 số đầu và 4 số cuối
+      const firstFour = cardNumber.slice(0, 4);
+      const lastFour = cardNumber.slice(-4);
+
+      // Tạo một chuỗi sao mặt định là '*' với độ dài 8 ký tự (số ẩn ở giữa)
+      const middle = "********";
+
+      // Kết hợp chuỗi số đầu, chuỗi số ẩn và chuỗi số cuối
+      return `${firstFour} ${middle} ${lastFour}`;
+    } else {
+      // Nếu số thẻ không hợp lệ, hiển thị giá trị ban đầu
+      return cardNumber;
+    }
+  }
 
   return (
     <>
@@ -132,6 +148,14 @@ const DetailOrders: React.FC<DetailModalProps> = ({
           <div className={styles["admin-order-input-item"]}>
             <p>Address</p>
             <input type="text" disabled value={orders?.address} />
+          </div>
+          <div className={styles["admin-order-input-item"]}>
+            <p>Card Number</p>
+            <input
+              type="text"
+              disabled
+              value={maskCardNumber(orders?.cardNumber)}
+            />
           </div>
           <div className={styles["admin-order-input-item"]}>
             <p>Status</p>

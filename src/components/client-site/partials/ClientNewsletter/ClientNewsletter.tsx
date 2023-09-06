@@ -90,7 +90,7 @@ function ClientNewsletter() {
 
       if (isAlreadySubscribed) {
         notification.warning({
-          message: "This email is already subscired",
+          message: "This email is already subscribed",
         });
         return;
       }

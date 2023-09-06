@@ -139,6 +139,17 @@ function ManageUsers() {
         return;
     }
   };
+
+  const changeColorUser = (role: string) => {
+    switch (role) {
+      case "admin":
+        return "primary";
+      case "customer":
+        return "warning";
+      default:
+        return;
+    }
+  };
   return (
     <>
       <div className={styles["breadcrumb"]}>
@@ -195,7 +206,9 @@ function ManageUsers() {
                 <td>{user.id}</td>
                 <td>{user.email}</td>
                 <td>{user.fullName}</td>
-                <td>{user.role}</td>
+                <td>
+                  <Badge bg={changeColorUser(user.role)}>{user.role}</Badge>
+                </td>
                 <td>
                   <Badge bg={changeColor(user.status)}>{user.status}</Badge>
                 </td>

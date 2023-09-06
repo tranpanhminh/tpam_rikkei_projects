@@ -171,7 +171,7 @@ function ManageProducts() {
                   <img src={product.productImage[0]} alt="" />
                 </td>
                 <td>{product.name}</td>
-                <td>{product.price}</td>
+                <td>${product.price}</td>
                 <td>{product.quantity_stock}</td>
                 <td className={styles["group-btn-admin-manage-product"]}>
                   <NavLink to={`/products/${product.id}`} target="_blank">
