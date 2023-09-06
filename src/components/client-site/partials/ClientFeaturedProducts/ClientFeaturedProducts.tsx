@@ -36,7 +36,7 @@ function ClientFeaturedProducts() {
             id="container-product-homepage"
           >
             {products &&
-              products.map((product) => {
+              products.slice(0, 8).map((product) => {
                 return (
                   <div
                     className={`col-12 col-sm-12 col-md-6 col-xl-3 mt-5 px-2 ${styles["product-card"]}`}
