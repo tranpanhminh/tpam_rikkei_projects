@@ -154,7 +154,7 @@ const DetailOrders: React.FC<DetailModalProps> = ({
             <input
               type="text"
               disabled
-              value={maskCardNumber(orders?.cardNumber)}
+              value={maskCardNumber(orders?.cardNumber.toString())}
             />
           </div>
           <div className={styles["admin-order-input-item"]}>

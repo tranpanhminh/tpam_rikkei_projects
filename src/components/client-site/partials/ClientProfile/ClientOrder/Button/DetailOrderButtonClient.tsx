@@ -144,6 +144,23 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
     return 0;
   };
 
+  function maskCardNumber(cardNumber: string) {
+    if (cardNumber && cardNumber.length === 16) {
+      // Lấy 4 số đầu và 4 số cuối
+      const firstFour = cardNumber.slice(0, 4);
+      const lastFour = cardNumber.slice(-4);
+
+      // Tạo một chuỗi sao mặt định là '*' với độ dài 8 ký tự (số ẩn ở giữa)
+      const middle = "********";
+
+      // Kết hợp chuỗi số đầu, chuỗi số ẩn và chuỗi số cuối
+      return `${firstFour} ${middle} ${lastFour}`;
+    } else {
+      // Nếu số thẻ không hợp lệ, hiển thị giá trị ban đầu
+      return cardNumber;
+    }
+  }
+
   return (
     <>
       <Button type="primary" onClick={showModal}>
@@ -176,6 +193,14 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
           <div className={styles["my-profile-input-item"]}>
             <p>Status</p>
             <input type="text" disabled value={listOrders?.status} />
+          </div>
+          <div className={styles["my-profile-input-item"]}>
+            <p>Card Number</p>
+            <input
+              type="text"
+              disabled
+              value={maskCardNumber(listOrders?.cardNumber.toString())}
+            />
           </div>
           {listOrders?.status === "Pending" && (
             <div className={styles["my-profile-input-item"]}>
