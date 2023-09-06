@@ -39,6 +39,7 @@ function ClientListProducts() {
 
   const handlePageChange = (value: number) => {
     setPage(value); // Cập nhật trang hiện tại
+    window.scrollTo(0, 0);
     // window.history.replaceState({}, "", `/blogs/page/${value}`);
   };
 
