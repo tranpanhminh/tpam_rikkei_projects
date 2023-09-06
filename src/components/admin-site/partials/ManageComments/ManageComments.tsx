@@ -249,6 +249,7 @@
 // }
 // export default ManageComments;
 
+
 import React, { useCallback, useEffect, useState } from "react";
 import { parse } from "date-fns";
 import styles from "../../AdminPage.module.css";
@@ -264,18 +265,18 @@ function ManageComments() {
   const [listServices, setListServices] = useState<any>([]);
   const [serviceComments, setServiceComments] = useState<any>([]);
   const [filteredComments, setFilteredComments] = useState<any>([]);
-  const [allComments, setAllComments] = useState<any>([]);
+  // const [allComments, setAllComments] = useState<any>([]);
 
-  // let allComments: any[] = [];
+  let allComments: any[] = [];
 
   const fetchProducts = () => {
     axios
       .get(`http://localhost:7373/products`)
       .then((response) => {
         setListProducts(response.data);
-        listProducts?.forEach((product: any) => {
-          setAllComments([...allComments, ...product?.comments]);
-        });
+        // listProducts?.forEach((product: any) => {
+        //   setAllComments([...allComments, ...product?.comments]);
+        // });
       })
       .catch((error) => {
         console.log(error.message);
@@ -287,9 +288,9 @@ function ManageComments() {
       .get(`http://localhost:7373/services`)
       .then((response) => {
         setListServices(response.data);
-        listServices?.forEach((service: any) => {
-          setAllComments([...allComments, ...service?.comments]);
-        });
+        // listServices?.forEach((service: any) => {
+        //   setAllComments([...allComments, ...service?.comments]);
+        // });
       })
       .catch((error) => {
         console.log(error.message);
@@ -303,14 +304,14 @@ function ManageComments() {
 
   console.log("All Comments", allComments);
 
-  // listProducts?.forEach((product: any) => {
-  //   allComments = [...allComments, ...product?.comments];
-  // });
+  listProducts?.forEach((product: any) => {
+    allComments = [...allComments, ...product?.comments];
+  });
 
-  // listServices?.forEach((service: any) => {
-  //   allComments = [...allComments, ...service?.comments];
-  // });
-  // console.log("All Comments", allComments);
+  listServices?.forEach((service: any) => {
+    allComments = [...allComments, ...service?.comments];
+  });
+  console.log("All Comments", allComments);
 
   // Function Search Comment
   const handleSearchComment = () => {
