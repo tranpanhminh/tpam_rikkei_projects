@@ -70,11 +70,11 @@ function BlogSidebar() {
         {products?.slice(0, 3).map((product: any) => {
           return (
             <div className={styles["sidebar-featured-product-item"]}>
-              <NavLink to={`http://localhost:3000/products/${product.id}`}>
+              <NavLink to={`/products/${product.id}`}>
                 <img src={product.productImage[0]} alt="" />
               </NavLink>
 
-              <NavLink to={`http://localhost:3000/products/${product.id}`}>
+              <NavLink to={`/products/${product.id}`}>
                 <p className={styles["sidebar-featured-product-name"]}>
                   {product.name}
                 </p>
@@ -91,11 +91,11 @@ function BlogSidebar() {
         {services?.slice(0, 3).map((service: any) => {
           return (
             <div className={styles["sidebar-featured-product-item"]}>
-              <NavLink to={`http://localhost:3000/services/${service.id}`}>
+              <NavLink to={`/services/${service.id}`}>
                 <img src={service.serviceImage} alt="" />
               </NavLink>
 
-              <NavLink to={`http://localhost:3000/services/${service.id}`}>
+              <NavLink to={`/services/${service.id}`}>
                 <p className={styles["sidebar-featured-product-name"]}>
                   {service.name}
                 </p>
