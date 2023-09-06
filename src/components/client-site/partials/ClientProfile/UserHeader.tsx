@@ -55,7 +55,7 @@ const UserHeader: React.FC = () => {
           {/* <p className={styles["user-title"]}>User Panel</p> */}
           <Badge bg="success" style={{ fontSize: "16px", marginTop: "30px" }}>
             {user?.fullName.length > 15
-              ? user?.fullName.slice(0, 1)
+              ? user?.fullName.slice(0)
               : user?.fullName}
           </Badge>
         </div>

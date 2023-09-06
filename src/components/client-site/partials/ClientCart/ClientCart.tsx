@@ -517,7 +517,7 @@ function ClientCart() {
                   />
                 </div>
                 <div className={styles["card-info-item"]}>
-                  <input
+                <input
                     type="text"
                     id="typeText"
                     className="form-control form-control-lg"

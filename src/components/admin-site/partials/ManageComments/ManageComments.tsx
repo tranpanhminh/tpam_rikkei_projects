@@ -304,14 +304,14 @@ function ManageComments() {
 
   console.log("All Comments", allComments);
 
-  listProducts?.forEach((product: any) => {
-    allComments = [...allComments, ...product?.comments];
-  });
+  // listProducts?.forEach((product: any) => {
+  //   allComments = [...allComments, ...product?.comments];
+  // });
 
-  listServices?.forEach((service: any) => {
-    allComments = [...allComments, ...service?.comments];
-  });
-  console.log("All Comments", allComments);
+  // listServices?.forEach((service: any) => {
+  //   allComments = [...allComments, ...service?.comments];
+  // });
+  // console.log("All Comments", allComments);
 
   // Function Search Comment
   const handleSearchComment = () => {
@@ -447,7 +447,7 @@ function ManageComments() {
             </tr>
           </thead>
           <tbody>
-            {(filteredComments.length > 0 ? filteredComments : allComments).map(
+            {(filteredComments?.length > 0 ? filteredComments : allComments).map(
               (comment: any, index: any) => {
                 return (
                   <tr>
