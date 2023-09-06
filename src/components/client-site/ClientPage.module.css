@@ -1679,6 +1679,24 @@ table.table.table-cart {
   #discount-group {
     gap: 50px;
   }
+
+  /* CSS Comment */
+  .main-content-comment {
+    width: 100%;
+  }
+
+  .container-comment {
+    width: 100%;
+    margin: 0;
+  }
+
+  .comment-input {
+    width: 100%;
+  }
+
+  .comment-heading {
+    width: 100%;
+  }
 }
 
 /* CSS Mobile */
@@ -1999,9 +2017,6 @@ table.table.table-cart {
 
   .main-content-comment {
     text-align: justify;
-  }
-
-  .main-content-comment {
     padding: 10px;
     display: flex;
     flex-direction: column;

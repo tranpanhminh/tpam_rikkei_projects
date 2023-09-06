@@ -58,6 +58,7 @@
 .img-thumbnail-item {
   border-radius: 10px;
   width: 300px;
+  object-fit: cover;
 }
 
 .blog-sidebar {
@@ -315,12 +316,19 @@
 
   .post-item {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     width: 100%;
+    gap: 30px;
   }
 
   .post-thumbnail-item {
     width: 100%;
+  }
+
+  .img-thumbnail-item {
+    width: 330px;
+    height: 230px;
+    object-fit: cover;
   }
 
   .breadcrumb-blogs-info {
@@ -357,6 +365,12 @@
 
   .post-thumbnail-item {
     width: 100%;
+  }
+
+  .img-thumbnail-item {
+    width: 330px;
+    height: 200px;
+    object-fit: cover;
   }
 
   .breadcrumb-blogs-info {

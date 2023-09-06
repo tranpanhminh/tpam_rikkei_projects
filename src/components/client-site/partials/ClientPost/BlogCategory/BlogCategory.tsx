@@ -96,13 +96,15 @@ function BlogCategory() {
             return (
               <>
                 <div className={styles["post-item"]}>
-                  <div className={styles["post-thumbnail-item"]}>
-                    <img
-                      src={post.image_url}
-                      alt=""
-                      className={styles["img-thumbnail-item"]}
-                    />
-                  </div>
+                  <NavLink to={`/blogs/${post.id}`}>
+                    <div className={styles["post-thumbnail-item"]}>
+                      <img
+                        src={post.image_url}
+                        alt=""
+                        className={styles["img-thumbnail-item"]}
+                      />
+                    </div>
+                  </NavLink>
 
                   <div className={styles["post-item-content"]}>
                     <NavLink to={`/blogs/${post.id}`}>

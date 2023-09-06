@@ -433,7 +433,7 @@ function ClientProductDetail() {
       <div className={styles["comment-product-section"]}>
         <div className={styles["comment-detail"]}>
           <div
-            className="container text-center"
+            className={`container text-center  ${styles["container-comment"]}`}
             style={{ marginTop: 50, marginBottom: 50 }}
           >
             <div className={styles["comment-heading"]}>
