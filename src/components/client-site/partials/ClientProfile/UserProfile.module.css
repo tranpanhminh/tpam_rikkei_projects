@@ -457,6 +457,7 @@ table tr {
 
 table tr td img {
   width: 120px;
+  border-radius: 10px;
 }
 
 .switch-shipping-status-icon {
