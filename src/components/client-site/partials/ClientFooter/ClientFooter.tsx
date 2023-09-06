@@ -34,7 +34,7 @@ function ClientFooter() {
               <p className={styles["footer-headline"]}>HELP & INFORMATION</p>
               <ul>
                 <li>
-                  <NavLink to="./about">About Us</NavLink>
+                  <NavLink to="/about">About Us</NavLink>
                 </li>
                 <li>
                   <NavLink

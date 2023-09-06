@@ -150,13 +150,13 @@ function ManageOrders() {
           </button>
         </div>
 
-        <h3
+        {/* <h3
           className={styles["revenue-text"]}
           data-bs-toggle="modal"
           data-bs-target="#monthlyRevenue"
         >
           Revenue: $5000
-        </h3>
+        </h3> */}
       </div>
 
       <div className={styles["main-content"]}>
