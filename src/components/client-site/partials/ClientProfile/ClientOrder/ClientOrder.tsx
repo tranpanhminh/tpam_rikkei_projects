@@ -262,7 +262,6 @@
 
 // export default ClientOrder;
 
-
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { Button, Modal, notification } from "antd";
@@ -299,6 +298,10 @@ function ClientOrder() {
       .get(`http://localhost:7373/orders/`)
       .then((response) => {
         setOrderDatabase(response.data);
+        let filterUserOrder = orderDatabase?.filter((order: any) => {
+          return order.user_id === getLoginData.loginId;
+        });
+        setUserOrder(filterUserOrder);
       })
       .catch((error) => {
         console.log(error);
@@ -336,22 +339,16 @@ function ClientOrder() {
     setIsModalOpen(false);
   };
 
-  let filterUserOrder = orderDatabase?.filter((order: any) => {
-    return order.user_id === getLoginData.loginId;
-  });
-
-  console.log("USER", user);
-  console.log("orderDatabase", orderDatabase);
-  console.log("userOrder", userOrder);
-  console.log("filterUserOrder", filterUserOrder);
-  console.log("listCard", listCard);
+  // let filterUserOrder = orderDatabase?.filter((order: any) => {
+  //   return order.user_id === getLoginData.loginId;
+  // });
 
   const hanldeSearchOrder = () => {
     console.log(searchText);
     if (searchText === "") {
       fetchOrders();
     } else {
-      const filterOrder = filterUserOrder?.filter((item: any) => {
+      const filterOrder = userOrder?.filter((item: any) => {
         if (
           item.date.toLowerCase().includes(searchText.trim().toLowerCase()) ||
           item.status.toLowerCase().includes(searchText.trim().toLowerCase())
@@ -364,27 +361,27 @@ function ClientOrder() {
     }
   };
 
-  const handleSumOrder = (orderId: number) => {
-    // Tìm đơn hàng dựa trên orderId
-    let findOrder = filterUserOrder?.find((item: any) => {
-      return item.id === orderId;
-    });
+  // const handleSumOrder = (orderId: number) => {
+  //   // Tìm đơn hàng dựa trên orderId
+  //   let findOrder = filterUserOrder?.find((item: any) => {
+  //     return item.id === orderId;
+  //   });
 
-    if (findOrder) {
-      // Tính tổng giá trị của đơn hàng
-      let sumOrder = findOrder.cart.reduce(
-        (accumulator: number, currentValue: any) => {
-          return (accumulator +=
-            currentValue.productQuantity * currentValue.price);
-        },
-        0
-      );
+  //   if (findOrder) {
+  //     // Tính tổng giá trị của đơn hàng
+  //     let sumOrder = findOrder.cart.reduce(
+  //       (accumulator: number, currentValue: any) => {
+  //         return (accumulator +=
+  //           currentValue.productQuantity * currentValue.price);
+  //       },
+  //       0
+  //     );
 
-      return sumOrder;
-    }
+  //     return sumOrder;
+  //   }
 
-    return 0; // Trả về 0 nếu không tìm thấy đơn hàng
-  };
+  //   return 0; // Trả về 0 nếu không tìm thấy đơn hàng
+  // };
 
   const changeColor = (status: string) => {
     switch (status) {
@@ -463,40 +460,40 @@ function ClientOrder() {
 
       <div className={styles["main-content"]}>
         <h3 className={styles["main-title-content"]}>List Orders</h3>
-          <table className="table table-striped" id="table-user">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Date</th>
-                <th>Total</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filterUserOrder &&
-                filterUserOrder.map((order: any, index: number) => {
-                  return (
-                    <tr>
-                      <td>{index + 1}</td>
-                      <td>{order.date}</td>
-                      <td>${order.sumOrderWithDiscount}</td>
-                      <td>
-                        <Badge bg={changeColor(order.status)}>
-                          {order.status}
-                        </Badge>
-                      </td>
-                      <td>
-                        <DetailOrderButton
-                          orderId={order.id}
-                          handleFunctionOk={handleUpdateStatus}
-                        ></DetailOrderButton>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
+        <table className="table table-striped" id="table-user">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Date</th>
+              <th>Total</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {userOrder &&
+              userOrder.map((order: any, index: number) => {
+                return (
+                  <tr>
+                    <td>{index + 1}</td>
+                    <td>{order.date}</td>
+                    <td>${order.sumOrderWithDiscount}</td>
+                    <td>
+                      <Badge bg={changeColor(order.status)}>
+                        {order.status}
+                      </Badge>
+                    </td>
+                    <td>
+                      <DetailOrderButton
+                        orderId={order.id}
+                        handleFunctionOk={handleUpdateStatus}
+                      ></DetailOrderButton>
+                    </td>
+                  </tr>
+                );
+              })}
+          </tbody>
+        </table>
       </div>
     </div>
   );
