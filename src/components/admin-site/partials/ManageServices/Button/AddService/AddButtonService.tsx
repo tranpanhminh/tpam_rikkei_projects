@@ -96,6 +96,7 @@ const AddModalService: React.FC<AddModalProps> = ({
       // morningSlot: 0,
       afternoonTime: "",
       // afternoonSlot: 0,
+      comments: [],
     });
     setEditorInitialValue("");
   };
