@@ -74,11 +74,11 @@ const AdminHeader: React.FC = () => {
               marginBottom: "20px",
             }}
           >
-            {getLoginData.fullName}
+            {user?.fullName}
           </Badge>
-          {getLoginData?.role === "admin" && (
+          {user?.role === "admin" && (
             <DetailButtonUser
-              getUserId={getLoginData.loginId}
+              getUserId={user.id}
               value="Edit Profile"
               handleFunctionOk={() => {
                 handleUpdateUser();

@@ -54,7 +54,9 @@ const UserHeader: React.FC = () => {
           </NavLink>
           {/* <p className={styles["user-title"]}>User Panel</p> */}
           <Badge bg="success" style={{ fontSize: "16px", marginTop: "30px" }}>
-            {getLoginData.fullName}
+            {user?.fullName.length > 15
+              ? user?.fullName.slice(0, 1)
+              : user?.fullName}
           </Badge>
         </div>
 
