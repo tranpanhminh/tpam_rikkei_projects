@@ -45,41 +45,31 @@ function ClientBooking() {
   }, []);
 
   const handleSearchBooking = () => {
-    console.log(searchText);
-    if (searchText === "") {
-      // Nếu searchText rỗng, gọi lại fetchUsers để lấy tất cả người dùng
+    if (!searchText) {
+      // Nếu searchText rỗng, gọi lại fetchUser để lấy tất cả người dùng
       fetchUser();
     } else {
       // Nếu có searchText, thực hiện tìm kiếm và cập nhật state
-      axios
-        .get(`http://localhost:7373/accounts/${getLoginData.loginId}`)
-        .then((response) => {
-          // Tìm kiếm trong dữ liệu và cập nhật state
-          const filterBooking = userBooking?.filter((item: any) => {
-            if (
-              item.bookingService
-                .toLowerCase()
-                .includes(searchText.trim().toLowerCase()) ||
-              item.bookingDate
-                .toLowerCase()
-                .includes(searchText.trim().toLowerCase()) ||
-              item.bookingCalendar
-                .toLowerCase()
-                .includes(searchText.trim().toLowerCase()) ||
-              item.status
-                .toLowerCase()
-                .includes(searchText.trim().toLowerCase())
-            ) {
-              return true;
-            }
-            return false;
-          });
-          console.log("ABC", filterBooking);
-          setUserBooking(filterBooking);
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
+      const filterBooking = listUserBooking?.filter((item: any) => {
+        if (
+          item.serviceName
+            .toLowerCase()
+            .includes(searchText.trim().toLowerCase()) ||
+          item.calendar
+            .toLowerCase()
+            .includes(searchText.trim().toLowerCase()) ||
+          item.time.toLowerCase().includes(searchText.trim().toLowerCase()) ||
+          item.bookingDate
+            .toLowerCase()
+            .includes(searchText.trim().toLowerCase()) ||
+          item?.status.toLowerCase().includes(searchText.trim().toLowerCase())
+        ) {
+          return true;
+        }
+        return false;
+      });
+
+      setListUserBooking(filterBooking);
     }
   };
 
@@ -126,23 +116,32 @@ function ClientBooking() {
     }
   };
 
-  const dataUserBooking: any[] = [];
+  // const dataUserBooking: any[] = [];
 
-  userBooking.forEach((item: any) => {
-    const foundBooking = dataBooking?.find(
-      (booking: any) => booking.date === item.bookingDate
-    );
+  useEffect(() => {
+    // Xử lý dữ liệu ban đầu sau khi gọi fetchUser và fetchBookings
+    const dataUserBooking: any[] = [];
 
-    if (foundBooking && Array.isArray(foundBooking.listBookings)) {
-      const foundListBooking = foundBooking.listBookings.find(
-        (data: any) => data.bookingId === item.bookingId
+    userBooking.forEach((item: any) => {
+      const foundBooking = dataBooking?.find(
+        (booking: any) => booking.date === item.bookingDate
       );
 
-      if (foundListBooking) {
-        dataUserBooking.push(foundListBooking);
+      if (foundBooking && Array.isArray(foundBooking.listBookings)) {
+        const foundListBooking = foundBooking.listBookings.find(
+          (data: any) => data.bookingId === item.bookingId
+        );
+
+        if (foundListBooking) {
+          dataUserBooking.push(foundListBooking);
+        }
       }
-    }
-  });
+    });
+
+    setListUserBooking(dataUserBooking);
+  }, [userBooking, dataBooking]);
+
+  console.log("List User Booking", listUserBooking);
 
   return (
     <div>
@@ -189,8 +188,8 @@ function ClientBooking() {
             </tr>
           </thead>
           <tbody>
-            {dataUserBooking &&
-              dataUserBooking.map((item: any) => {
+            {listUserBooking &&
+              listUserBooking.map((item: any) => {
                 return (
                   <tr>
                     <td>{item.bookingId}</td>
