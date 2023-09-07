@@ -349,6 +349,20 @@ function ClientProductDetail() {
     return userAvatar;
   };
 
+  const getUserName = (userId: number) => {
+    let defaultAvatar = "Anonymous";
+    let userName = "";
+    let findUser = listUser.find((item: any) => {
+      return item.id === userId;
+    });
+    if (findUser) {
+      userName = findUser.fullName;
+    } else {
+      userName = defaultAvatar;
+    }
+    return userName;
+  };
+
   return (
     <>
       {products && (
@@ -516,7 +530,7 @@ function ClientProductDetail() {
                           className={styles["user-avatar"]}
                         />
 
-                        <span>{item.userName.split(" ")[0]}</span>
+                        <span>{getUserName(item.userId).split(" ")[0]}</span>
                         {item.userRole === "admin" ? (
                           <Badge bg="success">Admin</Badge>
                         ) : item.order_history?.length !== 0 ? (

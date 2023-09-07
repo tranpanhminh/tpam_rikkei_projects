@@ -74,7 +74,9 @@ const AdminHeader: React.FC = () => {
               marginBottom: "20px",
             }}
           >
-            {user?.fullName}
+            {user?.fullName.length > 15
+              ? user?.fullName.split(" ")[0]
+              : user?.fullName}
           </Badge>
           {user?.role === "admin" && (
             <DetailButtonUser
