@@ -8,6 +8,8 @@ import { Button, notification } from "antd";
 import DetailButtonService from "./Button/DetailService/DetailButtonService";
 import { NavLink } from "react-router-dom";
 function ManageServices() {
+  document.title = "Manage Services | PetShop";
+
   const [services, setServices] = useState<null | Service[]>(null);
   const [searchText, setSearchText] = useState<string>("");
 

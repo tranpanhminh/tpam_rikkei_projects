@@ -68,6 +68,7 @@ function ClientProductDetail() {
 
   console.log("User", user);
   console.log("User Cart", userCart);
+  document.title = `${products ? `${products?.name} | PetShop` : "Loading..."}`;
 
   // Function Add To Cart
   const handleAddToCart = () => {

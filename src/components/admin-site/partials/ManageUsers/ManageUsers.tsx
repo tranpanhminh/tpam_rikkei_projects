@@ -12,6 +12,8 @@ import { Account } from "../../../../database";
 import { Badge } from "react-bootstrap";
 
 function ManageUsers() {
+  document.title = "Manage Users | PetShop";
+
   const [users, setUsers] = useState<null | Account[]>(null);
   const [searchText, setSearchText] = useState<string>("");
 

@@ -6,6 +6,8 @@ import styles from "../UserProfile.module.css";
 import "../../../../../assets/bootstrap-5.3.0-dist/css/bootstrap.min.css";
 import axios from "axios";
 function ClientNewsLetter() {
+  document.title = "My Coupons | PetShop";
+
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
   const [searchText, setSearchText] = useState<string>("");

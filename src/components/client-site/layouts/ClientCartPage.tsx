@@ -6,6 +6,8 @@ import ClientCart from "../partials/ClientCart/ClientCart";
 import ClientFooter from "../partials/ClientFooter/ClientFooter";
 import NotificationSale from "../partials/NotificationSale/Notification";
 function ClientCartPage() {
+  document.title = "Cart | PetShop";
+
   return (
     <>
       <ClientHeaderPC />

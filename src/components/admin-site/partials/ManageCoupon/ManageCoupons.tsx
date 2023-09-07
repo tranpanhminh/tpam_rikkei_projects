@@ -7,6 +7,8 @@ import { Button, notification } from "antd";
 import AddButtonCoupon from "./Button/AddCoupon/AddButtonCoupon";
 
 function ManageNewsletter() {
+  document.title = "Manage Coupons | PetShop";
+
   const [coupons, setCoupons] = useState<null | Coupon[]>(null);
   const [users, setUsers] = useState<any>(null);
   const [searchText, setSearchText] = useState<string>("");

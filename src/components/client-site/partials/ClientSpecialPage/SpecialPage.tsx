@@ -22,6 +22,8 @@ function SpecialPage() {
     fetchPages();
   }, [pageName]);
 
+  document.title = `${pages ? `${pages?.page_title} | PetShop` : "Loading..."}`;
+
   let pageInfo = pages?.find((item: any) => {
     return item.page_title.toLowerCase().replace(/ /g, "-") === pageName;
   });

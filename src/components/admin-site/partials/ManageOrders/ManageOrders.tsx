@@ -9,6 +9,8 @@ import DetailOrder from "./Button/DetailOrder/DetailOrder";
 import { Badge } from "react-bootstrap";
 
 function ManageOrders() {
+  document.title = "Manage Orders | PetShop";
+
   const [orders, setOrders] = useState<any>(null);
   const [orderCart, setOrderCart] = useState<any>(null);
   const [searchText, setSearchText] = useState<string>("");

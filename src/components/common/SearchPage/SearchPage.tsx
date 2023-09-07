@@ -36,6 +36,10 @@ function SearchPage() {
     fetchServices();
   }, []);
 
+  document.title = `${
+    searchTerm ? `Search: ${searchTerm} | PetShop` : "Loading..."
+  }`;
+
   let filterProducts = products.filter((item: any) => {
     return item.name.toLowerCase().includes(searchTerm?.trim().toLowerCase());
   });

@@ -8,6 +8,8 @@ import { NavLink } from "react-router-dom";
 import { Badge } from "react-bootstrap";
 
 function ManageComments() {
+  document.title = "Manage Comments | PetShop";
+
   const [searchText, setSearchText] = useState<string>("");
   const [listProducts, setListProducts] = useState<any>([]);
   const [productComments, setProductComments] = useState<any>([]);

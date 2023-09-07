@@ -7,6 +7,8 @@ import { Chart } from "react-google-charts";
 import { Badge } from "react-bootstrap";
 
 function Report() {
+  document.title = "Reports | PetShop";
+
   const [users, setUsers] = useState<any>([]);
   const [products, setProducts] = useState<any>([]);
   const [services, setServices] = useState<any>([]);
@@ -420,7 +422,9 @@ function Report() {
           className={`${styles["report-overview-item"]} ${styles["report-overview-item-booking"]}`}
         >
           <h4>Total Booking</h4>
-          <span className={styles["report-number"]}>{bookings?.length || 0}</span>
+          <span className={styles["report-number"]}>
+            {bookings?.length || 0}
+          </span>
         </div>
         <div
           className={`${styles["report-overview-item"]} ${styles["report-overview-item-sales"]}`}

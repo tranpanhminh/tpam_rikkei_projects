@@ -8,6 +8,8 @@ import { notification } from "antd";
 import { Badge } from "react-bootstrap";
 
 function ManageSubscribers() {
+  document.title = "Manage Subscribers | PetShop";
+
   const [searchText, setSearchText] = useState<string>("");
   const [subscribers, setSubscribers] = useState<any>([]);
 

@@ -6,6 +6,8 @@ import { Button, Modal, notification } from "antd";
 import axios from "axios";
 
 function ClientEditProfile() {
+  document.title = "My Profile | PetShop";
+
   const [userFullName, setUserFullName] = useState("");
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");

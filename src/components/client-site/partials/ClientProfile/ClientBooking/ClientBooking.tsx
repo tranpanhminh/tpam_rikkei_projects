@@ -246,6 +246,8 @@ import "../../../../../assets/bootstrap-5.3.0-dist/css/bootstrap.min.css";
 import axios from "axios";
 import { Badge } from "react-bootstrap";
 function ClientBooking() {
+  document.title = "My Booking | PetShop";
+
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
   const [searchText, setSearchText] = useState<string>("");

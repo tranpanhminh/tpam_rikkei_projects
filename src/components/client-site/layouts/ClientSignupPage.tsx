@@ -7,6 +7,8 @@ import ClientFooter from "../partials/ClientFooter/ClientFooter";
 import NotificationSale from "../partials/NotificationSale/Notification";
 
 function ClientSignupPage() {
+  document.title = "Sign Up | PetShop";
+
   return (
     <>
       {/* Signup Page */}

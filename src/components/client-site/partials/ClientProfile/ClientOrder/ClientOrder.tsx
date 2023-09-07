@@ -273,6 +273,8 @@ import { Account } from "../../../../../database";
 import { Badge } from "react-bootstrap";
 import DetailOrderButton from "./Button/DetailOrderButtonClient";
 function ClientOrder() {
+  document.title = "My Orders | PetShop";
+
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
   const [searchText, setSearchText] = useState<string>("");

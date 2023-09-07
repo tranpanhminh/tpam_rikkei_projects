@@ -9,6 +9,8 @@ import { notification } from "antd";
 import { Badge } from "react-bootstrap";
 
 function ManageBooking() {
+  document.title = "Manage Booking | PetShop";
+
   const [searchText, setSearchText] = useState<string>("");
   const [bookings, setBookings] = useState<any>([]);
 

@@ -6,6 +6,7 @@ import ClientFooter from "../partials/ClientFooter/ClientFooter";
 import AboutStore from "../partials/ClientAboutStore/AboutStore";
 import NotificationSale from "../partials/NotificationSale/Notification";
 function CLientAboutPage() {
+  document.title = "About Us | PetShop";
   return (
     <>
       {/* Homepage */}

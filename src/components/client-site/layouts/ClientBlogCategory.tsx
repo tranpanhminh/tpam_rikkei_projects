@@ -10,6 +10,8 @@ import BlogCategory from "../partials/ClientPost/BlogCategory/BlogCategory";
 import styles from "../partials/ClientPost/BlogPost.module.css";
 import { Outlet } from "react-router-dom";
 function ClientBlogCategory() {
+  document.title = "Blogs | PetShop";
+
   return (
     // <>
     //   <ClientHeaderPC />

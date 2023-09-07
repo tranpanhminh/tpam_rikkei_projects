@@ -9,6 +9,8 @@ import NotificationSale from "../partials/NotificationSale/Notification";
 import { Outlet } from "react-router-dom";
 
 function ClientServicesCategoryPage() {
+  document.title = "Services Category | PetShop";
+
   return (
     // <>
     //   <ClientHeaderPC />

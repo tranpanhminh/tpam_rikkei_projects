@@ -8,6 +8,8 @@ import AddPostButton from "./AddPost/AddPostButton";
 import { NavLink, useNavigate } from "react-router-dom";
 
 function ManagePosts() {
+  document.title = "Manage Posts | PetShop";
+
   const [searchText, setSearchText] = useState<string>("");
   const [posts, setPosts] = useState<any>([]);
   const navigate = useNavigate();

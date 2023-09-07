@@ -69,6 +69,8 @@ function ClientServiceDetail() {
     fetchBooking();
   }, []);
 
+  document.title = `${services ? `${services?.name} | PetShop` : "Loading..."}`;
+
   const handleEditorChange = (content: string) => {
     setEditorContent(content);
   };

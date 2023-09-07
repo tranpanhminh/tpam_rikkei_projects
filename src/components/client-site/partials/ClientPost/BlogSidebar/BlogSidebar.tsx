@@ -47,7 +47,6 @@ function BlogSidebar() {
   return (
     <div className={styles["blog-sidebar"]}>
       <ClientSearch />
-
       {/* <div>
         <Form className="d-flex">
           <Form.Control

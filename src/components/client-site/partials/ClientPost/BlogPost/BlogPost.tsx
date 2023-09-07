@@ -40,6 +40,8 @@ function BlogPost() {
     fetchAllPosts();
   }, [postId]);
 
+  document.title = `${post ? `${post?.post_title} | PetShop` : "Loading..."}`;
+
   return (
     <>
       <div className={styles["post-content-section"]}>

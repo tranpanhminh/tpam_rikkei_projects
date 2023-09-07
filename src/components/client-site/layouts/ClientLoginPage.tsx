@@ -6,6 +6,8 @@ import LoginForm from "../partials/LoginSignUp/LoginForm";
 import ClientFooter from "../partials/ClientFooter/ClientFooter";
 import NotificationSale from "../partials/NotificationSale/Notification";
 function ClientLoginPage() {
+  document.title = "Login | PetShop";
+
   return (
     <>
       {/* Login Page */}

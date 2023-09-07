@@ -8,6 +8,8 @@ import ClientFooter from "../partials/ClientFooter/ClientFooter";
 import NotificationSale from "../partials/NotificationSale/Notification";
 import { Outlet } from "react-router-dom";
 function ClientProductCategoryPage() {
+  document.title = "Products Category | PetShop";
+
   return (
     // <>
     //   <ClientHeaderPC />

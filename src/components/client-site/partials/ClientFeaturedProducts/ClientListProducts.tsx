@@ -6,6 +6,8 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { Pagination } from "antd";
 
 function ClientListProducts() {
+  document.title = "Products | PetShop";
+
   const navigate = useNavigate();
   const [products, setProducts] = useState<Product[]>([]);
   const [posts, setPosts] = useState<any>([]);

@@ -17,7 +17,7 @@ function ClientSearch() {
   };
 
   return (
-    <>s
+    <>
       <div>
         <Form className="d-flex">
           <Form.Control

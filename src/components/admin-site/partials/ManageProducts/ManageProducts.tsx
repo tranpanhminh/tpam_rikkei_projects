@@ -9,6 +9,8 @@ import styles from "../../AdminPage.module.css";
 import { NavLink } from "react-router-dom";
 
 function ManageProducts() {
+  document.title = "Manage Products | PetShop";
+
   const [products, setProducts] = useState<null | Product[]>(null);
   const [searchText, setSearchText] = useState<string>("");
 
