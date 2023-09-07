@@ -609,7 +609,9 @@ function Report() {
 
   const [users, setUsers] = useState<any>([]);
   const [products, setProducts] = useState<any>([]);
+  const [productComments, setProductComments] = useState<any>([]);
   const [services, setServices] = useState<any>([]);
+  const [serviceComments, setServiceComments] = useState<any>([]);
   const [orders, setOrders] = useState<any>([]);
   const [bookings, setBookings] = useState<any>([]);
 
@@ -629,6 +631,7 @@ function Report() {
       .get("http://localhost:7373/products")
       .then((response) => {
         setProducts(response.data);
+        setProductComments(response.data.comments);
       })
       .catch((error) => {
         console.log(error.message);
@@ -640,6 +643,7 @@ function Report() {
       .get("http://localhost:7373/services")
       .then((response) => {
         setServices(response.data);
+        setServiceComments(response.data.comments);
       })
       .catch((error) => {
         console.log(error.message);
@@ -861,9 +865,41 @@ function Report() {
   console.log(sortUniqueProductArray, "sortUniqueArray");
 
   // 2. Tìm sản phẩm rating cao nhất
-  let filterProducts = products.map((product: any) => {
-    return product.comments;
+  let filterProduct = products.map((product: any) => {
+    return {
+      id: product.id,
+      productImage: product.productImage,
+      name: product.name,
+      price: product.price,
+      comments: product.comments.filter((item: any) => {
+        return item.userRole === "customer";
+      }),
+      averateRating: product.comments.reduce(
+        (accumulator: any, currentValue: any) => {
+          return accumulator + currentValue.rating;
+        },
+        0
+      ),
+    };
   });
+
+  let filterProductWithAverateRating = filterProduct.map((product: any) => {
+    return {
+      ...product,
+      averateRating: Number(
+        (product.averateRating / product.comments.length).toFixed(1)
+      ),
+      totalReviews: Number(product.comments.length),
+    };
+  });
+  console.log(filterProductWithAverateRating, "filterProductWithAverateRating");
+
+  const sortProductRating = filterProductWithAverateRating.sort(
+    (a: any, b: any) => {
+      return b.averateRating - a.averateRating;
+    }
+  );
+  console.log(sortProductRating, "sortProductRating");
 
   // Tạo một đối tượng Map để lưu trữ số lần booking của từng dịch vụ
   const serviceBookingCounts = new Map();
@@ -1060,12 +1096,12 @@ function Report() {
         <div className={styles["best-report-overview-item"]}>
           <h4>Best Rating Product</h4>
           <img
-            // src={highestRatedProduct?.productImage || 0}
+            src={sortProductRating[0]?.productImage || 0}
             alt=""
             className={styles["best-report-image"]}
           />
           <p className={styles["best-report-overview-name"]}>
-            {/* {highestRatedProduct?.productName || 0} */}
+            {sortProductRating[0]?.name || 0}
           </p>
           <div className={styles["best-report-overview-statistic"]}>
             <div>
@@ -1073,7 +1109,7 @@ function Report() {
                 bg="primary"
                 className={styles["best-report-overview-badge"]}
               >
-                {/* Avg Rating: {highestRatedProduct?.productRating || 0} */}
+                Avg Rating: {sortProductRating[0]?.averateRating || 0}
                 <i
                   className={`fa-solid fa-star  ${styles["best-rating-star-icon"]}`}
                 ></i>
@@ -1085,7 +1121,7 @@ function Report() {
                 text="dark"
                 className={styles["best-report-overview-badge"]}
               >
-                {/* Total reviews: {highestRatedProduct?.totalReview || 0} */}
+                Total reviews: {sortProductRating[0]?.totalReviews || 0}
               </Badge>
             </div>
           </div>
