@@ -332,8 +332,6 @@ function ClientProductDetail() {
       });
   }, []); // Gọi chỉ một lần khi component được tạo
 
-  console.log("List User", listUser);
-
   const getAvatar = (userId: number) => {
     let defaultAvatar = "https://i.ibb.co/3BtQdVD/pet-shop.png";
     let userAvatar = "";

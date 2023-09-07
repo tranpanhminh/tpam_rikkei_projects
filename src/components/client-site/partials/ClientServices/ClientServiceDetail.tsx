@@ -17,12 +17,12 @@ function ClientServiceDetail() {
   const [user, setUser] = useState<any>(null);
   const [services, setServices] = useState<any>(null);
   const [comments, setComments] = useState<any>([]);
-  const [editorContent, setEditorContent] = useState("");
-  const [rateValue, setRateValue] = useState(0);
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
+  const [editorContent, setEditorContent] = useState<any>("");
+  const [rateValue, setRateValue] = useState<any>(0);
+  const [name, setName] = useState<any>("");
+  const [phone, setPhone] = useState<any>("");
   const [dateBooking, setDateBooking] = useState<any>("");
-  const [timeZone, setTimeZone] = useState("");
+  const [timeZone, setTimeZone] = useState<any>("");
   const [bookings, setBookings] = useState<any>([]);
   // const [dataBookings, setDataBookings] = useState<any>([]);
   // const [dataBookingId, setDataBookingId] = useState<any>([]);
@@ -57,6 +57,7 @@ function ClientServiceDetail() {
       .get(`http://localhost:7373/bookings/`)
       .then((response) => {
         setBookings(response.data);
+        setTimeZone("Select time");
       })
       .catch((error) => {
         console.log(error.message);
@@ -192,7 +193,8 @@ function ClientServiceDetail() {
   const editorConfig = {
     height: "300px",
   };
-
+  console.log("TIME ZONE", timeZone);
+  console.log("dateBooking", typeof dateBooking);
   // Function Booking Service
   const handleBooking = (userId: number, serviceId: number) => {
     if (getLoginData.role === "admin") {
@@ -220,7 +222,7 @@ function ClientServiceDetail() {
     }
 
     // Định dạng ngày trong `dateBooking` (VD: '10/09/2023')
-    const dateParts = dateBooking.split("/");
+    const dateParts = dateBooking ? dateBooking.split("/") : "";
     const day = parseInt(dateParts[0], 10);
     const month = parseInt(dateParts[1], 10) - 1; // Lưu ý: Tháng trong JavaScript là từ 0 đến 11
     const year = parseInt(dateParts[2], 10);
@@ -243,14 +245,14 @@ function ClientServiceDetail() {
       return;
     }
 
-    if (timeZone === "") {
+    if (timeZone === "" || timeZone === "Select time") {
       notification.warning({
         message: "Please choose booking time",
       });
       return;
     }
 
-    if (dateBooking === "" || dateBooking === null) {
+    if (!dateBooking || dateBooking === "") {
       notification.warning({
         message: "Please choose booking date",
       });
@@ -406,7 +408,7 @@ function ClientServiceDetail() {
                     setName("");
                     setPhone("");
                     setDateBooking(null);
-                    setTimeZone("Select Time");
+                    setTimeZone("Select time");
                   })
                   .catch((updateUserError) => {
                     console.error("Error updating user data:", updateUserError);
@@ -454,7 +456,7 @@ function ClientServiceDetail() {
                     });
                     setName("");
                     setPhone("");
-                    setDateBooking(null);
+                    setDateBooking("");
                     setTimeZone("Select Time");
                   })
                   .catch((updateUserError) => {
