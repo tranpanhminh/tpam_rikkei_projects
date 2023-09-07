@@ -12,7 +12,7 @@ import {
   NavDropdown,
   Navbar,
 } from "react-bootstrap";
-import { notification } from "antd";
+import { message, notification } from "antd";
 
 function ClientHeaderPC() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -30,9 +30,14 @@ function ClientHeaderPC() {
   const handleLogout = () => {
     localStorage.removeItem("auth");
     navigate("/");
-    notification.success({
-      message: "Logout Successfully",
+    message.open({
+      type: "success",
+      content: "Logout Successfully",
     });
+
+    // notification.success({
+    //   message: "Logout Successfully",
+    // });
   };
 
   const handleSearch = () => {

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "../../ClientPage.module.css";
 import axios from "axios";
 import { userAccount } from "../../../../database";
-import { notification } from "antd";
+import { message, notification } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
 
 function LoginForm() {
@@ -41,9 +41,14 @@ function LoginForm() {
               message: "Password is not valid",
             });
           } else {
-            notification.success({
-              message: "Login Successfully",
+            message.open({
+              type: "success",
+              content: "Login Successfully",
             });
+
+            // notification.success({
+            //   message: "Login Successfully",
+            // });
             navigate("/");
             const loginData = {
               loginId: account.id,
@@ -52,7 +57,7 @@ function LoginForm() {
               status: account.status,
               avatar: account.image_avatar,
             };
-     
+
             localStorage.setItem("auth", JSON.stringify(loginData));
           }
         }

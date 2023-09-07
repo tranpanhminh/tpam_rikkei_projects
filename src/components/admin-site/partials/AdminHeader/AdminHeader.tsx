@@ -4,7 +4,7 @@ import logo from "../../../../assets/images/pet-shop.png";
 import styles from "../../AdminPage.module.css";
 
 import { NavLink, useNavigate } from "react-router-dom";
-import { notification } from "antd";
+import { message, notification } from "antd";
 import axios from "axios";
 import { Badge } from "react-bootstrap";
 import DetailButtonUser from "../ManageUsers/Button/DetailUser/DetailButtonUser";
@@ -37,9 +37,14 @@ const AdminHeader: React.FC = () => {
   const handleLogout = () => {
     localStorage.removeItem("auth");
     navigate("/");
-    notification.success({
-      message: "Logout Successfully",
+    message.open({
+      type: "success",
+      content: "Logout Successfully",
     });
+
+    // notification.success({
+    //   message: "Logout Successfully",
+    // });
   };
 
   const handleUpdateUser = () => {

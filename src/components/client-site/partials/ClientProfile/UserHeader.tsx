@@ -10,6 +10,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { Account } from "../../../../database";
 import axios from "axios";
 import { Badge } from "react-bootstrap";
+import { message } from "antd";
 
 const UserHeader: React.FC = () => {
   const getData: any = localStorage.getItem("auth");
@@ -40,6 +41,10 @@ const UserHeader: React.FC = () => {
   const handleLogout = () => {
     localStorage.removeItem("auth");
     navigate("/");
+    message.open({
+      type: "success",
+      content: "Logout Successfully",
+    });
   };
   return (
     <>
