@@ -107,6 +107,11 @@ const DetailBooking: React.FC<DetailModalProps> = ({
   };
 
   const handleOkUpdateStatus = () => {
+    if (bookingStatus === "") {
+      setIsModalOpenUpdateStatus(false);
+      return;
+    }
+
     const updatedListBookings = listBooking.map((item: any) => {
       if (item.bookingId === selectedBooking.bookingId) {
         return {
@@ -366,6 +371,7 @@ const DetailBooking: React.FC<DetailModalProps> = ({
                                   <select
                                     name=""
                                     id=""
+                                    value={selectedBooking?.bookingStatus}
                                     onChange={(event) =>
                                       setBookingStatus(event.target.value)
                                     }
