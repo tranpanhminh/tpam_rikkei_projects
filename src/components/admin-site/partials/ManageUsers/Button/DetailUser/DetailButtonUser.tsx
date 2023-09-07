@@ -137,7 +137,7 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
       >
         <div className={styles["list-input-add-student"]}>
           <span style={{ fontSize: "16px", fontWeight: "bold" }}>
-            Change User Information
+            Change User Information (Optional)
           </span>
           <div className={styles["list-input-item"]}>
             <p>User ID</p>
@@ -167,7 +167,7 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
             />
           </div>
           <span style={{ fontSize: "16px", fontWeight: "bold" }}>
-            Change Password
+            Change Password (Optional)
           </span>
           <div className={styles["list-input-item"]}>
             <p>Old Password</p>
