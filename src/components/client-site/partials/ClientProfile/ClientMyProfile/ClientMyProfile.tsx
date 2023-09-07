@@ -55,13 +55,14 @@ function ClientEditProfile() {
   const handleOk = () => {
     // Kiểm tra Full Name
 
-    if (!userFullName) {
-      notification.warning({
-        message: "Error",
-        description: "Please Enter Full Name",
-      });
-      return;
-    } else if (!/^[a-zA-Z\s]*$/.test(userFullName)) {
+    // if (!userFullName) {
+    //   notification.warning({
+    //     message: "Error",
+    //     description: "Please Enter Full Name",
+    //   });
+    //   return;
+    // } else
+    if (!/^[a-zA-Z\s]*$/.test(userFullName)) {
       notification.warning({
         message: "Full Name cannot contain special characters or numbers",
       });
@@ -105,7 +106,7 @@ function ClientEditProfile() {
     }
 
     const updatedUserData = {
-      fullName: userFullName,
+      fullName: userFullName !== "" ? userFullName : user.fullName,
       password: newPassword !== "" ? newPassword : user.password, // Keep the same password if not changed
       image_avatar: avatar !== "" ? avatar : user.image_avatar,
     };
@@ -130,7 +131,7 @@ function ClientEditProfile() {
 
   const handleCancel = () => {
     setUserFullName(user.fullName);
-    setAvatar;
+    setAvatar(user.image_avatar);
     setOldPassword("");
     setNewPassword("");
     setIsModalOpen(false);
