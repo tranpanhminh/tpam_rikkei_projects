@@ -24,9 +24,10 @@ function ClientServiceDetail() {
   const [dateBooking, setDateBooking] = useState<any>("");
   const [timeZone, setTimeZone] = useState("");
   const [bookings, setBookings] = useState<any>([]);
-  const [dataBookings, setDataBookings] = useState<any>([]);
-  const [dataBookingId, setDataBookingId] = useState<any>([]);
-  const location = useLocation();
+  // const [dataBookings, setDataBookings] = useState<any>([]);
+  // const [dataBookingId, setDataBookingId] = useState<any>([]);
+  // const location = useLocation();
+  const [listUser, setListUser] = useState<any>([]); // Sử dụng useState để quản lý userAvatar
 
   const fetchUsers = () => {
     axios
@@ -480,6 +481,35 @@ function ClientServiceDetail() {
     setTimeZone(value);
   };
 
+  useEffect(() => {
+    axios
+      .get(`http://localhost:7373/accounts/`)
+      .then((response) => {
+        setListUser(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching user avatar:", error);
+      });
+  }, []); // Gọi chỉ một lần khi component được tạo
+
+  console.log("List User", listUser);
+
+  const getAvatar = (userId: number) => {
+    let defaultAvatar = "https://i.ibb.co/3BtQdVD/pet-shop.png";
+    let userAvatar = "";
+    let findUser = listUser.find((item: any) => {
+      return item.id === userId;
+    });
+    if (findUser) {
+      userAvatar = findUser.image_avatar
+        ? findUser.image_avatar
+        : defaultAvatar;
+    } else {
+      userAvatar = defaultAvatar;
+    }
+    return userAvatar;
+  };
+
   return (
     <>
       <div className={styles["wrap-service-detail-page"]}>
@@ -686,9 +716,10 @@ function ClientServiceDetail() {
                     <section className={styles["product-comment-item"]}>
                       <div className={styles["user-comment-info"]}>
                         <img
-                          src={
-                            getLoginData.avatar ? getLoginData.avatar : avatar
-                          }
+                          // src={
+                          //   getLoginData.avatar ? getLoginData.avatar : avatar
+                          // }
+                          src={getAvatar(item.userId)}
                           alt=""
                           className={styles["user-avatar"]}
                         />

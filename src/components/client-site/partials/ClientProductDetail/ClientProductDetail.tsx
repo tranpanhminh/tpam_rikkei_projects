@@ -23,6 +23,8 @@ function ClientProductDetail() {
   const [quantity, setQuantity] = useState<number>(1);
   const [editorContent, setEditorContent] = useState("");
   const [rateValue, setRateValue] = useState(0);
+  const [listUser, setListUser] = useState<any>([]); // Sử dụng useState để quản lý userAvatar
+
   const handleOk = () => {
     setIsModalOpen(false);
   };
@@ -318,6 +320,35 @@ function ClientProductDetail() {
     return filterComment?.length;
   };
 
+  useEffect(() => {
+    axios
+      .get(`http://localhost:7373/accounts/`)
+      .then((response) => {
+        setListUser(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching user avatar:", error);
+      });
+  }, []); // Gọi chỉ một lần khi component được tạo
+
+  console.log("List User", listUser);
+
+  const getAvatar = (userId: number) => {
+    let defaultAvatar = "https://i.ibb.co/3BtQdVD/pet-shop.png";
+    let userAvatar = "";
+    let findUser = listUser.find((item: any) => {
+      return item.id === userId;
+    });
+    if (findUser) {
+      userAvatar = findUser.image_avatar
+        ? findUser.image_avatar
+        : defaultAvatar;
+    } else {
+      userAvatar = defaultAvatar;
+    }
+    return userAvatar;
+  };
+
   return (
     <>
       {products && (
@@ -480,9 +511,7 @@ function ClientProductDetail() {
                     <section className={styles["product-comment-item"]}>
                       <div className={styles["user-comment-info"]}>
                         <img
-                          src={
-                            getLoginData.avatar ? getLoginData.avatar : avatar
-                          }
+                          src={getAvatar(item.userId)}
                           alt=""
                           className={styles["user-avatar"]}
                         />
