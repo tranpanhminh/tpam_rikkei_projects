@@ -130,7 +130,7 @@ function ClientNewsLetter() {
   return (
     <div>
       <div className={styles.breadcrumb}>
-        <h2 className={styles["page-title"]}>My Newsletter</h2>
+        <h2 className={styles["page-title"]}>My Coupons</h2>
         <p className={styles["page-description"]}>PetShop User Panel</p>
       </div>
 
