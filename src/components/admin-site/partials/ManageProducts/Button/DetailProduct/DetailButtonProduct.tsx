@@ -90,7 +90,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
     };
 
     axios
-      .put(`http://localhost:7373/products/${getProductId}`, updateProduct)
+      .patch(`http://localhost:7373/products/${getProductId}`, updateProduct)
       .then((response) => {
         console.log("Product updated successfully:", response.data);
         setIsModalOpen(false); // Close the modal
