@@ -129,6 +129,8 @@ function ClientEditProfile() {
   };
 
   const handleCancel = () => {
+    setUserFullName(user.fullName);
+    setAvatar;
     setOldPassword("");
     setNewPassword("");
     setIsModalOpen(false);
