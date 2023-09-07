@@ -603,6 +603,7 @@ import axios from "axios";
 // Import thư viện Chart JS
 import { Chart } from "react-google-charts";
 import { Badge } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
 
 function Report() {
   document.title = "Reports | PetShop";
@@ -804,7 +805,6 @@ function Report() {
       countPetSitting,
     ]);
   });
-
 
   // 1. Tìm sản phẩm bán chạy nhất (Tổng số lần bán ra)
   let totalProductIdArray = orders.map((order: any) => {
@@ -1030,14 +1030,24 @@ function Report() {
       <div className={styles["best-report-overview"]}>
         <div className={styles["best-report-overview-item"]}>
           <h4>Best Selling Product</h4>
-          <img
-            src={sortUniqueProductArray[0]?.productImage || 0}
-            alt=""
-            className={styles["best-report-image"]}
-          />
-          <p className={styles["best-report-overview-name"]}>
-            {sortUniqueProductArray[0]?.productName || 0}
-          </p>
+          <NavLink
+            to={`/products/${sortUniqueProductArray[0]?.productId}`}
+            target="_blank"
+          >
+            <img
+              src={sortUniqueProductArray[0]?.productImage || 0}
+              alt=""
+              className={styles["best-report-image"]}
+            />
+          </NavLink>
+          <NavLink
+            to={`/products/${sortUniqueProductArray[0]?.productId}`}
+            target="_blank"
+          >
+            <p className={styles["best-report-overview-name"]}>
+              {sortUniqueProductArray[0]?.productName || 0}
+            </p>
+          </NavLink>
           <div className={styles["best-report-overview-statistic"]}>
             <div>
               <Badge
@@ -1060,14 +1070,18 @@ function Report() {
         </div>
         <div className={styles["best-report-overview-item"]}>
           <h4>Best Rating Product</h4>
-          <img
-            src={sortProductRating[0]?.productImage || 0}
-            alt=""
-            className={styles["best-report-image"]}
-          />
-          <p className={styles["best-report-overview-name"]}>
-            {sortProductRating[0]?.name || 0}
-          </p>
+          <NavLink to={`/products/${sortProductRating[0]?.id}`} target="_blank">
+            <img
+              src={sortProductRating[0]?.productImage || 0}
+              alt=""
+              className={styles["best-report-image"]}
+            />
+          </NavLink>
+          <NavLink to={`/products/${sortProductRating[0]?.id}`} target="_blank">
+            <p className={styles["best-report-overview-name"]}>
+              {sortProductRating[0]?.name || 0}
+            </p>
+          </NavLink>
           <div className={styles["best-report-overview-statistic"]}>
             <div>
               <Badge
@@ -1093,14 +1107,24 @@ function Report() {
         </div>
         <div className={styles["best-report-overview-item"]}>
           <h4>Best Service</h4>
-          <img
-            src={sortUniqueBooking[0]?.serviceImage || 0}
-            alt=""
-            className={styles["best-report-image"]}
-          />
-          <p className={styles["best-report-overview-name"]}>
-            {sortUniqueBooking[0]?.serviceName || 0}
-          </p>
+          <NavLink
+            to={`/services/${sortUniqueBooking[0]?.serviceId}`}
+            target="_blank"
+          >
+            <img
+              src={sortUniqueBooking[0]?.serviceImage || 0}
+              alt=""
+              className={styles["best-report-image"]}
+            />
+          </NavLink>
+          <NavLink
+            to={`/services/${sortUniqueBooking[0]?.serviceId}`}
+            target="_blank"
+          >
+            <p className={styles["best-report-overview-name"]}>
+              {sortUniqueBooking[0]?.serviceName || 0}
+            </p>
+          </NavLink>
           <div className={styles["best-report-overview-statistic"]}>
             <div>
               <Badge
@@ -1123,14 +1147,18 @@ function Report() {
         </div>
         <div className={styles["best-report-overview-item"]}>
           <h4>Best Rating Service</h4>
-          <img
-            src={sortServiceRating[0]?.serviceImage || 0}
-            alt=""
-            className={styles["best-report-image"]}
-          />
-          <p className={styles["best-report-overview-name"]}>
-            {sortServiceRating[0]?.name || 0}
-          </p>
+          <NavLink to={`/services/${sortServiceRating[0]?.id}`} target="_blank">
+            <img
+              src={sortServiceRating[0]?.serviceImage || 0}
+              alt=""
+              className={styles["best-report-image"]}
+            />
+          </NavLink>
+          <NavLink to={`/services/${sortServiceRating[0]?.id}`} target="_blank">
+            <p className={styles["best-report-overview-name"]}>
+              {sortServiceRating[0]?.name || 0}
+            </p>
+          </NavLink>
           <div className={styles["best-report-overview-statistic"]}>
             <div>
               <Badge
