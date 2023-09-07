@@ -983,24 +983,42 @@ function Report() {
   });
 
   // Tìm dịch vụ có tổng điểm rating cao nhất
-  let highestRatedService: any = null;
-  let highestTotalRating = 0;
-
-  serviceRatings?.forEach((ratingInfo, serviceId) => {
-    if (ratingInfo.totalRating > highestTotalRating) {
-      highestTotalRating = ratingInfo.totalRating;
-      highestRatedService = {
-        serviceId,
-        serviceName: ratingInfo.name,
-        serviceImage: ratingInfo.serviceImage,
-        totalRating: ratingInfo.totalRating / ratingInfo.totalReviews,
-        totalReviews: ratingInfo.totalReviews,
-      };
-    }
+  let filterService = services.map((service: any) => {
+    return {
+      id: service.id,
+      serviceImage: service.serviceImage,
+      name: service.name,
+      price: service.price,
+      comments: service.comments.filter((item: any) => {
+        return item.userRole === "customer";
+      }),
+      averateRating: service.comments.reduce(
+        (accumulator: any, currentValue: any) => {
+          return accumulator + currentValue.rating;
+        },
+        0
+      ),
+    };
   });
 
-  console.log("Dịch vụ có tổng điểm rating cao nhất:");
-  console.log("highestRatedService", highestRatedService);
+  let filterServiceWithAverateRating = filterService.map((service: any) => {
+    return {
+      ...service,
+      averateRating: Number(
+        (service.averateRating / service.comments.length).toFixed(1)
+      ),
+      totalReviews: Number(service.comments.length),
+    };
+  });
+  console.log(filterServiceWithAverateRating, "filterServiceWithAverateRating");
+
+  const sortServiceRating = filterServiceWithAverateRating.sort(
+    (a: any, b: any) => {
+      return b.averateRating - a.averateRating;
+    }
+  );
+
+  console.log(sortServiceRating, "sortServiceRating");
 
   const totalSaleOrders = () => {
     let totalSales = orders?.reduce((accumulator: any, currentValue: any) => {
@@ -1159,12 +1177,12 @@ function Report() {
         <div className={styles["best-report-overview-item"]}>
           <h4>Best Rating Service</h4>
           <img
-            src={highestRatedService?.serviceImage || 0}
+            src={sortServiceRating[0]?.serviceImage || 0}
             alt=""
             className={styles["best-report-image"]}
           />
           <p className={styles["best-report-overview-name"]}>
-            {highestRatedService?.serviceName || 0}
+            {sortServiceRating[0]?.name || 0}
           </p>
           <div className={styles["best-report-overview-statistic"]}>
             <div>
@@ -1172,7 +1190,7 @@ function Report() {
                 bg="primary"
                 className={styles["best-report-overview-badge"]}
               >
-                Rating: {highestRatedService?.totalRating.toFixed(1) || 0}
+                Rating: {sortServiceRating[0]?.averateRating.toFixed(1) || 0}
                 <i
                   className={`fa-solid fa-star  ${styles["best-rating-star-icon"]}`}
                 ></i>
@@ -1184,7 +1202,7 @@ function Report() {
                 text="dark"
                 className={styles["best-report-overview-badge"]}
               >
-                Total reviews: {highestRatedService?.totalReviews || 0}
+                Total reviews: {sortServiceRating[0]?.totalReviews || 0}
               </Badge>
             </div>
           </div>
