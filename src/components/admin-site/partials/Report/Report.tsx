@@ -805,8 +805,6 @@ function Report() {
     ]);
   });
 
-  // In ra kết quả
-  console.log(bookingService);
 
   // 1. Tìm sản phẩm bán chạy nhất (Tổng số lần bán ra)
   let totalProductIdArray = orders.map((order: any) => {
@@ -831,8 +829,6 @@ function Report() {
     return allProductId;
   });
 
-  console.log(allProductId, "allProductId");
-
   let listProductArrayWithCount = allProductId.map((item: any) => {
     let loopAllProductId = allProductId.filter((product: any) => {
       return item.productId === product.productId;
@@ -856,12 +852,9 @@ function Report() {
     return false;
   });
 
-  console.log(uniqueProductArray, "UNIQUE ARRAY");
-
   const sortUniqueProductArray = uniqueProductArray.sort((a: any, b: any) => {
     return b.count - a.count;
   });
-  console.log(sortUniqueProductArray, "sortUniqueArray");
 
   // 2. Tìm sản phẩm rating cao nhất
   let filterProduct = products.map((product: any) => {
@@ -891,14 +884,12 @@ function Report() {
       totalReviews: Number(product.comments.length),
     };
   });
-  console.log(filterProductWithAverateRating, "filterProductWithAverateRating");
 
   const sortProductRating = filterProductWithAverateRating.sort(
     (a: any, b: any) => {
       return b.averateRating - a.averateRating;
     }
   );
-  console.log(sortProductRating, "sortProductRating");
 
   // 3. Tìm dịch vụ có số lần booking nhiều nhất
   let filterBooking = bookings.map((booking: any) => {
@@ -913,8 +904,6 @@ function Report() {
   let filterBookingDone = listBookings.filter((item: any) => {
     return item.status === "Done";
   });
-
-  console.log(filterBookingDone, "filterBookingDone");
 
   let listServcieArrayWithCount = filterBookingDone.map((item: any) => {
     let loopAllServiceId = filterBookingDone.filter((service: any) => {
@@ -943,10 +932,7 @@ function Report() {
     return b.count - a.count;
   });
 
-  console.log(sortUniqueBooking, "sortUniqueBooking");
-
   // 4. Tìm dịch vụ có tổng điểm rating cao nhất
-
   let filterService = services.map((service: any) => {
     return {
       id: service.id,
@@ -974,15 +960,12 @@ function Report() {
       totalReviews: Number(service.comments.length),
     };
   });
-  console.log(filterServiceWithAverateRating, "filterServiceWithAverateRating");
 
   const sortServiceRating = filterServiceWithAverateRating.sort(
     (a: any, b: any) => {
       return b.averateRating - a.averateRating;
     }
   );
-
-  console.log(sortServiceRating, "sortServiceRating");
 
   const totalSaleOrders = () => {
     let totalSales = orders?.reduce((accumulator: any, currentValue: any) => {
