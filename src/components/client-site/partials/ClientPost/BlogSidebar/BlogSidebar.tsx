@@ -5,16 +5,17 @@ import { Button, Form } from "react-bootstrap";
 import { Pagination } from "antd";
 import axios from "axios";
 import { useParams } from "react-router-dom"; // Import useParams để lấy giá trị slug từ URL
+import ClientSearch from "../../ClientSearch/ClientSearch";
 
 function BlogSidebar() {
-  const [searchTerm, setSearchTerm] = useState("");
+  // const [searchTerm, setSearchTerm] = useState("");
   const [products, setProducts] = useState<any>([]);
   const [services, setServices] = useState<any>([]);
 
-  const navigate = useNavigate();
-  const handleSearch = () => {
-    navigate(`/search/${searchTerm}`);
-  };
+  // const navigate = useNavigate();
+  // const handleSearch = () => {
+  //   navigate(`/search/${searchTerm}`);
+  // };
 
   const fetchProducts = () => {
     axios
@@ -45,7 +46,9 @@ function BlogSidebar() {
 
   return (
     <div className={styles["blog-sidebar"]}>
-      <div>
+      <ClientSearch />
+
+      {/* <div>
         <Form className="d-flex">
           <Form.Control
             type="search"
@@ -61,7 +64,7 @@ function BlogSidebar() {
             Search
           </Button>
         </Form>
-      </div>
+      </div> */}
 
       <div className={styles["sidebar-featured-product"]}>
         <h3 className={styles["sidebar-featured-product-headline"]}>

@@ -13,9 +13,10 @@ import {
   Navbar,
 } from "react-bootstrap";
 import { message, notification } from "antd";
+import ClientSearch from "../ClientSearch/ClientSearch";
 
 function ClientHeaderPC() {
-  const [searchTerm, setSearchTerm] = useState("");
+  // const [searchTerm, setSearchTerm] = useState("");
   const NavLinkStyle = ({ isActive }: { isActive: boolean }) => ({
     color: isActive ? "white" : "black",
     fontWeight: "bold",
@@ -40,9 +41,9 @@ function ClientHeaderPC() {
     // });
   };
 
-  const handleSearch = () => {
-    navigate(`/search/${searchTerm}`);
-  };
+  // const handleSearch = () => {
+  //   navigate(`/search/${searchTerm}`);
+  // };
   return (
     <header className={styles["header"]}>
       <Navbar
@@ -175,7 +176,7 @@ function ClientHeaderPC() {
                 </Button>
               </NavLink>
             </Nav>
-            <Form className="d-flex">
+            {/* <Form className="d-flex">
               <Form.Control
                 type="search"
                 placeholder="Search"
@@ -189,7 +190,8 @@ function ClientHeaderPC() {
               <Button variant="outline-success" onClick={handleSearch}>
                 Search
               </Button>
-            </Form>
+            </Form> */}
+            <ClientSearch />
           </Navbar.Collapse>
         </Container>
       </Navbar>
