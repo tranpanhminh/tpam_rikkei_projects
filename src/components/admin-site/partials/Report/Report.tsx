@@ -568,7 +568,7 @@ function Report() {
                 bg="primary"
                 className={styles["best-report-overview-badge"]}
               >
-                Rating: {highestRatedService?.totalRating || 0}
+                Rating: {highestRatedService?.totalRating.toFixed(1) || 0}
                 <i
                   className={`fa-solid fa-star  ${styles["best-rating-star-icon"]}`}
                 ></i>

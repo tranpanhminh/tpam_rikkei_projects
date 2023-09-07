@@ -5,6 +5,7 @@ import { Coupon } from "../../../../database"; // Import your data fetching and 
 import axios from "axios";
 import { Button, notification } from "antd";
 import { NavLink } from "react-router-dom";
+import { Badge } from "react-bootstrap";
 
 function ManageComments() {
   const [searchText, setSearchText] = useState<string>("");
@@ -144,6 +145,17 @@ function ManageComments() {
     }
   };
 
+  const changeColor = (type: string) => {
+    switch (type) {
+      case "product":
+        return "warning";
+      case "service":
+        return "info";
+      default:
+        return;
+    }
+  };
+
   return (
     <>
       <div className={styles["breadcrumb"]}>
@@ -180,6 +192,7 @@ function ManageComments() {
             <tr>
               <th>#</th>
               <th>Comment</th>
+              <th>Comment Type</th>
               <th>Url Comment</th>
               <th>Date</th>
               <th>Action</th>
@@ -193,7 +206,12 @@ function ManageComments() {
                     <td>{index + 1}</td>
                     <td>{stripHTMLTags(comment.content)}</td>
                     <td>
-                      {comment.type === "product" ? (
+                      <Badge bg={changeColor(comment.type)}>
+                        {comment.type}
+                      </Badge>
+                    </td>
+                    <td>
+                      {/* {comment.type === "product" ? (
                         <NavLink
                           to={`/products/${comment.productId}`}
                           target="_blank"
@@ -211,7 +229,20 @@ function ManageComments() {
                         >
                           Link
                         </NavLink>
-                      )}
+                      )} */}
+
+                      <NavLink
+                        to={
+                          comment.type === "product"
+                            ? `/products/${comment.productId}`
+                            : `/services/${comment.serviceId}`
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ textDecoration: "none" }}
+                      >
+                        <Button type="primary">View</Button>
+                      </NavLink>
                     </td>
                     <td>{comment.date}</td>
                     <td>
