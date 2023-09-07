@@ -900,13 +900,50 @@ function Report() {
   );
   console.log(sortProductRating, "sortProductRating");
 
-  
-
   // 3. Tìm dịch vụ có số lần booking nhiều nhất
+  let filterBooking = bookings.map((booking: any) => {
+    return booking.listBookings;
+  });
 
+  let listBookings: any = [];
+  filterBooking.forEach((booking: any) => {
+    listBookings = [...listBookings, ...booking];
+  });
 
-  
+  let filterBookingDone = listBookings.filter((item: any) => {
+    return item.status === "Done";
+  });
 
+  console.log(filterBookingDone, "filterBookingDone");
+
+  let listServcieArrayWithCount = filterBookingDone.map((item: any) => {
+    let loopAllServiceId = filterBookingDone.filter((service: any) => {
+      return item.serviceId === service.serviceId;
+    });
+
+    return {
+      serviceId: item.serviceId,
+      serviceName: item.serviceName,
+      serviceImage: item.serviceImage,
+      servicePrice: item.servicePrice,
+      count: loopAllServiceId.length,
+    };
+  });
+
+  const uniqueBookingId = new Set();
+  const uniqueBookingArray = listServcieArrayWithCount.filter((item: any) => {
+    if (!uniqueBookingId.has(item.serviceId)) {
+      uniqueBookingId.add(item.serviceId);
+      return true;
+    }
+    return false;
+  });
+
+  const sortUniqueBooking = uniqueBookingArray.sort((a: any, b: any) => {
+    return b.count - a.count;
+  });
+
+  console.log(sortUniqueBooking, "sortUniqueBooking");
 
   // 4. Tìm dịch vụ có tổng điểm rating cao nhất
 
@@ -947,7 +984,6 @@ function Report() {
 
   console.log(sortServiceRating, "sortServiceRating");
 
-  
   const totalSaleOrders = () => {
     let totalSales = orders?.reduce((accumulator: any, currentValue: any) => {
       return accumulator + currentValue.sumOrderWithDiscount;
@@ -1075,12 +1111,12 @@ function Report() {
         <div className={styles["best-report-overview-item"]}>
           <h4>Best Service</h4>
           <img
-            // src={mostBookedService?.serviceImage || 0}
+            src={sortUniqueBooking[0]?.serviceImage || 0}
             alt=""
             className={styles["best-report-image"]}
           />
           <p className={styles["best-report-overview-name"]}>
-            {/* {mostBookedService?.serviceName || 0} */}
+            {sortUniqueBooking[0]?.serviceName || 0}
           </p>
           <div className={styles["best-report-overview-statistic"]}>
             <div>
@@ -1088,7 +1124,7 @@ function Report() {
                 bg="primary"
                 className={styles["best-report-overview-badge"]}
               >
-                {/* Total Booked: {mostBookedService?.totalBooked || 0} */}
+                Total Booked: {sortUniqueBooking[0]?.count || 0}
               </Badge>
             </div>
             <div>
@@ -1097,7 +1133,7 @@ function Report() {
                 text="dark"
                 className={styles["best-report-overview-badge"]}
               >
-                {/* Price: ${mostBookedService?.servicePrice || 0} */}
+                Price: ${sortUniqueBooking[0]?.servicePrice || 0}
               </Badge>
             </div>
           </div>
