@@ -69,6 +69,7 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
         name: couponName,
         code: couponCode,
         discount: couponDiscount,
+        status: "New",
       };
       axios
         .post("http://localhost:7373/coupons", updatedCoupon)

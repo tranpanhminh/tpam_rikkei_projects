@@ -100,8 +100,9 @@ export interface Coupon {
   name: string;
   code: string;
   discount: number;
-  slot?: number | string;
-  usage?: number;
+  status: string;
+  // slot?: number | string;
+  // usage?: number;
 }
 
 let accounts: Account[] = [
@@ -455,118 +456,118 @@ let bookings: Booking[] = [
   },
 ];
 
-let coupons: Coupon[] = [
-  {
-    id: 1,
-    name: "SALEOFF25%",
-    code: "saleoff25",
-    discount: 25,
-    slot: 10,
-    // startDate: "18/09/2023",
-    // endDate: "21/09/2023",
-    usage: 5,
-  },
-  {
-    id: 2,
-    name: "SALEOFF50%",
-    code: "saleoff50",
-    discount: 50,
-    slot: 5,
-    // startDate: "18/02/2023",
-    // endDate: "21/02/2023",
-    usage: 5,
-  },
-  {
-    id: 4,
-    name: "SALEOFF5%",
-    code: "saleoff5",
-    discount: 5,
-    slot: 0,
-    // startDate: "18/09/2023",
-    // endDate: "21/09/2023",
-    usage: 5,
-  },
-  {
-    id: 5,
-    name: "SALEOFF2%",
-    code: "saleoff2",
-    discount: 5,
-    slot: "unlimited",
-    // startDate: "18/09/2023",
-    // endDate: "21/09/2023",
-    usage: 5,
-  },
-];
+// let coupons: Coupon[] = [
+//   {
+//     id: 1,
+//     name: "SALEOFF25%",
+//     code: "saleoff25",
+//     discount: 25,
+//     // slot: 10,
+//     // startDate: "18/09/2023",
+//     // endDate: "21/09/2023",
+//     // usage: 5,
+//   },
+//   {
+//     id: 2,
+//     name: "SALEOFF50%",
+//     code: "saleoff50",
+//     discount: 50,
+//     // slot: 5,
+//     // startDate: "18/02/2023",
+//     // endDate: "21/02/2023",
+//     // usage: 5,
+//   },
+//   {
+//     id: 4,
+//     name: "SALEOFF5%",
+//     code: "saleoff5",
+//     discount: 5,
+//     slot: 0,
+//     // startDate: "18/09/2023",
+//     // endDate: "21/09/2023",
+//     usage: 5,
+//   },
+//   {
+//     id: 5,
+//     name: "SALEOFF2%",
+//     code: "saleoff2",
+//     discount: 5,
+//     slot: "unlimited",
+//     // startDate: "18/09/2023",
+//     // endDate: "21/09/2023",
+//     usage: 5,
+//   },
+// ];
 
-export function initializeDatabase() {
-  const accountsToDatabase = localStorage.getItem("accountsDatabase");
-  const productsToDatabase = localStorage.getItem("productsDatabase");
-  const ordersToDatabase = localStorage.getItem("ordersDatabase");
-  const servicesToDatabase = localStorage.getItem("servicesDatabase");
-  const bookingToDatabase = localStorage.getItem("bookingDatabase");
-  const couponToDatabase = localStorage.getItem("couponsDatabase");
+// export function initializeDatabase() {
+//   const accountsToDatabase = localStorage.getItem("accountsDatabase");
+//   const productsToDatabase = localStorage.getItem("productsDatabase");
+//   const ordersToDatabase = localStorage.getItem("ordersDatabase");
+//   const servicesToDatabase = localStorage.getItem("servicesDatabase");
+//   const bookingToDatabase = localStorage.getItem("bookingDatabase");
+//   const couponToDatabase = localStorage.getItem("couponsDatabase");
 
-  if (!accountsToDatabase) {
-    localStorage.setItem("accountsDatabase", JSON.stringify(accounts));
-  }
+//   if (!accountsToDatabase) {
+//     localStorage.setItem("accountsDatabase", JSON.stringify(accounts));
+//   }
 
-  if (!productsToDatabase) {
-    localStorage.setItem("productsDatabase", JSON.stringify(products));
-  }
+//   if (!productsToDatabase) {
+//     localStorage.setItem("productsDatabase", JSON.stringify(products));
+//   }
 
-  if (!ordersToDatabase) {
-    localStorage.setItem("ordersDatabase", JSON.stringify(orders));
-  }
+//   if (!ordersToDatabase) {
+//     localStorage.setItem("ordersDatabase", JSON.stringify(orders));
+//   }
 
-  if (!bookingToDatabase) {
-    localStorage.setItem("bookingDatabase", JSON.stringify(bookings));
-  }
+//   if (!bookingToDatabase) {
+//     localStorage.setItem("bookingDatabase", JSON.stringify(bookings));
+//   }
 
-  if (!couponToDatabase) {
-    localStorage.setItem("couponsDatabase", JSON.stringify(coupons));
-  }
-}
+//   if (!couponToDatabase) {
+//     localStorage.setItem("couponsDatabase", JSON.stringify(coupons));
+//   }
+// }
 
-export function initProductsDatabase() {
-  const productsToDatabase = localStorage.getItem("productsDatabase");
-  if (!productsToDatabase) {
-    localStorage.setItem("productsDatabase", JSON.stringify(products));
-  }
-}
+// export function initProductsDatabase() {
+//   const productsToDatabase = localStorage.getItem("productsDatabase");
+//   if (!productsToDatabase) {
+//     localStorage.setItem("productsDatabase", JSON.stringify(products));
+//   }
+// }
 
-export function initAccountsDatabase() {
-  const accountsToDatabase = localStorage.getItem("accountsDatabase");
-  if (!accountsToDatabase) {
-    localStorage.setItem("accountsDatabase", JSON.stringify(accounts));
-  }
-}
+// export function initAccountsDatabase() {
+//   const accountsToDatabase = localStorage.getItem("accountsDatabase");
+//   if (!accountsToDatabase) {
+//     localStorage.setItem("accountsDatabase", JSON.stringify(accounts));
+//   }
+// }
 
-export function initOrdersDatabase() {
-  const ordersToDatabase = localStorage.getItem("ordersDatabase");
-  if (!ordersToDatabase) {
-    localStorage.setItem("ordersDatabase", JSON.stringify(orders));
-  }
-}
+// export function initOrdersDatabase() {
+//   const ordersToDatabase = localStorage.getItem("ordersDatabase");
+//   if (!ordersToDatabase) {
+//     localStorage.setItem("ordersDatabase", JSON.stringify(orders));
+//   }
+// }
 
-export function initBookingDatabase() {
-  const bookingToDatabase = localStorage.getItem("bookingDatabase");
-  if (!bookingToDatabase) {
-    localStorage.setItem("bookingDatabase", JSON.stringify(bookings));
-  }
-}
+// export function initBookingDatabase() {
+//   const bookingToDatabase = localStorage.getItem("bookingDatabase");
+//   if (!bookingToDatabase) {
+//     localStorage.setItem("bookingDatabase", JSON.stringify(bookings));
+//   }
+// }
 
-export function initCouponDatabase() {
-  const couponToDatabase = localStorage.getItem("couponsDatabase");
-  if (!couponToDatabase) {
-    localStorage.setItem("bookingDatabase", JSON.stringify(coupons));
-  }
-}
+// export function initCouponDatabase() {
+//   const couponToDatabase = localStorage.getItem("couponsDatabase");
+//   if (!couponToDatabase) {
+//     localStorage.setItem("bookingDatabase", JSON.stringify(coupons));
+//   }
+// }
 
-export function getDataFromLocal<T>(key: string): T {
-  const data = JSON.parse(localStorage.getItem(key) || "null");
-  return data;
-}
+// export function getDataFromLocal<T>(key: string): T {
+//   const data = JSON.parse(localStorage.getItem(key) || "null");
+//   return data;
+// }
 
-export function setDataToLocal(key: string, value: any) {
-  localStorage.setItem(key, JSON.stringify(value));
-}
+// export function setDataToLocal(key: string, value: any) {
+//   localStorage.setItem(key, JSON.stringify(value));
+// }

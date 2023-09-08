@@ -98,59 +98,73 @@ function ManageNewsletter() {
       });
   };
 
-  const handleSendCoupon = useCallback(
-    (couponId: number) => {
-      if (sentCoupons.includes(couponId)) {
-        return;
-      }
+  // const handleSendCoupon = useCallback(
+  //   (couponId: number) => {
+  //     if (sentCoupons.includes(couponId)) {
+  //       return;
+  //     }
 
-      setSentCoupons([...sentCoupons, couponId]);
+  //     setSentCoupons([...sentCoupons, couponId]);
 
-      if (clickedCoupons.includes(couponId)) {
-        return;
-      }
+  //     if (clickedCoupons.includes(couponId)) {
+  //       return;
+  //     }
 
-      setClickedCoupons([...clickedCoupons, couponId]);
+  //     setClickedCoupons([...clickedCoupons, couponId]);
 
-      let findCoupon = coupons?.find((coupon) => {
-        return coupon.id === couponId;
+  //     let findCoupon = coupons?.find((coupon) => {
+  //       return coupon.id === couponId;
+  //     });
+
+  //     let filterUserRegister = users.filter((user: any) => {
+  //       return user.newsletter_register === true;
+  //     });
+
+  //     // filterUserRegister.forEach((user: any) => {
+  //     filterUserRegister.map((user: any) => {
+  //       let maxNewsletterId = Math.max(
+  //         ...user.newsletter.map((item: any) => item.id),
+  //         0
+  //       );
+
+  //       const newCoupon = {
+  //         id: maxNewsletterId + 1,
+  //         couponName: findCoupon?.name,
+  //         couponCode: findCoupon?.code,
+  //         discount: findCoupon?.discount,
+  //       };
+
+  //       axios
+  //         .patch(`http://localhost:7373/accounts/${user.id}`, {
+  //           newsletter: [...user.newsletter, newCoupon],
+  //         })
+  //         .then((response) => {
+  //           fetchUsers();
+  //         })
+  //         .catch((error) => {
+  //           console.log(error);
+  //         });
+  //     });
+  //     notification.success({
+  //       message: `Coupon sent successfully`,
+  //     });
+  //   },
+  //   [sentCoupons, clickedCoupons, coupons, users]
+  // );
+
+  const handleSendCoupon = (couponId: number) => {
+    axios
+      .patch(`http://localhost:7373/coupons/${couponId}`, { status: "Sended" })
+      .then((response) => {
+        fetchCoupons(); // Cập nhật lại dữ liệu products sau khi thêm
+      })
+      .catch((error) => {
+        console.log(error.message);
       });
-
-      let filterUserRegister = users.filter((user: any) => {
-        return user.newsletter_register === true;
-      });
-
-      // filterUserRegister.forEach((user: any) => {
-      filterUserRegister.map((user: any) => {
-        let maxNewsletterId = Math.max(
-          ...user.newsletter.map((item: any) => item.id),
-          0
-        );
-
-        const newCoupon = {
-          id: maxNewsletterId + 1,
-          couponName: findCoupon?.name,
-          couponCode: findCoupon?.code,
-          discount: findCoupon?.discount,
-        };
-
-        axios
-          .patch(`http://localhost:7373/accounts/${user.id}`, {
-            newsletter: [...user.newsletter, newCoupon],
-          })
-          .then((response) => {
-            fetchUsers();
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      });
-      notification.success({
-        message: `Coupon sent successfully`,
-      });
-    },
-    [sentCoupons, clickedCoupons, coupons, users]
-  );
+    notification.success({
+      message: `Coupon sent successfully`,
+    });
+  };
 
   useEffect(() => {
     fetchCoupons();
@@ -219,7 +233,7 @@ function ManageNewsletter() {
                       onClick={() => {
                         handleSendCoupon(coupon.id);
                       }}
-                      disabled={clickedCoupons.includes(coupon.id)}
+                      disabled={coupon.status === "Sended" ? true : false}
                     >
                       Send
                     </Button>

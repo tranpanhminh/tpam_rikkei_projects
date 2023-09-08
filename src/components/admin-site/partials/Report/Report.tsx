@@ -819,8 +819,6 @@ function Report() {
     return item.status === "Shipped";
   });
 
-  console.log(filterTotalProductShipped, "filterTotalProductShipped");
-
   let listProductIdArray = filterTotalProductShipped.map((item: any) => {
     return item.listProductId;
   });
@@ -970,6 +968,7 @@ function Report() {
     }
   );
 
+  // Tính Total Sales Orders
   const totalSaleOrders = () => {
     let totalSales = filterTotalProductShipped?.reduce(
       (accumulator: any, currentValue: any) => {
