@@ -71,7 +71,7 @@ function ClientProductDetail() {
   document.title = `${products ? `${products?.name} | PetShop` : "Loading..."}`;
 
   // Function Add To Cart
-  const handleAddToCart = () => {
+  const handleAddToCart = () => { 
     if (quantity === 0) {
       notification.warning({
         message: "Quantity must be at least 1",
