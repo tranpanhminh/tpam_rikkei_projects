@@ -129,7 +129,7 @@ function ManagePosts() {
             type="search"
             placeholder="Search"
             aria-label="Search"
-            id="search-bar"
+            id={styles["search-bar"]}
             value={searchText}
             onChange={(event) => setSearchText(event.target.value)}
           />

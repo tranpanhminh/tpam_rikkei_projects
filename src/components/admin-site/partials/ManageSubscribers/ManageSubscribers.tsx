@@ -102,7 +102,7 @@ function ManageSubscribers() {
             type="search"
             placeholder="Search"
             aria-label="Search"
-            id="search-bar"
+            id={styles["search-bar"]}
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
           />
