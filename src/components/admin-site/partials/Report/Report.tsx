@@ -811,12 +811,15 @@ function Report() {
     return {
       status: order.status,
       listProductId: order.cart,
+      sumOrderWithDiscount: order.sumOrderWithDiscount,
     };
   });
 
   let filterTotalProductShipped = totalProductIdArray.filter((item: any) => {
     return item.status === "Shipped";
   });
+
+  console.log(filterTotalProductShipped, "filterTotalProductShipped");
 
   let listProductIdArray = filterTotalProductShipped.map((item: any) => {
     return item.listProductId;
@@ -968,10 +971,13 @@ function Report() {
   );
 
   const totalSaleOrders = () => {
-    let totalSales = orders?.reduce((accumulator: any, currentValue: any) => {
-      return accumulator + currentValue.sumOrderWithDiscount;
-    }, 0);
-    return totalSales;
+    let totalSales = filterTotalProductShipped?.reduce(
+      (accumulator: any, currentValue: any) => {
+        return accumulator + currentValue.sumOrderWithDiscount;
+      },
+      0
+    );
+    return totalSales.toFixed(1);
   };
 
   return (
@@ -981,14 +987,16 @@ function Report() {
           className={`${styles["report-overview-item"]} ${styles["report-overview-item-orders"]}`}
         >
           <h4>Total Orders</h4>
-          <span className={styles["report-number"]}>{orders?.length || 0}</span>
+          <span className={styles["report-number"]}>
+            {filterTotalProductShipped?.length || 0}
+          </span>
         </div>
         <div
           className={`${styles["report-overview-item"]} ${styles["report-overview-item-booking"]}`}
         >
           <h4>Total Booking</h4>
           <span className={styles["report-number"]}>
-            {bookings?.length || 0}
+            {filterBookingDone?.length || 0}
           </span>
         </div>
         <div
