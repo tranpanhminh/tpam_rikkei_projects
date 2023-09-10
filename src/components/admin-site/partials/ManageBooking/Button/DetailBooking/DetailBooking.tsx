@@ -169,6 +169,9 @@ const DetailBooking: React.FC<DetailModalProps> = ({
                   .includes(searchText.trim().toLowerCase()) ||
                 booking.userPhone
                   .toString()
+                  .includes(searchText.trim().toLowerCase()) ||
+                booking.serviceName
+                  .toLowerCase()
                   .includes(searchText.trim().toLowerCase())
               ) {
                 return true;
