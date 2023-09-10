@@ -87,10 +87,10 @@ const AddModalService: React.FC<AddModalProps> = ({
       handleClickOk(updatedService);
     }
     setNewService({
-      id: 0,
+      // id: 0,
       name: "",
       serviceImage: "",
-      description: "",
+      description: handleEditorChange(""),
       price: 0,
       morningTime: "",
       // morningSlot: 0,
@@ -98,11 +98,28 @@ const AddModalService: React.FC<AddModalProps> = ({
       // afternoonSlot: 0,
       comments: [],
     });
-    setEditorInitialValue("");
+    // setEditorInitialValue("");
   };
 
   const handleCancel = () => {
+    setNewService({
+      // id: 0,
+      name: "",
+      serviceImage: "",
+      description: handleEditorChange(""),
+      price: 0,
+      morningTime: "",
+      // morningSlot: 0,
+      afternoonTime: "",
+      // afternoonSlot: 0,
+      comments: [],
+    });
     setIsModalOpen(false);
+  };
+
+  const handleEditorChange = (content: string) => {
+    setEditorInitialValue(content);
+    setNewService({ ...newService, description: content });
   };
 
   return (
@@ -138,11 +155,15 @@ const AddModalService: React.FC<AddModalProps> = ({
           </div>
           <div className={styles["list-input-item"]}>
             <p>Description</p>
-            <Editor
+            {/* <Editor
               onEditorChange={(content) =>
                 setNewService({ ...newService, description: content })
               }
               initialValue={editorInitialValue}
+            /> */}
+            <Editor
+              onEditorChange={handleEditorChange}
+              value={editorInitialValue}
             />
           </div>
           <div className={styles["list-input-item"]}>

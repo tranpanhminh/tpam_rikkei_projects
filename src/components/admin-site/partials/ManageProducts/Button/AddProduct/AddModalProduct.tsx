@@ -20,8 +20,8 @@ const AddModalProduct: React.FC<AddModalProps> = ({
 }) => {
   const [products, setProducts] = useState<any>(null);
   const [editorInitialValue, setEditorInitialValue] = useState("");
-  const [newProduct, setNewProduct] = useState<Product>({
-    id: 0,
+  const [newProduct, setNewProduct] = useState<any>({
+    // id: 0,
     productImage: [],
     name: "",
     description: "",
@@ -94,20 +94,37 @@ const AddModalProduct: React.FC<AddModalProps> = ({
       handleClickOk(updatedProduct);
     }
     setNewProduct({
-      id: 0,
+      // id: 0,
       productImage: ["", "", "", ""],
       name: "",
-      description: "",
+      description: handleEditorChange(""),
       price: 0,
       vendor: "",
       sku: "",
       quantity_stock: 0,
     });
-    setEditorInitialValue("Type product description here.........");
+    // setEditorInitialValue("Type product description here.........");
   };
 
   const handleCancel = () => {
+    setNewProduct({
+      // id: 0,
+      productImage: ["", "", "", ""],
+      name: "",
+      description: handleEditorChange(""),
+      price: 0,
+      vendor: "",
+      sku: "",
+      quantity_stock: 0,
+    });
+
+    // setEditorInitialValue("Type product description here.........");
     setIsModalOpen(false);
+  };
+
+  const handleEditorChange = (content: string) => {
+    setEditorInitialValue(content);
+    setNewProduct({ ...newProduct, description: content });
   };
 
   return (
@@ -143,11 +160,15 @@ const AddModalProduct: React.FC<AddModalProps> = ({
           </div>
           <div className={styles["list-input-item"]}>
             <p>Description</p>
-            <Editor
+            {/* <Editor
               onEditorChange={(content) =>
                 setNewProduct({ ...newProduct, description: content })
               }
               initialValue={editorInitialValue}
+            /> */}
+            <Editor
+              onEditorChange={handleEditorChange}
+              value={editorInitialValue}
             />
           </div>
           <div className={styles["list-input-item"]}>
