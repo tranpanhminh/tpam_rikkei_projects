@@ -86,7 +86,6 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
       handleClickOk();
 
       setIsModalOpen(false);
-
       setCouponName("");
       setCouponCode("");
       setCouponDiscount(1);

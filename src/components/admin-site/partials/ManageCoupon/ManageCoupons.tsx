@@ -37,10 +37,10 @@ function ManageNewsletter() {
       });
   };
 
-  useEffect(() => {
-    fetchCoupons();
-    fetchUsers();
-  }, []);
+  // useEffect(() => {
+  //   fetchCoupons();
+  //   fetchUsers();
+  // }, []);
 
   const handleSearchCoupons = () => {
     if (searchText === "") {
@@ -152,18 +152,53 @@ function ManageNewsletter() {
   //   [sentCoupons, clickedCoupons, coupons, users]
   // );
 
-  const handleSendCoupon = (couponId: number) => {
-    axios
-      .patch(`http://localhost:7373/coupons/${couponId}`, { status: "Sended" })
-      .then((response) => {
-        fetchCoupons(); // Cập nhật lại dữ liệu products sau khi thêm
-      })
-      .catch((error) => {
-        console.log(error.message);
+  const handleSendCoupon = async (couponId: number) => {
+    try {
+      const response = await axios.patch(
+        `http://localhost:7373/coupons/${couponId}`,
+        {
+          status: "Sended",
+        }
+      );
+
+      fetchCoupons();
+
+      const findCoupon = coupons?.find((coupon) => coupon.id === couponId);
+
+      const filterUserRegister = users.filter(
+        (user: any) => user.newsletter_register === true
+      );
+
+      for (let user of filterUserRegister) {
+        let maxNewsletterId = Math.max(
+          ...user.newsletter.map((item: any) => item.id),
+          0
+        );
+
+        const newCoupon = {
+          id: maxNewsletterId + 1,
+          couponName: findCoupon?.name,
+          couponCode: findCoupon?.code,
+          discount: findCoupon?.discount,
+          status: findCoupon?.status,
+        };
+
+        const response = await axios.patch(
+          `http://localhost:7373/accounts/${user.id}`,
+          {
+            newsletter: [...user.newsletter, newCoupon],
+          }
+        );
+
+        fetchUsers();
+      }
+
+      notification.success({
+        message: `Coupon sent successfully`,
       });
-    notification.success({
-      message: `Coupon sent successfully`,
-    });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
