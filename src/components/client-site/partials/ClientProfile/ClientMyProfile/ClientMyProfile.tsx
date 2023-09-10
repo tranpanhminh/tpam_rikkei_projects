@@ -14,6 +14,7 @@ function ClientEditProfile() {
   const [avatar, setAvatar] = useState("");
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
+  const [display, setDisplay] = useState("none");
   const [user, setUser] = useState<Account>({
     id: 0,
     email: "",
@@ -122,6 +123,7 @@ function ClientEditProfile() {
         setUserFullName("");
         setOldPassword("");
         setNewPassword("");
+        setDisplay("none");
         fetchUser();
       })
       .catch((error) => {
@@ -134,7 +136,12 @@ function ClientEditProfile() {
     setAvatar(user.image_avatar);
     setOldPassword("");
     setNewPassword("");
+    setDisplay("none");
     setIsModalOpen(false);
+  };
+
+  const handleChangePassword = () => {
+    setDisplay(display ? "flex" : "none");
   };
   return (
     <>
@@ -191,26 +198,37 @@ function ClientEditProfile() {
               }}
             />
           </div>
-          <h6>Change Password (Optional)</h6>
-          <div className={styles["my-profile-input-item"]}>
-            <p>Old Password</p>
-            <input
-              type="password"
-              value={oldPassword}
-              onChange={(event) => {
-                setOldPassword(event?.target.value);
-              }}
-            />
-          </div>
-          <div className={styles["my-profile-input-item"]}>
-            <p>New Password</p>
-            <input
-              type="password"
-              value={newPassword}
-              onChange={(event) => {
-                setNewPassword(event?.target.value);
-              }}
-            />
+          <h6 onClick={handleChangePassword}>
+            Change Password (Optional)&nbsp;
+            <i className="fa-solid fa-pen-to-square"></i>
+          </h6>
+          <div
+            style={{
+              display: `${display}`,
+              flexDirection: "column",
+              gap: "20px",
+            }}
+          >
+            <div className={styles["my-profile-input-item"]}>
+              <p>Old Password</p>
+              <input
+                type="password"
+                value={oldPassword}
+                onChange={(event) => {
+                  setOldPassword(event?.target.value);
+                }}
+              />
+            </div>
+            <div className={styles["my-profile-input-item"]}>
+              <p>New Password</p>
+              <input
+                type="password"
+                value={newPassword}
+                onChange={(event) => {
+                  setNewPassword(event?.target.value);
+                }}
+              />
+            </div>
           </div>
         </div>
       </Modal>

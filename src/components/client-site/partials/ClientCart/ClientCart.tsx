@@ -361,98 +361,116 @@ function ClientCart() {
   // };
 
   const handleCheckout = async () => {
-    // Kiểm tra Phone & Address
-    const phoneNumberPattern = /^1\d{10}$/;
-
-    if (!phone || !address) {
-      notification.warning({
-        message: "Please fill Phone & Address",
-      });
-      return;
-    } else if (!phoneNumberPattern.test(phone)) {
-      notification.warning({
-        message: "Invalid Phone Number (Use the format 1234567890)",
-      });
-      return;
-    }
-
-    if (userCart?.length === 0) {
-      notification.warning({
-        message: "Your Cart Is Empty",
-      });
-      return;
-    }
-    if (!cardName || !cardNumber || !expiration || !cvv) {
-      notification.warning({
-        message: "Card Payment must not be empty",
-      });
-      return;
-    }
-
-    const checkValidCard = card.find((item: any) => {
-      return (
-        item.cardName.toUpperCase() === cardName.toUpperCase() &&
-        Number(item.cardNumber) === Number(cardNumber) &&
-        item.expiredDate === expiration &&
-        Number(item.cvv) === Number(cvv)
-      );
-    });
-    // Kiểm tra Card có Valid hay không
-    if (!checkValidCard) {
-      notification.warning({
-        message: "Card Is not valid",
-      });
-      return;
-    }
-    // Kiểm tra Card có còn hạn sử dụng
-    const currentDateTime = new Date();
-    const checkValidCardDate = parse(
-      checkValidCard.expiredDate,
-      "MM/yyyy",
-      new Date()
-    );
-    const formattedDateTime = new Date(
-      currentDateTime.getFullYear(),
-      currentDateTime.getMonth(),
-      1
-    );
-
-    if (checkValidCardDate < formattedDateTime) {
-      notification.warning({
-        message: "Card Is Expired",
-      });
-      return;
-    }
-
-    // // Kiểm tra số dư trong Card
-    if (checkValidCard.balance < Number(handleTotalCart())) {
-      notification.warning({
-        message: "Card Balance is not enough",
-      });
-      return;
-    }
-
-    const newOrder = {
-      orderId: listOrders.length > 0 ? maxIdOrderDatabase + 1 : 1,
-    };
-
-    const updatedUser = {
-      ...user,
-      order_history: [...user.order_history, newOrder],
-      cart: [], // Clear the cart after creating the order
-    };
-
     try {
-      // Xử lý Post vào Orders
-      const orderResponse = await axios.post(
-        `http://localhost:7373/orders/`,
-        newOrder
+      // Kiểm tra Phone & Address
+      const phoneNumberPattern = /^1\d{10}$/;
+
+      if (!phone || !address) {
+        notification.warning({
+          message: "Please fill Phone & Address",
+        });
+        return;
+      } else if (!phoneNumberPattern.test(phone)) {
+        notification.warning({
+          message: "Invalid Phone Number (Use the format 1234567890)",
+        });
+        return;
+      }
+
+      if (userCart?.length === 0) {
+        notification.warning({
+          message: "Your Cart Is Empty",
+        });
+        return;
+      }
+      if (!cardName || !cardNumber || !expiration || !cvv) {
+        notification.warning({
+          message: "Card Payment must not be empty",
+        });
+        return;
+      }
+
+      const checkValidCard = card.find((item: any) => {
+        return (
+          item.cardName.toUpperCase() === cardName.toUpperCase() &&
+          Number(item.cardNumber) === Number(cardNumber) &&
+          item.expiredDate === expiration &&
+          Number(item.cvv) === Number(cvv)
+        );
+      });
+      // Kiểm tra Card có Valid hay không
+      if (!checkValidCard) {
+        notification.warning({
+          message: "Card Is not valid",
+        });
+        return;
+      }
+      // Kiểm tra Card có còn hạn sử dụng
+      const currentDateTime = new Date();
+      const checkValidCardDate = parse(
+        checkValidCard.expiredDate,
+        "MM/yyyy",
+        new Date()
       );
-      console.log(orderResponse);
+      const formattedDateTime = new Date(
+        currentDateTime.getFullYear(),
+        currentDateTime.getMonth(),
+        1
+      );
+
+      if (checkValidCardDate < formattedDateTime) {
+        notification.warning({
+          message: "Card Is Expired",
+        });
+        return;
+      }
+
+      // // Kiểm tra số dư trong Card
+      if (checkValidCard.balance < Number(handleTotalCart())) {
+        notification.warning({
+          message: "Card Balance is not enough",
+        });
+        return;
+      }
+
+      const newOrder = {
+        orderId: listOrders.length > 0 ? maxIdOrderDatabase + 1 : 1,
+      };
+
+      const updatedUser = {
+        ...user,
+        order_history: [...user.order_history, newOrder],
+        cart: [], // Clear the cart after creating the order
+      };
+
+      // Xử lý Post vào Orders
+      let pushNewOrder = {
+        // id: listOrdersDatabase.length > 0 ? maxIdOrderDatabase + 1 : 1,
+        user_id: user.id,
+        name: user.fullName,
+        email: user.email,
+        phone: phone,
+        date: format(new Date(), "dd/MM/yyyy HH:mm:ss"),
+        status: "Pending",
+        address: address,
+        cart: userCart,
+        discount: findCouponCode?.discount ? findCouponCode?.discount : 0,
+        sumOrderNoDiscount: handleTotalCartNoDiscount(),
+        sumOrderWithDiscount: handleTotalCart(),
+        cardNumber: Number(cardNumber),
+      };
+
+      // Xử lý Post vào Orders
+      const response1 = await axios.post(
+        `http://localhost:7373/orders/`,
+        pushNewOrder
+      );
+      console.log(response1);
       fetchOrders();
 
       // user.cart = [];
-      const userResponse = await axios.patch(
+
+      const response2 = await axios.patch(
         `http://localhost:7373/accounts/${getLoginData.loginId}`,
         updatedUser
       );
@@ -463,7 +481,8 @@ function ClientCart() {
       const updatedBalance = {
         balance: checkValidCard.balance - handleTotalCart(),
       };
-      const balanceResponse = await axios.patch(
+
+      const response3 = await axios.patch(
         `http://localhost:7373/banking/${checkValidCard.id}`,
         updatedBalance
       );
@@ -477,7 +496,7 @@ function ClientCart() {
           newsletter: newsletter,
         };
 
-        const newsletterResponse = await axios.patch(
+        const response4 = await axios.patch(
           `http://localhost:7373/accounts/${getLoginData.loginId}`,
           updatedNewsletter
         );
@@ -485,28 +504,19 @@ function ClientCart() {
       }
 
       // Xử lý giảm hàng tồn kho cho từng sản phẩm trong userCart
-      products.forEach((product: any) => {
-        userCart.forEach((item: any) => {
+      for (const product of products) {
+        for (const item of userCart) {
           if (product.id === item.productId) {
             product.quantity_stock -= item.productQuantity;
-            axios.patch(`http://localhost:7373/products/${product.id}`, {
-              quantity_stock: product.quantity_stock,
-            });
+            const response5 = await axios.patch(
+              `http://localhost:7373/products/${product.id}`,
+              {
+                quantity_stock: product.quantity_stock,
+              }
+            );
           }
-          return;
-        });
-      });
-
-      // for (const product of products) {
-      //   for (const item of userCart) {
-      //     if (product.id === item.productId) {
-      //       product.quantity_stock -= item.productQuantity;
-      //       await axios.patch(`http://localhost:7373/products/${product.id}`, {
-      //         quantity_stock: product.quantity_stock,
-      //       });
-      //     }
-      //   }
-      // }
+        }
+      }
 
       notification.success({
         message: "Order Completed",
@@ -520,8 +530,9 @@ function ClientCart() {
       setExpiration("");
       setCVV("");
       setCouponCode("");
-    } catch (error: any) {
-      console.error(error.message);
+    } catch (error) {
+      console.error(error);
+      // Xử lý lỗi ở đây nếu cần
     }
   };
 

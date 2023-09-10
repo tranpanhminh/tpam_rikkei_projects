@@ -341,6 +341,8 @@ function ClientOrder() {
     setIsModalOpen(false);
   };
 
+  console.log("User Order", userOrder);
+
   // let filterUserOrder = orderDatabase?.filter((order: any) => {
   //   return order.user_id === getLoginData.loginId;
   // });

@@ -195,6 +195,7 @@ function ClientServiceDetail() {
   };
   console.log("TIME ZONE", timeZone);
   console.log("dateBooking", typeof dateBooking);
+  
   // Function Booking Service
   const handleBooking = (userId: number, serviceId: number) => {
     if (getLoginData.role === "admin") {
@@ -496,7 +497,6 @@ function ClientServiceDetail() {
       });
   }, []); // Gọi chỉ một lần khi component được tạo
 
-  console.log("List User", listUser);
 
   const getAvatar = (userId: number) => {
     let defaultAvatar = "https://i.ibb.co/3BtQdVD/pet-shop.png";

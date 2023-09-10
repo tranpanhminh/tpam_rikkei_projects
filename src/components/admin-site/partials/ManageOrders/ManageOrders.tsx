@@ -45,7 +45,12 @@ function ManageOrders() {
           // Tìm kiếm trong dữ liệu và cập nhật state
           const filterOrders = allOrders.filter((order: Order) => {
             if (
-              order.name.toLowerCase().includes(searchText.trim().toLowerCase())
+              order.name
+                .toLowerCase()
+                .includes(searchText.trim().toLowerCase()) ||
+              order.status
+                .toLowerCase()
+                .includes(searchText.trim().toLowerCase())
             ) {
               return true; // Bạn có thể sử dụng `.toLowerCase()` để làm cho tìm kiếm không phân biệt chữ hoa, chữ thường.
             }
