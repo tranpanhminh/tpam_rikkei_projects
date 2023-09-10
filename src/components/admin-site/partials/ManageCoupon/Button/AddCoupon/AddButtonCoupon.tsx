@@ -55,6 +55,14 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
   };
 
   const handleOk = () => {
+    if (couponDiscount > 100) {
+      notification.warning({
+        message: "Notification",
+        description: "Discount must be <= 100",
+      });
+      return;
+    }
+
     // Kiểm tra thông tin đầy đủ
     if (couponName === "" || couponCode === "" || couponDiscount <= 0) {
       notification.warning({
