@@ -77,6 +77,7 @@ const AddModalService: React.FC<AddModalProps> = ({
       morningTime: morningTime,
       afternoonTime: afternoonTime,
       id: maxId + 1,
+      comments: [],
     };
 
     const updatedServices = services ? [...services, updatedService] : null;

@@ -84,6 +84,7 @@ const AddModalProduct: React.FC<AddModalProps> = ({
     const updatedProduct = {
       ...newProduct,
       id: maxId + 1,
+      comments: [],
     };
 
     const updatedProducts = products ? [...products, updatedProduct] : null;
@@ -102,6 +103,7 @@ const AddModalProduct: React.FC<AddModalProps> = ({
       vendor: "",
       sku: "",
       quantity_stock: 0,
+      comments: [],
     });
     // setEditorInitialValue("Type product description here.........");
   };
@@ -116,6 +118,7 @@ const AddModalProduct: React.FC<AddModalProps> = ({
       vendor: "",
       sku: "",
       quantity_stock: 0,
+      comments: [],
     });
 
     // setEditorInitialValue("Type product description here.........");
