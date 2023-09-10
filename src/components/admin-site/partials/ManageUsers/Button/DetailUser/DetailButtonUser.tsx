@@ -120,8 +120,6 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
   };
 
   const handleCancel = () => {
-    setName(user.fullName);
-    setAvatar(user.image_avatar);
     setIsModalOpen(false);
   };
 
