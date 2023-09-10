@@ -188,7 +188,7 @@ function BlogPost() {
                 <img
                   className={styles["moderator-thumbnail"]}
                   src="https://rabbunny.com/wp-content/uploads/2023/06/Barney-Gordon.jpg"
-                  alt="Fact Checked by Barney Gordon"
+                  alt="Fact Checked"
                 />
               </div>
               <div className={styles["moderator-info"]}>
@@ -198,7 +198,7 @@ function BlogPost() {
                   </span>
                 </span>
                 <p className={styles["moderator-check"]}>
-                  <b>Barney Gordon</b>
+                  <b>{post.author}</b>
                 </p>
                 <p className={styles["moderator-check"]}>
                   Veterinarian, Content Moderator

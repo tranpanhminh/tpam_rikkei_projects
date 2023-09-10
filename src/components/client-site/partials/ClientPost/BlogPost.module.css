@@ -59,6 +59,7 @@
   border-radius: 10px;
   width: 300px;
   object-fit: cover;
+  height: 180px;
 }
 
 .blog-sidebar {
