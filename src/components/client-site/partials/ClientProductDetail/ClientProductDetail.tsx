@@ -227,6 +227,13 @@ function ClientProductDetail() {
       return;
     }
 
+    if (!rateValue) {
+      notification.warning({
+        message: "Please rate",
+      });
+      return;
+    }
+
     console.log(products.comments, "dasdsa");
 
     // Kiểm tra nếu products.comments là undefined hoặc null, thì khởi tạo nó là một mảng rỗng
