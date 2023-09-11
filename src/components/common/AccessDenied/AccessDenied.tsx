@@ -3,6 +3,7 @@ import styles from "../AccessDenied/AccessDenied.module.css";
 import { NavLink } from "react-router-dom";
 
 function Page404() {
+  document.title = "Access Denied";
   return (
     <>
       <section className={styles.page_404}>

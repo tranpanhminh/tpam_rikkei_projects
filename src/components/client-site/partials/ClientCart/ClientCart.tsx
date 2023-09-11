@@ -5,11 +5,12 @@ import axios from "axios";
 import { notification } from "antd";
 import { format, parse } from "date-fns";
 import { Button, Modal } from "antd";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function ClientCart() {
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
+  const navigate = useNavigate();
   const [user, setUser] = useState<any>([]);
   const [products, setProducts] = useState<any>(null);
   const [userCart, setUserCart] = useState<any>([]);
@@ -360,6 +361,14 @@ function ClientCart() {
   //   setCouponCode("");
   // };
 
+  const orderMessage = (
+    <div>
+      <a href="/user/my-orders" style={{ textDecoration: "none" }}>
+        View Order History
+      </a>
+    </div>
+  );
+
   const handleCheckout = async () => {
     try {
       // Kiểm tra Phone & Address
@@ -520,6 +529,7 @@ function ClientCart() {
 
       notification.success({
         message: "Order Completed",
+        description: orderMessage,
       });
 
       // Trả về rỗng
