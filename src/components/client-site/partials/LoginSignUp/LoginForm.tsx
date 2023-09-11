@@ -87,11 +87,11 @@ function LoginForm() {
           value={password}
           onChange={(event) => setPassword(event.target.value)}
         />
-        <p className={styles["forgot-password"]}>
+        {/* <p className={styles["forgot-password"]}>
           <a href="#" className={styles["forgot-password-text"]}>
             Forgot password?
           </a>
-        </p>
+        </p> */}
         <button className={styles["login-button"]} onClick={handleLogin}>
           Login
         </button>

@@ -71,7 +71,7 @@ function ClientProductDetail() {
   document.title = `${products ? `${products?.name} | PetShop` : "Loading..."}`;
 
   // Function Add To Cart
-  const handleAddToCart = () => { 
+  const handleAddToCart = () => {
     if (quantity === 0) {
       notification.warning({
         message: "Quantity must be at least 1",
@@ -209,6 +209,13 @@ function ClientProductDetail() {
     if (!getLoginData) {
       notification.warning({
         message: `Please login to comment`,
+      });
+      return;
+    }
+
+    if (getLoginData && getLoginData.status === "Inactive") {
+      notification.warning({
+        message: `Your account is Inactive so you can't comment`,
       });
       return;
     }
