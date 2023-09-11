@@ -536,6 +536,51 @@ function ClientCart() {
     }
   };
 
+  // const handleQuantityInputChange = (event: any, item: any) => {
+  //   const newQuantity = Number(event.target.value);
+
+  //   if (!isNaN(newQuantity) && newQuantity >= 0) {
+  //     axios
+  //       .get(`http://localhost:7373/products/${item.productId}`)
+  //       .then((response) => {
+  //         const updatedProduct = response.data;
+  //         console.log(updatedProduct, "updateProduct");
+
+  //         if (newQuantity > updatedProduct.quantity_stock) {
+  //           notification.warning({
+  //             message: `Quantity must not exceed ${updatedProduct.quantity_stock}`,
+  //           });
+  //         } else {
+  //           item.productQuantity = newQuantity;
+  //         }
+
+  //         const updatedUserCart = userCart.map((cartItem: any) => {
+  //           if (cartItem.productId === item.productId) {
+  //             return {
+  //               ...cartItem,
+  //               productQuantity: newQuantity,
+  //             };
+  //           }
+  //           return cartItem;
+  //         });
+
+  //         axios
+  //           .patch(`http://localhost:7373/accounts/${getLoginData.loginId}`, {
+  //             cart: updatedUserCart,
+  //           })
+  //           .then(() => {
+  //             setUserCart(updatedUserCart);
+  //           })
+  //           .catch((error) => {
+  //             console.log(error);
+  //           });
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //   }
+  // };
+
   const handleQuantityInputChange = (event: any, item: any) => {
     const newQuantity = Number(event.target.value);
 
@@ -544,7 +589,6 @@ function ClientCart() {
         .get(`http://localhost:7373/products/${item.productId}`)
         .then((response) => {
           const updatedProduct = response.data;
-          console.log(updatedProduct, "updateProduct");
 
           if (newQuantity > updatedProduct.quantity_stock) {
             notification.warning({
@@ -552,28 +596,28 @@ function ClientCart() {
             });
           } else {
             item.productQuantity = newQuantity;
-          }
 
-          const updatedUserCart = userCart.map((cartItem: any) => {
-            if (cartItem.productId === item.productId) {
-              return {
-                ...cartItem,
-                productQuantity: newQuantity,
-              };
-            }
-            return cartItem;
-          });
-
-          axios
-            .patch(`http://localhost:7373/accounts/${getLoginData.loginId}`, {
-              cart: updatedUserCart,
-            })
-            .then(() => {
-              setUserCart(updatedUserCart);
-            })
-            .catch((error) => {
-              console.log(error);
+            const updatedUserCart = userCart.map((cartItem: any) => {
+              if (cartItem.productId === item.productId) {
+                return {
+                  ...cartItem,
+                  productQuantity: newQuantity,
+                };
+              }
+              return cartItem;
             });
+
+            axios
+              .patch(`http://localhost:7373/accounts/${getLoginData.loginId}`, {
+                cart: updatedUserCart,
+              })
+              .then(() => {
+                setUserCart(updatedUserCart);
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }
         })
         .catch((error) => {
           console.log(error);
