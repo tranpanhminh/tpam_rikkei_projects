@@ -44,6 +44,7 @@ import ClientServicesCategoryPage from "./components/client-site/layouts/ClientS
 import ClientServiceDetail from "./components/client-site/partials/ClientServices/ClientServiceDetail";
 import BlogCategory from "./components/client-site/partials/ClientPost/BlogCategory/BlogCategory";
 import ClientSearchPage from "./components/client-site/layouts/ClientSearchPage";
+import AccessDenied from "./components/common/AccessDenied/AccessDenied";
 
 export function RoleNavigation() {
   const getData: any = localStorage.getItem("auth");
@@ -66,7 +67,7 @@ export function RoleNavigation() {
       (getLoginData.role === "admin" && location.pathname.includes("/login"))
     ) {
       // Redirect to "/"
-      navigate("/");
+      navigate("/access-denied");
     }
     if (
       (getLoginData.role === "customer" &&
@@ -76,7 +77,7 @@ export function RoleNavigation() {
       (getLoginData.role === "customer" && location.pathname.includes("/login"))
     ) {
       // Redirect to "/"
-      navigate("/");
+      navigate("/access-denied");
     }
     if (
       (!getLoginData && location.pathname.includes("/cart")) ||
@@ -84,7 +85,7 @@ export function RoleNavigation() {
       (!getLoginData && location.pathname.includes("/user"))
     ) {
       // Redirect to "/"
-      navigate("/");
+      navigate("/access-denied");
     }
 
     if (
@@ -173,6 +174,7 @@ function App() {
 
           {/* Route của Page 404 */}
           <Route path="*" element={<Page404 />}></Route>
+          <Route path="access-denied" element={<AccessDenied />}></Route>
         </Routes>
       </BrowserRouter>
     </>
