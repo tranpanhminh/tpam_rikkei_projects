@@ -1,0 +1,18 @@
+{
+  "name": "project-02-petshop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "json-server --watch db.json --port 7373",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "json-server": "^0.17.3",
+    "react-router-dom": "^6.15.0"
+  }
+}

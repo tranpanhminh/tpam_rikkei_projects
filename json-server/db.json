@@ -1,0 +1,2163 @@
+{
+  "accounts": [
+    {
+      "id": 1,
+      "email": "admin.petshop@gmail.com",
+      "fullName": "Super Admin",
+      "password": "adminpassword1",
+      "role": "admin",
+      "status": "Active",
+      "cart": [],
+      "order_history": [],
+      "newsletter": [],
+      "booking_history": [],
+      "image_avatar": "https://i.ibb.co/3BtQdVD/pet-shop.png"
+    },
+    {
+      "id": 2,
+      "email": "admin2@gmail.com",
+      "fullName": "Chelsie Champagne",
+      "password": "userpassword123",
+      "role": "admin",
+      "status": "Active",
+      "cart": [],
+      "order_history": [],
+      "newsletter_register": false,
+      "newsletter": [],
+      "booking_history": [],
+      "image_avatar": ""
+    },
+    {
+      "id": 3,
+      "email": "admin3@gmail.com",
+      "fullName": "Johnson",
+      "password": "userpassword123",
+      "role": "admin",
+      "status": "Inactive",
+      "cart": [],
+      "order_history": [],
+      "newsletter_register": false,
+      "newsletter": [],
+      "booking_history": [],
+      "image_avatar": ""
+    },
+    {
+      "id": 4,
+      "email": "mohamed1972@hotmail.com",
+      "fullName": "James Mohamed",
+      "password": "customerpassword1",
+      "role": "customer",
+      "status": "Active",
+      "cart": [],
+      "order_history": [
+        {
+          "orderId": 1
+        },
+        {
+          "orderId": 2
+        }
+      ],
+      "newsletter_register": true,
+      "newsletter": [
+        {
+          "id": 1,
+          "couponName": "Sale Off 5%",
+          "couponCode": "saleoff5",
+          "discount": 5
+        },
+        {
+          "id": 2,
+          "couponName": "Sale Off 10%",
+          "couponCode": "saleoff10",
+          "discount": 10
+        },
+        {
+          "id": 3,
+          "couponName": "Sale Off 20%",
+          "couponCode": "saleoff20",
+          "discount": 20
+        },
+        {
+          "id": 4,
+          "couponName": "Sale Off 25%",
+          "couponCode": "saleoff25",
+          "discount": 25
+        },
+        {
+          "id": 5,
+          "couponName": "Sale Off 35%",
+          "couponCode": "saleoff35",
+          "discount": 35
+        },
+        {
+          "id": 6,
+          "couponName": "Sale Off 100%",
+          "couponCode": "saleoff100",
+          "discount": 100
+        }
+      ],
+      "booking_history": [
+        {
+          "bookingId": 1,
+          "bookingDate": "15/07/2023"
+        },
+        {
+          "bookingId": 12,
+          "bookingDate": "20/09/2023"
+        }
+      ],
+      "image_avatar": "https://g.foolcdn.com/editorial/images/651176/shiba-inu-dogecoin-cryptocurrency-blockchain-network-getty.jpg"
+    },
+    {
+      "id": 5,
+      "email": "davidhelms1987@yahoo.com",
+      "fullName": "David Helms",
+      "password": "customerpassword2",
+      "role": "customer",
+      "status": "Active",
+      "cart": [],
+      "order_history": [
+        {
+          "orderId": 3
+        }
+      ],
+      "newsletter_register": true,
+      "newsletter": [
+        {
+          "id": 1,
+          "couponName": "Sale Off 5%",
+          "couponCode": "saleoff5",
+          "discount": 5
+        },
+        {
+          "id": 2,
+          "couponName": "Sale Off 10%",
+          "couponCode": "saleoff10",
+          "discount": 10
+        },
+        {
+          "id": 3,
+          "couponName": "Sale Off 20%",
+          "couponCode": "saleoff20",
+          "discount": 20
+        },
+        {
+          "id": 4,
+          "couponName": "Sale Off 25%",
+          "couponCode": "saleoff25",
+          "discount": 25
+        },
+        {
+          "id": 5,
+          "couponName": "Sale Off 35%",
+          "couponCode": "saleoff35",
+          "discount": 35
+        },
+        {
+          "id": 6,
+          "couponName": "Sale Off 100%",
+          "couponCode": "saleoff100",
+          "discount": 100
+        }
+      ],
+      "booking_history": [
+        {
+          "bookingId": 2,
+          "bookingDate": "13/08/2023"
+        }
+      ],
+      "image_avatar": "https://ampet.vn/wp-content/uploads/2022/10/nuoi-cho-Corgi-6-1200x1200.jpg"
+    },
+    {
+      "id": 6,
+      "email": "kevinlee1997@yahoo.com",
+      "fullName": "Kevin Lee",
+      "password": "customerpassword3",
+      "role": "customer",
+      "status": "Active",
+      "cart": [],
+      "order_history": [
+        {
+          "orderId": 4
+        },
+        {
+          "orderId": 5
+        },
+        {
+          "orderId": 6
+        },
+        {
+          "orderId": 7
+        },
+        {
+          "orderId": 8
+        }
+      ],
+      "newsletter_register": true,
+      "newsletter": [
+        {
+          "id": 1,
+          "couponName": "Sale Off 5%",
+          "couponCode": "saleoff5",
+          "discount": 5
+        },
+        {
+          "id": 2,
+          "couponName": "Sale Off 10%",
+          "couponCode": "saleoff10",
+          "discount": 10
+        },
+        {
+          "id": 3,
+          "couponName": "Sale Off 20%",
+          "couponCode": "saleoff20",
+          "discount": 20
+        },
+        {
+          "id": 4,
+          "couponName": "Sale Off 25%",
+          "couponCode": "saleoff25",
+          "discount": 25
+        },
+        {
+          "id": 5,
+          "couponName": "Sale Off 35%",
+          "couponCode": "saleoff35",
+          "discount": 35
+        },
+        {
+          "id": 6,
+          "couponName": "Sale Off 100%",
+          "couponCode": "saleoff100",
+          "discount": 100
+        }
+      ],
+      "booking_history": [
+        {
+          "bookingId": 3,
+          "bookingDate": "14/09/2023"
+        },
+        {
+          "bookingId": 4,
+          "bookingDate": "12/09/2023"
+        },
+        {
+          "bookingId": 5,
+          "bookingDate": "12/09/2023"
+        }
+      ],
+      "image_avatar": "https://cdn.britannica.com/84/232784-050-1769B477/Siberian-Husky-dog.jpg"
+    },
+    {
+      "id": 7,
+      "email": "leonardo2009@yahoo.com",
+      "fullName": "Leonardo",
+      "password": "userpassword123",
+      "role": "customer",
+      "status": "Active",
+      "cart": [],
+      "order_history": [
+        {
+          "orderId": 9
+        },
+        {
+          "orderId": 10
+        },
+        {
+          "orderId": 11
+        },
+        {
+          "orderId": 12
+        }
+      ],
+      "newsletter_register": true,
+      "newsletter": [
+        {
+          "id": 2,
+          "couponName": "Sale Off 10%",
+          "couponCode": "saleoff10",
+          "discount": 10
+        },
+        {
+          "id": 3,
+          "couponName": "Sale Off 15%",
+          "couponCode": "saleoff15",
+          "discount": 15
+        },
+        {
+          "id": 4,
+          "couponName": "Sale Off 25%",
+          "couponCode": "saleoff25",
+          "discount": 25
+        },
+        {
+          "id": 5,
+          "couponName": "Sale Off 35%",
+          "couponCode": "saleoff35",
+          "discount": 35
+        }
+      ],
+      "booking_history": [
+        {
+          "bookingId": 6,
+          "bookingDate": "12/09/2023"
+        }
+      ],
+      "image_avatar": "https://www.analyticsinsight.net/wp-content/uploads/2023/05/27.png"
+    },
+    {
+      "id": 8,
+      "email": "moses_decko9@hotmail.com",
+      "fullName": "Moses Lett",
+      "password": "userpassword123",
+      "role": "customer",
+      "status": "Active",
+      "cart": [],
+      "order_history": [
+        {
+          "orderId": 13
+        }
+      ],
+      "newsletter_register": true,
+      "newsletter": [
+        {
+          "id": 1,
+          "couponName": "Sale Off 5%",
+          "couponCode": "saleoff5",
+          "discount": 5
+        },
+        {
+          "id": 2,
+          "couponName": "Sale Off 10%",
+          "couponCode": "saleoff10",
+          "discount": 10
+        },
+        {
+          "id": 3,
+          "couponName": "Sale Off 15%",
+          "couponCode": "saleoff15",
+          "discount": 15
+        },
+        {
+          "id": 4,
+          "couponName": "Sale Off 25%",
+          "couponCode": "saleoff25",
+          "discount": 25
+        },
+        {
+          "id": 5,
+          "couponName": "Sale Off 35%",
+          "couponCode": "saleoff35",
+          "discount": 35
+        }
+      ],
+      "booking_history": [
+        {
+          "bookingId": 7,
+          "bookingDate": "12/09/2023"
+        },
+        {
+          "bookingId": 8,
+          "bookingDate": "12/09/2023"
+        }
+      ],
+      "image_avatar": "https://hoang-phuc.com/thoi-trang/wp-content/uploads/2021/12/meme-cheems-1-1200x900.jpg"
+    },
+    {
+      "id": 9,
+      "email": "velma.greenho@gmail.com",
+      "fullName": "Velma Marinelli",
+      "password": "userpassword123",
+      "role": "customer",
+      "status": "Active",
+      "cart": [],
+      "order_history": [
+        {
+          "orderId": 14
+        },
+        {
+          "orderId": 15
+        }
+      ],
+      "newsletter_register": true,
+      "newsletter": [],
+      "booking_history": [
+        {
+          "bookingId": 9,
+          "bookingDate": "12/09/2023"
+        },
+        {
+          "bookingId": 10,
+          "bookingDate": "13/08/2023"
+        },
+        {
+          "bookingId": 11,
+          "bookingDate": "14/09/2023"
+        }
+      ],
+      "image_avatar": "https://rimage.gnst.jp/livejapan.com/public/article/detail/a/00/01/a0001799/img/basic/a0001799_main.jpg?20200605180827"
+    },
+    {
+      "id": 10,
+      "email": "tonyteo@gmail.com",
+      "fullName": "Tony Teo",
+      "password": "userpassword123",
+      "role": "customer",
+      "status": "Inactive",
+      "cart": [],
+      "order_history": [],
+      "newsletter_register": false,
+      "newsletter": [],
+      "booking_history": [],
+      "image_avatar": "https://img5.thuthuatphanmem.vn/uploads/2021/11/30/cheems-do-mat_082021031.jpg"
+    },
+    {
+      "id": 11,
+      "email": "andywang@gmail.com",
+      "fullName": "Andy Wang",
+      "password": "userpassword123",
+      "role": "customer",
+      "status": "Inactive",
+      "cart": [],
+      "order_history": [],
+      "newsletter_register": false,
+      "newsletter": [],
+      "booking_history": [],
+      "image_avatar": "https://i.pinimg.com/1200x/b9/6f/0f/b96f0f12229417ea487e77463b29f6f8.jpg"
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "productImage": [
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/blueberry_pet_essentials_zoo_fun_dog_collars_1_640x_crop_top.jpg?v=1625752583",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/blueberry_pet_essentials_zoo_fun_dog_collars_2_640x_crop_top.jpg?v=1625752583",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/blueberry_pet_essentials_zoo_fun_dog_collars_3_640x_crop_top.jpg?v=1625752583",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/blueberry_pet_essentials_zoo_fun_dog_collars_4_640x_crop_top.jpg?v=1625752583"
+      ],
+      "name": "Blueberry Pet Essentials Zoo Fun Dog Collars",
+      "description": "<p><span data-sheets-value=\"{&quot;1&quot;:2,&quot;2&quot;:&quot;These vibrant and playful collars are both fashionable and functional, featuring durable materials and adjustable sizing. Make walks more enjoyable with these eye-catching and comfortable collars for your beloved furry friend.&quot;}\" data-sheets-userformat=\"{&quot;2&quot;:340138,&quot;4&quot;:{&quot;1&quot;:2,&quot;2&quot;:16773836},&quot;6&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;8&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;10&quot;:1,&quot;15&quot;:&quot;Cambria&quot;,&quot;16&quot;:11,&quot;19&quot;:0,&quot;21&quot;:0}\">These vibrant and playful collars are both fashionable and functional, featuring durable materials and adjustable sizing. Make walks more enjoyable with these eye-catching and comfortable collars for your beloved furry friend.</span></p>",
+      "price": 40,
+      "vendor": "New Balance",
+      "sku": "P0001",
+      "quantity_stock": 298,
+      "comments": [
+        {
+          "commentId": 1,
+          "productId": 1,
+          "userId": 4,
+          "userName": "James Mohamed",
+          "userRole": "customer",
+          "content": "<p>My furry friend loves this product! It's their new favorite toy.</p>",
+          "rating": 5,
+          "date": "06/09/2023 17:26:12",
+          "type": "product"
+        },
+        {
+          "commentId": 2,
+          "productId": 1,
+          "userId": 8,
+          "userName": "Sharon T Lett",
+          "userRole": "customer",
+          "content": "<p>My pet enjoys the cozy warmth of this heated bed</p>",
+          "rating": 5,
+          "date": "06/09/2023 19:02:22",
+          "type": "product"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "productImage": [
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/glendan_dog_brush_cat_brush_slicker_pet_grooming_brush_shedding_grooming_tools_1_640x_crop_top.jpg?v=1625752641",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/glendan_dog_brush_cat_brush_slicker_pet_grooming_brush_shedding_grooming_tools_2_640x_crop_top.jpg?v=1625752641",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/glendan_dog_brush_cat_brush_slicker_pet_grooming_brush_shedding_grooming_tools_3_640x_crop_top.jpg?v=1625752641",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/glendan_dog_brush_cat_brush_slicker_pet_grooming_brush_shedding_grooming_tools_4_640x_crop_top.jpg?v=1625752641"
+      ],
+      "name": "Glendan Dog Brush Slicker Pet Grooming Brush Shedding",
+      "description": "<p><span data-sheets-value=\"{&quot;1&quot;:2,&quot;2&quot;:&quot;A high-quality slicker grooming brush designed for effective shedding control. Keep your pets' coat clean, healthy, and tangle-free with this essential grooming tool. Perfect for dogs and cats of all sizes, it ensures a comfortable grooming experience for your furry companions.&quot;}\" data-sheets-userformat=\"{&quot;2&quot;:340138,&quot;4&quot;:{&quot;1&quot;:2,&quot;2&quot;:16773836},&quot;6&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;8&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;10&quot;:1,&quot;15&quot;:&quot;Cambria&quot;,&quot;16&quot;:11,&quot;19&quot;:0,&quot;21&quot;:0}\">A high-quality slicker grooming brush designed for effective shedding control. Keep your pets' coat clean, healthy, and tangle-free with this essential grooming tool. Perfect for dogs and cats of all sizes, it ensures a comfortable grooming experience for your furry companions.</span></p>",
+      "price": 9,
+      "vendor": "Adidas",
+      "sku": "P0002",
+      "quantity_stock": 400,
+      "comments": [
+        {
+          "commentId": 1,
+          "productId": 2,
+          "userId": 4,
+          "userName": "James Mohamed",
+          "userRole": "customer",
+          "content": "<p>This pet bed is so comfortable, my pet sleeps like a baby</p>",
+          "rating": 4,
+          "date": "06/09/2023 17:26:50",
+          "type": "product"
+        },
+        {
+          "commentId": 2,
+          "productId": 2,
+          "userId": 8,
+          "userName": "Sharon T Lett",
+          "userRole": "customer",
+          "content": "<p>I can easily monitor my pet with this pet camera</p>",
+          "rating": 5,
+          "date": "06/09/2023 19:02:31",
+          "type": "product"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "productImage": [
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/senye_retractable_dog_leash_16ft_dog_traction_rope_1_640x_crop_top.jpg?v=1625752616",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/senye_retractable_dog_leash_16ft_dog_traction_rope_2_640x_crop_top.jpg?v=1625752616",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/senye_retractable_dog_leash_16ft_dog_traction_rope_3_640x_crop_top.jpg?v=1625752616",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/senye_retractable_dog_leash_16ft_dog_traction_rope_5_640x_crop_top.jpg?v=1625752616"
+      ],
+      "name": "Senye Retractable Dog Leash 16ft Dog Traction Rope",
+      "description": "<p><span data-sheets-value=\"{&quot;1&quot;:2,&quot;2&quot;:&quot;This reliable and durable traction rope provides control and flexibility during walks. With its ergonomic design and smooth retractable mechanism, it ensures a comfortable grip and effortless handling. Enjoy outdoor adventures with your canine companion using the Senye Retractable Dog Leash.&quot;}\" data-sheets-userformat=\"{&quot;2&quot;:340138,&quot;4&quot;:{&quot;1&quot;:2,&quot;2&quot;:16773836},&quot;6&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;8&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;10&quot;:1,&quot;15&quot;:&quot;Cambria&quot;,&quot;16&quot;:11,&quot;19&quot;:0,&quot;21&quot;:0}\">This reliable and durable traction rope provides control and flexibility during walks. With its ergonomic design and smooth retractable mechanism, it ensures a comfortable grip and effortless handling. Enjoy outdoor adventures with your canine companion using the Senye Retractable Dog Leash.</span></p>",
+      "price": 70,
+      "vendor": "Adidas",
+      "sku": "P0003",
+      "quantity_stock": 197,
+      "comments": [
+        {
+          "commentId": 1,
+          "productId": 3,
+          "userId": 4,
+          "userName": "James Mohamed",
+          "userRole": "customer",
+          "content": "<p>The quality of this leash is top-notch. It feels very sturdy.</p>",
+          "rating": 4.5,
+          "date": "06/09/2023 17:27:01",
+          "type": "product"
+        },
+        {
+          "commentId": 2,
+          "productId": 3,
+          "userId": 8,
+          "userName": "Sharon T Lett",
+          "userRole": "customer",
+          "content": "<p>The pet ramp is perfect for my aging pet to access the bed.</p>",
+          "rating": 4,
+          "date": "06/09/2023 19:02:39",
+          "type": "product"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "productImage": [
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/my_alphapet_dog_poop_bags_refill_rolls_1_640x_crop_top.jpg?v=1625752635",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/my_alphapet_dog_poop_bags_refill_rolls_2_640x_crop_top.jpg?v=1625752635",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/my_alphapet_dog_poop_bags_refill_rolls_3_640x_crop_top.jpg?v=1625752635",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/my_alphapet_dog_poop_bags_refill_rolls_4_640x_crop_top.jpg?v=1625752635"
+      ],
+      "name": "My Alphapet Dog Poop Bags Refill Rolls",
+      "description": "<p><span data-sheets-value=\"{&quot;1&quot;:2,&quot;2&quot;:&quot;These durable and leak-proof bags ensure clean and easy disposal. With their compact design, they easily fit into standard dispensers for on-the-go use. Keep your surroundings clean and hygienic while being a responsible pet owner.&quot;}\" data-sheets-userformat=\"{&quot;2&quot;:340138,&quot;4&quot;:{&quot;1&quot;:2,&quot;2&quot;:16773836},&quot;6&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;8&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;10&quot;:1,&quot;15&quot;:&quot;Cambria&quot;,&quot;16&quot;:11,&quot;19&quot;:0,&quot;21&quot;:0}\">These durable and leak-proof bags ensure clean and easy disposal. With their compact design, they easily fit into standard dispensers for on-the-go use. Keep your surroundings clean and hygienic while being a responsible pet owner.</span></p>",
+      "price": 28,
+      "vendor": "Nike",
+      "sku": "P0004",
+      "quantity_stock": 205,
+      "comments": [
+        {
+          "commentId": 1,
+          "productId": 4,
+          "userId": 4,
+          "userName": "James Mohamed",
+          "userRole": "customer",
+          "content": "<p>I'm impressed with the effectiveness of this flea and tick treatment.</p>",
+          "rating": 5,
+          "date": "06/09/2023 17:27:11",
+          "type": "product"
+        },
+        {
+          "commentId": 2,
+          "productId": 4,
+          "userId": 8,
+          "userName": "Sharon T Lett",
+          "userRole": "customer",
+          "content": "<p>This pet carrier backpack is comfortable for both of us</p>",
+          "rating": 5,
+          "date": "06/09/2023 19:02:48",
+          "type": "product"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "productImage": [
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/cuddler_pet_bed_soft_and_comforting_1_640x_crop_top.jpg?v=1625752662",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/cuddler_pet_bed_soft_and_comforting_2_640x_crop_top.jpg?v=1625752662",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/cuddler_pet_bed_soft_and_comforting_3_640x_crop_top.jpg?v=1625752662",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/cuddler_pet_bed_soft_and_comforting_4_640x_crop_top.jpg?v=1625752662"
+      ],
+      "name": "Cuddler Pet Bed Soft And Comforting",
+      "description": "<p><span data-sheets-value=\"{&quot;1&quot;:2,&quot;2&quot;:&quot;This soft and comforting bed provides a cozy retreat for your furry friend, ensuring they have a restful sleep. Its plush design and padded walls offer support and security, making it the perfect spot for relaxation. Treat your pet to a luxurious and comforting resting place with this Cuddler Pet Bed.&quot;}\" data-sheets-userformat=\"{&quot;2&quot;:340138,&quot;4&quot;:{&quot;1&quot;:2,&quot;2&quot;:16773836},&quot;6&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;8&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;10&quot;:1,&quot;15&quot;:&quot;Cambria&quot;,&quot;16&quot;:11,&quot;19&quot;:0,&quot;21&quot;:0}\">This soft and comforting bed provides a cozy retreat for your furry friend, ensuring they have a restful sleep. Its plush design and padded walls offer support and security, making it the perfect spot for relaxation. Treat your pet to a luxurious and comforting resting place with this Cuddler Pet Bed.</span></p>",
+      "price": 37,
+      "vendor": "Adidas",
+      "sku": "P0005",
+      "quantity_stock": 240,
+      "comments": [
+        {
+          "commentId": 1,
+          "productId": 5,
+          "userId": 5,
+          "userName": "David Helms",
+          "userRole": "customer",
+          "content": "<p>The pet food dispenser is convenient and keeps food fresh.</p>",
+          "rating": 4.5,
+          "date": "06/09/2023 18:57:13",
+          "type": "product"
+        },
+        {
+          "commentId": 2,
+          "productId": 5,
+          "userId": 9,
+          "userName": "Douglas J Marinelli",
+          "userRole": "customer",
+          "content": "<p>The pet playpen is spacious and easy to set up.<img src=\"https://cdn.thezebra.com/zfront/media/production/images/average-cost-of-vet-visit-hero-2_.width-1500.format-jpeg.jpg\" alt=\"Average cost of a vet visit for dogs: Must-know facts and figures\"></p>",
+          "rating": 5,
+          "date": "06/09/2023 19:04:19",
+          "type": "product"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "productImage": [
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/andrew_james_4_day_meal_automatic_pet_feeder_bowl_with_voice_recorder_includes_2_volume_reducers_1_adapter_tray_1_640x_crop_top.png?v=1625752682",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/andrew_james_4_day_meal_automatic_pet_feeder_bowl_with_voice_recorder_includes_2_volume_reducers_1_adapter_tray_2_640x_crop_top.png?v=1625752682",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/andrew_james_4_day_meal_automatic_pet_feeder_bowl_with_voice_recorder_includes_2_volume_reducers_1_adapter_tray_3_640x_crop_top.png?v=1625752682",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/andrew_james_4_day_meal_automatic_pet_feeder_bowl_with_voice_recorder_includes_2_volume_reducers_1_adapter_tray_4_640x_crop_top.png?v=1625752682"
+      ],
+      "name": "Meal Automatic Pet Feeder Bowl",
+      "description": "<p><span data-sheets-value=\"{&quot;1&quot;:2,&quot;2&quot;:&quot;This innovative feeder ensures timely and portion-controlled feeding for your furry friend. With customizable settings and a built-in timer, you can easily schedule multiple meals throughout the day. The spill-proof design and easy-to-clean bowl make feeding effortless and mess-free. Provide your pet with a consistent and convenient feeding experience with the Meal Automatic Pet Feeder Bowl.&quot;}\" data-sheets-userformat=\"{&quot;2&quot;:340138,&quot;4&quot;:{&quot;1&quot;:2,&quot;2&quot;:16773836},&quot;6&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;8&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;10&quot;:1,&quot;15&quot;:&quot;Cambria&quot;,&quot;16&quot;:11,&quot;19&quot;:0,&quot;21&quot;:0}\">This innovative feeder ensures timely and portion-controlled feeding for your furry friend. With customizable settings and a built-in timer, you can easily schedule multiple meals throughout the day. The spill-proof design and easy-to-clean bowl make feeding effortless and mess-free. Provide your pet with a consistent and convenient feeding experience with the Meal Automatic Pet Feeder Bowl.</span></p>",
+      "price": 30,
+      "vendor": "Nike",
+      "sku": "P0006",
+      "quantity_stock": 482,
+      "comments": [
+        {
+          "commentId": 1,
+          "productId": 6,
+          "userId": 5,
+          "userName": "David Helms",
+          "userRole": "customer",
+          "content": "<p>I love how easy it is to assemble this pet playpen.</p>",
+          "rating": 5,
+          "date": "06/09/2023 18:57:21",
+          "type": "product"
+        },
+        {
+          "commentId": 2,
+          "productId": 6,
+          "userId": 9,
+          "userName": "Douglas J Marinelli",
+          "userRole": "customer",
+          "content": "<p>This pet gate is sturdy and blends well with my home decor.</p>\n<p><img src=\"https://media.istockphoto.com/id/1303362255/photo/young-happy-veterinary-nurse-smiling-while-playing-with-a-dog-high-quality-photo.jpg?s=612x612&amp;w=0&amp;k=20&amp;c=_kIKIzB4GF5WDLCf2yK1XMQk9JtxoL9XPK_nJmTZ5JQ=\" alt=\"176,600+ Veterinarian Stock Photos, Pictures &amp; Royalty-Free Images - iStock  | Veterinarian with cat, Veterinarian with dog, Veterinarian office\"></p>",
+          "rating": 5,
+          "date": "06/09/2023 19:04:38",
+          "type": "product"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "productImage": [
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/qpey_pet_food_bowl_stainless_steel_1_640x_crop_top.jpg?v=1625752623",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/qpey_pet_food_bowl_stainless_steel_2_640x_crop_top.jpg?v=1625752623",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/qpey_pet_food_bowl_stainless_steel_3_640x_crop_top.jpg?v=1625752623",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/qpey_pet_food_bowl_stainless_steel_4_640x_crop_top.jpg?v=1625752623"
+      ],
+      "name": "Qpey Pet Food Bowl Stainless Steel",
+      "description": "<p><span data-sheets-value=\"{&quot;1&quot;:2,&quot;2&quot;:&quot;A durable stainless steel bowl designed for your pet's mealtime. Ensure a hygienic and convenient feeding experience with this easy-to-clean and long-lasting bowl. Keep your furry friend happy and satisfied during every meal.&quot;}\" data-sheets-userformat=\"{&quot;2&quot;:340138,&quot;4&quot;:{&quot;1&quot;:2,&quot;2&quot;:16773836},&quot;6&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;8&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;10&quot;:1,&quot;15&quot;:&quot;Cambria&quot;,&quot;16&quot;:11,&quot;19&quot;:0,&quot;21&quot;:0}\">A durable stainless steel bowl designed for your pet's mealtime. Ensure a hygienic and convenient feeding experience with this easy-to-clean and long-lasting bowl. Keep your furry friend happy and satisfied during every meal.</span></p>",
+      "price": 34,
+      "vendor": "Nike",
+      "sku": "P0007",
+      "quantity_stock": 298,
+      "comments": [
+        {
+          "commentId": 1,
+          "productId": 7,
+          "userId": 5,
+          "userName": "David Helms",
+          "userRole": "customer",
+          "content": "<p>This pet gate is durable and keeps my pet in a safe area.</p>",
+          "rating": 5,
+          "date": "06/09/2023 18:57:29",
+          "type": "product"
+        },
+        {
+          "commentId": 2,
+          "productId": 7,
+          "userId": 9,
+          "userName": "Douglas J Marinelli",
+          "userRole": "customer",
+          "content": "<p>The pet food mat keeps the floor clean and tidy.</p>",
+          "rating": 5,
+          "date": "06/09/2023 19:04:46",
+          "type": "product"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "productImage": [
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/gaucho_goods_tribal_leather_dog_collar_1_640x_crop_top.jpg?v=1625752646",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/gaucho_goods_tribal_leather_dog_collar_2_640x_crop_top.jpg?v=1625752646",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/gaucho_goods_tribal_leather_dog_collar_3_640x_crop_top.jpg?v=1625752646",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/gaucho_goods_tribal_leather_dog_collar_4_640x_crop_top.jpg?v=1625752646"
+      ],
+      "name": "Gaucho Goods Tribal Leather Dog Collar",
+      "description": "<p><span data-sheets-value=\"{&quot;1&quot;:2,&quot;2&quot;:&quot;Elevate your dog's style with the Gaucho Goods Tribal Leather Dog Collar. Crafted with premium leather and adorned with tribal-inspired designs, this collar combines fashion with durability. Ensure a secure and comfortable fit for your furry friend while adding a touch of uniqueness to their look. Let your dog stand out in style with the Gaucho Goods Tribal Leather Dog Collar.&quot;}\" data-sheets-userformat=\"{&quot;2&quot;:340138,&quot;4&quot;:{&quot;1&quot;:2,&quot;2&quot;:16773836},&quot;6&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;8&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;10&quot;:1,&quot;15&quot;:&quot;Cambria&quot;,&quot;16&quot;:11,&quot;19&quot;:0,&quot;21&quot;:0}\">Elevate your dog's style with the Gaucho Goods Tribal Leather Dog Collar. Crafted with premium leather and adorned with tribal-inspired designs, this collar combines fashion with durability. Ensure a secure and comfortable fit for your furry friend while adding a touch of uniqueness to their look. Let your dog stand out in style with the Gaucho Goods Tribal Leather Dog Collar.</span></p>",
+      "price": 45,
+      "vendor": "Nike",
+      "sku": "P0008",
+      "quantity_stock": 97,
+      "comments": [
+        {
+          "commentId": 1,
+          "productId": 8,
+          "userId": 5,
+          "userName": "David Helms",
+          "userRole": "customer",
+          "content": "<p>The birdcage design is stylish and functional. My bird loves it.</p>",
+          "rating": 4.5,
+          "date": "06/09/2023 18:57:38",
+          "type": "product"
+        },
+        {
+          "commentId": 2,
+          "productId": 8,
+          "userId": 9,
+          "userName": "Douglas J Marinelli",
+          "userRole": "customer",
+          "content": "<p>My pet's joint health has improved with these supplements.</p>\n<p><img src=\"https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/gaucho_goods_tribal_leather_dog_collar_1_640x_crop_top.jpg?v=1625752646\"></p>",
+          "rating": 5,
+          "date": "06/09/2023 19:04:57",
+          "type": "product"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "productImage": [
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/dogline_biothan_waterproof_dog_leash_strong_coated_nylon_1_640x_crop_top.jpg?v=1625752576",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/dogline_biothan_waterproof_dog_leash_strong_coated_nylon_2_640x_crop_top.jpg?v=1625752576",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/dogline_biothan_waterproof_dog_leash_strong_coated_nylon_3_640x_crop_top.jpg?v=1625752576",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/dogline_biothan_waterproof_dog_leash_strong_coated_nylon_5_640x_crop_top.jpg?v=1625752576"
+      ],
+      "name": "Dogline Biothane Waterproof Dog Leash Strong Coated Nylon",
+      "description": "<p><span data-sheets-value=\"{&quot;1&quot;:2,&quot;2&quot;:&quot;A strong and durable coated nylon leash that withstands any weather. Perfect for active dogs, it provides a reliable grip and easy control. Keep your furry companion safe and stylish on every adventure.&quot;}\" data-sheets-userformat=\"{&quot;2&quot;:340136,&quot;6&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;8&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;10&quot;:1,&quot;15&quot;:&quot;Cambria&quot;,&quot;16&quot;:11,&quot;19&quot;:0,&quot;21&quot;:0}\">A strong and durable coated nylon leash that withstands any weather. Perfect for active dogs, it provides a reliable grip and easy control. Keep your furry companion safe and stylish on every adventure.</span></p>",
+      "price": 12,
+      "vendor": "New Balance",
+      "sku": "P0009",
+      "quantity_stock": 139,
+      "comments": [
+        {
+          "commentId": 1,
+          "productId": 9,
+          "userId": 6,
+          "userName": "Kevin Lee",
+          "userRole": "customer",
+          "content": "<p>The pet ID tag is cute and helps ensure my pet's safety</p>",
+          "rating": 5,
+          "date": "06/09/2023 18:58:56",
+          "type": "product"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "productImage": [
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/best_friends_by_sheri_orthoComfort_deep_dish_cuddler_1_640x_crop_top.jpg?v=1625752589",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/best_friends_by_sheri_orthoComfort_deep_dish_cuddler_2_640x_crop_top.jpg?v=1625752589",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/best_friends_by_sheri_orthoComfort_deep_dish_cuddler_3_640x_crop_top.jpg?v=1625752589",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/best_friends_by_sheri_orthoComfort_deep_dish_cuddler_4_640x_crop_top.jpg?v=1625752589"
+      ],
+      "name": "Best Friends By Sheri OrthoComfort Deep Dish Cuddler",
+      "description": "<p><span data-sheets-value=\"{&quot;1&quot;:2,&quot;2&quot;:&quot;A charming animal world is already waiting for you! Little hearts of those animals we take care of are able to warm us and hide from sad thoughts no matter how big our pets are....&quot;}\" data-sheets-userformat=\"{&quot;2&quot;:340136,&quot;6&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;8&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;10&quot;:1,&quot;15&quot;:&quot;Cambria&quot;,&quot;16&quot;:11,&quot;19&quot;:0,&quot;21&quot;:0}\">A charming animal world is already waiting for you! Little hearts of those animals we take care of are able to warm us and hide from sad thoughts no matter how big our pets are....</span></p>",
+      "price": 49,
+      "vendor": "Adidas",
+      "sku": "P0010",
+      "quantity_stock": 49,
+      "comments": [
+        {
+          "commentId": 1,
+          "productId": 10,
+          "userId": 6,
+          "userName": "Kevin Lee",
+          "userRole": "customer",
+          "content": "<p>My pet enjoys hours of entertainment with this interactive toy.</p>",
+          "rating": 4,
+          "date": "06/09/2023 18:59:04",
+          "type": "product"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "productImage": [
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/halo_pet_microchip_scanner_mid06_pink_in_a_carry_case_with_car_charger_1_640x_crop_top.png?v=1625752570",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/halo_pet_microchip_scanner_mid06_pink_in_a_carry_case_with_car_charger_2_640x_crop_top.png?v=1625752570",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/halo_pet_microchip_scanner_mid06_pink_in_a_carry_case_with_car_charger_3_640x_crop_top.png?v=1625752570",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/halo_pet_microchip_scanner_mid06_pink_in_a_carry_case_with_car_charger_4_640x_crop_top.png?v=1625752570"
+      ],
+      "name": "Halo Pet Microchip Scanner",
+      "description": "<p><span data-sheets-value=\"{&quot;1&quot;:2,&quot;2&quot;:&quot;The Halo Pet Microchip Scanner is an essential tool for pet owners and professionals. This handheld device can read and verify microchip information, helping you locate lost pets and ensure their safety. With its user-friendly interface and compact design, it's easy to use and carry. Make pet care a breeze with this reliable scanner.&quot;}\" data-sheets-userformat=\"{&quot;2&quot;:332457,&quot;3&quot;:{&quot;1&quot;:0},&quot;6&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;8&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;10&quot;:1,&quot;12&quot;:0,&quot;15&quot;:&quot;Arial&quot;,&quot;19&quot;:0,&quot;21&quot;:0}\">The Halo Pet Microchip Scanner is an essential tool for pet owners and professionals. This handheld device can read and verify microchip information, helping you locate lost pets and ensure their safety. With its user-friendly interface and compact design, it's easy to use and carry. Make pet care a breeze with this reliable scanner.</span></p>",
+      "price": 70,
+      "vendor": "Adidas",
+      "sku": "P0011",
+      "quantity_stock": 298,
+      "comments": [
+        {
+          "commentId": 1,
+          "productId": 11,
+          "userId": 6,
+          "userName": "Kevin Lee",
+          "userRole": "customer",
+          "content": "<p>I'm amazed by the calming effect of this pet anxiety relief product</p>",
+          "rating": 5,
+          "date": "06/09/2023 18:59:10",
+          "type": "product"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "productImage": [
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/hdp_dog_boots_blue_set_of_4_medium_1_24144e81-621a-471c-839a-92acb84b49c7_640x_crop_top.png?v=1625817557",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/hdp_dog_boots_blue_set_of_4_medium_2_b3d23f1a-fe9a-401e-aed0-c4a37b6c63a1_640x_crop_top.png?v=1625817557",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/hdp_dog_boots_blue_set_of_4_medium_3_54c54c33-aa13-4932-bd25-6746f060ebe3_640x_crop_top.png?v=1625817557",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/hdp_dog_boots_blue_set_of_4_medium_4_640x_crop_top.png?v=1625817557"
+      ],
+      "name": "Hdp Dog Boots Blue Set of 4 Medium",
+      "description": "<p><span data-sheets-value=\"{&quot;1&quot;:2,&quot;2&quot;:&quot;Keep your furry friend's paws protected with the HDP Dog Boots in a vibrant blue color. This set includes four medium-sized boots designed for dogs. They provide insulation against hot or cold surfaces, making walks comfortable in any weather. The boots are durable, easy to put on, and designed to stay in place during playtime.&quot;}\" data-sheets-userformat=\"{&quot;2&quot;:332457,&quot;3&quot;:{&quot;1&quot;:0},&quot;6&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;8&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;10&quot;:1,&quot;12&quot;:0,&quot;15&quot;:&quot;Arial&quot;,&quot;19&quot;:0,&quot;21&quot;:0}\">Keep your furry friend's paws protected with the HDP Dog Boots in a vibrant blue color. This set includes four medium-sized boots designed for dogs. They provide insulation against hot or cold surfaces, making walks comfortable in any weather. The boots are durable, easy to put on, and designed to stay in place during playtime.</span></p>",
+      "price": 50,
+      "vendor": "Adidas",
+      "sku": "P0012",
+      "quantity_stock": 240,
+      "comments": [
+        {
+          "commentId": 1,
+          "productId": 12,
+          "userId": 6,
+          "userName": "Kevin Lee",
+          "userRole": "customer",
+          "content": "<p>The pet nail clippers are sharp and make grooming a breeze.</p>",
+          "rating": 5,
+          "date": "06/09/2023 18:59:18",
+          "type": "product"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "productImage": [
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/hing_designs_the_bone_bowl_with_non_slip_rubber_feet_and_dishwasher_safe_removable_stainless_steel_bowls_pink_1_640x_crop_top.png?v=1625752547",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/hing_designs_the_bone_bowl_with_non_slip_rubber_feet_and_dishwasher_safe_removable_stainless_steel_bowls_pink_2_640x_crop_top.png?v=1625752547",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/hing_designs_the_bone_bowl_with_non_slip_rubber_feet_and_dishwasher_safe_removable_stainless_steel_bowls_pink_3_640x_crop_top.png?v=1625752547",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/hing_designs_the_bone_bowl_with_non_slip_rubber_feet_and_dishwasher_safe_removable_stainless_steel_bowls_pink_4_640x_crop_top.png?v=1625752547"
+      ],
+      "name": "Hing Designs The Bone Bowl with Non Slip Rubber Feet",
+      "description": "<p><span data-sheets-value=\"{&quot;1&quot;:2,&quot;2&quot;:&quot;The Hing Designs Bone Bowl is both functional and stylish. Its unique bone-shaped design adds a touch of fun to your pet's mealtime. The non-slip rubber feet keep the bowl in place, and the stainless steel bowls are easy to remove and dishwasher-safe, ensuring a hygienic eating experience for your pet.&quot;}\" data-sheets-userformat=\"{&quot;2&quot;:332457,&quot;3&quot;:{&quot;1&quot;:0},&quot;6&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;8&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;10&quot;:1,&quot;12&quot;:0,&quot;15&quot;:&quot;Arial&quot;,&quot;19&quot;:0,&quot;21&quot;:0}\">The Hing Designs Bone Bowl is both functional and stylish. Its unique bone-shaped design adds a touch of fun to your pet's mealtime. The non-slip rubber feet keep the bowl in place, and the stainless steel bowls are easy to remove and dishwasher-safe, ensuring a hygienic eating experience for your pet.</span></p>",
+      "price": 9,
+      "vendor": "Nike",
+      "sku": "P0013",
+      "quantity_stock": 396,
+      "comments": [
+        {
+          "commentId": 1,
+          "productId": 13,
+          "userId": 7,
+          "userName": "Leonardo",
+          "userRole": "customer",
+          "content": "<p>This pet carrier is well-ventilated and comfortable for travel.</p>",
+          "rating": 4.5,
+          "date": "06/09/2023 19:00:59",
+          "type": "product"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "productImage": [
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/waterproof_non_slip_fda_grade_silicone_cat_pet_bowl_feeding_placemat_1_640x_crop_top.jpg?v=1625752595",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/waterproof_non_slip_fda_grade_silicone_cat_pet_bowl_feeding_placemat_2_640x_crop_top.jpg?v=1625752595",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/waterproof_non_slip_fda_grade_silicone_cat_pet_bowl_feeding_placemat_3_640x_crop_top.jpg?v=1625752595",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/waterproof_non_slip_fda_grade_silicone_cat_pet_bowl_feeding_placemat_4_640x_crop_top.jpg?v=1625752595"
+      ],
+      "name": "Waterproof Non Slip Fda Grade Silicone Cat Pet Bowl Feeding Placemat",
+      "description": "<p><span data-sheets-value=\"{&quot;1&quot;:2,&quot;2&quot;:&quot;This FDA-grade silicone placemat is a must-have for pet owners. It's waterproof and non-slip, protecting your floors from spills and messes during mealtime. The high-quality silicone material is safe for pets, and the mat is easy to clean, making your life easier.&quot;}\" data-sheets-userformat=\"{&quot;2&quot;:332457,&quot;3&quot;:{&quot;1&quot;:0},&quot;6&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;8&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;10&quot;:1,&quot;12&quot;:0,&quot;15&quot;:&quot;Arial&quot;,&quot;19&quot;:0,&quot;21&quot;:0}\">This FDA-grade silicone placemat is a must-have for pet owners. It's waterproof and non-slip, protecting your floors from spills and messes during mealtime. The high-quality silicone material is safe for pets, and the mat is easy to clean, making your life easier.</span></p>",
+      "price": 53,
+      "vendor": "New Balance",
+      "sku": "P0014",
+      "quantity_stock": 492,
+      "comments": [
+        {
+          "commentId": 1,
+          "productId": 14,
+          "userId": 7,
+          "userName": "Leonardo",
+          "userRole": "customer",
+          "content": "<p>The pet grooming kit has all the essentials I need</p>",
+          "rating": 5,
+          "date": "06/09/2023 19:01:07",
+          "type": "product"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "productImage": [
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/wrapok_compostable_dog_poop_bags_1_640x_crop_top.jpg?v=1625752537",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/wrapok_compostable_dog_poop_bags_2_640x_crop_top.jpg?v=1625752537",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/wrapok_compostable_dog_poop_bags_3_640x_crop_top.jpg?v=1625752537",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/wrapok_compostable_dog_poop_bags_4_640x_crop_top.jpg?v=1625752537"
+      ],
+      "name": "Wrapok Compostable Dog Poop Bags",
+      "description": "<p><span data-sheets-value=\"{&quot;1&quot;:2,&quot;2&quot;:&quot;When it comes to pet waste disposal, choose Wrapok Compostable Dog Poop Bags. These eco-friendly bags are made from compostable materials, reducing your environmental footprint. They are strong, leak-proof, and easy to tie securely. Responsible pet ownership meets sustainability with these bags.&quot;}\" data-sheets-userformat=\"{&quot;2&quot;:332457,&quot;3&quot;:{&quot;1&quot;:0},&quot;6&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;8&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;10&quot;:1,&quot;12&quot;:0,&quot;15&quot;:&quot;Arial&quot;,&quot;19&quot;:0,&quot;21&quot;:0}\">When it comes to pet waste disposal, choose Wrapok Compostable Dog Poop Bags. These eco-friendly bags are made from compostable materials, reducing your environmental footprint. They are strong, leak-proof, and easy to tie securely. Responsible pet ownership meets sustainability with these bags.</span></p>",
+      "price": 28,
+      "vendor": "Nike",
+      "sku": "P0015",
+      "quantity_stock": 339,
+      "comments": [
+        {
+          "commentId": 1,
+          "productId": 15,
+          "userId": 7,
+          "userName": "Leonardo",
+          "userRole": "customer",
+          "content": "<p>My pet's coat is soft and shiny after using this conditioner.</p>",
+          "rating": 5,
+          "date": "06/09/2023 19:01:14",
+          "type": "product"
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "productImage": [
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/zehui_pet_dog_cat_sweater_puppy_t_shirt_warm_hoodies_coat_clothes_apparel_black_s_1_640x_crop_top.png?v=1625752530",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/zehui_pet_dog_cat_sweater_puppy_t_shirt_warm_hoodies_coat_clothes_apparel_black_s_2_640x_crop_top.png?v=1625752530",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/zehui_pet_dog_cat_sweater_puppy_t_shirt_warm_hoodies_coat_clothes_apparel_black_s_3_640x_crop_top.png?v=1625752530",
+        "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/zehui_pet_dog_cat_sweater_puppy_t_shirt_warm_hoodies_coat_clothes_apparel_black_s_4_640x_crop_top.png?v=1625752530"
+      ],
+      "name": "Zehui Pet Dog Cat Sweater Puppy T Shirt Warm Hoodies",
+      "description": "<p><span data-sheets-value=\"{&quot;1&quot;:2,&quot;2&quot;:&quot;Keep your furry companion warm and stylish with the Zehui Pet Sweater. This black knitted sweater, available in size S, provides warmth and comfort during colder seasons. It's not only functional but also adds a fashionable touch to your pet's wardrobe. Dress your pet in comfort and style with this adorable hoodie.&quot;}\" data-sheets-userformat=\"{&quot;2&quot;:332457,&quot;3&quot;:{&quot;1&quot;:0},&quot;6&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;8&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;10&quot;:1,&quot;12&quot;:0,&quot;15&quot;:&quot;Arial&quot;,&quot;19&quot;:0,&quot;21&quot;:0}\">Keep your furry companion warm and stylish with the Zehui Pet Sweater. This black knitted sweater, available in size S, provides warmth and comfort during colder seasons. It's not only functional but also adds a fashionable touch to your pet's wardrobe. Dress your pet in comfort and style with this adorable hoodie.</span></p>",
+      "price": 18,
+      "vendor": "Adidas",
+      "sku": "P0016",
+      "quantity_stock": 344,
+      "comments": [
+        {
+          "commentId": 1,
+          "productId": 16,
+          "userId": 7,
+          "userName": "Leonardo",
+          "userRole": "customer",
+          "content": "<p>The pet stroller is a game-changer for our outdoor adventures.</p>",
+          "rating": 5,
+          "date": "06/09/2023 19:01:22",
+          "type": "product"
+        }
+      ]
+    }
+  ],
+  "services": [
+    {
+      "name": "Veterinarian",
+      "serviceImage": "https://i.ibb.co/2Y4LnrD/veterinary-service.jpg",
+      "price": 500,
+      "description": "<p><span data-sheets-value=\"{&quot;1&quot;:2,&quot;2&quot;:&quot;The health of your pets is our utmost priority. Our Veterinarian service provides health check-ups, vaccinations, diagnoses, and treatments as needed. Our experienced veterinary team ensures your pets are in prime condition, offering peace of mind for their well-being.&quot;}\" data-sheets-userformat=\"{&quot;2&quot;:332673,&quot;3&quot;:{&quot;1&quot;:0},&quot;10&quot;:1,&quot;11&quot;:3,&quot;12&quot;:0,&quot;15&quot;:&quot;Arial&quot;,&quot;19&quot;:0,&quot;21&quot;:0}\">The health of your pets is our utmost priority. Our Veterinarian service provides health check-ups, vaccinations, diagnoses, and treatments as needed. Our experienced veterinary team ensures your pets are in prime condition, offering peace of mind for their well-being.</span></p>",
+      "morningTime": "09:00 AM - 11:30 AM",
+      "afternoonTime": "14:00 PM - 16:30 PM",
+      "id": 1,
+      "comments": [
+        {
+          "commentId": 1,
+          "serviceId": 1,
+          "userId": 4,
+          "userName": "James Mohamed",
+          "userRole": "customer",
+          "content": "<p>The pet carrier is spacious and easy to carry. Perfect for travel.</p>",
+          "rating": 5,
+          "date": "06/09/2023 17:35:14",
+          "type": "service"
+        },
+        {
+          "commentId": 2,
+          "serviceId": 1,
+          "userId": 5,
+          "userName": "David Helms",
+          "userRole": "customer",
+          "content": "<p>I feel safer walking my dog at night with this LED collar</p>",
+          "rating": 4,
+          "date": "06/09/2023 18:56:05",
+          "type": "service"
+        },
+        {
+          "commentId": 3,
+          "serviceId": 1,
+          "userId": 6,
+          "userName": "Kevin Lee",
+          "userRole": "customer",
+          "content": "<p>This pet bed is so plush and cozy. My pet naps all day!</p>",
+          "rating": 4.5,
+          "date": "06/09/2023 18:59:33",
+          "type": "service"
+        },
+        {
+          "commentId": 4,
+          "serviceId": 1,
+          "userId": 7,
+          "userName": "Leonardo",
+          "userRole": "customer",
+          "content": "<p>I love the design of this pet collar. It looks stylish and durable.</p>",
+          "rating": 5,
+          "date": "06/09/2023 19:01:43",
+          "type": "service"
+        },
+        {
+          "commentId": 5,
+          "serviceId": 1,
+          "userId": 8,
+          "userName": "Sharon T Lett",
+          "userRole": "customer",
+          "content": "<p>The pet leash is reflective for added safety during night walks <img src=\"https://www.sunrise-vet.ca/wp-content/uploads/sites/300/2022/06/vet-dog.jpg\" alt=\"Vet Office Etiquette - Sunrise Animal Hospital\"></p>",
+          "rating": 0,
+          "date": "06/09/2023 19:03:24",
+          "type": "service"
+        },
+        {
+          "commentId": 6,
+          "serviceId": 1,
+          "userId": 9,
+          "userName": "Douglas J Marinelli",
+          "userRole": "customer",
+          "content": "<p>I'm impressed with the grooming results using this kit.</p>",
+          "rating": 4.5,
+          "date": "06/09/2023 19:05:16",
+          "type": "service"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Pet Grooming",
+      "serviceImage": "https://i.ibb.co/F5N9LXC/dog-grooming-service.jpg",
+      "description": "<p><span data-sheets-value=\"{&quot;1&quot;:2,&quot;2&quot;:&quot;Our Pet Grooming service offers your furry companions a professional pampering experience. Our pet care team will clean their coat, trim their nails, and style their fur, ensuring they look and feel their best, radiating a fresh and delightful appearance.&quot;}\" data-sheets-userformat=\"{&quot;2&quot;:332673,&quot;3&quot;:{&quot;1&quot;:0},&quot;10&quot;:1,&quot;11&quot;:3,&quot;12&quot;:0,&quot;15&quot;:&quot;Arial&quot;,&quot;19&quot;:0,&quot;21&quot;:0}\">Our Pet Grooming service offers your furry companions a professional pampering experience. Our pet care team will clean their coat, trim their nails, and style their fur, ensuring they look and feel their best, radiating a fresh and delightful appearance.</span></p>",
+      "price": 300,
+      "morningTime": "09:00 AM - 11:30 AM",
+      "afternoonTime": "14:00 PM - 16:30 PM",
+      "comments": [
+        {
+          "commentId": 1,
+          "serviceId": 2,
+          "userId": 4,
+          "userName": "James Mohamed",
+          "userRole": "customer",
+          "content": "<p>This grooming brush works wonders on my pet's fur. No more shedding!</p>",
+          "rating": 5,
+          "date": "06/09/2023 17:34:48",
+          "type": "service"
+        },
+        {
+          "commentId": 2,
+          "serviceId": 2,
+          "userId": 5,
+          "userName": "David Helms",
+          "userRole": "customer",
+          "content": "<p>These litter bags are a lifesaver. Clean-up is a breeze</p>",
+          "rating": 4.5,
+          "date": "06/09/2023 18:56:17",
+          "type": "service"
+        },
+        {
+          "commentId": 3,
+          "serviceId": 2,
+          "userId": 6,
+          "userName": "Kevin Lee",
+          "userRole": "customer",
+          "content": "<p>I appreciate the eco-friendly materials used in this pet product.</p>",
+          "rating": 4,
+          "date": "06/09/2023 18:59:41",
+          "type": "service"
+        },
+        {
+          "commentId": 4,
+          "serviceId": 2,
+          "userId": 7,
+          "userName": "Leonardo",
+          "userRole": "customer",
+          "content": "<p>These pet waste bags are strong and eco-friendly.</p>",
+          "rating": 5,
+          "date": "06/09/2023 19:01:50",
+          "type": "service"
+        },
+        {
+          "commentId": 5,
+          "serviceId": 2,
+          "userId": 8,
+          "userName": "Sharon T Lett",
+          "userRole": "customer",
+          "content": "<p>I appreciate the odor control of this pet litter.</p>",
+          "rating": 5,
+          "date": "06/09/2023 19:03:36",
+          "type": "service"
+        },
+        {
+          "commentId": 6,
+          "serviceId": 2,
+          "userId": 9,
+          "userName": "Douglas J Marinelli",
+          "userRole": "customer",
+          "content": "<p>The pet bed is machine washable, which is very convenient.</p>",
+          "rating": 5,
+          "date": "06/09/2023 19:05:27",
+          "type": "service"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Pet Sitting",
+      "serviceImage": "https://i.ibb.co/PjQbR00/pet-sitting-service.png",
+      "description": "<p><span data-sheets-value=\"{&quot;1&quot;:2,&quot;2&quot;:&quot;When you require personal time away from your pet, our Pet Sitting service ensures they receive attentive care. Our dedicated team will visit your home to tend to your pets, providing feeding, walks, and all the love and attention they need, bridging the gap in your absence.&quot;}\" data-sheets-userformat=\"{&quot;2&quot;:332673,&quot;3&quot;:{&quot;1&quot;:0},&quot;10&quot;:1,&quot;11&quot;:3,&quot;12&quot;:0,&quot;15&quot;:&quot;Arial&quot;,&quot;19&quot;:0,&quot;21&quot;:0}\">When you require personal time away from your pet, our Pet Sitting service ensures they receive attentive care. Our dedicated team will visit your home to tend to your pets, providing feeding, walks, and all the love and attention they need, bridging the gap in your absence.</span></p>",
+      "price": 200,
+      "morningTime": "09:00 AM - 11:30 AM",
+      "afternoonTime": "14:00 PM - 16:30 PM",
+      "comments": [
+        {
+          "commentId": 1,
+          "serviceId": 3,
+          "userId": 4,
+          "userName": "James Mohamed",
+          "userRole": "customer",
+          "content": "<p>My cat can't get enough of these tasty treats. They're a hit!</p>",
+          "rating": 5,
+          "date": "06/09/2023 17:33:58",
+          "type": "service"
+        },
+        {
+          "commentId": 2,
+          "serviceId": 3,
+          "userId": 5,
+          "userName": "David Helms",
+          "userRole": "customer",
+          "content": "<p>My pet's coat is shinier and healthier thanks to this shampoo.</p>",
+          "rating": 4,
+          "date": "06/09/2023 18:56:24",
+          "type": "service"
+        },
+        {
+          "commentId": 3,
+          "serviceId": 3,
+          "userId": 6,
+          "userName": "Kevin Lee",
+          "userRole": "customer",
+          "content": "<p>The pet water fountain encourages my pet to stay hydrated.</p>",
+          "rating": 5,
+          "date": "06/09/2023 18:59:48",
+          "type": "service"
+        },
+        {
+          "commentId": 4,
+          "serviceId": 3,
+          "userId": 7,
+          "userName": "Leonardo",
+          "userRole": "customer",
+          "content": "<p>The pet toothbrush makes dental care a breeze.</p>",
+          "rating": 5,
+          "date": "06/09/2023 19:01:56",
+          "type": "service"
+        },
+        {
+          "commentId": 5,
+          "serviceId": 3,
+          "userId": 8,
+          "userName": "Sharon T Lett",
+          "userRole": "customer",
+          "content": "<p>My pet's shedding has reduced significantly with this brush.</p>",
+          "rating": 4.5,
+          "date": "06/09/2023 19:03:45",
+          "type": "service"
+        },
+        {
+          "commentId": 6,
+          "serviceId": 3,
+          "userId": 9,
+          "userName": "Douglas J Marinelli",
+          "userRole": "customer",
+          "content": "<p>I feel more secure during car rides with this pet seatbelt</p>",
+          "rating": 5,
+          "date": "06/09/2023 19:05:36",
+          "type": "service"
+        }
+      ]
+    }
+  ],
+  "orders": [
+    {
+      "user_id": 4,
+      "name": "James Mohamed",
+      "email": "mohamed1972@hotmail.com",
+      "phone": "12345678909",
+      "date": "06/08/2023 19:13:20",
+      "status": "Shipped",
+      "address": "New York",
+      "cart": [
+        {
+          "productId": 1,
+          "productImage": "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/blueberry_pet_essentials_zoo_fun_dog_collars_1_640x_crop_top.jpg?v=1625752583",
+          "productName": "Blueberry Pet Essentials Zoo Fun Dog Collars",
+          "productQuantity": 2,
+          "price": 40
+        }
+      ],
+      "discount": 0,
+      "sumOrderNoDiscount": 85,
+      "sumOrderWithDiscount": 85,
+      "cardNumber": 4032030389663551,
+      "id": 1
+    },
+    {
+      "user_id": 4,
+      "name": "James Mohamed",
+      "email": "mohamed1972@hotmail.com",
+      "phone": "12345657890",
+      "date": "06/08/2023 19:16:58",
+      "status": "Shipped",
+      "address": "Washington",
+      "cart": [
+        {
+          "productId": 15,
+          "productImage": "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/wrapok_compostable_dog_poop_bags_1_640x_crop_top.jpg?v=1625752537",
+          "productName": "Wrapok Compostable Dog Poop Bags",
+          "productQuantity": 5,
+          "price": 28
+        },
+        {
+          "productId": 16,
+          "productImage": "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/zehui_pet_dog_cat_sweater_puppy_t_shirt_warm_hoodies_coat_clothes_apparel_black_s_1_640x_crop_top.png?v=1625752530",
+          "productName": "Zehui Pet Dog Cat Sweater Puppy T Shirt Warm Hoodies Coat Clothes Apparel Black S",
+          "productQuantity": 10,
+          "price": 18
+        }
+      ],
+      "discount": 0,
+      "sumOrderNoDiscount": 325,
+      "sumOrderWithDiscount": 325,
+      "cardNumber": 4032035757672365,
+      "id": 2
+    },
+    {
+      "user_id": 5,
+      "name": "David Helms",
+      "email": "davidhelms1987@yahoo.com",
+      "phone": "12345657890",
+      "date": "06/09/2023 19:20:34",
+      "status": "Pending",
+      "address": "Washington",
+      "cart": [
+        {
+          "productId": 9,
+          "productImage": "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/dogline_biothan_waterproof_dog_leash_strong_coated_nylon_1_640x_crop_top.jpg?v=1625752576",
+          "productName": "Dogline Biothane Waterproof Dog Leash Strong Coated Nylon",
+          "productQuantity": 10,
+          "price": 12
+        },
+        {
+          "productId": 12,
+          "productImage": "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/hdp_dog_boots_blue_set_of_4_medium_1_24144e81-621a-471c-839a-92acb84b49c7_640x_crop_top.png?v=1625817557",
+          "productName": "Hdp Dog Boots Blue Set of 4 Medium",
+          "productQuantity": 5,
+          "price": 50
+        }
+      ],
+      "discount": 0,
+      "sumOrderNoDiscount": 375,
+      "sumOrderWithDiscount": 375,
+      "cardNumber": 4032035757672365,
+      "id": 3
+    },
+    {
+      "user_id": 6,
+      "name": "Kevin Lee",
+      "email": "kevinlee1997@yahoo.com",
+      "phone": "12345678909",
+      "date": "06/09/2023 19:33:41",
+      "status": "Cancel",
+      "address": "New York",
+      "cart": [
+        {
+          "productId": 5,
+          "productImage": "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/cuddler_pet_bed_soft_and_comforting_1_640x_crop_top.jpg?v=1625752662",
+          "productName": "Cuddler Pet Bed Soft And Comforting",
+          "productQuantity": 5,
+          "price": 37
+        },
+        {
+          "productId": 14,
+          "productImage": "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/waterproof_non_slip_fda_grade_silicone_cat_pet_bowl_feeding_placemat_1_640x_crop_top.jpg?v=1625752595",
+          "productName": "Waterproof Non Slip Fda Grade Silicone Cat Pet Bowl Feeding Placemat",
+          "productQuantity": 4,
+          "price": 53
+        },
+        {
+          "productId": 7,
+          "productImage": "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/qpey_pet_food_bowl_stainless_steel_1_640x_crop_top.jpg?v=1625752623",
+          "productName": "Qpey Pet Food Bowl Stainless Steel",
+          "productQuantity": 2,
+          "price": 34
+        }
+      ],
+      "discount": 10,
+      "sumOrderNoDiscount": 470,
+      "sumOrderWithDiscount": 423.5,
+      "cardNumber": 4032030389663551,
+      "id": 4,
+      "cancel_reason": "Ordered the wrong product"
+    },
+    {
+      "user_id": 6,
+      "name": "Kevin Lee",
+      "email": "kevinlee1997@yahoo.com",
+      "phone": "12345678909",
+      "date": "06/09/2023 19:34:28",
+      "status": "Shipped",
+      "address": "New York",
+      "cart": [
+        {
+          "productId": 3,
+          "productImage": "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/senye_retractable_dog_leash_16ft_dog_traction_rope_1_640x_crop_top.jpg?v=1625752616",
+          "productName": "Senye Retractable Dog Leash 16ft Dog Traction Rope",
+          "productQuantity": 2,
+          "price": 70
+        }
+      ],
+      "discount": 0,
+      "sumOrderNoDiscount": 145,
+      "sumOrderWithDiscount": 145,
+      "cardNumber": 4032030389663551,
+      "id": 5
+    },
+    {
+      "user_id": 6,
+      "name": "Kevin Lee",
+      "email": "kevinlee1997@yahoo.com",
+      "phone": "12345678909",
+      "date": "06/09/2023 19:34:44",
+      "status": "Shipping",
+      "address": "New York",
+      "cart": [
+        {
+          "productId": 5,
+          "productImage": "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/cuddler_pet_bed_soft_and_comforting_1_640x_crop_top.jpg?v=1625752662",
+          "productName": "Cuddler Pet Bed Soft And Comforting",
+          "productQuantity": 5,
+          "price": 37
+        },
+        {
+          "productId": 4,
+          "productImage": "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/my_alphapet_dog_poop_bags_refill_rolls_1_640x_crop_top.jpg?v=1625752635",
+          "productName": "My Alphapet Dog Poop Bags Refill Rolls",
+          "productQuantity": 5,
+          "price": 28
+        }
+      ],
+      "discount": 0,
+      "sumOrderNoDiscount": 330,
+      "sumOrderWithDiscount": 330,
+      "cardNumber": 4032030389663551,
+      "id": 6
+    },
+    {
+      "user_id": 6,
+      "name": "Kevin Lee",
+      "email": "kevinlee1997@yahoo.com",
+      "phone": "12345678909",
+      "date": "06/09/2023 19:35:03",
+      "status": "Processing",
+      "address": "New York",
+      "cart": [
+        {
+          "productId": 6,
+          "productImage": "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/andrew_james_4_day_meal_automatic_pet_feeder_bowl_with_voice_recorder_includes_2_volume_reducers_1_adapter_tray_1_640x_crop_top.png?v=1625752682",
+          "productName": "Meal Automatic Pet Feeder Bowl",
+          "productQuantity": 10,
+          "price": 30
+        },
+        {
+          "productId": 8,
+          "productImage": "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/gaucho_goods_tribal_leather_dog_collar_1_640x_crop_top.jpg?v=1625752646",
+          "productName": "Gaucho Goods Tribal Leather Dog Collar",
+          "productQuantity": 2,
+          "price": 45
+        }
+      ],
+      "discount": 0,
+      "sumOrderNoDiscount": 395,
+      "sumOrderWithDiscount": 395,
+      "cardNumber": 4032030389663551,
+      "id": 7
+    },
+    {
+      "user_id": 6,
+      "name": "Kevin Lee",
+      "email": "kevinlee1997@yahoo.com",
+      "phone": "12345678909",
+      "date": "06/09/2023 19:35:30",
+      "status": "Pending",
+      "address": "New York",
+      "cart": [
+        {
+          "productId": 12,
+          "productImage": "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/hdp_dog_boots_blue_set_of_4_medium_1_24144e81-621a-471c-839a-92acb84b49c7_640x_crop_top.png?v=1625817557",
+          "productName": "Hdp Dog Boots Blue Set of 4 Medium",
+          "productQuantity": 5,
+          "price": 50
+        }
+      ],
+      "discount": 0,
+      "sumOrderNoDiscount": 255,
+      "sumOrderWithDiscount": 255,
+      "cardNumber": 4032030389663551,
+      "id": 8
+    },
+    {
+      "user_id": 7,
+      "name": "Leonardo",
+      "email": "leonardo2009@yahoo.com",
+      "phone": "12345678909",
+      "date": "06/09/2023 19:38:03",
+      "status": "Shipped",
+      "address": "New York",
+      "cart": [
+        {
+          "productId": 13,
+          "productImage": "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/hing_designs_the_bone_bowl_with_non_slip_rubber_feet_and_dishwasher_safe_removable_stainless_steel_bowls_pink_1_640x_crop_top.png?v=1625752547",
+          "productName": "Hing Designs The Bone Bowl with Non Slip Rubber Feet and Dishwasher Safe Removable Stainless Steel Bowls Pink",
+          "productQuantity": 4,
+          "price": 9
+        },
+        {
+          "productId": 14,
+          "productImage": "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/waterproof_non_slip_fda_grade_silicone_cat_pet_bowl_feeding_placemat_1_640x_crop_top.jpg?v=1625752595",
+          "productName": "Waterproof Non Slip Fda Grade Silicone Cat Pet Bowl Feeding Placemat",
+          "productQuantity": 4,
+          "price": 53
+        },
+        {
+          "productId": 15,
+          "productImage": "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/wrapok_compostable_dog_poop_bags_1_640x_crop_top.jpg?v=1625752537",
+          "productName": "Wrapok Compostable Dog Poop Bags",
+          "productQuantity": 5,
+          "price": 28
+        },
+        {
+          "productId": 16,
+          "productImage": "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/zehui_pet_dog_cat_sweater_puppy_t_shirt_warm_hoodies_coat_clothes_apparel_black_s_1_640x_crop_top.png?v=1625752530",
+          "productName": "Zehui Pet Dog Cat Sweater Puppy T Shirt Warm Hoodies Coat Clothes Apparel Black S",
+          "productQuantity": 5,
+          "price": 18
+        },
+        {
+          "productId": 10,
+          "productImage": "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/best_friends_by_sheri_orthoComfort_deep_dish_cuddler_1_640x_crop_top.jpg?v=1625752589",
+          "productName": "Best Friends By Sheri OrthoComfort Deep Dish Cuddler",
+          "productQuantity": 1,
+          "price": 49
+        }
+      ],
+      "discount": 5,
+      "sumOrderNoDiscount": 532,
+      "sumOrderWithDiscount": 505.65,
+      "cardNumber": 4032030389663551,
+      "id": 9
+    },
+    {
+      "user_id": 7,
+      "name": "Leonardo",
+      "email": "leonardo2009@yahoo.com",
+      "phone": "12345678909",
+      "date": "06/09/2023 19:39:01",
+      "status": "Shipped",
+      "address": "New York",
+      "cart": [
+        {
+          "productId": 8,
+          "productImage": "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/gaucho_goods_tribal_leather_dog_collar_1_640x_crop_top.jpg?v=1625752646",
+          "productName": "Gaucho Goods Tribal Leather Dog Collar",
+          "productQuantity": 1,
+          "price": 45
+        }
+      ],
+      "discount": 0,
+      "sumOrderNoDiscount": 50,
+      "sumOrderWithDiscount": 50,
+      "cardNumber": 4032030389663551,
+      "id": 10
+    },
+    {
+      "user_id": 7,
+      "name": "Leonardo",
+      "email": "leonardo2009@yahoo.com",
+      "phone": "12345678909",
+      "date": "06/09/2023 19:39:14",
+      "status": "Pending",
+      "address": "New York",
+      "cart": [
+        {
+          "productId": 6,
+          "productImage": "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/andrew_james_4_day_meal_automatic_pet_feeder_bowl_with_voice_recorder_includes_2_volume_reducers_1_adapter_tray_1_640x_crop_top.png?v=1625752682",
+          "productName": "Meal Automatic Pet Feeder Bowl",
+          "productQuantity": 7,
+          "price": 30
+        }
+      ],
+      "discount": 0,
+      "sumOrderNoDiscount": 215,
+      "sumOrderWithDiscount": 215,
+      "cardNumber": 4032030389663551,
+      "id": 11
+    },
+    {
+      "user_id": 7,
+      "name": "Leonardo",
+      "email": "leonardo2009@yahoo.com",
+      "phone": "12345678909",
+      "date": "06/09/2023 19:39:22",
+      "status": "Pending",
+      "address": "New York",
+      "cart": [
+        {
+          "productId": 9,
+          "productImage": "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/dogline_biothan_waterproof_dog_leash_strong_coated_nylon_1_640x_crop_top.jpg?v=1625752576",
+          "productName": "Dogline Biothane Waterproof Dog Leash Strong Coated Nylon",
+          "productQuantity": 1,
+          "price": 12
+        }
+      ],
+      "discount": 0,
+      "sumOrderNoDiscount": 17,
+      "sumOrderWithDiscount": 17,
+      "cardNumber": 4032030389663551,
+      "id": 12
+    },
+    {
+      "user_id": 8,
+      "name": "Sharon T Lett",
+      "email": "moses_decko9@hotmail.com",
+      "phone": "12345678909",
+      "date": "06/09/2023 19:40:22",
+      "status": "Pending",
+      "address": "New York",
+      "cart": [
+        {
+          "productId": 11,
+          "productImage": "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/halo_pet_microchip_scanner_mid06_pink_in_a_carry_case_with_car_charger_1_640x_crop_top.png?v=1625752570",
+          "productName": "Halo Pet Microchip Scanner",
+          "productQuantity": 1,
+          "price": 70
+        },
+        {
+          "productId": 15,
+          "productImage": "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/wrapok_compostable_dog_poop_bags_1_640x_crop_top.jpg?v=1625752537",
+          "productName": "Wrapok Compostable Dog Poop Bags",
+          "productQuantity": 1,
+          "price": 28
+        }
+      ],
+      "discount": 0,
+      "sumOrderNoDiscount": 103,
+      "sumOrderWithDiscount": 103,
+      "cardNumber": 4032030389663551,
+      "id": 13
+    },
+    {
+      "user_id": 9,
+      "name": "Douglas J Marinelli",
+      "email": "velma.greenho@gmail.com",
+      "phone": "12345678909",
+      "date": "06/09/2023 19:42:12",
+      "status": "Pending",
+      "address": "New York",
+      "cart": [
+        {
+          "productId": 11,
+          "productImage": "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/halo_pet_microchip_scanner_mid06_pink_in_a_carry_case_with_car_charger_1_640x_crop_top.png?v=1625752570",
+          "productName": "Halo Pet Microchip Scanner",
+          "productQuantity": 1,
+          "price": 70
+        },
+        {
+          "productId": 16,
+          "productImage": "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/zehui_pet_dog_cat_sweater_puppy_t_shirt_warm_hoodies_coat_clothes_apparel_black_s_1_640x_crop_top.png?v=1625752530",
+          "productName": "Zehui Pet Dog Cat Sweater Puppy T Shirt Warm Hoodies Coat Clothes Apparel Black S",
+          "productQuantity": 1,
+          "price": 18
+        }
+      ],
+      "discount": 0,
+      "sumOrderNoDiscount": 93,
+      "sumOrderWithDiscount": 93,
+      "cardNumber": 4032030389663551,
+      "id": 14
+    },
+    {
+      "user_id": 9,
+      "name": "Douglas J Marinelli",
+      "email": "velma.greenho@gmail.com",
+      "phone": "12345678909",
+      "date": "06/09/2023 19:42:26",
+      "status": "Pending",
+      "address": "New York",
+      "cart": [
+        {
+          "productId": 6,
+          "productImage": "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/andrew_james_4_day_meal_automatic_pet_feeder_bowl_with_voice_recorder_includes_2_volume_reducers_1_adapter_tray_1_640x_crop_top.png?v=1625752682",
+          "productName": "Meal Automatic Pet Feeder Bowl",
+          "productQuantity": 1,
+          "price": 30
+        },
+        {
+          "productId": 3,
+          "productImage": "https://tm-shopify037-clothes.myshopify.com/cdn/shop/products/senye_retractable_dog_leash_16ft_dog_traction_rope_1_640x_crop_top.jpg?v=1625752616",
+          "productName": "Senye Retractable Dog Leash 16ft Dog Traction Rope",
+          "productQuantity": 1,
+          "price": 70
+        }
+      ],
+      "discount": 0,
+      "sumOrderNoDiscount": 105,
+      "sumOrderWithDiscount": 105,
+      "cardNumber": 4032030389663551,
+      "id": 15
+    }
+  ],
+  "bookings": [
+    {
+      "date": "15/07/2023",
+      "listBookings": [
+        {
+          "bookingId": 1,
+          "bookingDate": "15/07/2023",
+          "time": "06/07/2023 19:19:08",
+          "userId": 4,
+          "userName": "Mohamed",
+          "userPhone": "12345678902",
+          "calendar": "09:00 AM - 11:30 AM",
+          "serviceId": 1,
+          "serviceName": "Veterinarian",
+          "serviceImage": "https://i.ibb.co/2Y4LnrD/veterinary-service.jpg",
+          "servicePrice": 500,
+          "status": "Done"
+        }
+      ],
+      "id": 1
+    },
+    {
+      "date": "13/08/2023",
+      "listBookings": [
+        {
+          "bookingId": 2,
+          "bookingDate": "13/08/2023",
+          "time": "06/08/2023 19:31:41",
+          "userId": 5,
+          "userName": "David Helm",
+          "userPhone": "14567890230",
+          "calendar": "14:00 PM - 16:30 PM",
+          "serviceId": 2,
+          "serviceName": "Pet Grooming",
+          "serviceImage": "https://i.ibb.co/F5N9LXC/dog-grooming-service.jpg",
+          "servicePrice": 300,
+          "status": "Done"
+        },
+        {
+          "bookingId": 10,
+          "bookingDate": "13/08/2023",
+          "time": "06/09/2023 19:41:14",
+          "userId": 9,
+          "userName": "Velma",
+          "userPhone": "12345677876",
+          "calendar": "14:00 PM - 16:30 PM",
+          "serviceId": 2,
+          "serviceName": "Pet Grooming",
+          "serviceImage": "https://i.ibb.co/F5N9LXC/dog-grooming-service.jpg",
+          "servicePrice": 300,
+          "status": "Done"
+        }
+      ],
+      "id": 2
+    },
+    {
+      "date": "14/09/2023",
+      "listBookings": [
+        {
+          "bookingId": 3,
+          "bookingDate": "14/09/2023",
+          "time": "06/09/2023 19:36:16",
+          "userId": 6,
+          "userName": "Kevin Lee",
+          "userPhone": "11234567890",
+          "calendar": "09:00 AM - 11:30 AM",
+          "serviceId": 3,
+          "serviceName": "Pet Sitting",
+          "serviceImage": "https://i.ibb.co/PjQbR00/pet-sitting-service.png",
+          "servicePrice": 200,
+          "status": "Processing"
+        },
+        {
+          "bookingId": 11,
+          "bookingDate": "14/09/2023",
+          "time": "06/09/2023 19:41:34",
+          "userId": 9,
+          "userName": "Velma",
+          "userPhone": "12345233448",
+          "calendar": "09:00 AM - 11:30 AM",
+          "serviceId": 3,
+          "serviceName": "Pet Sitting",
+          "serviceImage": "https://i.ibb.co/PjQbR00/pet-sitting-service.png",
+          "servicePrice": 200,
+          "status": "Processing"
+        }
+      ],
+      "id": 3
+    },
+    {
+      "date": "12/09/2023",
+      "listBookings": [
+        {
+          "bookingId": 4,
+          "bookingDate": "12/09/2023",
+          "time": "06/09/2023 19:36:34",
+          "userId": 6,
+          "userName": "Kevin Lee",
+          "userPhone": "12345678909",
+          "calendar": "09:00 AM - 11:30 AM",
+          "serviceId": 1,
+          "serviceName": "Veterinarian",
+          "serviceImage": "https://i.ibb.co/2Y4LnrD/veterinary-service.jpg",
+          "servicePrice": 500,
+          "status": "Processing"
+        },
+        {
+          "bookingId": 5,
+          "bookingDate": "12/09/2023",
+          "time": "06/09/2023 19:36:48",
+          "userId": 6,
+          "userName": "Kevin Lee",
+          "userPhone": "12345678909",
+          "calendar": "14:00 PM - 16:30 PM",
+          "serviceId": 2,
+          "serviceName": "Pet Grooming",
+          "serviceImage": "https://i.ibb.co/F5N9LXC/dog-grooming-service.jpg",
+          "servicePrice": 300,
+          "status": "Processing"
+        },
+        {
+          "bookingId": 6,
+          "bookingDate": "12/09/2023",
+          "time": "06/09/2023 19:37:25",
+          "userId": 7,
+          "userName": "Leonardo",
+          "userPhone": "12345678987",
+          "calendar": "09:00 AM - 11:30 AM",
+          "serviceId": 2,
+          "serviceName": "Pet Grooming",
+          "serviceImage": "https://i.ibb.co/F5N9LXC/dog-grooming-service.jpg",
+          "servicePrice": 300,
+          "status": "Processing"
+        },
+        {
+          "bookingId": 7,
+          "bookingDate": "12/09/2023",
+          "time": "06/09/2023 19:39:47",
+          "userId": 8,
+          "userName": "Moses",
+          "userPhone": "12345656787",
+          "calendar": "09:00 AM - 11:30 AM",
+          "serviceId": 3,
+          "serviceName": "Pet Sitting",
+          "serviceImage": "https://i.ibb.co/PjQbR00/pet-sitting-service.png",
+          "servicePrice": 200,
+          "status": "Processing"
+        },
+        {
+          "bookingId": 8,
+          "bookingDate": "12/09/2023",
+          "time": "06/09/2023 19:40:05",
+          "userId": 8,
+          "userName": "Moses",
+          "userPhone": "12345665423",
+          "calendar": "14:00 PM - 16:30 PM",
+          "serviceId": 1,
+          "serviceName": "Veterinarian",
+          "serviceImage": "https://i.ibb.co/2Y4LnrD/veterinary-service.jpg",
+          "servicePrice": 500,
+          "status": "Processing"
+        },
+        {
+          "bookingId": 9,
+          "bookingDate": "12/09/2023",
+          "time": "06/09/2023 19:41:00",
+          "userId": 9,
+          "userName": "Velma",
+          "userPhone": "12332234545",
+          "calendar": "09:00 AM - 11:30 AM",
+          "serviceId": 1,
+          "serviceName": "Veterinarian",
+          "serviceImage": "https://i.ibb.co/2Y4LnrD/veterinary-service.jpg",
+          "servicePrice": 500,
+          "status": "Cancel"
+        }
+      ],
+      "id": 4
+    },
+    {
+      "date": "20/09/2023",
+      "listBookings": [
+        {
+          "bookingId": 12,
+          "bookingDate": "20/09/2023",
+          "time": "07/09/2023 15:13:42",
+          "userId": 4,
+          "userName": "Anh",
+          "userPhone": "12345678909",
+          "calendar": "09:00 AM - 11:30 AM",
+          "serviceId": 1,
+          "serviceName": "Veterinarian",
+          "serviceImage": "https://i.ibb.co/2Y4LnrD/veterinary-service.jpg",
+          "servicePrice": 500,
+          "status": "Processing"
+        }
+      ],
+      "id": 5
+    }
+  ],
+  "coupons": [
+    {
+      "name": "Sale Off 5%",
+      "code": "saleoff5",
+      "discount": 5,
+      "status": "New",
+      "id": 1
+    },
+    {
+      "name": "Sale Off 10%",
+      "code": "saleoff10",
+      "discount": 10,
+      "status": "New",
+      "id": 2
+    },
+    {
+      "name": "Sale Off 15%",
+      "code": "saleoff15",
+      "discount": 15,
+      "status": "New",
+      "id": 3
+    },
+    {
+      "name": "Sale Off 20%",
+      "code": "saleoff20",
+      "discount": 20,
+      "status": "New",
+      "id": 4
+    },
+    {
+      "name": "Sale Off 25%",
+      "code": "saleoff25",
+      "discount": 25,
+      "status": "New",
+      "id": 5
+    },
+    {
+      "name": "Sale Off 30%",
+      "code": "saleoff30",
+      "discount": 30,
+      "status": "New",
+      "id": 6
+    },
+    {
+      "name": "Sale Off 35%",
+      "code": "saleoff35",
+      "discount": 35,
+      "status": "New",
+      "id": 7
+    },
+    {
+      "name": "Sale Off 100%",
+      "code": "saleoff100",
+      "discount": 100,
+      "status": "New",
+      "id": 8
+    }
+  ],
+  "banking": [
+    {
+      "id": 1,
+      "cardName": "TRAN PHUOC ANH MINH",
+      "cardNumber": 4032030389663551,
+      "expiredDate": "05/2024",
+      "cvv": 255,
+      "balance": 27701.35,
+      "type": "Visa"
+    },
+    {
+      "id": 2,
+      "cardName": "TONY TEO",
+      "cardNumber": 4032035757672365,
+      "expiredDate": "09/2025",
+      "cvv": 680,
+      "balance": 7300,
+      "type": "Visa"
+    },
+    {
+      "id": 3,
+      "cardName": "DAVID ADAM",
+      "cardNumber": 4032030010422732,
+      "expiredDate": "02/2021",
+      "cvv": 666,
+      "balance": 1000,
+      "type": "MasterCard"
+    },
+    {
+      "id": 4,
+      "cardName": "JOHN MIKE",
+      "cardNumber": 4032036377584881,
+      "expiredDate": "01/2028",
+      "cvv": 408,
+      "balance": 5,
+      "type": "MasterCard"
+    }
+  ],
+  "subscribers": [
+    {
+      "user_id": 4,
+      "email": "mohamed1972@hotmail.com",
+      "status": "Subscribed",
+      "date": "06/09/2023 17:11:38",
+      "id": 1
+    },
+    {
+      "user_id": 5,
+      "email": "davidhelms1987@yahoo.com",
+      "status": "Subscribed",
+      "date": "06/09/2023 17:11:43",
+      "id": 2
+    },
+    {
+      "user_id": 6,
+      "email": "kevinlee1997@yahoo.com",
+      "status": "Subscribed",
+      "date": "06/09/2023 17:12:20",
+      "id": 3
+    },
+    {
+      "user_id": 7,
+      "email": "leonardo2009@yahoo.com",
+      "status": "Subscribed",
+      "date": "06/09/2023 17:12:45",
+      "id": 4
+    },
+    {
+      "user_id": 8,
+      "email": "moses_decko9@hotmail.com",
+      "status": "Subscribed",
+      "date": "06/09/2023 17:12:52",
+      "id": 5
+    },
+    {
+      "user_id": 9,
+      "email": "velma.greenho@gmail.com",
+      "status": "Subscribed",
+      "date": "06/09/2023 23:22:23",
+      "id": 6
+    }
+  ],
+  "posts": [
+    {
+      "post_title": "Keeping Your Canine Companion Cool: Essential Heat Safety Tips For Dogs",
+      "post_content": "<p>We can always count on summer to bring the heat. But as the temperature rises during the hot summer months, it&rsquo;s important to remember our furry family members can easily overheat. Our pups rely on us to keep them safe and comfortable, and understanding how to protect them from excessive heat is crucial. Here we&rsquo;ll explore essential heat safety tips to ensure your canine companion stays cool, happy, and healthy throughout the summer.</p>\n<h2><strong>1. Ensure Water Is Always Available</strong></h2>\n<p>H<sub>2</sub>0 is the way to go in keeping your dog hydrated and regulating their body temperature. Always provide fresh, cool water in multiple locations within your home and outdoor spaces. When heading out for walks or adventures, carry a&nbsp;<a href=\"https://www.dogtopiashop.com/water-and-treat-travel-bottle-w-filter\">portable water bottle</a>&nbsp;and a collapsible bowl to offer your dog regular drinks. If you&rsquo;re spending extended periods outdoors, consider using a cooling vest or bandana that can be soaked in water to provide additional relief from the heat.</p>\n<h2><strong>2. Avoid Excessive Exercise</strong></h2>\n<p>While exercise is vital for a dog&rsquo;s overall wellbeing, it&rsquo;s important to adjust their activity levels during hot weather. Engage in outdoor activities during cooler times of the day, such as early mornings or evenings. Pavement and sand can become scorching hot and cause burns to your pup&rsquo;s sensitive paw pads. Test the ground&rsquo;s temperature by placing the back of your hand on the surface for 10 seconds&mdash;if it&rsquo;s too hot for you, it&rsquo;s too hot for your dog.</p>\n<h2><strong>3. Provide Ample Shade</strong></h2>\n<p>Create shaded areas in your yard or patio where your dog can retreat from direct sunlight. While shade doesn&rsquo;t change the air temperature, it can reduce the surface temperature. Utilize umbrellas, canopies, or trees to offer them protection. Keep in mind that the position of the sun changes throughout the day, so ensure there is always a shaded spot available for your dog&rsquo;s comfort.</p>\n<h2><strong>4. Never Leave Your Dog in a Parked Car</strong></h2>\n<p>The inside of a parked car can quickly become a death trap for dogs, even on moderately warm days. Within minutes, the temperature inside a car can rise to dangerous levels, causing heatstroke or even death. Even with the windows cracked, it is never safe to leave your dog unattended in a parked car. (It&rsquo;s even&nbsp;<a href=\"https://www.animallaw.info/topic/table-state-laws-protect-animals-left-parked-vehicles#:~:text=West%20Virginia%20and%20New%20Jersey,and%20immunity%20provision%20for%20anyone\">illegal in some states</a>!) If you must run errands, leave your furry friend at home in a cool, well-ventilated space.</p>\n<h2><strong>5. Recognize the Signs of Heatstroke</strong></h2>\n<p>Heatstroke is a severe condition that requires immediate veterinary attention. Knowing the signs can save your dog&rsquo;s life. Watch for excessive panting, difficulty breathing, rapid heartbeat, drooling, weakness, vomiting, diarrhea, or disorientation. If you suspect your dog is suffering from heatstroke, move them to a cool area, apply a cool (not cold) wet towel to their body, and seek veterinary help immediately.</p>\n<h2><strong>6. Be Mindful of Breeds Prone to Heat Sensitivity</strong></h2>\n<p>Certain dog breeds are more susceptible to heat-related issues due to their anatomy or coat. Brachycephalic breeds like bulldogs, pugs, and shih tzus are particularly vulnerable due to their shortened airways. Long-haired or thick-coated dogs may also struggle in hot weather. Take extra precautions with these breeds by providing them with cooling mats, using fans or air conditioning, and grooming them to remove excess fur.</p>\n<p>A little extra care and attention can go a long way in keeping your furry friend cool, happy, and healthy all season long. If you&rsquo;re looking for an easy way for your pup to beat the heat,&nbsp;<a href=\"https://www.dogtopia.com/location-finder/\">find a Dogtopia near you</a> and take advantage of our supervised, climate-controlled indoor playrooms.</p>",
+      "author": "Admin",
+      "publish_date": "03/09/2023 20:27:28",
+      "image_url": "https://www.helpguide.org/wp-content/uploads/2023/02/Health-Benefits-of-Walks-with-Your-Dog-1200x800.jpeg",
+      "status": "Published",
+      "id": 1
+    },
+    {
+      "post_title": "Dog-safe Greens Your Pup Will Enjoy",
+      "post_content": "<p><span data-contrast=\"auto\">Give your dog some safe greens to enjoy in celebration of St. Patrick&rsquo;s Day! Dogtopia has prepared a list of&nbsp;pup-approved and healthy green veggie&nbsp;treat swaps that will leave them begging for more.&nbsp;</span><span data-ccp-props=\"{&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:259}\">&nbsp;</span></p>\n<h2><strong><span data-contrast=\"auto\">1. Green Peas</span></strong><span data-ccp-props=\"{&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:259}\">&nbsp;</span></h2>\n<p><span data-contrast=\"auto\">Whether they&rsquo;re fresh, frozen, or thawed, green peas are a tasty alternative to various fatty treats and are packed with vitamins, protein, minerals, and fiber. The best kinds of peas for your dog are snow peas, snap peas, and English (garden) peas.</span><span data-ccp-props=\"{&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:259}\">&nbsp;</span></p>\n<h2><strong><span data-contrast=\"auto\">2. Green Beans</span></strong><span data-ccp-props=\"{&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:259}\">&nbsp;</span></h2>\n<p><span data-contrast=\"auto\">Green beans are a low-calorie snack full of fiber and vitamins! Your dog will likely enjoy them chopped, steamed (and cooled), raw, or right from a can (unsalted). Regardless of how you serve them to your furry family member, remember to prepare green beans without salt or other seasonings.</span><span data-ccp-props=\"{&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:259}\">&nbsp;</span></p>\n<h2><strong><span data-contrast=\"auto\">3. Broccoli</span></strong><span data-ccp-props=\"{&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:259}\">&nbsp;</span></h2>\n<p><span data-contrast=\"auto\">Did you know broccoli is high in fiber and vitamin C? Broccoli&nbsp;can be enjoyed by dogs either raw or cooked and is best served&nbsp;as a treat in bite-sized pieces.&nbsp;</span><span data-ccp-props=\"{&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:259}\">&nbsp;</span></p>\n<h2><strong><span data-contrast=\"auto\">4. Brussels Sprouts</span></strong><span data-ccp-props=\"{&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:259}\">&nbsp;</span></h2>\n<p><span data-contrast=\"auto\">Brussels sprouts are full of antioxidants and nutrients to keep your dog filled with energy. Although dogs may love to enjoy Brussels sprouts any way they are prepared, it is recommend serving them to your pup after steaming, boiling, or microwaving and serving once cooled. These veggies are a little too dense to be served raw, so before your dog begins to enjoy them, make sure they have been prepared in a way that will not harm their teeth.</span><span data-ccp-props=\"{&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:259}\">&nbsp;</span></p>\n<h2><strong><span data-contrast=\"auto\">5. Celery</span></strong><span data-ccp-props=\"{&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:259}\">&nbsp;</span></h2>\n<p><span data-contrast=\"auto\">Dogs enjoy crunchy treats, which makes celery the perfect green snack! Celery is full of A, B, and C vitamins, promotes heart health for dogs, and freshens their breath along the way. Before handing an entire celery stalk to your dog, cut up this crunchy green snack into smaller chunks to prevent tooth damage.</span><span data-ccp-props=\"{&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:259}\">&nbsp;</span></p>\n<h2><strong><span data-contrast=\"auto\">6. Spinach</span></strong><span data-ccp-props=\"{&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:259}\">&nbsp;</span></h2>\n<p><span data-contrast=\"auto\">Like celery, spinach is full of A, B, and C vitamins as well as vitamin K, iron, and roughage. This means spinach will stimulate your dog&rsquo;s digestive tract while providing what your dog needs to stay active and on the go. Prepare spinach for your dog by cutting up the leaves, steaming until thin, and serving in a small amount.</span><span data-ccp-props=\"{&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:259}\">&nbsp;</span></p>\n<h2><strong><span data-contrast=\"auto\">7. Cucumber</span></strong><span data-ccp-props=\"{&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:259}\">&nbsp;</span></h2>\n<p><span data-contrast=\"auto\">Cucumber is great for dogs trying to watch their figure as they contain little to no carbs, fats, or oils and assist with boosting energy levels. This green snack is loaded with B12, C, and K vitamins among other natural nutrients. If you take your dog outside on a hot day and want to rehydrate them with a snack, look no further than cucumber as this veggie can be used to refuel your dog after rigorous activity.&nbsp;</span><span data-ccp-props=\"{&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:259}\">&nbsp;</span></p>\n<p><span data-contrast=\"auto\">We are lucky to be pet parents, so let&rsquo;s keep our furry family members safe, healthy, and happy by keeping their nutrition top of mind. As a reminder, these snacks should be enjoyed as a special treat, so please do not allow your dog to overindulge. If you have any specific dietary questions as it pertains to your pup, please contact your veterinarian.&nbsp;</span><span data-ccp-props=\"{&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:259}\">&nbsp;</span></p>\n<p><span data-contrast=\"auto\">Looking for a way to further prioritize your dog&rsquo;s physical health in addition to their daily nutrition?&nbsp;</span><a href=\"https://www.dogtopia.com/location-finder/\"><span data-contrast=\"none\">Find a Dogtopia</span></a><span data-contrast=\"auto\">&nbsp;daycare near you to assist your pup in naturally improving their exercise, socialization, and skillset by enrolling them in regular daycare today.</span><span data-ccp-props=\"{&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:259}\">&nbsp;</span></p>",
+      "author": "Admin",
+      "publish_date": "03/09/2023 20:33:18",
+      "image_url": "https://www.thesprucepets.com/thmb/nz8wbrTf21zDA5wMmPeRRhE9iJI=/2121x0/filters:no_upscale():strip_icc()/GettyImages-840646404-ad8f9fba60bd4796a6abe9f168f02a52.jpg",
+      "status": "Published",
+      "id": 2
+    },
+    {
+      "post_title": "What To Know Before Buying Pet Insurance For Your Dog",
+      "post_content": "<p>From accidents to various doggie health issues that may arise in their lifetime, pet insurance can act as a safety net for pet parents if the unexpected happens. However, as is the case with insurance for humans, there are many plans to choose from, and finding the most suitable option can be a difficult task if you are unsure of the pet insurance landscape.</p>\n<p>Determining what works best for your pup, as well as your family&rsquo;s lifestyle, is key. To help you navigate, we have outlined some of the top components of pet insurance that you should know before deciding on a plan.</p>\n<h3>1. Different Types Of Pet Insurance</h3>\n<p>While there can be some modifications between pet insurance companies, plans typically fall into two categories &ndash;&nbsp;<strong>accident-only and accident-illness</strong>.</p>\n<ul>\n<li><strong>Accident-only</strong>&nbsp;plans cover accidents that your pup might get into that cause an injury and require care. This can include a broken bone, swallowing an object, a cut or wound, etc. As a result, pet insurance can cover the associated treatment costs for the injury, such as an emergency vet visit, X-rays, bloodwork, medications, surgery, and so on. Opting for this plan means no other pup-related costs are covered other than what is directly associated with the accident.</li>\n<li><strong>Accident-illness&nbsp;</strong>plans, which can also be called comprehensive coverage, cover everything listed in an accident-only plan, with the addition of illnesses or infections. This means if your pup develops a health concern or catches a virus, the related costs to test and treat them are covered. This type of plan can also cover chronic illness and hereditary health issues but may have some additional requirements, depending on the condition.</li>\n</ul>\n<h3>2. What Pet Insurance Does Not Cover</h3>\n<p>One of the most important things to remember about pet insurance is that it will only cover the costs of accidents, illnesses or medical issues that occur&nbsp;<strong>after</strong>&nbsp;the insurance comes into effect. That means if your dog has a pre-existing health issue that was diagnosed prior obtaining the insurance plan and it requires treatment, pet insurance will not cover those costs.</p>\n<p>You will also not likely find basic pet insurance plans that cover vet checkups or wellness visits, spaying/neutering, vaccinations or other types of preventative care. But, continue reading to learn about insurance add-ons.</p>\n<h3>3. Insurance Add-ons (aka Riders)</h3>\n<p>Anything you add to your pet insurance plan is called a rider. These paid additions can help fill in the gaps of your original coverage for things you think your pup might need or that you want to be covered for, just in case. For example, dental treatment is a common rider, as you will not usually find this type of treatment in an original insurance plan. You can also find riders that cover annual vet checkups, wellness-related services, treatments and some preventative medications that are not already covered in a plan (i.e., for ticks, mites, and fleas).</p>\n<h3>4. Factors That Can Impact Pet Insurance Costs</h3>\n<p>This will largely depend on the insurance company, but there are some pet insurance plans that specifically state certain limitations depending on the breed of dog. For example, if your pup is a breed which is known for certain health concerns, some pet insurance companies will charge a higher premium simply for this reason. There are also some plans that exclude certain breeds altogether.</p>\n<p>Another factor that could impact insurance rates is the age of your dog. The older they are, the greater the likelihood they will need more treatments or can be prone to illnesses, thus requiring you to pay more of a premium, which can increase each year. As well, some pet insurance plans do not accept dogs after a certain age, which is why it is always recommended to get pet insurance as early as possible for your pup.</p>\n<p>You may also find that the size of your dog can raise your premium (larger dogs are often more expensive), where you live can also impact your rates and coinsurance may play a role. Coinsurance is the percentage you are required to pay, not including the deductible, after your insurance plan reimburses part of your costs. For example, if your insurance covers 70% of the treatment, you are required to pay the remaining 30%. This can play a role in how much you are required to pay as a premium.</p>\n<h3>5. Pet Insurance Plans Have Deductibles</h3>\n<p>A deductible is what you are required to pay prior to the insurance kicking in. Depending on the pet insurance company, you may need to pay a larger amount for your pup&rsquo;s accident or illness care/treatment before the insurance coverage can come into effect.</p>\n<p>Paying a higher deductible can translate to a lower premium, which can help if you are looking to keep costs low month to month. Pet insurance deductibles can range in cost and land anywhere from $100 to $1000. This is why it is important to do your research and compare pet insurance companies to find one that best aligns with your budget. While a $0 deductible may seem like a great choice, as it means coverage can begin immediately, your monthly premium could be very high.</p>\n<p>It is important to note that a deductible is an amount that you are required to meet&nbsp;<em>before</em>&nbsp;you receive coverage from your insurance, and this will often renew yearly. This means if you pay for an emergency treatment that is $300, and your required deductible is $300, you will not have to pay any more of your deductible after that point, as you have already met the requirements. This differs from the balance you are required to pay&nbsp;<em>after</em>the insurance coverage goes into effect, as your insurance will likely not cover 100% of the costs, and you will be required to pay the remaining out of pocket.</p>\n<h3>6. A Waiting Period</h3>\n<p>Some pet insurance companies have a waiting period in place before coverage can begin. Be sure to carefully read this part of your policy, as you may be waiting around longer than anticipated for coverage, even if you already have met your deductible. It is always best to find a plan that offers little to no waiting period, especially if your dog is getting older or you happen to have a larger breed who may be more susceptible to health concerns down the line.</p>\n<h3>7. Finding The Right Pet Insurance For You And Your Pup</h3>\n<p>You can never expect the unexpected, which makes opting for pet insurance a great, and often necessary choice for your pup. Discovering a plan that works best for your budget while also offering the right amount of coverage is key, so don&rsquo;t be hesitant to customize a plan that checks all your boxes. With different coverage tiers and riders available to add to your plan, you can personalize one that works for you and your beloved furry family member.</p>\n<p>Dogtopia has worked with&nbsp;<a href=\"http://petted.com/\" target=\"_blank\" rel=\"noopener\" data-saferedirecturl=\"https://www.google.com/url?q=http://petted.com&amp;source=gmail&amp;ust=1671742466803000&amp;usg=AOvVaw15wcVXsLavCO8rlX6yBiwF\">petted.com</a>&nbsp;to create a handy comparison tool that can help you choose the right pet insurance plan for you and your pup.&nbsp;<a href=\"https://www.dogtopia.com/get-insurance/\" target=\"_blank\" rel=\"noopener\">Click here</a> and answer a few questions, and you will be directed to the best plan for you in seconds.</p>",
+      "author": "Admin",
+      "publish_date": "03/09/2023 20:45:11",
+      "image_url": "https://www.forbes.com/advisor/wp-content/uploads/2021/05/dog-pet-quotes.jpeg",
+      "status": "Published",
+      "id": 3
+    },
+    {
+      "post_title": "What Is Covered When Buying Dog Insurance?",
+      "post_content": "<p>Dogs are furry family members, and their health and wellness are important to pet parents. While we hate to think of something ever happening to them, it&rsquo;s a good idea to plan for the unexpected. The cost of an emergency vet bill is not always affordable, which is why obtaining pet insurance now can help during a stressful time in the future. As inflation continues to increase the cost of veterinary care, pet insurance premiums are likely to increase. Now more than ever,<a href=\"https://www.dogtopia.com/get-insurance/\" target=\"_blank\" rel=\"noopener\">&nbsp;it&rsquo;s important to shop around</a>! Carefully comparing coverages, rates and restrictions will help in finding the right insurance plan for your budget.</p>\n<p>Pet insurance is on the rise.&nbsp;<a href=\"https://naphia.org/industry-data/section-2-total-pets-insured/\" target=\"_blank\" rel=\"noopener\">Recent data</a>&nbsp;from the North American Pet Health Insurance Association (NAPHIA) suggests the total insured dogs in the U.S. grew by 26.5% in 2021, bringing the total of dogs insured in the United States to 3.251 million and growing. However, despite the recent rise in pet insurance coverage, NAPHIA still estimates that only 2.48% of all pets in the US are covered, leaving many pet owners vulnerable to unexpected costs of keeping their dog fully protected. The peace of mind and security that comes with a comprehensive pet insurance plan is becoming increasingly important amidst a backdrop of financial uncertainty.</p>\n<p>Obtaining dog insurance can be very comforting, but as you begin your search, it is necessary to understand what is typically covered and what isn&rsquo;t. Of course, coverage will vary depending on the plan and provider, but here is a list of what is commonly covered.</p>\n<h3>Emergency Vs. Routine Care</h3>\n<p>Typical pet insurance plans cover the medical costs of unexpected, emergency care. If unfortunate instances arise like your dog eats something they are not supposed to or gets into an accident, your pet insurance will step in and cover some or all of the costs. However, a routine trip to the vet, for example, is not something a plan (without riders) will cover.</p>\n<p>And while we are on the topic of what would not be covered, any pre-existing conditions that were diagnosed prior to the insurance taking effect are not covered by most insurance plans. Therefore, if your dog requires medication for an issue they have had for some time, insurance will likely not cover it. Accordingly, any elective treatments, food and toys, or grooming services, for example, would also not be covered. Be sure to read exactly what is and is not covered by your plan before proceeding. That way, there are no surprises.</p>\n<h3>Illness And Medical Coverage</h3>\n<p>While insurance will not cover a health condition that was previously evident, it will cover an unexpected illness (i.e., dental illnesses, hip dysplasia, cancer, etc.), as well as chronic diseases diagnosed while covered by insurance (i.e., heart conditions, arthritis, etc.). If tests need to be performed on your pup for an illness/disease or an unexpected injury, such as blood work or x-rays, this can also be covered. Accordingly, certain medications can be included if they are prescribed to treat the unexpected illness/injury. If your dog needs surgery, as long as it is not needed for an illness your dog had before the insurance, it can be covered.</p>\n<p>Getting your dog insured as early as possible will yield greater results later, as the less pre-existing health conditions they have before insurance, the more that can be covered if they happen to develop something in the future.</p>\n<p>It is important to note that most dog insurance plans will not cover spaying and neutering services, vaccinations or preventative care. While related to their health, it would not be categorized under emergency or unexpected.</p>\n<h3>Accident-only Vs. Accident-illness Plans</h3>\n<p>The coverage provided by dog insurance differs depending on the company and the plan. However, there are two common types of insurance plans &ndash; accident-only and accident-illness.</p>\n<p>Aptly named, accident-only plans will cover the costs of unexpected accidents. This may include Insect bites causing illness, falling, a sprain &ndash; these are the types of incidents that you don&rsquo;t expect, and this type of plan can cover part of or all of the associated costs. Accident-illness plans cover everything the accident-only plan covers with the addition of illness coverage. If your dog develops an illness after receiving insurance, the care, treatment and tests that go along with the illness are included in this plan type.</p>\n<p>Which is better? If your dog&rsquo;s breed is prone to more illnesses, obtaining an accident-illness plan could be a better option. But if budget is a concern, your dog already has a health condition (which would become ineligible for coverage), or you are looking to insure multiple furry family members and want to keep payments as low as possible while still receiving coverage for unexpected injuries, accident-only plans can be a good choice.</p>\n<h3>Wellness Plans</h3>\n<p>In addition to an accident-illness plan, there can be an option to include wellness care, which can cover some of the treatments the other plans cannot. For example, a routine visit to the vet to get vaccinations or even a dental cleaning may be covered with a wellness plan. This would act as a separate plan from your existing insurance, but it can be used together, if desired.</p>\n<p>A wellness plan, either on its own or added to an accident-only or accident-illness plan, can be a good option if you are a new pet parent and know you will make frequent trips to the vet for vaccinations or routine dental cleanings. Part of a wellness plan can include routine care add-ons, which can provide additional coverage that pet parents can encounter at routine vet visits.</p>\n<h3>Riders</h3>\n<p>Including an add-on to your pup&rsquo;s insurance is called a &lsquo;rider&rsquo; and this can supplement some of the gaps your plan may have. While a rider will increase your premium, which is the amount you pay monthly, considering your add-on options can offer some reassurance that certain treatments can be covered that wouldn&rsquo;t typically be in your original plan.</p>\n<p>A wellness plan, which we discussed previously, is a common rider because it can cover much more of the costs that accident-only and accident-illness plans can. For example, if you are concerned about covering the costs if your dog ever requires flea and tick treatment, a wellness rider would come in handy to take care of the medication costs.</p>\n<h3>The Importance Of Pet Insurance</h3>\n<p>As a responsible pet parent, you want what is best for your furry friend. If the cost of an unexpected illness or accident seems unmanageable, dog insurance can be a great choice. Molding an insurance plan that fits you and your pup&rsquo;s needs (current and future) is key. While we can&rsquo;t look into a crystal ball and know what your pup will need and when they will need it, obtaining dog insurance as soon as possible can offer the reassurance that you&rsquo;ll be able to care for your dog&rsquo;s health and wellbeing without too much financial burden.</p>\n<p>We know keeping your dog happy and healthy is a top priority and pet insurance is a smart move for pet parents. To help you choose the right pet insurance plan for you and your pup, Dogtopia has worked with&nbsp;<a href=\"http://petted.com/\" target=\"_blank\" rel=\"noopener\" data-saferedirecturl=\"https://www.google.com/url?q=http://petted.com&amp;source=gmail&amp;ust=1671554913219000&amp;usg=AOvVaw3Yn82LxrkY-fIoclx4TdeI\">petted.com</a>&nbsp;to create a handy comparison tool.&nbsp;<a href=\"https://www.dogtopia.com/get-insurance/\" target=\"_blank\" rel=\"noopener\">Click here</a> and simply answer a few questions, and it will find the best plan for you in seconds.</p>",
+      "author": "Admin",
+      "publish_date": "03/09/2023 20:48:41",
+      "image_url": "https://petinsurance.com.au/wp-content/uploads/2016/07/Beagle_961x558-1.jpg",
+      "status": "Published",
+      "id": 4
+    },
+    {
+      "post_title": "How Many Steps Does Your Dog Take Every Day?",
+      "post_content": "<p>Humans are advised to achieve a movement goal of at least 10,000 steps every single day, but what about our furry family members? Dogs who spend their day at home versus those who attend Dogtopia daycare see a substantial difference in their daily step count. A dog who spends their day at home will walk less than 8,000 steps a day. When a dog attends Dogtopia daycare, they will walk upwards of 30,000 steps per day &ndash; that&rsquo;s three times more than that of a dog who spends their day lounging at home!&nbsp;</p>\n<p>Dogs are family and we want them to remain in our homes for as long as possible. As pet parents, we must focus on their health to ensure they live a long, happy and fulfilled life. In addition to the food you feed them, make sure you&rsquo;re incorporating regular exercise and activities to keep their overall wellness in check. Dog daycare is a great way to ensure your dog is getting the physical and mental fitness they crave in a fun and safe environment. When your dog spends the day at Dogtopia, we&rsquo;re putting their wellness first through exercise disguised as play, loads of socialization with their BFFFs (Best Furry Friends Forever) and plenty of interaction with our caring team!&nbsp;</p>\n<p><img src=\"https://www.thesprucepets.com/thmb/c87ds9hUAWMY1CnseyH-7oxRkOA=/2121x0/filters:no_upscale():strip_icc()/golden-retriever-puppy-in-grass-923135452-5c887d4146e0fb00013365ba.jpg\" alt=\"Why Do People Get Puppies?\"></p>\n<p>Regular exercise is beneficial for your dog as it promotes heart health by lowering blood pressure which gives dogs more energy and alleviates the risks of depression and obesity. While keeping our dog&rsquo;s heart healthy is crucial, regular exercise also leads to improved behaviors which may otherwise be exposed during bouts of anxiety. Excessive licking, barking, digging, and chewing are likely to not be as prominent if a dog receives daily exercise such as a walk outside, fetch in the yard or regular daycare at Dogtopia. While at Dogtopia, your dog will spend the day playing with other like-minded pups which allows for the word &ldquo;exercise&rdquo; to become obsolete. At Dogtopia, traditional &ldquo;exercise&rdquo; becomes never ending fun and tons of games!&nbsp;</p>\n<p>Dogtopia dogs partake in a variety of activities that don&rsquo;t even feel like traditional exercise! Here are just a few of the ways dogs enjoy movement daycare:&nbsp;</p>\n<ul>\n<li data-leveltext=\"\" data-font=\"Symbol\" data-listid=\"2\" data-list-defn-props=\"{&quot;335552541&quot;:1,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}\" data-aria-posinset=\"1\" data-aria-level=\"1\"><strong>Bubbles:</strong>&nbsp;Whether they&rsquo;re flavored like bacon or peanut butter, Dogtopia dogs love chasing bubbles around the playroom! These little floating spheres mystify pups and keep their attention. While they pounce and jump through the air after them, dogs don&rsquo;t even realize they are moving their bodies and building endurance for longer durations of play!&nbsp;</li>\n<li data-leveltext=\"\" data-font=\"Symbol\" data-listid=\"2\" data-list-defn-props=\"{&quot;335552541&quot;:1,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}\" data-aria-posinset=\"2\" data-aria-level=\"1\"><strong>Follow the Leader:</strong>&nbsp;A Canine Coach will walk around the playroom and dogs will be rewarded for following the leader! This game focuses on listening skills and builds a bond between pup and Canine Coach.&nbsp;</li>\n<li data-leveltext=\"\" data-font=\"Symbol\" data-listid=\"2\" data-list-defn-props=\"{&quot;335552541&quot;:1,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}\" data-aria-posinset=\"3\" data-aria-level=\"1\"><strong>Agility Games:</strong>&nbsp;Dogs enjoy running upon or jumping around play structures in playrooms. Canine Coaches praise dogs who follow verbal instruction and make their way to the top of the structure! While this builds strength and muscle, it also boosts a dog&rsquo;s confidence!&nbsp;</li>\n<li data-leveltext=\"\" data-font=\"Symbol\" data-listid=\"2\" data-list-defn-props=\"{&quot;335552541&quot;:1,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}\" data-aria-posinset=\"4\" data-aria-level=\"1\"><strong>Brain Games:</strong>&nbsp;In addition to physical exercise, dogs love to test their mental skills too! Brain games encourage dogs to solve problems using their senses and problem-solving skills. Canine Coaches can put bits of dog food under one of three cups and mix them around without displaying the food to the dog. Dogs will sniff to figure out which cup holds the tasty treasure! Sniffing is actually a great way to allow a dog to use built up energy while sharpening their senses. This is a fun one you can also try at home!&nbsp;</li>\n</ul>\n<p>Dogtopia isn&rsquo;t just for pups. Pet parents love the benefits that come with seeing their dog living their best life! Not only will they be collecting their daily steps and getting plenty of exercise, but they&rsquo;ll also be socializing with other like-minded pups and learning new skills they&rsquo;ll be excited to show off at home. Get your dog enrolled so they can play the day away while also giving you peace of mind they are in a place that puts their wellness first.&nbsp;<a href=\"https://www.dogtopia.com/location-finder/\">Find a Dogtopia near you</a>!&nbsp;</p>",
+      "author": "Admin",
+      "publish_date": "03/09/2023 20:50:15",
+      "image_url": "https://www.vets4pets.com/siteassets/species/dog/puppy/puppy-running-playing.jpg?width=1040",
+      "status": "Published",
+      "id": 5
+    },
+    {
+      "post_title": "Which Fall Foods Can My Dog Eat?",
+      "post_content": "<p>Raise your hand if you love Thanksgiving and all of the fall flavors! Luckily for dogs, many of the festive foods we enjoy during the fall season can be prepared in a way so they can enjoy them alongside us and are high in vitamins and minerals, too! The list below is filled with items you and your pup can enjoy together to welcome fall and kick off a wholesome and tasty holiday season!&nbsp;&nbsp;</p>\n<h2><strong>1.&nbsp;Pumpkin&nbsp;</strong></h2>\n<p>It wouldn&rsquo;t be fall without pumpkin for all! Pumpkin is packed with fiber, Vitamins A, C, and E, iron and potassium and low in calories which makes it an ideal snack when temperatures begin to drop. Pups with digestive issues can greatly benefit from enjoying pumpkin, too. Whether you&rsquo;re whipping up your dog&rsquo;s favorite fall snacks or adding a dollop to their food, pumpkin is a fall favorite for pups and pet parents alike.&nbsp;</p>\n<p>When purchasing pumpkin, be sure to note the pumpkin is plain without any spices or added sugars to not upset a dog&rsquo;s stomach.&nbsp;</p>\n<p><img src=\"https://www.rover.com/blog/wp-content/uploads/2020/09/iStock-1280623255.jpg\" alt=\"Canned Pumpkin for Dogs and Cats: Pros, Cons, and How to Serve it Best\"></p>\n<h2><strong>2.&nbsp;Carrots</strong></h2>\n<p>Raw, unseasoned carrots are a nutritious and low calorie snack your dog will love. Carrots are in season in the fall and support your pup&rsquo;s vision and heart health. Chewing raw carrots is also great for your dog&rsquo;s teeth and gums.&nbsp;</p>\n<p>When allowing your dog to enjoy carrots, please remember to serve them unseasoned, preferably raw and&nbsp;cut into bite-sized pieces.&nbsp;</p>\n<h2><strong>3.&nbsp;Peanut Butter</strong></h2>\n<p>Pups love peanut butter! Packed with fiber and protein, peanut butter is a great snack to add to food or to a few DIY homemade treats. Some of our favorite recipes are made with peanut butter! Check out a few of our favorite<a href=\"https://www.dogtopia.com/blog/easy-to-make-peanut-butter-dog-treat-recipes/\">&nbsp;recipes!</a></p>\n<p>When preparing a peanut butter snack, ensure there is no xylitol in the peanut butter as xylitol is incredibly toxic and harmful to&nbsp;dogs.&nbsp;</p>\n<h2><strong>4.&nbsp;Green Beans</strong></h2>\n<p>Looking for a healthy treat swap your dog will love? Green beans are a great alternative to store bought dog treats and are packed with Vitamins A and C, iron, and protein, making it a healthy snack that supports your furry friend&rsquo;s immune system and blood health.&nbsp;</p>\n<p>When preparing green beans for your dog, ensure they are free of spices or cooking oils because this veggie is best served fresh on its own!&nbsp;</p>\n<h2><strong>5.&nbsp;Apples</strong></h2>\n<p>Satisfy your pup&rsquo;s sweet tooth with a fresh apple treat! Apples are an excellent low-calorie snack filled with Vitamin A, antioxidants, and fiber which promotes digestive health. In addition to internal benefits, apples can also assist in keeping your dog&rsquo;s teeth clean and breath smelling fresh.&nbsp;</p>\n<p>Dogs should never be given a whole apple to enjoy. Instead, wash and cut the apple into slices and remove the core and seeds. Washing the apple will prevent your dog from ingesting any pesticides found on the apple&rsquo;s skin and removing the core and seeds will prevent choking hazards and make the treat easy to digest.&nbsp;</p>\n<h2><strong>6.&nbsp;Cranberries</strong></h2>\n<p>Some dogs love them, and some dogs think their flavor is too tart to handle, but cranberries are a great treat for our furry family members. Whether fresh, dried, or cooked, cranberries are ideal for boosting your dog&rsquo;s urinary health.&nbsp;</p>\n<p>Holiday favorites such as cranberry juice and cranberry sauce are high in sugar and may include ingredients that are unsafe for&nbsp;dogs. If you want to reward your pup with a cranberry snack, please ensure there are no additives which could upset your dog&rsquo;s stomach.&nbsp;</p>\n<h2><strong>7.&nbsp;Turkey</strong></h2>\n<p>Turkey is a fall favorite, especially around Thanksgiving! Packed with nutrients and protein, turkey is sure to be enjoyed by all. Although dogs may want to enjoy the whole turkey, it is best to give them pieces in moderation as to not upset their stomachs. When deciding which pieces to feed your pup, offer only white meat from the turkey rather than fat, skin, or dark meat as these fattier pieces can lead to upset stomachs and even acute pancreatitis. Be cautious if planning to sneak your dog a few table scraps from the Thanksgiving table, the garlic, onion and other seasonings used to cook the turkey can upset your dog&rsquo;s stomach and turn a joyous holiday into a stressful one.&nbsp;&nbsp;</p>\n<p>Avoid giving your dog turkey bones as a special treat. These bones may splinter in your dog&rsquo;s stomach and cause internal bleeding or an intestinal blockage.&nbsp;</p>\n<h2><strong>8.&nbsp;Sweet Potato</strong></h2>\n<p>Sweet potatoes are great for digestion and are filled with vitamins such as Vitamin A and other minerals which help fight disease and infection while promoting healthy skin, eyes and coat.&nbsp;&nbsp;</p>\n<p>When preparing a sweet potato treat for your dog, keep butter, spices and other harmful ingredients out of your recipe as pups enjoy sweet potato best when fully cooked and served plain.&nbsp;&nbsp;</p>\n<p>Before modifying your dog&rsquo;s diet in any way, please speak with your veterinarian to ensure your dog will react well to these diet changes.&nbsp;</p>\n<p><img src=\"https://www.pumpkin.care/wp-content/uploads/2021/01/Can-Dogs-Eat-Sweet-Potatoes.jpg\" alt=\"Can Dogs Eat Sweet Potatoes? Nutritional Insights\"></p>\n<h2><strong>9.&nbsp;Foods To Keep Out Of Reach Of Dogs</strong></h2>\n<p>The holidays wouldn&rsquo;t be complete without sweets! Desserts including chocolate should&nbsp;<strong>not&nbsp;</strong>be enjoyed by&nbsp;dogs as chocolate is toxic and may harm your pup. Sugary foods of any kind may upset your dog&rsquo;s stomach. To keep your dog healthy and in shape this holiday season, reward them with healthy snacks from the list above to keep them healthy and lively.&nbsp;</p>\n<h2><strong>10.&nbsp;Enjoying Fall At Dogtopia</strong></h2>\n<p>As the weather starts to drop, the playrooms at Dogtopia are always the perfect temperature so dogs can enjoy the benefits of daycare all year long. Plus, many Dogtopia daycare centers bring the fall indoors with special fall-inspired treat days and special activities. No matter the weather outside, we promise your dog will always have the Most Exciting Day Ever!&nbsp;<a href=\"https://www.dogtopia.com/location-finder/\">Find your nearest Dogtopia daycare</a> today to ensure your dog doesn&rsquo;t miss out on any of the fall festivities!&nbsp;</p>",
+      "author": "Admin",
+      "publish_date": "03/09/2023 20:56:11",
+      "image_url": "https://www.stellaandchewys.com/wp-content/uploads/2022/12/hey.kubo_healthy.jpg",
+      "status": "Published",
+      "id": 6
+    },
+    {
+      "post_title": "The Benefits Of Regularly Attending Dogtopia Daycare",
+      "post_content": "<p>Dog daycare isn&rsquo;t just fun and games! It&rsquo;s a great place for dogs to learn positive behavior, practice their skills, get out all their energy, and learn how to be in a new environment with new people and other dogs, ultimately reducing separation anxiety. Dogtopia&rsquo;s environment was designed with dogs&rsquo; wants and needs in mind, and our caring team will make sure your dog always has the Most Exciting Day Ever while in our care. Learn more about the benefits of Dogtopia and how regular attendance at our dog daycare can improve your dog&rsquo;s quality of life (and yours, too!).</p>\n<h2>1. Improves Socialization</h2>\n<p>All dogs at Dogtopia must successfully pass a Meet &amp; Greet evaluation. This way, we can make sure they are comfortable in our open-play environment and up to date on all required vaccinations. Pet parents can have peace of mind knowing their dog is playing with other like-minded dogs. Once in the playroom, dogs will start to get the lay of the land and introduce themselves to the other dogs around them. We guarantee they will make friends and find plenty of BFFFs (Best Furry Friends Forever). Even if you have a shy dog, regular daycare can help bring them out of their shell and become more comfortable around new dogs and new people.&nbsp;</p>\n<p><img src=\"https://s3-prod.dogtopia.com/wp-content/uploads/2020/05/DogtopiaGilbert_canine_coach_3.jpg\" alt=\"Dogtopia Daycare: A Safe Place for Dogs &amp; Pet Parents - Dogtopia\"></p>\n<h2>2. Introduces Dogs To New Environments&nbsp;</h2>\n<p>Regular attendance at daycare can help dogs find their confidence, which in turn allows them to be comfortable in new environments. Often, the reason a dog is nervous or anxious is because they are unfamiliar with their surroundings. Think of it like a new kid at a new school&mdash;the more time they spend there, the more comfortable they become. Dogs are just like children,&nbsp;and with a little bit of time and patience,&nbsp;they will realize being away from mom or dad at daycare is actually really fun!&nbsp;</p>\n<h2><strong>3.&nbsp;Provides A Safe Place For Dogs To Play&nbsp;</strong></h2>\n<p>One of our highly trained Canine Coaches will always be in the playroom to supervise the dogs playing. Canine Coaches undergo extensive training to learn and prepare for a variety of situations within the playrooms. The team is well-versed in dog body language, safe play, positive reinforcement techniques, and so much more. While your dog is spending the day at Dogtopia, you can find comfort in that your dog is receiving extra love from our Canine Coaches in your absence!&nbsp;</p>\n<p>Plus, while at Dogtopia, dogs play on rubberized flooring, which was specifically picked to ease dogs&rsquo; joints and paws.&nbsp;Dogtopia&rsquo;s playrooms were designed to keep dogs safe while allowing them to play the day away in a safe manner!&nbsp;</p>\n<p><img src=\"https://s3-prod.dogtopia.com/wp-content/uploads/2020/04/DogtopiaGilbert_playroom_3.jpg\" alt=\"Daycare vs. Dog Parks: Where Should Dogs Play During the Coronavirus  Pandemic - Dogtopia\"></p>\n<h2><strong>4.&nbsp;Reduces Anxiety&nbsp;</strong></h2>\n<p>Separation anxiety is a normal emotion for dogs who are not adjusted to spending time away from their parents. Dogs may display anxiety with a variety of signs and symptoms, such as increased barking or reactivity of any kind, aggression, chewing, increased personal grooming, onset of destructive behaviors, drooling, panting, or urinating in the house.</p>\n<p>When you leave home without your dog, they should understand you will return to give them attention without the concern of being left behind. Dog daycare at Dogtopia is a great way for your pup to get out of the house and learn that spending time away from mom or dad isn&rsquo;t so bad. The more frequent their visits to daycare, the faster they&rsquo;ll adjust and the less likely they&rsquo;ll be to exhibit anxious behavior.</p>\n<p>When dogs become regular daycare attendees, social anxiety is reduced because pups understand Dogtopia is a place for playing with their friends and their parents will always return for them!&nbsp;</p>\n<h2><strong>5.&nbsp;Play In Any Weather Condition&nbsp;</strong></h2>\n<p>Can&rsquo;t go for a walk around the neighborhood because of the weather? Our indoor playrooms are always the perfect temperature.&nbsp;</p>\n<p>Dogtopia is a great way to maintain your dog&rsquo;s exercise schedule regardless of sun, rain, or even snow! If you live in an area with extreme or inconsistent weather conditions, bringing your dog to Dogtopia allows your dog to stick to a routine full of playtime and exercise regardless of the weather outside. With temperature-controlled playrooms, dogs will always feel cool and comfortable.&nbsp;</p>\n<h2><strong>6.&nbsp;A Home Away From Home&nbsp;</strong></h2>\n<p>When your dog attends daycare on a regular basis, they will understand that daycare is where they play with their BFFFs, and their parents will be back soon to pick them up!</p>\n<p>Did you know that having your dog spend time at daycare gets them ready for an overnight stay?&nbsp;Sometimes, dogs find themselves a little bit uncomfortable and anxious when spending the night in a new place, especially away from their parents. When your dog attends daycare regularly, they will get to know their surroundings and feel more comfortable with more exposure. Plus, they&rsquo;ll associate time spent at Dogtopia as fun and exciting. So, whether your dog is spending the day or a longer duration&nbsp;of time while you&rsquo;re on vacation, Dogtopia is a comfortable environment for them and their home away from home.&nbsp;</p>\n<p>To get all pups ready to spend the night, Dogtopia recommends dogs come to play at daycare for a minimum of three days before any overnight stay. This eliminates the anxiety around going to a &ldquo;new&rdquo; place and allows the dog to feel happy, safe, and comfortable.&nbsp;</p>\n<p>Pups enjoy spending time with their BFFFs, and soon they&rsquo;ll be begging to go back to Dogtopia! Do you think your dog would enjoy daycare at Dogtopia? Find a location near you by clicking&nbsp;<a href=\"https://www.dogtopia.com/location-finder/\">here</a>!&nbsp;</p>",
+      "author": "Admin",
+      "publish_date": "03/09/2023 21:03:58",
+      "image_url": "https://www.petage.com/wp-content/uploads/2019/10/Dogtopia-2.jpg",
+      "status": "Published",
+      "id": 7
+    },
+    {
+      "post_title": "Cool Summer Treat Ideas Your Dog Will Love",
+      "post_content": "<p>Everyone deserves a nice, cold treat during the warm summer months! Who says dogs can&rsquo;t enjoy one too? Check out a few of our favorite chilled treat recipes below made just for dogs and let us know which one is their favorite!&nbsp;</p>\n<p><strong>As a reminder, all frozen treats should sit at room temperature for a few minutes to soften before being given to your pup to prevent any dental injuries.</strong>&nbsp;</p>\n<h2>1.&nbsp;Frozen Fruits &amp; Veggies</h2>\n<p>Pups love snacks with a crunch. Switch up your dog&rsquo;s favorite fresh treat by freezing it before serving it to them. Not only will it taste chilled and delicious, but your pup will also take extra time enjoying it as they lick the treat while it softens. A few personal pup favorites are frozen chunks of banana, strawberries, peaches, carrots, and green beans.&nbsp;</p>\n<p><img src=\"https://i.ytimg.com/vi/YQQSojRzljA/maxresdefault.jpg\" alt=\"How To Make Rainbow Popsicles for Dogs 🌈 DIY Dog Treats - YouTube\"></p>\n<h2>2.&nbsp;Icy Broth Treats</h2>\n<p>Does your dog enjoy treats with a savory flavor? Try these frozen broth treats. Chicken, beef, vegetable, and bone broth can all be frozen in cubes for pups without a sweet tooth. Simply pop the broth into an ice tray and freeze! Looking to level up your frozen broth treats? Here are our two favorite ways to get creative with broth treats:&nbsp;</p>\n<ol>\n<li data-leveltext=\"%1.\" data-font=\"Calibri\" data-listid=\"1\" data-list-defn-props=\"{&quot;335552541&quot;:0,&quot;335559683&quot;:0,&quot;335559684&quot;:-1,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769242&quot;:[65533,0,46],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;%1.&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}\" data-aria-posinset=\"1\" data-aria-level=\"1\">Mix any broth with peanut butter and parsley. Freeze and serve!&nbsp;&nbsp;</li>\n<li data-leveltext=\"%1.\" data-font=\"Calibri\" data-listid=\"1\" data-list-defn-props=\"{&quot;335552541&quot;:0,&quot;335559683&quot;:0,&quot;335559684&quot;:-1,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769242&quot;:[65533,0,46],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;%1.&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}\" data-aria-posinset=\"1\" data-aria-level=\"1\">Freeze different broth flavors in layers! With every lick, your furry best friend will experience a different flavor which will keep them occupied until the very last bit is enjoyed!&nbsp;</li>\n</ol>\n<h2>3.&nbsp;Pup-approved Sweet Treats</h2>\n<p>Swap frozen veggies with frozen fruit for a sweet treat your dog will love! Dice or puree fruit (remove the rind, seeds, or other hazards which may be hard on a dog&rsquo;s stomach to break down). Mix the fruit with plain yogurt and freeze. The fruit dogs seem to enjoy the most are cantaloupe, watermelon, strawberries, raspberries, blueberries, pineapple, and apple. We all love chilled summer sweets and now your pup can enjoy a special treat, too!&nbsp;</p>\n<p><img src=\"https://www.thesprucepets.com/thmb/QAdxg-B3IqK59NQFaAA0M2lRcP0=/7952x0/filters:no_upscale():strip_icc()/can-dogs-eat-ice-cream-4684033-hero-642ef49db38f4715a8f844fcd85f6652.jpg\" alt=\"Can Dogs Eat Ice Cream?\"></p>\n<h2>4.&nbsp;Frozen Kong</h2>\n<p>Looking for another way to keep your dog occupied during the hot summer months? Grab a KONG and fill it with any of the treats listed above or a spoonful or two of peanut butter. Once filled, pop the filled KONG in the freezer and wait for all contents to firm. This treat will cool your pup down while keeping their brain stimulated!&nbsp;</p>\n<p>As with any treat, please be mindful of your dog and their specific dietary needs and restrictions. If you have any questions about what your pup can and cannot enjoy, do not hesitate to reach out to your local veterinarian. As a reminder, treats are meant to be enjoyed in moderation, so make it a special event and only allow your pup to enjoy a bit at a time!&nbsp;</p>",
+      "author": "Admin",
+      "publish_date": "03/09/2023 21:08:02",
+      "image_url": "https://i.ytimg.com/vi/w84Cdm3EHW4/maxresdefault.jpg",
+      "status": "Published",
+      "id": 8
+    },
+    {
+      "post_title": "Top Dog Breeds For Families With Children",
+      "post_content": "<p>We believe no home is complete without a dog, but some breeds may be better for homes with children. Three attributes should be kept in mind when considering adopting a dog into a family home: temperament, size, and energy level.&nbsp;</p>\n<h3><strong>Temperament&nbsp;</strong></h3>\n<p>A dog&rsquo;s temperament directly translates to their personality. When looking for a dog to bring into your family, you should look for a dog who has a temperament that works best with younger, smaller children. For example, a calm dog will create a stronger bond with your children than a more outgoing, hyper dog.&nbsp;</p>\n<h3><strong>Size&nbsp;</strong></h3>\n<p>Size will not determine if a dog will be good with children, but it will be something to consider in relation to temperament and energy level. A larger, energetic dog may not be the best fit because they may knock over children in a moment of excitement. However, a small, calm dog may work perfectly due to their size and personality.&nbsp;&nbsp;</p>\n<h3><strong>Energy Level&nbsp;</strong></h3>\n<p>Energy level is dependent upon your family&rsquo;s preference. If your family is outgoing, energetic, and constantly on the move, an energetic dog breed may be an ideal fit for your family. High-energy dog breeds will require more exercise and movement. If these characteristics are not regularly catered to, your dog may experience behavior problems down the road to release their excess energy. For families who operate at a slower pace, a more casual, low-energy breed might be a great fit instead.&nbsp;&nbsp;</p>\n<p><img src=\"https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1xw:0.74975xh;center,top&amp;resize=1200:*\" alt=\"The 30 Cutest Dog Breeds - Most Adorable Dogs and Puppies\"></p>\n<h3>1. Best Dog Breeds For Families With Children</h3>\n<h3><strong>Golden Retriever</strong>&nbsp;</h3>\n<p>The golden retriever is one of the most patient, smart, and loyal dog breeds which makes them a perfect fit for families with children. This breed does need quite a bit of exercise and they love to play. Children love golden retrievers because of their obedient and affectionate personalities.&nbsp;</p>\n<h3><strong>Beagle&nbsp;</strong></h3>\n<p>Beagles are ideal for families with children because not only are they gentle and loving, they also are avid entertainers and love to put on a show. The energy level of a beagle is high which means they will love spending their time running around with kids all day!&nbsp;</p>\n<h3><strong>Labrador Retriever</strong>&nbsp;</h3>\n<p>The Labrador retriever is one of the most popular dog breeds. They are playful, protective, reliable, and highly intelligent. Labrador retrievers take well to training which makes them a great breed for homes with families and smaller children. Before adopting a Labrador retriever, it is important to note this breed requires a lot of exercise and they do shed which will require regular cleanup. Labrador retrievers get along well with other animals and people which makes them one of the more adaptable and hospitable breeds perfect for families.&nbsp;</p>\n<h3><strong>Cavalier King Charles Spaniel</strong>&nbsp;</h3>\n<p>For a slower-paced family, the Cavalier King Charles Spaniel is a great match. This breed is incredibly friendly and enjoys smaller children and other furry companions. Cavalier King Charles Spaniels are a calm breed and do not require a lot of exercise but may require a bit of pets and attention because they are eager to please!&nbsp;</p>\n<h3><strong>Poodle (Miniature)</strong>&nbsp;</h3>\n<p>Interested in a dog that is easy to train, full of personality, and athletic? The Poodle might be the dog for your family! Poodles bond with all family members in the home making them one of the most recommended family breeds. This breed is also incredibly smart, obedient, and playful.&nbsp;</p>\n<h3><strong>Vizsla</strong>&nbsp;</h3>\n<p>Nicknamed the &ldquo;Velcro dog,&rdquo; the Vizsla breed is recommended as a family dog because of their gentle manner, loyal spirit, and affectionate personality. Vizslas are one of the most obedient and confident breeds and form close bonds with family members. This breed requires a great amount of exercise and is best in families with older kids.&nbsp;</p>\n<h3><strong>Havanese</strong>&nbsp;</h3>\n<p>Out of all the small dog breeds, the Havanese is one of the smartest. With their ability to learn new tasks quickly, the innate desire to bond with their owners, and a need for the spotlight, they operate best in a family with children they can entertain. Havanese require some grooming to upkeep their coat and should be regularly brushed at home.&nbsp;</p>\n<p><img src=\"https://www.southernliving.com/thmb/a4b73J7C4S4wgSmymmEgXRCmACA=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-185743593-2000-507c6c8883a44851885ea4fbc10a2c9e.jpg\" alt=\"15 Cute Dog Breeds You Won't Be Able To Resist\"></p>\n<h2>2. Bringing A New Dog Into Your Home&nbsp;</h2>\n<p>Whenever a new dog is brought into a new place, there may be an adjustment period. This is normal and allows them to learn and understand their new surroundings. Create a schedule with your new pup and abide by it daily to create a sense of routine. This can include playtime, downtime, and time spent together.&nbsp;&nbsp;</p>\n<p>Appropriate exercise and socialization can be the trickiest elements to incorporate into a daily routine. Dogtopia daycare is an excellent resource for exercise, socialization, and education for your furry child and will ensure your pup will develop positive behavior they can show off at home. Plus, you can check in on all the fun with our live webcams and watch them play they day away with all their new friends or as we call them, BFFFs (Best Furry Friends Forever)! You&rsquo;ll love how happy and content they are after a full day of play and how well they sleep at night! 😉&nbsp;&nbsp;</p>",
+      "author": "Admin",
+      "publish_date": "03/09/2023 21:13:55",
+      "image_url": "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/advisor/wp-content/uploads/2023/07/top-20-small-dog-breeds.jpeg.jpg",
+      "status": "Published",
+      "id": 9
+    },
+    {
+      "post_title": "Sun & Water Safety For Your Dog",
+      "post_content": "<p>Summer is once again right around the corner! As the temperatures rise, most people and their pups spend more time outside attempting to beat the heat in a variety of ways. Does your dog love to be outside? Here are a few key items to keep an eye out for to ensure your dog remains safe and cool in the summer months.&nbsp;</p>\n<h3>1. Sunburns&nbsp;</h3>\n<p>Did you know dogs can get sunburned? Dogs with thinner hair and lighter skin are more susceptible to sunburning on a sunny day. To avoid sunburns, make regular visits to the shade or indoors. Ask your veterinarian about dog-approved sunscreen options or invest in protective clothing which will allow your pup to be shielded from the sun.&nbsp;&nbsp;</p>\n<p><img src=\"https://plus.unsplash.com/premium_photo-1667581437697-85151dfe71b4?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Ym9yZGVyJTIwY29sbGllJTIwcHVwcHl8ZW58MHx8MHx8&amp;w=1000&amp;q=80\" alt=\"Can Dogs Get A Sunburn? Treatment Options And How To Protect Your Dog's  Skin Daily Paws | eduaspirant.com\"></p>\n<h3>2. Staying Hydrated&nbsp;</h3>\n<p>With any kind of play or exercise, it is important to replenish&nbsp;our bodies with water to stay cool and hydrated, dogs are no different! In the summertime, it is especially important to always have a clean and full water bowl available to your dog throughout the day and for post-play water breaks. Dehydration becomes a bigger problem when the temperature begins to rise, but this is easily avoidable with access to fresh water for your pup. Reminder: be mindful of the water bowl. If the dish begins to look hazy or dirty, replace the water in the bowl. Water bowls should be washed once every day to eliminate any debris or bacterial buildup.&nbsp;</p>\n<h3>3. Water Safety&nbsp;</h3>\n<p>If you live near a pool, lake, or ocean, playing in water is a great way to stay cool during the warm summer months. Before jumping in with your dog, check the source of water to ensure it is clean, clear, and free of debris. Dogs who are unfamiliar with water may be a little hesitant to jump right in. Rather than picking them up and placing them in an unknown situation, allow them to become comfortable at their own pace. Enticing them with treats and praise will make the new area more interesting and feel less unknown.&nbsp;&nbsp;</p>\n<p>When having fun in&nbsp;water, it can be easy to forget&nbsp;the onset of symptoms of overexposure to sunlight and dehydration. Taking breaks from the sun is crucial during warm summer months and your pup will thank you for it. Once inside or in the comfort of shade, be sure to rehydrate with fresh water for you and your pup.&nbsp;</p>\n<p>After a day of play in any form of water, a bath may alleviate built up dirt and bacteria and keep your dog&rsquo;s skin moisturized.&nbsp;</p>\n<p><img src=\"https://hips.hearstapps.com/hmg-prod/images/gettyimages-891344854-1564084324.jpg?resize=1200:*\" alt=\"Summer Pet Safety Tips - How To Keep Pets Safe In The Summer\">&nbsp;</p>\n<h3>4. Inside Time&nbsp;</h3>\n<p>Summer weather means a warmer temperature and longer daylight hours. Your pup may love soaking up the summer sun, but heightened temperatures require more concern when it comes to dehydration and sun exposure.&nbsp;&nbsp;</p>\n<p>Rather than playing outside for an extended period of time or during peak sunlight hours, take your dog for their daily walk either before the sun rises too high in the sky or just as the sun sets. An easy way to tell if it&rsquo;s too hot for your dog is the seven second test. Place your hand on the concrete or asphalt for seven seconds. If you cannot keep your hand on the surface for a consistent seven seconds, it is too hot for your dog to be walking outside. Daily exercise is still important, even in extreme weather conditions, which is why pet parents may want to adjust their schedule during the summer months to keep their pups safe.&nbsp;</p>\n<p>If your pup needs more play but your schedule does not allow early morning or evening walks or you&rsquo;re in an area where it&rsquo;s still too hot for a walk around the block, schedule your dog for a day of daycare at your local Dogtopia! They will love playing all day long inside our indoor playrooms! Plus, we&rsquo;ll introduce them to plenty of BFFFs (Best Furry Friends Forever) and come home tuckered out, ready for a long night&rsquo;s rest. While they are playing with their BFFFs, they will not only get plenty of exercise, but will also work on their social skills they can show off at home. Ready for your dog to beat the heat at Dogtopia? Find a location near you by clicking&nbsp;<a href=\"https://www.dogtopia.com/location-finder/\">here</a>.&nbsp;</p>",
+      "author": "Admin",
+      "publish_date": "03/09/2023 21:17:28",
+      "image_url": "https://images.squarespace-cdn.com/content/v1/559a8c83e4b0e6e634cd43a5/1614703286807-V84H9VHWNSHTDISZMVXL/SMD_BT7T8722-Edit_KristenMurrayPhotography0221-2.jpg?format=2500w",
+      "status": "Published",
+      "id": 10
+    }
+  ],
+  "pages": [
+    {
+      "page_title": "Billing Terms",
+      "page_content": "<h2><strong>1. Payment Terms</strong></h2>\n<p>Payment for all products and services purchased on PetShop is due at the time of purchase. We\naccept the following payment methods:</p>\n<ul>\n<li><strong>Credit cards:</strong> Visa, Mastercard, American Express, and Discover</li>\n<li><strong>PayPal</strong></li>\n<li><strong>Apple Pay</strong></li>\n</ul>\n<h2><strong>2. Late Payments</strong></h2>\n<p>If your payment is not made in full by the due date, you will be charged a late fee of 10% of the\noutstanding balance. You may also be subject to additional fees, such as interest charges.</p>\n<h2><strong>3. Refunds</strong></h2>\n<p>Refunds are only available for products that are returned in their original condition and within the\nreturn period. To request a refund, please contact us at [email address].</p>\n<h2><strong>4. Billing Errors</strong></h2>\n<p>If you believe that there is an error on your bill, please contact us at [email address] as soon as\npossible. We will investigate the error and correct it as soon as possible.</p>\n<h2><strong>5. Changes to Billing Terms</strong></h2>\n<p>PetShop reserves the right to change its billing terms at any time. If PetShop makes any\nmaterial changes to its billing terms, PetShop will post a notice on the Site. You are\nresponsible for reviewing the billing terms periodically to ensure that you are aware of any changes.\n</p>\n<h2><strong>6. Governing law</strong></h2>\n<p>These Billing Terms are governed by the laws of the State of California, without regard to its conflict\nof laws provisions. Any disputes arising out of or relating to these Billing Terms will be resolved\nexclusively in the state or federal courts located in Los Angeles County, California.</p>\n<h2><strong>7. Entire agreement</strong></h2>\n<p>These Billing Terms constitute the entire agreement between you and PetShop with respect to the\nbilling of your purchases. These Billing Terms supersede all prior or contemporaneous communications,\nrepresentations, or agreements, whether oral or written.</p>\n<h2><strong>8. Waiver</strong></h2>\n<p>No waiver of any provision of these Billing Terms will be effective unless in writing and signed by an\nauthorized representative of PetShop.</p>\n<h2><strong>9. Severability</strong></h2>\n<p>If any provision of these Billing Terms is held to be invalid or unenforceable, such provision will be\nstruck from these Terms and the remaining provisions will remain in full force and effect.</p>\n<h2><strong>10. Contact us</strong></h2>\n<p>If you have any questions about these Terms, please contact us at:</p>\n<p>PetShop</p>\n<p>help@petshop.com</p>",
+      "author": "Admin",
+      "publish_date": "03/09/2023 20:27:28",
+      "image_url": "https://www.helpguide.org/wp-content/uploads/2023/02/Health-Benefits-of-Walks-with-Your-Dog-1200x800.jpeg",
+      "status": "Published",
+      "id": 1
+    },
+    {
+      "page_title": "Contact Us",
+      "page_content": "<div class=\"container text-center group-contact-us\">\r\n            <div class=\"row align-items-start contact-us-wrap\">\r\n                <div class=\"col-12 col-sm-12 col-md-12 col-lg-6 contact-us-left\">\r\n                    <h2>CONTACT INFORMATION</h2>\r\n\r\n                    <p>We do not sell product from our corporate headquarters in New York City. If you want to\r\n                        visit, please reach out to our customer service team first.</p>\r\n\r\n                    <p>1201 Broadway</p>\r\n                    <p>Suite 600</p>\r\n\r\n\r\n                    <div>\r\n                        <h2>Email</h2>\r\n                        <a href=\"mailto:help@petshop.com\">\r\n                            <p>help@petshop.com</p>\r\n                        </a>\r\n                    </div>\r\n\r\n                    <h2>Follow Up</h2>\r\n                    <div class=\"list-social-icon\">\r\n                        <i class=\"fa-brands fa-facebook\"></i>\r\n                        <i class=\"fa-brands fa-twitter\"></i>\r\n                        <i class=\"fa-brands fa-instagram\"></i>\r\n                        <i class=\"fa-brands fa-youtube\"></i>\r\n                    </div>\r\n                </div>\r\n                <div class=\"col-12 col-sm-12 col-md-12 col-lg-6 contact-us-right\">\r\n                    <iframe\r\n                        src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2943.454689847285!2d-71.02969392346306!3d42.46061732874202!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89e3725ff4c5f2c7%3A0x4384488254df4bd3!2s1201%20Broadway%2C%20Saugus%2C%20MA%2001906%2C%20USA!5e0!3m2!1sen!2s!4v1689168167349!5m2!1sen!2s\"\r\n                        width=\"100%\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\"\r\n                        referrerpolicy=\"no-referrer-when-downgrade\"></iframe>\r\n                </div>\r\n            </div>\r\n        </div>",
+      "author": "Admin",
+      "publish_date": "03/09/2023 20:27:28",
+      "image_url": "https://www.helpguide.org/wp-content/uploads/2023/02/Health-Benefits-of-Walks-with-Your-Dog-1200x800.jpeg",
+      "status": "Published",
+      "id": 2
+    },
+    {
+      "page_title": "Copyright Dispute Policy",
+      "page_content": "<p>We respect the intellectual property rights of others. If you believe that your copyright has been\r\n                infringed on our website, please contact us immediately.</p>\r\n            <p><strong>To file a copyright infringement claim, please provide us with the following\r\n                    information:</strong></p>\r\n            <ul>\r\n                <li><strong>A physical or electronic&nbsp;signature of the copyright owner or a person authorized to act\r\n                        on their behalf.</strong></li>\r\n                <li><strong>A description of the copyrighted work that you claim has been infringed.</strong></li>\r\n                <li><strong>A description&nbsp;of the location on our website where the infringing material is\r\n                        located.</strong></li>\r\n                <li><strong>Your contact information, including your name, address, and email address.</strong></li>\r\n                <li><strong>A statement that you have a good faith belief that&nbsp;the disputed use&nbsp;is not\r\n                        authorized by the copyright owner, its agent, or the law.</strong></li>\r\n                <li><strong>A statement that the information in your notice is accurate and&nbsp;that you are authorized\r\n                        to act on behalf of the copyright owner.</strong></li>\r\n            </ul>\r\n            <p>You can contact us at:</p>\r\n            <p>help@petshop.com</p>\r\n            <p>We will review your claim and take appropriate action. If we determine that your claim is valid, we will\r\n                remove the infringing material from our website.</p>\r\n            <p><strong>We also reserve the right to terminate the accounts of users who repeatedly infringe on the\r\n                    copyrights of others.</strong></p>\r\n            <p><strong>Thank you for your cooperation.</strong></p>\r\n            <p>Here are some additional things to consider when writing your Copyright Dispute Policy:</p>\r\n            <ul>\r\n                <li>Be clear about what constitutes copyright infringement.</li>\r\n                <li>State how you will handle copyright infringement claims.</li>\r\n                <li>Provide a way for copyright owners to contact you.</li>\r\n                <li>Reserve the right to terminate accounts of users who repeatedly infringe on copyrights.</li>\r\n            </ul>",
+      "author": "Admin",
+      "publish_date": "03/09/2023 20:27:28",
+      "image_url": "https://www.helpguide.org/wp-content/uploads/2023/02/Health-Benefits-of-Walks-with-Your-Dog-1200x800.jpeg",
+      "status": "Published",
+      "id": 3
+    },
+    {
+      "page_title": "FAQs",
+      "page_content": "<ol>\r\n                <li>\r\n                    <p><strong>What are your shipping options?</strong> We offer fast and reliable shipping options for\r\n                        your convenience. Choose from standard shipping or expedited delivery to receive your pet\r\n                        products right at your doorstep.</p>\r\n                </li>\r\n                <li>\r\n                    <p><strong>Do you ship internationally?</strong> Yes, we offer international shipping to select\r\n                        countries. Please check our shipping policy or contact our customer support for more details on\r\n                        international shipping destinations and rates.</p>\r\n                </li>\r\n                <li>\r\n                    <p><strong>What payment methods do you accept?</strong> We accept major credit cards, such as Visa,\r\n                        Mastercard, and American Express. Additionally, we also support secure online payment methods\r\n                        like PayPal for a seamless checkout experience.</p>\r\n                </li>\r\n                <li>\r\n                    <p><strong>What is your return policy?</strong> We want you and your pet to be completely satisfied\r\n                        with your purchase. If you are not satisfied, you may return eligible items within 30 days of\r\n                        delivery for a refund or exchange. Please review our return policy for more information.</p>\r\n                </li>\r\n                <li>\r\n                    <p><strong>How can I track my order?</strong> Once your order is processed and shipped, you will\r\n                        receive a tracking number via email. You can use this tracking number to monitor the status of\r\n                        your package on our website or the respective shipping carrier's website.</p>\r\n                </li>\r\n                <li>\r\n                    <p><strong>Do you offer pet grooming services?</strong> At this time, we focus on providing quality\r\n                        pet products. However, we can recommend local pet grooming services in your area. Feel free to\r\n                        reach out to our customer support for personalized recommendations.</p>\r\n                </li>\r\n                <li>\r\n                    <p><strong>Are your products safe for pets?</strong> Absolutely! We prioritize the health and safety\r\n                        of your furry friends. Our products undergo rigorous quality checks to ensure they meet the\r\n                        highest standards. We source from trusted brands that prioritize pet safety.</p>\r\n                </li>\r\n                <li>\r\n                    <p><strong>Can I cancel or modify my order?</strong> We strive to process orders quickly; however,\r\n                        if you need to cancel or modify your order, please contact our customer support as soon as\r\n                        possible. We will do our best to accommodate your request if the order has not been shipped.</p>\r\n                </li>\r\n                <li>\r\n                    <p><strong>How can I contact customer support?</strong> Our dedicated customer support team is\r\n                        available to assist you. You can reach us through email, phone, or live chat. Visit our \"Contact\r\n                        Us\" page for more information on how to get in touch.</p>\r\n                </li>\r\n                <li>\r\n                    <p><strong>Do you have a rewards program?</strong> Yes, we have a pet loyalty program that rewards\r\n                        you for your continued support. Earn points on every purchase and redeem them for exclusive\r\n                        discounts and rewards. Join our loyalty program to start earning today!</p>\r\n                </li>\r\n            </ol>",
+      "author": "Admin",
+      "publish_date": "03/09/2023 20:27:28",
+      "image_url": "https://www.helpguide.org/wp-content/uploads/2023/02/Health-Benefits-of-Walks-with-Your-Dog-1200x800.jpeg",
+      "status": "Published",
+      "id": 4
+    },
+    {
+      "page_title": "Privacy Policy",
+      "page_content": "<h2><strong>Introduction</strong></h2>\r\n            <p>We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, and share\r\n                your personal information when you visit our website or use our services.</p>\r\n            <h2><strong>What Personal Information Do We Collect?</strong></h2>\r\n            <p>We collect the following types of personal information from you:</p>\r\n            <ul>\r\n                <li><strong>Contact information:</strong>&nbsp;This includes your name, email address, and phone number.\r\n                </li>\r\n                <li><strong>Transaction information:</strong>&nbsp;This includes information about your purchases, such\r\n                    as your order number, shipping address, and payment method.</li>\r\n                <li><strong>Technical information:</strong>&nbsp;This includes information about your computer or mobile\r\n                    device, such as your IP address, browser type, and operating system.</li>\r\n                <li><strong>Usage information:</strong>&nbsp;This includes information about how you use our website or\r\n                    services, such as the pages you visit and the links you click.</li>\r\n            </ul>\r\n            <h2><strong>How Do We Use Your Personal Information?</strong></h2>\r\n            <p>We use your personal information for the following purposes:</p>\r\n            <ul>\r\n                <li><strong>To provide you with our services:</strong>&nbsp;We use your contact information to send you\r\n                    order confirmations, shipping notifications, and other updates about your account. We use your\r\n                    transaction information to process your orders and to provide you with customer support. We use your\r\n                    technical information to improve our website and services. We use your usage information to help us\r\n                    understand how our website and services are being used so that we can improve them.</li>\r\n                <li><strong>To send you marketing communications:</strong>&nbsp;We may use your contact information to\r\n                    send you marketing communications about our products and services. You can opt out of receiving\r\n                    marketing communications at any time by clicking the \"unsubscribe\" link in any marketing email.</li>\r\n                <li><strong>To comply with laws and regulations:</strong>&nbsp;We may use your personal information to\r\n                    comply with laws and regulations, such as those related to fraud prevention and data security.</li>\r\n            </ul>\r\n            <h2><strong>Who Do We Share Your Personal Information With?</strong></h2>\r\n            <p>We may share your personal information with the following third parties:</p>\r\n            <ul>\r\n                <li><strong>Our service providers:</strong>&nbsp;We may share your personal information with our service\r\n                    providers who help us operate our website and services. These service providers may have access to\r\n                    your personal information only to the extent necessary to perform their services.</li>\r\n                <li><strong>Legal authorities:</strong>&nbsp;We may share your personal information with legal\r\n                    authorities if we are required to do so by law or if we believe that it is necessary to protect our\r\n                    rights or the rights of others.</li>\r\n            </ul>\r\n            <h2><strong>How Do We Protect Your Personal Information?</strong></h2>\r\n            <p>We take steps to protect your personal information from unauthorized access, use, disclosure, alteration,\r\n                or destruction. These steps include:</p>\r\n            <ul>\r\n                <li><strong>Physical security:</strong>&nbsp;We store your personal information in secure facilities.\r\n                </li>\r\n                <li><strong>Technical security:</strong>&nbsp;We use technical measures to protect your personal\r\n                    information, such as firewalls and encryption.</li>\r\n                <li><strong>Access controls:</strong>&nbsp;We limit access to your personal information to employees who\r\n                    need to access it to perform their jobs.</li>\r\n            </ul>\r\n            <h2><strong>Your Rights</strong></h2>\r\n            <p>You have the following rights with respect to your personal information:</p>\r\n            <ul>\r\n                <li><strong>The right to access:</strong>&nbsp;You have the right to request a copy of your personal\r\n                    information.</li>\r\n                <li><strong>The right to correct:</strong>&nbsp;You have the right to request that we correct any\r\n                    inaccurate or incomplete personal information about you.</li>\r\n                <li><strong>The right to delete:</strong>&nbsp;You have the right to request that we delete your\r\n                    personal information.</li>\r\n                <li><strong>The right to object:</strong>&nbsp;You have the right to object to our processing of your\r\n                    personal information.</li>\r\n                <li><strong>The right to restrict processing:</strong>&nbsp;You have the right to restrict our\r\n                    processing of your personal information.</li>\r\n                <li><strong>The right to data portability:</strong>&nbsp;You have the right to request that we transfer\r\n                    your personal information to another organization.</li>\r\n            </ul>\r\n            <p>To exercise any of these rights, please contact us at help@petshop.com</p>\r\n            <h2><strong>Changes to This Privacy Policy</strong></h2>\r\n            <p>We may update this Privacy Policy from time to time. If we make any significant changes, we will notify\r\n                you by email or through a notice on our website.</p>\r\n            <h2><strong>Contact Us</strong></h2>\r\n            <p>If you have any questions about this Privacy Policy, please contact us at help@petshop.com</p>",
+      "author": "Admin",
+      "publish_date": "03/09/2023 20:27:28",
+      "image_url": "https://www.helpguide.org/wp-content/uploads/2023/02/Health-Benefits-of-Walks-with-Your-Dog-1200x800.jpeg",
+      "status": "Published",
+      "id": 5
+    },
+    {
+      "page_title": "Refund Policy",
+      "page_content": "<h2>Cancellation & Refund Policy</h2>\r\n\r\n            <p>If after placing the order, you would want to cancel it, you could do so without incurring any\r\n                cancellation charges only in case the product has not been shipped.</p>\r\n\r\n            <p>In case the product has been shipped, we would not be able to accept any cancellations. The product\r\n                is\r\n                usually shipped within 1 business day after placing the order.</p>\r\n\r\n            <p> In case the customer rejects the order during the delivery, cancellation charges of Rs. 100 will be\r\n                incurred to cover the shipping costs & return shipping costs. Partial refund will be processed upon\r\n                receipt of returned shipment.</p>\r\n\r\n            <p>In case the customer does not provide the OTP, answer the IVR calls for delivery confirmation &\r\n                shipment\r\n                is returned, cancellation charges of Rs. 100 will be incurred to cover the shipping costs & return\r\n                shipping costs. Partial refund will be processed upon receipt of returned shipment.</p>\r\n\r\n            <p>Refund is processed within 1-2 business days after receiving the shipment back to our warehouse or after\r\n                cancellation in original mode of payment.</p>",
+      "author": "Admin",
+      "publish_date": "03/09/2023 20:27:28",
+      "image_url": "https://www.helpguide.org/wp-content/uploads/2023/02/Health-Benefits-of-Walks-with-Your-Dog-1200x800.jpeg",
+      "status": "Published",
+      "id": 6
+    },
+    {
+      "page_title": "Return Policy",
+      "page_content": "<p>We want you to be happy with your purchase, so we offer a 30-day return policy. If you are not satisfied\r\n      with your purchase for any reason, you can return it for a full refund.</p>\r\n  <p><strong>To return an item, please follow these steps:</strong></p>\r\n  <ol>\r\n      <li>Contact us within 30 days of receiving your purchase.</li>\r\n      <li>Provide us with your order number and the reason for your return.</li>\r\n      <li>Ship the item back to us at your own expense.</li>\r\n      <li>Once we receive the item, we will process your refund.</li>\r\n  </ol>\r\n  <p><strong>Please note that the following items are not eligible for return:</strong></p>\r\n  <ul>\r\n      <li>Items that have been used or damaged</li>\r\n      <li>Items that are not in their original packaging</li>\r\n      <li>Items that are not accompanied by a receipt</li>\r\n  </ul>\r\n  <p><strong>Refunds will be issued in the same form of payment that was used to make the purchase.</strong>\r\n  </p>\r\n  <p><strong>If you have any questions about our return policy, please contact us.</strong></p>\r\n  <p><strong>Thank you for your business!</strong></p>\r\n  <p>Here are some additional things to consider when writing your return policy:</p>\r\n  <ul>\r\n      <li>Be clear about the time period within which customers can return items.</li>\r\n      <li>Specify what conditions the items must be in to be eligible for return.</li>\r\n      <li>State whether you will refund the full purchase price or only a portion of it.</li>\r\n      <li>Explain how customers can return items.</li>\r\n      <li>Include contact information for customers who have questions about your return policy.</li>\r\n  </ul>\r\n  <p>I hope this helps! Let me know if you have any other questions.</p>",
+      "author": "Admin",
+      "publish_date": "03/09/2023 20:27:28",
+      "image_url": "https://www.helpguide.org/wp-content/uploads/2023/02/Health-Benefits-of-Walks-with-Your-Dog-1200x800.jpeg",
+      "status": "Published",
+      "id": 7
+    },
+    {
+      "page_title": "Secure Shopping",
+      "page_content": "<p>We understand that your pet's health and safety is important to you, and we take security just as\r\n                seriously. We use the latest security measures to protect your personal and financial information when\r\n                you shop with us.</p>\r\n            <p><strong>Here are some of the security measures we use:</strong></p>\r\n            <ul>\r\n                <li><strong>Secure Socket Layer (SSL) encryption:</strong>&nbsp;This technology encrypts your personal\r\n                    and financial information so that it cannot be read by anyone as it travels over the internet.</li>\r\n                <li><strong>Firewalls:</strong>&nbsp;These security measures protect our servers from unauthorized\r\n                    access.</li>\r\n                <li><strong>Intrusion detection systems:</strong>&nbsp;These systems monitor our network for suspicious\r\n                    activity.</li>\r\n                <li><strong>Employee training:</strong>&nbsp;Our employees are trained on security procedures to help\r\n                    protect your information.</li>\r\n            </ul>\r\n            <p><strong>We are committed to protecting your privacy and security. When you shop with us, you can be\r\n                    confident that your information is safe.</strong></p>\r\n            <p><strong>Here are some additional tips for secure shopping:</strong></p>\r\n            <ul>\r\n                <li><strong>Only shop on websites that you trust.</strong></li>\r\n                <li><strong>Look for the \"https\" secure protocol in the website address bar.</strong></li>\r\n                <li><strong>Be careful about what information you share online.</strong></li>\r\n                <li><strong>Change your passwords regularly.</strong></li>\r\n                <li><strong>Be aware of phishing scams.</strong></li>\r\n            </ul>\r\n            <p><strong>If you have any concerns about security, please contact us.</strong></p>\r\n            <p>We hope you have a secure and enjoyable shopping experience with us!</p>",
+      "author": "Admin",
+      "publish_date": "03/09/2023 20:27:28",
+      "image_url": "https://www.helpguide.org/wp-content/uploads/2023/02/Health-Benefits-of-Walks-with-Your-Dog-1200x800.jpeg",
+      "status": "Published",
+      "id": 8
+    },
+    {
+      "page_title": "Shipping Policy",
+      "page_content": "<h2><strong>Shipping Rates</strong></h2>\r\n            <p>We offer free shipping on orders over $50. For orders under $50, shipping costs are as follows:</p>\r\n            <ul>\r\n                <li><strong>United States:</strong>&nbsp;$5</li>\r\n                <li><strong>Canada:</strong>&nbsp;$10</li>\r\n                <li><strong>International:</strong>&nbsp;Varies by country</li>\r\n            </ul>\r\n            <h2><strong>Shipping Times</strong></h2>\r\n            <ul>\r\n                <li><strong>United States:</strong>&nbsp;3-5 business days</li>\r\n                <li><strong>Canada:</strong>&nbsp;5-7 business days</li>\r\n                <li><strong>International:</strong>&nbsp;7-10 business days</li>\r\n            </ul>\r\n            <h2><strong>Shipping Methods</strong></h2>\r\n            <p>We ship using USPS, UPS, and FedEx. The specific shipping method used will depend on the weight and\r\n                destination of your order.</p>\r\n            <h2><strong>Tracking</strong></h2>\r\n            <p>Once your order has shipped, you will receive a tracking number via email. You can use this number to\r\n                track your order on the shipping carrier's website.</p>\r\n            <h2><strong>Shipping Restrictions</strong></h2>\r\n            <p>We cannot ship to PO boxes or APO/FPO addresses. We also cannot ship to certain countries due to customs\r\n                restrictions.</p>\r\n            <h2><strong>Shipping Damages</strong></h2>\r\n            <p>If your order arrives damaged, please contact us immediately. We will work with you to get a replacement\r\n                order shipped out to you as soon as possible.</p>\r\n            <h2><strong>Shipping Questions</strong></h2>\r\n            <p>If you have any questions about shipping, please contact us. We will be happy to help you.</p>\r\n            <p>Here are some additional things to consider when writing your Shipping Policy:</p>\r\n            <ul>\r\n                <li>Be clear about your shipping rates, shipping times, and shipping methods.</li>\r\n                <li>State whether you ship to PO boxes or APO/FPO addresses.</li>\r\n                <li>List any shipping restrictions that you have.</li>\r\n                <li>Explain what you will do if your order arrives damaged.</li>\r\n                <li>Provide a way for customers to contact you with shipping questions.</li>\r\n            </ul>",
+      "author": "Admin",
+      "publish_date": "03/09/2023 20:27:28",
+      "image_url": "https://www.helpguide.org/wp-content/uploads/2023/02/Health-Benefits-of-Walks-with-Your-Dog-1200x800.jpeg",
+      "status": "Published",
+      "id": 9
+    },
+    {
+      "page_title": "Terms Of Service",
+      "page_content": " <p><strong>Welcome to PetShop!</strong></p>\r\n            <p><strong>These Terms of Service (the \"Terms\") govern your use of PetShop (the \"Site\"). By using the\r\n                    Site, you agree to be bound by these Terms. If you do not agree to these Terms, you may not use the\r\n                    Site.</strong></p>\r\n            <h2><strong>1. Eligibility</strong></h2>\r\n            <p>The Site is intended for use by individuals who are 18 years of age or older. If you are under 18 years\r\n                of age, you may use the Site only with the permission of a parent or guardian.</p>\r\n            <h2><strong>2. Account</strong></h2>\r\n            <p>In order to use certain features of the Site, you may need to create an account. When you create an\r\n                account, you will be required to provide certain information, such as your name, email address, and\r\n                password. You are responsible for maintaining the confidentiality of your account information and for\r\n                all activities that occur under your account.</p>\r\n            <h2><strong>3. Content</strong></h2>\r\n            <p>The Site may contain content that is owned or licensed by PetShop. This content includes, but is\r\n                not limited to, text, images, videos, and software. You may not modify, reproduce, distribute, or create\r\n                derivative works of this content without the express written permission of PetShop.</p>\r\n            <h2><strong>4. Conduct</strong></h2>\r\n            <p>When using the Site, you agree to comply with all applicable laws and regulations. You agree not to:</p>\r\n            <ul>\r\n                <li>Post or transmit any content that is unlawful, harmful, threatening, abusive, harassing, defamatory,\r\n                    vulgar, obscene, or otherwise objectionable.</li>\r\n                <li>Post or transmit any content that infringes the intellectual property rights of others.</li>\r\n                <li>Use the Site to harm or exploit others.</li>\r\n                <li>Use the Site to spam or otherwise distribute unsolicited content.</li>\r\n            </ul>\r\n            <h2><strong>5. Changes to the Terms</strong></h2>\r\n            <p>PetShop may modify these Terms at any time. If PetShop makes any material changes to these\r\n                Terms, PetShop will post a notice on the Site. You are responsible for reviewing the Terms\r\n                periodically to ensure that you are aware of any changes.</p>\r\n            <h2><strong>6. Termination</strong></h2>\r\n            <p>PetShop may terminate your account for any reason, including but not limited to:</p>\r\n            <ul>\r\n                <li>Breach of these Terms.</li>\r\n                <li>Non-payment of fees.</li>\r\n                <li>Excessive use of the Site.</li>\r\n            </ul>\r\n            <h2><strong>7. Governing law</strong></h2>\r\n            <p>These Terms are governed by the laws of the State of California, without regard to its conflict of laws\r\n                provisions. Any disputes arising out of or relating to these Terms will be resolved exclusively in the\r\n                state or federal courts located in Los Angeles County, California.</p>\r\n            <h2><strong>8. Entire agreement</strong></h2>\r\n            <p>These Terms constitute the entire agreement between you and PetShop with respect to the use of the\r\n                Site. These Terms supersede all prior or contemporaneous communications, representations, or agreements,\r\n                whether oral or written.</p>\r\n            <h2><strong>9. Waiver</strong></h2>\r\n            <p>No waiver of any provision of these Terms will be effective unless in writing and signed by an authorized\r\n                representative of PetShop.</p>\r\n            <h2><strong>10. Severability</strong></h2>\r\n            <p>If any provision of these Terms is held to be invalid or unenforceable, such provision will be struck\r\n                from these Terms and the remaining provisions will remain in full force and effect.</p>\r\n            <h2><strong>11. Contact us</strong></h2>\r\n            <p>If you have any questions about these Terms, please contact us at:</p>\r\n            <p>PetShop</p>\r\n            <p>help@petshop.com</p>",
+      "author": "Admin",
+      "publish_date": "03/09/2023 20:27:28",
+      "image_url": "https://www.helpguide.org/wp-content/uploads/2023/02/Health-Benefits-of-Walks-with-Your-Dog-1200x800.jpeg",
+      "status": "Published",
+      "id": 10
+    }
+  ]
+}
