@@ -1,0 +1,26 @@
+.about-our-store {
+  margin-top: 100px;
+  background-color: #f1f9f7;
+  padding: 50px 0px;
+}
+.about-store {
+  margin-top: 133px;
+  padding: 54px;
+  text-align: left;
+}
+.headline-store {
+  font-family: "Pacifico", cursive;
+  font-weight: 400;
+  font-size: 26px;
+  color: #0c337c;
+}
+.headline-slogan {
+  font-family: "Nunito", sans-serif;
+  font-weight: 800;
+  font-size: 30px;
+  color: #393939;
+  margin: 20px 0px;
+}
+.justify-text {
+  text-align: justify !important;
+}
