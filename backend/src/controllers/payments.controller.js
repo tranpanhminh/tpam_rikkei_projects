@@ -23,7 +23,7 @@ class PaymentsController {
         where: { id: paymentId },
       });
       if (!detailPayment) {
-        return res.status(403).json({ message: "Payment ID Not Found" });
+        return res.status(404).json({ message: "Payment ID Not Found" });
       } else {
         return res.status(200).json(detailPayment);
       }
@@ -115,6 +115,10 @@ class PaymentsController {
       const findPayment = await paymentsModel.findOne({
         where: { id: paymentId },
       });
+
+      if (!findPayment) {
+        return res.status(404).json({ message: "Payment ID Not Found" });
+      }
       const dataPayment = findPayment.dataValues;
 
       if (card_number.toString().length !== 16) {

@@ -23,7 +23,7 @@ class CouponsController {
         where: { id: couponId },
       });
       if (!detailCoupon) {
-        return res.status(403).json({ message: "Coupon ID Not Found" });
+        return res.status(404).json({ message: "Coupon ID Not Found" });
       } else {
         return res.status(200).json(detailCoupon);
       }

@@ -22,7 +22,7 @@ class UsersController {
         where: { id: userId },
       });
       if (!detailUser) {
-        return res.status(403).json({ message: "User ID Not Found" });
+        return res.status(404).json({ message: "User ID Not Found" });
       } else {
         return res.status(200).json(detailUser);
       }

@@ -26,6 +26,4 @@ paymentsRouter.delete("/delete/:paymentId", paymentsController.deletePayment);
 // 5. Update Payment
 paymentsRouter.patch("/update/:paymentId", paymentsController.updatePayment);
 
-// Get User Detail
-// usersRouter.get("/detail/:userId", usersController.getUserDetail);
 module.exports = paymentsRouter;

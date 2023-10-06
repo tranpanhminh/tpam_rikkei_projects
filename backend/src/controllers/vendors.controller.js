@@ -23,7 +23,7 @@ class VendorsController {
         where: { id: vendorId },
       });
       if (!detailVendor) {
-        return res.status(403).json({ message: "Vendor ID Not Found" });
+        return res.status(404).json({ message: "Vendor ID Not Found" });
       } else {
         return res.status(200).json(detailVendor);
       }
@@ -80,6 +80,9 @@ class VendorsController {
       const findVendor = await vendorsModel.findOne({
         where: { id: vendorId },
       });
+      if (!findVendor) {
+        return res.status(404).json({ message: "Vendor ID Not Found" });
+      }
 
       const dataVendor = findVendor.dataValues;
 

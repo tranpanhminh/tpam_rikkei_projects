@@ -26,6 +26,4 @@ vendorsRouter.delete("/delete/:vendorId", vendorsController.deleteVendor);
 // // 5. Update Vendor
 vendorsRouter.patch("/update/:vendorId", vendorsController.updateVendor);
 
-// Get User Detail
-// usersRouter.get("/detail/:userId", usersController.getUserDetail);
 module.exports = vendorsRouter;

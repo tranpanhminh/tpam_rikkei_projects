@@ -26,6 +26,4 @@ couponsRouter.delete("/delete/:couponId", couponsController.deleteCoupon);
 // // 5. Update Coupon
 couponsRouter.patch("/update/:couponId", couponsController.updateCoupon);
 
-// Get User Detail
-// usersRouter.get("/detail/:userId", usersController.getUserDetail);
 module.exports = couponsRouter;
