@@ -10,6 +10,8 @@ const paymentsRouter = require("../routes/payments.router.js");
 const usersRouter = require("../routes/users.router.js");
 // 5. Post Types Router
 const postTypesRouter = require("../routes/postTypes.router.js");
+// 6. Services Router
+const servicesRouter = require("../routes/services.router.js");
 
 express.Router();
 // ---------------------------------------------------------
@@ -29,6 +31,9 @@ function Router(app) {
 
   // 5. Post Types API
   app.use("/api/post-types", postTypesRouter);
+
+  // 5. Services API
+  app.use("/api/services", servicesRouter);
 }
 
 module.exports = Router;
