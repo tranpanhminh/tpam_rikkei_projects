@@ -35,7 +35,7 @@ const usersModel = sequelize.define(
       allowNull: false,
     },
     image_avatar: {
-      type: DataTypes.TEXT("long"),
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     created_at: {

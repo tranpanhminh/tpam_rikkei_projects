@@ -80,15 +80,11 @@ class VendorsController {
       const findVendor = await vendorsModel.findOne({
         where: { id: vendorId },
       });
-      if (!findVendor) {
-        return res.status(404).json({ message: "Vendor ID Not Found" });
-      }
 
-      if (!name) {
-        return res.status(406).json({ message: "Name must not be blank" });
-      }
+      const dataVendor = findVendor.dataValues;
+
       const vendorInfo = {
-        name: name,
+        name: !name ? dataVendor.name : name,
       };
 
       const updatedVendor = await vendorsModel.update(vendorInfo, {

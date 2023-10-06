@@ -9,24 +9,37 @@ const usersRouter = express.Router();
 // Import Controller
 const usersController = require("../controllers/users.controller.js");
 
+// Import MiddleWare
+const upload = require("../middlewares/uploadFiles.js");
+
 // ---------------------------------------------------------
 
-// 1. Get All Payments
+// // 1. Get All Users
 usersRouter.get("/", usersController.getAllUsers);
 
-// 2. Get Detail Payment
+// 2. Get Detail User
 usersRouter.get("/detail/:userId", usersController.getDetailUser);
 
-// 3. Add User
+// 3. Register User
 usersRouter.post("/register", usersController.registerUser);
 
 // 4. Add User (Admin)
 usersRouter.post("/add", usersController.addUser);
 
-// 4. Delete Payment
+// 5. Create User (Manual Thêm bất kỳ User)
+usersRouter.post("/create", usersController.createUser);
+
+// 6. Delete User
 usersRouter.delete("/delete/:userId", usersController.deleteUser);
 
-// 5. Update Payment
+// 7. Update User For Customer
+usersRouter.patch(
+  "/edit/:userId",
+  upload.single("image_avatar"),
+  usersController.editUser
+);
+
+// 8. Update User For Admin
 usersRouter.patch("/update/:userId", usersController.updateUser);
 
 module.exports = usersRouter;

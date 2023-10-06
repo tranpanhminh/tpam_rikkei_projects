@@ -45,13 +45,24 @@ class CouponsController {
       }
       if (!discount_rate) {
         return res.status(406).json({
-          message: "Discount rate not be blank and Discount Rate must > 0",
+          message: "Discount rate not be blank",
+        });
+      }
+      if (discount_rate < 0) {
+        return res.status(406).json({
+          message: "Discount rate must > 0",
         });
       }
       if (!min_bill) {
         return res
           .status(406)
           .json({ message: "Min Bill not be blank and Min Bill must > 0" });
+      }
+
+      if (min_bill < 0) {
+        return res.status(406).json({
+          message: "Min Bill must > 0",
+        });
       }
 
       const couponInfo = {
@@ -100,29 +111,26 @@ class CouponsController {
       if (!findCoupon) {
         return res.status(404).json({ message: "Coupon ID Not Found" });
       }
+      const dataCoupon = findCoupon.dataValues;
 
-      if (!name) {
-        return res.status(406).json({ message: "Coupon Name not be blank" });
-      }
-      if (!code) {
-        return res.status(406).json({ message: "Coupon Code not be blank" });
-      }
-      if (!discount_rate) {
+      if (discount_rate < 0) {
         return res.status(406).json({
-          message: "Discount rate not be blank and Discount Rate must > 0",
+          message: "Discount rate must > 0",
         });
       }
-      if (!min_bill) {
-        return res
-          .status(406)
-          .json({ message: "Min Bill not be blank and Min Bill must > 0" });
+      if (min_bill < 0) {
+        return res.status(406).json({
+          message: "Min Bill must > 0",
+        });
       }
 
       const couponInfo = {
-        name: name,
-        code: code,
-        discount_rate: discount_rate,
-        min_bill: min_bill,
+        name: !name ? dataCoupon.name : name,
+        code: !code ? dataCoupon.code : code,
+        discount_rate: !discount_rate
+          ? dataCoupon.discount_rate
+          : discount_rate,
+        min_bill: !min_bill ? dataCoupon.min_bill : min_bill,
       };
 
       const updatedCoupon = await couponsModel.update(couponInfo, {
