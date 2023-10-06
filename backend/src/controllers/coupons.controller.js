@@ -34,7 +34,8 @@ class CouponsController {
 
   // 3. Add Coupon
   async addCoupon(req, res) {
-    const { name, code, discountRate, minBill } = req.body;
+    const { name, code, discount_rate, min_bill } = req.body;
+    console.log(discount_rate, "DISCOUNT RATE");
     try {
       if (!name) {
         return res.status(406).json({ message: "Coupon Name not be blank" });
@@ -42,21 +43,22 @@ class CouponsController {
       if (!code) {
         return res.status(406).json({ message: "Coupon Code not be blank" });
       }
-      if (!discountRate) {
-        return res.status(406).json({ message: "Discount rate not be blank" });
+      if (!discount_rate) {
+        return res.status(406).json({
+          message: "Discount rate not be blank and Discount Rate must > 0",
+        });
       }
-      if (!minBill) {
-        return res.status(406).json({ message: "Min Bill not be blank" });
-      }
-      if (minBill === 0) {
-        return res.status(406).json({ message: "Min Bill > 0" });
+      if (!min_bill) {
+        return res
+          .status(406)
+          .json({ message: "Min Bill not be blank and Min Bill must > 0" });
       }
 
       const couponInfo = {
         name: name,
         code: code,
-        discount_rate: discountRate,
-        min_bill: minBill,
+        discount_rate: discount_rate,
+        min_bill: min_bill,
       };
       const newCoupon = await couponsModel.create(couponInfo);
       res.status(200).json({ message: "Coupon Added", data: couponInfo });
@@ -65,52 +67,70 @@ class CouponsController {
     }
   }
 
-  // 4. Delete Vendor
+  // 4. Delete Coupon
   async deleteCoupon(req, res) {
     try {
-      const vendorId = req.params.vendorId;
-      const findVendor = await vendorsModel.findOne({
-        where: { id: vendorId },
+      const couponId = req.params.couponId;
+      const findCoupon = await couponsModel.findOne({
+        where: { id: couponId },
       });
-      if (!findVendor) {
-        return res.status(403).json({ message: "Vendor ID Not Found" });
+      if (!findCoupon) {
+        return res.status(404).json({ message: "Coupon ID Not Found" });
       } else {
-        const deleteVendor = await vendorsModel.destroy({
-          where: { id: vendorId },
+        const deleteCoupon = await couponsModel.destroy({
+          where: { id: couponId },
         });
         return res
-          .status(403)
-          .json({ message: "Vendor Deleted", dataDeleted: findVendor });
+          .status(200)
+          .json({ message: "Coupon Deleted", dataDeleted: findCoupon });
       }
     } catch (error) {
       console.log(error, "ERROR");
     }
   }
 
-  // 5. Update Vendor
+  // 5. Update Coupon
   async updateCoupon(req, res) {
-    const { name } = req.body;
+    const { name, code, discount_rate, min_bill } = req.body;
     try {
-      if (!name) {
-        return res.status(406).json({ message: "Name must not be blank" });
-      }
-      const vendorInfo = {
-        name: name,
-      };
-      const vendorId = req.params.vendorId;
-      const findVendor = await vendorsModel.findOne({
-        where: { id: vendorId },
+      const couponId = req.params.couponId;
+      const findCoupon = await couponsModel.findOne({
+        where: { id: couponId },
       });
-      if (!findVendor) {
-        return res.status(403).json({ message: "Vendor ID Not Found" });
-      } else {
-        const updatedVendor = await vendorsModel.update(vendorInfo, {
-          where: { id: vendorId },
-        });
-        return res
-          .status(403)
-          .json({ message: "Vendor Updated", dataUpdated: vendorInfo });
+      if (!findCoupon) {
+        return res.status(404).json({ message: "Coupon ID Not Found" });
       }
+
+      if (!name) {
+        return res.status(406).json({ message: "Coupon Name not be blank" });
+      }
+      if (!code) {
+        return res.status(406).json({ message: "Coupon Code not be blank" });
+      }
+      if (!discount_rate) {
+        return res.status(406).json({
+          message: "Discount rate not be blank and Discount Rate must > 0",
+        });
+      }
+      if (!min_bill) {
+        return res
+          .status(406)
+          .json({ message: "Min Bill not be blank and Min Bill must > 0" });
+      }
+
+      const couponInfo = {
+        name: name,
+        code: code,
+        discount_rate: discount_rate,
+        min_bill: min_bill,
+      };
+
+      const updatedCoupon = await couponsModel.update(couponInfo, {
+        where: { id: couponId },
+      });
+      return res
+        .status(200)
+        .json({ message: "Coupon Updated", dateUpdated: couponInfo });
     } catch (error) {
       console.log(error, "ERROR");
     }

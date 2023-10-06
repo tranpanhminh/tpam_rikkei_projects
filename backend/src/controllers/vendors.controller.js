@@ -58,13 +58,13 @@ class VendorsController {
         where: { id: vendorId },
       });
       if (!findVendor) {
-        return res.status(403).json({ message: "Vendor ID Not Found" });
+        return res.status(404).json({ message: "Vendor ID Not Found" });
       } else {
         const deleteVendor = await vendorsModel.destroy({
           where: { id: vendorId },
         });
         return res
-          .status(403)
+          .status(200)
           .json({ message: "Vendor Deleted", dataDeleted: findVendor });
       }
     } catch (error) {
@@ -76,26 +76,27 @@ class VendorsController {
   async updateVendor(req, res) {
     const { name } = req.body;
     try {
+      const vendorId = req.params.vendorId;
+      const findVendor = await vendorsModel.findOne({
+        where: { id: vendorId },
+      });
+      if (!findVendor) {
+        return res.status(404).json({ message: "Vendor ID Not Found" });
+      }
+
       if (!name) {
         return res.status(406).json({ message: "Name must not be blank" });
       }
       const vendorInfo = {
         name: name,
       };
-      const vendorId = req.params.vendorId;
-      const findVendor = await vendorsModel.findOne({
+
+      const updatedVendor = await vendorsModel.update(vendorInfo, {
         where: { id: vendorId },
       });
-      if (!findVendor) {
-        return res.status(403).json({ message: "Vendor ID Not Found" });
-      } else {
-        const updatedVendor = await vendorsModel.update(vendorInfo, {
-          where: { id: vendorId },
-        });
-        return res
-          .status(403)
-          .json({ message: "Vendor Updated", dataUpdated: vendorInfo });
-      }
+      return res
+        .status(403)
+        .json({ message: "Vendor Updated", dataUpdated: vendorInfo });
     } catch (error) {
       console.log(error, "ERROR");
     }

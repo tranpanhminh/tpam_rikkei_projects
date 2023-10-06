@@ -1,22 +1,22 @@
 const connectMySQL = require("../configs/db.config.js");
-const paymentsModel = require("../models/payments.model.js");
+const usersModel = require("../models/users.model.js");
 const bcrypt = require("bcryptjs");
 
 // ---------------------------------------------------------
-class PaymentsController {
+class UsersController {
   // 1. Get All Payments
-  async getAllPayments(req, res) {
+  async getAllUsers(req, res) {
     try {
-      const listPayments = await paymentsModel.findAll(); // include: <Tên bảng>
-      res.status(200).json(listPayments);
-      console.log(listPayments, "listPayments");
+      const listUsers = await usersModel.findAll(); // include: <Tên bảng>
+      res.status(200).json(listUsers);
+      console.log(listUsers, "listUsers");
     } catch (error) {
       console.log(error, "ERROR");
     }
   }
 
   // 2. Get Detail Payment
-  async getDetailPayment(req, res) {
+  async getDetailUser(req, res) {
     try {
       const paymentId = req.params.paymentId;
       const detailPayment = await paymentsModel.findOne({
@@ -32,8 +32,8 @@ class PaymentsController {
     }
   }
 
-  // 3. Add Payment
-  async addPayment(req, res) {
+  // 3. Register User (Customer)
+  async registerUser(req, res) {
     const { cardholder_name, card_number, expiry_date, cvv, balance } =
       req.body;
     console.log(card_number.toString().length, "AAAAAAAAAAAAAAAA");
@@ -84,8 +84,60 @@ class PaymentsController {
     }
   }
 
-  // 4. Delete Payment
-  async deletePayment(req, res) {
+  // 4. Add User (Admin)
+  async addUser(req, res) {
+    const { cardholder_name, card_number, expiry_date, cvv, balance } =
+      req.body;
+    console.log(card_number.toString().length, "AAAAAAAAAAAAAAAA");
+    console.log(req.body, " req.body");
+    try {
+      if (!cardholder_name) {
+        return res
+          .status(406)
+          .json({ message: "Cardholder Name must not be blank" });
+      }
+      if (!card_number) {
+        return res
+          .status(406)
+          .json({ message: "Card Number must not be blank" });
+      }
+      if (card_number.toString().length !== 16) {
+        return res
+          .status(406)
+          .json({ message: "Card Number length must = 16" });
+      }
+      if (!expiry_date) {
+        return res.status(406).json({
+          message: "Expiry Date must not be blank",
+        });
+      }
+      if (!cvv) {
+        return res.status(406).json({ message: "CVV must not be blank" });
+      }
+      if (cvv.toString().length !== 3) {
+        return res.status(406).json({ message: "CVV length must = 3" });
+      }
+      if (balance < 0) {
+        return res.status(406).json({ message: "Balance must not be < 0" });
+      }
+
+      const paymentInfo = {
+        cardholder_name: cardholder_name,
+        card_number: card_number,
+        expiry_date: expiry_date,
+        cvv: cvv,
+        balance: balance,
+      };
+      console.log(paymentInfo, "paymentInfo");
+      const newPayment = await paymentsModel.create(paymentInfo);
+      res.status(200).json({ message: "Payment Added", data: paymentInfo });
+    } catch (error) {
+      console.log(error, "ERROR");
+    }
+  }
+
+  // 5. Delete Payment
+  async deleteUser(req, res) {
     try {
       const paymentId = req.params.paymentId;
       const findPayment = await paymentsModel.findOne({
@@ -106,8 +158,8 @@ class PaymentsController {
     }
   }
 
-  // 5. Update Payment
-  async updatePayment(req, res) {
+  // 6. Update Payment
+  async updateUser(req, res) {
     const { cardholder_name, card_number, expiry_date, cvv, balance } =
       req.body;
     try {
@@ -169,4 +221,4 @@ class PaymentsController {
     }
   }
 }
-module.exports = new PaymentsController();
+module.exports = new UsersController();

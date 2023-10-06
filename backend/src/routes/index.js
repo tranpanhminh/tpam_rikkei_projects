@@ -6,7 +6,7 @@ const couponsRouter = require("../routes/coupons.router.js");
 // 3. Payments Router
 const paymentsRouter = require("../routes/payments.router.js");
 // 4. Users Router
-// const usersRouter = require("../routes/users.router.js");
+const usersRouter = require("../routes/users.router.js");
 
 express.Router();
 // ---------------------------------------------------------
@@ -21,8 +21,8 @@ function Router(app) {
   // Payments API
   app.use("/api/payments", paymentsRouter);
 
-  // // Users API
-  // app.use("/api/users", usersRouter);
+  // Users API
+  app.use("/api/users", usersRouter);
 }
 
 module.exports = Router;

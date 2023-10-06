@@ -3,8 +3,8 @@ const { DataTypes } = require("sequelize");
 
 // ---------------------------------------------------------
 
-const paymentsModel = sequelize.define(
-  "payments",
+const usersModel = sequelize.define(
+  "users",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -13,24 +13,29 @@ const paymentsModel = sequelize.define(
       allowNull: false,
       unique: true,
     },
-    cardholder_name: {
+    email: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+      unique: true,
+    },
+    full_name: {
       type: DataTypes.STRING(255),
       allowNull: false,
     },
-    card_number: {
-      type: DataTypes.BIGINT,
-      allowNull: false,
-    },
-    expiry_date: {
+    password: {
       type: DataTypes.STRING(255),
       allowNull: false,
     },
-    cvv: {
+    status: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    balance: {
-      type: DataTypes.BIGINT,
+    role: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    image_avatar: {
+      type: DataTypes.TEXT("long"),
       allowNull: false,
     },
     created_at: {
@@ -48,8 +53,8 @@ const paymentsModel = sequelize.define(
   }
 );
 
-// paymentsModel.sync().then(() => {
+// usersModel.sync().then(() => {
 //   console.log("OK");
 // });
 
-module.exports = paymentsModel;
+module.exports = usersModel;

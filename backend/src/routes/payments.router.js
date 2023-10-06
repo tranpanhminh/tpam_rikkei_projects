@@ -16,6 +16,16 @@ paymentsRouter.get("/", paymentsController.getAllPayments);
 
 // 2. Get Detail Payment
 paymentsRouter.get("/detail/:paymentId", paymentsController.getDetailPayment);
+
+// 3. Add Payment
+paymentsRouter.post("/add", paymentsController.addPayment);
+
+// 4. Delete Payment
+paymentsRouter.delete("/delete/:paymentId", paymentsController.deletePayment);
+
+// 5. Update Payment
+paymentsRouter.patch("/update/:paymentId", paymentsController.updatePayment);
+
 // Get User Detail
 // usersRouter.get("/detail/:userId", usersController.getUserDetail);
 module.exports = paymentsRouter;
