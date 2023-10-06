@@ -11,6 +11,7 @@ const usersController = require("../controllers/users.controller.js");
 
 // Import MiddleWare
 const upload = require("../middlewares/uploadFiles.js");
+const checkUserExist = require("../middlewares/checkUserExist.js");
 
 // ---------------------------------------------------------
 
@@ -47,6 +48,7 @@ usersRouter.patch(
 // 10. Edit Avatar
 usersRouter.patch(
   "/edit-avatar/:userId",
+  checkUserExist,
   upload.single("image_avatar"),
   usersController.editAvatar
 );

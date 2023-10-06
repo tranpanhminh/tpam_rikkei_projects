@@ -380,11 +380,6 @@ class UsersController {
       : "https://i.ibb.co/3BtQdVD/pet-shop.png";
     console.log(avatar, "AVATAR");
     try {
-      const findUser = await usersModel.findOne({ where: { id: userId } });
-      if (!findUser) {
-        return res.status(404).json({ message: "User is not exist" });
-      }
-      const dataUser = findUser.dataValues;
       const updatedUser = {
         image_avatar: avatar,
       };
