@@ -9,7 +9,6 @@ class UsersController {
     try {
       const listUsers = await usersModel.findAll(); // include: <Tên bảng>
       res.status(200).json(listUsers);
-      console.log(listUsers, "listUsers");
     } catch (error) {
       console.log(error, "ERROR");
     }
@@ -82,7 +81,7 @@ class UsersController {
 
       const userInfo = {
         email: email.trim(),
-        full_name: full_name.trim(),
+        full_name: full_name,
         password: encryptPassword,
         status: 1,
         role: 2, // Thêm tài khoản với Role là Customer
@@ -146,7 +145,7 @@ class UsersController {
 
       const userInfo = {
         email: email.trim(),
-        full_name: full_name.trim(),
+        full_name: full_name,
         password: encryptPassword,
         status: 1,
         role: 1, // Thêm tài khoản với Role là Admin
@@ -162,7 +161,7 @@ class UsersController {
     }
   }
 
-  // 5. Add User (Admin)
+  // 5. Add User (Optional)
   async createUser(req, res) {
     const { email, full_name, password, status, role } = req.body;
     try {
@@ -220,7 +219,7 @@ class UsersController {
 
       const userInfo = {
         email: email.trim(),
-        full_name: full_name.trim(),
+        full_name: full_name,
         password: encryptPassword,
         status: status,
         role: role,
@@ -258,109 +257,141 @@ class UsersController {
     }
   }
 
-  // 7. Edit User
-  async editUser(req, res) {
-    const { email, full_name, image_avatar } = req.body;
-    const userId = req.params.userId;
-    const avatar = req.file ? req.file.filename : "";
-    console.log(avatar, "AVATAR");
-
-    // try {
-    //   const findUser = await usersModel.findOne({ where: { id: userId } });
-    //   if (!findUser) {
-    //     return res.status(404).json({ message: "User is not exist" });
-    //   }
-
-    //   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    //     return res.status(406).json({ message: "Invalid Email Format" });
-    //   }
-
-    //   if (full_name && !/^[a-zA-Z\s]*$/.test(full_name)) {
-    //     return res.status(406).json({
-    //       message: "Full Name cannot contain special characters or numbers",
-    //     });
-    //   }
-
-    //   const dataUser = findUser.dataValues;
-
-    //   const updatedUser = {
-    //     email: !email ? dataUser.email : email,
-    //     full_name: !full_name ? dataUser.full_name : full_name,
-    //     image_avatar: !image_avatar ? dataUser.image_avatar : image_avatar,
-    //   };
-    //   console.log(req.body, "req.body");
-
-    //   console.log(updatedUser, "updatedUser");
-    //   const newUser = await usersModel.update(updatedUser, {
-    //     where: { id: userId },
-    //   });
-    //   res.status(200).json({
-    //     message: "User Updated Successfully",
-    //     dataUpdated: updatedUser,
-    //   });
-    // } catch (error) {
-    //   console.log(error, "ERROR");
-    // }
-  }
-
-  // 8. Edit User
+  // 7. Update User
   async updateUser(req, res) {
-    const { cardholder_name, card_number, expiry_date, cvv, balance } =
-      req.body;
+    const { full_name } = req.body;
+    const userId = req.params.userId;
+
     try {
-      const paymentId = req.params.paymentId;
-      const findPayment = await paymentsModel.findOne({
-        where: { id: paymentId },
-      });
-
-      if (!findPayment) {
-        return res.status(404).json({ message: "Payment ID Not Found" });
+      const findUser = await usersModel.findOne({ where: { id: userId } });
+      if (!findUser) {
+        return res.status(404).json({ message: "User is not exist" });
       }
 
-      if (!cardholder_name) {
-        return res
-          .status(406)
-          .json({ message: "Cardholder Name must not be blank" });
-      }
-      if (!card_number) {
-        return res
-          .status(406)
-          .json({ message: "Card Number must not be blank" });
-      }
-      if (card_number.toString().length !== 16) {
-        return res
-          .status(406)
-          .json({ message: "Card Number length must = 16" });
-      }
-      if (!expiry_date) {
+      if (full_name && !/^[a-zA-Z\s]*$/.test(full_name)) {
         return res.status(406).json({
-          message: "Expiry Date must not be blank",
+          message: "Full Name cannot contain special characters or numbers",
         });
       }
-      if (!cvv) {
-        return res.status(406).json({ message: "CVV must not be blank" });
+
+      const dataUser = findUser.dataValues;
+
+      const updatedUser = {
+        full_name: !full_name ? dataUser.full_name : full_name,
+      };
+      console.log(req.body, "req.body");
+
+      console.log(updatedUser, "updatedUser");
+      const newUser = await usersModel.update(updatedUser, {
+        where: { id: userId },
+      });
+      res.status(200).json({
+        message: "User Updated Successfully",
+        dataUpdated: updatedUser,
+      });
+    } catch (error) {
+      console.log(error, "ERROR");
+    }
+  }
+
+  // 8. Edit Password
+  async changePassword(req, res) {
+    const { oldPassword, newPassword } = req.body;
+    const userId = req.params.userId;
+    try {
+      const findUser = await usersModel.findOne({ where: { id: userId } });
+
+      if (!findUser) {
+        return res.status(404).json({ message: "User is not exist" });
       }
-      if (cvv.toString().length !== 3) {
-        return res.status(406).json({ message: "CVV length must = 3" });
+      if (!oldPassword) {
+        return res
+          .status(406)
+          .json({ message: "Please enter your current password" });
       }
-      if (balance < 0) {
-        return res.status(406).json({ message: "Balance must not be < 0" });
+      const dataUser = findUser.dataValues;
+      const checkPass = await bcrypt.compare(oldPassword, dataUser.password);
+      if (!checkPass) {
+        return res
+          .status(406)
+          .json({ message: "Old password is not correct!" });
       }
 
-      const paymentInfo = {
-        cardholder_name: cardholder_name,
-        card_number: card_number,
-        expiry_date: expiry_date,
-        cvv: cvv,
-        balance: balance,
+      if (!newPassword) {
+        return res
+          .status(406)
+          .json({ message: "Please enter your new password" });
+      }
+      if (newPassword.length < 8) {
+        return res
+          .status(406)
+          .json({ message: "New Password must have > 8 characters" });
+      }
+      if (oldPassword === newPassword) {
+        return res.status(406).json({
+          message: "Old Password must not be the same to New Password",
+        });
+      }
+
+      const salt = 10;
+      const genSalt = await bcrypt.genSalt(salt);
+      const encryptPassword = await bcrypt.hash(newPassword, genSalt);
+
+      const userInfo = {
+        password: encryptPassword,
       };
 
-      const updatedPayment = await paymentsModel.update(paymentInfo, {
-        where: { id: paymentId },
+      const updatedUser = await usersModel.update(userInfo, {
+        where: { id: userId },
       });
-      return res
-        .status(200)
-        .json({ message: "Payment Updated", dateUpdated: paymentInfo });
+      res.status(200).json({ message: "Password Changed Successfully" });
+    } catch (error) {
+      console.log(error, "ERROR");
+    }
+  }
+
+  // 9. Change Status
+  async changeStatus(req, res) {
+    const userId = req.params.userId;
+    try {
+      const findUser = await usersModel.findOne({ where: { id: userId } });
+      if (!findUser) {
+        return res.status(404).json({ message: "User is not exist" });
+      }
+      const dataUser = findUser.dataValues;
+      const updatedUser = {
+        status:
+          dataUser.status === 1 ? (dataUser.status = 2) : (dataUser.status = 1),
+      };
+      const resultUpdate = await usersModel.update(updatedUser, {
+        where: { id: userId },
+      });
+      res.status(200).json({ message: "Status Changed" });
+    } catch (error) {
+      console.log(error, "ERROR");
+    }
+  }
+
+  // 10. Change Avatar
+  async editAvatar(req, res) {
+    const userId = req.params.userId;
+    const avatar = req.file
+      ? req.file.filename
+      : "https://i.ibb.co/3BtQdVD/pet-shop.png";
+    console.log(avatar, "AVATAR");
+    try {
+      const findUser = await usersModel.findOne({ where: { id: userId } });
+      if (!findUser) {
+        return res.status(404).json({ message: "User is not exist" });
+      }
+      const dataUser = findUser.dataValues;
+      const updatedUser = {
+        image_avatar: avatar,
+      };
+      const resultUpdate = await usersModel.update(updatedUser, {
+        where: { id: userId },
+      });
+      res.status(200).json({ message: "Avatar Changed" });
     } catch (error) {
       console.log(error, "ERROR");
     }

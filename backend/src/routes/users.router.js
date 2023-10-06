@@ -32,14 +32,23 @@ usersRouter.post("/create", usersController.createUser);
 // 6. Delete User
 usersRouter.delete("/delete/:userId", usersController.deleteUser);
 
-// 7. Update User For Customer
+// 7. Update User
+usersRouter.patch("/update/:userId", usersController.updateUser);
+
+// 8. Edit Password
+usersRouter.patch("/change-password/:userId", usersController.changePassword);
+
+// 9. Edit User Status
 usersRouter.patch(
-  "/edit/:userId",
-  upload.single("image_avatar"),
-  usersController.editUser
+  "/change-status-account/:userId",
+  usersController.changeStatus
 );
 
-// 8. Update User For Admin
-usersRouter.patch("/update/:userId", usersController.updateUser);
+// 10. Edit Avatar
+usersRouter.patch(
+  "/edit-avatar/:userId",
+  upload.single("image_avatar"),
+  usersController.editAvatar
+);
 
 module.exports = usersRouter;
