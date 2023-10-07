@@ -171,6 +171,7 @@ class ProductsController {
   async updateProduct(req, res) {
     const { name, description, price, quantity_stock, vendor_id } = req.body;
     try {
+      console.log(name, "NAME");
       const productId = req.params.productId;
       const findProduct = await productsModel.findOne({
         where: { id: productId },
@@ -179,32 +180,62 @@ class ProductsController {
       if (!findProduct) {
         return res.status(404).json({ message: "Product ID Not Found" });
       }
-      const dataService = findProduct.dataValues;
+      const dataProduct = findProduct.dataValues;
 
       if (price < 0) {
         return res.status(406).json({ message: "Price must not be < 0" });
       }
 
-      const serviceInfo = {
-        name: !name ? dataService.name : name,
-        description: !description ? dataService.description : description,
-        price: !price ? dataService.price : price,
-        morning_time: !morning_time ? dataService.morning_time : morning_time,
-        afternoon_time: !afternoon_time
-          ? dataService.afternoon_time
-          : afternoon_time,
-        service_image: !req.file
-          ? dataService.service_image
-          : req.file.filename,
+      const productInfo = {
+        name: !name ? dataProduct.name : name,
+        description: !description ? dataProduct.description : description,
+        price: !price ? dataProduct.price : price,
+        quantity_stock: !quantity_stock
+          ? dataProduct.quantity_stock
+          : quantity_stock,
+        vendor_id: !vendor_id ? dataProduct.vendor_id : vendor_id,
         updated_at: Date.now(),
       };
-      console.log(serviceInfo, "serviceInfo");
-      const updatedService = await servicesModel.update(serviceInfo, {
-        where: { id: serviceId },
+      console.log(productInfo, "productInfo");
+      const updatedProduct = await productsModel.update(productInfo, {
+        where: { id: productId },
       });
       return res
         .status(200)
-        .json({ message: "Service Updated", dateUpdated: updatedService });
+        .json({ message: "Product Updated", dataUpdated: updatedProduct });
+    } catch (error) {
+      console.log(error, "ERROR");
+    }
+  }
+
+  // 6. Update Product Image
+  async updateProductImage(req, res) {
+    const productId = req.params.productId;
+    const imageId = req.params.imageId;
+    try {
+      const findProduct = await productsModel.findOne({
+        where: { id: productId },
+      });
+      if (!findProduct) {
+        res.status(404).json({ message: "Product ID Not Found" });
+      }
+      const findImage = await productImagesModel.findOne({
+        where: { id: imageId },
+      });
+      if (!findImage) {
+        res.status(404).json({ message: "Image ID Not Found" });
+      }
+      console.log(req.file.filename, "ADSDASDSA");
+      const imageInfor = {
+        image_url: req.file.filename,
+      };
+      const updatedImage = await productImagesModel.update(imageInfor, {
+        where: { id: imageId },
+      });
+      res.status(200).json({
+        message: "Update Image Successfully",
+        dataUpdated: updatedImage,
+      });
     } catch (error) {
       console.log(error, "ERROR");
     }

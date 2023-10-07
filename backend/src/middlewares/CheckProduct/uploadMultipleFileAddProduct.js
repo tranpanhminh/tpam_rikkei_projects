@@ -5,7 +5,6 @@ const multer = require("multer");
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const { name, description, price, quantity_stock, vendor_id } = req.body;
-    console.log(req.files, "HHHHHHHHHHHH");
     if (!name) {
       return cb(new Error("Product Name must not be blank"));
     }

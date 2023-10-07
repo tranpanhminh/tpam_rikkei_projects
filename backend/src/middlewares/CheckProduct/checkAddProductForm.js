@@ -1,6 +1,5 @@
 const checkAddProductForm = async (req, res, next) => {
   const { name, description, price, quantity_stock, vendor_id } = req.body;
-  console.log(req.files, "AAAAAAAA");
   try {
     if (!name) {
       return res

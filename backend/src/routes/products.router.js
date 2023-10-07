@@ -12,8 +12,8 @@ const productsController = require("../controllers/products.controller.js");
 // ---------------------------------------------------------
 // Import MiddleWare
 const checkAddProductForm = require("../middlewares/CheckProduct/checkAddProductForm.js");
-const uploadFileAddProduct = require("../middlewares/CheckProduct/uploadFileAddProduct.js");
-
+const uploadMultipleFileAddProduct = require("../middlewares/CheckProduct/uploadMultipleFileAddProduct.js");
+const uploadFileProduct = require("../middlewares/CheckProduct/uploadFileProduct.js");
 // ---------------------------------------------------------
 // 1. Get All Products
 productsRouter.get("/", productsController.getAllProducts);
@@ -24,7 +24,7 @@ productsRouter.get("/detail/:productId", productsController.getDetailProduct);
 // 3. Add Product
 productsRouter.post(
   "/add",
-  uploadFileAddProduct.array("image_url", 4),
+  uploadMultipleFileAddProduct.array("image_url", 4),
   checkAddProductForm,
   productsController.addProduct
 );
@@ -35,4 +35,10 @@ productsRouter.delete("/delete/:productId", productsController.deleteProduct);
 // 5. Update Product
 productsRouter.patch("/update/:productId", productsController.updateProduct);
 
+// 6. Update Product Image
+productsRouter.patch(
+  "/:productId/update-image/:imageId",
+  uploadFileProduct.single("image_url"),
+  productsController.updateProductImage
+);
 module.exports = productsRouter;
