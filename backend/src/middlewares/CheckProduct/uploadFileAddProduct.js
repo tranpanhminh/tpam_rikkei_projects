@@ -26,7 +26,9 @@ const storage = multer.diskStorage({
     if (!vendor_id) {
       return cb(new Error("Vendor ID must not be blank"));
     }
-
+    if (!req.files.length < 4) {
+      return cb(new Error("Please upload 4 Images"));
+    }
     cb(null, "src/public/uploads/");
   },
   filename: (req, file, cb) => {

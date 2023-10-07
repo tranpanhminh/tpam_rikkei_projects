@@ -1,5 +1,6 @@
 const sequelize = require("../configs/db.config.js");
 const postTypesModel = require("../models/postTypes.model.js");
+const workingTimeModel = require("../models/workingTime.model.js");
 const { DataTypes } = require("sequelize");
 
 // ---------------------------------------------------------
@@ -26,16 +27,12 @@ const servicesModel = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    morning_time: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    afternoon_time: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
     service_image: {
       type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    working_time_id: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     post_type_id: {
@@ -61,6 +58,12 @@ const servicesModel = sequelize.define(
 // Định nghĩa mối quan hệ giữa Service và PostType
 servicesModel.belongsTo(postTypesModel, {
   foreignKey: "post_type_id",
+  onUpdate: "CASCADE",
+  onDelete: "CASCADE",
+});
+
+servicesModel.belongsTo(workingTimeModel, {
+  foreignKey: "working_time_id",
   onUpdate: "CASCADE",
   onDelete: "CASCADE",
 });

@@ -34,14 +34,13 @@ class ServicesController {
 
   // 3. Add Service
   async addService(req, res) {
-    const { name, description, price, morning_time, afternoon_time } = req.body;
+    const { name, description, price, working_time_id } = req.body;
     try {
       const servicesInfo = {
         name: name,
         description: description,
         price: price,
-        morning_time: morning_time,
-        afternoon_time: afternoon_time,
+        working_time_id: working_time_id,
         service_image: req.file.filename,
       };
       console.log(servicesInfo, "servicesInfo");
@@ -76,7 +75,7 @@ class ServicesController {
 
   // 5. Update Service
   async updateService(req, res) {
-    const { name, description, price, morning_time, afternoon_time } = req.body;
+    const { name, description, price, working_time_id } = req.body;
     try {
       const serviceId = req.params.serviceId;
       const findService = await servicesModel.findOne({
@@ -96,10 +95,9 @@ class ServicesController {
         name: !name ? dataService.name : name,
         description: !description ? dataService.description : description,
         price: !price ? dataService.price : price,
-        morning_time: !morning_time ? dataService.morning_time : morning_time,
-        afternoon_time: !afternoon_time
-          ? dataService.afternoon_time
-          : afternoon_time,
+        working_time_id: !working_time_id
+          ? dataService.working_time_id
+          : working_time_id,
         service_image: !req.file
           ? dataService.service_image
           : req.file.filename,

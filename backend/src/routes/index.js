@@ -16,6 +16,8 @@ const servicesRouter = require("../routes/services.router.js");
 const productsRouter = require("../routes/products.router.js");
 // 8. Product Images Router
 const productImagesRouter = require("../routes/productImages.router.js");
+// 9. Working Time Router
+const workingTimeRouter = require("../routes/workingTime.router.js");
 
 express.Router();
 // ---------------------------------------------------------
@@ -44,6 +46,9 @@ function Router(app) {
 
   // 8. Product Images API
   app.use("/api/product-images", productImagesRouter);
+
+  // 9. Working Time API
+  app.use("/api/working-time", workingTimeRouter);
 }
 
 module.exports = Router;
