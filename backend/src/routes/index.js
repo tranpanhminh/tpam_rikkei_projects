@@ -18,6 +18,8 @@ const productsRouter = require("../routes/products.router.js");
 const productImagesRouter = require("../routes/productImages.router.js");
 // 9. Working Time Router
 const workingTimeRouter = require("../routes/workingTime.router.js");
+// 10. Bookings Router
+const bookingsRouter = require("../routes/bookings.router.js");
 
 express.Router();
 // ---------------------------------------------------------
@@ -49,6 +51,9 @@ function Router(app) {
 
   // 9. Working Time API
   app.use("/api/working-time", workingTimeRouter);
+
+  // 10. Bookings API
+  app.use("/api/bookings", bookingsRouter);
 }
 
 module.exports = Router;

@@ -24,14 +24,6 @@ servicesRouter.get("/", servicesController.getAllServices);
 servicesRouter.get("/detail/:serviceId", servicesController.getDetailService);
 
 // 3. Add Service
-// servicesRouter.post(
-//   "/add",
-//   uploadFile.none(),
-//   checkAddServiceForm,
-//   uploadFile.single("service_image"),
-//   servicesController.addService
-// );
-
 servicesRouter.post(
   "/add",
   uploadFileAddService.single("service_image"),

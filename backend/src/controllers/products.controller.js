@@ -228,6 +228,7 @@ class ProductsController {
       console.log(req.file.filename, "ADSDASDSA");
       const imageInfor = {
         image_url: req.file.filename,
+        updated_at: Date.now(),
       };
       const updatedImage = await productImagesModel.update(imageInfor, {
         where: { id: imageId },
