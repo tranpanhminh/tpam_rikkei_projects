@@ -10,6 +10,12 @@ const servicesRouter = express.Router();
 const servicesController = require("../controllers/services.controller.js");
 
 // ---------------------------------------------------------
+// Import Middleware
+const uploadFile = require("../middlewares/uploadFiles.js");
+const uploadFileAddService = require("../middlewares/uploadFileAddService.js");
+const checkAddServiceForm = require("../middlewares/checkAddServiceForm.js");
+
+// ---------------------------------------------------------
 
 // 1. Get All Services
 servicesRouter.get("/", servicesController.getAllServices);
@@ -18,10 +24,23 @@ servicesRouter.get("/", servicesController.getAllServices);
 servicesRouter.get("/detail/:serviceId", servicesController.getDetailService);
 
 // 3. Add Service
-servicesRouter.post("/add", servicesController.addService);
+// servicesRouter.post(
+//   "/add",
+//   uploadFile.none(),
+//   checkAddServiceForm,
+//   uploadFile.single("service_image"),
+//   servicesController.addService
+// );
 
-// // 4. Delete Service
-// servicesRouter.delete("/delete/:serviceId", servicesController.deleteService);
+servicesRouter.post(
+  "/add",
+  uploadFileAddService.single("service_image"),
+  checkAddServiceForm,
+  servicesController.addService
+);
+
+// 4. Delete Service
+servicesRouter.delete("/delete/:serviceId", servicesController.deleteService);
 
 // // 5. Update Service
 // servicesRouter.patch("/update/:serviceId", servicesController.updateService);

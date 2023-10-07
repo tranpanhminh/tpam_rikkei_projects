@@ -36,39 +36,13 @@ class ServicesController {
   async addService(req, res) {
     const { name, description, price, morning_time, afternoon_time } = req.body;
     try {
-      if (!name) {
-        return res
-          .status(406)
-          .json({ message: "Service Name must not be blank" });
-      }
-      if (!description) {
-        return res
-          .status(406)
-          .json({ message: "Description must not be blank" });
-      }
-      if (!price) {
-        return res.status(406).json({ message: "Price must not be blank" });
-      }
-      if (price < 0) {
-        return res.status(406).json({ message: "Price must not be < 0" });
-      }
-      if (!morning_time) {
-        return res
-          .status(406)
-          .json({ message: "Morning Time must not be blank" });
-      }
-      if (!afternoon_time) {
-        return res
-          .status(406)
-          .json({ message: "Afternoon Time must not be blank" });
-      }
-
       const servicesInfo = {
         name: name,
         description: description,
         price: price,
         morning_time: morning_time,
         afternoon_time: afternoon_time,
+        service_image: req.file.filename,
       };
       console.log(servicesInfo, "servicesInfo");
       const newService = await servicesModel.create(servicesInfo);
@@ -79,26 +53,26 @@ class ServicesController {
   }
 
   // // 4. Delete Service
-  // async deleteService(req, res) {
-  //   try {
-  //     const paymentId = req.params.paymentId;
-  //     const findPayment = await paymentsModel.findOne({
-  //       where: { id: paymentId },
-  //     });
-  //     if (!findPayment) {
-  //       return res.status(404).json({ message: "Payment ID Not Found" });
-  //     } else {
-  //       const deletePayment = await paymentsModel.destroy({
-  //         where: { id: paymentId },
-  //       });
-  //       return res
-  //         .status(200)
-  //         .json({ message: "Payment Deleted", dataDeleted: findPayment });
-  //     }
-  //   } catch (error) {
-  //     console.log(error, "ERROR");
-  //   }
-  // }
+  async deleteService(req, res) {
+    try {
+      const serviceId = req.params.serviceId;
+      const findService = await servicesModel.findOne({
+        where: { id: serviceId },
+      });
+      if (!findService) {
+        return res.status(404).json({ message: "Service ID Not Found" });
+      } else {
+        const deleteService = await servicesModel.destroy({
+          where: { id: serviceId },
+        });
+        return res
+          .status(200)
+          .json({ message: "Service Deleted", dataDeleted: findService });
+      }
+    } catch (error) {
+      console.log(error, "ERROR");
+    }
+  }
 
   // // 5. Update Service
   // async updateService(req, res) {
