@@ -44,6 +44,12 @@ productImagesModel.belongsTo(productsModel, {
   onUpdate: "CASCADE",
 });
 
+productsModel.hasMany(productImagesModel, {
+  foreignKey: "product_id",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+
 // productImagesModel.sync().then(() => {
 //   console.log("OK");
 // });

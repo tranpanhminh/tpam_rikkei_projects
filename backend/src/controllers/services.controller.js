@@ -1,4 +1,6 @@
 const connectMySQL = require("../configs/db.config.js");
+const workingTimeModel = require("../models/workingTime.model.js");
+const postTypesModel = require("../models/postTypes.model.js");
 const servicesModel = require("../models/services.model.js");
 const bcrypt = require("bcryptjs");
 
@@ -7,7 +9,35 @@ class ServicesController {
   // 1. Get All Services
   async getAllServices(req, res) {
     try {
-      const listServices = await servicesModel.findAll(); // include: <Tên bảng>
+      // const listServices = await servicesModel.findAll();
+      const listServices = await servicesModel.findAll({
+        // Chọn các thuộc tính cần thiết
+        attributes: [
+          "id",
+          "name",
+          "description",
+          "price",
+          "service_image",
+          "created_at",
+          "updated_at",
+        ],
+
+        // Tham gia với bảng post_types
+        include: [
+          {
+            model: postTypesModel,
+            attributes: ["name"],
+          },
+          {
+            model: workingTimeModel,
+            attributes: ["morning_time", "afternoon_time"],
+          },
+        ],
+
+        // Nhóm theo id và tên của dịch vụ
+        group: ["id", "name"],
+        raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
+      });
       res.status(200).json(listServices);
       console.log(listServices, "listServices");
     } catch (error) {
@@ -19,16 +49,49 @@ class ServicesController {
   async getDetailService(req, res) {
     try {
       const serviceId = req.params.serviceId;
+      // const detailService = await servicesModel.findOne({
+      //   where: { id: serviceId },
+      // });
       const detailService = await servicesModel.findOne({
+        // Chọn các thuộc tính cần thiết
+        attributes: [
+          "id",
+          "name",
+          "description",
+          "price",
+          "service_image",
+          "created_at",
+          "updated_at",
+        ],
+
+        // Tham gia với bảng post_types
+        include: [
+          {
+            model: postTypesModel,
+            attributes: ["name"],
+          },
+          {
+            model: workingTimeModel,
+            attributes: ["morning_time", "afternoon_time"],
+          },
+        ],
+
+        // Lọc theo id của dịch vụ
         where: { id: serviceId },
+
+        // Nhóm theo id và tên của dịch vụ
+        group: ["id", "name"],
+        raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
       });
+
       if (!detailService) {
         return res.status(404).json({ message: "Service ID Not Found" });
       } else {
         return res.status(200).json(detailService);
       }
     } catch (error) {
-      console.log(error, "ERROR");
+      console.error(error);
+      return res.status(500).json({ message: "Internal Server Error" });
     }
   }
 

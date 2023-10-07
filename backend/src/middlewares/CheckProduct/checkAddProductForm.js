@@ -1,5 +1,6 @@
 const checkAddProductForm = async (req, res, next) => {
   const { name, description, price, quantity_stock, vendor_id } = req.body;
+  console.log(req.files, "AAAAAAAA");
   try {
     if (!name) {
       return res
@@ -28,8 +29,10 @@ const checkAddProductForm = async (req, res, next) => {
     if (!vendor_id) {
       return res.status(406).json({ message: "Vendor ID must not be blank" });
     }
-    if (!req.files) {
-      return res.status(406).json({ message: "Please upload product images" });
+    if (req.files.length < 4 || req.files.length > 4) {
+      return res
+        .status(406)
+        .json({ message: "Please upload product 4 images" });
     }
     next();
   } catch (error) {
