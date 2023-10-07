@@ -46,7 +46,7 @@ class ServicesController {
       };
       console.log(servicesInfo, "servicesInfo");
       const newService = await servicesModel.create(servicesInfo);
-      res.status(200).json({ message: "Service Added", data: servicesInfo });
+      res.status(200).json({ message: "Service Added", data: newService });
     } catch (error) {
       console.log(error, "ERROR");
     }
@@ -111,7 +111,7 @@ class ServicesController {
       });
       return res
         .status(200)
-        .json({ message: "Service Updated", dateUpdated: serviceInfo });
+        .json({ message: "Service Updated", dateUpdated: updatedService });
     } catch (error) {
       console.log(error, "ERROR");
     }

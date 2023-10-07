@@ -229,7 +229,7 @@ class UsersController {
       const newUser = await usersModel.create(userInfo);
       res
         .status(200)
-        .json({ message: "User Added Successfully", data: userInfo });
+        .json({ message: "User Added Successfully", data: newUser });
     } catch (error) {
       console.log(error, "ERROR");
     }
@@ -287,7 +287,7 @@ class UsersController {
       });
       res.status(200).json({
         message: "User Updated Successfully",
-        dataUpdated: updatedUser,
+        dataUpdated: newUser,
       });
     } catch (error) {
       console.log(error, "ERROR");
@@ -366,7 +366,7 @@ class UsersController {
       const resultUpdate = await usersModel.update(updatedUser, {
         where: { id: userId },
       });
-      res.status(200).json({ message: "Status Changed" });
+      res.status(200).json({ message: "Status Changed", data: resultUpdate });
     } catch (error) {
       console.log(error, "ERROR");
     }

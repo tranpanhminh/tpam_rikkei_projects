@@ -11,7 +11,7 @@ const usersController = require("../controllers/users.controller.js");
 
 // Import MiddleWare
 const upload = require("../middlewares/uploadFiles.js");
-const checkUserExist = require("../middlewares/checkUserExist.js");
+const checkUserExist = require("../middlewares/CheckUser/checkUserExist.js");
 
 // ---------------------------------------------------------
 

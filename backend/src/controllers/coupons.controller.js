@@ -72,7 +72,7 @@ class CouponsController {
         min_bill: min_bill,
       };
       const newCoupon = await couponsModel.create(couponInfo);
-      res.status(200).json({ message: "Coupon Added", data: couponInfo });
+      res.status(200).json({ message: "Coupon Added", data: newCoupon });
     } catch (error) {
       console.log(error, "ERROR");
     }
@@ -139,7 +139,7 @@ class CouponsController {
       });
       return res
         .status(200)
-        .json({ message: "Coupon Updated", dateUpdated: couponInfo });
+        .json({ message: "Coupon Updated", dateUpdated: updatedCoupon });
     } catch (error) {
       console.log(error, "ERROR");
     }

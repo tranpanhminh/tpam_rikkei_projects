@@ -78,7 +78,7 @@ class PaymentsController {
       };
       console.log(paymentInfo, "paymentInfo");
       const newPayment = await paymentsModel.create(paymentInfo);
-      res.status(200).json({ message: "Payment Added", data: paymentInfo });
+      res.status(200).json({ message: "Payment Added", data: newPayment });
     } catch (error) {
       console.log(error, "ERROR");
     }
@@ -150,7 +150,7 @@ class PaymentsController {
       });
       return res
         .status(200)
-        .json({ message: "Payment Updated", dateUpdated: paymentInfo });
+        .json({ message: "Payment Updated", dateUpdated: updatedPayment });
     } catch (error) {
       console.log(error, "ERROR");
     }

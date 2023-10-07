@@ -12,6 +12,10 @@ const usersRouter = require("../routes/users.router.js");
 const postTypesRouter = require("../routes/postTypes.router.js");
 // 6. Services Router
 const servicesRouter = require("../routes/services.router.js");
+// 7. Products Router
+const productsRouter = require("../routes/products.router.js");
+// 8. Product Images Router
+const productImagesRouter = require("../routes/productImages.router.js");
 
 express.Router();
 // ---------------------------------------------------------
@@ -32,8 +36,14 @@ function Router(app) {
   // 5. Post Types API
   app.use("/api/post-types", postTypesRouter);
 
-  // 5. Services API
+  // 6. Services API
   app.use("/api/services", servicesRouter);
+
+  // 7. Products API
+  app.use("/api/products", productsRouter);
+
+  // 8. Product Images API
+  app.use("/api/product-images", productImagesRouter);
 }
 
 module.exports = Router;

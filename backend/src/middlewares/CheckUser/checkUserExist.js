@@ -1,4 +1,4 @@
-const usersModel = require("../models/users.model.js");
+const usersModel = require("../../models/users.model.js");
 
 const checkUserExist = async (req, res, next) => {
   const userId = req.params.userId;

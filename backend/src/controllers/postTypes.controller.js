@@ -43,9 +43,7 @@ class PostTypesController {
           name: name,
         };
         const newPostType = await postTypesModel.create(postTypeInfo);
-        res
-          .status(200)
-          .json({ message: "Post Type Added", data: postTypeInfo });
+        res.status(200).json({ message: "Post Type Added", data: newPostType });
       }
     } catch (error) {
       console.log(error, "ERROR");
@@ -99,7 +97,7 @@ class PostTypesController {
       });
       return res
         .status(403)
-        .json({ message: "Post Type Updated", dataUpdated: postTypeInfo });
+        .json({ message: "Post Type Updated", dataUpdated: updatedPostType });
     } catch (error) {
       console.log(error, "ERROR");
     }
