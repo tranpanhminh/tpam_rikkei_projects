@@ -52,7 +52,7 @@ class ServicesController {
     }
   }
 
-  // // 4. Delete Service
+  // 4. Delete Service
   async deleteService(req, res) {
     try {
       const serviceId = req.params.serviceId;
@@ -74,53 +74,47 @@ class ServicesController {
     }
   }
 
-  // // 5. Update Service
-  // async updateService(req, res) {
-  //   const { cardholder_name, card_number, expiry_date, cvv, balance } =
-  //     req.body;
-  //   try {
-  //     const paymentId = req.params.paymentId;
-  //     const findPayment = await paymentsModel.findOne({
-  //       where: { id: paymentId },
-  //     });
+  // 5. Update Service
+  async updateService(req, res) {
+    const { name, description, price, morning_time, afternoon_time } = req.body;
+    try {
+      const serviceId = req.params.serviceId;
+      const findService = await servicesModel.findOne({
+        where: { id: serviceId },
+      });
 
-  //     if (!findPayment) {
-  //       return res.status(404).json({ message: "Payment ID Not Found" });
-  //     }
-  //     const dataPayment = findPayment.dataValues;
+      if (!findService) {
+        return res.status(404).json({ message: "Service ID Not Found" });
+      }
+      const dataService = findService.dataValues;
 
-  //     if (card_number.toString().length !== 16) {
-  //       return res
-  //         .status(406)
-  //         .json({ message: "Card Number length must = 16" });
-  //     }
+      if (price < 0) {
+        return res.status(406).json({ message: "Price must not be < 0" });
+      }
 
-  //     if (cvv.toString().length !== 3) {
-  //       return res.status(406).json({ message: "CVV length must = 3" });
-  //     }
-  //     if (balance < 0) {
-  //       return res.status(406).json({ message: "Balance must not be < 0" });
-  //     }
-
-  //     const paymentInfo = {
-  //       cardholder_name: !cardholder_name
-  //         ? dataPayment.cardholder_name
-  //         : cardholder_name,
-  //       card_number: !card_number ? dataPayment.card_number : card_number,
-  //       expiry_date: !expiry_date ? dataPayment.expiry_date : expiry_date,
-  //       cvv: !cvv ? dataPayment.cvv : cvv,
-  //       balance: !balance ? dataPayment.balance : balance,
-  //     };
-
-  //     const updatedPayment = await paymentsModel.update(paymentInfo, {
-  //       where: { id: paymentId },
-  //     });
-  //     return res
-  //       .status(200)
-  //       .json({ message: "Payment Updated", dateUpdated: paymentInfo });
-  //   } catch (error) {
-  //     console.log(error, "ERROR");
-  //   }
-  // }
+      const serviceInfo = {
+        name: !name ? dataService.name : name,
+        description: !description ? dataService.description : description,
+        price: !price ? dataService.price : price,
+        morning_time: !morning_time ? dataService.morning_time : morning_time,
+        afternoon_time: !afternoon_time
+          ? dataService.afternoon_time
+          : afternoon_time,
+        service_image: !req.file
+          ? dataService.service_image
+          : req.file.filename,
+        updated_at: Date.now(),
+      };
+      console.log(serviceInfo, "serviceInfo");
+      const updatedService = await servicesModel.update(serviceInfo, {
+        where: { id: serviceId },
+      });
+      return res
+        .status(200)
+        .json({ message: "Service Updated", dateUpdated: serviceInfo });
+    } catch (error) {
+      console.log(error, "ERROR");
+    }
+  }
 }
 module.exports = new ServicesController();

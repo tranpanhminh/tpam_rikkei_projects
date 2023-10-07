@@ -88,6 +88,7 @@ class VendorsController {
 
       const vendorInfo = {
         name: !name ? dataVendor.name : name,
+        updated_at: Date.now(),
       };
 
       const updatedVendor = await vendorsModel.update(vendorInfo, {

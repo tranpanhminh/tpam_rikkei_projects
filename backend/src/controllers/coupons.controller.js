@@ -131,6 +131,7 @@ class CouponsController {
           ? dataCoupon.discount_rate
           : discount_rate,
         min_bill: !min_bill ? dataCoupon.min_bill : min_bill,
+        updated_at: Date.now(),
       };
 
       const updatedCoupon = await couponsModel.update(couponInfo, {

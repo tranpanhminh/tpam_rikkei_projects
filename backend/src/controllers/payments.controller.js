@@ -142,6 +142,7 @@ class PaymentsController {
         expiry_date: !expiry_date ? dataPayment.expiry_date : expiry_date,
         cvv: !cvv ? dataPayment.cvv : cvv,
         balance: !balance ? dataPayment.balance : balance,
+        updated_at: Date.now(),
       };
 
       const updatedPayment = await paymentsModel.update(paymentInfo, {

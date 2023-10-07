@@ -91,6 +91,7 @@ class PostTypesController {
 
       const postTypeInfo = {
         name: !name ? dataPostType.name : name,
+        updated_at: Date.now(),
       };
 
       const updatedPostType = await postTypesModel.update(postTypeInfo, {

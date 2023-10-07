@@ -12,8 +12,8 @@ const servicesController = require("../controllers/services.controller.js");
 // ---------------------------------------------------------
 // Import Middleware
 const uploadFile = require("../middlewares/uploadFiles.js");
-const uploadFileAddService = require("../middlewares/uploadFileAddService.js");
-const checkAddServiceForm = require("../middlewares/checkAddServiceForm.js");
+const uploadFileAddService = require("../middlewares/CheckService/uploadFileAddService.js");
+const checkAddServiceForm = require("../middlewares/CheckService/checkAddServiceForm.js");
 
 // ---------------------------------------------------------
 
@@ -42,7 +42,11 @@ servicesRouter.post(
 // 4. Delete Service
 servicesRouter.delete("/delete/:serviceId", servicesController.deleteService);
 
-// // 5. Update Service
-// servicesRouter.patch("/update/:serviceId", servicesController.updateService);
+// 5. Update Service
+servicesRouter.patch(
+  "/update/:serviceId",
+  uploadFile.single("service_image"),
+  servicesController.updateService
+);
 
 module.exports = servicesRouter;
