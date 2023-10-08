@@ -1,10 +1,12 @@
 const sequelize = require("../configs/db.config.js");
 const { DataTypes } = require("sequelize");
+const usersModel = require("../models/users.model.js");
+const productsModel = require("../models/products.model.js");
 
 // ---------------------------------------------------------
 
 const cartsModel = sequelize.define(
-  "coupons",
+  "carts",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -13,19 +15,19 @@ const cartsModel = sequelize.define(
       allowNull: false,
       unique: true,
     },
-    name: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-    },
-    code: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-    },
-    discount_rate: {
+    user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    min_bill: {
+    product_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    quantity: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    price: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -43,6 +45,25 @@ const cartsModel = sequelize.define(
     timestamps: false, // Bỏ đi các trường timestamps
   }
 );
+
+// Thiết lập quan hệ giữa các mô hình
+usersModel.hasMany(cartsModel, {
+  foreignKey: "user_id",
+});
+cartsModel.belongsTo(usersModel, {
+  foreignKey: "user_id",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+
+productsModel.hasMany(cartsModel, {
+  foreignKey: "product_id",
+});
+cartsModel.belongsTo(productsModel, {
+  foreignKey: "product_id",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
 
 // cartsModel.sync().then(() => {
 //   console.log("OK");

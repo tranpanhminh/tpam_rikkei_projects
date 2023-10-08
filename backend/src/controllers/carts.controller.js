@@ -18,9 +18,9 @@ class CartsController {
   // 2. Get Detail Coupon
   async getDetailCart(req, res) {
     try {
-      const couponId = req.params.couponId;
+      const cartId = req.params.cartId;
       const detailCoupon = await cartsModel.findOne({
-        where: { id: couponId },
+        where: { id: cartId },
       });
       if (!detailCoupon) {
         return res.status(404).json({ message: "Coupon ID Not Found" });
@@ -81,15 +81,15 @@ class CartsController {
   // 4. Delete Coupon
   async deleteCart(req, res) {
     try {
-      const couponId = req.params.couponId;
+      const cartId = req.params.cartId;
       const findCoupon = await cartsModel.findOne({
-        where: { id: couponId },
+        where: { id: cartId },
       });
       if (!findCoupon) {
         return res.status(404).json({ message: "Coupon ID Not Found" });
       } else {
         const deleteCoupon = await cartsModel.destroy({
-          where: { id: couponId },
+          where: { id: cartId },
         });
         return res
           .status(200)
@@ -104,9 +104,9 @@ class CartsController {
   async updateCart(req, res) {
     const { name, code, discount_rate, min_bill } = req.body;
     try {
-      const couponId = req.params.couponId;
+      const cartId = req.params.cartId;
       const findCoupon = await cartsModel.findOne({
-        where: { id: couponId },
+        where: { id: cartId },
       });
       if (!findCoupon) {
         return res.status(404).json({ message: "Coupon ID Not Found" });
@@ -135,7 +135,7 @@ class CartsController {
       };
 
       const updatedCoupon = await cartsModel.update(couponInfo, {
-        where: { id: couponId },
+        where: { id: cartId },
       });
       return res
         .status(200)
