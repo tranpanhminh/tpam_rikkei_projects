@@ -3,6 +3,7 @@ const usersModel = require("../models/users.model.js");
 const userRolesModel = require("../models/userRoles.model.js");
 const userStatusesModel = require("../models/userStatuses.model.js");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 // ---------------------------------------------------------
 class UsersController {
@@ -461,9 +462,24 @@ class UsersController {
       if (!findUser) {
         res.status(404).json({ message: "Email is not exist" });
       }
-
       const dataUser = findUser.dataValues;
-      const checkPassword = await usersModel;
+      console.log(dataUser, "dataUser");
+      // Sau khi check User thành công sẽ check Password gửi lên đúng không
+      const checkPass = await bcrypt.compare(password, dataUser.password); // 2 tham số (password gửi lên, password trong db)
+      console.log(checkPass, ")))))");
+      if (!checkPass) {
+        return res.status(401).json({ message: "Password is not correct" });
+      } else {
+        const { password, ...data } = dataUser;
+
+        // Mã hóa thông tin
+        const jwtData = jwt.sign(data, process.env.ACCESS_TOKEN_SECRET); // Mã Token để biết ai đăng nhập
+        return res.status(200).json({
+          msg: "Login successfully",
+          accessToken: jwtData,
+          data: data,
+        });
+      }
     } catch (error) {
       console.log(error, "ERROR");
     }

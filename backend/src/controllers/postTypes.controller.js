@@ -25,7 +25,7 @@ class PostTypesController {
       if (!detailPostType) {
         return res.status(404).json({ message: "Post Type ID Not Found" });
       } else {
-        return res.status(200).json(detailVendor);
+        return res.status(200).json(detailPostType);
       }
     } catch (error) {
       console.log(error, "ERROR");
@@ -96,7 +96,7 @@ class PostTypesController {
         where: { id: postTypeId },
       });
       return res
-        .status(403)
+        .status(200)
         .json({ message: "Post Type Updated", dataUpdated: updatedPostType });
     } catch (error) {
       console.log(error, "ERROR");

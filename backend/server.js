@@ -10,7 +10,14 @@ const Router = require("./src/routes/index.js");
 app.use(express.static(__dirname + "/src/public/")); // Lấy đường dẫn của ảnh để show lên trình duyệt
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(cors());
+// app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:3000",
+    methods: "GET,HEAD,PUT,PATCH,DELETE,POST",
+  })
+);
 Router(app);
 
 app.all("*", (req, res, next) => {
