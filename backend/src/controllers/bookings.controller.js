@@ -2,6 +2,7 @@ const connectMySQL = require("../configs/db.config.js");
 const bookingsModel = require("../models/bookings.model.js");
 const usersModel = require("../models/users.model.js");
 const servicesModel = require("../models/services.model.js");
+const bookingStatusesModel = require("../models/bookingStatuses.model.js");
 const bcrypt = require("bcryptjs");
 
 // ---------------------------------------------------------
@@ -9,7 +10,40 @@ class BookingsController {
   // 1. Get All Bookings
   async getAllBookings(req, res) {
     try {
-      const listBookings = await bookingsModel.findAll(); // include: <Tên bảng>
+      // const listBookings = await bookingsModel.findAll();
+
+      const listBookings = await bookingsModel.findAll({
+        // Chọn các thuộc tính cần thiết
+        attributes: [
+          "id",
+          "name",
+          "phone",
+          "user_id",
+          "service_id",
+          "date",
+          "status_id",
+          "booking_date",
+          "calendar",
+          "created_at",
+          "updated_at",
+        ],
+
+        // Tham gia với bảng post_types
+        include: [
+          {
+            model: servicesModel,
+            attributes: ["name"],
+          },
+          {
+            model: bookingStatusesModel,
+            attributes: ["name"],
+          },
+        ],
+
+        // Nhóm theo id và tên của dịch vụ
+        group: ["bookings.id"],
+        raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
+      });
       res.status(200).json(listBookings);
       console.log(listBookings, "listBookings");
     } catch (error) {
@@ -21,9 +55,46 @@ class BookingsController {
   async getDetailBooking(req, res) {
     try {
       const bookingId = req.params.bookingId;
+      // const detailBooking = await bookingsModel.findOne({
+      //   where: { id: bookingId },
+      // });
+
       const detailBooking = await bookingsModel.findOne({
+        // Chọn các thuộc tính cần thiết
+        attributes: [
+          "id",
+          "name",
+          "phone",
+          "user_id",
+          "service_id",
+          "date",
+          "status_id",
+          "booking_date",
+          "calendar",
+          "created_at",
+          "updated_at",
+        ],
+
+        // Tham gia với bảng post_types
+        include: [
+          {
+            model: servicesModel,
+            attributes: ["name"],
+          },
+          {
+            model: bookingStatusesModel,
+            attributes: ["name"],
+          },
+        ],
+
+        // Lọc theo id của dịch vụ
         where: { id: bookingId },
+
+        // Nhóm theo id và tên của dịch vụ
+        group: ["bookings.id"],
+        raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
       });
+
       if (!detailBooking) {
         return res.status(404).json({ message: "Booking ID Not Found" });
       } else {
@@ -46,12 +117,13 @@ class BookingsController {
         return res.status(404).json({ message: "User ID Not Found" });
       }
       const dataUser = findUser.dataValues;
-      if (dataUser.role === 1) {
+      console.log(dataUser, "DATAUSER");
+      if (dataUser.role_id === 1 || dataUser.role_id === 2) {
         return res
           .status(406)
           .json({ message: "Admin is not allowed to booking" });
       }
-      if (dataUser.status === 2) {
+      if (dataUser.status_id === 2) {
         return res.status(406).json({
           message: "You can't booking because your account is inactive",
         });
@@ -132,7 +204,7 @@ class BookingsController {
 
   // 5. Update Booking
   async updateBooking(req, res) {
-    const { name, code, discount_rate, min_bill } = req.body;
+    const { status_id } = req.body;
     try {
       const bookingId = req.params.bookingId;
       const findBooking = await bookingsModel.findOne({
@@ -143,24 +215,27 @@ class BookingsController {
       }
       const dataBooking = findBooking.dataValues;
 
-      if (discount_rate < 0) {
-        return res.status(406).json({
-          message: "Discount rate must > 0",
-        });
+      /** Booking Status:
+      1. Pending
+      2. Processing
+      3. Done
+      4. Cancel
+      */
+
+      if (dataBooking.status_id === 3) {
+        res
+          .status(406)
+          .json({ message: "Can't updated because this booking ID is Done" });
       }
-      if (min_bill < 0) {
-        return res.status(406).json({
-          message: "Min Bill must > 0",
-        });
+
+      if (dataBooking.status_id === 4) {
+        res
+          .status(406)
+          .json({ message: "Can't updated because this booking ID is Cancel" });
       }
 
       const bookingInfo = {
-        name: !name ? dataBooking.name : name,
-        code: !code ? dataBooking.code : code,
-        discount_rate: !discount_rate
-          ? dataBooking.discount_rate
-          : discount_rate,
-        min_bill: !min_bill ? dataBooking.min_bill : min_bill,
+        status_id: !status_id ? dataBooking.status_id : status_id,
         updated_at: Date.now(),
       };
 

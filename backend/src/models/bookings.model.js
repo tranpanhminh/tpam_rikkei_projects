@@ -16,20 +16,20 @@ const bookingsModel = sequelize.define(
       allowNull: false,
       unique: true,
     },
-    user_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    service_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
     name: {
       type: DataTypes.STRING(255),
       allowNull: false,
     },
     phone: {
       type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    service_id: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     date: {
@@ -42,7 +42,7 @@ const bookingsModel = sequelize.define(
       allowNull: false,
     },
     booking_date: {
-      type: DataTypes.DATE,
+      type: DataTypes.STRING(255),
       allowNull: false,
     },
     calendar: {
