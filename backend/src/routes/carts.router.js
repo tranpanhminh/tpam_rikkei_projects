@@ -18,7 +18,10 @@ cartsRouter.get("/", cartsController.getAllCarts);
 cartsRouter.get("/detail/:cartId", cartsController.getDetailCart);
 
 // 3. Add Cart
-cartsRouter.post("/add", cartsController.addCart);
+cartsRouter.post(
+  "/add/products/:productId/users/:userId",
+  cartsController.addCart
+);
 
 // 4. Delete Cart
 cartsRouter.delete("/delete/:cartId", cartsController.deleteCart);

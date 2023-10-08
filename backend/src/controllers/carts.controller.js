@@ -19,13 +19,13 @@ class CartsController {
   async getDetailCart(req, res) {
     try {
       const cartId = req.params.cartId;
-      const detailCoupon = await cartsModel.findOne({
+      const detailCart = await cartsModel.findOne({
         where: { id: cartId },
       });
-      if (!detailCoupon) {
-        return res.status(404).json({ message: "Coupon ID Not Found" });
+      if (!detailCart) {
+        return res.status(404).json({ message: "Cart ID Not Found" });
       } else {
-        return res.status(200).json(detailCoupon);
+        return res.status(200).json(detailCart);
       }
     } catch (error) {
       console.log(error, "ERROR");
@@ -34,35 +34,13 @@ class CartsController {
 
   // 3. Add Coupon
   async addCart(req, res) {
-    const { name, code, discount_rate, min_bill } = req.body;
+    const userId = req.params.userId;
+    const productId = req.params.productId;
+    const { user_id, product_id, quantity, price } = req.body;
     console.log(discount_rate, "DISCOUNT RATE");
     try {
-      if (!name) {
-        return res.status(406).json({ message: "Coupon Name not be blank" });
-      }
-      if (!code) {
-        return res.status(406).json({ message: "Coupon Code not be blank" });
-      }
-      if (!discount_rate) {
-        return res.status(406).json({
-          message: "Discount rate not be blank",
-        });
-      }
-      if (discount_rate < 0) {
-        return res.status(406).json({
-          message: "Discount rate must > 0",
-        });
-      }
-      if (!min_bill) {
-        return res
-          .status(406)
-          .json({ message: "Min Bill not be blank and Min Bill must > 0" });
-      }
-
-      if (min_bill < 0) {
-        return res.status(406).json({
-          message: "Min Bill must > 0",
-        });
+      if (!quantity) {
+        return res.status(406).json({ message: "Quantity must not be blank" });
       }
 
       const couponInfo = {
