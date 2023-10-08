@@ -196,7 +196,7 @@ class BookingsController {
         });
       }
 
-      let maxBooking = 2;
+      let maxBooking = 20;
 
       const filterBookingByDate = await bookingsModel.findAll({
         attributes: [
