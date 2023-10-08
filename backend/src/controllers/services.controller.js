@@ -1,4 +1,6 @@
 const connectMySQL = require("../configs/db.config.js");
+const { Op, col, fn } = require("sequelize");
+const sequelize = require("sequelize");
 const workingTimeModel = require("../models/workingTime.model.js");
 const postTypesModel = require("../models/postTypes.model.js");
 const servicesModel = require("../models/services.model.js");
@@ -22,8 +24,13 @@ class ServicesController {
           "post_type_id",
           "created_at",
           "updated_at",
+          [
+            sequelize.literal(
+              `IFNULL((SELECT ROUND(AVG(rating), 1) FROM service_comments WHERE service_comments.post_id = services.id AND service_comments.user_role_id NOT IN (1, 2)), 0)`
+            ),
+            "avg_rating",
+          ],
         ],
-
         // Tham gia với bảng post_types
         include: [
           {
@@ -66,6 +73,12 @@ class ServicesController {
           "post_type_id",
           "created_at",
           "updated_at",
+          [
+            sequelize.literal(
+              `IFNULL((SELECT ROUND(AVG(rating), 1) FROM service_comments WHERE service_comments.post_id = services.id AND service_comments.user_role_id NOT IN (1, 2)), 0)`
+            ),
+            "avg_rating",
+          ],
         ],
 
         // Tham gia với bảng post_types
