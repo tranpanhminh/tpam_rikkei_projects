@@ -1,6 +1,8 @@
 const connectMySQL = require("../configs/db.config.js");
 const cartsModel = require("../models/carts.model.js");
 const bcrypt = require("bcryptjs");
+const productsModel = require("../models/products.model.js");
+const usersModel = require("../models/users.model.js");
 
 // ---------------------------------------------------------
 class CartsController {
@@ -37,20 +39,29 @@ class CartsController {
     const userId = req.params.userId;
     const productId = req.params.productId;
     const { user_id, product_id, quantity, price } = req.body;
-    console.log(discount_rate, "DISCOUNT RATE");
     try {
       if (!quantity) {
         return res.status(406).json({ message: "Quantity must not be blank" });
       }
+      // Check Product
+      const findProduct = await productsModel.findOne({
+        where: { id: productId },
+      });
+      if (!findProduct) {
+        res.status(404).json({ message: "Product ID Not Found" });
+      }
 
-      const couponInfo = {
-        name: name,
-        code: code,
-        discount_rate: discount_rate,
-        min_bill: min_bill,
+      const findUser = await usersModel.findOne({ where: { id: userId } });
+      const dataProduct = findProduct.dataValues;
+
+      const cartInfo = {
+        user_id: userId,
+        product_id: productId,
+        quantity: quantity,
+        price: dataProduct.price,
       };
-      const newCoupon = await cartsModel.create(couponInfo);
-      res.status(200).json({ message: "Coupon Added", data: newCoupon });
+      const newCart = await cartsModel.create(cartInfo);
+      res.status(200).json({ message: "Cart Added", data: newCart });
     } catch (error) {
       console.log(error, "ERROR");
     }
