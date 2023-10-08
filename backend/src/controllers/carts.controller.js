@@ -4,22 +4,22 @@ const bcrypt = require("bcryptjs");
 
 // ---------------------------------------------------------
 class CartsController {
-  // 1. Get All Coupons
-  async getAllCoupons(req, res) {
+  // 1. Get All Carts
+  async getAllCarts(req, res) {
     try {
-      const listCoupons = await couponsModel.findAll(); // include: <Tên bảng>
-      res.status(200).json(listCoupons);
-      console.log(listCoupons, "listCoupons");
+      const listCarts = await cartsModel.findAll(); // include: <Tên bảng>
+      res.status(200).json(listCarts);
+      console.log(listCarts, "listCarts");
     } catch (error) {
       console.log(error, "ERROR");
     }
   }
 
   // 2. Get Detail Coupon
-  async getDetailCoupon(req, res) {
+  async getDetailCart(req, res) {
     try {
       const couponId = req.params.couponId;
-      const detailCoupon = await couponsModel.findOne({
+      const detailCoupon = await cartsModel.findOne({
         where: { id: couponId },
       });
       if (!detailCoupon) {
@@ -33,7 +33,7 @@ class CartsController {
   }
 
   // 3. Add Coupon
-  async addCoupon(req, res) {
+  async addCart(req, res) {
     const { name, code, discount_rate, min_bill } = req.body;
     console.log(discount_rate, "DISCOUNT RATE");
     try {
@@ -71,7 +71,7 @@ class CartsController {
         discount_rate: discount_rate,
         min_bill: min_bill,
       };
-      const newCoupon = await couponsModel.create(couponInfo);
+      const newCoupon = await cartsModel.create(couponInfo);
       res.status(200).json({ message: "Coupon Added", data: newCoupon });
     } catch (error) {
       console.log(error, "ERROR");
@@ -79,16 +79,16 @@ class CartsController {
   }
 
   // 4. Delete Coupon
-  async deleteCoupon(req, res) {
+  async deleteCart(req, res) {
     try {
       const couponId = req.params.couponId;
-      const findCoupon = await couponsModel.findOne({
+      const findCoupon = await cartsModel.findOne({
         where: { id: couponId },
       });
       if (!findCoupon) {
         return res.status(404).json({ message: "Coupon ID Not Found" });
       } else {
-        const deleteCoupon = await couponsModel.destroy({
+        const deleteCoupon = await cartsModel.destroy({
           where: { id: couponId },
         });
         return res
@@ -101,11 +101,11 @@ class CartsController {
   }
 
   // 5. Update Coupon
-  async updateCoupon(req, res) {
+  async updateCart(req, res) {
     const { name, code, discount_rate, min_bill } = req.body;
     try {
       const couponId = req.params.couponId;
-      const findCoupon = await couponsModel.findOne({
+      const findCoupon = await cartsModel.findOne({
         where: { id: couponId },
       });
       if (!findCoupon) {
@@ -134,7 +134,7 @@ class CartsController {
         updated_at: Date.now(),
       };
 
-      const updatedCoupon = await couponsModel.update(couponInfo, {
+      const updatedCoupon = await cartsModel.update(couponInfo, {
         where: { id: couponId },
       });
       return res
