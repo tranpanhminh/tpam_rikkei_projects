@@ -1,6 +1,7 @@
 const sequelize = require("../configs/db.config.js");
 const usersModel = require("../models/users.model.js");
 const servicesModel = require("../models/services.model.js");
+const bookingStatusesModel = require("../models/bookingStatuses.model.js");
 const { DataTypes } = require("sequelize");
 
 // ---------------------------------------------------------
@@ -36,7 +37,7 @@ const bookingsModel = sequelize.define(
       defaultValue: DataTypes.NOW,
       allowNull: false,
     },
-    status: {
+    status_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -78,6 +79,15 @@ servicesModel.hasMany(bookingsModel, {
 });
 bookingsModel.belongsTo(servicesModel, {
   foreignKey: "service_id",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+
+bookingStatusesModel.hasMany(bookingsModel, {
+  foreignKey: "status_id",
+});
+bookingsModel.belongsTo(bookingStatusesModel, {
+  foreignKey: "status_id",
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
 });

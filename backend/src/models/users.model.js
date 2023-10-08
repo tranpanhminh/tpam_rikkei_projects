@@ -1,4 +1,6 @@
 const sequelize = require("../configs/db.config.js");
+const userRolesModel = require("../models/userRoles.model.js");
+const userStatusesModel = require("../models/userStatuses.model.js");
 const { DataTypes } = require("sequelize");
 
 // ---------------------------------------------------------
@@ -26,11 +28,11 @@ const usersModel = sequelize.define(
       type: DataTypes.STRING(255),
       allowNull: false,
     },
-    status: {
+    status_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    role: {
+    role_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -52,6 +54,24 @@ const usersModel = sequelize.define(
     timestamps: false,
   }
 );
+
+userRolesModel.hasMany(usersModel, {
+  foreignKey: "user_id",
+});
+usersModel.belongsTo(userRolesModel, {
+  foreignKey: "role_id",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+
+userStatusesModel.hasMany(usersModel, {
+  foreignKey: "status_id",
+});
+usersModel.belongsTo(userStatusesModel, {
+  foreignKey: "status_id",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
 
 // usersModel.sync().then(() => {
 //   console.log("OK");

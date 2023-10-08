@@ -97,7 +97,7 @@ class UsersController {
     }
   }
 
-  // 4. Add User (Admin)
+  // 4. Add User (By Admin)
   async addUser(req, res) {
     const { email, full_name, password, rePassword } = req.body;
     try {
@@ -147,8 +147,8 @@ class UsersController {
         email: email.trim(),
         full_name: full_name,
         password: encryptPassword,
-        status: 1,
-        role: 1, // Thêm tài khoản với Role là Admin
+        status_id: 1,
+        role_id: 1, // Thêm tài khoản với Role là Admin
         image_avatar: "https://i.ibb.co/3BtQdVD/pet-shop.png",
       };
       console.log(userInfo, "userInfo");
@@ -163,7 +163,7 @@ class UsersController {
 
   // 5. Add User (Optional)
   async createUser(req, res) {
-    const { email, full_name, password, status, role } = req.body;
+    const { email, full_name, password, status_id, role_id } = req.body;
     try {
       if (!email) {
         return res.status(406).json({ message: "Email must not be blank" });
@@ -221,8 +221,8 @@ class UsersController {
         email: email.trim(),
         full_name: full_name,
         password: encryptPassword,
-        status: status,
-        role: role,
+        status_id: status_id,
+        role_id: role_id,
         image_avatar: "https://i.ibb.co/3BtQdVD/pet-shop.png",
       };
       console.log(userInfo, "userInfo");
@@ -360,8 +360,10 @@ class UsersController {
       }
       const dataUser = findUser.dataValues;
       const updatedUser = {
-        status:
-          dataUser.status === 1 ? (dataUser.status = 2) : (dataUser.status = 1),
+        status_id:
+          dataUser.status_id === 1
+            ? (dataUser.status_id = 2)
+            : (dataUser.status_id = 1),
       };
       const resultUpdate = await usersModel.update(updatedUser, {
         where: { id: userId },

@@ -96,7 +96,7 @@ class BookingsController {
         service_id: serviceId,
         name: name,
         phone: phone,
-        // status: "Pending",
+        status_id: 1,
         booking_date: booking_date,
         calendar: calendar,
       };
