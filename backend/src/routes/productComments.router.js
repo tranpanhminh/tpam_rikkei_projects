@@ -1,7 +1,7 @@
 const express = require("express");
 
 // Import Model
-const commentsModel = require("../models/productComments.model.js");
+const productCommentsModel = require("../models/productComments.model.js");
 
 // Import Router
 const productCommentsRouter = express.Router();
