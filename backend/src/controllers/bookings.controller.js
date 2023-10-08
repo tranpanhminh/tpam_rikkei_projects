@@ -1,3 +1,4 @@
+const sequelize = require("sequelize");
 const connectMySQL = require("../configs/db.config.js");
 const bookingsModel = require("../models/bookings.model.js");
 const usersModel = require("../models/users.model.js");
@@ -163,6 +164,21 @@ class BookingsController {
           message: "Calendar must not be blank",
         });
       }
+      const bookingDate = new Date(booking_date);
+      const currentDate = new Date();
+      if (bookingDate < currentDate) {
+        return res.status(406).json({
+          message: "You can't book a date in the past.",
+        });
+      }
+
+      const dayOfWeek = bookingDate.getDay();
+
+      if (dayOfWeek === 0 || dayOfWeek === 6) {
+        return res.status(406).json({
+          message: "You can't book on Saturday & Sunday",
+        });
+      }
 
       // Check xem người dùng đã đặt lịch vào ngày đó giờ đó chưa
       const checkBooking = await bookingsModel.findOne({
@@ -178,6 +194,28 @@ class BookingsController {
         return res.status(406).json({
           message: "You already booked this day and this time",
         });
+      }
+
+      let maxBooking = 2;
+
+      const filterBookingByDate = await bookingsModel.findAll({
+        attributes: [
+          "booking_date",
+          [sequelize.fn("COUNT", sequelize.col("id")), "total_booking"],
+        ],
+        group: ["booking_date"],
+        where: {
+          booking_date: booking_date,
+        },
+      });
+      console.log(filterBookingByDate, "filterBookingByDate");
+      if (filterBookingByDate) {
+        const transformedData = await filterBookingByDate?.map(
+          (item) => item.dataValues
+        );
+        if (transformedData[0]?.total_booking >= maxBooking) {
+          return res.status(406).json({ message: "Full Booking on this day" });
+        }
       }
 
       const bookingInfo = {
@@ -320,5 +358,26 @@ class BookingsController {
       console.log(error, "ERROR");
     }
   }
+
+  // 7. Filter Booking By Date
+  // async filterBookingByDate(req, res) {
+  //   try {
+  //     const filterBookingByDate = await bookingsModel.findAll({
+  //       attributes: [
+  //         "booking_date",
+  //         [sequelize.fn("COUNT", sequelize.col("id")), "total_booking"],
+  //       ],
+  //       group: ["booking_date"],
+  //       where: {
+  //         booking_date: booking_date,
+  //         total_booking,
+  //       },
+  //     });
+
+  //     return res.status(200).json(filterBookingByDate);
+  //   } catch (error) {
+  //     console.log(error, "ERROR");
+  //   }
+  // }
 }
 module.exports = new BookingsController();

@@ -32,4 +32,7 @@ bookingsRouter.patch("/update/:bookingId", bookingsController.updateBooking);
 // 6. Filter Booking By User ID
 bookingsRouter.get("/filter/:userId", bookingsController.filterBookingByUserId);
 
+// 6. Filter Booking By Date
+// bookingsRouter.get("/filter/", bookingsController.filterBookingByDate);
+
 module.exports = bookingsRouter;
