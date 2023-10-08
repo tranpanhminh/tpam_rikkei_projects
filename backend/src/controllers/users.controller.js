@@ -1,5 +1,7 @@
 const connectMySQL = require("../configs/db.config.js");
 const usersModel = require("../models/users.model.js");
+const userRolesModel = require("../models/userRoles.model.js");
+const userStatusesModel = require("../models/userStatuses.model.js");
 const bcrypt = require("bcryptjs");
 
 // ---------------------------------------------------------
@@ -7,7 +9,39 @@ class UsersController {
   // 1. Get All Payments
   async getAllUsers(req, res) {
     try {
-      const listUsers = await usersModel.findAll(); // include: <Tên bảng>
+      // const listUsers = await usersModel.findAll();
+
+      const listUsers = await usersModel.findAll({
+        // Chọn các thuộc tính cần thiết
+        attributes: [
+          "id",
+          "email",
+          "full_name",
+          "password",
+          "status_id",
+          "role_id",
+          "image_avatar",
+          "created_at",
+          "updated_at",
+        ],
+
+        // Tham gia với bảng post_types
+        include: [
+          {
+            model: userRolesModel,
+            attributes: ["name"],
+          },
+          {
+            model: userStatusesModel,
+            attributes: ["name"],
+          },
+        ],
+
+        // Nhóm theo id và tên của dịch vụ
+        group: ["users.id"],
+        raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
+      });
+
       res.status(200).json(listUsers);
     } catch (error) {
       console.log(error, "ERROR");
@@ -18,9 +52,43 @@ class UsersController {
   async getDetailUser(req, res) {
     try {
       const userId = req.params.userId;
-      const detailUser = await usersModel.findOne({
-        where: { id: userId },
+      // const detailUser = await usersModel.findOne({
+      //   where: { id: userId },
+      // });
+
+      const detailUser = await usersModel.findAll({
+        // Chọn các thuộc tính cần thiết
+        attributes: [
+          "id",
+          "email",
+          "full_name",
+          "password",
+          "status_id",
+          "role_id",
+          "image_avatar",
+          "created_at",
+          "updated_at",
+        ],
+
+        // Tham gia với bảng post_types
+        include: [
+          {
+            model: userRolesModel,
+            attributes: ["name"],
+          },
+          {
+            model: userStatusesModel,
+            attributes: ["name"],
+          },
+        ],
+        where: {
+          id: userId,
+        },
+        // Nhóm theo id và tên của dịch vụ
+        group: ["users.id"],
+        raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
       });
+
       if (!detailUser) {
         return res.status(404).json({ message: "User ID Not Found" });
       } else {
@@ -32,7 +100,7 @@ class UsersController {
   }
 
   // 3. Register User (Customer)
-  async registerUser(req, res) {
+  async userRegister(req, res) {
     const { email, full_name, password, rePassword } = req.body;
 
     console.log(req.body, " req.body");
@@ -45,6 +113,11 @@ class UsersController {
       }
       if (!full_name) {
         return res.status(406).json({ message: "Full Name must not be blank" });
+      }
+      if (full_name.toLowerCase() === "admin") {
+        return res
+          .status(406)
+          .json({ message: "Full Name must not have admin word" });
       }
       if (!/^[a-zA-Z\s]*$/.test(full_name)) {
         return res.status(406).json({
@@ -83,15 +156,15 @@ class UsersController {
         email: email.trim(),
         full_name: full_name,
         password: encryptPassword,
-        status: 1,
-        role: 2, // Thêm tài khoản với Role là Customer
+        status_id: 1,
+        role_id: 3, // Thêm tài khoản với Role là Customer
         image_avatar: "https://i.ibb.co/3BtQdVD/pet-shop.png",
       };
       console.log(userInfo, "userInfo");
       const newUser = await usersModel.create(userInfo);
       res
         .status(200)
-        .json({ message: "User Register Successfully", data: userInfo });
+        .json({ message: "User Register Successfully", data: newUser });
     } catch (error) {
       console.log(error, "ERROR");
     }
@@ -187,25 +260,11 @@ class UsersController {
           .status(406)
           .json({ message: "Password must be at least 8 characters" });
       }
-      if (!status) {
-        return res
-          .status(406)
-          .json({ message: "Status must be 1 (Active) or 2 (Inactive)" });
+      if (!status_id) {
+        return res.status(406).json({ message: "Status ID must not be blank" });
       }
-      if (status !== 1 && status !== 2) {
-        return res
-          .status(406)
-          .json({ message: "Status must be 1 (Active) or 2 (Inactive)" });
-      }
-      if (!role) {
-        return res
-          .status(406)
-          .json({ message: "Status must be 1 (Admin) or 2 (Customer)" });
-      }
-      if (role !== 1 && role !== 2) {
-        return res
-          .status(406)
-          .json({ message: "Status must be 1 (Admin) or 2 (Customer)" });
+      if (!role_id) {
+        return res.status(406).json({ message: "Role ID must not be blank" });
       }
 
       const findEmail = await usersModel.findOne({ where: { email: email } });
@@ -389,6 +448,22 @@ class UsersController {
         where: { id: userId },
       });
       res.status(200).json({ message: "Avatar Changed" });
+    } catch (error) {
+      console.log(error, "ERROR");
+    }
+  }
+
+  // 11. User Login
+  async userLogin(req, res) {
+    const { email, password } = req.body;
+    try {
+      const findUser = await usersModel.findOne({ where: { email: email } });
+      if (!findUser) {
+        res.status(404).json({ message: "Email is not exist" });
+      }
+
+      const dataUser = findUser.dataValues;
+      const checkPassword = await usersModel;
     } catch (error) {
       console.log(error, "ERROR");
     }

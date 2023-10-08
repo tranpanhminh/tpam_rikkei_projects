@@ -56,7 +56,7 @@ const usersModel = sequelize.define(
 );
 
 userRolesModel.hasMany(usersModel, {
-  foreignKey: "user_id",
+  foreignKey: "role_id",
 });
 usersModel.belongsTo(userRolesModel, {
   foreignKey: "role_id",

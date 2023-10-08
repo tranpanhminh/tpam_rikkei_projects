@@ -21,8 +21,8 @@ usersRouter.get("/", usersController.getAllUsers);
 // 2. Get Detail User
 usersRouter.get("/detail/:userId", usersController.getDetailUser);
 
-// 3. Register User
-usersRouter.post("/register", usersController.registerUser);
+// 3. User Register
+usersRouter.post("/register", usersController.userRegister);
 
 // 4. Add User (Admin)
 usersRouter.post("/add", usersController.addUser);
@@ -52,5 +52,8 @@ usersRouter.patch(
   upload.single("image_avatar"),
   usersController.editAvatar
 );
+
+// 11. User Login
+usersRouter.post("/login", usersController.userLogin);
 
 module.exports = usersRouter;
