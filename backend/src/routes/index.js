@@ -28,6 +28,10 @@ const userStatusesRouter = require("./userStatuses.router.js");
 const bookingStatusesRouter = require("./bookingStatuses.router.js");
 // 14. Order Status Router
 const orderStatusesRouter = require("./orderStatuses.router.js");
+// 15. Comments Router
+const productCommentsRouter = require("./productComments.router.js");
+// // 16. Comments Router
+// const serviceCommentsRouter = require("./serviceComments.router.js");
 
 express.Router();
 // ---------------------------------------------------------
@@ -74,6 +78,12 @@ function Router(app) {
 
   // 14. Order Status API
   app.use("/api/order-statuses", orderStatusesRouter);
+
+  // 15. Product Comments API
+  app.use("/api/comments/products", productCommentsRouter);
+
+  // // 16. Service Comments API
+  // app.use("/api/comments/services", serviceCommentsRouter);
 }
 
 module.exports = Router;

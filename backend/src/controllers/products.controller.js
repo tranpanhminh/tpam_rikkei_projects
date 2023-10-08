@@ -2,9 +2,11 @@ const connectMySQL = require("../configs/db.config.js");
 const { Op, col, fn } = require("sequelize");
 const sequelize = require("sequelize");
 const productsModel = require("../models/products.model.js");
+const productCommentsModel = require("../models/productComments.model.js");
 const postTypesModel = require("../models/postTypes.model.js");
 const vendorsModel = require("../models/vendors.model.js");
 const productImagesModel = require("../models/productImages.model.js");
+const productCommentsController = require("../controllers/productComments.controller.js");
 const bcrypt = require("bcryptjs");
 
 // ---------------------------------------------------------
@@ -24,6 +26,12 @@ class ProductsController {
           "post_type_id",
           "created_at",
           "updated_at",
+          [
+            sequelize.literal(
+              `IFNULL((SELECT ROUND(AVG(rating), 1) FROM product_comments WHERE product_comments.post_id = products.id AND product_comments.user_role_id NOT IN (1, 2)), 0)`
+            ),
+            "avg_rating",
+          ],
           [
             sequelize.fn(
               "JSON_ARRAYAGG",
