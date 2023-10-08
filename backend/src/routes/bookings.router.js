@@ -18,7 +18,10 @@ bookingsRouter.get("/", bookingsController.getAllBookings);
 bookingsRouter.get("/detail/:bookingId", bookingsController.getDetailBooking);
 
 // 3. Add Booking
-bookingsRouter.post("/add", bookingsController.addBooking);
+bookingsRouter.post(
+  "/add/users/:userId/services/:serviceId",
+  bookingsController.addBooking
+);
 
 // 4. Delete Booking
 bookingsRouter.delete("/delete/:bookingId", bookingsController.deleteBooking);

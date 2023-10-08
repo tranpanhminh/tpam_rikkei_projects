@@ -19,6 +19,8 @@ class ProductsController {
           "description",
           "price",
           "quantity_stock",
+          "vendor_id",
+          "post_type_id",
           "created_at",
           "updated_at",
           [
@@ -70,6 +72,8 @@ class ProductsController {
           "description",
           "price",
           "quantity_stock",
+          "vendor_id",
+          "post_type_id",
           "created_at",
           "updated_at",
           [

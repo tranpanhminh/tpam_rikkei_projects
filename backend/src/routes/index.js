@@ -20,6 +20,14 @@ const productImagesRouter = require("../routes/productImages.router.js");
 const workingTimeRouter = require("../routes/workingTime.router.js");
 // 10. Bookings Router
 const bookingsRouter = require("../routes/bookings.router.js");
+// 11. User Roles Router
+const userRolesRouter = require("../routes/userRoles.router.js");
+// 12. User Status Router
+const userStatusesRouter = require("./userStatuses.router.js");
+// 13. Booking Status Router
+const bookingStatusesRouter = require("./bookingStatuses.router.js");
+// 14. Order Status Router
+const orderStatusesRouter = require("./orderStatuses.router.js");
 
 express.Router();
 // ---------------------------------------------------------
@@ -54,6 +62,18 @@ function Router(app) {
 
   // 10. Bookings API
   app.use("/api/bookings", bookingsRouter);
+
+  // 11. User Roles API
+  app.use("/api/user-roles", userRolesRouter);
+
+  // 12. User Status API
+  app.use("/api/user-statuses", userStatusesRouter);
+
+  // 13. Booking Status API
+  app.use("/api/booking-statuses", bookingStatusesRouter);
+
+  // 14. Order Status API
+  app.use("/api/order-statuses", orderStatusesRouter);
 }
 
 module.exports = Router;

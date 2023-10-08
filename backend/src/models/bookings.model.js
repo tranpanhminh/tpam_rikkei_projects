@@ -1,4 +1,6 @@
 const sequelize = require("../configs/db.config.js");
+const usersModel = require("../models/users.model.js");
+const servicesModel = require("../models/services.model.js");
 const { DataTypes } = require("sequelize");
 
 // ---------------------------------------------------------
@@ -31,6 +33,7 @@ const bookingsModel = sequelize.define(
     },
     date: {
       type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
       allowNull: false,
     },
     status: {
@@ -59,6 +62,25 @@ const bookingsModel = sequelize.define(
     timestamps: false,
   }
 );
+
+// Thiết lập quan hệ giữa các mô hình
+usersModel.hasMany(bookingsModel, {
+  foreignKey: "user_id",
+});
+bookingsModel.belongsTo(usersModel, {
+  foreignKey: "user_id",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+
+servicesModel.hasMany(bookingsModel, {
+  foreignKey: "service_id",
+});
+bookingsModel.belongsTo(servicesModel, {
+  foreignKey: "service_id",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
 
 // bookingsModel.sync().then(() => {
 //   console.log("OK");
