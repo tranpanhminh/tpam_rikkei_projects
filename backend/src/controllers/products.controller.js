@@ -87,6 +87,12 @@ class ProductsController {
           "created_at",
           "updated_at",
           [
+            sequelize.literal(
+              `IFNULL((SELECT ROUND(AVG(rating), 1) FROM product_comments WHERE product_comments.post_id = products.id AND product_comments.user_role_id NOT IN (1, 2)), 0)`
+            ),
+            "avg_rating",
+          ],
+          [
             sequelize.fn(
               "JSON_ARRAYAGG",
               sequelize.fn(
