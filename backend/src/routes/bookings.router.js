@@ -26,7 +26,10 @@ bookingsRouter.post(
 // 4. Delete Booking
 bookingsRouter.delete("/delete/:bookingId", bookingsController.deleteBooking);
 
-// // 5. Update Booking
+// 5. Update Booking
 bookingsRouter.patch("/update/:bookingId", bookingsController.updateBooking);
+
+// 6. Filter Booking By User ID
+bookingsRouter.get("/filter/:userId", bookingsController.filterBookingByUserId);
 
 module.exports = bookingsRouter;
