@@ -30,6 +30,10 @@ const productsModel = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    thumbnail_url: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
     vendor_id: {
       type: DataTypes.INTEGER,
       allowNull: false,

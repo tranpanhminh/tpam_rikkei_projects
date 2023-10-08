@@ -41,4 +41,10 @@ productsRouter.patch(
   uploadFileProduct.single("image_url"),
   productsController.updateProductImage
 );
+
+// 7. Change Thumbnail
+productsRouter.patch(
+  "/:productId/update-thumbnail/:imageId",
+  productsController.changeThumbnail
+);
 module.exports = productsRouter;

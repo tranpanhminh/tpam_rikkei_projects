@@ -19,6 +19,7 @@ class ProductsController {
           "description",
           "price",
           "quantity_stock",
+          "thumbnail_url",
           "vendor_id",
           "post_type_id",
           "created_at",
@@ -72,6 +73,7 @@ class ProductsController {
           "description",
           "price",
           "quantity_stock",
+          "thumbnail_url",
           "vendor_id",
           "post_type_id",
           "created_at",
@@ -124,7 +126,6 @@ class ProductsController {
   // 3. Add Payment
   async addProduct(req, res) {
     const { name, description, price, quantity_stock, vendor_id } = req.body;
-    console.log(req.files, "REQFILESSSSS");
     try {
       const productInfo = {
         name: name,
@@ -132,10 +133,10 @@ class ProductsController {
         price: price,
         quantity_stock: quantity_stock,
         vendor_id: vendor_id,
+        thumbnail_url: req.files[0].filename,
       };
       console.log(productInfo, "productInfo");
       const newProduct = await productsModel.create(productInfo);
-      res.status(200).json({ message: "Product Added", data: newProduct });
 
       for (let i = 0; i < req.files.length; i++) {
         await productImagesModel.create({
@@ -143,7 +144,7 @@ class ProductsController {
           product_id: newProduct.id,
         });
       }
-      res.status(200).json({ message: "Images Added", data: newImages });
+      res.status(200).json({ message: "Product Added", data: newProduct });
     } catch (error) {
       console.log(error, "ERROR");
     }
@@ -244,6 +245,40 @@ class ProductsController {
     } catch (error) {
       console.log(error, "ERROR");
     }
+  }
+
+  // 7. Change Thumbnail
+  async changeThumbnail(req, res) {
+    const productId = req.params.productId;
+    const imageId = req.params.imageId;
+    const findProduct = await productsModel.findOne({
+      where: { id: productId },
+    });
+
+    if (!findProduct) {
+      return res.status(404).json({ message: "Product ID Not Found" });
+    }
+
+    const findImage = await productImagesModel.findOne({
+      where: { id: imageId },
+    });
+
+    if (!findImage) {
+      return res.status(404).json({ message: "Image ID Not Found" });
+    }
+
+    const dataImage = findImage.dataValues;
+
+    const thumbnailInfo = {
+      thumbnail_url: dataImage.image_url,
+    };
+
+    const updatedThumbnail = await productsModel.update(thumbnailInfo, {
+      where: { id: productId },
+    });
+    return res
+      .status(200)
+      .json({ message: "Thumbnail Changed", dataUpdated: updatedThumbnail });
   }
 }
 module.exports = new ProductsController();
