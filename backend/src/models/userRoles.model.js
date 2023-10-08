@@ -3,7 +3,7 @@ const { DataTypes } = require("sequelize");
 
 // ---------------------------------------------------------
 
-const userRolesStatus = sequelize.define(
+const userRolesModel = sequelize.define(
   "user_roles",
   {
     id: {
@@ -32,8 +32,8 @@ const userRolesStatus = sequelize.define(
   }
 );
 
-// userRolesStatus.sync().then(() => {
+// userRolesModel.sync().then(() => {
 //   console.log("OK");
 // });
 
-module.exports = userRolesStatus;
+module.exports = userRolesModel;

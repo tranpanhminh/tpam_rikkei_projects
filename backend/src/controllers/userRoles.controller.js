@@ -58,7 +58,7 @@ class UserRolesController {
         where: { id: userRoleId },
       });
       if (!findUserRole) {
-        return res.status(404).json({ message: "Post Type ID Not Found" });
+        return res.status(404).json({ message: "User Role ID Not Found" });
       } else {
         const deleteUserRole = await userRolesModel.destroy({
           where: { id: userRoleId },
@@ -82,7 +82,7 @@ class UserRolesController {
       });
 
       if (!findUserRole) {
-        return res.status(404).json({ message: "Post Type ID Not Found" });
+        return res.status(404).json({ message: "User Role ID Not Found" });
       }
 
       const dataUserRole = findUserRole.dataValues;

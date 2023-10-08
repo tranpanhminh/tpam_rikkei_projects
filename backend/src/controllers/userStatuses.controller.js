@@ -66,7 +66,7 @@ class UserStatusesController {
           where: { id: userStatusId },
         });
         return res.status(200).json({
-          message: "Order Status Deleted",
+          message: "User Status Deleted",
           dataDeleted: findUserStatus,
         });
       }
