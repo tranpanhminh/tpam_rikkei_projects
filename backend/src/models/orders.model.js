@@ -3,6 +3,7 @@ const { DataTypes } = require("sequelize");
 const usersModel = require("../models/users.model.js");
 const paymentsModel = require("../models/payments.model.js");
 const couponsModel = require("../models/coupons.model.js");
+const cancelReasonsModel = require("../models/cancelReasons.model.js");
 const orderStatusesModel = require("../models/orderStatuses.model.js");
 
 // ---------------------------------------------------------
@@ -54,8 +55,8 @@ const ordersModel = sequelize.define(
       type: DataTypes.BIGINT,
       allowNull: false,
     },
-    cancel_reason: {
-      type: DataTypes.STRING(255),
+    cancel_reason_id: {
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
     created_at: {
@@ -106,6 +107,14 @@ orderStatusesModel.hasMany(ordersModel, {
 });
 ordersModel.belongsTo(orderStatusesModel, {
   foreignKey: "status_id",
+});
+
+// Order và Cancel Reasons
+cancelReasonsModel.hasMany(ordersModel, {
+  foreignKey: "cancel_reason_id",
+});
+ordersModel.belongsTo(cancelReasonsModel, {
+  foreignKey: "cancel_reason_id",
 });
 
 // ordersModel.sync().then(() => {
