@@ -217,7 +217,7 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
                 <option value="Ordered the wrong product">
                   1. Ordered the wrong product
                 </option>
-                <option value="Duplicate order">2. Duplicate order</option>
+                <option value="Duplicate order">2. Duplicated order</option>
                 <option value="I don't want to buy anymore">
                   3. I don't want to buy anymore
                 </option>

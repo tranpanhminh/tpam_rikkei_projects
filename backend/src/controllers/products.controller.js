@@ -205,6 +205,12 @@ class ProductsController {
         return res.status(406).json({ message: "Price must not be < 0" });
       }
 
+      if (quantity_stock < 0) {
+        return res
+          .status(406)
+          .json({ message: "Quantity Stock must not be < 0" });
+      }
+
       const productInfo = {
         name: !name ? dataProduct.name : name,
         description: !description ? dataProduct.description : description,
