@@ -7,6 +7,7 @@ const productsModel = require("../models/products.model.js");
 const usersModel = require("../models/users.model.js");
 const bcrypt = require("bcryptjs");
 const paymentsModel = require("../models/payments.model.js");
+const { format, parse } = require("date-fns");
 
 // ---------------------------------------------------------
 class OrdersController {
@@ -185,6 +186,8 @@ class OrdersController {
       if (checkValidCardDate < formattedDateTime) {
         return res.status(406).json({ message: "Card is expired" });
       }
+
+      return res.status(200).json({ message: "Good Card" });
       // ----------- Check thẻ thanh toán -------------
 
       // Thông tin Order
