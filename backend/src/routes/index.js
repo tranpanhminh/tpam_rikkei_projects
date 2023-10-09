@@ -38,6 +38,8 @@ const cartsRouter = require("./carts.router.js");
 const ordersRouter = require("./orders.router.js");
 // 19. Orders Item Router
 const orderItemsRouter = require("./orderItems.router.js");
+// 20. Cancel Reasons Router
+const cancelReasonsRouter = require("./cancelReasons.router.js");
 
 express.Router();
 
@@ -100,6 +102,9 @@ function Router(app) {
 
   // 19. Order Items API
   app.use("/api/order-items", orderItemsRouter);
+
+  // 20. Cancel Reasons API
+  app.use("/api/cancel-reasons", cancelReasonsRouter);
 }
 
 module.exports = Router;

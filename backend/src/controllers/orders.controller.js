@@ -395,7 +395,7 @@ class OrdersController {
 
   // 6. Cancel Order For Customer
   async cancelOrder(req, res) {
-    const { status_id } = req.body;
+    const { cancel_reason, status_id } = req.body;
     try {
       const orderId = req.params.orderId;
       const findOrder = await ordersModel.findOne({
