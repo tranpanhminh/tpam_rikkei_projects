@@ -144,7 +144,7 @@ class CartsController {
       // Kiểm tra số lượng người dùng nhập vào và hàng tồn kho
       if (quantity > dataProduct.quantity_stock) {
         return res.status(406).json({
-          message: "You can't buy more than product stock",
+          message: "You can't add more than product stock",
         });
       }
 
@@ -240,7 +240,7 @@ class CartsController {
     }
   }
 
-  // 5. Delete Coupon
+  // 5. Delete All Products From Cart
   async deleteAllProductsFromCart(req, res) {
     const userId = req.params.userId;
     try {
@@ -277,44 +277,53 @@ class CartsController {
 
   // 5. Update Coupon
   async updateCart(req, res) {
-    const { name, code, discount_rate, min_bill } = req.body;
+    const userId = req.params.userId;
+    const productId = req.params.productId;
+    const { quantity } = req.body;
     try {
-      const cartId = req.params.cartId;
-      const findCoupon = await cartsModel.findOne({
-        where: { id: cartId },
+      // Check Login
+      const authHeader = req.header("Authorization");
+      if (!authHeader) {
+        res.status(401).json({ message: "Please login" });
+      }
+      // /**
+      // User Status:
+      // 1. Active
+      // 2. Inactive
+
+      // Role:
+      // 1. Super Admin
+      // 2. Admin
+      // 3. Customer
+      // */
+
+      // Check Product
+      const findProduct = await productsModel.findOne({
+        where: { id: productId },
       });
-      if (!findCoupon) {
-        return res.status(404).json({ message: "Coupon ID Not Found" });
+      if (!findProduct) {
+        return res.status(404).json({ message: "Product ID Not Found" });
       }
-      const dataCoupon = findCoupon.dataValues;
+      const dataProduct = findProduct.dataValues;
 
-      if (discount_rate < 0) {
-        return res.status(406).json({
-          message: "Discount rate must > 0",
-        });
-      }
-      if (min_bill < 0) {
-        return res.status(406).json({
-          message: "Min Bill must > 0",
-        });
-      }
-
-      const couponInfo = {
-        name: !name ? dataCoupon.name : name,
-        code: !code ? dataCoupon.code : code,
-        discount_rate: !discount_rate
-          ? dataCoupon.discount_rate
-          : discount_rate,
-        min_bill: !min_bill ? dataCoupon.min_bill : min_bill,
-        updated_at: Date.now(),
-      };
-
-      const updatedCoupon = await cartsModel.update(couponInfo, {
-        where: { id: cartId },
+      // Find Product From Cart
+      const findProductFromCart = await cartsModel.findOne({
+        where: { user_id: userId, product_id: productId },
       });
-      return res
-        .status(200)
-        .json({ message: "Coupon Updated", dateUpdated: updatedCoupon });
+      if (findProductFromCart.length === 0) {
+        return res
+          .status(404)
+          .json({ message: "Product ID & User ID Not Found In Cart" });
+      }
+      const dataProductFromCart = findProductFromCart.dataValues;
+      const newQuantity = dataProductFromCart.quantity + quantity;
+
+      // Check số lượng mới so với số lượng hàng tồn kho
+      if (newQuantity > dataProduct.quantity_stock) {
+        return res
+          .status(406)
+          .json({ message: "You can't add more than product stock" });
+      }
     } catch (error) {
       console.log(error, "ERROR");
     }

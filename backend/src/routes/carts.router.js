@@ -33,13 +33,16 @@ cartsRouter.delete(
   cartsController.deleteProductFromCart
 );
 
-// 4. Delete Cart
+// 5. Delete Cart
 cartsRouter.delete(
   "/delete/users/:userId",
   cartsController.deleteAllProductsFromCart
 );
 
 // // 5. Update Cart
-cartsRouter.patch("/update/:cartId", cartsController.updateCart);
+cartsRouter.patch(
+  "/update/products/:productId/users/:userId",
+  cartsController.updateCart
+);
 
 module.exports = cartsRouter;
