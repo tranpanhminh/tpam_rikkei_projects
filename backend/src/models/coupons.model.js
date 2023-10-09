@@ -26,7 +26,7 @@ const couponsModel = sequelize.define(
       allowNull: false,
     },
     min_bill: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       allowNull: false,
     },
     created_at: {
@@ -40,7 +40,7 @@ const couponsModel = sequelize.define(
     },
   },
   {
-    timestamps: false, // Bỏ đi các trường timestamps
+    timestamps: false,
   }
 );
 

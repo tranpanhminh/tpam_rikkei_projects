@@ -1,5 +1,9 @@
 const sequelize = require("../configs/db.config.js");
 const { DataTypes } = require("sequelize");
+const usersModel = require("../models/users.model.js");
+const paymentsModel = require("../models/payments.model.js");
+const couponsModel = require("../models/coupons.model.js");
+const orderStatusesModel = require("../models/orderStatuses.model.js");
 
 // ---------------------------------------------------------
 
@@ -35,7 +39,7 @@ const ordersModel = sequelize.define(
     },
     coupon_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
     status_id: {
       type: DataTypes.INTEGER,
@@ -68,6 +72,43 @@ const ordersModel = sequelize.define(
     timestamps: false,
   }
 );
+
+// Thiết lập quan hệ giữa các mô hình
+// Order và User
+usersModel.hasMany(ordersModel, {
+  foreignKey: "user_id",
+});
+ordersModel.belongsTo(usersModel, {
+  foreignKey: "user_id",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+
+// Order và Payment
+paymentsModel.hasMany(ordersModel, {
+  foreignKey: "card_id",
+});
+ordersModel.belongsTo(paymentsModel, {
+  foreignKey: "card_id",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+
+// Order và Coupon
+couponsModel.hasMany(ordersModel, {
+  foreignKey: "coupon_id",
+});
+ordersModel.belongsTo(couponsModel, {
+  foreignKey: "coupon_id",
+});
+
+// Order và Order Status
+orderStatusesModel.hasMany(ordersModel, {
+  foreignKey: "status_id",
+});
+ordersModel.belongsTo(orderStatusesModel, {
+  foreignKey: "status_id",
+});
 
 // ordersModel.sync().then(() => {
 //   console.log("OK");
