@@ -37,6 +37,19 @@ const ordersModel = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    status_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    order_date: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+      allowNull: false,
+    },
+    bill: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+    },
     cancel_reason: {
       type: DataTypes.STRING(255),
       allowNull: true,
