@@ -3,6 +3,7 @@ const { Op, col, fn } = require("sequelize");
 const ordersModel = require("../models/orders.model.js");
 const cartsModel = require("../models/carts.model.js");
 const orderItemsModel = require("../models/orderItems.model.js");
+const orderStatusesModel = require("../models/orderStatuses.model.js");
 const productsModel = require("../models/products.model.js");
 const usersModel = require("../models/users.model.js");
 const bcrypt = require("bcryptjs");
@@ -15,7 +16,45 @@ class OrdersController {
   // 1. Get All Orders
   async getAllOrders(req, res) {
     try {
-      const listOrders = await ordersModel.findAll();
+      // const listOrders = await ordersModel.findAll();
+
+      const listOrders = await ordersModel.findAll({
+        // Chọn các thuộc tính cần thiết
+        attributes: [
+          "id",
+          "customer_name",
+          "address",
+          "phone",
+          "user_id",
+          "card_id",
+          "status_id",
+          "order_date",
+          "bill",
+          "cancel_reason",
+          "updated_at",
+          "updated_at",
+        ],
+
+        // Tham gia với bảng post_types
+        include: [
+          {
+            model: usersModel,
+            attributes: ["email"],
+          },
+          {
+            model: paymentsModel,
+            attributes: ["card_number"],
+          },
+          {
+            model: orderStatusesModel,
+            attributes: ["name"],
+          },
+        ],
+
+        // Nhóm theo id và tên của dịch vụ
+        group: ["orders.id"],
+        raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
+      });
       res.status(200).json(listOrders);
       console.log(listOrders, "listOrders");
     } catch (error) {
@@ -27,8 +66,33 @@ class OrdersController {
   async getDetailOrder(req, res) {
     try {
       const orderId = req.params.orderId;
-      const detailOrder = await ordersModel.findOne({
-        where: { id: orderId },
+      // const detailOrder = await orderItemsModel.findAll({
+      //   where: { order_id: orderId },
+      // });
+
+      const detailOrder = await orderItemsModel.findAll({
+        // Chọn các thuộc tính cần thiết
+        attributes: [
+          "id",
+          "order_id",
+          "product_id",
+          "quantity",
+          "price",
+          "created_at",
+          "updated_at",
+        ],
+
+        // Tham gia với bảng post_types
+        include: [
+          {
+            model: productsModel,
+            attributes: ["name", "thumbnail_url"],
+          },
+        ],
+        where: { order_id: orderId },
+        // Nhóm theo id và tên của dịch vụ
+        group: ["id"],
+        raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
       });
       if (!detailOrder) {
         return res.status(404).json({ message: "Order ID Not Found" });
@@ -225,59 +289,63 @@ class OrdersController {
 
       // ----------- Xử lý giảm hàng tồn khi -------------
       let hasCreatedNewOrder = false;
+      let hasPaid = false;
+      let orderId;
+
       for (const cartProduct of checkCart) {
         const product = cartProduct.product.dataValues;
         const updatedQuantityStock =
           product.quantity_stock - cartProduct.quantity;
         console.log(updatedQuantityStock, ":ÁDDSA");
+
         // Cập nhật số lượng tồn kho trong bảng products
         await productsModel.update(
           { quantity_stock: updatedQuantityStock },
           { where: { id: cartProduct.product_id } }
         );
-        let orderId;
-        // Tạo đơn hàng mới
+
+        // Tạo đơn hàng mới nếu chưa tạo
         if (!hasCreatedNewOrder) {
           const newOrder = await ordersModel.create(orderInfo);
           hasCreatedNewOrder = true;
-          return (orderId = newOrder.id);
+          orderId = newOrder.id; // Gán orderId ở đây, không cần return
         }
 
         const orderItemInfo = {
-          order_id: orderId,
+          order_id: orderId, // Sử dụng orderId đã gán ở trên
           product_id: cartProduct.product_id,
           quantity: cartProduct.quantity,
           price: cartProduct.price,
         };
 
         // Đẩy Cart vào giỏ hàng chi tiết
-        const addToOrderItem = await orderItemsModel.create(orderItemInfo);
+        await orderItemsModel.create(orderItemInfo);
 
-        // Xóa Cart của User
-        const deleteCartByUser = await cartsModel.destroy({
-          where: { id: cartProduct.product_id },
-        });
-
-        // Trừ balance trong thẻ
-        if (!hasCreatedNewOrder) {
-          const updatedCart = {
+        // Trừ balance trong thẻ nếu chưa thanh toán
+        if (!hasPaid) {
+          const updatedCard = {
             ...dataCard,
-            balance: dataCard.balance - totalBill,
+            balance: Number(dataCard.balance) - Number(totalBill),
           };
-          const newOrder = await ordersModel.update(updatedCart, {
+          await paymentsModel.update(updatedCard, {
             where: { id: dataCard.id },
           });
-          hasCreatedNewOrder = true;
-          return (orderId = newOrder.id);
+          hasPaid = true;
         }
-        return res.status(200).json({ message: "Order Completed" });
       }
+
+      // Xóa toàn bộ giỏ hàng của người dùng sau khi vòng lặp
+      await cartsModel.destroy({
+        where: { user_id: userId },
+      });
+
+      return res.status(200).json({ message: "Order Completed" });
     } catch (error) {
       console.log(error, "ERROR");
     }
   }
 
-  // 5. Update Order
+  // 5. Update Order For Admin
   async updatedOrder(req, res) {
     const { status_id } = req.body;
     try {
@@ -289,12 +357,80 @@ class OrdersController {
         return res.status(404).json({ message: "Order ID Not Found" });
       }
 
+      /** Order Status:
+        1. Pending
+        2. Processing
+        3. Shipping
+        4. Shipped
+        5. Cancel 
+      */
+
+      if (findOrder.status_id === 4) {
+        return res
+          .status(406)
+          .json({ message: "Order can't updated because it was shipped" });
+      }
+
+      if (findOrder.status_id === 5) {
+        return res
+          .status(406)
+          .json({ message: "Order can't updated because it was canceled" });
+      }
+
       const orderInfo = {
         status_id: status_id,
         updated_at: Date.now(),
       };
 
-      const updatedOrder = await couponsModel.update(orderInfo, {
+      const updatedOrder = await ordersModel.update(orderInfo, {
+        where: { id: orderId },
+      });
+      return res
+        .status(200)
+        .json({ message: "Order Status Updated", dataUpdated: updatedOrder });
+    } catch (error) {
+      console.log(error, "ERROR");
+    }
+  }
+
+  // 6. Cancel Order For Customer
+  async cancelOrder(req, res) {
+    const { status_id } = req.body;
+    try {
+      const orderId = req.params.orderId;
+      const findOrder = await ordersModel.findOne({
+        where: { id: orderId },
+      });
+      if (!findOrder) {
+        return res.status(404).json({ message: "Order ID Not Found" });
+      }
+
+      /** Order Status:
+        1. Pending
+        2. Processing
+        3. Shipping
+        4. Shipped
+        5. Cancel 
+      */
+
+      if (findOrder.status_id === 4) {
+        return res
+          .status(406)
+          .json({ message: "Order can't updated because it was shipped" });
+      }
+
+      if (findOrder.status_id === 5) {
+        return res
+          .status(406)
+          .json({ message: "Order can't updated because it was canceled" });
+      }
+
+      const orderInfo = {
+        status_id: status_id,
+        updated_at: Date.now(),
+      };
+
+      const updatedOrder = await ordersModel.update(orderInfo, {
         where: { id: orderId },
       });
       return res
