@@ -133,6 +133,11 @@ class CartsController {
       }
 
       // Kiểm tra người dùng đã nhập vào số lượng cần mua chưa
+      if (!quantity) {
+        return res
+          .status(406)
+          .json({ message: "Min quantity to buy must be 1" });
+      }
 
       // Kiểm tra số lượng hàng tồn kho
       if (dataProduct.quantity_stock === 0) {
@@ -301,7 +306,7 @@ class CartsController {
     }
   }
 
-  // 5. Update Coupon
+  // 5. Update Cart (Update Quantity From Cart Page)
   async updateCart(req, res) {
     const userId = req.params.userId;
     const productId = req.params.productId;
@@ -341,6 +346,12 @@ class CartsController {
         return res
           .status(404)
           .json({ message: "Not Found Product ID From Cart of this User ID" });
+      }
+
+      if (!quantity) {
+        return res
+          .status(406)
+          .json({ message: "Min quantity to buy must be 1" });
       }
 
       const dataProductFromCart = findProductFromCart.dataValues;
