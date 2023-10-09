@@ -112,6 +112,11 @@ class BookingsController {
     const userId = req.params.userId;
     const serviceId = req.params.serviceId;
     try {
+      // Check Login
+      const authHeader = req.header("Authorization");
+      if (!authHeader) {
+        res.status(401).json({ message: "Please login to comment" });
+      }
       // Check User Before Booking
       const findUser = await usersModel.findOne({ where: { id: userId } });
       if (!findUser) {
