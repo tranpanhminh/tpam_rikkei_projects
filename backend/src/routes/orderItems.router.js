@@ -11,13 +11,7 @@ const orderItemsController = require("../controllers/orderItems.controller.js");
 
 // ---------------------------------------------------------
 
-// 1. Get All Coupons
-orderItemsRouter.get("/", orderItemsController.getAllOrderItems);
-
-// 2. Get Detail Coupon
-orderItemsRouter.get(
-  "/detail/:couponId",
-  orderItemsController.getDetailOrderItem
-);
+// 1. Get Detail Order Items
+orderItemsRouter.get("/", orderItemsController.getDetailOrderItems);
 
 module.exports = orderItemsRouter;
