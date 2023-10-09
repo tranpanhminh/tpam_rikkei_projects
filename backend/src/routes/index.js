@@ -34,8 +34,13 @@ const productCommentsRouter = require("./productComments.router.js");
 const serviceCommentsRouter = require("./serviceComments.router.js");
 // 17. Carts Router
 const cartsRouter = require("./carts.router.js");
+// 18. Orders Router
+const ordersRouter = require("./orders.router.js");
+// 19. Orders Item Router
+const orderItemsRouter = require("./orderItems.router.js");
 
 express.Router();
+
 // ---------------------------------------------------------
 
 function Router(app) {
@@ -87,8 +92,14 @@ function Router(app) {
   // 16. Service Comments API
   app.use("/api/comments/services", serviceCommentsRouter);
 
-  // 16. Carts API
+  // 17. Carts API
   app.use("/api/carts", cartsRouter);
+
+  // 18. Orders API
+  app.use("/api/orders", ordersRouter);
+
+  // 19. Order Items API
+  app.use("/api/order-items", orderItemsRouter);
 }
 
 module.exports = Router;
