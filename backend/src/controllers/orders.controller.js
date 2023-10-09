@@ -65,8 +65,6 @@ class OrdersController {
       card_number,
       expiry_date,
       cvv,
-      coupon_id,
-      bill,
     } = req.body;
     try {
       const userId = req.params.userId;
@@ -130,8 +128,15 @@ class OrdersController {
         });
       }
       if (!card_number) {
+        return res.status(406).json({
+          message: "Please fill card number",
+        });
       }
-
+      if (card_number.toString().length < 16) {
+        return res.status(406).json({
+          message: "Card Number length must be 16",
+        });
+      }
       if (!expiry_date) {
         return res.status(406).json({
           message: "Please fill expiry date (Use format MM/YYYY",
@@ -139,22 +144,37 @@ class OrdersController {
       }
       if (!cvv) {
         return res.status(406).json({
-          message: "Please fill cardholder name",
+          message: "Please fill CVV",
+        });
+      }
+      if (cvv.toString().length !== 3) {
+        return res.status(406).json({
+          message: "Invalid CVV Format. CVV length must be 3 (Ex: 111)",
         });
       }
 
       const checkCardPayment = await paymentsModel.findOne({
-        where: { card_number: card_number },
+        where: {
+          cardholder_name: cardholder_name,
+          expiry_date: expiry_date,
+          card_number: card_number,
+          cvv: cvv,
+        },
       });
       if (!checkCardPayment) {
+        return res.status(406).json({
+          message: "Card is not exist",
+        });
       }
 
+      const dataCard = checkCardPayment.dataValues;
+      console.log(dataCard, "DATA CARD");
       // Thông tin Order
-      const orderInfo = {
-        customer_name: customer_name,
-        address: address,
-        phone: phone,
-      };
+      // const orderInfo = {
+      //   customer_name: customer_name,
+      //   address: address,
+      //   phone: phone,
+      // };
     } catch (error) {
       console.log(error, "ERROR");
     }
