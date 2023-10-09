@@ -1,15 +1,41 @@
 const connectMySQL = require("../configs/db.config.js");
 const cartsModel = require("../models/carts.model.js");
+const { Op, col, fn } = require("sequelize");
+const sequelize = require("sequelize");
 const bcrypt = require("bcryptjs");
-const productsModel = require("../models/products.model.js");
 const usersModel = require("../models/users.model.js");
+const productsModel = require("../models/products.model.js");
 
 // ---------------------------------------------------------
 class CartsController {
   // 1. Get All Carts
   async getAllCarts(req, res) {
     try {
-      const listCarts = await cartsModel.findAll(); // include: <Tên bảng>
+      // const listCarts = await cartsModel.findAll();
+      const listCarts = await cartsModel.findAll({
+        attributes: [
+          "id",
+          "user_id",
+          "product_id",
+          "quantity",
+          "price",
+          "created_at",
+          "updated_at",
+        ],
+        include: [
+          {
+            model: usersModel,
+            attributes: ["email"],
+          },
+          {
+            model: productsModel,
+            attributes: ["thumbnail_url"],
+          },
+        ],
+        group: ["id"],
+        raw: true,
+      });
+
       res.status(200).json(listCarts);
       console.log(listCarts, "listCarts");
     } catch (error) {
@@ -21,20 +47,34 @@ class CartsController {
   async getDetailCart(req, res) {
     const userId = req.params.userId;
     try {
-      const findUserCart = await cartsModel.findAll({
+      const detailUserCart = await cartsModel.findAll({
+        attributes: [
+          "id",
+          "user_id",
+          "product_id",
+          "quantity",
+          "price",
+          "created_at",
+          "updated_at",
+        ],
+        include: [
+          {
+            model: usersModel,
+            attributes: ["email"],
+          },
+          {
+            model: productsModel,
+            attributes: ["thumbnail_url"],
+          },
+        ],
         where: { user_id: userId },
+        group: ["id"],
+        raw: true,
       });
-      if (findUserCart.length === 0) {
+      if (detailUserCart.length === 0) {
         return res
           .status(404)
-          .json({ message: "This User Has No Product In Cart" });
-      }
-
-      const detailUserCart = await cartsModel.findAll({
-        where: { user_id: userId },
-      });
-      if (!detailUserCart) {
-        return res.status(404).json({ message: "User Cart ID Not Found" });
+          .json({ message: "This User ID Has No Products In Cart" });
       } else {
         return res.status(200).json(detailUserCart);
       }
@@ -43,11 +83,11 @@ class CartsController {
     }
   }
 
-  // 3. Add Cart
+  // 3. Add Product To Cart
   async addCart(req, res) {
     const userId = req.params.userId;
     const productId = req.params.productId;
-    const { user_id, product_id, quantity, price } = req.body;
+    const { quantity } = req.body;
     try {
       // Check Login
       const authHeader = req.header("Authorization");
@@ -164,23 +204,72 @@ class CartsController {
     }
   }
 
-  // 4. Delete Coupon
-  async deleteCart(req, res) {
+  // 4. Delete Product From Cart
+  async deleteProductFromCart(req, res) {
+    const userId = req.params.userId;
+    const productId = req.params.productId;
     try {
-      const cartId = req.params.cartId;
-      const findCoupon = await cartsModel.findOne({
-        where: { id: cartId },
-      });
-      if (!findCoupon) {
-        return res.status(404).json({ message: "Coupon ID Not Found" });
-      } else {
-        const deleteCoupon = await cartsModel.destroy({
-          where: { id: cartId },
-        });
-        return res
-          .status(200)
-          .json({ message: "Coupon Deleted", dataDeleted: findCoupon });
+      // Check Login
+      const authHeader = req.header("Authorization");
+      if (!authHeader) {
+        res.status(401).json({ message: "Please login" });
       }
+
+      // /**
+      // User Status:
+      // 1. Active
+      // 2. Inactive
+
+      // Role:
+      // 1. Super Admin
+      // 2. Admin
+      // 3. Customer
+      // */
+
+      const deleteProduct = await cartsModel.destroy({
+        where: { user_id: userId, product_id: productId },
+      });
+      if (!deleteProduct) {
+        return res
+          .status(404)
+          .json({ message: "Product ID Not Found In Cart" });
+      }
+      return res.status(200).json({ message: "Product Deleted From Cart" });
+    } catch (error) {
+      console.log(error, "ERROR");
+    }
+  }
+
+  // 5. Delete Coupon
+  async deleteAllProductsFromCart(req, res) {
+    const userId = req.params.userId;
+    try {
+      // Check Login
+      const authHeader = req.header("Authorization");
+      if (!authHeader) {
+        res.status(401).json({ message: "Please login" });
+      }
+
+      // /**
+      // User Status:
+      // 1. Active
+      // 2. Inactive
+
+      // Role:
+      // 1. Super Admin
+      // 2. Admin
+      // 3. Customer
+      // */
+
+      const deleteAllProducts = await cartsModel.destroy({
+        where: { user_id: userId },
+      });
+      if (!deleteAllProducts) {
+        return res.status(404).json({ message: "User ID Not Found" });
+      }
+      return res
+        .status(200)
+        .json({ message: "All Products Deleted From Cart" });
     } catch (error) {
       console.log(error, "ERROR");
     }

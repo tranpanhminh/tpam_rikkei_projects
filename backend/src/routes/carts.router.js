@@ -28,7 +28,16 @@ cartsRouter.post(
 );
 
 // 4. Delete Cart
-cartsRouter.delete("/delete/:cartId", cartsController.deleteCart);
+cartsRouter.delete(
+  "/delete/products/:productId/users/:userId",
+  cartsController.deleteProductFromCart
+);
+
+// 4. Delete Cart
+cartsRouter.delete(
+  "/delete/users/:userId",
+  cartsController.deleteAllProductsFromCart
+);
 
 // // 5. Update Cart
 cartsRouter.patch("/update/:cartId", cartsController.updateCart);
