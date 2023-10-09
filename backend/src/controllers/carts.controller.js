@@ -144,7 +144,33 @@ class CartsController {
       // Kiểm tra số lượng người dùng nhập vào và hàng tồn kho
       if (quantity > dataProduct.quantity_stock) {
         return res.status(406).json({
-          message: "You can't add more than product stock",
+          message: `You can't add more than product stocks: ${dataProduct.quantity_stock}`,
+        });
+      }
+
+      // Kiểm tra số lượng mà người dùng đã thêm trước đó và số lượng mới
+      const checkUserCart = await cartsModel.findOne({
+        where: {
+          user_id: userId,
+          product_id: productId,
+        },
+      });
+      if (!checkUserCart) {
+        const cartInfo = {
+          user_id: userId,
+          product_id: productId,
+          quantity: quantity,
+          price: dataProduct.price,
+        };
+
+        const newCart = await cartsModel.create(cartInfo);
+        res.status(200).json({ message: "Product Added", data: newCart });
+      }
+      const dataUserCart = checkUserCart.dataValues;
+      const updatedQuantity = dataUserCart.quantity + quantity;
+      if (updatedQuantity > dataProduct.quantity_stock) {
+        return res.status(406).json({
+          message: `You can't add more than product stocks: ${dataProduct.quantity_stock}, you have added ${dataUserCart.quantity} product to cart before`,
         });
       }
 
@@ -318,12 +344,27 @@ class CartsController {
       const dataProductFromCart = findProductFromCart.dataValues;
       const newQuantity = dataProductFromCart.quantity + quantity;
 
-      // Check số lượng mới so với số lượng hàng tồn kho
-      if (newQuantity > dataProduct.quantity_stock) {
-        return res
-          .status(406)
-          .json({ message: "You can't add more than product stock" });
-      }
+      // // Check số lượng mới so với số lượng hàng tồn kho
+      // if (newQuantity > dataProduct.quantity_stock) {
+      //   return res
+      //     .status(406)
+      //     .json({ message: "You can't add more than product stock" });
+      // }
+
+      // const updatedProductInfo = {
+      //   ...dataProductFromCart,
+      //   quantity: newQuantity,
+      // };
+      // const updatedProduct = await cartsModel.update(updatedProductInfo, {
+      //   where: {
+      //     user_id: userId,
+      //     product_id: productId,
+      //   },
+      // });
+      // return res.status(200).json({
+      //   message: "Product Quantity Updated",
+      //   dataUpdate: updatedProduct,
+      // });
     } catch (error) {
       console.log(error, "ERROR");
     }
