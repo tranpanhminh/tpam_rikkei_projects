@@ -331,40 +331,42 @@ class CartsController {
         return res.status(404).json({ message: "Product ID Not Found" });
       }
       const dataProduct = findProduct.dataValues;
+      console.log(dataProduct, "dataProduct");
 
-      // Find Product From Cart
+      // Check Product From Cart
       const findProductFromCart = await cartsModel.findOne({
         where: { user_id: userId, product_id: productId },
       });
-      if (findProductFromCart.length === 0) {
+      if (!findProductFromCart) {
         return res
           .status(404)
-          .json({ message: "Product ID & User ID Not Found In Cart" });
+          .json({ message: "Not Found Product ID From Cart of this User ID" });
       }
+
       const dataProductFromCart = findProductFromCart.dataValues;
+
       const newQuantity = dataProductFromCart.quantity + quantity;
-
-      // // Check số lượng mới so với số lượng hàng tồn kho
-      // if (newQuantity > dataProduct.quantity_stock) {
-      //   return res
-      //     .status(406)
-      //     .json({ message: "You can't add more than product stock" });
-      // }
-
-      // const updatedProductInfo = {
-      //   ...dataProductFromCart,
-      //   quantity: newQuantity,
-      // };
-      // const updatedProduct = await cartsModel.update(updatedProductInfo, {
-      //   where: {
-      //     user_id: userId,
-      //     product_id: productId,
-      //   },
-      // });
-      // return res.status(200).json({
-      //   message: "Product Quantity Updated",
-      //   dataUpdate: updatedProduct,
-      // });
+      console.log(newQuantity, "NEW QUANTITY ");
+      // Check số lượng mới so với số lượng hàng tồn kho
+      if (newQuantity > dataProduct.quantity_stock) {
+        return res.status(406).json({
+          message: `You can't add more than product stock: ${dataProduct.quantity_stock}, you have typed ${newQuantity} products`,
+        });
+      }
+      const updatedProductInfo = {
+        ...dataProductFromCart,
+        quantity: newQuantity,
+      };
+      const updatedProduct = await cartsModel.update(updatedProductInfo, {
+        where: {
+          user_id: userId,
+          product_id: productId,
+        },
+      });
+      return res.status(200).json({
+        message: "Product Quantity Updated",
+        dataUpdate: updatedProduct,
+      });
     } catch (error) {
       console.log(error, "ERROR");
     }
