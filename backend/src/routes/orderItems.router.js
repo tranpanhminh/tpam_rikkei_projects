@@ -11,7 +11,4 @@ const orderItemsController = require("../controllers/orderItems.controller.js");
 
 // ---------------------------------------------------------
 
-// 1. Get Detail Order Items
-orderItemsRouter.get("/", orderItemsController.getDetailOrderItems);
-
 module.exports = orderItemsRouter;

@@ -58,10 +58,10 @@ orderItemsModel.belongsTo(ordersModel, {
 });
 
 // Order Item và Product
-productsModel.hasMany(ordersModel, {
+productsModel.hasMany(orderItemsModel, {
   foreignKey: "product_id",
 });
-ordersModel.belongsTo(productsModel, {
+orderItemsModel.belongsTo(productsModel, {
   foreignKey: "product_id",
 });
 

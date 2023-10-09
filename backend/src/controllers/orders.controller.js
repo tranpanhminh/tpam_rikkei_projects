@@ -1,5 +1,7 @@
+const sequelize = require("../configs/db.config.js");
 const connectMySQL = require("../configs/db.config.js");
 const ordersModel = require("../models/orders.model.js");
+const cartsModel = require("../models/carts.model.js");
 const orderItemsModel = require("../models/orderItems.model.js");
 const productsModel = require("../models/products.model.js");
 const usersModel = require("../models/users.model.js");
@@ -10,94 +12,99 @@ class OrdersController {
   // 1. Get All Orders
   async getAllOrders(req, res) {
     try {
-      const listCoupons = await couponsModel.findAll(); // include: <Tên bảng>
-      res.status(200).json(listCoupons);
-      console.log(listCoupons, "listCoupons");
+      const listOrders = await ordersModel.findAll();
+      res.status(200).json(listOrders);
+      console.log(listOrders, "listOrders");
     } catch (error) {
       console.log(error, "ERROR");
     }
   }
 
-  // 2. Get Detail Order
+  // 2. Get Detail Order For Admin
   async getDetailOrder(req, res) {
     try {
-      const couponId = req.params.couponId;
-      const detailCoupon = await couponsModel.findOne({
-        where: { id: couponId },
+      const orderId = req.params.orderId;
+      const detailOrder = await ordersModel.findOne({
+        where: { id: orderId },
       });
-      if (!detailCoupon) {
-        return res.status(404).json({ message: "Coupon ID Not Found" });
+      if (!detailOrder) {
+        return res.status(404).json({ message: "Order ID Not Found" });
       } else {
-        return res.status(200).json(detailCoupon);
+        return res.status(200).json(detailOrder);
       }
     } catch (error) {
       console.log(error, "ERROR");
     }
   }
 
-  // 3. Add Order
-  async addOrder(req, res) {
-    const { name, code, discount_rate, min_bill } = req.body;
-    console.log(discount_rate, "DISCOUNT RATE");
+  // 3. Get Detail Order By User For Customer
+  async getDetailOrderByUser(req, res) {
+    const userId = req.params.userId;
     try {
-      if (!name) {
-        return res.status(406).json({ message: "Coupon Name not be blank" });
+      const detailOrderByUser = await ordersModel.findAll({
+        where: { id: userId },
+      });
+      if (!detailOrderByUser) {
+        return res.status(404).json({ message: "User Has No Order" });
+      } else {
+        return res.status(200).json(detailOrderByUser);
       }
-      if (!code) {
-        return res.status(406).json({ message: "Coupon Code not be blank" });
-      }
-      if (!discount_rate) {
-        return res.status(406).json({
-          message: "Discount rate not be blank",
-        });
-      }
-      if (discount_rate < 0) {
-        return res.status(406).json({
-          message: "Discount rate must > 0",
-        });
-      }
-      if (!min_bill) {
-        return res
-          .status(406)
-          .json({ message: "Min Bill not be blank and Min Bill must > 0" });
-      }
-
-      if (min_bill < 0) {
-        return res.status(406).json({
-          message: "Min Bill must > 0",
-        });
-      }
-
-      const couponInfo = {
-        name: name,
-        code: code,
-        discount_rate: discount_rate,
-        min_bill: min_bill,
-      };
-      const newCoupon = await couponsModel.create(couponInfo);
-      res.status(200).json({ message: "Coupon Added", data: newCoupon });
     } catch (error) {
       console.log(error, "ERROR");
     }
   }
 
-  // 4. Delete Order
-  async deleteOrder(req, res) {
+  // 4. Checkout Order
+  async checkoutOrder(req, res) {
+    const { customer_name, address, phone, card_id, coupon_id, bill } =
+      req.body;
     try {
-      const couponId = req.params.couponId;
-      const findCoupon = await couponsModel.findOne({
-        where: { id: couponId },
+      const userId = req.params.userId;
+
+      // Kiểm tra thông tin nhập vào
+      const checkCart = await cartsModel.findAll({
+        where: { user_id: userId },
       });
-      if (!findCoupon) {
-        return res.status(404).json({ message: "Coupon ID Not Found" });
-      } else {
-        const deleteCoupon = await couponsModel.destroy({
-          where: { id: couponId },
-        });
-        return res
-          .status(200)
-          .json({ message: "Coupon Deleted", dataDeleted: findCoupon });
+      const dataCart = checkCart.dataValues;
+      if (checkCart.length === 0) {
+        return res.status(404).json({ message: "User Has No Order" });
       }
+
+      let cartBill;
+      // Tính toán đơn hàng trong giỏ hàng
+      const cartBillQuery = await sequelize
+        .query(
+          `
+          SELECT user_id, name, code, discount_rate, bill, discounted_amount, bill_discounted
+          FROM (
+            SELECT user_id, coupons.name, code, discount_rate, ROUND(SUM(project_module_3.carts.quantity * project_module_3.carts.price),1) AS "bill",
+            ROUND(SUM(project_module_3.carts.quantity * project_module_3.carts.price * project_module_3.coupons.discount_rate / 100),1) AS "discounted_amount",
+            ROUND(SUM(project_module_3.carts.quantity * project_module_3.carts.price - project_module_3.carts.quantity * project_module_3.carts.price * project_module_3.coupons.discount_rate / 100),1) AS "bill_discounted"
+            FROM project_module_3.carts
+            INNER JOIN project_module_3.coupons
+            WHERE user_id = 4
+            GROUP BY user_id, coupons.name, coupons.code, discount_rate
+            ORDER BY discount_rate DESC
+          ) AS subquery
+          WHERE bill > (SELECT min_bill FROM project_module_3.coupons WHERE name = subquery.name)
+          LIMIT 1;
+    `,
+          {
+            type: sequelize.QueryTypes.SELECT,
+          }
+        )
+        .then((result) => {
+          cartBill = result;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      console.log(cartBill, "cartBill");
+      // const orderInfo = {
+      //   customer_name: customer_name,
+      //   address: address,
+      //   phone: phone,
+      // };
     } catch (error) {
       console.log(error, "ERROR");
     }
@@ -105,44 +112,27 @@ class OrdersController {
 
   // 5. Update Order
   async updatedOrder(req, res) {
-    const { name, code, discount_rate, min_bill } = req.body;
+    const { status_id } = req.body;
     try {
-      const couponId = req.params.couponId;
-      const findCoupon = await couponsModel.findOne({
-        where: { id: couponId },
+      const orderId = req.params.orderId;
+      const findOrder = await ordersModel.findOne({
+        where: { id: orderId },
       });
-      if (!findCoupon) {
-        return res.status(404).json({ message: "Coupon ID Not Found" });
-      }
-      const dataCoupon = findCoupon.dataValues;
-
-      if (discount_rate < 0) {
-        return res.status(406).json({
-          message: "Discount rate must > 0",
-        });
-      }
-      if (min_bill < 0) {
-        return res.status(406).json({
-          message: "Min Bill must > 0",
-        });
+      if (!findOrder) {
+        return res.status(404).json({ message: "Order ID Not Found" });
       }
 
-      const couponInfo = {
-        name: !name ? dataCoupon.name : name,
-        code: !code ? dataCoupon.code : code,
-        discount_rate: !discount_rate
-          ? dataCoupon.discount_rate
-          : discount_rate,
-        min_bill: !min_bill ? dataCoupon.min_bill : min_bill,
+      const orderInfo = {
+        status_id: status_id,
         updated_at: Date.now(),
       };
 
-      const updatedCoupon = await couponsModel.update(couponInfo, {
-        where: { id: couponId },
+      const updatedOrder = await couponsModel.update(orderInfo, {
+        where: { id: orderId },
       });
       return res
         .status(200)
-        .json({ message: "Coupon Updated", dateUpdated: updatedCoupon });
+        .json({ message: "Order Status Updated", dataUpdated: updatedOrder });
     } catch (error) {
       console.log(error, "ERROR");
     }
