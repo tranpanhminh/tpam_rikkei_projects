@@ -121,7 +121,7 @@ class OrdersController {
         });
       }
 
-      // Check thẻ thanh toán
+      // ----------- Check thẻ thanh toán -------------
       if (!cardholder_name) {
         return res.status(406).json({
           message: "Please fill cardholder name",
@@ -163,12 +163,30 @@ class OrdersController {
       });
       if (!checkCardPayment) {
         return res.status(406).json({
-          message: "Card is not exist",
+          message: "Invalid Card",
         });
       }
 
       const dataCard = checkCardPayment.dataValues;
-      console.log(dataCard, "DATA CARD");
+
+      // Kiểm tra Card có còn hạn sử dụng
+      const currentDateTime = new Date();
+      const checkValidCardDate = parse(
+        dataCard.expiry_date,
+        "MM/yyyy",
+        new Date()
+      );
+      const formattedDateTime = new Date(
+        currentDateTime.getFullYear(),
+        currentDateTime.getMonth(),
+        1
+      );
+
+      if (checkValidCardDate < formattedDateTime) {
+        return res.status(406).json({ message: "Card is expired" });
+      }
+      // ----------- Check thẻ thanh toán -------------
+
       // Thông tin Order
       // const orderInfo = {
       //   customer_name: customer_name,

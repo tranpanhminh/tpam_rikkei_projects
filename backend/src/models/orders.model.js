@@ -90,8 +90,6 @@ paymentsModel.hasMany(ordersModel, {
 });
 ordersModel.belongsTo(paymentsModel, {
   foreignKey: "card_id",
-  onDelete: "CASCADE",
-  onUpdate: "CASCADE",
 });
 
 // Order và Coupon
