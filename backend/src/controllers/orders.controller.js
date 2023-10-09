@@ -6,6 +6,7 @@ const orderItemsModel = require("../models/orderItems.model.js");
 const productsModel = require("../models/products.model.js");
 const usersModel = require("../models/users.model.js");
 const bcrypt = require("bcryptjs");
+const paymentsModel = require("../models/payments.model.js");
 
 // ---------------------------------------------------------
 class OrdersController {
@@ -56,55 +57,104 @@ class OrdersController {
 
   // 4. Checkout Order
   async checkoutOrder(req, res) {
-    const { customer_name, address, phone, card_id, coupon_id, bill } =
-      req.body;
+    const {
+      customer_name,
+      address,
+      phone,
+      cardholder_name,
+      card_number,
+      expiry_date,
+      cvv,
+      coupon_id,
+      bill,
+    } = req.body;
     try {
       const userId = req.params.userId;
 
-      // Kiểm tra thông tin nhập vào
+      // Kiểm tra giỏ hàng
       const checkCart = await cartsModel.findAll({
         where: { user_id: userId },
       });
       const dataCart = checkCart.dataValues;
       if (checkCart.length === 0) {
-        return res.status(404).json({ message: "User Has No Order" });
+        return res.status(404).json({ message: "Your cart is empty" });
       }
 
-      let cartBill;
       // Tính toán đơn hàng trong giỏ hàng
-      const cartBillQuery = await sequelize
-        .query(
-          `
-          SELECT user_id, name, code, discount_rate, bill, discounted_amount, bill_discounted
-          FROM (
-            SELECT user_id, coupons.name, code, discount_rate, ROUND(SUM(project_module_3.carts.quantity * project_module_3.carts.price),1) AS "bill",
-            ROUND(SUM(project_module_3.carts.quantity * project_module_3.carts.price * project_module_3.coupons.discount_rate / 100),1) AS "discounted_amount",
-            ROUND(SUM(project_module_3.carts.quantity * project_module_3.carts.price - project_module_3.carts.quantity * project_module_3.carts.price * project_module_3.coupons.discount_rate / 100),1) AS "bill_discounted"
-            FROM project_module_3.carts
-            INNER JOIN project_module_3.coupons
-            WHERE user_id = 4
-            GROUP BY user_id, coupons.name, coupons.code, discount_rate
-            ORDER BY discount_rate DESC
-          ) AS subquery
-          WHERE bill > (SELECT min_bill FROM project_module_3.coupons WHERE name = subquery.name)
-          LIMIT 1;
+      const cartBill = await sequelize.query(
+        `
+        SELECT user_id, id, name, code, discount_rate, bill, discounted_amount, bill_discounted
+        FROM (
+          SELECT user_id, coupons.id, coupons.name, code, discount_rate, ROUND(SUM(project_module_3.carts.quantity * project_module_3.carts.price),1) AS "bill",
+          ROUND(SUM(project_module_3.carts.quantity * project_module_3.carts.price * project_module_3.coupons.discount_rate / 100),1) AS "discounted_amount",
+          ROUND(SUM(project_module_3.carts.quantity * project_module_3.carts.price - project_module_3.carts.quantity * project_module_3.carts.price * project_module_3.coupons.discount_rate / 100),1) AS "bill_discounted"
+          FROM project_module_3.carts
+          INNER JOIN project_module_3.coupons
+          WHERE user_id = ${userId}
+          GROUP BY user_id, coupons.id, coupons.name, coupons.code, discount_rate
+          ORDER BY discount_rate DESC
+        ) AS subquery
+        WHERE bill > (SELECT min_bill FROM project_module_3.coupons WHERE name = subquery.name)
+        LIMIT 1;
     `,
-          {
-            type: sequelize.QueryTypes.SELECT,
-          }
-        )
-        .then((result) => {
-          cartBill = result;
-        })
-        .catch((error) => {
-          console.error(error);
+        {
+          type: sequelize.QueryTypes.SELECT,
+        }
+      );
+      console.log(cartBill[0], "cartBill");
+
+      // Check thông tin người dùng
+      if (!customer_name) {
+        return res.status(406).json({ message: "Please fill customer name" });
+      }
+
+      if (!address) {
+        return res.status(406).json({ message: "Please fill address" });
+      }
+
+      if (!phone) {
+        return res.status(406).json({ message: "Please fill phone number" });
+      }
+
+      const phoneNumberPattern = /^1\d{10}$/;
+      if (!phoneNumberPattern.test(phone)) {
+        return res.status(406).json({
+          message: "Invalid Phone Number (Use the format 1234567890)",
         });
-      console.log(cartBill, "cartBill");
-      // const orderInfo = {
-      //   customer_name: customer_name,
-      //   address: address,
-      //   phone: phone,
-      // };
+      }
+
+      // Check thẻ thanh toán
+      if (!cardholder_name) {
+        return res.status(406).json({
+          message: "Please fill cardholder name",
+        });
+      }
+      if (!card_number) {
+      }
+
+      if (!expiry_date) {
+        return res.status(406).json({
+          message: "Please fill expiry date (Use format MM/YYYY",
+        });
+      }
+      if (!cvv) {
+        return res.status(406).json({
+          message: "Please fill cardholder name",
+        });
+      }
+
+      const checkCardPayment = await paymentsModel.findOne({
+        where: { card_number: card_number },
+      });
+      if (!checkCardPayment) {
+      }
+
+      // Thông tin Order
+      const orderInfo = {
+        customer_name: customer_name,
+        address: address,
+        phone: phone,
+      };
     } catch (error) {
       console.log(error, "ERROR");
     }
