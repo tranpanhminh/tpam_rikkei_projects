@@ -53,7 +53,6 @@ ordersModel.hasMany(orderItemsModel, {
 });
 orderItemsModel.belongsTo(ordersModel, {
   foreignKey: "order_id",
-  onDelete: "CASCADE",
   onUpdate: "CASCADE",
 });
 

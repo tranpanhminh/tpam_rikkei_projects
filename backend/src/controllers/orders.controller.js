@@ -1,5 +1,5 @@
 const sequelize = require("../configs/db.config.js");
-const connectMySQL = require("../configs/db.config.js");
+const { Op, col, fn } = require("sequelize");
 const ordersModel = require("../models/orders.model.js");
 const cartsModel = require("../models/carts.model.js");
 const orderItemsModel = require("../models/orderItems.model.js");
@@ -8,6 +8,7 @@ const usersModel = require("../models/users.model.js");
 const bcrypt = require("bcryptjs");
 const paymentsModel = require("../models/payments.model.js");
 const { format, parse } = require("date-fns");
+const couponsModel = require("../models/coupons.model.js");
 
 // ---------------------------------------------------------
 class OrdersController {
@@ -73,34 +74,12 @@ class OrdersController {
       // Kiểm tra giỏ hàng
       const checkCart = await cartsModel.findAll({
         where: { user_id: userId },
+        include: [{ model: productsModel, attributes: ["quantity_stock"] }],
       });
-      const dataCart = checkCart.dataValues;
+      console.log(checkCart, "CHECK CART");
       if (checkCart.length === 0) {
         return res.status(404).json({ message: "Your cart is empty" });
       }
-
-      // Tính toán đơn hàng trong giỏ hàng
-      const cartBill = await sequelize.query(
-        `
-        SELECT user_id, id, name, code, discount_rate, bill, discounted_amount, bill_discounted
-        FROM (
-          SELECT user_id, coupons.id, coupons.name, code, discount_rate, ROUND(SUM(project_module_3.carts.quantity * project_module_3.carts.price),1) AS "bill",
-          ROUND(SUM(project_module_3.carts.quantity * project_module_3.carts.price * project_module_3.coupons.discount_rate / 100),1) AS "discounted_amount",
-          ROUND(SUM(project_module_3.carts.quantity * project_module_3.carts.price - project_module_3.carts.quantity * project_module_3.carts.price * project_module_3.coupons.discount_rate / 100),1) AS "bill_discounted"
-          FROM project_module_3.carts
-          INNER JOIN project_module_3.coupons
-          WHERE user_id = ${userId}
-          GROUP BY user_id, coupons.id, coupons.name, coupons.code, discount_rate
-          ORDER BY discount_rate DESC
-        ) AS subquery
-        WHERE bill > (SELECT min_bill FROM project_module_3.coupons WHERE name = subquery.name)
-        LIMIT 1;
-    `,
-        {
-          type: sequelize.QueryTypes.SELECT,
-        }
-      );
-      console.log(cartBill[0], "cartBill");
 
       // Check thông tin người dùng
       if (!customer_name) {
@@ -169,7 +148,7 @@ class OrdersController {
       }
 
       const dataCard = checkCardPayment.dataValues;
-
+      console.log(dataCard, "DATA CARD");
       // Kiểm tra Card có còn hạn sử dụng
       const currentDateTime = new Date();
       const checkValidCardDate = parse(
@@ -187,15 +166,112 @@ class OrdersController {
         return res.status(406).json({ message: "Card is expired" });
       }
 
-      return res.status(200).json({ message: "Good Card" });
-      // ----------- Check thẻ thanh toán -------------
+      // ----------- Check Bill & Discount -------------
 
-      // Thông tin Order
-      // const orderInfo = {
-      //   customer_name: customer_name,
-      //   address: address,
-      //   phone: phone,
-      // };
+      // Tính toán đơn hàng trong giỏ hàng
+      const cartBill = await sequelize.query(
+        `
+        SELECT
+          user_id,
+          ROUND(SUM(carts.quantity * carts.price), 1) AS bill
+        FROM
+          carts
+        WHERE
+          user_id = :userId
+      `,
+        {
+          replacements: { userId },
+          type: sequelize.QueryTypes.SELECT,
+        }
+      );
+
+      console.log(cartBill[0].bill, "cartBill");
+
+      const getAllCoupons = await couponsModel.findOne({
+        where: { min_bill: { [Op.lt]: cartBill[0].bill } },
+        order: [["discount_rate", "DESC"]],
+        limit: 1,
+      });
+
+      const dataCoupon = getAllCoupons ? getAllCoupons.dataValues : 0;
+
+      const totalBill = getAllCoupons
+        ? (
+            cartBill[0].bill -
+            (dataCoupon.discount_rate / 100) * cartBill[0].bill
+          ).toFixed(2)
+        : cartBill[0].bill;
+      console.log(totalBill, "TOTAL BILL");
+
+      // ----------- Thông tin Order -------------
+      /** Order Status:
+        1. Pending
+        2. Processing
+        3. Shipping
+        4. Shipped
+        5. Cancel 
+      */
+      const orderInfo = {
+        customer_name: customer_name,
+        address: address,
+        phone: phone,
+        user_id: userId,
+        card_id: dataCard.id,
+        coupon_id: getAllCoupons ? dataCoupon.id : null,
+        status_id: 1,
+        bill: totalBill,
+      };
+      console.log(orderInfo, "ORDER INFO");
+
+      // ----------- Xử lý giảm hàng tồn khi -------------
+      let hasCreatedNewOrder = false;
+      for (const cartProduct of checkCart) {
+        const product = cartProduct.product.dataValues;
+        const updatedQuantityStock =
+          product.quantity_stock - cartProduct.quantity;
+        console.log(updatedQuantityStock, ":ÁDDSA");
+        // Cập nhật số lượng tồn kho trong bảng products
+        await productsModel.update(
+          { quantity_stock: updatedQuantityStock },
+          { where: { id: cartProduct.product_id } }
+        );
+        let orderId;
+        // Tạo đơn hàng mới
+        if (!hasCreatedNewOrder) {
+          const newOrder = await ordersModel.create(orderInfo);
+          hasCreatedNewOrder = true;
+          return (orderId = newOrder.id);
+        }
+
+        const orderItemInfo = {
+          order_id: orderId,
+          product_id: cartProduct.product_id,
+          quantity: cartProduct.quantity,
+          price: cartProduct.price,
+        };
+
+        // Đẩy Cart vào giỏ hàng chi tiết
+        const addToOrderItem = await orderItemsModel.create(orderItemInfo);
+
+        // Xóa Cart của User
+        const deleteCartByUser = await cartsModel.destroy({
+          where: { id: cartProduct.product_id },
+        });
+
+        // Trừ balance trong thẻ
+        if (!hasCreatedNewOrder) {
+          const updatedCart = {
+            ...dataCard,
+            balance: dataCard.balance - totalBill,
+          };
+          const newOrder = await ordersModel.update(updatedCart, {
+            where: { id: dataCard.id },
+          });
+          hasCreatedNewOrder = true;
+          return (orderId = newOrder.id);
+        }
+        return res.status(200).json({ message: "Order Completed" });
+      }
     } catch (error) {
       console.log(error, "ERROR");
     }
