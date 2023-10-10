@@ -29,8 +29,11 @@ class OrdersController {
           "user_id",
           "card_id",
           "status_id",
+          "coupon_id",
           "order_date",
           "bill",
+          "discounted",
+          "total_bill",
           "cancel_reason_id",
           "updated_at",
           "updated_at",
@@ -53,6 +56,10 @@ class OrdersController {
           {
             model: cancelReasonsModel,
             attributes: ["name"],
+          },
+          {
+            model: couponsModel,
+            attributes: ["discount_rate"],
           },
         ],
 
@@ -110,7 +117,7 @@ class OrdersController {
   }
 
   // 3. Get All Orders By User (For Customer)
-  async listOrdersByUser(req, res) {
+  async getAllOrderByUser(req, res) {
     const userId = req.params.userId;
     try {
       // const detailOrderByUser = await ordersModel.findAll({
@@ -127,8 +134,11 @@ class OrdersController {
           "user_id",
           "card_id",
           "status_id",
+          "coupon_id",
           "order_date",
           "bill",
+          "discounted",
+          "total_bill",
           "cancel_reason_id",
           "updated_at",
           "updated_at",
@@ -152,6 +162,10 @@ class OrdersController {
             model: cancelReasonsModel,
             attributes: ["name"],
           },
+          {
+            model: couponsModel,
+            attributes: ["discount_rate"],
+          },
         ],
         where: { user_id: userId },
         // Nhóm theo id và tên của dịch vụ
@@ -169,47 +183,7 @@ class OrdersController {
     }
   }
 
-  // 4. Get Detail Order (For Customer)
-  async getDetailOrderByUser(req, res) {
-    try {
-      const orderId = req.params.orderId;
-      const userId = req.params.userId;
-
-      const detailOrder = await orderItemsModel.findAll({
-        // Chọn các thuộc tính cần thiết
-        attributes: [
-          "id",
-          "order_id",
-          "product_id",
-          "quantity",
-          "price",
-          "created_at",
-          "updated_at",
-        ],
-
-        // Tham gia với bảng post_types
-        include: [
-          {
-            model: productsModel,
-            attributes: ["name", "thumbnail_url"],
-          },
-        ],
-        where: { order_id: orderId },
-        // Nhóm theo id và tên của dịch vụ
-        group: ["id"],
-        raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
-      });
-      if (!detailOrder) {
-        return res.status(404).json({ message: "Order ID Not Found" });
-      } else {
-        return res.status(200).json(detailOrder);
-      }
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
-  }
-
-  // 5. Checkout Order
+  // 4. Checkout Order
   async checkoutOrder(req, res) {
     const {
       customer_name,
@@ -347,13 +321,21 @@ class OrdersController {
 
       const dataCoupon = getAllCoupons ? getAllCoupons.dataValues : 0;
 
-      const totalBill = getAllCoupons
-        ? (
-            cartBill[0].bill -
-            (dataCoupon.discount_rate / 100) * cartBill[0].bill
-          ).toFixed(2)
-        : cartBill[0].bill;
-      console.log(totalBill, "TOTAL BILL");
+      // const totalBill = getAllCoupons
+      //   ? (
+      //       cartBill[0].bill -
+      //       (dataCoupon.discount_rate / 100) * cartBill[0].bill
+      //     ).toFixed(2)
+      //   : cartBill[0].bill;
+      // console.log(totalBill, "TOTAL BILL");
+
+      const bill = cartBill[0].bill;
+
+      const discountedAmount = getAllCoupons
+        ? ((dataCoupon.discount_rate / 100) * cartBill[0].bill).toFixed(2)
+        : 0;
+
+      const totalBill = (bill - discountedAmount).toFixed(2);
 
       // ----------- Thông tin Order -------------
       /** Order Status:
@@ -371,7 +353,9 @@ class OrdersController {
         card_id: dataCard.id,
         coupon_id: getAllCoupons ? dataCoupon.id : null,
         status_id: 1,
-        bill: totalBill,
+        bill: bill,
+        discounted: discountedAmount,
+        total_bill: totalBill,
       };
       console.log(orderInfo, "ORDER INFO");
 
@@ -413,7 +397,7 @@ class OrdersController {
         if (!hasPaid) {
           const updatedCard = {
             ...dataCard,
-            balance: Number(dataCard.balance) - Number(totalBill),
+            balance: (Number(dataCard.balance) - Number(totalBill)).toFixed(2),
           };
           await paymentsModel.update(updatedCard, {
             where: { id: dataCard.id },
@@ -433,7 +417,7 @@ class OrdersController {
     }
   }
 
-  // 6. Update Order For Admin
+  // 5. Update Order For Admin
   async updatedOrder(req, res) {
     const { status_id } = req.body;
     try {
@@ -483,7 +467,7 @@ class OrdersController {
 
   // 6. Cancel Order For Customer
   async cancelOrder(req, res) {
-    const { cancel_reason, status_id } = req.body;
+    const { cancel_reason_id, status_id } = req.body;
     try {
       const orderId = req.params.orderId;
       const findOrder = await ordersModel.findOne({
@@ -493,13 +477,28 @@ class OrdersController {
         return res.status(404).json({ message: "Order ID Not Found" });
       }
 
-      /** Order Status:
+      console.log(findOrder, "findOrder");
+      const dataOrder = findOrder.dataValues;
+
+      /** 
+       * Order Status:
         1. Pending
         2. Processing
         3. Shipping
         4. Shipped
         5. Cancel 
+        
+        * Cancel Reasons:
+        1. Ordered the wrong product
+        2. Duplicated order
+        3. I don't want to buy anymore
+        4. Another Reason...
       */
+      if (!cancel_reason_id) {
+        return res
+          .status(406)
+          .json({ message: "Please choose cancel reasons!" });
+      }
 
       if (findOrder.status_id === 4) {
         return res
@@ -514,16 +513,33 @@ class OrdersController {
       }
 
       const orderInfo = {
-        status_id: status_id,
+        cancel_reason_id: cancel_reason_id,
+        status_id: 5,
         updated_at: Date.now(),
       };
 
       const updatedOrder = await ordersModel.update(orderInfo, {
         where: { id: orderId },
       });
+
+      // ---------------- Hoàn lại tiền cho khách hàng ----------------
+      const findPayment = await paymentsModel.findOne({
+        where: { id: dataOrder.card_id },
+      });
+      const dataPayment = findPayment.dataValues;
+
+      console.log(dataOrder.coupon_id, "DASDSDAS");
+
+      const updatedPaymentBalance = {
+        ...dataPayment,
+        balance: dataPayment.balance + dataOrder.bill,
+      };
+      await paymentsModel.update(updatedPaymentBalance, {
+        where: { id: dataOrder.card_id },
+      });
       return res
         .status(200)
-        .json({ message: "Order Status Updated", dataUpdated: updatedOrder });
+        .json({ message: "Cancel Order Completed", dataUpdated: updatedOrder });
     } catch (error) {
       console.log(error, "ERROR");
     }

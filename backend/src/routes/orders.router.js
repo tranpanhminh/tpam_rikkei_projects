@@ -18,18 +18,15 @@ ordersRouter.get("/", ordersController.getAllOrders);
 ordersRouter.get("/detail/:orderId", ordersController.getDetailOrder);
 
 // 3. Get All Orders (For User)
-ordersRouter.get("/users/:userId", ordersController.listOrdersByUser);
+ordersRouter.get("/users/:userId", ordersController.getAllOrderByUser);
 
-// 4. Get Detail Order (For Customer)
-ordersRouter.get(
-  "/detail/:orderId/users/:userId",
-  ordersController.getDetailOrderByUser
-);
-
-// 5. Checkout Order
+// 4. Checkout Order
 ordersRouter.post("/checkout/users/:userId", ordersController.checkoutOrder);
 
-// 6. Update Coupon
+// 5. Update Order
 ordersRouter.patch("/update/:orderId", ordersController.updatedOrder);
+
+// 5. Cancel Order
+ordersRouter.patch("/cancel-order/:orderId/", ordersController.cancelOrder);
 
 module.exports = ordersRouter;

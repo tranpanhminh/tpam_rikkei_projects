@@ -55,6 +55,14 @@ const ordersModel = sequelize.define(
       type: DataTypes.BIGINT,
       allowNull: false,
     },
+    discounted: {
+      type: DataTypes.BIGINT,
+      allowNull: true,
+    },
+    total_bill: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+    },
     cancel_reason_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
