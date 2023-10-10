@@ -30,7 +30,7 @@ const bookingsModel = sequelize.define(
     },
     service_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
     date: {
       type: DataTypes.DATE,
@@ -64,7 +64,7 @@ const bookingsModel = sequelize.define(
   }
 );
 
-// Thiết lập quan hệ giữa các mô hình
+// Mối quan hệ giữa Users và Booking
 usersModel.hasMany(bookingsModel, {
   foreignKey: "user_id",
 });
@@ -74,22 +74,21 @@ bookingsModel.belongsTo(usersModel, {
   onUpdate: "CASCADE",
 });
 
+// Mối quan hệ giữa Service và Booking
 servicesModel.hasMany(bookingsModel, {
   foreignKey: "service_id",
 });
 bookingsModel.belongsTo(servicesModel, {
   foreignKey: "service_id",
-  onDelete: "CASCADE",
-  onUpdate: "CASCADE",
 });
 
+// Mối quan hệ giữa Booking Status và Booking
 bookingStatusesModel.hasMany(bookingsModel, {
   foreignKey: "status_id",
 });
 bookingsModel.belongsTo(bookingStatusesModel, {
   foreignKey: "status_id",
-  onDelete: "CASCADE",
-  onUpdate: "CASCADE",
+  onDelete: "NO ACTION",
 });
 
 // bookingsModel.sync().then(() => {

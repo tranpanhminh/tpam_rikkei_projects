@@ -12,7 +12,7 @@ class BookingsController {
   async getAllBookings(req, res) {
     try {
       // const listBookings = await bookingsModel.findAll();
-
+      
       const listBookings = await bookingsModel.findAll({
         // Chọn các thuộc tính cần thiết
         attributes: [
@@ -115,7 +115,7 @@ class BookingsController {
       // Check Login
       const authHeader = req.header("Authorization");
       if (!authHeader) {
-        res.status(401).json({ message: "Please login to comment" });
+        return res.status(401).json({ message: "Please login to comment" });
       }
       // Check User Before Booking
       const findUser = await usersModel.findOne({ where: { id: userId } });
@@ -223,9 +223,11 @@ class BookingsController {
         }
       }
 
+      const copyService = { ...findService.dataValues };
+
       const bookingInfo = {
         user_id: userId,
-        service_id: serviceId,
+        service_id: copyService.id,
         name: name,
         phone: phone,
         status_id: 1,
