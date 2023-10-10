@@ -56,6 +56,12 @@ class PostsController {
         });
       }
 
+      if (!req.file && status_id == 2) {
+        return res.status(406).json({
+          message: "You can't set to Published until you set thumbnail",
+        });
+      }
+
       const postInfo = {
         title: title,
         content: content,

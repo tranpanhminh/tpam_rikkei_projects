@@ -56,13 +56,19 @@ class PagesController {
         });
       }
 
+      if (!req.file && status_id == 2) {
+        return res.status(406).json({
+          message: "You can't set to Published until you set thumbnail",
+        });
+      }
+
       const pageInfo = {
         title: title,
         content: content,
         thumbnail_url: thumbnail,
         author: author,
         status_id: status_id,
-        post_type_id: 3,
+        post_type_id: 4,
       };
       const newPage = await pagesModel.create(pageInfo);
       res.status(200).json({ message: "Page Added", data: newPage });

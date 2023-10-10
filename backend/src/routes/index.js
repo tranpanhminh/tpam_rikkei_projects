@@ -44,6 +44,8 @@ const cancelReasonsRouter = require("./cancelReasons.router.js");
 const postStatusesRouter = require("./postStatuses.router.js");
 // 22. Posts Router
 const postsRouter = require("./posts.router.js");
+// 23. Posts Router
+const pagesRouter = require("./pages.router.js");
 
 express.Router();
 
@@ -113,8 +115,11 @@ function Router(app) {
   // 21. Post Statuses API
   app.use("/api/post-statuses", postStatusesRouter);
 
-  // 21. Cancel Reasons API
+  // 21. Posts API
   app.use("/api/posts", postsRouter);
+
+  // 22. Pages API
+  app.use("/api/pages", pagesRouter);
 }
 
 module.exports = Router;
