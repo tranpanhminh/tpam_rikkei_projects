@@ -88,8 +88,8 @@ productCommentsModel.belongsTo(productsModel, {
   onUpdate: "CASCADE",
 });
 
-productCommentsModel.sync().then(() => {
-  console.log("OK");
-});
+// productCommentsModel.sync().then(() => {
+//   console.log("OK");
+// });
 
 module.exports = productCommentsModel;
