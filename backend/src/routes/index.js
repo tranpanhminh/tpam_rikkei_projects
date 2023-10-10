@@ -40,8 +40,10 @@ const ordersRouter = require("./orders.router.js");
 const orderItemsRouter = require("./orderItems.router.js");
 // 20. Cancel Reasons Router
 const cancelReasonsRouter = require("./cancelReasons.router.js");
-// 20. Post Status Router
+// 21. Post Status Router
 const postStatusesRouter = require("./postStatuses.router.js");
+// 22. Posts Router
+const postsRouter = require("./posts.router.js");
 
 express.Router();
 
@@ -108,8 +110,11 @@ function Router(app) {
   // 20. Cancel Reasons API
   app.use("/api/cancel-reasons", cancelReasonsRouter);
 
-  // 21. Cancel Reasons API
+  // 21. Post Statuses API
   app.use("/api/post-statuses", postStatusesRouter);
+
+  // 21. Cancel Reasons API
+  app.use("/api/posts", postsRouter);
 }
 
 module.exports = Router;
