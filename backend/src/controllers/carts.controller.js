@@ -356,7 +356,7 @@ class CartsController {
 
       const dataProductFromCart = findProductFromCart.dataValues;
 
-      const newQuantity = dataProductFromCart.quantity + quantity;
+      const newQuantity = quantity;
       console.log(newQuantity, "NEW QUANTITY ");
       // Check số lượng mới so với số lượng hàng tồn kho
       if (newQuantity > dataProduct.quantity_stock) {
