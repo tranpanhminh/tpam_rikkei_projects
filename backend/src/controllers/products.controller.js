@@ -62,7 +62,7 @@ class ProductsController {
           },
         ],
         group: ["products.id", "products.name"],
-        raw: true,
+        // raw: true,
       });
 
       res.status(200).json(listProducts);
@@ -126,7 +126,7 @@ class ProductsController {
         where: { id: productId },
 
         group: ["products.id", "products.name"],
-        raw: true,
+        // raw: true,
       });
       if (!detailProduct) {
         return res.status(404).json({ message: "Product ID Not Found" });

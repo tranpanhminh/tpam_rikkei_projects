@@ -4,13 +4,14 @@ import styles from "../../ClientPage.module.css";
 import axios from "axios";
 import { Service } from "../../../../database";
 import { NavLink } from "react-router-dom";
+const servicesAPI = process.env.REACT_APP_API_SERVICES;
+
 function ClientServices() {
   const [services, setServices] = useState<null | Service[]>(null);
   const fetchServices = async () => {
     await axios
-      .get(`http://localhost:7373/api/services/`)
+      .get(`${servicesAPI}`)
       .then((response) => {
-        console.log(response.data, "DASDASDASD");
         setServices(response.data);
       })
       .catch((error) => {
@@ -37,7 +38,7 @@ function ClientServices() {
                   <div className="col-12 col-sm-12 col-md-6 col-xl-4 px-3 my-2">
                     <div className={styles["collection-item"]}>
                       <img
-                        src={`http://localhost:7373/uploads/${service.service_image}`}
+                        src={service.service_image}
                         alt=""
                         className="collection-image"
                       />

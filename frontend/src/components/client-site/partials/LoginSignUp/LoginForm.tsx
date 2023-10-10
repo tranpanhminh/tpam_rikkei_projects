@@ -4,13 +4,15 @@ import axios from "axios";
 import { userAccount } from "../../../../database";
 import { message, notification } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
+const usersAPI = process.env.REACT_APP_API_USERS;
 
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [dataLogin, setDataLogin] = useState("");
   const navigate = useNavigate();
-  const handleLogin = () => {
+
+  const handleLogin = async () => {
     if (email === "" || email === null) {
       notification.warning({
         message: "Email not be blank",
@@ -23,48 +25,62 @@ function LoginForm() {
       });
       return false;
     }
-
-    axios
-      .get(`http://localhost:7373/accounts/?email=${email}`)
+    const loginData = {
+      email: email,
+      password: password,
+    };
+    await axios
+      .post(`http://localhost:7373/api/users/login`, loginData)
       .then((response) => {
-        if (response.data.length === 0) {
-          notification.warning({
-            message: "Email is not exist",
-          });
-        } else {
-          const account = response.data.find(
-            (acc: userAccount) => acc.email === email
-          );
-
-          if (account.password !== password) {
-            notification.warning({
-              message: "Password is not valid",
-            });
-          } else {
-            message.open({
-              type: "success",
-              content: "Login Successfully",
-            });
-
-            // notification.success({
-            //   message: "Login Successfully",
-            // });
-            navigate("/");
-            const loginData = {
-              loginId: account.id,
-              fullName: account.fullName,
-              role: account.role,
-              status: account.status,
-              avatar: account.image_avatar,
-            };
-
-            localStorage.setItem("auth", JSON.stringify(loginData));
-          }
-        }
+        localStorage.setItem("token", response.data.accessToken);
+        localStorage.setItem("userLogin", JSON.stringify(response.data.data));
+        navigate("/");
       })
       .catch((error) => {
-        console.log("Failed");
+        console.log(error);
       });
+
+    // await axios
+    //   .get(`http://localhost:7373/accounts/?email=${email}`)
+    //   .then((response) => {
+    //     if (response.data.length === 0) {
+    //       notification.warning({
+    //         message: "Email is not exist",
+    //       });
+    //     } else {
+    //       const account = response.data.find(
+    //         (acc: userAccount) => acc.email === email
+    //       );
+
+    //       if (account.password !== password) {
+    //         notification.warning({
+    //           message: "Password is not valid",
+    //         });
+    //       } else {
+    //         message.open({
+    //           type: "success",
+    //           content: "Login Successfully",
+    //         });
+
+    //         // notification.success({
+    //         //   message: "Login Successfully",
+    //         // });
+    //         navigate("/");
+    //         const loginData = {
+    //           loginId: account.id,
+    //           fullName: account.fullName,
+    //           role: account.role,
+    //           status: account.status,
+    //           avatar: account.image_avatar,
+    //         };
+
+    //         localStorage.setItem("auth", JSON.stringify(loginData));
+    //       }
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.log("Failed");
+    //   });
   };
 
   return (

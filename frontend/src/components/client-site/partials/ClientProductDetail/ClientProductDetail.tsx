@@ -10,6 +10,8 @@ import avatar from "../../../../assets/images/dogs-reviews-01.png";
 import { Editor } from "@tinymce/tinymce-react";
 import { Badge } from "react-bootstrap";
 import { format } from "date-fns";
+const productsAPI = process.env.REACT_APP_API_PRODUCTS;
+const productCommentsAPI = process.env.REACT_APP_API_PRODUCTS;
 
 function ClientProductDetail() {
   const getData: any = localStorage.getItem("auth");
@@ -17,6 +19,7 @@ function ClientProductDetail() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { productId } = useParams();
   const [user, setUser] = useState<any>(null);
+  const [productComment, setProductComment] = useState<any>([]);
   const [userCart, setUserCart] = useState<any>(null);
   const [products, setProducts] = useState<any>(null);
   const [comments, setComments] = useState<any>([]);
@@ -24,7 +27,7 @@ function ClientProductDetail() {
   const [editorContent, setEditorContent] = useState("");
   const [rateValue, setRateValue] = useState(0);
   const [listUser, setListUser] = useState<any>([]); // Sử dụng useState để quản lý userAvatar
-
+  console.log(products, "DASDASD");
   const handleOk = () => {
     setIsModalOpen(false);
   };
@@ -39,7 +42,7 @@ function ClientProductDetail() {
 
   const fetchProducts = async () => {
     await axios
-      .get(`http://localhost:7373/products/${productId}`)
+      .get(`${productsAPI}/detail/${productId}`)
       .then((response) => {
         setProducts(response.data);
         setComments(response.data.comments);
@@ -61,9 +64,21 @@ function ClientProductDetail() {
       });
   };
 
+  const fetchProductComment = async () => {
+    await axios
+      .get(`${productCommentsAPI}/detail/${productId}`)
+      .then((response) => {
+        setProductComment(response.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
   useEffect(() => {
     fetchProducts();
     fetchUsers();
+    fetchProductComment();
   }, [editorContent]);
 
   console.log("User", user);
@@ -389,16 +404,28 @@ function ClientProductDetail() {
                 <div className="container text-center">
                   <div className="row row-cols-2">
                     <div className="col">
-                      <img src={products && products.productImage[0]} alt="" />
+                      <img
+                        src={products && products.image_url[0].image_url}
+                        alt=""
+                      />
                     </div>
                     <div className="col">
-                      <img src={products && products.productImage[1]} alt="" />
+                      <img
+                        src={products && products.image_url[1].image_url}
+                        alt=""
+                      />
                     </div>
                     <div className="col">
-                      <img src={products && products.productImage[2]} alt="" />
+                      <img
+                        src={products && products.image_url[2].image_url}
+                        alt=""
+                      />
                     </div>
                     <div className="col">
-                      <img src={products && products.productImage[3]} alt="" />
+                      <img
+                        src={products && products.image_url[3].image_url}
+                        alt=""
+                      />
                     </div>
                   </div>
                 </div>
@@ -431,12 +458,12 @@ function ClientProductDetail() {
                   </div>
                   <div className={styles["product-vendor"]}>
                     <span>Vendor:</span>
-                    <span>{products && products.vendor}</span>
+                    <span>{products && products.vendor.name}</span>
                   </div>
-                  <div className={styles["product-sku"]}>
+                  {/* <div className={styles["product-sku"]}>
                     <span>SKU:</span>
                     <span>{products && products.sku}</span>
-                  </div>
+                  </div> */}
                   <div className={styles["product-sku"]}>
                     <span>Stock:</span>
                     <span>{products && products.quantity_stock}</span>

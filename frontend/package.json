@@ -26,6 +26,7 @@
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.9",
     "decimal.js": "^10.4.3",
+    "dotenv": "^16.3.1",
     "faker": "^6.6.6",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.43",

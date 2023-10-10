@@ -6,6 +6,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 const productsAPI = process.env.REACT_APP_API_PRODUCTS;
 
 function ClientFeaturedProducts() {
+  console.log(productsAPI, "SDAs");
   const navigate = useNavigate();
   const [products, setProducts] = useState<any[]>([]);
   const fetchProducts = async () => {

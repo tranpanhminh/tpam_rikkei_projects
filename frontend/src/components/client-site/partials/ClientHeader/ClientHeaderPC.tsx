@@ -24,12 +24,12 @@ function ClientHeaderPC() {
   });
   const navigate = useNavigate();
 
-  const getData: any = localStorage.getItem("auth");
+  const getData: any = localStorage.getItem("userLogin");
   const getLoginData = JSON.parse(getData) || "";
   console.log(getLoginData);
 
   const handleLogout = () => {
-    localStorage.removeItem("auth");
+    localStorage.clear();
     navigate("/");
     message.open({
       type: "success",
