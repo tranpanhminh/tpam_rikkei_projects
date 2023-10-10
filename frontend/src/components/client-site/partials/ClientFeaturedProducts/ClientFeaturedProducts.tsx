@@ -4,7 +4,6 @@ import { Product } from "../../../../database";
 import axios from "axios";
 import { NavLink, useNavigate } from "react-router-dom";
 const productsAPI = process.env.REACT_APP_API_PRODUCTS;
-const imageBaseUrl = process.env.REACT_APP_IMAGE_SRC;
 
 function ClientFeaturedProducts() {
   const navigate = useNavigate();
@@ -47,7 +46,7 @@ function ClientFeaturedProducts() {
                     <div className={styles["card"]}>
                       <NavLink to={`/products/${product.id}`}>
                         <img
-                          src={`${imageBaseUrl}/${product.thumbnail_url}`}
+                          src={product.thumbnail_url}
                           className={styles["card-img-top"]}
                           alt="..."
                         />
