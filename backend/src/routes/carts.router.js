@@ -39,7 +39,7 @@ cartsRouter.delete(
   cartsController.deleteAllProductsFromCart
 );
 
-// // 5. Update Cart
+// 6. Update Product Quantity From Cart Page
 cartsRouter.patch(
   "/update/products/:productId/users/:userId",
   cartsController.updateCart

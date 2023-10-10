@@ -544,8 +544,5 @@ class OrdersController {
       console.log(error, "ERROR");
     }
   }
-
-  // 7. Update Quantity In Cart Page
-  async updateQuantityInCart(req, res) {}
 }
 module.exports = new OrdersController();
