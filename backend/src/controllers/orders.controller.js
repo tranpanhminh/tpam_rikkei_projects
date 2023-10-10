@@ -202,7 +202,7 @@ class OrdersController {
         where: { user_id: userId },
         include: [{ model: productsModel, attributes: ["quantity_stock"] }],
       });
-      console.log(checkCart, "CHECK CART");
+      // console.log(checkCart, "CHECK CART");
       if (checkCart.length === 0) {
         return res.status(404).json({ message: "Your cart is empty" });
       }
@@ -274,7 +274,7 @@ class OrdersController {
       }
 
       const dataCard = checkCardPayment.dataValues;
-      console.log(dataCard, "DATA CARD");
+      // console.log(dataCard, "DATA CARD");
       // Kiểm tra Card có còn hạn sử dụng
       const currentDateTime = new Date();
       const checkValidCardDate = parse(
@@ -319,20 +319,27 @@ class OrdersController {
         limit: 1,
       });
 
-      const dataCoupon = getAllCoupons ? getAllCoupons.dataValues : 0;
+      // ----------- Copy thông tin -------------
+      // 1. Copy Card Info
+      const copyCardInfo = {
+        ...dataCard,
+      };
 
-      // const totalBill = getAllCoupons
-      //   ? (
-      //       cartBill[0].bill -
-      //       (dataCoupon.discount_rate / 100) * cartBill[0].bill
-      //     ).toFixed(2)
-      //   : cartBill[0].bill;
-      // console.log(totalBill, "TOTAL BILL");
+      let copyCouponInfo;
+
+      if (getAllCoupons) {
+        const dataCoupon = getAllCoupons.dataValues;
+        copyCouponInfo = {
+          ...dataCoupon,
+        };
+      } else {
+        copyCouponInfo = 0;
+      }
 
       const bill = cartBill[0].bill;
 
       const discountedAmount = getAllCoupons
-        ? ((dataCoupon.discount_rate / 100) * cartBill[0].bill).toFixed(2)
+        ? ((copyCouponInfo.discount_rate / 100) * cartBill[0].bill).toFixed(2)
         : 0;
 
       const totalBill = (bill - discountedAmount).toFixed(2);
@@ -345,13 +352,16 @@ class OrdersController {
         4. Shipped
         5. Cancel 
       */
+
       const orderInfo = {
+        user_id: userId,
         customer_name: customer_name,
         address: address,
         phone: phone,
-        user_id: userId,
-        card_id: dataCard.id,
-        coupon_id: getAllCoupons ? dataCoupon.id : null,
+        discount_rate: copyCouponInfo.discount_rate,
+        card_number: copyCardInfo.card_number,
+        card_id: copyCardInfo.id,
+        coupon_id: getAllCoupons ? copyCouponInfo.id : null,
         status_id: 1,
         bill: bill,
         discounted: discountedAmount,
@@ -383,12 +393,27 @@ class OrdersController {
           orderId = newOrder.id; // Gán orderId ở đây, không cần return
         }
 
+        const findProduct = await productsModel.findOne({
+          where: { id: cartProduct.product_id },
+        });
+
+        const dataProduct = findProduct.dataValues;
+
+        const copyProduct = {
+          ...dataProduct,
+        };
+
         const orderItemInfo = {
           order_id: orderId, // Sử dụng orderId đã gán ở trên
           product_id: cartProduct.product_id,
+          product_name: copyProduct.name,
+          product_description: copyProduct.description,
+          product_thumbnail: copyProduct.thumbnail_url,
           quantity: cartProduct.quantity,
           price: cartProduct.price,
         };
+
+        console.log(orderItemInfo, "orderItemInfo");
 
         // Đẩy Cart vào giỏ hàng chi tiết
         await orderItemsModel.create(orderItemInfo);
@@ -467,7 +492,7 @@ class OrdersController {
 
   // 6. Cancel Order For Customer
   async cancelOrder(req, res) {
-    const { cancel_reason_id, status_id } = req.body;
+    const { cancel_reason_id } = req.body;
     try {
       const orderId = req.params.orderId;
       const findOrder = await ordersModel.findOne({
@@ -512,8 +537,22 @@ class OrdersController {
           .json({ message: "Order can't updated because it was canceled" });
       }
 
+      // Tìm Cancel Reason
+      const findCancelReason = await cancelReasonsModel.findOne({
+        where: { id: cancel_reason_id },
+      });
+
+      let copyDataCancelReason;
+      if (findCancelReason) {
+        const dataCancelReason = findCancelReason.dataValues;
+        copyDataCancelReason = {
+          ...dataCancelReason,
+        };
+      }
+
       const orderInfo = {
-        cancel_reason_id: cancel_reason_id,
+        cancellation_reason: copyDataCancelReason.name,
+        cancel_reason_id: copyDataCancelReason.id,
         status_id: 5,
         updated_at: Date.now(),
       };

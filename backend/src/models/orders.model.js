@@ -18,6 +18,10 @@ const ordersModel = sequelize.define(
       allowNull: false,
       unique: true,
     },
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     customer_name: {
       type: DataTypes.STRING(255),
       allowNull: false,
@@ -30,21 +34,17 @@ const ordersModel = sequelize.define(
       type: DataTypes.STRING(255),
       allowNull: false,
     },
-    user_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    card_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    coupon_id: {
+    discount_rate: {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
-    status_id: {
-      type: DataTypes.INTEGER,
+    card_number: {
+      type: DataTypes.BIGINT,
       allowNull: false,
+    },
+    cancellation_reason: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
     },
     order_date: {
       type: DataTypes.DATE,
@@ -62,6 +62,18 @@ const ordersModel = sequelize.define(
     total_bill: {
       type: DataTypes.BIGINT,
       allowNull: false,
+    },
+    card_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    coupon_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    status_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
     },
     cancel_reason_id: {
       type: DataTypes.INTEGER,

@@ -23,6 +23,18 @@ const orderItemsModel = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: true,
     },
+    product_name: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
+    product_description: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    product_thumbnail: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
     quantity: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -53,7 +65,6 @@ ordersModel.hasMany(orderItemsModel, {
 });
 orderItemsModel.belongsTo(ordersModel, {
   foreignKey: "order_id",
-  onUpdate: "CASCADE",
 });
 
 // Order Item và Product
