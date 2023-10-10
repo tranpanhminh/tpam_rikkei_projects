@@ -37,13 +37,13 @@ class VendorsController {
     const { name } = req.body;
     try {
       if (!name) {
-        res.status(406).json({ message: "Vendor Name not be blank" });
+        res.status(406).json({ message: "Vendor Name must not be blank" });
       } else {
         const vendorInfo = {
           name: name,
         };
         const newVendor = await vendorsModel.create(vendorInfo);
-        res.status(200).json({ message: "Vendor Added", data: vendorInfo });
+        res.status(200).json({ message: "Vendor Added", data: newVendor });
       }
     } catch (error) {
       console.log(error, "ERROR");

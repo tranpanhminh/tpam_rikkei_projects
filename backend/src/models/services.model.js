@@ -55,17 +55,26 @@ const servicesModel = sequelize.define(
   }
 );
 
-// Định nghĩa mối quan hệ giữa Service và PostType
+// Mối quan hệ giữa Service và Post Type
+postTypesModel.hasMany(servicesModel, {
+  foreignKey: "post_type_id",
+  onDelete: "NO ACTION",
+});
+
 servicesModel.belongsTo(postTypesModel, {
   foreignKey: "post_type_id",
-  onUpdate: "CASCADE",
-  onDelete: "CASCADE",
+  onDelete: "NO ACTION",
+});
+
+// Mối quan hệ giữa Service và Working Time
+workingTimeModel.hasMany(servicesModel, {
+  foreignKey: "working_time_id",
+  onDelete: "NO ACTION",
 });
 
 servicesModel.belongsTo(workingTimeModel, {
   foreignKey: "working_time_id",
-  onUpdate: "CASCADE",
-  onDelete: "CASCADE",
+  onDelete: "NO ACTION",
 });
 
 // servicesModel.sync().then(() => {

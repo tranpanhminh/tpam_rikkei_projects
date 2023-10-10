@@ -58,18 +58,26 @@ const productsModel = sequelize.define(
   }
 );
 
-// Thiết lập mối quan hệ khóa ngoại với vendors
-productsModel.belongsTo(vendorsModel, {
+// Mối quan hệ khóa ngoại giữa Products và Vendors
+vendorsModel.hasMany(productsModel, {
   foreignKey: "vendor_id",
-  onDelete: "CASCADE",
-  onUpdate: "CASCADE",
+  onDelete: "NO ACTION",
 });
 
-// Thiết lập mối quan hệ khóa ngoại với post_types
+productsModel.belongsTo(vendorsModel, {
+  foreignKey: "vendor_id",
+  onDelete: "NO ACTION",
+});
+
+// Mối quan hệ khóa ngoại giữa Products và Post Types
+postTypesModel.hasMany(productsModel, {
+  foreignKey: "post_type_id",
+  onDelete: "NO ACTION",
+});
+
 productsModel.belongsTo(postTypesModel, {
   foreignKey: "post_type_id",
-  onDelete: "CASCADE",
-  onUpdate: "CASCADE",
+  onDelete: "NO ACTION",
 });
 
 // productsModel.sync().then(() => {

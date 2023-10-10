@@ -32,8 +32,8 @@ const vendorsModel = sequelize.define(
   }
 );
 
-vendorsModel.sync().then(() => {
-  console.log("OK");
-});
+// vendorsModel.sync().then(() => {
+//   console.log("OK");
+// });
 
 module.exports = vendorsModel;

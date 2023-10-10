@@ -55,22 +55,24 @@ const usersModel = sequelize.define(
   }
 );
 
+// Mối quan hệ giữa User và User Role
 userRolesModel.hasMany(usersModel, {
   foreignKey: "role_id",
+  onDelete: "NO ACTION",
 });
 usersModel.belongsTo(userRolesModel, {
   foreignKey: "role_id",
-  onDelete: "CASCADE",
-  onUpdate: "CASCADE",
+  onDelete: "NO ACTION",
 });
 
+// Mối quan hệ giữa User và User Status
 userStatusesModel.hasMany(usersModel, {
   foreignKey: "status_id",
+  onDelete: "NO ACTION",
 });
 usersModel.belongsTo(userStatusesModel, {
   foreignKey: "status_id",
-  onDelete: "CASCADE",
-  onUpdate: "CASCADE",
+  onDelete: "NO ACTION",
 });
 
 // usersModel.sync().then(() => {

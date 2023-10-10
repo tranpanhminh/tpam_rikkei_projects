@@ -37,14 +37,14 @@ const productImagesModel = sequelize.define(
   }
 );
 
-// Thiết lập mối quan hệ khóa ngoại
-productImagesModel.belongsTo(productsModel, {
+// Mối quan hệ giữa Product và Product Image
+productsModel.hasMany(productImagesModel, {
   foreignKey: "product_id",
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
 });
 
-productsModel.hasMany(productImagesModel, {
+productImagesModel.belongsTo(productsModel, {
   foreignKey: "product_id",
   onDelete: "CASCADE",
   onUpdate: "CASCADE",

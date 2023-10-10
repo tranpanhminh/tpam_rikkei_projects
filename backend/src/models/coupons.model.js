@@ -30,11 +30,11 @@ const couponsModel = sequelize.define(
       allowNull: false,
     },
     created_at: {
-      type: DataTypes.DATE, // Sử dụng kiểu dữ liệu DATE thay thế
+      type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
     },
     updated_at: {
-      type: DataTypes.DATE, // Sử dụng kiểu dữ liệu DATE thay thế
+      type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
       onUpdate: DataTypes.NOW,
     },

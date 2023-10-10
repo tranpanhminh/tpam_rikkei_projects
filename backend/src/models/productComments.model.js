@@ -57,25 +57,28 @@ const productCommentsModel = sequelize.define(
   }
 );
 
-// Thiết lập quan hệ giữa các mô hình
+// Mối quan hệ giữa User và Product Comment
 usersModel.hasMany(productCommentsModel, {
   foreignKey: "user_id",
 });
+
 productCommentsModel.belongsTo(usersModel, {
   foreignKey: "user_id",
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
 });
 
+// Mối quan hệ giữa Post Type và Product Comment
 postTypesModel.hasMany(productCommentsModel, {
   foreignKey: "post_type_id",
+  onDelete: "NO ACTION",
 });
 productCommentsModel.belongsTo(postTypesModel, {
   foreignKey: "post_type_id",
-  onDelete: "CASCADE",
-  onUpdate: "CASCADE",
+  onDelete: "NO ACTION",
 });
 
+// Mối quan hệ giữa Product và Product Comment
 productsModel.hasMany(productCommentsModel, {
   foreignKey: "post_id",
 });
@@ -85,8 +88,8 @@ productCommentsModel.belongsTo(productsModel, {
   onUpdate: "CASCADE",
 });
 
-// productCommentsModel.sync().then(() => {
-//   console.log("OK");
-// });
+productCommentsModel.sync().then(() => {
+  console.log("OK");
+});
 
 module.exports = productCommentsModel;
