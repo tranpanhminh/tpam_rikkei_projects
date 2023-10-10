@@ -12,7 +12,7 @@ class BookingsController {
   async getAllBookings(req, res) {
     try {
       // const listBookings = await bookingsModel.findAll();
-      
+
       const listBookings = await bookingsModel.findAll({
         // Chọn các thuộc tính cần thiết
         attributes: [
@@ -223,11 +223,9 @@ class BookingsController {
         }
       }
 
-      const copyService = { ...findService.dataValues };
-
       const bookingInfo = {
         user_id: userId,
-        service_id: copyService.id,
+        service_id: serviceId,
         name: name,
         phone: phone,
         status_id: 1,
