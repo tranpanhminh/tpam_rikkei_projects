@@ -1,5 +1,7 @@
 const connectMySQL = require("../configs/db.config.js");
 const pagesModel = require("../models/pages.model.js");
+const postTypesModel = require("../models/postTypes.model.js");
+const postStatusesModel = require("../models/postStatuses.model.js");
 const bcrypt = require("bcryptjs");
 
 // ---------------------------------------------------------
@@ -7,7 +9,37 @@ class PagesController {
   // 1. Get All Pages
   async getAllPages(req, res) {
     try {
-      const listPages = await pagesModel.findAll(); // include: <Tên bảng>
+      // const listPages = await pagesModel.findAll();
+
+      const listPages = await pagesModel.findAll({
+        // Chọn các thuộc tính cần thiết
+        attributes: [
+          "id",
+          "title",
+          "content",
+          "thumbnail_url",
+          "author",
+          "post_type_id",
+          "status_id",
+          "created_at",
+          "updated_at",
+        ],
+        // Tham gia với bảng post_types
+        include: [
+          {
+            model: postTypesModel,
+            attributes: ["name"],
+          },
+          {
+            model: postStatusesModel,
+            attributes: ["name"],
+          },
+        ],
+
+        // Nhóm theo id và tên của dịch vụ
+        group: ["id"],
+        raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
+      });
       res.status(200).json(listPages);
       console.log(listPages, "listPages");
     } catch (error) {
@@ -19,9 +51,41 @@ class PagesController {
   async getDetailPage(req, res) {
     try {
       const pageId = req.params.pageId;
-      const detailPage = await pagesModel.findOne({
+      // const detailPage = await pagesModel.findOne({
+      //   where: { id: pageId },
+      // });
+
+      const detailPage = await pagesModel.findAll({
+        // Chọn các thuộc tính cần thiết
+        attributes: [
+          "id",
+          "title",
+          "content",
+          "thumbnail_url",
+          "author",
+          "post_type_id",
+          "status_id",
+          "created_at",
+          "updated_at",
+        ],
+        // Tham gia với bảng post_types
+        include: [
+          {
+            model: postTypesModel,
+            attributes: ["name"],
+          },
+          {
+            model: postStatusesModel,
+            attributes: ["name"],
+          },
+        ],
+
+        // Nhóm theo id và tên của dịch vụ
         where: { id: pageId },
+        group: ["id"],
+        raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
       });
+
       if (!detailPage) {
         return res.status(404).json({ message: "Page ID Not Found" });
       } else {
