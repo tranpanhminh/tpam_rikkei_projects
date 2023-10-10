@@ -47,7 +47,7 @@ import ClientSearchPage from "./components/client-site/layouts/ClientSearchPage"
 import AccessDenied from "./components/common/AccessDenied/AccessDenied";
 
 export function RoleNavigation() {
-  const getData: any = localStorage.getItem("auth");
+  const getData: any = localStorage.getItem("userLogin");
   const getLoginData = JSON.parse(getData) || "";
   const navigate = useNavigate();
   const location = useLocation();

@@ -33,7 +33,7 @@ function LoginForm() {
       .post(`http://localhost:7373/api/users/login`, loginData)
       .then((response) => {
         localStorage.setItem("token", response.data.accessToken);
-        localStorage.setItem("userLogin", JSON.stringify(response.data.data));
+        localStorage.setItem("auth", JSON.stringify(response.data.data));
         navigate("/");
       })
       .catch((error) => {

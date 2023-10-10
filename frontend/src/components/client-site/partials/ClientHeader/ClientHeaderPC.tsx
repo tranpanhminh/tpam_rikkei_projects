@@ -24,7 +24,7 @@ function ClientHeaderPC() {
   });
   const navigate = useNavigate();
 
-  const getData: any = localStorage.getItem("userLogin");
+  const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
   console.log(getLoginData);
 
