@@ -34,8 +34,8 @@ class PostsController {
 
   // 3. Add Post
   async addPost(req, res) {
-    const { title, content, thumbnail_url, author, status_id, post_type_id } =
-      req.body;
+    const { title, content, author, status_id } = req.body;
+    const thumbnail = req.file ? req.file.filename : "";
     try {
       if (!title) {
         return res
@@ -44,11 +44,6 @@ class PostsController {
       }
       if (!content) {
         return res.status(406).json({ message: "Content must not be blank" });
-      }
-      if (!thumbnail_url) {
-        return res.status(406).json({
-          message: "Thumbnail must not be blank",
-        });
       }
       if (!author) {
         return res.status(406).json({
@@ -64,7 +59,7 @@ class PostsController {
       const postInfo = {
         title: title,
         content: content,
-        thumbnail_url: thumbnail_url,
+        thumbnail_url: thumbnail,
         author: author,
         status_id: status_id,
         post_type_id: 3,
@@ -101,6 +96,7 @@ class PostsController {
   // 5. Update Post
   async updatePost(req, res) {
     const { title, content, thumbnail_url, author, status_id } = req.body;
+    const thumbnail = req.file ? req.file.filename : "";
     try {
       const postId = req.params.postId;
       const findPost = await postsModel.findOne({
@@ -112,7 +108,7 @@ class PostsController {
       const postInfo = {
         title: !title ? dataPost.title : title,
         content: !content ? dataPost.content : content,
-        thumbnail_url: !thumbnail_url ? dataPost.thumbnail_url : thumbnail_url,
+        thumbnail_url: !thumbnail ? dataPost.thumbnail_url : thumbnail,
         author: !author ? dataPost.author : author,
         status_id: !status_id ? dataPost.status_id : status_id,
         updated_at: Date.now(),

@@ -8,7 +8,7 @@ const postsRouter = express.Router();
 
 // Import Controller
 const postsController = require("../controllers/posts.controller.js");
-
+const uploadImage = require("../middlewares/CheckPostPage/uploadThumbnailPostPage.js");
 // ---------------------------------------------------------
 
 // 1. Get All Posts
@@ -18,12 +18,20 @@ postsRouter.get("/", postsController.getAllPosts);
 postsRouter.get("/detail/:postId", postsController.getDetailPost);
 
 // 3. Add Post
-postsRouter.post("/add", postsController.addPost);
+postsRouter.post(
+  "/add",
+  uploadImage.single("thumbnail_url"),
+  postsController.addPost
+);
 
 // 4. Delete Post
 postsRouter.delete("/delete/:postId", postsController.deletePost);
 
 // // 5. Update Post
-postsRouter.patch("/update/:postId", postsController.updatePost);
+postsRouter.patch(
+  "/update/:postId",
+  uploadImage.single("thumbnail_url"),
+  postsController.updatePost
+);
 
 module.exports = postsRouter;
