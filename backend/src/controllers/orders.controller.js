@@ -23,18 +23,17 @@ class OrdersController {
         // Chọn các thuộc tính cần thiết
         attributes: [
           "id",
+          "user_id",
           "customer_name",
           "address",
           "phone",
-          "user_id",
-          "card_id",
-          "status_id",
-          "coupon_id",
+          "discount_rate",
+          "card_number",
+          "cancellation_reason",
           "order_date",
           "bill",
           "discounted",
           "total_bill",
-          "cancel_reason_id",
           "updated_at",
           "updated_at",
         ],
@@ -45,22 +44,22 @@ class OrdersController {
             model: usersModel,
             attributes: ["email"],
           },
-          {
-            model: paymentsModel,
-            attributes: ["card_number"],
-          },
+          // {
+          //   model: paymentsModel,
+          //   attributes: ["card_number"],
+          // },
           {
             model: orderStatusesModel,
             attributes: ["name"],
           },
-          {
-            model: cancelReasonsModel,
-            attributes: ["name"],
-          },
-          {
-            model: couponsModel,
-            attributes: ["discount_rate"],
-          },
+          // {
+          //   model: cancelReasonsModel,
+          //   attributes: ["name"],
+          // },
+          // {
+          //   model: couponsModel,
+          //   attributes: ["discount_rate"],
+          // },
         ],
 
         // Nhóm theo id và tên của dịch vụ
@@ -87,7 +86,9 @@ class OrdersController {
         attributes: [
           "id",
           "order_id",
-          "product_id",
+          "product_name",
+          "product_description",
+          "product_thumbnail",
           "quantity",
           "price",
           "created_at",
@@ -95,12 +96,12 @@ class OrdersController {
         ],
 
         // Tham gia với bảng post_types
-        include: [
-          {
-            model: productsModel,
-            attributes: ["name", "thumbnail_url"],
-          },
-        ],
+        // include: [
+        //   {
+        //     model: productsModel,
+        //     attributes: ["name"],
+        //   },
+        // ],
         where: { order_id: orderId },
         // Nhóm theo id và tên của dịch vụ
         group: ["id"],
@@ -128,18 +129,17 @@ class OrdersController {
         // Chọn các thuộc tính cần thiết
         attributes: [
           "id",
+          "user_id",
           "customer_name",
           "address",
           "phone",
-          "user_id",
-          "card_id",
-          "status_id",
-          "coupon_id",
+          "discount_rate",
+          "card_number",
+          "cancellation_reason",
           "order_date",
           "bill",
           "discounted",
           "total_bill",
-          "cancel_reason_id",
           "updated_at",
           "updated_at",
         ],
@@ -150,22 +150,22 @@ class OrdersController {
             model: usersModel,
             attributes: ["email"],
           },
-          {
-            model: paymentsModel,
-            attributes: ["card_number"],
-          },
+          // {
+          //   model: paymentsModel,
+          //   attributes: ["card_number"],
+          // },
           {
             model: orderStatusesModel,
             attributes: ["name"],
           },
-          {
-            model: cancelReasonsModel,
-            attributes: ["name"],
-          },
-          {
-            model: couponsModel,
-            attributes: ["discount_rate"],
-          },
+          // {
+          //   model: cancelReasonsModel,
+          //   attributes: ["name"],
+          // },
+          // {
+          //   model: couponsModel,
+          //   attributes: ["discount_rate"],
+          // },
         ],
         where: { user_id: userId },
         // Nhóm theo id và tên của dịch vụ
