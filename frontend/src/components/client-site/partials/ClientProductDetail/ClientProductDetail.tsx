@@ -37,8 +37,8 @@ function ClientProductDetail() {
     setIsModalOpen(true);
   };
 
-  const fetchProducts = () => {
-    axios
+  const fetchProducts = async () => {
+    await axios
       .get(`http://localhost:7373/products/${productId}`)
       .then((response) => {
         setProducts(response.data);
@@ -49,9 +49,9 @@ function ClientProductDetail() {
       });
   };
 
-  const fetchUsers = () => {
-    axios
-      .get(`http://localhost:7373/accounts/${getLoginData.loginId}`)
+  const fetchUsers = async () => {
+    await axios
+      .get(`http://localhost:7373/users/detail/${getLoginData.loginId}`)
       .then((response) => {
         setUser(response.data);
         setUserCart(response.data.cart);
@@ -337,7 +337,7 @@ function ClientProductDetail() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:7373/accounts/`)
+      .get(`http://localhost:7373/users/`)
       .then((response) => {
         setListUser(response.data);
       })

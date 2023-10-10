@@ -8,6 +8,7 @@ const vendorsModel = require("../models/vendors.model.js");
 const productImagesModel = require("../models/productImages.model.js");
 const productCommentsController = require("../controllers/productComments.controller.js");
 const bcrypt = require("bcryptjs");
+const sourceImage = process.env.BASE_URL_IMAGE;
 
 // ---------------------------------------------------------
 class ProductsController {
@@ -147,14 +148,14 @@ class ProductsController {
         price: price,
         quantity_stock: quantity_stock,
         vendor_id: vendor_id,
-        thumbnail_url: req.files[0].filename,
+        thumbnail_url: sourceImage + req.files[0].filename,
       };
       console.log(productInfo, "productInfo");
       const newProduct = await productsModel.create(productInfo);
 
       for (let i = 0; i < req.files.length; i++) {
         await productImagesModel.create({
-          image_url: req.files[i].filename,
+          image_url: sourceImage + req.files[i].filename,
           product_id: newProduct.id,
         });
       }
@@ -252,7 +253,7 @@ class ProductsController {
       }
       console.log(req.file.filename, "ADSDASDSA");
       const imageInfor = {
-        image_url: req.file.filename,
+        image_url: sourceImage + req.file.filename,
         updated_at: Date.now(),
       };
       const updatedImage = await productImagesModel.update(imageInfor, {

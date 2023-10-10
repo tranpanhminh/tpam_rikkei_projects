@@ -16,7 +16,7 @@ function ManageProducts() {
 
   const fetchProducts = () => {
     axios
-      .get("http://localhost:7373/products")
+      .get("http://localhost:7373/api/products")
       .then((response) => {
         setProducts(response.data);
       })
@@ -49,9 +49,6 @@ function ManageProducts() {
                 .includes(searchText.trim().toLowerCase()) ||
               product.price.toString().includes(searchText.trim()) ||
               product.vendor
-                .toLowerCase()
-                .includes(searchText.trim().toLowerCase()) ||
-              product.sku
                 .toLowerCase()
                 .includes(searchText.trim().toLowerCase()) ||
               product.quantity_stock.toString().includes(searchText.trim())
@@ -170,7 +167,7 @@ function ManageProducts() {
               <tr key={product.id}>
                 <td>{product.id}</td>
                 <td>
-                  <img src={product.productImage[0]} alt="" />
+                  {/* <img src={product.productImage[0]} alt="" /> */}
                 </td>
                 <td>{product.name}</td>
                 <td>${product.price}</td>

@@ -15,7 +15,7 @@ function ManageServices() {
 
   const fetchServices = () => {
     axios
-      .get("http://localhost:7373/services")
+      .get("http://localhost:7373/api/services")
       .then((response) => {
         setServices(response.data);
       })
@@ -33,7 +33,7 @@ function ManageServices() {
       fetchServices();
     } else {
       axios
-        .get(`http://localhost:7373/services`)
+        .get(`http://localhost:7373/api/services`)
         .then((response) => {
           // Lấy dữ liệu từ response
           const allServices = response.data;
@@ -60,7 +60,7 @@ function ManageServices() {
 
   const handleAddService = (newService: Service) => {
     axios
-      .post("http://localhost:7373/services", newService)
+      .post("http://localhost:7373/api/services", newService)
       .then(() => {
         fetchServices(); // Cập nhật lại dữ liệu products sau khi thêm
         notification.success({
@@ -74,7 +74,7 @@ function ManageServices() {
 
   const handleDeleteService = (serviceId: number) => {
     axios
-      .delete(`http://localhost:7373/services/${serviceId}`)
+      .delete(`http://localhost:7373/api/services/detail/${serviceId}`)
       .then(() => {
         fetchServices(); // Cập nhật lại dữ liệu products sau khi xóa
         notification.success({
@@ -88,7 +88,7 @@ function ManageServices() {
 
   const handleUpdateService = () => {
     axios
-      .get("http://localhost:7373/services")
+      .get("http://localhost:7373/api/services")
       .then(() => {
         fetchServices(); // Cập nhật lại dữ liệu users sau khi thêm
         notification.success({
@@ -158,14 +158,12 @@ function ManageServices() {
               services.map((service) => (
                 <tr key={service.id}>
                   <td>{service.id}</td>
-                  <td>
-                    <img src={service.serviceImage} alt="" />
-                  </td>
+                  <td>{/* <img src={service.serviceImage} alt="" /> */}</td>
                   <td>{service.name}</td>
                   <td>{service.price}</td>
                   <td>
-                    <p>{service.morningTime}</p>
-                    <p>{service.afternoonTime}</p>
+                    {/* <p>{service.morningTime}</p>
+                    <p>{service.afternoonTime}</p> */}
                   </td>
                   <td className={styles["group-btn-admin-manage-product"]}>
                     <NavLink to={`/services/${service.id}`} target="_blank">

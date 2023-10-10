@@ -3,13 +3,15 @@ import styles from "../../ClientPage.module.css";
 import { Product } from "../../../../database";
 import axios from "axios";
 import { NavLink, useNavigate } from "react-router-dom";
+const productsAPI = process.env.REACT_APP_API_PRODUCTS;
+const imageBaseUrl = process.env.REACT_APP_IMAGE_SRC;
 
 function ClientFeaturedProducts() {
   const navigate = useNavigate();
-  const [products, setProducts] = useState<Product[]>([]);
-  const fetchProducts = () => {
-    axios
-      .get("http://localhost:7373/products")
+  const [products, setProducts] = useState<any[]>([]);
+  const fetchProducts = async () => {
+    await axios
+      .get(`${productsAPI}`)
       .then((response) => {
         setProducts(response.data);
       })
@@ -17,6 +19,7 @@ function ClientFeaturedProducts() {
         console.log(error.message);
       });
   };
+  console.log(products, "PRODUCTSAAA");
 
   useEffect(() => {
     fetchProducts();
@@ -36,7 +39,7 @@ function ClientFeaturedProducts() {
             id="container-product-homepage"
           >
             {products &&
-              products.slice(0, 8).map((product) => {
+              products.slice(0, 8).map((product: any) => {
                 return (
                   <div
                     className={`col-12 col-sm-12 col-md-6 col-xl-3 mt-5 px-2 ${styles["product-card"]}`}
@@ -44,7 +47,7 @@ function ClientFeaturedProducts() {
                     <div className={styles["card"]}>
                       <NavLink to={`/products/${product.id}`}>
                         <img
-                          src={product.productImage[0]}
+                          src={`${imageBaseUrl}/${product.thumbnail_url}`}
                           className={styles["card-img-top"]}
                           alt="..."
                         />

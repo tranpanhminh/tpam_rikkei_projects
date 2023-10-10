@@ -3,6 +3,7 @@ const postsModel = require("../models/posts.model.js");
 const postTypesModel = require("../models/postTypes.model.js");
 const postStatusesModel = require("../models/postStatuses.model.js");
 const bcrypt = require("bcryptjs");
+const sourceImage = process.env.BASE_URL_IMAGE;
 
 // ---------------------------------------------------------
 class PostsController {
@@ -129,7 +130,7 @@ class PostsController {
       const postInfo = {
         title: title,
         content: content,
-        thumbnail_url: thumbnail,
+        thumbnail_url: sourceImage + thumbnail,
         author: author,
         status_id: status_id,
         post_type_id: 3,
@@ -178,7 +179,9 @@ class PostsController {
       const postInfo = {
         title: !title ? dataPost.title : title,
         content: !content ? dataPost.content : content,
-        thumbnail_url: !thumbnail ? dataPost.thumbnail_url : thumbnail,
+        thumbnail_url: !thumbnail
+          ? dataPost.thumbnail_url
+          : sourceImage + thumbnail,
         author: !author ? dataPost.author : author,
         status_id: !status_id ? dataPost.status_id : status_id,
         updated_at: Date.now(),

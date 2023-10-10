@@ -29,7 +29,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
   const [initDescription, setDescription] = useState("");
   const [initPrice, setPrice] = useState("");
   const [initVendor, setVendor] = useState("");
-  const [initSku, setSku] = useState("");
+  // const [initSku, setSku] = useState("");
   const [initStock, setStock] = useState("");
   const [initImage1, setImage1] = useState("");
   const [initImage2, setImage2] = useState("");
@@ -48,7 +48,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
   useEffect(() => {
     const fetchProduct = () => {
       axios
-        .get(`http://localhost:7373/products/${getProductId}`)
+        .get(`http://localhost:7373/api/products/${getProductId}`)
         .then((response) => {
           setProducts(response.data);
         })
@@ -74,18 +74,18 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
   const handleOk = () => {
     console.log("handleSubmit is called");
     const updateProduct = {
-      productImage: [
-        initImage1 || products?.productImage[0],
-        initImage2 || products?.productImage[1],
-        initImage3 || products?.productImage[2],
-        initImage4 || products?.productImage[3],
-      ],
+      // productImage: [
+      //   initImage1 || products?.productImage[0],
+      //   initImage2 || products?.productImage[1],
+      //   initImage3 || products?.productImage[2],
+      //   initImage4 || products?.productImage[3],
+      // ],
       name: initName !== "" ? initName : products?.name,
       description:
         initDescription !== "" ? initDescription : products?.description,
       price: initPrice !== "" ? initPrice : products?.price,
       vendor: initVendor !== "" ? initVendor : products?.vendor,
-      sku: initSku !== "" ? initSku : products?.sku,
+      // sku: initSku !== "" ? initSku : products?.sku,
       quantity_stock: initStock !== "" ? initStock : products?.quantity_stock,
     };
 
@@ -130,10 +130,10 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
         {products && (
           <div className={styles["product-detail-information-container"]}>
             <div className={styles["left-product-detail-item"]}>
-              <img src={products && products.productImage[0]} alt="" />
+              {/* <img src={products && products.productImage[0]} alt="" />
               <img src={products && products.productImage[1]} alt="" />
               <img src={products && products.productImage[2]} alt="" />
-              <img src={products && products.productImage[3]} alt="" />
+              <img src={products && products.productImage[3]} alt="" /> */}
             </div>
 
             <div className={styles["right-product-detail-item"]}>
@@ -193,7 +193,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
                   onChange={(event) => setVendor(event.target.value)}
                 />
               </div>
-              <div className={styles["product-info-item"]}>
+              {/* <div className={styles["product-info-item"]}>
                 <label className={styles["label-product"]} htmlFor="">
                   SKU
                 </label>
@@ -203,7 +203,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
                   defaultValue={products && products.sku}
                   onChange={(event) => setSku(event.target.value)}
                 />
-              </div>
+              </div> */}
               <div className={styles["product-info-item"]}>
                 <label className={styles["label-product"]} htmlFor="">
                   Quantity Stock
@@ -222,7 +222,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
                 <input
                   type="text"
                   name="Product Image 1"
-                  defaultValue={products && products.productImage[0]}
+                  // defaultValue={products && products.productImage[0]}
                   onChange={(event) => setImage1(event.target.value)}
                 />
               </div>
@@ -233,7 +233,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
                 <input
                   type="text"
                   name="Product Image 2"
-                  defaultValue={products && products.productImage[1]}
+                  // defaultValue={products && products.productImage[1]}
                   onChange={(event) => setImage2(event.target.value)}
                 />
               </div>
@@ -244,7 +244,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
                 <input
                   type="text"
                   name="Product Image 3"
-                  defaultValue={products && products.productImage[2]}
+                  // defaultValue={products && products.productImage[2]}
                   onChange={(event) => setImage3(event.target.value)}
                 />
               </div>
@@ -255,7 +255,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
                 <input
                   type="text"
                   name="Product Image 4"
-                  defaultValue={products && products.productImage[3]}
+                  // defaultValue={products && products.productImage[3]}
                   onChange={(event) => setImage4(event.target.value)}
                 />
               </div>

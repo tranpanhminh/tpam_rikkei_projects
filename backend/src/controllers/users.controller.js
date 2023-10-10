@@ -4,6 +4,7 @@ const userRolesModel = require("../models/userRoles.model.js");
 const userStatusesModel = require("../models/userStatuses.model.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const sourceImage = process.env.BASE_URL_IMAGE;
 
 // ---------------------------------------------------------
 class UsersController {
@@ -441,7 +442,7 @@ class UsersController {
     console.log(avatar, "AVATAR");
     try {
       const updatedUser = {
-        image_avatar: avatar,
+        image_avatar: sourceImage + avatar,
       };
       const resultUpdate = await usersModel.update(updatedUser, {
         where: { id: userId },

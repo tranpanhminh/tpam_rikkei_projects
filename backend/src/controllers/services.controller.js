@@ -5,6 +5,7 @@ const workingTimeModel = require("../models/workingTime.model.js");
 const postTypesModel = require("../models/postTypes.model.js");
 const servicesModel = require("../models/services.model.js");
 const bcrypt = require("bcryptjs");
+const sourceImage = process.env.BASE_URL_IMAGE;
 
 // ---------------------------------------------------------
 class ServicesController {
@@ -121,7 +122,7 @@ class ServicesController {
         description: description,
         price: price,
         working_time_id: working_time_id,
-        service_image: req.file.filename,
+        service_image: sourceImage + req.file.filename,
       };
       console.log(servicesInfo, "servicesInfo");
       const newService = await servicesModel.create(servicesInfo);
@@ -180,7 +181,7 @@ class ServicesController {
           : working_time_id,
         service_image: !req.file
           ? dataService.service_image
-          : req.file.filename,
+          : sourceImage + req.file.filename,
         updated_at: Date.now(),
       };
       console.log(serviceInfo, "serviceInfo");

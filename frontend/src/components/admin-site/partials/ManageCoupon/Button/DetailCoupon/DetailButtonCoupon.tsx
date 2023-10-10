@@ -33,7 +33,7 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
   useEffect(() => {
     const fetchServices = () => {
       axios
-        .get(`http://localhost:7373/services/${getServiceId}`)
+        .get(`http://localhost:7373/api/services/detail/${getServiceId}`)
         .then((response) => {
           setServices(response.data);
         })
@@ -98,7 +98,7 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
         {services && (
           <div className={styles["product-detail-information-container"]}>
             <div className={styles["left-product-detail-item"]}>
-              <img src={services && services.serviceImage} alt="" />
+              <img src={services && services.service_image} alt="" />
             </div>
 
             <div className={styles["right-product-detail-item"]}>

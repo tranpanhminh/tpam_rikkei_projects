@@ -11,7 +11,7 @@ function SearchPage() {
   const [services, setServices] = useState<Service[]>([]);
   const fetchProducts = () => {
     axios
-      .get("http://localhost:7373/products")
+      .get("http://localhost:7373/api/products")
       .then((response) => {
         setProducts(response.data);
       })
@@ -22,7 +22,7 @@ function SearchPage() {
 
   const fetchServices = () => {
     axios
-      .get("http://localhost:7373/services")
+      .get("http://localhost:7373/api/services")
       .then((response) => {
         setServices(response.data);
       })
@@ -83,7 +83,7 @@ function SearchPage() {
                     <div className={styles["card"]}>
                       <NavLink to={`/products/${product.id}`}>
                         <img
-                          src={product.productImage[0]}
+                          // src={product.productImage[0]}
                           className={styles["card-img-top"]}
                           alt="..."
                         />
@@ -138,7 +138,7 @@ function SearchPage() {
                       <div className="col-12 col-sm-12 col-md-6 col-xl-4 px-3 my-2">
                         <div className={styles["collection-item"]}>
                           <img
-                            src={service.serviceImage}
+                            // src={service.serviceImage}
                             alt=""
                             className="collection-image"
                           />

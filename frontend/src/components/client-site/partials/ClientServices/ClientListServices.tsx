@@ -34,7 +34,7 @@ function ClientListServices() {
                   <div className="col-12 col-sm-12 col-md-6 col-xl-4 px-3 my-2">
                     <div className={styles["collection-item"]}>
                       <img
-                        src={service.serviceImage}
+                        // src={service.serviceImage}
                         alt=""
                         className="collection-image"
                       />

@@ -6,10 +6,11 @@ import { Service } from "../../../../database";
 import { NavLink } from "react-router-dom";
 function ClientServices() {
   const [services, setServices] = useState<null | Service[]>(null);
-  const fetchServices = () => {
-    axios
-      .get(`http://localhost:7373/services/`)
+  const fetchServices = async () => {
+    await axios
+      .get(`http://localhost:7373/api/services/`)
       .then((response) => {
+        console.log(response.data, "DASDASDASD");
         setServices(response.data);
       })
       .catch((error) => {
@@ -31,12 +32,12 @@ function ClientServices() {
         <div className="container text-center">
           <div className="row align-items-start">
             {services &&
-              services.map((service) => {
+              services?.map((service) => {
                 return (
                   <div className="col-12 col-sm-12 col-md-6 col-xl-4 px-3 my-2">
                     <div className={styles["collection-item"]}>
                       <img
-                        src={service.serviceImage}
+                        src={`http://localhost:7373/uploads/${service.service_image}`}
                         alt=""
                         className="collection-image"
                       />
