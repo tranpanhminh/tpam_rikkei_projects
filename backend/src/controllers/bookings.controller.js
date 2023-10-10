@@ -11,40 +11,40 @@ class BookingsController {
   // 1. Get All Bookings
   async getAllBookings(req, res) {
     try {
-      // const listBookings = await bookingsModel.findAll();
+      const listBookings = await bookingsModel.findAll();
 
-      const listBookings = await bookingsModel.findAll({
-        // Chọn các thuộc tính cần thiết
-        attributes: [
-          "id",
-          "name",
-          "phone",
-          "user_id",
-          "service_id",
-          "date",
-          "status_id",
-          "booking_date",
-          "calendar",
-          "created_at",
-          "updated_at",
-        ],
+      // const listBookings = await bookingsModel.findAll({
+      //   // Chọn các thuộc tính cần thiết
+      //   attributes: [
+      //     "id",
+      //     "name",
+      //     "phone",
+      //     "user_id",
+      //     "service_id",
+      //     "date",
+      //     "status_id",
+      //     "booking_date",
+      //     "calendar",
+      //     "created_at",
+      //     "updated_at",
+      //   ],
 
-        // Tham gia với bảng post_types
-        include: [
-          {
-            model: servicesModel,
-            attributes: ["name"],
-          },
-          {
-            model: bookingStatusesModel,
-            attributes: ["name"],
-          },
-        ],
+      //   // Tham gia với bảng post_types
+      //   include: [
+      //     {
+      //       model: servicesModel,
+      //       attributes: ["name"],
+      //     },
+      //     {
+      //       model: bookingStatusesModel,
+      //       attributes: ["name"],
+      //     },
+      //   ],
 
-        // Nhóm theo id và tên của dịch vụ
-        group: ["bookings.id"],
-        raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
-      });
+      //   // Nhóm theo id và tên của dịch vụ
+      //   group: ["bookings.id"],
+      //   raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
+      // });
       res.status(200).json(listBookings);
       console.log(listBookings, "listBookings");
     } catch (error) {
@@ -56,45 +56,45 @@ class BookingsController {
   async getDetailBooking(req, res) {
     try {
       const bookingId = req.params.bookingId;
-      // const detailBooking = await bookingsModel.findOne({
-      //   where: { id: bookingId },
-      // });
-
       const detailBooking = await bookingsModel.findOne({
-        // Chọn các thuộc tính cần thiết
-        attributes: [
-          "id",
-          "name",
-          "phone",
-          "user_id",
-          "service_id",
-          "date",
-          "status_id",
-          "booking_date",
-          "calendar",
-          "created_at",
-          "updated_at",
-        ],
-
-        // Tham gia với bảng post_types
-        include: [
-          {
-            model: servicesModel,
-            attributes: ["name"],
-          },
-          {
-            model: bookingStatusesModel,
-            attributes: ["name"],
-          },
-        ],
-
-        // Lọc theo id của dịch vụ
         where: { id: bookingId },
-
-        // Nhóm theo id và tên của dịch vụ
-        group: ["bookings.id"],
-        raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
       });
+
+      // const detailBooking = await bookingsModel.findOne({
+      //   // Chọn các thuộc tính cần thiết
+      //   attributes: [
+      //     "id",
+      //     "name",
+      //     "phone",
+      //     "user_id",
+      //     "service_id",
+      //     "date",
+      //     "status_id",
+      //     "booking_date",
+      //     "calendar",
+      //     "created_at",
+      //     "updated_at",
+      //   ],
+
+      //   // Tham gia với bảng post_types
+      //   include: [
+      //     {
+      //       model: servicesModel,
+      //       attributes: ["name"],
+      //     },
+      //     {
+      //       model: bookingStatusesModel,
+      //       attributes: ["name"],
+      //     },
+      //   ],
+
+      //   // Lọc theo id của dịch vụ
+      //   where: { id: bookingId },
+
+      //   // Nhóm theo id và tên của dịch vụ
+      //   group: ["bookings.id"],
+      //   raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
+      // });
 
       if (!detailBooking) {
         return res.status(404).json({ message: "Booking ID Not Found" });
@@ -223,14 +223,23 @@ class BookingsController {
         }
       }
 
+      const dataService = findService.dataValues;
+      const copyDataService = {
+        ...dataService,
+      };
+
       const bookingInfo = {
         user_id: userId,
-        service_id: serviceId,
+        service_id: copyDataService.id,
         name: name,
         phone: phone,
         status_id: 1,
         booking_date: booking_date,
         calendar: calendar,
+        service_name: copyDataService.name,
+        service_description: copyDataService.description,
+        service_price: copyDataService.price,
+        service_image: copyDataService.service_image,
       };
       console.log(bookingInfo, "BOOKING INFO");
       const newBooking = await bookingsModel.create(bookingInfo);

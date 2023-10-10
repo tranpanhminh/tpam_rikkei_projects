@@ -32,6 +32,22 @@ const bookingsModel = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: true,
     },
+    service_name: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
+    service_description: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    service_price: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    service_image: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
     date: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
