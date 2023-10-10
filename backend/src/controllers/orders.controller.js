@@ -196,6 +196,16 @@ class OrdersController {
     } = req.body;
     try {
       const userId = req.params.userId;
+      // Kiểm tra User
+      const findUser = await usersModel.findOne({ where: { id: userId } });
+      if (!findUser) {
+        return res.status(404).json({ message: "User ID Not Found" });
+      }
+
+      const dataUser = findUser.dataValues;
+      if (dataUser.role_id === 1 || dataUser.role_id === 2) {
+        return res.status(403).json({ message: "Admin can't checkout" });
+      }
 
       // Kiểm tra giỏ hàng
       const checkCart = await cartsModel.findAll({
