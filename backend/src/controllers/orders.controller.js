@@ -4,6 +4,7 @@ const ordersModel = require("../models/orders.model.js");
 const cartsModel = require("../models/carts.model.js");
 const orderItemsModel = require("../models/orderItems.model.js");
 const orderStatusesModel = require("../models/orderStatuses.model.js");
+const cancelReasonsModel = require("../models/cancelReasons.model.js");
 const productsModel = require("../models/products.model.js");
 const usersModel = require("../models/users.model.js");
 const bcrypt = require("bcryptjs");
@@ -13,7 +14,7 @@ const couponsModel = require("../models/coupons.model.js");
 
 // ---------------------------------------------------------
 class OrdersController {
-  // 1. Get All Orders
+  // 1. Get All Orders (For Admin)
   async getAllOrders(req, res) {
     try {
       // const listOrders = await ordersModel.findAll();
@@ -30,7 +31,7 @@ class OrdersController {
           "status_id",
           "order_date",
           "bill",
-          "cancel_reason",
+          "cancel_reason_id",
           "updated_at",
           "updated_at",
         ],
@@ -49,6 +50,10 @@ class OrdersController {
             model: orderStatusesModel,
             attributes: ["name"],
           },
+          {
+            model: cancelReasonsModel,
+            attributes: ["name"],
+          },
         ],
 
         // Nhóm theo id và tên của dịch vụ
@@ -62,7 +67,7 @@ class OrdersController {
     }
   }
 
-  // 2. Get Detail Order For Admin
+  // 2. Get Detail Order (For Admin)
   async getDetailOrder(req, res) {
     try {
       const orderId = req.params.orderId;
@@ -104,24 +109,107 @@ class OrdersController {
     }
   }
 
-  // 3. Get Detail Order By User For Customer
-  async getDetailOrderByUser(req, res) {
+  // 3. Get All Orders By User (For Customer)
+  async listOrdersByUser(req, res) {
     const userId = req.params.userId;
     try {
-      const detailOrderByUser = await ordersModel.findAll({
-        where: { id: userId },
+      // const detailOrderByUser = await ordersModel.findAll({
+      //   where: { user_id: userId },
+      // });
+
+      const listOrdersByUser = await ordersModel.findAll({
+        // Chọn các thuộc tính cần thiết
+        attributes: [
+          "id",
+          "customer_name",
+          "address",
+          "phone",
+          "user_id",
+          "card_id",
+          "status_id",
+          "order_date",
+          "bill",
+          "cancel_reason_id",
+          "updated_at",
+          "updated_at",
+        ],
+
+        // Tham gia với bảng post_types
+        include: [
+          {
+            model: usersModel,
+            attributes: ["email"],
+          },
+          {
+            model: paymentsModel,
+            attributes: ["card_number"],
+          },
+          {
+            model: orderStatusesModel,
+            attributes: ["name"],
+          },
+          {
+            model: cancelReasonsModel,
+            attributes: ["name"],
+          },
+        ],
+        where: { user_id: userId },
+        // Nhóm theo id và tên của dịch vụ
+        group: ["id"],
+        raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
       });
-      if (!detailOrderByUser) {
+
+      if (!listOrdersByUser) {
         return res.status(404).json({ message: "User Has No Order" });
       } else {
-        return res.status(200).json(detailOrderByUser);
+        return res.status(200).json(listOrdersByUser);
       }
     } catch (error) {
       console.log(error, "ERROR");
     }
   }
 
-  // 4. Checkout Order
+  // 4. Get Detail Order (For Customer)
+  async getDetailOrderByUser(req, res) {
+    try {
+      const orderId = req.params.orderId;
+      const userId = req.params.userId;
+
+      const detailOrder = await orderItemsModel.findAll({
+        // Chọn các thuộc tính cần thiết
+        attributes: [
+          "id",
+          "order_id",
+          "product_id",
+          "quantity",
+          "price",
+          "created_at",
+          "updated_at",
+        ],
+
+        // Tham gia với bảng post_types
+        include: [
+          {
+            model: productsModel,
+            attributes: ["name", "thumbnail_url"],
+          },
+        ],
+        where: { order_id: orderId },
+        // Nhóm theo id và tên của dịch vụ
+        group: ["id"],
+        raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
+      });
+      if (!detailOrder) {
+        return res.status(404).json({ message: "Order ID Not Found" });
+      } else {
+        return res.status(200).json(detailOrder);
+      }
+    } catch (error) {
+      console.log(error, "ERROR");
+    }
+  }
+
+  // 5. Checkout Order
   async checkoutOrder(req, res) {
     const {
       customer_name,
@@ -345,7 +433,7 @@ class OrdersController {
     }
   }
 
-  // 5. Update Order For Admin
+  // 6. Update Order For Admin
   async updatedOrder(req, res) {
     const { status_id } = req.body;
     try {
