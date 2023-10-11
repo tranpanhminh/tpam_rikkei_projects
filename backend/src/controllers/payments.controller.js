@@ -121,13 +121,13 @@ class PaymentsController {
       }
       const dataPayment = findPayment.dataValues;
 
-      if (card_number.toString().length !== 16) {
+      if (card_number && card_number.toString().length !== 16) {
         return res
           .status(406)
           .json({ message: "Card Number length must = 16" });
       }
 
-      if (cvv.toString().length !== 3) {
+      if (cvv && cvv.toString().length !== 3) {
         return res.status(406).json({ message: "CVV length must = 3" });
       }
       if (balance < 0) {
