@@ -221,7 +221,7 @@ class BookingsService {
       return { data: "Booking ID Not Found", status: 404 };
     }
     const dataBooking = findBooking.dataValues;
-
+    console.log(dataBooking, "DSADSA");
     const findUser = await bookingsRepo.findUserById(userId);
     if (!findUser) {
       return { data: "User ID Not Found", status: 404 };
@@ -240,20 +240,6 @@ class BookingsService {
     3. Done
     4. Cancel
     */
-
-    if (dataBooking.status_id === 3) {
-      return {
-        data: "Can't cancel because this booking ID is Done",
-        status: 406,
-      };
-    }
-
-    if (dataBooking.status_id === 4) {
-      return {
-        data: "Can't cancel because this booking ID is Cancel",
-        status: 406,
-      };
-    }
 
     const bookingInfo = {
       status_id: 4,

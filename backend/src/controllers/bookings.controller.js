@@ -72,11 +72,7 @@ class BookingsController {
   async cancelBooking(req, res) {
     const bookingId = req.params.bookingId;
     const userId = req.params.userId;
-
-    const result = await bookingsService.updateBooking(
-      bookingId,
-      userId
-    );
+    const result = await bookingsService.cancelBooking(bookingId, userId);
     return res.status(result.status).json(result.data);
   }
 
