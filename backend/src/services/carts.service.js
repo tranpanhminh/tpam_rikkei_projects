@@ -1,7 +1,7 @@
 const cartsRepo = require("../repository/carts.repository.js");
 
 class CartsService {
-  // Get All Carts
+  // 1. Get All Carts
   async getAllCarts() {
     const listCarts = await cartsRepo.getAllCarts();
     if (listCarts.length === 0) {
@@ -11,7 +11,7 @@ class CartsService {
     }
   }
 
-  // Get Detail Cart By User
+  // 2. Get Detail Cart By User
   async getDetailCart(userId) {
     const detailUserCart = await cartsRepo.getDetailCart(userId);
     if (detailUserCart.length === 0) {
@@ -24,7 +24,7 @@ class CartsService {
     }
   }
 
-  // Add To Cart
+  // 3. Add To Cart
   async addCart(userId, productId, quantity, authHeader) {
     if (!authHeader) {
       return { message: "Please login to buy product", status: 401 };
@@ -165,7 +165,7 @@ class CartsService {
     };
   }
 
-  // Delete Product From Cart
+  // 4. Delete Product From Cart
   async deleteProductFromCart(userId, productId, authHeader) {
     // Check Login
     if (!authHeader) {
@@ -198,7 +198,7 @@ class CartsService {
     return { data: "Product Deleted", status: 200 };
   }
 
-  // Delete All Products From Cart
+  // 5. Delete All Products From Cart
   async deleteAllProductsFromCart(userId, authHeader) {
     // Check Login
     if (!authHeader) {
@@ -223,9 +223,77 @@ class CartsService {
 
     const deleteAllProducts = await cartsRepo.deleteAllProductsFromCart(userId);
     if (!deleteAllProducts) {
-      return { data: "No Products In Cart", status: 404 };
+      return { data: "No Products In User Cart", status: 404 };
     }
     return { data: "All Products Deleted From Cart", status: 200 };
+  }
+
+  // 6. Update Cart
+  async updateCart(userId, productId, quantity, authHeader) {
+    // Check Login
+    if (!authHeader) {
+      return { data: "Please Login", status: 401 };
+    }
+    // /**
+    // User Status:
+    // 1. Active
+    // 2. Inactive
+
+    // Role:
+    // 1. Super Admin
+    // 2. Admin
+    // 3. Customer
+    // */
+
+    // Check Product
+    const findProduct = await cartsRepo.findProductId(productId);
+    if (!findProduct) {
+      return { data: "Product ID Not Found", status: 404 };
+    }
+    const dataProduct = findProduct.dataValues;
+
+    // Check Product From Cart
+    const findProductFromCart = await cartsRepo.checkUserCart(
+      userId,
+      productId
+    );
+    if (!findProductFromCart) {
+      return {
+        data: "Not Found Product ID From Cart of this User ID",
+        status: 404,
+      };
+    }
+
+    if (!quantity) {
+      return {
+        data: "Min quantity to buy must be 1",
+        status: 406,
+      };
+    }
+
+    const dataProductFromCart = findProductFromCart.dataValues;
+
+    const newQuantity = quantity;
+    // Check số lượng mới so với số lượng hàng tồn kho
+    if (newQuantity > dataProduct.quantity_stock) {
+      return {
+        data: `You can't add more than product stock: ${dataProduct.quantity_stock}, you have typed ${newQuantity} products`,
+        status: 406,
+      };
+    }
+    const updatedProductInfo = {
+      ...dataProductFromCart,
+      quantity: newQuantity,
+    };
+    const updatedProduct = await cartsRepo.updateCart(
+      updatedProductInfo,
+      userId,
+      productId
+    );
+    return {
+      data: "Product Updated",
+      status: 200,
+    };
   }
 }
 

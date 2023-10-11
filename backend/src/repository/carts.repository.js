@@ -148,6 +148,17 @@ class CartsRepo {
     });
     return deleteAllProducts;
   }
+
+  // 6. Update Cart
+  async updateCart(updatedProductInfo, userId, productId) {
+    const updatedProduct = await cartsEntity.update(updatedProductInfo, {
+      where: {
+        user_id: userId,
+        product_id: productId,
+      },
+    });
+    return updatedProduct;
+  }
 }
 
 module.exports = new CartsRepo();
