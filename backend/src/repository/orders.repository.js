@@ -12,6 +12,18 @@ const { format, parse } = require("date-fns");
 const couponsEntity = require("../entities/coupons.entity.js");
 
 class OrdersRepo {
+  async findUserById(userId) {
+    const findUser = await usersEntity.findOne({ where: { id: userId } });
+    return findUser;
+  }
+
+  async findProductById(productId) {
+    const findProduct = await productsEntity.findOne({
+      where: { id: productId },
+    });
+    return findProduct;
+  }
+
   // 1. Get All Orders
   async getAllOrders() {
     const listOrders = await ordersEntity.findAll({
@@ -146,6 +158,76 @@ class OrdersRepo {
       raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
     });
     return listOrders;
+  }
+
+  // 4. Checkout Cart
+  // 4.1. Check Cart
+  async checkCart(userId) {
+    const checkCart = await cartsEntity.findAll({
+      where: { user_id: userId },
+      include: [{ model: productsEntity, attributes: ["quantity_stock"] }],
+    });
+    return checkCart;
+  }
+
+  // 4.2. Check Card Payment
+  async checkCardPayment(cardholder_name, card_number, expiry_date, cvv) {
+    const checkCardPayment = await paymentsEntity.findOne({
+      where: {
+        cardholder_name: cardholder_name,
+        expiry_date: expiry_date,
+        card_number: card_number,
+        cvv: cvv,
+      },
+    });
+    return checkCardPayment;
+  }
+
+  // 4.3. Get All Coupons đủ điều kiện
+  async getAllCoupons(bill) {
+    const getAllCoupons = await couponsEntity.findOne({
+      where: { min_bill: { [Op.lt]: bill } },
+      order: [["discount_rate", "DESC"]],
+      limit: 1,
+    });
+    return getAllCoupons;
+  }
+
+  // 4.4. Cập nhật số lượng hàng tồn kho trong bảng Products
+  async updateProduct(updatedQuantityStock, productId) {
+    const updateProduct = await productsEntity.update(
+      { quantity_stock: updatedQuantityStock },
+      { where: { id: productId } }
+    );
+    return updateProduct;
+  }
+
+  // 4.5. Tạo đơn hàng mới nếu chưa tạo
+  async createNewOrder(orderInfo) {
+    const newOrder = await ordersEntity.create(orderInfo);
+    return newOrder;
+  }
+
+  // 4.6. Đẩy Cart vào Order chi tiết
+  async pushCartToOrderItem(orderItemInfo) {
+    const pushCartToOrderItem = await orderItemsEntity.create(orderItemInfo);
+    return pushCartToOrderItem;
+  }
+
+  // 4.7. Cập nhật lại Payment
+  async updatedCardPayment(updatedCard, cardId) {
+    const updatedCardPayment = await paymentsEntity.update(updatedCard, {
+      where: { id: cardId },
+    });
+    return updatedCardPayment;
+  }
+
+  // 4.8 Xóa toàn bộ giỏ hàng của người dùng sau khi vòng lặp
+  async destroyCart(userId) {
+    const destroyCart = await cartsEntity.destroy({
+      where: { user_id: userId },
+    });
+    return destroyCart;
   }
 }
 
