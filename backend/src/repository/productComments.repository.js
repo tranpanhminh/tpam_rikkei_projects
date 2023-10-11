@@ -22,6 +22,14 @@ class ProductCommentsRepo {
     return findUser;
   }
 
+  // Find Product Comment
+  async findProductCommentById(productCommentId) {
+    const findProductComment = await productCommentsEntity.findOne({
+      where: { id: productCommentId },
+    });
+    return findProductComment;
+  }
+
   // 1. Get All Product Comments
   async getAllProductComments() {
     // const listProductComments = await productCommentsEntity.findAll();
@@ -106,28 +114,11 @@ class ProductCommentsRepo {
   }
 
   // 4. Delete Product Comment
-  async deleteProductComment(req, res) {
-    try {
-      const productCommentId = req.params.productCommentId;
-      const findProductComment = await productCommentsEntity.findOne({
-        where: { id: productCommentId },
-      });
-      if (!findProductComment) {
-        return res
-          .status(404)
-          .json({ message: "Product Comment ID Not Found" });
-      } else {
-        const deleteProductComment = await productCommentsEntity.destroy({
-          where: { id: productCommentId },
-        });
-        return res.status(200).json({
-          message: "Product Comment Deleted",
-          dataDeleted: findProductComment,
-        });
-      }
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+  async deleteProductComment(productCommentId) {
+    const deleteProductComment = await productCommentsEntity.destroy({
+      where: { id: productCommentId },
+    });
+    return deleteProductComment;
   }
 }
 module.exports = new ProductCommentsRepo();

@@ -101,27 +101,15 @@ class ProductCommentsService {
   }
 
   // 4. Delete Product Comment
-  async deleteProductComment(req, res) {
-    try {
-      const productCommentId = req.params.productCommentId;
-      const findProductComment = await productCommentsEntity.findOne({
-        where: { id: productCommentId },
-      });
-      if (!findProductComment) {
-        return res
-          .status(404)
-          .json({ message: "Product Comment ID Not Found" });
-      } else {
-        const deleteProductComment = await productCommentsEntity.destroy({
-          where: { id: productCommentId },
-        });
-        return res.status(200).json({
-          message: "Product Comment Deleted",
-          dataDeleted: findProductComment,
-        });
-      }
-    } catch (error) {
-      console.log(error, "ERROR");
+  async deleteProductComment(productCommentId) {
+    const findProductComment = await productCommentsRepo.findProductCommentById(
+      productCommentId
+    );
+    if (!findProductComment) {
+      return { data: "Product Comment ID Not Found", status: 404 };
+    } else {
+      await productCommentsRepo.deleteProductComment(productCommentId);
+      return { data: "Product Comment Deleted", status: 200 };
     }
   }
 
