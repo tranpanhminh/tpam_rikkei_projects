@@ -1,33 +1,18 @@
-const paymentsEntity = require("../entities/payments.entity.js");
+const paymentsService = require("../services/payments.service.js");
 
 // ---------------------------------------------------------
 class PaymentsController {
   // 1. Get All Payments
   async getAllPayments(req, res) {
-    try {
-      const listPayments = await paymentsEntity.findAll(); // include: <Tên bảng>
-      res.status(200).json(listPayments);
-      console.log(listPayments, "listPayments");
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const result = await paymentsService.getAllPayments();
+    return res.status(result.status).json(result.data);
   }
 
   // 2. Get Detail Payment
   async getDetailPayment(req, res) {
-    try {
-      const paymentId = req.params.paymentId;
-      const detailPayment = await paymentsEntity.findOne({
-        where: { id: paymentId },
-      });
-      if (!detailPayment) {
-        return res.status(404).json({ message: "Payment ID Not Found" });
-      } else {
-        return res.status(200).json(detailPayment);
-      }
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const paymentId = req.params.paymentId;
+    const result = await paymentsService.getDetailPayment(paymentId);
+    return res.status(result.status).json(result.data);
   }
 
   // 3. Add Payment
