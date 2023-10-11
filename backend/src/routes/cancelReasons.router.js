@@ -1,8 +1,5 @@
 const express = require("express");
 
-// Import Model
-const cancelReasonsModel = require("../models/cancelReasons.model.js");
-
 // Import Router
 const cancelReasonsRouter = express.Router();
 

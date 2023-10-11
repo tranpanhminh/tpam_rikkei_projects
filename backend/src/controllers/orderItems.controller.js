@@ -1,8 +1,8 @@
 const connectMySQL = require("../configs/db.config.js");
-const ordersModel = require("../models/orders.model.js");
-const orderItemsModel = require("../models/orderItems.model.js");
-const productsModel = require("../models/products.model.js");
-const usersModel = require("../models/users.model.js");
+const ordersEntity = require("../entities/orders.entity.js");
+const orderItemsEntity = require("../entities/orderItems.entity.js");
+const productsEntity = require("../entities/products.entity.js");
+const usersEntity = require("../entities/users.entity.js");
 const bcrypt = require("bcryptjs");
 
 // ---------------------------------------------------------

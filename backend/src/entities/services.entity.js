@@ -1,18 +1,19 @@
 const sequelize = require("../configs/db.config.js");
-const vendorsModel = require("../models/vendors.model.js");
-const postTypesModel = require("../models/postTypes.model.js");
+const postTypesEntity = require("./postTypes.entity.js");
+const workingTimeEntity = require("./workingTime.entity.js");
 const { DataTypes } = require("sequelize");
 
 // ---------------------------------------------------------
 
-const productsModel = sequelize.define(
-  "products",
+const servicesEntity = sequelize.define(
+  "services",
   {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
       allowNull: false,
+      unique: true,
     },
     name: {
       type: DataTypes.STRING(255),
@@ -26,22 +27,18 @@ const productsModel = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    quantity_stock: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    thumbnail_url: {
+    service_image: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    vendor_id: {
+    working_time_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
     post_type_id: {
       type: DataTypes.INTEGER,
+      defaultValue: 2,
       allowNull: false,
-      defaultValue: 1, // Giá trị mặc định
     },
     created_at: {
       type: DataTypes.DATE,
@@ -58,30 +55,30 @@ const productsModel = sequelize.define(
   }
 );
 
-// Mối quan hệ khóa ngoại giữa Products và Vendors
-vendorsModel.hasMany(productsModel, {
-  foreignKey: "vendor_id",
-  onDelete: "NO ACTION",
-});
-
-productsModel.belongsTo(vendorsModel, {
-  foreignKey: "vendor_id",
-  onDelete: "NO ACTION",
-});
-
-// Mối quan hệ khóa ngoại giữa Products và Post Types
-postTypesModel.hasMany(productsModel, {
+// Mối quan hệ giữa Service và Post Type
+postTypesEntity.hasMany(servicesEntity, {
   foreignKey: "post_type_id",
   onDelete: "NO ACTION",
 });
 
-productsModel.belongsTo(postTypesModel, {
+servicesEntity.belongsTo(postTypesEntity, {
   foreignKey: "post_type_id",
   onDelete: "NO ACTION",
 });
 
-// productsModel.sync().then(() => {
+// Mối quan hệ giữa Service và Working Time
+workingTimeEntity.hasMany(servicesEntity, {
+  foreignKey: "working_time_id",
+  onDelete: "NO ACTION",
+});
+
+servicesEntity.belongsTo(workingTimeEntity, {
+  foreignKey: "working_time_id",
+  onDelete: "NO ACTION",
+});
+
+// servicesEntity.sync().then(() => {
 //   console.log("OK");
 // });
 
-module.exports = productsModel;
+module.exports = servicesEntity;

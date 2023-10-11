@@ -1,14 +1,14 @@
 const sequelize = require("../configs/db.config.js");
 const { DataTypes } = require("sequelize");
-const usersModel = require("../models/users.model.js");
-const paymentsModel = require("../models/payments.model.js");
-const couponsModel = require("../models/coupons.model.js");
-const cancelReasonsModel = require("../models/cancelReasons.model.js");
-const orderStatusesModel = require("../models/orderStatuses.model.js");
+const usersEntity = require("./users.entity.js");
+const paymentsEntity = require("./payments.entity.js");
+const couponsEntity = require("./coupons.entity.js");
+const cancelReasonsEntity = require("./cancelReasons.entity.js");
+const orderStatusesEntity = require("./orderStatuses.entity.js");
 
 // ---------------------------------------------------------
 
-const ordersModel = sequelize.define(
+const ordersEntity = sequelize.define(
   "orders",
   {
     id: {
@@ -96,49 +96,49 @@ const ordersModel = sequelize.define(
 
 // Thiết lập quan hệ giữa các mô hình
 // Order và User
-usersModel.hasMany(ordersModel, {
+usersEntity.hasMany(ordersEntity, {
   foreignKey: "user_id",
 });
-ordersModel.belongsTo(usersModel, {
+ordersEntity.belongsTo(usersEntity, {
   foreignKey: "user_id",
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
 });
 
 // Order và Payment
-paymentsModel.hasMany(ordersModel, {
+paymentsEntity.hasMany(ordersEntity, {
   foreignKey: "card_id",
 });
-ordersModel.belongsTo(paymentsModel, {
+ordersEntity.belongsTo(paymentsEntity, {
   foreignKey: "card_id",
 });
 
 // Order và Coupon
-couponsModel.hasMany(ordersModel, {
+couponsEntity.hasMany(ordersEntity, {
   foreignKey: "coupon_id",
 });
-ordersModel.belongsTo(couponsModel, {
+ordersEntity.belongsTo(couponsEntity, {
   foreignKey: "coupon_id",
 });
 
 // Order và Order Status
-orderStatusesModel.hasMany(ordersModel, {
+orderStatusesEntity.hasMany(ordersEntity, {
   foreignKey: "status_id",
 });
-ordersModel.belongsTo(orderStatusesModel, {
+ordersEntity.belongsTo(orderStatusesEntity, {
   foreignKey: "status_id",
 });
 
 // Order và Cancel Reasons
-cancelReasonsModel.hasMany(ordersModel, {
+cancelReasonsEntity.hasMany(ordersEntity, {
   foreignKey: "cancel_reason_id",
 });
-ordersModel.belongsTo(cancelReasonsModel, {
+ordersEntity.belongsTo(cancelReasonsEntity, {
   foreignKey: "cancel_reason_id",
 });
 
-// ordersModel.sync().then(() => {
+// ordersEntity.sync().then(() => {
 //   console.log("OK");
 // });
 
-module.exports = ordersModel;
+module.exports = ordersEntity;

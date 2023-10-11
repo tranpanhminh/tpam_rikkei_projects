@@ -1,5 +1,5 @@
 const connectMySQL = require("../configs/db.config.js");
-const productImagesModel = require("../models/productImages.model.js");
+const productImagesEntity = require("../entities/productImages.entity.js");
 const bcrypt = require("bcryptjs");
 
 // ---------------------------------------------------------
@@ -7,7 +7,7 @@ class ProductImagesController {
   // 1. Get All Product Images
   async getAllProductImages(req, res) {
     try {
-      const listAllProductImages = await productImagesModel.findAll(); // include: <Tên bảng>
+      const listAllProductImages = await productImagesEntity.findAll(); // include: <Tên bảng>
       res.status(200).json(listAllProductImages);
       console.log(listAllProductImages, "listAllProductImages");
     } catch (error) {
@@ -19,7 +19,7 @@ class ProductImagesController {
   //   async getDetailCoupon(req, res) {
   //     try {
   //       const couponId = req.params.couponId;
-  //       const detailCoupon = await couponsModel.findOne({
+  //       const detailCoupon = await couponsEntity.findOne({
   //         where: { id: couponId },
   //       });
   //       if (!detailCoupon) {
@@ -71,7 +71,7 @@ class ProductImagesController {
   //         discount_rate: discount_rate,
   //         min_bill: min_bill,
   //       };
-  //       const newCoupon = await couponsModel.create(couponInfo);
+  //       const newCoupon = await couponsEntity.create(couponInfo);
   //       res.status(200).json({ message: "Coupon Added", data: couponInfo });
   //     } catch (error) {
   //       console.log(error, "ERROR");
@@ -82,13 +82,13 @@ class ProductImagesController {
   //   async deleteCoupon(req, res) {
   //     try {
   //       const couponId = req.params.couponId;
-  //       const findCoupon = await couponsModel.findOne({
+  //       const findCoupon = await couponsEntity.findOne({
   //         where: { id: couponId },
   //       });
   //       if (!findCoupon) {
   //         return res.status(404).json({ message: "Coupon ID Not Found" });
   //       } else {
-  //         const deleteCoupon = await couponsModel.destroy({
+  //         const deleteCoupon = await couponsEntity.destroy({
   //           where: { id: couponId },
   //         });
   //         return res
@@ -105,7 +105,7 @@ class ProductImagesController {
   //     const { name, code, discount_rate, min_bill } = req.body;
   //     try {
   //       const couponId = req.params.couponId;
-  //       const findCoupon = await couponsModel.findOne({
+  //       const findCoupon = await couponsEntity.findOne({
   //         where: { id: couponId },
   //       });
   //       if (!findCoupon) {
@@ -134,7 +134,7 @@ class ProductImagesController {
   //         updated_at: Date.now(),
   //       };
 
-  //       const updatedCoupon = await couponsModel.update(couponInfo, {
+  //       const updatedCoupon = await couponsEntity.update(couponInfo, {
   //         where: { id: couponId },
   //       });
   //       return res

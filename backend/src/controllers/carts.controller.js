@@ -1,18 +1,16 @@
-const connectMySQL = require("../configs/db.config.js");
-const cartsModel = require("../models/carts.model.js");
+const cartsEntity = require("../entities/carts.entity.js");
 const { Op, col, fn } = require("sequelize");
 const sequelize = require("sequelize");
-const bcrypt = require("bcryptjs");
-const usersModel = require("../models/users.model.js");
-const productsModel = require("../models/products.model.js");
+const usersEntity = require("../entities/users.entity.js");
+const productsEntity = require("../entities/products.entity.js");
 
 // ---------------------------------------------------------
 class CartsController {
   // 1. Get All Carts
   async getAllCarts(req, res) {
     try {
-      // const listCarts = await cartsModel.findAll();
-      const listCarts = await cartsModel.findAll({
+      // const listCarts = await cartsEntity.findAll();
+      const listCarts = await cartsEntity.findAll({
         attributes: [
           "id",
           "user_id",
@@ -24,11 +22,11 @@ class CartsController {
         ],
         include: [
           {
-            model: usersModel,
+            model: usersEntity,
             attributes: ["email"],
           },
           {
-            model: productsModel,
+            model: productsEntity,
             attributes: ["thumbnail_url"],
           },
         ],
@@ -47,7 +45,7 @@ class CartsController {
   async getDetailCart(req, res) {
     const userId = req.params.userId;
     try {
-      const detailUserCart = await cartsModel.findAll({
+      const detailUserCart = await cartsEntity.findAll({
         attributes: [
           "id",
           "user_id",
@@ -59,11 +57,11 @@ class CartsController {
         ],
         include: [
           {
-            model: usersModel,
+            model: usersEntity,
             attributes: ["email"],
           },
           {
-            model: productsModel,
+            model: productsEntity,
             attributes: ["thumbnail_url"],
           },
         ],
@@ -96,7 +94,7 @@ class CartsController {
       }
 
       // Check Product
-      const findProduct = await productsModel.findOne({
+      const findProduct = await productsEntity.findOne({
         where: { id: productId },
       });
       if (!findProduct) {
@@ -117,7 +115,7 @@ class CartsController {
       // */
 
       // Check User
-      const findUser = await usersModel.findOne({ where: { id: userId } });
+      const findUser = await usersEntity.findOne({ where: { id: userId } });
       if (!findUser) {
         return res.status(404).json({ message: "User ID Not Found" });
       }
@@ -154,7 +152,7 @@ class CartsController {
       }
 
       // Kiểm tra số lượng mà người dùng đã thêm trước đó và số lượng mới
-      const checkUserCart = await cartsModel.findOne({
+      const checkUserCart = await cartsEntity.findOne({
         where: {
           user_id: userId,
           product_id: productId,
@@ -168,7 +166,7 @@ class CartsController {
           price: dataProduct.price,
         };
 
-        const newCart = await cartsModel.create(cartInfo);
+        const newCart = await cartsEntity.create(cartInfo);
         res.status(200).json({ message: "Product Added", data: newCart });
       }
       const dataUserCart = checkUserCart.dataValues;
@@ -188,25 +186,25 @@ class CartsController {
         price: dataProduct.price,
       };
 
-      const checkCart = await cartsModel.findAll({
+      const checkCart = await cartsEntity.findAll({
         where: {
           user_id: userId,
         },
       });
       if (checkCart.length === 0) {
-        const newCart = await cartsModel.create(cartInfo);
+        const newCart = await cartsEntity.create(cartInfo);
         res.status(200).json({ message: "Product Added", data: newCart });
       }
 
       // 2. Trường hợp người dùng đã có giỏ hàng, sản phẩm add vào đã tồn tại trong giỏ
-      const checkExistProduct = await cartsModel.findOne({
+      const checkExistProduct = await cartsEntity.findOne({
         where: {
           user_id: userId,
           product_id: productId,
         },
       });
       if (!checkExistProduct) {
-        const newProductToCart = await cartsModel.create(cartInfo);
+        const newProductToCart = await cartsEntity.create(cartInfo);
         return res
           .status(200)
           .json({ message: "Product Added", data: newProductToCart });
@@ -217,7 +215,7 @@ class CartsController {
         ...dataExistProduct,
         quantity: dataExistProduct.quantity + quantity,
       };
-      const updatedExistProduct = await cartsModel.update(
+      const updatedExistProduct = await cartsEntity.update(
         updatedExistProductInfo,
         {
           where: {
@@ -257,7 +255,7 @@ class CartsController {
       // 3. Customer
       // */
 
-      const deleteProduct = await cartsModel.destroy({
+      const deleteProduct = await cartsEntity.destroy({
         where: { user_id: userId, product_id: productId },
       });
       if (!deleteProduct) {
@@ -292,7 +290,7 @@ class CartsController {
       // 3. Customer
       // */
 
-      const deleteAllProducts = await cartsModel.destroy({
+      const deleteAllProducts = await cartsEntity.destroy({
         where: { user_id: userId },
       });
       if (!deleteAllProducts) {
@@ -329,7 +327,7 @@ class CartsController {
       // */
 
       // Check Product
-      const findProduct = await productsModel.findOne({
+      const findProduct = await productsEntity.findOne({
         where: { id: productId },
       });
       if (!findProduct) {
@@ -339,7 +337,7 @@ class CartsController {
       console.log(dataProduct, "dataProduct");
 
       // Check Product From Cart
-      const findProductFromCart = await cartsModel.findOne({
+      const findProductFromCart = await cartsEntity.findOne({
         where: { user_id: userId, product_id: productId },
       });
       if (!findProductFromCart) {
@@ -368,7 +366,7 @@ class CartsController {
         ...dataProductFromCart,
         quantity: newQuantity,
       };
-      const updatedProduct = await cartsModel.update(updatedProductInfo, {
+      const updatedProduct = await cartsEntity.update(updatedProductInfo, {
         where: {
           user_id: userId,
           product_id: productId,

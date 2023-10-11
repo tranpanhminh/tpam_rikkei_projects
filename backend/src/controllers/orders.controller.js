@@ -1,25 +1,25 @@
 const sequelize = require("../configs/db.config.js");
 const { Op, col, fn } = require("sequelize");
-const ordersModel = require("../models/orders.model.js");
-const cartsModel = require("../models/carts.model.js");
-const orderItemsModel = require("../models/orderItems.model.js");
-const orderStatusesModel = require("../models/orderStatuses.model.js");
-const cancelReasonsModel = require("../models/cancelReasons.model.js");
-const productsModel = require("../models/products.model.js");
-const usersModel = require("../models/users.model.js");
+const ordersEntity = require("../entities/orders.entity.js");
+const cartsEntity = require("../entities/carts.entity.js");
+const orderItemsEntity = require("../entities/orderItems.entity.js");
+const orderStatusesEntity = require("../entities/orderStatuses.entity.js");
+const cancelReasonsEntity = require("../entities/cancelReasons.entity.js");
+const productsEntity = require("../entities/products.entity.js");
+const usersEntity = require("../entities/users.entity.js");
 const bcrypt = require("bcryptjs");
-const paymentsModel = require("../models/payments.model.js");
+const paymentsEntity = require("../entities/payments.entity.js");
 const { format, parse } = require("date-fns");
-const couponsModel = require("../models/coupons.model.js");
+const couponsEntity = require("../entities/coupons.entity.js");
 
 // ---------------------------------------------------------
 class OrdersController {
   // 1. Get All Orders (For Admin)
   async getAllOrders(req, res) {
     try {
-      // const listOrders = await ordersModel.findAll();
+      // const listOrders = await ordersEntity.findAll();
 
-      const listOrders = await ordersModel.findAll({
+      const listOrders = await ordersEntity.findAll({
         // Chọn các thuộc tính cần thiết
         attributes: [
           "id",
@@ -41,23 +41,23 @@ class OrdersController {
         // Tham gia với bảng post_types
         include: [
           {
-            model: usersModel,
+            model: usersEntity,
             attributes: ["email"],
           },
           // {
-          //   model: paymentsModel,
+          //   model: paymentsEntity,
           //   attributes: ["card_number"],
           // },
           {
-            model: orderStatusesModel,
+            model: orderStatusesEntity,
             attributes: ["name"],
           },
           // {
-          //   model: cancelReasonsModel,
+          //   model: cancelReasonsEntity,
           //   attributes: ["name"],
           // },
           // {
-          //   model: couponsModel,
+          //   model: couponsEntity,
           //   attributes: ["discount_rate"],
           // },
         ],
@@ -77,11 +77,11 @@ class OrdersController {
   async getDetailOrder(req, res) {
     try {
       const orderId = req.params.orderId;
-      // const detailOrder = await orderItemsModel.findAll({
+      // const detailOrder = await orderItemsEntity.findAll({
       //   where: { order_id: orderId },
       // });
 
-      const detailOrder = await orderItemsModel.findAll({
+      const detailOrder = await orderItemsEntity.findAll({
         // Chọn các thuộc tính cần thiết
         attributes: [
           "id",
@@ -98,7 +98,7 @@ class OrdersController {
         // Tham gia với bảng post_types
         // include: [
         //   {
-        //     model: productsModel,
+        //     model: productsEntity,
         //     attributes: ["name"],
         //   },
         // ],
@@ -121,11 +121,11 @@ class OrdersController {
   async getAllOrderByUser(req, res) {
     const userId = req.params.userId;
     try {
-      // const detailOrderByUser = await ordersModel.findAll({
+      // const detailOrderByUser = await ordersEntity.findAll({
       //   where: { user_id: userId },
       // });
 
-      const listOrdersByUser = await ordersModel.findAll({
+      const listOrdersByUser = await ordersEntity.findAll({
         // Chọn các thuộc tính cần thiết
         attributes: [
           "id",
@@ -147,23 +147,23 @@ class OrdersController {
         // Tham gia với bảng post_types
         include: [
           {
-            model: usersModel,
+            model: usersEntity,
             attributes: ["email"],
           },
           // {
-          //   model: paymentsModel,
+          //   model: paymentsEntity,
           //   attributes: ["card_number"],
           // },
           {
-            model: orderStatusesModel,
+            model: orderStatusesEntity,
             attributes: ["name"],
           },
           // {
-          //   model: cancelReasonsModel,
+          //   model: cancelReasonsEntity,
           //   attributes: ["name"],
           // },
           // {
-          //   model: couponsModel,
+          //   model: couponsEntity,
           //   attributes: ["discount_rate"],
           // },
         ],
@@ -197,7 +197,7 @@ class OrdersController {
     try {
       const userId = req.params.userId;
       // Kiểm tra User
-      const findUser = await usersModel.findOne({ where: { id: userId } });
+      const findUser = await usersEntity.findOne({ where: { id: userId } });
       if (!findUser) {
         return res.status(404).json({ message: "User ID Not Found" });
       }
@@ -208,9 +208,9 @@ class OrdersController {
       }
 
       // Kiểm tra giỏ hàng
-      const checkCart = await cartsModel.findAll({
+      const checkCart = await cartsEntity.findAll({
         where: { user_id: userId },
-        include: [{ model: productsModel, attributes: ["quantity_stock"] }],
+        include: [{ model: productsEntity, attributes: ["quantity_stock"] }],
       });
       // console.log(checkCart, "CHECK CART");
       if (checkCart.length === 0) {
@@ -269,7 +269,7 @@ class OrdersController {
         });
       }
 
-      const checkCardPayment = await paymentsModel.findOne({
+      const checkCardPayment = await paymentsEntity.findOne({
         where: {
           cardholder_name: cardholder_name,
           expiry_date: expiry_date,
@@ -323,7 +323,7 @@ class OrdersController {
 
       console.log(cartBill[0].bill, "cartBill");
 
-      const getAllCoupons = await couponsModel.findOne({
+      const getAllCoupons = await couponsEntity.findOne({
         where: { min_bill: { [Op.lt]: cartBill[0].bill } },
         order: [["discount_rate", "DESC"]],
         limit: 1,
@@ -391,19 +391,19 @@ class OrdersController {
         console.log(updatedQuantityStock, ":ÁDDSA");
 
         // Cập nhật số lượng tồn kho trong bảng products
-        await productsModel.update(
+        await productsEntity.update(
           { quantity_stock: updatedQuantityStock },
           { where: { id: cartProduct.product_id } }
         );
 
         // Tạo đơn hàng mới nếu chưa tạo
         if (!hasCreatedNewOrder) {
-          const newOrder = await ordersModel.create(orderInfo);
+          const newOrder = await ordersEntity.create(orderInfo);
           hasCreatedNewOrder = true;
           orderId = newOrder.id; // Gán orderId ở đây, không cần return
         }
 
-        const findProduct = await productsModel.findOne({
+        const findProduct = await productsEntity.findOne({
           where: { id: cartProduct.product_id },
         });
 
@@ -426,7 +426,7 @@ class OrdersController {
         console.log(orderItemInfo, "orderItemInfo");
 
         // Đẩy Cart vào giỏ hàng chi tiết
-        await orderItemsModel.create(orderItemInfo);
+        await orderItemsEntity.create(orderItemInfo);
 
         // Trừ balance trong thẻ nếu chưa thanh toán
         if (!hasPaid) {
@@ -434,7 +434,7 @@ class OrdersController {
             ...dataCard,
             balance: (Number(dataCard.balance) - Number(totalBill)).toFixed(2),
           };
-          await paymentsModel.update(updatedCard, {
+          await paymentsEntity.update(updatedCard, {
             where: { id: dataCard.id },
           });
           hasPaid = true;
@@ -442,7 +442,7 @@ class OrdersController {
       }
 
       // Xóa toàn bộ giỏ hàng của người dùng sau khi vòng lặp
-      await cartsModel.destroy({
+      await cartsEntity.destroy({
         where: { user_id: userId },
       });
 
@@ -457,7 +457,7 @@ class OrdersController {
     const { status_id } = req.body;
     try {
       const orderId = req.params.orderId;
-      const findOrder = await ordersModel.findOne({
+      const findOrder = await ordersEntity.findOne({
         where: { id: orderId },
       });
       if (!findOrder) {
@@ -489,7 +489,7 @@ class OrdersController {
         updated_at: Date.now(),
       };
 
-      const updatedOrder = await ordersModel.update(orderInfo, {
+      const updatedOrder = await ordersEntity.update(orderInfo, {
         where: { id: orderId },
       });
       return res
@@ -505,7 +505,7 @@ class OrdersController {
     const { cancel_reason_id } = req.body;
     try {
       const orderId = req.params.orderId;
-      const findOrder = await ordersModel.findOne({
+      const findOrder = await ordersEntity.findOne({
         where: { id: orderId },
       });
       if (!findOrder) {
@@ -548,7 +548,7 @@ class OrdersController {
       }
 
       // Tìm Cancel Reason
-      const findCancelReason = await cancelReasonsModel.findOne({
+      const findCancelReason = await cancelReasonsEntity.findOne({
         where: { id: cancel_reason_id },
       });
 
@@ -567,12 +567,12 @@ class OrdersController {
         updated_at: Date.now(),
       };
 
-      const updatedOrder = await ordersModel.update(orderInfo, {
+      const updatedOrder = await ordersEntity.update(orderInfo, {
         where: { id: orderId },
       });
 
       // ---------------- Hoàn lại tiền cho khách hàng ----------------
-      const findPayment = await paymentsModel.findOne({
+      const findPayment = await paymentsEntity.findOne({
         where: { id: dataOrder.card_id },
       });
       const dataPayment = findPayment.dataValues;
@@ -583,7 +583,7 @@ class OrdersController {
         ...dataPayment,
         balance: dataPayment.balance + dataOrder.bill,
       };
-      await paymentsModel.update(updatedPaymentBalance, {
+      await paymentsEntity.update(updatedPaymentBalance, {
         where: { id: dataOrder.card_id },
       });
       return res

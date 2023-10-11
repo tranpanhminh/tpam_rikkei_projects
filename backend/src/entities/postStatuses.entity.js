@@ -3,7 +3,7 @@ const { DataTypes } = require("sequelize");
 
 // ---------------------------------------------------------
 
-const postStatusesModel = sequelize.define(
+const postStatusesEntity = sequelize.define(
   "post_statuses",
   {
     id: {
@@ -32,8 +32,8 @@ const postStatusesModel = sequelize.define(
   }
 );
 
-// postStatusesModel.sync().then(() => {
+// postStatusesEntity.sync().then(() => {
 //   console.log("OK");
 // });
 
-module.exports = postStatusesModel;
+module.exports = postStatusesEntity;

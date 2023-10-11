@@ -1,18 +1,18 @@
 const connectMySQL = require("../configs/db.config.js");
-const productCommentsModel = require("../models/productComments.model.js");
+const productCommentsEntity = require("../entities/productComments.entity.js");
 const bcrypt = require("bcryptjs");
-const productsModel = require("../models/products.model.js");
-const usersModel = require("../models/users.model.js");
-const postTypesModel = require("../models/postTypes.model.js");
+const productsEntity = require("../entities/products.entity.js");
+const usersEntity = require("../entities/users.entity.js");
+const postTypesEntity = require("../entities/postTypes.entity.js");
 
 // ---------------------------------------------------------
 class ProductCommentsController {
   // 1. Get All Product Comments
   async getAllProductComments(req, res) {
     try {
-      // const listProductComments = await productCommentsModel.findAll();
+      // const listProductComments = await productCommentsEntity.findAll();
 
-      const listProductComments = await productCommentsModel.findAll({
+      const listProductComments = await productCommentsEntity.findAll({
         // Chọn các thuộc tính cần thiết
         attributes: [
           "id",
@@ -29,11 +29,11 @@ class ProductCommentsController {
         // Tham gia với bảng post_types
         include: [
           {
-            model: usersModel,
+            model: usersEntity,
             attributes: ["full_name", "role_id"],
           },
           {
-            model: postTypesModel,
+            model: postTypesEntity,
             attributes: ["name"],
           },
         ],
@@ -52,7 +52,7 @@ class ProductCommentsController {
   async getDetailProductComment(req, res) {
     try {
       const productCommentId = req.params.productCommentId;
-      const detailProductComment = await productCommentsModel.findOne({
+      const detailProductComment = await productCommentsEntity.findOne({
         where: { id: productCommentId },
       });
       if (!detailProductComment) {
@@ -81,7 +81,7 @@ class ProductCommentsController {
       }
 
       // Check Product
-      const findProduct = await productsModel.findOne({
+      const findProduct = await productsEntity.findOne({
         where: {
           id: productId,
         },
@@ -91,7 +91,7 @@ class ProductCommentsController {
       }
 
       // Check User
-      const findUser = await usersModel.findOne({
+      const findUser = await usersEntity.findOne({
         where: {
           id: userId,
         },
@@ -142,7 +142,7 @@ class ProductCommentsController {
         user_id: userId,
         user_role_id: dataUser.role_id,
       };
-      const newProductComment = await productCommentsModel.create(commentInfo);
+      const newProductComment = await productCommentsEntity.create(commentInfo);
       res.status(200).json(newProductComment);
     } catch (error) {
       console.log(error, "ERROR");
@@ -153,7 +153,7 @@ class ProductCommentsController {
   async deleteProductComment(req, res) {
     try {
       const productCommentId = req.params.productCommentId;
-      const findProductComment = await productCommentsModel.findOne({
+      const findProductComment = await productCommentsEntity.findOne({
         where: { id: productCommentId },
       });
       if (!findProductComment) {
@@ -161,7 +161,7 @@ class ProductCommentsController {
           .status(404)
           .json({ message: "Product Comment ID Not Found" });
       } else {
-        const deleteProductComment = await productCommentsModel.destroy({
+        const deleteProductComment = await productCommentsEntity.destroy({
           where: { id: productCommentId },
         });
         return res.status(200).json({

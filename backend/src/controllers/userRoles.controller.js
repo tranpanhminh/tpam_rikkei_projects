@@ -1,13 +1,11 @@
-const connectMySQL = require("../configs/db.config.js");
-const userRolesModel = require("../models/userRoles.model.js");
-const bcrypt = require("bcryptjs");
+const userRolesEntity = require("../entities/userRoles.entity.js");
 
 // ---------------------------------------------------------
 class UserRolesController {
   // 1. Get All User Roles
   async getAllUserRoles(req, res) {
     try {
-      const listUserRoles = await userRolesModel.findAll();
+      const listUserRoles = await userRolesEntity.findAll();
       res.status(200).json(listUserRoles);
       console.log(listUserRoles, "listUserRoles");
     } catch (error) {
@@ -19,7 +17,7 @@ class UserRolesController {
   async getDetailUserRole(req, res) {
     try {
       const userRoleId = req.params.userRoleId;
-      const detailUserRole = await userRolesModel.findOne({
+      const detailUserRole = await userRolesEntity.findOne({
         where: { id: userRoleId },
       });
       if (!detailUserRole) {
@@ -42,7 +40,7 @@ class UserRolesController {
         const userRoleInfo = {
           name: name,
         };
-        const newUserRole = await userRolesModel.create(userRoleInfo);
+        const newUserRole = await userRolesEntity.create(userRoleInfo);
         res.status(200).json({ message: "User Role Added", data: newUserRole });
       }
     } catch (error) {
@@ -54,13 +52,13 @@ class UserRolesController {
   async deleteUserRole(req, res) {
     try {
       const userRoleId = req.params.userRoleId;
-      const findUserRole = await userRolesModel.findOne({
+      const findUserRole = await userRolesEntity.findOne({
         where: { id: userRoleId },
       });
       if (!findUserRole) {
         return res.status(404).json({ message: "User Role ID Not Found" });
       } else {
-        const deleteUserRole = await userRolesModel.destroy({
+        const deleteUserRole = await userRolesEntity.destroy({
           where: { id: userRoleId },
         });
         return res
@@ -77,7 +75,7 @@ class UserRolesController {
     const { name } = req.body;
     try {
       const userRoleId = req.params.userRoleId;
-      const findUserRole = await userRolesModel.findOne({
+      const findUserRole = await userRolesEntity.findOne({
         where: { id: userRoleId },
       });
 
@@ -92,7 +90,7 @@ class UserRolesController {
         updated_at: Date.now(),
       };
 
-      const updatedUserRole = await userRolesModel.update(userRoleInfo, {
+      const updatedUserRole = await userRolesEntity.update(userRoleInfo, {
         where: { id: userRoleId },
       });
       return res

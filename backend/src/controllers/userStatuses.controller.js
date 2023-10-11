@@ -1,13 +1,11 @@
-const connectMySQL = require("../configs/db.config.js");
-const userStatusesModel = require("../models/userStatuses.model.js");
-const bcrypt = require("bcryptjs");
+const userStatusesEntity = require("../entities/userStatuses.entity.js");
 
 // ---------------------------------------------------------
 class UserStatusesController {
   // 1. Get All User Statuses
   async getAllUserStatuses(req, res) {
     try {
-      const listUserStatuses = await userStatusesModel.findAll();
+      const listUserStatuses = await userStatusesEntity.findAll();
       res.status(200).json(listUserStatuses);
       console.log(listUserStatuses, "listUserStatuses");
     } catch (error) {
@@ -19,7 +17,7 @@ class UserStatusesController {
   async getDetailUserStatus(req, res) {
     try {
       const userStatusId = req.params.userStatusId;
-      const detailUserStatus = await userStatusesModel.findOne({
+      const detailUserStatus = await userStatusesEntity.findOne({
         where: { id: userStatusId },
       });
       if (!detailUserStatus) {
@@ -42,7 +40,7 @@ class UserStatusesController {
         const userStatusInfo = {
           name: name,
         };
-        const newUserStatus = await userStatusesModel.create(userStatusInfo);
+        const newUserStatus = await userStatusesEntity.create(userStatusInfo);
         res
           .status(200)
           .json({ message: "User Status Added", data: newUserStatus });
@@ -56,13 +54,13 @@ class UserStatusesController {
   async deleteUserStatus(req, res) {
     try {
       const userStatusId = req.params.userStatusId;
-      const findUserStatus = await userStatusesModel.findOne({
+      const findUserStatus = await userStatusesEntity.findOne({
         where: { id: userStatusId },
       });
       if (!findUserStatus) {
         return res.status(404).json({ message: "User Status ID Not Found" });
       } else {
-        const deleteOrderStatus = await userStatusesModel.destroy({
+        const deleteOrderStatus = await userStatusesEntity.destroy({
           where: { id: userStatusId },
         });
         return res.status(200).json({
@@ -80,7 +78,7 @@ class UserStatusesController {
     const { name } = req.body;
     try {
       const userStatusId = req.params.userStatusId;
-      const findUserStatus = await userStatusesModel.findOne({
+      const findUserStatus = await userStatusesEntity.findOne({
         where: { id: userStatusId },
       });
 
@@ -95,9 +93,12 @@ class UserStatusesController {
         updated_at: Date.now(),
       };
 
-      const updatedUserStatus = await userStatusesModel.update(userStatusInfo, {
-        where: { id: userStatusId },
-      });
+      const updatedUserStatus = await userStatusesEntity.update(
+        userStatusInfo,
+        {
+          where: { id: userStatusId },
+        }
+      );
       return res.status(200).json({
         message: "User Status Updated",
         dataUpdated: updatedUserStatus,

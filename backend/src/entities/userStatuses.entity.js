@@ -3,8 +3,8 @@ const { DataTypes } = require("sequelize");
 
 // ---------------------------------------------------------
 
-const couponsModel = sequelize.define(
-  "coupons",
+const userStatusesEntity = sequelize.define(
+  "user_statuses",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -15,18 +15,6 @@ const couponsModel = sequelize.define(
     },
     name: {
       type: DataTypes.STRING(255),
-      allowNull: false,
-    },
-    code: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-    },
-    discount_rate: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    min_bill: {
-      type: DataTypes.BIGINT,
       allowNull: false,
     },
     created_at: {
@@ -44,8 +32,8 @@ const couponsModel = sequelize.define(
   }
 );
 
-// couponsModel.sync().then(() => {
+// userStatusesEntity.sync().then(() => {
 //   console.log("OK");
 // });
 
-module.exports = couponsModel;
+module.exports = userStatusesEntity;

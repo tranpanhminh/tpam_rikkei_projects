@@ -1,8 +1,5 @@
 const express = require("express");
 
-// Import Model
-const pagesModel = require("../models/pages.model.js");
-
 // Import Router
 const pagesRouter = express.Router();
 

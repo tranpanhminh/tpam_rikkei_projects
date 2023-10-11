@@ -1,43 +1,47 @@
 const sequelize = require("../configs/db.config.js");
+const vendorsEntity = require("./vendors.entity.js");
+const postTypesEntity = require("./postTypes.entity.js");
 const { DataTypes } = require("sequelize");
-const postStatusesModel = require("../models/postStatuses.model.js");
-const postTypesModel = require("./postTypes.model.js");
 
 // ---------------------------------------------------------
 
-const postsModel = sequelize.define(
-  "posts",
+const productsEntity = sequelize.define(
+  "products",
   {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
       allowNull: false,
-      unique: true,
     },
-    title: {
+    name: {
       type: DataTypes.STRING(255),
       allowNull: false,
     },
-    content: {
+    description: {
       type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    price: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    quantity_stock: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     thumbnail_url: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    author: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-    },
-    status_id: {
+    vendor_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
     post_type_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      defaultValue: 1, // Giá trị mặc định
     },
     created_at: {
       type: DataTypes.DATE,
@@ -54,28 +58,30 @@ const postsModel = sequelize.define(
   }
 );
 
-// Post và Post Status
-postStatusesModel.hasMany(postsModel, {
-  foreignKey: "status_id",
-  onDelete: "NO ACTION",
-});
-postsModel.belongsTo(postStatusesModel, {
-  foreignKey: "status_id",
+// Mối quan hệ khóa ngoại giữa Products và Vendors
+vendorsEntity.hasMany(productsEntity, {
+  foreignKey: "vendor_id",
   onDelete: "NO ACTION",
 });
 
-// Post và Post Type
-postTypesModel.hasMany(postsModel, {
-  foreignKey: "post_type_id",
+productsEntity.belongsTo(vendorsEntity, {
+  foreignKey: "vendor_id",
   onDelete: "NO ACTION",
 });
-postsModel.belongsTo(postTypesModel, {
+
+// Mối quan hệ khóa ngoại giữa Products và Post Types
+postTypesEntity.hasMany(productsEntity, {
   foreignKey: "post_type_id",
   onDelete: "NO ACTION",
 });
 
-// postsModel.sync().then(() => {
+productsEntity.belongsTo(postTypesEntity, {
+  foreignKey: "post_type_id",
+  onDelete: "NO ACTION",
+});
+
+// productsEntity.sync().then(() => {
 //   console.log("OK");
 // });
 
-module.exports = postsModel;
+module.exports = productsEntity;

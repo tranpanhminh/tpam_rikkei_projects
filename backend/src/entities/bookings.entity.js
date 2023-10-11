@@ -1,12 +1,12 @@
 const sequelize = require("../configs/db.config.js");
-const usersModel = require("../models/users.model.js");
-const servicesModel = require("../models/services.model.js");
-const bookingStatusesModel = require("../models/bookingStatuses.model.js");
+const usersEntity = require("./users.entity.js");
+const servicesEntity = require("./services.entity.js");
+const bookingStatusesEntity = require("./bookingStatuses.entity.js");
 const { DataTypes } = require("sequelize");
 
 // ---------------------------------------------------------
 
-const bookingsModel = sequelize.define(
+const bookingsEntity = sequelize.define(
   "bookings",
   {
     id: {
@@ -81,34 +81,34 @@ const bookingsModel = sequelize.define(
 );
 
 // Mối quan hệ giữa Users và Booking
-usersModel.hasMany(bookingsModel, {
+usersEntity.hasMany(bookingsEntity, {
   foreignKey: "user_id",
 });
-bookingsModel.belongsTo(usersModel, {
+bookingsEntity.belongsTo(usersEntity, {
   foreignKey: "user_id",
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
 });
 
 // Mối quan hệ giữa Service và Booking
-servicesModel.hasMany(bookingsModel, {
+servicesEntity.hasMany(bookingsEntity, {
   foreignKey: "service_id",
 });
-bookingsModel.belongsTo(servicesModel, {
+bookingsEntity.belongsTo(servicesEntity, {
   foreignKey: "service_id",
 });
 
 // Mối quan hệ giữa Booking Status và Booking
-bookingStatusesModel.hasMany(bookingsModel, {
+bookingStatusesEntity.hasMany(bookingsEntity, {
   foreignKey: "status_id",
 });
-bookingsModel.belongsTo(bookingStatusesModel, {
+bookingsEntity.belongsTo(bookingStatusesEntity, {
   foreignKey: "status_id",
   onDelete: "NO ACTION",
 });
 
-// bookingsModel.sync().then(() => {
+// bookingsEntity.sync().then(() => {
 //   console.log("OK");
 // });
 
-module.exports = bookingsModel;
+module.exports = bookingsEntity;

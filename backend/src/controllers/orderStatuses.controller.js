@@ -1,5 +1,5 @@
 const connectMySQL = require("../configs/db.config.js");
-const orderStatusesModel = require("../models/orderStatuses.model.js");
+const orderStatusesEntity = require("../entities/orderStatuses.entity.js");
 const bcrypt = require("bcryptjs");
 
 // ---------------------------------------------------------
@@ -7,7 +7,7 @@ class OrderStatusesController {
   // 1. Get All Order Statuses
   async getAllOrderStatuses(req, res) {
     try {
-      const listOrderStatuses = await orderStatusesModel.findAll();
+      const listOrderStatuses = await orderStatusesEntity.findAll();
       res.status(200).json(listOrderStatuses);
       console.log(listOrderStatuses, "listOrderStatuses");
     } catch (error) {
@@ -19,7 +19,7 @@ class OrderStatusesController {
   async getDetailOrderStatus(req, res) {
     try {
       const orderStatusId = req.params.orderStatusId;
-      const detailOrderStatus = await orderStatusesModel.findOne({
+      const detailOrderStatus = await orderStatusesEntity.findOne({
         where: { id: orderStatusId },
       });
       if (!detailOrderStatus) {
@@ -44,7 +44,9 @@ class OrderStatusesController {
         const orderStatusInfo = {
           name: name,
         };
-        const newOrderStatus = await orderStatusesModel.create(orderStatusInfo);
+        const newOrderStatus = await orderStatusesEntity.create(
+          orderStatusInfo
+        );
         res
           .status(200)
           .json({ message: "Order Status Added", data: newOrderStatus });
@@ -58,13 +60,13 @@ class OrderStatusesController {
   async deleteOrderStatus(req, res) {
     try {
       const orderStatusId = req.params.orderStatusId;
-      const findOrderStatus = await orderStatusesModel.findOne({
+      const findOrderStatus = await orderStatusesEntity.findOne({
         where: { id: orderStatusId },
       });
       if (!findOrderStatus) {
         return res.status(404).json({ message: "Order Status ID Not Found" });
       } else {
-        const deleteOrderStatus = await orderStatusesModel.destroy({
+        const deleteOrderStatus = await orderStatusesEntity.destroy({
           where: { id: orderStatusId },
         });
         return res.status(200).json({
@@ -82,7 +84,7 @@ class OrderStatusesController {
     const { name } = req.body;
     try {
       const orderStatusId = req.params.orderStatusId;
-      const findOrderStatus = await orderStatusesModel.findOne({
+      const findOrderStatus = await orderStatusesEntity.findOne({
         where: { id: orderStatusId },
       });
 
@@ -97,7 +99,7 @@ class OrderStatusesController {
         updated_at: Date.now(),
       };
 
-      const updatedOrderStatus = await orderStatusesModel.update(
+      const updatedOrderStatus = await orderStatusesEntity.update(
         orderStatusInfo,
         {
           where: { id: orderStatusId },

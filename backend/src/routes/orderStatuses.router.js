@@ -1,8 +1,5 @@
 const express = require("express");
 
-// Import Model
-const orderStatusesModel = require("../models/orderStatuses.model.js");
-
 // Import Router
 const orderStatusesRouter = express.Router();
 

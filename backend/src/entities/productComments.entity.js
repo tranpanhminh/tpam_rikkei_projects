@@ -1,13 +1,13 @@
 const sequelize = require("../configs/db.config.js");
 const { DataTypes } = require("sequelize");
-const usersModel = require("./users.model.js");
-const postTypesModel = require("./postTypes.model.js");
-const servicesModel = require("./services.model.js");
+const usersEntity = require("./users.entity.js");
+const postTypesEntity = require("./postTypes.entity.js");
+const productsEntity = require("./products.entity.js");
 
 // ---------------------------------------------------------
 
-const serviceCommentsModel = sequelize.define(
-  "service_comments",
+const productCommentsEntity = sequelize.define(
+  "product_comments",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -57,36 +57,39 @@ const serviceCommentsModel = sequelize.define(
   }
 );
 
-// Mối quan hệ giữa User và Service Comment
-usersModel.hasMany(serviceCommentsModel, {
-  foreignKey: "user_id",
-});
-serviceCommentsModel.belongsTo(usersModel, {
+// Mối quan hệ giữa User và Product Comment
+usersEntity.hasMany(productCommentsEntity, {
   foreignKey: "user_id",
 });
 
-// Mối quan hệ giữa Post Type và Service Comment
+productCommentsEntity.belongsTo(usersEntity, {
+  foreignKey: "user_id",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
 
-postTypesModel.hasMany(serviceCommentsModel, {
+// Mối quan hệ giữa Post Type và Product Comment
+postTypesEntity.hasMany(productCommentsEntity, {
   foreignKey: "post_type_id",
   onDelete: "NO ACTION",
 });
-serviceCommentsModel.belongsTo(postTypesModel, {
+productCommentsEntity.belongsTo(postTypesEntity, {
   foreignKey: "post_type_id",
   onDelete: "NO ACTION",
 });
 
-// Mối quan hệ giữa Services và Service Comment
-
-servicesModel.hasMany(serviceCommentsModel, {
+// Mối quan hệ giữa Product và Product Comment
+productsEntity.hasMany(productCommentsEntity, {
   foreignKey: "post_id",
 });
-serviceCommentsModel.belongsTo(servicesModel, {
+productCommentsEntity.belongsTo(productsEntity, {
   foreignKey: "post_id",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
 });
 
-// serviceCommentsModel.sync().then(() => {
+// productCommentsEntity.sync().then(() => {
 //   console.log("OK");
 // });
 
-module.exports = serviceCommentsModel;
+module.exports = productCommentsEntity;

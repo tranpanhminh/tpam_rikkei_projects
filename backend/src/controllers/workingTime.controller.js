@@ -1,13 +1,11 @@
-const connectMySQL = require("../configs/db.config.js");
-const workingTimeModel = require("../models/workingTime.model.js");
-const bcrypt = require("bcryptjs");
+const workingTimeEntity = require("../entities/workingTime.entity.js");
 
 // ---------------------------------------------------------
 class WorkingTimeController {
   // 1. Get All Working Time
   async getAllWorkingTime(req, res) {
     try {
-      const listWorkingTime = await workingTimeModel.findAll(); // include: <Tên bảng>
+      const listWorkingTime = await workingTimeEntity.findAll(); // include: <Tên bảng>
       res.status(200).json(listWorkingTime);
       console.log(listWorkingTime, "listWorkingTime");
     } catch (error) {
@@ -19,7 +17,7 @@ class WorkingTimeController {
   async getDetailWorkingTime(req, res) {
     try {
       const workingTimeId = req.params.workingTimeId;
-      const detailWorkingTime = await workingTimeModel.findOne({
+      const detailWorkingTime = await workingTimeEntity.findOne({
         where: { id: workingTimeId },
       });
       if (!detailWorkingTime) {
@@ -51,7 +49,7 @@ class WorkingTimeController {
         morning_time: morning_time,
         afternoon_time: afternoon_time,
       };
-      const newWorkingTime = await workingTimeModel.create(couponInfo);
+      const newWorkingTime = await workingTimeEntity.create(couponInfo);
       res
         .status(200)
         .json({ message: "Working Time Added", data: newWorkingTime });
@@ -64,13 +62,13 @@ class WorkingTimeController {
   async deleteWorkingTime(req, res) {
     try {
       const workingTimeId = req.params.workingTimeId;
-      const findWorkingTime = await workingTimeModel.findOne({
+      const findWorkingTime = await workingTimeEntity.findOne({
         where: { id: workingTimeId },
       });
       if (!findWorkingTime) {
         return res.status(404).json({ message: "Working Time ID Not Found" });
       } else {
-        const deleteWorkingTime = await workingTimeModel.destroy({
+        const deleteWorkingTime = await workingTimeEntity.destroy({
           where: { id: workingTimeId },
         });
         return res.status(200).json({
@@ -88,7 +86,7 @@ class WorkingTimeController {
     const { morning_time, afternoon_time } = req.body;
     const workingTimeId = req.params.workingTimeId;
     try {
-      const findWorkingTime = await workingTimeModel.findOne({
+      const findWorkingTime = await workingTimeEntity.findOne({
         where: { id: workingTimeId },
       });
       if (!findWorkingTime) {
@@ -106,7 +104,7 @@ class WorkingTimeController {
         updated_at: Date.now(),
       };
 
-      const updatedWorkingTime = await workingTimeModel.update(
+      const updatedWorkingTime = await workingTimeEntity.update(
         workingTimeInfo,
         {
           where: { id: workingTimeId },

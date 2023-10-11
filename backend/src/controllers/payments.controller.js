@@ -1,5 +1,5 @@
 const connectMySQL = require("../configs/db.config.js");
-const paymentsModel = require("../models/payments.model.js");
+const paymentsEntity = require("../entities/payments.entity.js");
 const bcrypt = require("bcryptjs");
 
 // ---------------------------------------------------------
@@ -7,7 +7,7 @@ class PaymentsController {
   // 1. Get All Payments
   async getAllPayments(req, res) {
     try {
-      const listPayments = await paymentsModel.findAll(); // include: <Tên bảng>
+      const listPayments = await paymentsEntity.findAll(); // include: <Tên bảng>
       res.status(200).json(listPayments);
       console.log(listPayments, "listPayments");
     } catch (error) {
@@ -19,7 +19,7 @@ class PaymentsController {
   async getDetailPayment(req, res) {
     try {
       const paymentId = req.params.paymentId;
-      const detailPayment = await paymentsModel.findOne({
+      const detailPayment = await paymentsEntity.findOne({
         where: { id: paymentId },
       });
       if (!detailPayment) {
@@ -77,7 +77,7 @@ class PaymentsController {
         balance: balance,
       };
       console.log(paymentInfo, "paymentInfo");
-      const newPayment = await paymentsModel.create(paymentInfo);
+      const newPayment = await paymentsEntity.create(paymentInfo);
       res.status(200).json({ message: "Payment Added", data: newPayment });
     } catch (error) {
       console.log(error, "ERROR");
@@ -88,13 +88,13 @@ class PaymentsController {
   async deletePayment(req, res) {
     try {
       const paymentId = req.params.paymentId;
-      const findPayment = await paymentsModel.findOne({
+      const findPayment = await paymentsEntity.findOne({
         where: { id: paymentId },
       });
       if (!findPayment) {
         return res.status(404).json({ message: "Payment ID Not Found" });
       } else {
-        const deletePayment = await paymentsModel.destroy({
+        const deletePayment = await paymentsEntity.destroy({
           where: { id: paymentId },
         });
         return res
@@ -112,7 +112,7 @@ class PaymentsController {
       req.body;
     try {
       const paymentId = req.params.paymentId;
-      const findPayment = await paymentsModel.findOne({
+      const findPayment = await paymentsEntity.findOne({
         where: { id: paymentId },
       });
 
@@ -145,7 +145,7 @@ class PaymentsController {
         updated_at: Date.now(),
       };
 
-      const updatedPayment = await paymentsModel.update(paymentInfo, {
+      const updatedPayment = await paymentsEntity.update(paymentInfo, {
         where: { id: paymentId },
       });
       return res

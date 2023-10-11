@@ -1,8 +1,5 @@
 const express = require("express");
 
-// Import Model
-const workingTimeModel = require("../models/workingTime.model.js");
-
 // Import Router
 const workingTimeRouter = express.Router();
 

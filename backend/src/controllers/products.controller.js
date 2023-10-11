@@ -1,11 +1,11 @@
 const connectMySQL = require("../configs/db.config.js");
 const { Op, col, fn } = require("sequelize");
 const sequelize = require("sequelize");
-const productsModel = require("../models/products.model.js");
-const productCommentsModel = require("../models/productComments.model.js");
-const postTypesModel = require("../models/postTypes.model.js");
-const vendorsModel = require("../models/vendors.model.js");
-const productImagesModel = require("../models/productImages.model.js");
+const productsEntity = require("../entities/products.entity.js");
+const productCommentsEntity = require("../entities/productComments.entity.js");
+const postTypesEntity = require("../entities/postTypes.entity.js");
+const vendorsEntity = require("../entities/vendors.entity.js");
+const productImagesEntity = require("../entities/productImages.entity.js");
 const productCommentsController = require("../controllers/productComments.controller.js");
 const bcrypt = require("bcryptjs");
 const sourceImage = process.env.BASE_URL_IMAGE;
@@ -15,7 +15,7 @@ class ProductsController {
   // 1. Get All Products
   async getAllProducts(req, res) {
     try {
-      const listProducts = await productsModel.findAll({
+      const listProducts = await productsEntity.findAll({
         attributes: [
           "id",
           "name",
@@ -49,15 +49,15 @@ class ProductsController {
         ],
         include: [
           {
-            model: postTypesModel,
+            model: postTypesEntity,
             attributes: ["name"],
           },
           {
-            model: vendorsModel,
+            model: vendorsEntity,
             attributes: ["name"],
           },
           {
-            model: productImagesModel,
+            model: productImagesEntity,
             attributes: [],
           },
         ],
@@ -75,7 +75,7 @@ class ProductsController {
   async getDetailProduct(req, res) {
     try {
       const productId = req.params.productId;
-      const detailProduct = await productsModel.findOne({
+      const detailProduct = await productsEntity.findOne({
         attributes: [
           "id",
           "name",
@@ -109,15 +109,15 @@ class ProductsController {
         ],
         include: [
           {
-            model: postTypesModel,
+            model: postTypesEntity,
             attributes: ["name"],
           },
           {
-            model: vendorsModel,
+            model: vendorsEntity,
             attributes: ["name"],
           },
           {
-            model: productImagesModel,
+            model: productImagesEntity,
             attributes: [],
           },
         ],
@@ -151,10 +151,10 @@ class ProductsController {
         thumbnail_url: sourceImage + req.files[0].filename,
       };
       console.log(productInfo, "productInfo");
-      const newProduct = await productsModel.create(productInfo);
+      const newProduct = await productsEntity.create(productInfo);
 
       for (let i = 0; i < req.files.length; i++) {
-        await productImagesModel.create({
+        await productImagesEntity.create({
           image_url: sourceImage + req.files[i].filename,
           product_id: newProduct.id,
         });
@@ -169,13 +169,13 @@ class ProductsController {
   async deleteProduct(req, res) {
     try {
       const productId = req.params.productId;
-      const findProduct = await productsModel.findOne({
+      const findProduct = await productsEntity.findOne({
         where: { id: productId },
       });
       if (!findProduct) {
         return res.status(404).json({ message: "Product ID Not Found" });
       } else {
-        const deleteProduct = await productsModel.destroy({
+        const deleteProduct = await productsEntity.destroy({
           where: { id: productId },
         });
         return res
@@ -193,7 +193,7 @@ class ProductsController {
     try {
       console.log(name, "NAME");
       const productId = req.params.productId;
-      const findProduct = await productsModel.findOne({
+      const findProduct = await productsEntity.findOne({
         where: { id: productId },
       });
 
@@ -223,7 +223,7 @@ class ProductsController {
         updated_at: Date.now(),
       };
       console.log(productInfo, "productInfo");
-      const updatedProduct = await productsModel.update(productInfo, {
+      const updatedProduct = await productsEntity.update(productInfo, {
         where: { id: productId },
       });
       return res
@@ -239,13 +239,13 @@ class ProductsController {
     const productId = req.params.productId;
     const imageId = req.params.imageId;
     try {
-      const findProduct = await productsModel.findOne({
+      const findProduct = await productsEntity.findOne({
         where: { id: productId },
       });
       if (!findProduct) {
         res.status(404).json({ message: "Product ID Not Found" });
       }
-      const findImage = await productImagesModel.findOne({
+      const findImage = await productImagesEntity.findOne({
         where: { id: imageId },
       });
       if (!findImage) {
@@ -256,7 +256,7 @@ class ProductsController {
         image_url: sourceImage + req.file.filename,
         updated_at: Date.now(),
       };
-      const updatedImage = await productImagesModel.update(imageInfor, {
+      const updatedImage = await productImagesEntity.update(imageInfor, {
         where: { id: imageId },
       });
       res.status(200).json({
@@ -272,7 +272,7 @@ class ProductsController {
   async changeThumbnail(req, res) {
     const productId = req.params.productId;
     const imageId = req.params.imageId;
-    const findProduct = await productsModel.findOne({
+    const findProduct = await productsEntity.findOne({
       where: { id: productId },
     });
 
@@ -280,7 +280,7 @@ class ProductsController {
       return res.status(404).json({ message: "Product ID Not Found" });
     }
 
-    const findImage = await productImagesModel.findOne({
+    const findImage = await productImagesEntity.findOne({
       where: { id: imageId },
     });
 
@@ -294,7 +294,7 @@ class ProductsController {
       thumbnail_url: dataImage.image_url,
     };
 
-    const updatedThumbnail = await productsModel.update(thumbnailInfo, {
+    const updatedThumbnail = await productsEntity.update(thumbnailInfo, {
       where: { id: productId },
     });
     return res

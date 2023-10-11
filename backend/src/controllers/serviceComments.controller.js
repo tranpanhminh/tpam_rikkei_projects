@@ -1,18 +1,18 @@
 const connectMySQL = require("../configs/db.config.js");
-const serviceCommentsModel = require("../models/serviceComments.model.js");
+const serviceCommentsEntity = require("../entities/serviceComments.entity.js");
 const bcrypt = require("bcryptjs");
-const servicesModel = require("../models/services.model.js");
-const usersModel = require("../models/users.model.js");
-const postTypesModel = require("../models/postTypes.model.js");
+const servicesEntity = require("../entities/services.entity.js");
+const usersEntity = require("../entities/users.entity.js");
+const postTypesEntity = require("../entities/postTypes.entity.js");
 
 // ---------------------------------------------------------
 class ServiceCommentsController {
   // 1. Get All Service Comments
   async getAllServiceComments(req, res) {
     try {
-      // const listServiceComments = await serviceCommentsModel.findAll();
+      // const listServiceComments = await serviceCommentsEntity.findAll();
 
-      const listServiceComments = await serviceCommentsModel.findAll({
+      const listServiceComments = await serviceCommentsEntity.findAll({
         // Chọn các thuộc tính cần thiết
         attributes: [
           "id",
@@ -29,11 +29,11 @@ class ServiceCommentsController {
         // Tham gia với bảng post_types
         include: [
           {
-            model: usersModel,
+            model: usersEntity,
             attributes: ["full_name", "role_id"],
           },
           {
-            model: postTypesModel,
+            model: postTypesEntity,
             attributes: ["name"],
           },
         ],
@@ -52,7 +52,7 @@ class ServiceCommentsController {
   async getDetailServiceComment(req, res) {
     try {
       const serviceCommentId = req.params.serviceCommentId;
-      const detailServiceComment = await serviceCommentsModel.findOne({
+      const detailServiceComment = await serviceCommentsEntity.findOne({
         where: { id: serviceCommentId },
       });
       if (!detailServiceComment) {
@@ -81,7 +81,7 @@ class ServiceCommentsController {
       }
 
       // Check Servuce
-      const findService = await servicesModel.findOne({
+      const findService = await servicesEntity.findOne({
         where: {
           id: serviceId,
         },
@@ -91,7 +91,7 @@ class ServiceCommentsController {
       }
 
       // Check User
-      const findUser = await usersModel.findOne({
+      const findUser = await usersEntity.findOne({
         where: {
           id: userId,
         },
@@ -142,7 +142,7 @@ class ServiceCommentsController {
         user_id: userId,
         user_role_id: dataUser.role_id,
       };
-      const newServiceComment = await serviceCommentsModel.create(commentInfo);
+      const newServiceComment = await serviceCommentsEntity.create(commentInfo);
       res.status(200).json(newServiceComment);
     } catch (error) {
       console.log(error, "ERROR");
@@ -153,7 +153,7 @@ class ServiceCommentsController {
   async deleteServiceComment(req, res) {
     try {
       const serviceCommentId = req.params.serviceCommentId;
-      const findServiceComment = await serviceCommentsModel.findOne({
+      const findServiceComment = await serviceCommentsEntity.findOne({
         where: { id: serviceCommentId },
       });
       if (!findServiceComment) {
@@ -161,7 +161,7 @@ class ServiceCommentsController {
           .status(404)
           .json({ message: "Service Comment ID Not Found" });
       } else {
-        const deleteServiceComment = await serviceCommentsModel.destroy({
+        const deleteServiceComment = await serviceCommentsEntity.destroy({
           where: { id: serviceCommentId },
         });
         return res.status(200).json({

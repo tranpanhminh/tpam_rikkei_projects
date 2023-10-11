@@ -1,11 +1,11 @@
 const sequelize = require("../configs/db.config.js");
-const userRolesModel = require("../models/userRoles.model.js");
-const userStatusesModel = require("../models/userStatuses.model.js");
+const userRolesEntity = require("./userRoles.entity.js");
+const userStatusesEntity = require("./userStatuses.entity.js");
 const { DataTypes } = require("sequelize");
 
 // ---------------------------------------------------------
 
-const usersModel = sequelize.define(
+const usersEntity = sequelize.define(
   "users",
   {
     id: {
@@ -56,27 +56,27 @@ const usersModel = sequelize.define(
 );
 
 // Mối quan hệ giữa User và User Role
-userRolesModel.hasMany(usersModel, {
+userRolesEntity.hasMany(usersEntity, {
   foreignKey: "role_id",
   onDelete: "NO ACTION",
 });
-usersModel.belongsTo(userRolesModel, {
+usersEntity.belongsTo(userRolesEntity, {
   foreignKey: "role_id",
   onDelete: "NO ACTION",
 });
 
 // Mối quan hệ giữa User và User Status
-userStatusesModel.hasMany(usersModel, {
+userStatusesEntity.hasMany(usersEntity, {
   foreignKey: "status_id",
   onDelete: "NO ACTION",
 });
-usersModel.belongsTo(userStatusesModel, {
+usersEntity.belongsTo(userStatusesEntity, {
   foreignKey: "status_id",
   onDelete: "NO ACTION",
 });
 
-// usersModel.sync().then(() => {
+// usersEntity.sync().then(() => {
 //   console.log("OK");
 // });
 
-module.exports = usersModel;
+module.exports = usersEntity;

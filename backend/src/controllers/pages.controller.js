@@ -1,7 +1,7 @@
 const connectMySQL = require("../configs/db.config.js");
-const pagesModel = require("../models/pages.model.js");
-const postTypesModel = require("../models/postTypes.model.js");
-const postStatusesModel = require("../models/postStatuses.model.js");
+const pagesEntity = require("../entities/pages.entity.js");
+const postTypesEntity = require("../entities/postTypes.entity.js");
+const postStatusesEntity = require("../entities/postStatuses.entity.js");
 const bcrypt = require("bcryptjs");
 const sourceImage = process.env.BASE_URL_IMAGE;
 
@@ -10,9 +10,9 @@ class PagesController {
   // 1. Get All Pages
   async getAllPages(req, res) {
     try {
-      // const listPages = await pagesModel.findAll();
+      // const listPages = await pagesEntity.findAll();
 
-      const listPages = await pagesModel.findAll({
+      const listPages = await pagesEntity.findAll({
         // Chọn các thuộc tính cần thiết
         attributes: [
           "id",
@@ -28,11 +28,11 @@ class PagesController {
         // Tham gia với bảng post_types
         include: [
           {
-            model: postTypesModel,
+            model: postTypesEntity,
             attributes: ["name"],
           },
           {
-            model: postStatusesModel,
+            model: postStatusesEntity,
             attributes: ["name"],
           },
         ],
@@ -52,11 +52,11 @@ class PagesController {
   async getDetailPage(req, res) {
     try {
       const pageId = req.params.pageId;
-      // const detailPage = await pagesModel.findOne({
+      // const detailPage = await pagesEntity.findOne({
       //   where: { id: pageId },
       // });
 
-      const detailPage = await pagesModel.findAll({
+      const detailPage = await pagesEntity.findAll({
         // Chọn các thuộc tính cần thiết
         attributes: [
           "id",
@@ -72,11 +72,11 @@ class PagesController {
         // Tham gia với bảng post_types
         include: [
           {
-            model: postTypesModel,
+            model: postTypesEntity,
             attributes: ["name"],
           },
           {
-            model: postStatusesModel,
+            model: postStatusesEntity,
             attributes: ["name"],
           },
         ],
@@ -135,7 +135,7 @@ class PagesController {
         status_id: status_id,
         post_type_id: 4,
       };
-      const newPage = await pagesModel.create(pageInfo);
+      const newPage = await pagesEntity.create(pageInfo);
       res.status(200).json({ message: "Page Added", data: newPage });
     } catch (error) {
       console.log(error, "ERROR");
@@ -146,13 +146,13 @@ class PagesController {
   async deletePage(req, res) {
     try {
       const pageId = req.params.pageId;
-      const findPage = await pagesModel.findOne({
+      const findPage = await pagesEntity.findOne({
         where: { id: pageId },
       });
       if (!findPage) {
         return res.status(404).json({ message: "Page ID Not Found" });
       } else {
-        const deletePage = await pagesModel.destroy({
+        const deletePage = await pagesEntity.destroy({
           where: { id: pageId },
         });
         return res
@@ -170,7 +170,7 @@ class PagesController {
     const thumbnail = req.file ? req.file.filename : "";
     try {
       const pageId = req.params.pageId;
-      const findPage = await pagesModel.findOne({
+      const findPage = await pagesEntity.findOne({
         where: { id: pageId },
       });
 
@@ -187,7 +187,7 @@ class PagesController {
         updated_at: Date.now(),
       };
 
-      const updatedPage = await pagesModel.update(pageInfo, {
+      const updatedPage = await pagesEntity.update(pageInfo, {
         where: { id: pageId },
       });
       return res

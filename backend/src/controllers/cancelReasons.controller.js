@@ -1,13 +1,11 @@
-const connectMySQL = require("../configs/db.config.js");
-const cancelReasonsModel = require("../models/cancelReasons.model.js");
-const bcrypt = require("bcryptjs");
+const cancelReasonsEntity = require("../entities/cancelReasons.entity.js");
 
 // ---------------------------------------------------------
 class CancelReasonsController {
   // 1. Get All Cancel Reasons
   async getAllCancelReasons(req, res) {
     try {
-      const listCancelReasons = await cancelReasonsModel.findAll();
+      const listCancelReasons = await cancelReasonsEntity.findAll();
       res.status(200).json(listCancelReasons);
       console.log(listCancelReasons, "listCancelReasons");
     } catch (error) {
@@ -19,7 +17,7 @@ class CancelReasonsController {
   async getDetailCancelReason(req, res) {
     try {
       const cancelReasonId = req.params.cancelReasonId;
-      const detailCancelReason = await cancelReasonsModel.findOne({
+      const detailCancelReason = await cancelReasonsEntity.findOne({
         where: { id: cancelReasonId },
       });
       if (!detailCoupon) {
@@ -42,7 +40,9 @@ class CancelReasonsController {
       const cancelReasonInfo = {
         name: name,
       };
-      const newCancelReason = await cancelReasonsModel.create(cancelReasonInfo);
+      const newCancelReason = await cancelReasonsEntity.create(
+        cancelReasonInfo
+      );
       res
         .status(200)
         .json({ message: "Cancel Reason Added", data: newCancelReason });
@@ -55,13 +55,13 @@ class CancelReasonsController {
   async deleteCancelReason(req, res) {
     try {
       const cancelReasonId = req.params.cancelReasonId;
-      const findCancelReason = await cancelReasonsModel.findOne({
+      const findCancelReason = await cancelReasonsEntity.findOne({
         where: { id: cancelReasonId },
       });
       if (!findCancelReason) {
         return res.status(404).json({ message: "Cancel Reason ID Not Found" });
       } else {
-        const deleteCancelreason = await cancelReasonsModel.destroy({
+        const deleteCancelreason = await cancelReasonsEntity.destroy({
           where: { id: cancelReasonId },
         });
         return res.status(200).json({
@@ -79,7 +79,7 @@ class CancelReasonsController {
     const { name, code, discount_rate, min_bill } = req.body;
     try {
       const cancelReasonId = req.params.cancelReasonId;
-      const findCancelReason = await cancelReasonsModel.findOne({
+      const findCancelReason = await cancelReasonsEntity.findOne({
         where: { id: cancelReasonId },
       });
       if (!findCancelReason) {
@@ -92,7 +92,7 @@ class CancelReasonsController {
         updated_at: Date.now(),
       };
 
-      const updatedCancelReason = await cancelReasonsModel.update(
+      const updatedCancelReason = await cancelReasonsEntity.update(
         cancelReasonInfo,
         {
           where: { id: cancelReasonId },

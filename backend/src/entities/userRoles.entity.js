@@ -3,8 +3,8 @@ const { DataTypes } = require("sequelize");
 
 // ---------------------------------------------------------
 
-const vendorsModel = sequelize.define(
-  "vendors",
+const userRolesEntity = sequelize.define(
+  "user_roles",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -18,11 +18,11 @@ const vendorsModel = sequelize.define(
       allowNull: false,
     },
     created_at: {
-      type: DataTypes.DATE, // Sử dụng kiểu dữ liệu DATE thay thế
+      type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
     },
     updated_at: {
-      type: DataTypes.DATE, // Sử dụng kiểu dữ liệu DATE thay thế
+      type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
       onUpdate: DataTypes.NOW,
     },
@@ -32,8 +32,8 @@ const vendorsModel = sequelize.define(
   }
 );
 
-// vendorsModel.sync().then(() => {
+// userRolesEntity.sync().then(() => {
 //   console.log("OK");
 // });
 
-module.exports = vendorsModel;
+module.exports = userRolesEntity;

@@ -1,12 +1,12 @@
 const sequelize = require("../configs/db.config.js");
 const { DataTypes } = require("sequelize");
-const postStatusesModel = require("../models/postStatuses.model.js");
-const postTypesModel = require("./postTypes.model.js");
+const postStatusesEntity = require("../entities/postStatuses.entity.js");
+const postTypesEntity = require("./postTypes.entity.js");
 
 // ---------------------------------------------------------
 
-const pagesModel = sequelize.define(
-  "pages",
+const postsEntity = sequelize.define(
+  "posts",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -55,27 +55,27 @@ const pagesModel = sequelize.define(
 );
 
 // Post và Post Status
-postStatusesModel.hasMany(pagesModel, {
+postStatusesEntity.hasMany(postsEntity, {
   foreignKey: "status_id",
   onDelete: "NO ACTION",
 });
-pagesModel.belongsTo(postStatusesModel, {
+postsEntity.belongsTo(postStatusesEntity, {
   foreignKey: "status_id",
   onDelete: "NO ACTION",
 });
 
 // Post và Post Type
-postTypesModel.hasMany(pagesModel, {
+postTypesEntity.hasMany(postsEntity, {
   foreignKey: "post_type_id",
   onDelete: "NO ACTION",
 });
-pagesModel.belongsTo(postTypesModel, {
+postsEntity.belongsTo(postTypesEntity, {
   foreignKey: "post_type_id",
   onDelete: "NO ACTION",
 });
 
-// pagesModel.sync().then(() => {
+// postsEntity.sync().then(() => {
 //   console.log("OK");
 // });
 
-module.exports = pagesModel;
+module.exports = postsEntity;

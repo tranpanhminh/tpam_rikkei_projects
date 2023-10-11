@@ -3,8 +3,8 @@ const { DataTypes } = require("sequelize");
 
 // ---------------------------------------------------------
 
-const cancelReasonsModel = sequelize.define(
-  "cancel_reasons",
+const paymentsEntity = sequelize.define(
+  "payments",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -13,16 +13,32 @@ const cancelReasonsModel = sequelize.define(
       allowNull: false,
       unique: true,
     },
-    name: {
+    cardholder_name: {
       type: DataTypes.STRING(255),
       allowNull: false,
     },
+    card_number: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+    },
+    expiry_date: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
+    cvv: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    balance: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+    },
     created_at: {
-      type: DataTypes.DATE, // Sử dụng kiểu dữ liệu DATE thay thế
+      type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
     },
     updated_at: {
-      type: DataTypes.DATE, // Sử dụng kiểu dữ liệu DATE thay thế
+      type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
       onUpdate: DataTypes.NOW,
     },
@@ -32,8 +48,8 @@ const cancelReasonsModel = sequelize.define(
   }
 );
 
-// cancelReasonsModel.sync().then(() => {
+// paymentsEntity.sync().then(() => {
 //   console.log("OK");
 // });
 
-module.exports = cancelReasonsModel;
+module.exports = paymentsEntity;

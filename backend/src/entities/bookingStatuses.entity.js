@@ -3,8 +3,8 @@ const { DataTypes } = require("sequelize");
 
 // ---------------------------------------------------------
 
-const userStatusesModel = sequelize.define(
-  "user_statuses",
+const bookingStatusesEntity = sequelize.define(
+  "booking_statuses",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -32,8 +32,8 @@ const userStatusesModel = sequelize.define(
   }
 );
 
-// userStatusesModel.sync().then(() => {
+// bookingStatusesEntity.sync().then(() => {
 //   console.log("OK");
 // });
 
-module.exports = userStatusesModel;
+module.exports = bookingStatusesEntity;

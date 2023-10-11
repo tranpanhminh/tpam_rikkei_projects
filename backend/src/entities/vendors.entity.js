@@ -3,29 +3,26 @@ const { DataTypes } = require("sequelize");
 
 // ---------------------------------------------------------
 
-const workingTimeModel = sequelize.define(
-  "working_times",
+const vendorsEntity = sequelize.define(
+  "vendors",
   {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
       allowNull: false,
+      unique: true,
     },
-    morning_time: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    afternoon_time: {
-      type: DataTypes.TEXT,
+    name: {
+      type: DataTypes.STRING(255),
       allowNull: false,
     },
     created_at: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATE, // Sử dụng kiểu dữ liệu DATE thay thế
       defaultValue: DataTypes.NOW,
     },
     updated_at: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATE, // Sử dụng kiểu dữ liệu DATE thay thế
       defaultValue: DataTypes.NOW,
       onUpdate: DataTypes.NOW,
     },
@@ -35,8 +32,8 @@ const workingTimeModel = sequelize.define(
   }
 );
 
-// workingTimeModel.sync().then(() => {
+// vendorsEntity.sync().then(() => {
 //   console.log("OK");
 // });
 
-module.exports = workingTimeModel;
+module.exports = vendorsEntity;

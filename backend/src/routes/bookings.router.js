@@ -1,8 +1,5 @@
 const express = require("express");
 
-// Import Model
-const bookingsModel = require("../models/bookings.model.js");
-
 // Import Router
 const bookingsRouter = express.Router();
 

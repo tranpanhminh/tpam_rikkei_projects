@@ -1,8 +1,5 @@
 const express = require("express");
 
-// Import Model
-const serviceCommentsModel = require("../models/serviceComments.model.js");
-
 // Import Router
 const serviceCommentsRouter = express.Router();
 

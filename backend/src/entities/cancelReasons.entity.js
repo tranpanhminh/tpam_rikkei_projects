@@ -3,8 +3,8 @@ const { DataTypes } = require("sequelize");
 
 // ---------------------------------------------------------
 
-const userRolesModel = sequelize.define(
-  "user_roles",
+const cancelReasonsEntity = sequelize.define(
+  "cancel_reasons",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -18,11 +18,11 @@ const userRolesModel = sequelize.define(
       allowNull: false,
     },
     created_at: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATE, // Sử dụng kiểu dữ liệu DATE thay thế
       defaultValue: DataTypes.NOW,
     },
     updated_at: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATE, // Sử dụng kiểu dữ liệu DATE thay thế
       defaultValue: DataTypes.NOW,
       onUpdate: DataTypes.NOW,
     },
@@ -32,8 +32,8 @@ const userRolesModel = sequelize.define(
   }
 );
 
-// userRolesModel.sync().then(() => {
+// cancelReasonsEntity.sync().then(() => {
 //   console.log("OK");
 // });
 
-module.exports = userRolesModel;
+module.exports = cancelReasonsEntity;

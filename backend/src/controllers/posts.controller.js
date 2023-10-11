@@ -1,7 +1,7 @@
 const connectMySQL = require("../configs/db.config.js");
-const postsModel = require("../models/posts.model.js");
-const postTypesModel = require("../models/postTypes.model.js");
-const postStatusesModel = require("../models/postStatuses.model.js");
+const postsEntity = require("../entities/posts.entity.js");
+const postTypesEntity = require("../entities/postTypes.entity.js");
+const postStatusesEntity = require("../entities/postStatuses.entity.js");
 const bcrypt = require("bcryptjs");
 const sourceImage = process.env.BASE_URL_IMAGE;
 
@@ -10,9 +10,9 @@ class PostsController {
   // 1. Get All Posts
   async getAllPosts(req, res) {
     try {
-      // const listPosts = await postsModel.findAll();
+      // const listPosts = await postsEntity.findAll();
       // res.status(200).json(listPosts);
-      const listPosts = await postsModel.findAll({
+      const listPosts = await postsEntity.findAll({
         // Chọn các thuộc tính cần thiết
         attributes: [
           "id",
@@ -28,11 +28,11 @@ class PostsController {
         // Tham gia với bảng post_types
         include: [
           {
-            model: postTypesModel,
+            model: postTypesEntity,
             attributes: ["name"],
           },
           {
-            model: postStatusesModel,
+            model: postStatusesEntity,
             attributes: ["name"],
           },
         ],
@@ -52,11 +52,11 @@ class PostsController {
   async getDetailPost(req, res) {
     try {
       const postId = req.params.postId;
-      // const detailPost = await postsModel.findOne({
+      // const detailPost = await postsEntity.findOne({
       //   where: { id: postId },
       // });
 
-      const detailPost = await postsModel.findAll({
+      const detailPost = await postsEntity.findAll({
         // Chọn các thuộc tính cần thiết
         attributes: [
           "id",
@@ -72,11 +72,11 @@ class PostsController {
         // Tham gia với bảng post_types
         include: [
           {
-            model: postTypesModel,
+            model: postTypesEntity,
             attributes: ["name"],
           },
           {
-            model: postStatusesModel,
+            model: postStatusesEntity,
             attributes: ["name"],
           },
         ],
@@ -135,7 +135,7 @@ class PostsController {
         status_id: status_id,
         post_type_id: 3,
       };
-      const newPost = await postsModel.create(postInfo);
+      const newPost = await postsEntity.create(postInfo);
       res.status(200).json({ message: "Post Added", data: newPost });
     } catch (error) {
       console.log(error, "ERROR");
@@ -146,13 +146,13 @@ class PostsController {
   async deletePost(req, res) {
     try {
       const postId = req.params.postId;
-      const findPost = await postsModel.findOne({
+      const findPost = await postsEntity.findOne({
         where: { id: postId },
       });
       if (!findPost) {
         return res.status(404).json({ message: "Post ID Not Found" });
       } else {
-        const deletePost = await postsModel.destroy({
+        const deletePost = await postsEntity.destroy({
           where: { id: postId },
         });
         return res
@@ -170,7 +170,7 @@ class PostsController {
     const thumbnail = req.file ? req.file.filename : "";
     try {
       const postId = req.params.postId;
-      const findPost = await postsModel.findOne({
+      const findPost = await postsEntity.findOne({
         where: { id: postId },
       });
 
@@ -187,7 +187,7 @@ class PostsController {
         updated_at: Date.now(),
       };
 
-      const updatedPost = await postsModel.update(postInfo, {
+      const updatedPost = await postsEntity.update(postInfo, {
         where: { id: postId },
       });
       return res

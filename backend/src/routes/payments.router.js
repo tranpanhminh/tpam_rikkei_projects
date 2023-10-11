@@ -1,8 +1,5 @@
 const express = require("express");
 
-// Import Model
-const paymentsModel = require("../models/payments.model.js");
-
 // Import Router
 const paymentsRouter = express.Router();
 

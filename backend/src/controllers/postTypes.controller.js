@@ -1,5 +1,5 @@
 const connectMySQL = require("../configs/db.config.js");
-const postTypesModel = require("../models/postTypes.model.js");
+const postTypesEntity = require("../entities/postTypes.entity.js");
 const bcrypt = require("bcryptjs");
 
 // ---------------------------------------------------------
@@ -7,7 +7,7 @@ class PostTypesController {
   // 1. Get All Post Types
   async getAllPostTypes(req, res) {
     try {
-      const listPostTypes = await postTypesModel.findAll();
+      const listPostTypes = await postTypesEntity.findAll();
       res.status(200).json(listPostTypes);
       console.log(listPostTypes, "listPostTypes");
     } catch (error) {
@@ -19,7 +19,7 @@ class PostTypesController {
   async getDetailPostType(req, res) {
     try {
       const postTypeId = req.params.postTypeId;
-      const detailPostType = await postTypesModel.findOne({
+      const detailPostType = await postTypesEntity.findOne({
         where: { id: postTypeId },
       });
       if (!detailPostType) {
@@ -42,7 +42,7 @@ class PostTypesController {
         const postTypeInfo = {
           name: name,
         };
-        const newPostType = await postTypesModel.create(postTypeInfo);
+        const newPostType = await postTypesEntity.create(postTypeInfo);
         res.status(200).json({ message: "Post Type Added", data: newPostType });
       }
     } catch (error) {
@@ -54,13 +54,13 @@ class PostTypesController {
   async deletePostType(req, res) {
     try {
       const postTypeId = req.params.postTypeId;
-      const findPostType = await postTypesModel.findOne({
+      const findPostType = await postTypesEntity.findOne({
         where: { id: postTypeId },
       });
       if (!findPostType) {
         return res.status(404).json({ message: "Post Type ID Not Found" });
       } else {
-        const deletePostType = await postTypesModel.destroy({
+        const deletePostType = await postTypesEntity.destroy({
           where: { id: postTypeId },
         });
         return res
@@ -77,7 +77,7 @@ class PostTypesController {
     const { name } = req.body;
     try {
       const postTypeId = req.params.postTypeId;
-      const findPostType = await postTypesModel.findOne({
+      const findPostType = await postTypesEntity.findOne({
         where: { id: postTypeId },
       });
 
@@ -92,7 +92,7 @@ class PostTypesController {
         updated_at: Date.now(),
       };
 
-      const updatedPostType = await postTypesModel.update(postTypeInfo, {
+      const updatedPostType = await postTypesEntity.update(postTypeInfo, {
         where: { id: postTypeId },
       });
       return res

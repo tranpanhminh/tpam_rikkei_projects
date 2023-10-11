@@ -1,6 +1,4 @@
-const connectMySQL = require("../configs/db.config.js");
-const bookingStatusModel = require("../models/bookingStatuses.model.js");
-const bcrypt = require("bcryptjs");
+const bookingStatusModel = require("../entities/bookingStatuses.entity.js");
 
 // ---------------------------------------------------------
 class BookingStatusController {

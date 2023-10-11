@@ -1,5 +1,5 @@
 const connectMySQL = require("../configs/db.config.js");
-const couponsModel = require("../models/coupons.model.js");
+const couponsEntity = require("../entities/coupons.entity.js");
 const bcrypt = require("bcryptjs");
 
 // ---------------------------------------------------------
@@ -7,7 +7,7 @@ class CouponsController {
   // 1. Get All Coupons
   async getAllCoupons(req, res) {
     try {
-      const listCoupons = await couponsModel.findAll(); // include: <Tên bảng>
+      const listCoupons = await couponsEntity.findAll(); // include: <Tên bảng>
       res.status(200).json(listCoupons);
       console.log(listCoupons, "listCoupons");
     } catch (error) {
@@ -19,7 +19,7 @@ class CouponsController {
   async getDetailCoupon(req, res) {
     try {
       const couponId = req.params.couponId;
-      const detailCoupon = await couponsModel.findOne({
+      const detailCoupon = await couponsEntity.findOne({
         where: { id: couponId },
       });
       if (!detailCoupon) {
@@ -71,7 +71,7 @@ class CouponsController {
         discount_rate: discount_rate,
         min_bill: min_bill,
       };
-      const newCoupon = await couponsModel.create(couponInfo);
+      const newCoupon = await couponsEntity.create(couponInfo);
       res.status(200).json({ message: "Coupon Added", data: newCoupon });
     } catch (error) {
       console.log(error, "ERROR");
@@ -82,13 +82,13 @@ class CouponsController {
   async deleteCoupon(req, res) {
     try {
       const couponId = req.params.couponId;
-      const findCoupon = await couponsModel.findOne({
+      const findCoupon = await couponsEntity.findOne({
         where: { id: couponId },
       });
       if (!findCoupon) {
         return res.status(404).json({ message: "Coupon ID Not Found" });
       } else {
-        const deleteCoupon = await couponsModel.destroy({
+        const deleteCoupon = await couponsEntity.destroy({
           where: { id: couponId },
         });
         return res
@@ -105,7 +105,7 @@ class CouponsController {
     const { name, code, discount_rate, min_bill } = req.body;
     try {
       const couponId = req.params.couponId;
-      const findCoupon = await couponsModel.findOne({
+      const findCoupon = await couponsEntity.findOne({
         where: { id: couponId },
       });
       if (!findCoupon) {
@@ -134,7 +134,7 @@ class CouponsController {
         updated_at: Date.now(),
       };
 
-      const updatedCoupon = await couponsModel.update(couponInfo, {
+      const updatedCoupon = await couponsEntity.update(couponInfo, {
         where: { id: couponId },
       });
       return res

@@ -1,8 +1,5 @@
 const express = require("express");
 
-// Import Model
-const couponsModel = require("../models/coupons.model.js");
-
 // Import Router
 const couponsRouter = express.Router();
 

@@ -1,12 +1,12 @@
 const sequelize = require("../configs/db.config.js");
-const postTypesModel = require("../models/postTypes.model.js");
-const workingTimeModel = require("../models/workingTime.model.js");
 const { DataTypes } = require("sequelize");
+const postStatusesEntity = require("../entities/postStatuses.entity.js");
+const postTypesEntity = require("./postTypes.entity.js");
 
 // ---------------------------------------------------------
 
-const servicesModel = sequelize.define(
-  "services",
+const pagesEntity = sequelize.define(
+  "pages",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -15,29 +15,28 @@ const servicesModel = sequelize.define(
       allowNull: false,
       unique: true,
     },
-    name: {
+    title: {
       type: DataTypes.STRING(255),
       allowNull: false,
     },
-    description: {
+    content: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    price: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    service_image: {
+    thumbnail_url: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    working_time_id: {
+    author: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
+    status_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
     post_type_id: {
       type: DataTypes.INTEGER,
-      defaultValue: 2,
       allowNull: false,
     },
     created_at: {
@@ -55,30 +54,28 @@ const servicesModel = sequelize.define(
   }
 );
 
-// Mối quan hệ giữa Service và Post Type
-postTypesModel.hasMany(servicesModel, {
+// Post và Post Status
+postStatusesEntity.hasMany(pagesEntity, {
+  foreignKey: "status_id",
+  onDelete: "NO ACTION",
+});
+pagesEntity.belongsTo(postStatusesEntity, {
+  foreignKey: "status_id",
+  onDelete: "NO ACTION",
+});
+
+// Post và Post Type
+postTypesEntity.hasMany(pagesEntity, {
+  foreignKey: "post_type_id",
+  onDelete: "NO ACTION",
+});
+pagesEntity.belongsTo(postTypesEntity, {
   foreignKey: "post_type_id",
   onDelete: "NO ACTION",
 });
 
-servicesModel.belongsTo(postTypesModel, {
-  foreignKey: "post_type_id",
-  onDelete: "NO ACTION",
-});
-
-// Mối quan hệ giữa Service và Working Time
-workingTimeModel.hasMany(servicesModel, {
-  foreignKey: "working_time_id",
-  onDelete: "NO ACTION",
-});
-
-servicesModel.belongsTo(workingTimeModel, {
-  foreignKey: "working_time_id",
-  onDelete: "NO ACTION",
-});
-
-// servicesModel.sync().then(() => {
+// pagesEntity.sync().then(() => {
 //   console.log("OK");
 // });
 
-module.exports = servicesModel;
+module.exports = pagesEntity;

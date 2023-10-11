@@ -1,13 +1,11 @@
-const connectMySQL = require("../configs/db.config.js");
-const vendorsModel = require("../models/vendors.model.js");
-const bcrypt = require("bcryptjs");
+const vendorsEntity = require("../entities/vendors.entity.js");
 
 // ---------------------------------------------------------
 class VendorsController {
   // 1. Get All Vendors
   async getAllVendors(req, res) {
     try {
-      const listVendors = await vendorsModel.findAll(); // include: <Tên bảng>
+      const listVendors = await vendorsEntity.findAll(); // include: <Tên bảng>
       res.status(200).json(listVendors);
       console.log(listVendors, "listVendors");
     } catch (error) {
@@ -19,7 +17,7 @@ class VendorsController {
   async getDetailVendor(req, res) {
     try {
       const vendorId = req.params.vendorId;
-      const detailVendor = await vendorsModel.findOne({
+      const detailVendor = await vendorsEntity.findOne({
         where: { id: vendorId },
       });
       if (!detailVendor) {
@@ -42,7 +40,7 @@ class VendorsController {
         const vendorInfo = {
           name: name,
         };
-        const newVendor = await vendorsModel.create(vendorInfo);
+        const newVendor = await vendorsEntity.create(vendorInfo);
         res.status(200).json({ message: "Vendor Added", data: newVendor });
       }
     } catch (error) {
@@ -54,13 +52,13 @@ class VendorsController {
   async deleteVendor(req, res) {
     try {
       const vendorId = req.params.vendorId;
-      const findVendor = await vendorsModel.findOne({
+      const findVendor = await vendorsEntity.findOne({
         where: { id: vendorId },
       });
       if (!findVendor) {
         return res.status(404).json({ message: "Vendor ID Not Found" });
       } else {
-        const deleteVendor = await vendorsModel.destroy({
+        const deleteVendor = await vendorsEntity.destroy({
           where: { id: vendorId },
         });
         return res
@@ -77,7 +75,7 @@ class VendorsController {
     const { name } = req.body;
     try {
       const vendorId = req.params.vendorId;
-      const findVendor = await vendorsModel.findOne({
+      const findVendor = await vendorsEntity.findOne({
         where: { id: vendorId },
       });
       if (!findVendor) {
@@ -91,7 +89,7 @@ class VendorsController {
         updated_at: Date.now(),
       };
 
-      const updatedVendor = await vendorsModel.update(vendorInfo, {
+      const updatedVendor = await vendorsEntity.update(vendorInfo, {
         where: { id: vendorId },
       });
       return res

@@ -1,7 +1,7 @@
 const connectMySQL = require("../configs/db.config.js");
-const usersModel = require("../models/users.model.js");
-const userRolesModel = require("../models/userRoles.model.js");
-const userStatusesModel = require("../models/userStatuses.model.js");
+const usersEntity = require("../entities/users.entity.js");
+const userRolesEntity = require("../entities/userRoles.entity.js");
+const userStatusesEntity = require("../entities/userStatuses.entity.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const sourceImage = process.env.BASE_URL_IMAGE;
@@ -11,9 +11,9 @@ class UsersController {
   // 1. Get All Payments
   async getAllUsers(req, res) {
     try {
-      // const listUsers = await usersModel.findAll();
+      // const listUsers = await usersEntity.findAll();
 
-      const listUsers = await usersModel.findAll({
+      const listUsers = await usersEntity.findAll({
         // Chọn các thuộc tính cần thiết
         attributes: [
           "id",
@@ -29,11 +29,11 @@ class UsersController {
         // Tham gia với bảng post_types
         include: [
           {
-            model: userRolesModel,
+            model: userRolesEntity,
             attributes: ["name"],
           },
           {
-            model: userStatusesModel,
+            model: userStatusesEntity,
             attributes: ["name"],
           },
         ],
@@ -53,11 +53,11 @@ class UsersController {
   async getDetailUser(req, res) {
     try {
       const userId = req.params.userId;
-      // const detailUser = await usersModel.findOne({
+      // const detailUser = await usersEntity.findOne({
       //   where: { id: userId },
       // });
 
-      const detailUser = await usersModel.findAll({
+      const detailUser = await usersEntity.findAll({
         // Chọn các thuộc tính cần thiết
         attributes: [
           "id",
@@ -73,11 +73,11 @@ class UsersController {
         // Tham gia với bảng post_types
         include: [
           {
-            model: userRolesModel,
+            model: userRolesEntity,
             attributes: ["name"],
           },
           {
-            model: userStatusesModel,
+            model: userStatusesEntity,
             attributes: ["name"],
           },
         ],
@@ -143,7 +143,7 @@ class UsersController {
           .json({ message: "Password must be the same Repassword" });
       }
 
-      const findEmail = await usersModel.findOne({ where: { email: email } });
+      const findEmail = await usersEntity.findOne({ where: { email: email } });
       if (findEmail) {
         return res.status(409).json({ message: "Email is exist" });
       }
@@ -161,7 +161,7 @@ class UsersController {
         image_avatar: "https://i.ibb.co/3BtQdVD/pet-shop.png",
       };
       console.log(userInfo, "userInfo");
-      const newUser = await usersModel.create(userInfo);
+      const newUser = await usersEntity.create(userInfo);
       res
         .status(200)
         .json({ message: "User Register Successfully", data: newUser });
@@ -207,7 +207,7 @@ class UsersController {
           .json({ message: "Password must be the same Repassword" });
       }
 
-      const findEmail = await usersModel.findOne({ where: { email: email } });
+      const findEmail = await usersEntity.findOne({ where: { email: email } });
       if (findEmail) {
         return res.status(409).json({ message: "Email is exist" });
       }
@@ -225,7 +225,7 @@ class UsersController {
         image_avatar: "https://i.ibb.co/3BtQdVD/pet-shop.png",
       };
       console.log(userInfo, "userInfo");
-      const newUser = await usersModel.create(userInfo);
+      const newUser = await usersEntity.create(userInfo);
       res
         .status(200)
         .json({ message: "User Added Successfully", data: userInfo });
@@ -267,7 +267,7 @@ class UsersController {
         return res.status(406).json({ message: "Role ID must not be blank" });
       }
 
-      const findEmail = await usersModel.findOne({ where: { email: email } });
+      const findEmail = await usersEntity.findOne({ where: { email: email } });
       if (findEmail) {
         return res.status(409).json({ message: "Email is exist" });
       }
@@ -285,7 +285,7 @@ class UsersController {
         image_avatar: "https://i.ibb.co/3BtQdVD/pet-shop.png",
       };
       console.log(userInfo, "userInfo");
-      const newUser = await usersModel.create(userInfo);
+      const newUser = await usersEntity.create(userInfo);
       res
         .status(200)
         .json({ message: "User Added Successfully", data: newUser });
@@ -298,13 +298,13 @@ class UsersController {
   async deleteUser(req, res) {
     try {
       const userId = req.params.userId;
-      const findUser = await usersModel.findOne({
+      const findUser = await usersEntity.findOne({
         where: { id: userId },
       });
       if (!findUser) {
         return res.status(404).json({ message: "User ID Not Found" });
       } else {
-        const deleteUser = await usersModel.destroy({
+        const deleteUser = await usersEntity.destroy({
           where: { id: userId },
         });
         return res
@@ -322,7 +322,7 @@ class UsersController {
     const userId = req.params.userId;
 
     try {
-      const findUser = await usersModel.findOne({ where: { id: userId } });
+      const findUser = await usersEntity.findOne({ where: { id: userId } });
       if (!findUser) {
         return res.status(404).json({ message: "User is not exist" });
       }
@@ -341,7 +341,7 @@ class UsersController {
       console.log(req.body, "req.body");
 
       console.log(updatedUser, "updatedUser");
-      const newUser = await usersModel.update(updatedUser, {
+      const newUser = await usersEntity.update(updatedUser, {
         where: { id: userId },
       });
       res.status(200).json({
@@ -358,7 +358,7 @@ class UsersController {
     const { oldPassword, newPassword } = req.body;
     const userId = req.params.userId;
     try {
-      const findUser = await usersModel.findOne({ where: { id: userId } });
+      const findUser = await usersEntity.findOne({ where: { id: userId } });
 
       if (!findUser) {
         return res.status(404).json({ message: "User is not exist" });
@@ -400,7 +400,7 @@ class UsersController {
         password: encryptPassword,
       };
 
-      const updatedUser = await usersModel.update(userInfo, {
+      const updatedUser = await usersEntity.update(userInfo, {
         where: { id: userId },
       });
       res.status(200).json({ message: "Password Changed Successfully" });
@@ -413,7 +413,7 @@ class UsersController {
   async changeStatus(req, res) {
     const userId = req.params.userId;
     try {
-      const findUser = await usersModel.findOne({ where: { id: userId } });
+      const findUser = await usersEntity.findOne({ where: { id: userId } });
       if (!findUser) {
         return res.status(404).json({ message: "User is not exist" });
       }
@@ -424,7 +424,7 @@ class UsersController {
             ? (dataUser.status_id = 2)
             : (dataUser.status_id = 1),
       };
-      const resultUpdate = await usersModel.update(updatedUser, {
+      const resultUpdate = await usersEntity.update(updatedUser, {
         where: { id: userId },
       });
       res.status(200).json({ message: "Status Changed", data: resultUpdate });
@@ -444,7 +444,7 @@ class UsersController {
       const updatedUser = {
         image_avatar: sourceImage + avatar,
       };
-      const resultUpdate = await usersModel.update(updatedUser, {
+      const resultUpdate = await usersEntity.update(updatedUser, {
         where: { id: userId },
       });
       res.status(200).json({ message: "Avatar Changed" });
@@ -457,7 +457,7 @@ class UsersController {
   async userLogin(req, res) {
     const { email, password } = req.body;
     try {
-      const findUser = await usersModel.findOne({ where: { email: email } });
+      const findUser = await usersEntity.findOne({ where: { email: email } });
       if (!findUser) {
         res.status(404).json({ message: "Email is not exist" });
       }

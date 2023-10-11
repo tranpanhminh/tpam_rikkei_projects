@@ -1,9 +1,9 @@
 const connectMySQL = require("../configs/db.config.js");
 const { Op, col, fn } = require("sequelize");
 const sequelize = require("sequelize");
-const workingTimeModel = require("../models/workingTime.model.js");
-const postTypesModel = require("../models/postTypes.model.js");
-const servicesModel = require("../models/services.model.js");
+const workingTimeEntity = require("../entities/workingTime.entity.js");
+const postTypesEntity = require("../entities/postTypes.entity.js");
+const servicesEntity = require("../entities/services.entity.js");
 const bcrypt = require("bcryptjs");
 const sourceImage = process.env.BASE_URL_IMAGE;
 
@@ -12,8 +12,8 @@ class ServicesController {
   // 1. Get All Services
   async getAllServices(req, res) {
     try {
-      // const listServices = await servicesModel.findAll();
-      const listServices = await servicesModel.findAll({
+      // const listServices = await servicesEntity.findAll();
+      const listServices = await servicesEntity.findAll({
         // Chọn các thuộc tính cần thiết
         attributes: [
           "id",
@@ -35,11 +35,11 @@ class ServicesController {
         // Tham gia với bảng post_types
         include: [
           {
-            model: postTypesModel,
+            model: postTypesEntity,
             attributes: ["name"],
           },
           {
-            model: workingTimeModel,
+            model: workingTimeEntity,
             attributes: ["morning_time", "afternoon_time"],
           },
         ],
@@ -59,10 +59,10 @@ class ServicesController {
   async getDetailService(req, res) {
     try {
       const serviceId = req.params.serviceId;
-      // const detailService = await servicesModel.findOne({
+      // const detailService = await servicesEntity.findOne({
       //   where: { id: serviceId },
       // });
-      const detailService = await servicesModel.findOne({
+      const detailService = await servicesEntity.findOne({
         // Chọn các thuộc tính cần thiết
         attributes: [
           "id",
@@ -85,11 +85,11 @@ class ServicesController {
         // Tham gia với bảng post_types
         include: [
           {
-            model: postTypesModel,
+            model: postTypesEntity,
             attributes: ["name"],
           },
           {
-            model: workingTimeModel,
+            model: workingTimeEntity,
             attributes: ["morning_time", "afternoon_time"],
           },
         ],
@@ -125,7 +125,7 @@ class ServicesController {
         service_image: sourceImage + req.file.filename,
       };
       console.log(servicesInfo, "servicesInfo");
-      const newService = await servicesModel.create(servicesInfo);
+      const newService = await servicesEntity.create(servicesInfo);
       res.status(200).json({ message: "Service Added", data: newService });
     } catch (error) {
       console.log(error, "ERROR");
@@ -136,13 +136,13 @@ class ServicesController {
   async deleteService(req, res) {
     try {
       const serviceId = req.params.serviceId;
-      const findService = await servicesModel.findOne({
+      const findService = await servicesEntity.findOne({
         where: { id: serviceId },
       });
       if (!findService) {
         return res.status(404).json({ message: "Service ID Not Found" });
       } else {
-        const deleteService = await servicesModel.destroy({
+        const deleteService = await servicesEntity.destroy({
           where: { id: serviceId },
         });
         return res
@@ -159,7 +159,7 @@ class ServicesController {
     const { name, description, price, working_time_id } = req.body;
     try {
       const serviceId = req.params.serviceId;
-      const findService = await servicesModel.findOne({
+      const findService = await servicesEntity.findOne({
         where: { id: serviceId },
       });
 
@@ -185,7 +185,7 @@ class ServicesController {
         updated_at: Date.now(),
       };
       console.log(serviceInfo, "serviceInfo");
-      const updatedService = await servicesModel.update(serviceInfo, {
+      const updatedService = await servicesEntity.update(serviceInfo, {
         where: { id: serviceId },
       });
       return res

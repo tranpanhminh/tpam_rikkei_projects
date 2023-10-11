@@ -1,19 +1,17 @@
 const sequelize = require("sequelize");
-const connectMySQL = require("../configs/db.config.js");
-const bookingsModel = require("../models/bookings.model.js");
-const usersModel = require("../models/users.model.js");
-const servicesModel = require("../models/services.model.js");
-const bookingStatusesModel = require("../models/bookingStatuses.model.js");
-const bcrypt = require("bcryptjs");
+const bookingsEntity = require("../entities/bookings.entity.js");
+const usersEntity = require("../entities/users.entity.js");
+const servicesEntity = require("../entities/services.entity.js");
+const bookingStatusesEntity = require("../entities/bookingStatuses.entity.js");
 
 // ---------------------------------------------------------
 class BookingsController {
   // 1. Get All Bookings
   async getAllBookings(req, res) {
     try {
-      const listBookings = await bookingsModel.findAll();
+      const listBookings = await bookingsEntity.findAll();
 
-      // const listBookings = await bookingsModel.findAll({
+      // const listBookings = await bookingsEntity.findAll({
       //   // Chọn các thuộc tính cần thiết
       //   attributes: [
       //     "id",
@@ -32,11 +30,11 @@ class BookingsController {
       //   // Tham gia với bảng post_types
       //   include: [
       //     {
-      //       model: servicesModel,
+      //       model: servicesEntity,
       //       attributes: ["name"],
       //     },
       //     {
-      //       model: bookingStatusesModel,
+      //       model: bookingStatusesEntity,
       //       attributes: ["name"],
       //     },
       //   ],
@@ -56,11 +54,11 @@ class BookingsController {
   async getDetailBooking(req, res) {
     try {
       const bookingId = req.params.bookingId;
-      const detailBooking = await bookingsModel.findOne({
+      const detailBooking = await bookingsEntity.findOne({
         where: { id: bookingId },
       });
 
-      // const detailBooking = await bookingsModel.findOne({
+      // const detailBooking = await bookingsEntity.findOne({
       //   // Chọn các thuộc tính cần thiết
       //   attributes: [
       //     "id",
@@ -79,11 +77,11 @@ class BookingsController {
       //   // Tham gia với bảng post_types
       //   include: [
       //     {
-      //       model: servicesModel,
+      //       model: servicesEntity,
       //       attributes: ["name"],
       //     },
       //     {
-      //       model: bookingStatusesModel,
+      //       model: bookingStatusesEntity,
       //       attributes: ["name"],
       //     },
       //   ],
@@ -118,7 +116,7 @@ class BookingsController {
         return res.status(401).json({ message: "Please login to comment" });
       }
       // Check User Before Booking
-      const findUser = await usersModel.findOne({ where: { id: userId } });
+      const findUser = await usersEntity.findOne({ where: { id: userId } });
       if (!findUser) {
         return res.status(404).json({ message: "User ID Not Found" });
       }
@@ -137,7 +135,7 @@ class BookingsController {
       }
 
       // Check Service Before Booking
-      const findService = await servicesModel.findOne({
+      const findService = await servicesEntity.findOne({
         where: { id: serviceId },
       });
       if (!findService) {
@@ -186,7 +184,7 @@ class BookingsController {
       }
 
       // Check xem người dùng đã đặt lịch vào ngày đó giờ đó chưa
-      const checkBooking = await bookingsModel.findOne({
+      const checkBooking = await bookingsEntity.findOne({
         where: {
           user_id: userId,
           service_id: serviceId,
@@ -203,7 +201,7 @@ class BookingsController {
 
       let maxBooking = 20;
 
-      const filterBookingByDate = await bookingsModel.findAll({
+      const filterBookingByDate = await bookingsEntity.findAll({
         attributes: [
           "booking_date",
           [sequelize.fn("COUNT", sequelize.col("id")), "total_booking"],
@@ -242,7 +240,7 @@ class BookingsController {
         service_image: copyDataService.service_image,
       };
       console.log(bookingInfo, "BOOKING INFO");
-      const newBooking = await bookingsModel.create(bookingInfo);
+      const newBooking = await bookingsEntity.create(bookingInfo);
       res.status(200).json({ message: "Booking Added", data: newBooking });
     } catch (error) {
       console.log(error, "ERROR");
@@ -253,13 +251,13 @@ class BookingsController {
   async deleteBooking(req, res) {
     try {
       const bookingId = req.params.bookingId;
-      const findBooking = await bookingsModel.findOne({
+      const findBooking = await bookingsEntity.findOne({
         where: { id: bookingId },
       });
       if (!findBooking) {
         return res.status(404).json({ message: "Booking ID Not Found" });
       } else {
-        const deleteCoupon = await bookingsModel.destroy({
+        const deleteCoupon = await bookingsEntity.destroy({
           where: { id: bookingId },
         });
         return res
@@ -276,7 +274,7 @@ class BookingsController {
     const { status_id } = req.body;
     try {
       const bookingId = req.params.bookingId;
-      const findBooking = await bookingsModel.findOne({
+      const findBooking = await bookingsEntity.findOne({
         where: { id: bookingId },
       });
       if (!findBooking) {
@@ -308,7 +306,7 @@ class BookingsController {
         updated_at: Date.now(),
       };
 
-      const updatedBooking = await bookingsModel.update(bookingInfo, {
+      const updatedBooking = await bookingsEntity.update(bookingInfo, {
         where: { id: bookingId },
       });
       return res
@@ -324,13 +322,13 @@ class BookingsController {
     const userId = req.params.userId;
     try {
       const userId = req.params.userId;
-      const findUser = await usersModel.findOne({
+      const findUser = await usersEntity.findOne({
         where: { id: userId },
       });
       if (!findUser) {
         return res.status(404).json({ message: "User ID Not Found" });
       }
-      const detailBooking = await bookingsModel.findOne({
+      const detailBooking = await bookingsEntity.findOne({
         // Chọn các thuộc tính cần thiết
         attributes: [
           "id",
@@ -349,11 +347,11 @@ class BookingsController {
         // Tham gia với bảng post_types
         include: [
           {
-            model: servicesModel,
+            model: servicesEntity,
             attributes: ["name"],
           },
           {
-            model: bookingStatusesModel,
+            model: bookingStatusesEntity,
             attributes: ["name"],
           },
         ],
@@ -376,7 +374,7 @@ class BookingsController {
   // 7. Filter Booking By Date
   // async filterBookingByDate(req, res) {
   //   try {
-  //     const filterBookingByDate = await bookingsModel.findAll({
+  //     const filterBookingByDate = await bookingsEntity.findAll({
   //       attributes: [
   //         "booking_date",
   //         [sequelize.fn("COUNT", sequelize.col("id")), "total_booking"],

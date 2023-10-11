@@ -1,12 +1,12 @@
 const sequelize = require("../configs/db.config.js");
 const { DataTypes } = require("sequelize");
-const usersModel = require("../models/users.model.js");
-const productsModel = require("../models/products.model.js");
+const ordersEntity = require("../entities/orders.entity.js");
+const productsEntity = require("../entities/products.entity.js");
 
 // ---------------------------------------------------------
 
-const cartsModel = sequelize.define(
-  "carts",
+const orderItemsEntity = sequelize.define(
+  "order_items",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -15,12 +15,24 @@ const cartsModel = sequelize.define(
       allowNull: false,
       unique: true,
     },
-    user_id: {
+    order_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
     product_id: {
       type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    product_name: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
+    product_description: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    product_thumbnail: {
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     quantity: {
@@ -32,41 +44,39 @@ const cartsModel = sequelize.define(
       allowNull: false,
     },
     created_at: {
-      type: DataTypes.DATE, // Sử dụng kiểu dữ liệu DATE thay thế
+      type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
     },
     updated_at: {
-      type: DataTypes.DATE, // Sử dụng kiểu dữ liệu DATE thay thế
+      type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
       onUpdate: DataTypes.NOW,
     },
   },
   {
-    timestamps: false, // Bỏ đi các trường timestamps
+    timestamps: false,
   }
 );
 
 // Thiết lập quan hệ giữa các mô hình
-usersModel.hasMany(cartsModel, {
-  foreignKey: "user_id",
+// Order Item và Order
+ordersEntity.hasMany(orderItemsEntity, {
+  foreignKey: "order_id",
 });
-cartsModel.belongsTo(usersModel, {
-  foreignKey: "user_id",
-  onDelete: "CASCADE",
-  onUpdate: "CASCADE",
-});
-
-productsModel.hasMany(cartsModel, {
-  foreignKey: "product_id",
-});
-cartsModel.belongsTo(productsModel, {
-  foreignKey: "product_id",
-  onDelete: "CASCADE",
-  onUpdate: "CASCADE",
+orderItemsEntity.belongsTo(ordersEntity, {
+  foreignKey: "order_id",
 });
 
-// cartsModel.sync().then(() => {
+// Order Item và Product
+productsEntity.hasMany(orderItemsEntity, {
+  foreignKey: "product_id",
+});
+orderItemsEntity.belongsTo(productsEntity, {
+  foreignKey: "product_id",
+});
+
+// orderItemsEntity.sync().then(() => {
 //   console.log("OK");
 // });
 
-module.exports = cartsModel;
+module.exports = orderItemsEntity;

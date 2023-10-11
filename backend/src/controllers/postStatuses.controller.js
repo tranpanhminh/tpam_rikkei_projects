@@ -1,5 +1,5 @@
 const connectMySQL = require("../configs/db.config.js");
-const postStatusesModel = require("../models/postStatuses.model.js");
+const postStatusesEntity = require("../entities/postStatuses.entity.js");
 const bcrypt = require("bcryptjs");
 
 // ---------------------------------------------------------
@@ -7,7 +7,7 @@ class PostStatusesController {
   // 1. Get All Post Statuses
   async getAllPostStatuses(req, res) {
     try {
-      const listPostsStatuses = await postStatusesModel.findAll();
+      const listPostsStatuses = await postStatusesEntity.findAll();
       res.status(200).json(listPostsStatuses);
       console.log(listPostsStatuses, "listPostsStatuses");
     } catch (error) {
@@ -19,7 +19,7 @@ class PostStatusesController {
   async getDetailPostStatus(req, res) {
     try {
       const postStatusId = req.params.postStatusId;
-      const detailPostStatus = await postStatusesModel.findOne({
+      const detailPostStatus = await postStatusesEntity.findOne({
         where: { id: postStatusId },
       });
       if (!detailPostStatus) {
@@ -42,7 +42,7 @@ class PostStatusesController {
         const postStatusInfo = {
           name: name,
         };
-        const newPostStatus = await postStatusesModel.create(postStatusInfo);
+        const newPostStatus = await postStatusesEntity.create(postStatusInfo);
         res
           .status(200)
           .json({ message: "Post Status Added", data: newPostStatus });
@@ -56,13 +56,13 @@ class PostStatusesController {
   async deletePostStatus(req, res) {
     try {
       const postStatusId = req.params.postStatusId;
-      const findPostStatus = await postStatusesModel.findOne({
+      const findPostStatus = await postStatusesEntity.findOne({
         where: { id: postStatusId },
       });
       if (!findPostStatus) {
         return res.status(404).json({ message: "Post Status ID Not Found" });
       } else {
-        const deletePostStatus = await postStatusesModel.destroy({
+        const deletePostStatus = await postStatusesEntity.destroy({
           where: { id: postStatusId },
         });
         return res.status(200).json({
@@ -80,7 +80,7 @@ class PostStatusesController {
     const { name } = req.body;
     try {
       const postStatusId = req.params.postStatusId;
-      const findPostStatus = await postStatusesModel.findOne({
+      const findPostStatus = await postStatusesEntity.findOne({
         where: { id: postStatusId },
       });
 
@@ -95,9 +95,12 @@ class PostStatusesController {
         updated_at: Date.now(),
       };
 
-      const updatedPostStatus = await postStatusesModel.update(postStatusInfo, {
-        where: { id: postStatusId },
-      });
+      const updatedPostStatus = await postStatusesEntity.update(
+        postStatusInfo,
+        {
+          where: { id: postStatusId },
+        }
+      );
       return res.status(200).json({
         message: "Post Status Updated",
         dataUpdated: updatedPostStatus,

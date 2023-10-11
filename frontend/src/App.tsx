@@ -45,6 +45,7 @@ import ClientServiceDetail from "./components/client-site/partials/ClientService
 import BlogCategory from "./components/client-site/partials/ClientPost/BlogCategory/BlogCategory";
 import ClientSearchPage from "./components/client-site/layouts/ClientSearchPage";
 import AccessDenied from "./components/common/AccessDenied/AccessDenied";
+import IsLogin from "./components/common/Validate/IsLogin";
 
 export function RoleNavigation() {
   const getData: any = localStorage.getItem("userLogin");
@@ -115,8 +116,6 @@ function App() {
           <Route path="/" element={<ClientHomePage />}></Route>
           <Route path="/about" element={<ClientAboutPage />}></Route>
           <Route path="/cart" element={<ClientCartPage />}></Route>
-          <Route path="/login" element={<ClientLoginPage />}></Route>
-          <Route path="/signup" element={<ClientSignupPage />}></Route>
 
           {/* Route của Admin */}
           <Route path="/admin" element={<AdminMainPage />}>
@@ -175,6 +174,12 @@ function App() {
           {/* Route của Page 404 */}
           <Route path="*" element={<Page404 />}></Route>
           <Route path="access-denied" element={<AccessDenied />}></Route>
+
+          {/* Kiểm tra User đã Login chưa */}
+          <Route element={<IsLogin />}>
+            <Route path="/login" element={<ClientLoginPage />}></Route>
+            <Route path="/register" element={<ClientSignupPage />}></Route>
+          </Route>
         </Routes>
       </BrowserRouter>
     </>
