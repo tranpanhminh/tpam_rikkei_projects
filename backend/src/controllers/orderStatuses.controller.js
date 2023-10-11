@@ -11,7 +11,9 @@ class OrderStatusesController {
   // 2. Get Detail
   async getDetailOrderStatus(req, res) {
     const orderStatusId = req.params.orderStatusId;
-    const result = await orderStatusesService.getDetailOrderStatus(orderStatusId);
+    const result = await orderStatusesService.getDetailOrderStatus(
+      orderStatusId
+    );
     return res.status(result.status).json(result.data);
   }
 

@@ -1,110 +1,48 @@
-const cancelReasonsEntity = require("../entities/cancelReasons.entity.js");
+const cancelReasonsService = require("../services/cancelReasons.service.js");
 
 // ---------------------------------------------------------
 class CancelReasonsController {
-  // 1. Get All Cancel Reasons
+  // 1. Get All
   async getAllCancelReasons(req, res) {
-    try {
-      const listCancelReasons = await cancelReasonsEntity.findAll();
-      res.status(200).json(listCancelReasons);
-      console.log(listCancelReasons, "listCancelReasons");
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const result = await cancelReasonsService.getAllCancelReasons();
+    return res.status(result.status).json(result.data);
   }
 
-  // 2. Get Detail Cancel Reason
+  // 2. Get Detail
   async getDetailCancelReason(req, res) {
-    try {
-      const cancelReasonId = req.params.cancelReasonId;
-      const detailCancelReason = await cancelReasonsEntity.findOne({
-        where: { id: cancelReasonId },
-      });
-      if (!detailCoupon) {
-        return res.status(404).json({ message: "Cancel Reason ID Not Found" });
-      } else {
-        return res.status(200).json(detailCancelReason);
-      }
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const cancelReasonId = req.params.cancelReasonId;
+    const result = await cancelReasonsService.getDetailCancelReason(
+      cancelReasonId
+    );
+    return res.status(result.status).json(result.data);
   }
 
-  // 3. Add Cancel Reason
+  // 3. Add
   async addCancelReason(req, res) {
     const { name } = req.body;
-    try {
-      if (!name) {
-        return res.status(406).json({ message: "Name must not be blank" });
-      }
-      const cancelReasonInfo = {
-        name: name,
-      };
-      const newCancelReason = await cancelReasonsEntity.create(
-        cancelReasonInfo
-      );
-      res
-        .status(200)
-        .json({ message: "Cancel Reason Added", data: newCancelReason });
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const result = await cancelReasonsService.addCancelReason(name);
+    return res.status(result.status).json(result.data);
   }
 
-  // 4. Delete Cancel Reason
+  // 4. Delete
   async deleteCancelReason(req, res) {
-    try {
-      const cancelReasonId = req.params.cancelReasonId;
-      const findCancelReason = await cancelReasonsEntity.findOne({
-        where: { id: cancelReasonId },
-      });
-      if (!findCancelReason) {
-        return res.status(404).json({ message: "Cancel Reason ID Not Found" });
-      } else {
-        const deleteCancelreason = await cancelReasonsEntity.destroy({
-          where: { id: cancelReasonId },
-        });
-        return res.status(200).json({
-          message: "Cancel Reason Deleted",
-          dataDeleted: findCancelReason,
-        });
-      }
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const cancelReasonId = req.params.cancelReasonId;
+    const result = await cancelReasonsService.deleteCancelReason(
+      cancelReasonId
+    );
+    return res.status(result.status).json(result.data);
   }
 
-  // 5. Update Cancel Reason
+  // 5. Update
   async updateCancelReason(req, res) {
-    const { name, code, discount_rate, min_bill } = req.body;
-    try {
-      const cancelReasonId = req.params.cancelReasonId;
-      const findCancelReason = await cancelReasonsEntity.findOne({
-        where: { id: cancelReasonId },
-      });
-      if (!findCancelReason) {
-        return res.status(404).json({ message: "Cancel Reason ID Not Found" });
-      }
-      const dataCoupon = findCancelReason.dataValues;
-
-      const cancelReasonInfo = {
-        name: !name ? dataCoupon.name : name,
-        updated_at: Date.now(),
-      };
-
-      const updatedCancelReason = await cancelReasonsEntity.update(
-        cancelReasonInfo,
-        {
-          where: { id: cancelReasonId },
-        }
-      );
-      return res.status(200).json({
-        message: "Cancel Reason Updated",
-        dataUpdated: updatedCancelReason,
-      });
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const { name } = req.body;
+    const cancelReasonId = req.params.cancelReasonId;
+    const result = await cancelReasonsService.updateCancelReason(
+      name,
+      cancelReasonId
+    );
+    return res.status(result.status).json(result.data);
   }
 }
+
 module.exports = new CancelReasonsController();
