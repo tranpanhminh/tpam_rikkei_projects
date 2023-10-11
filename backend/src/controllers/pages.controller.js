@@ -37,7 +37,7 @@ class PagesController {
     const thumbnail = req.file ? req.file.filename : "";
     const pageId = req.params.pageId;
 
-    const result = await postsService.updatePost(dataBody, thumbnail, pageId);
+    const result = await pagesService.updatePage(dataBody, thumbnail, pageId);
     return res.status(result.status).json(result.data);
   }
 }

@@ -1,3 +1,5 @@
+const sourceImage = process.env.BASE_URL_IMAGE;
+
 // Import Service
 const pagesRepo = require("../repository/pages.repository.js");
 
@@ -49,7 +51,7 @@ class PagesService {
       };
     }
 
-    const postInfo = {
+    const pageInfo = {
       title: title,
       content: content,
       thumbnail_url: thumbnail ? sourceImage + thumbnail : thumbnail,
@@ -57,7 +59,7 @@ class PagesService {
       status_id: status_id,
       post_type_id: 3,
     };
-    const newPage = await pagesRepo.addPage(postInfo);
+    const newPage = await pagesRepo.addPage(pageInfo);
 
     return {
       data: newPage,
@@ -84,11 +86,22 @@ class PagesService {
 
   // 5. Update Page
   async updatePage(dataBody, thumbnail, pageId) {
-    const findPage = await pagesEntity.findOne({
-      where: { id: pageId },
-    });
-
+    const { title, content, author, status_id } = dataBody;
+    const findPage = await pagesRepo.findPageById(pageId);
+    if (!findPage) {
+      return {
+        data: "Page ID Not Found",
+        status: 404,
+      };
+    }
     const dataPage = findPage.dataValues;
+
+    if (!dataPage.thumbnail_url && !thumbnail && status_id == 2) {
+      return {
+        data: "You can't publish page until thumbnail set",
+        status: 406,
+      };
+    }
 
     const pageInfo = {
       title: !title ? dataPage.title : title,
@@ -101,12 +114,11 @@ class PagesService {
       updated_at: Date.now(),
     };
 
-    const updatedPage = await pagesEntity.update(pageInfo, {
-      where: { id: pageId },
-    });
-    return res
-      .status(200)
-      .json({ message: "Page Updated", dataUpdated: updatedPage });
+    await pagesRepo.updatePage(pageInfo, pageId);
+    return {
+      data: "Page Updated",
+      status: 200,
+    };
   }
 }
 

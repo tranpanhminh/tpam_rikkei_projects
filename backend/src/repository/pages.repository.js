@@ -102,34 +102,11 @@ class PagesRepo {
   }
 
   // 5. Update Page
-  async updatePage(req, res) {
-    const { title, content, thumbnail_url, author, status_id } = req.body;
-    const thumbnail = req.file ? req.file.filename : "";
-
-    const pageId = req.params.pageId;
-    const findPage = await pagesEntity.findOne({
-      where: { id: pageId },
-    });
-
-    const dataPage = findPage.dataValues;
-
-    const pageInfo = {
-      title: !title ? dataPage.title : title,
-      content: !content ? dataPage.content : content,
-      thumbnail_url: !thumbnail
-        ? dataPage.thumbnail_url
-        : sourceImage + thumbnail,
-      author: !author ? dataPage.author : author,
-      status_id: !status_id ? dataPage.status_id : status_id,
-      updated_at: Date.now(),
-    };
-
+  async updatePage(pageInfo, pageId) {
     const updatedPage = await pagesEntity.update(pageInfo, {
       where: { id: pageId },
     });
-    return res
-      .status(200)
-      .json({ message: "Page Updated", dataUpdated: updatedPage });
+    return updatedPage;
   }
 }
 

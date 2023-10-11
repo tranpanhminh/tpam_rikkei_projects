@@ -95,7 +95,7 @@ class PostsService {
     }
     const dataPost = findPost.dataValues;
 
-    if (!thumbnail && status_id == 2) {
+    if (!dataPost.thumbnail_url && !thumbnail && status_id == 2) {
       return {
         data: "You can't publish post until thumbnail set",
         status: 406,
