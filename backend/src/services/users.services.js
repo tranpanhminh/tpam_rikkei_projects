@@ -79,7 +79,7 @@ class UsersService {
     };
   }
 
-  // 4. Add User (By Admin)
+  // 4. Add Admin (By Admin)
   async addAdmin(data) {
     const { email, full_name, password, rePassword } = data;
     const findEmail = await usersRepo.findOneByEmail(email);
@@ -201,7 +201,24 @@ class UsersService {
     };
   }
 
-  // 8.Edit Avatar
+  // 8. Change Status (Admin)
+  async changeStatus(userId) {
+    const findUser = await usersRepo.findOneById(userId);
+    if (!findUser) {
+      return { message: "User is not exist", status: 404 };
+    }
+    const dataUser = findUser.dataValues;
+    const updatedUser = {
+      status_id:
+        dataUser.status_id === 1
+          ? (dataUser.status_id = 2)
+          : (dataUser.status_id = 1),
+    };
+    const resultUpdate = await usersRepo.changeStatus(updatedUser, userId);
+    return { message: "Status Changed", data: resultUpdate, status: 200 };
+  }
+
+  // 9.Edit Avatar
   async editAvatar(userId, avatar) {
     const findUser = await usersRepo.findOneById(userId);
 
@@ -213,6 +230,62 @@ class UsersService {
     };
     const result = await usersRepo.editAvatar(userId, updatedUser);
     return { message: "Avatar Changed", status: 200, data: result };
+  }
+
+  // 10. Create User
+  async createUser(data) {
+    const { email, full_name, password, status_id, role_id } = data;
+    const findEmail = await usersRepo.findOneByEmail(email);
+    if (findEmail) {
+      return { message: "Email is exist", status: 409 };
+    }
+    if (!email) {
+      return { message: "Email must not be blank", status: 406 };
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return { message: "Invalid Email Format", status: 406 };
+    }
+    if (!full_name) {
+      return { message: "Full Name must not be blank", status: 406 };
+    }
+    if (!/^[a-zA-Z\s]*$/.test(full_name)) {
+      return {
+        message: "Full Name cannot contain special characters or numbers",
+        status: 406,
+      };
+    }
+    if (!password) {
+      return { message: "Password must not be blank", status: 406 };
+    }
+    if (password.length < 8) {
+      return { message: "Password must be at least 8 characters", status: 406 };
+    }
+    if (!status_id) {
+      return { message: "Status ID must not be blank", status: 406 };
+    }
+    if (!role_id) {
+      return { message: "Status ID must not be blank", status: 406 };
+    }
+
+    const salt = 10;
+    const genSalt = await bcrypt.genSalt(salt);
+    const encryptPassword = await bcrypt.hash(password, genSalt);
+
+    const userInfo = {
+      email: email.trim(),
+      full_name: full_name,
+      password: encryptPassword,
+      status_id: status_id,
+      role_id: role_id,
+      image_avatar: "https://i.ibb.co/3BtQdVD/pet-shop.png",
+    };
+    console.log(userInfo, "userInfo");
+    const newUser = await usersRepo.createUser(userInfo);
+    return {
+      message: "New Admin Added Successfully",
+      data: newUser,
+      status: 200,
+    };
   }
 }
 

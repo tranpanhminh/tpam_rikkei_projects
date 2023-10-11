@@ -35,64 +35,11 @@ class UsersController {
     res.status(result.status).json(result);
   }
 
-  // 5. Add User (Optional)
+  // 5. Create User (Optional)
   async createUser(req, res) {
-    const { email, full_name, password, status_id, role_id } = req.body;
-    try {
-      if (!email) {
-        return res.status(406).json({ message: "Email must not be blank" });
-      }
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        return res.status(406).json({ message: "Invalid Email Format" });
-      }
-      if (!full_name) {
-        return res.status(406).json({ message: "Full Name must not be blank" });
-      }
-      if (!/^[a-zA-Z\s]*$/.test(full_name)) {
-        return res.status(406).json({
-          message: "Full Name cannot contain special characters or numbers",
-        });
-      }
-      if (!password) {
-        return res.status(406).json({ message: "Password must not be blank" });
-      }
-      if (password.length < 8) {
-        return res
-          .status(406)
-          .json({ message: "Password must be at least 8 characters" });
-      }
-      if (!status_id) {
-        return res.status(406).json({ message: "Status ID must not be blank" });
-      }
-      if (!role_id) {
-        return res.status(406).json({ message: "Role ID must not be blank" });
-      }
-
-      const findEmail = await usersService.createUser(email);
-      if (findEmail) {
-        return res.status(409).json({ message: "Email is exist" });
-      }
-
-      const salt = 10;
-      const genSalt = await bcrypt.genSalt(salt);
-      const encryptPassword = await bcrypt.hash(password, genSalt);
-
-      const userInfo = {
-        email: email.trim(),
-        full_name: full_name,
-        password: encryptPassword,
-        status_id: status_id,
-        role_id: role_id,
-        image_avatar: "https://i.ibb.co/3BtQdVD/pet-shop.png",
-      };
-      console.log(userInfo, "userInfo");
-      const newUser = await usersEntity.create(userInfo);
-      res
-        .status(200)
-        .json({ message: "User Added Successfully", data: newUser });
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const data = req.body;
+    const result = await usersService.createUser(data);
+    res.status(result.status).json(result);
   }
 
   // 6. Delete User
@@ -147,31 +94,15 @@ class UsersController {
     res.status(result.status).json(result);
   }
 
-  // 9. Change Status
+  // 9. Change Status (Admin)
   async changeStatus(req, res) {
     const userId = req.params.userId;
-    try {
-      const findUser = await usersEntity.findOne({ where: { id: userId } });
-      if (!findUser) {
-        return res.status(404).json({ message: "User is not exist" });
-      }
-      const dataUser = findUser.dataValues;
-      const updatedUser = {
-        status_id:
-          dataUser.status_id === 1
-            ? (dataUser.status_id = 2)
-            : (dataUser.status_id = 1),
-      };
-      const resultUpdate = await usersEntity.update(updatedUser, {
-        where: { id: userId },
-      });
-      res.status(200).json({ message: "Status Changed", data: resultUpdate });
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const data = req.body;
+    const result = await usersService.changeStatus(userId, data);
+    res.status(result.status).json(result);
   }
 
-  // 10. Change Avatar
+  // 10. Edit Avatar
   async editAvatar(req, res) {
     const userId = req.params.userId;
     const avatar = req.file

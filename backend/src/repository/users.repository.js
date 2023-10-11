@@ -121,12 +121,26 @@ class UsersRepo {
     return updatedUser;
   }
 
-  // 8.Edit Avatar
+  // 8. Change Status
+  async changeStatus(updatedUser, userId) {
+    const updatedAvatar = await usersEntity.update(updatedUser, {
+      where: { id: userId },
+    });
+    return updatedAvatar;
+  }
+
+  // 9.Edit Avatar
   async editAvatar(userId, updatedUser) {
     const updatedAvatar = await usersEntity.update(updatedUser, {
       where: { id: userId },
     });
     return updatedAvatar;
+  }
+
+  // 10. Create User (Optional)
+  async createUser(data) {
+    const newAdmin = await usersEntity.create(data);
+    return newAdmin;
   }
 }
 
