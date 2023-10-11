@@ -23,16 +23,43 @@ class CouponsService {
   }
 
   // 3. Add
-  async addCoupon(name) {
+  async addCoupon(dataBody) {
+    const { name, code, discount_rate, min_bill } = dataBody;
     if (!name) {
-      return { data: "Coupon Name must not be blank", status: 406 };
-    } else {
-      const couponInfo = {
-        name: name,
-      };
-      await couponsRepo.addCoupon(couponInfo);
-      return { data: "Coupon Added", status: 200 };
+      return { data: "Coupon Name not be blank", status: 406 };
     }
+    if (!code) {
+      return { data: "Coupon Code not be blank", status: 406 };
+    }
+    if (!discount_rate) {
+      return { data: "Discount rate not be blank", status: 406 };
+    }
+    if (discount_rate < 0) {
+      return { data: "Discount rate must > 0", status: 406 };
+    }
+    if (!min_bill) {
+      return {
+        data: "Min Bill not be blank and Min Bill must > 0",
+        status: 406,
+      };
+    }
+
+    if (min_bill < 0) {
+      return {
+        data: "Min Bill must > 0",
+        status: 406,
+      };
+    }
+
+    const couponInfo = {
+      name: name,
+      code: code,
+      discount_rate: discount_rate,
+      min_bill: min_bill,
+    };
+
+    await couponsRepo.addCoupon(couponInfo);
+    return { data: "Coupon Added", status: 200 };
   }
 
   // 4. Delete
@@ -47,7 +74,8 @@ class CouponsService {
   }
 
   // 5. Update
-  async updateCoupon(name, couponId) {
+  async updateCoupon(dataBody, couponId) {
+    const { name, code, discount_rate, min_bill } = dataBody;
     const findCoupon = await couponsRepo.findCouponById(couponId);
     if (!findCoupon) {
       return { data: "Coupon ID Not Found", status: 404 };
@@ -55,8 +83,18 @@ class CouponsService {
 
     const dataCoupon = findCoupon.dataValues;
 
+    if (discount_rate < 0) {
+      return { data: "Discount rate must > 0", status: 406 };
+    }
+    if (min_bill < 0) {
+      return { data: "Min Bill must > 0", status: 406 };
+    }
+
     const couponInfo = {
       name: !name ? dataCoupon.name : name,
+      code: !code ? dataCoupon.code : code,
+      discount_rate: !discount_rate ? dataCoupon.discount_rate : discount_rate,
+      min_bill: !min_bill ? dataCoupon.min_bill : min_bill,
       updated_at: Date.now(),
     };
 
