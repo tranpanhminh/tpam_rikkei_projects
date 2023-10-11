@@ -20,13 +20,19 @@ bookingsRouter.post(
   bookingsController.addBooking
 );
 
-// 4. Delete Booking
-bookingsRouter.delete("/delete/:bookingId", bookingsController.deleteBooking);
+// // 4. Delete Booking
+// bookingsRouter.delete("/delete/:bookingId", bookingsController.deleteBooking);
 
-// 5. Update Booking
+// 5. Update Booking By Admin
 bookingsRouter.patch("/update/:bookingId", bookingsController.updateBooking);
 
-// 6. Filter Booking By User ID
+// 6. Cancel Booking By User
+bookingsRouter.patch(
+  "/cancel-booking/:bookingId/users/:userId",
+  bookingsController.cancelBooking
+);
+
+// 7. Filter Booking By User ID
 bookingsRouter.get("/filter/:userId", bookingsController.filterBookingByUserId);
 
 // 6. Filter Booking By Date
