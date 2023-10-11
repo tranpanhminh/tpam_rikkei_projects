@@ -24,38 +24,58 @@ class PaymentsService {
 
   // 3. Add
   async addPayment(dataBody) {
-    const { name, code, discount_rate, min_bill } = dataBody;
-    if (!name) {
-      return { data: "Payment Name not be blank", status: 406 };
-    }
-    if (!code) {
-      return { data: "Payment Code not be blank", status: 406 };
-    }
-    if (!discount_rate) {
-      return { data: "Discount rate not be blank", status: 406 };
-    }
-    if (discount_rate < 0) {
-      return { data: "Discount rate must > 0", status: 406 };
-    }
-    if (!min_bill) {
+    const { cardholder_name, card_number, expiry_date, cvv, balance } =
+      dataBody;
+
+    if (!cardholder_name) {
       return {
-        data: "Min Bill not be blank and Min Bill must > 0",
+        data: "Cardholder Name must not be blank",
         status: 406,
       };
     }
-
-    if (min_bill < 0) {
+    if (!card_number) {
       return {
-        data: "Min Bill must > 0",
+        data: "Card Number must not be blank",
+        status: 406,
+      };
+    }
+    if (card_number.toString().length !== 16) {
+      return {
+        data: "Card Number length must = 16",
+        status: 406,
+      };
+    }
+    if (!expiry_date) {
+      return {
+        data: "Expiry Date must not be blank",
+        status: 406,
+      };
+    }
+    if (!cvv) {
+      return {
+        data: "CVV must not be blank",
+        status: 406,
+      };
+    }
+    if (cvv.toString().length !== 3) {
+      return {
+        data: "CVV length must = 3",
+        status: 406,
+      };
+    }
+    if (balance < 0) {
+      return {
+        data: "Balance must not be < 0",
         status: 406,
       };
     }
 
     const paymentInfo = {
-      name: name,
-      code: code,
-      discount_rate: discount_rate,
-      min_bill: min_bill,
+      cardholder_name: cardholder_name,
+      card_number: card_number,
+      expiry_date: expiry_date,
+      cvv: cvv,
+      balance: balance,
     };
 
     await paymentsRepo.addPayment(paymentInfo);
@@ -75,7 +95,8 @@ class PaymentsService {
 
   // 5. Update
   async updatePayment(dataBody, paymentId) {
-    const { name, code, discount_rate, min_bill } = dataBody;
+    const { cardholder_name, card_number, expiry_date, cvv, balance } =
+      dataBody;
     const findPayment = await paymentsRepo.findPaymentById(paymentId);
     if (!findPayment) {
       return { data: "Payment ID Not Found", status: 404 };
@@ -83,18 +104,25 @@ class PaymentsService {
 
     const dataPayment = findPayment.dataValues;
 
-    if (discount_rate < 0) {
-      return { data: "Discount rate must > 0", status: 406 };
+    if (card_number && card_number.toString().length !== 16) {
+      return { data: "Card Number length must = 16", status: 406 };
     }
-    if (min_bill < 0) {
-      return { data: "Min Bill must > 0", status: 406 };
+
+    if (cvv && cvv.toString().length !== 3) {
+      return { data: "CVV length must = 3", status: 406 };
+    }
+    if (balance < 0) {
+      return { data: "Balance must not be < 0", status: 406 };
     }
 
     const paymentInfo = {
-      name: !name ? dataPayment.name : name,
-      code: !code ? dataPayment.code : code,
-      discount_rate: !discount_rate ? dataPayment.discount_rate : discount_rate,
-      min_bill: !min_bill ? dataPayment.min_bill : min_bill,
+      cardholder_name: !cardholder_name
+        ? dataPayment.cardholder_name
+        : cardholder_name,
+      card_number: !card_number ? dataPayment.card_number : card_number,
+      expiry_date: !expiry_date ? dataPayment.expiry_date : expiry_date,
+      cvv: !cvv ? dataPayment.cvv : cvv,
+      balance: !balance ? dataPayment.balance : balance,
       updated_at: Date.now(),
     };
 
