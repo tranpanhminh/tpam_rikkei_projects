@@ -1,54 +1,49 @@
-const bookingStatusesEntity = require("../entities/bookingStatuses.entity.js");
+const vendorsEntity = require("../entities/vendors.entity.js");
 
 // ---------------------------------------------------------
-class BookingStatusesRepo {
-  async findBookingStatusById(bookingStatusId) {
-    const findBookingStatus = await bookingStatusesEntity.findOne({
-      where: { id: bookingStatusId },
+class VendorsRepo {
+  async findVendorById(vendorId) {
+    const findVendor = await vendorsEntity.findOne({
+      where: { id: vendorId },
     });
-    return findBookingStatus;
+    return findVendor;
   }
 
-  // 1. Get All Booking Statuses
-  async getAllBookingStatuses() {
-    const listBookingStatuses = await bookingStatusesEntity.findAll();
-    return listBookingStatuses;
+  // 1. Get All
+  async getAllVendors() {
+    const listVendors = await vendorsEntity.findAll();
+    return listVendors;
   }
 
-  // // 2. Get Detail Booking Status
-  async getDetailBookingStatus(bookingStatusId) {
-    const findBookingStatus = await bookingStatusesEntity.findOne({
-      where: { id: bookingStatusId },
+  // // 2. Get Detail
+  async getDetailVendor(vendorId) {
+    const findVendor = await vendorsEntity.findOne({
+      where: { id: vendorId },
     });
-    return findBookingStatus;
+    return findVendor;
   }
 
-  // 3. Add Booking Status
-  async addBookingStatus(bookingStatusInfo) {
-    const newBookingStatus = await bookingStatusesEntity.create(
-      bookingStatusInfo
-    );
-    return newBookingStatus;
+  // 3. Add
+  async addVendor(vendorInfo) {
+    const newVendor = await vendorsEntity.create(vendorInfo);
+    return newVendor;
   }
 
-  // 4. Delete Booking Status
-  async deleteBookingStatus(bookingStatusId) {
-    const deleteBookingStatus = await bookingStatusesEntity.destroy({
-      where: { id: bookingStatusId },
+  // 4. Delete
+  async deleteVendor(vendorId) {
+    const deleteVendor = await vendorsEntity.destroy({
+      where: { id: vendorId },
     });
-    return deleteBookingStatus;
+    return deleteVendor;
   }
 
-  // 5. Update Booking Status
-  async updateBookingStatus(bookingStatusInfo, bookingStatusId) {
-    const updatedBookingStatus = await bookingStatusesEntity.update(
-      bookingStatusInfo,
-      {
-        where: { id: bookingStatusId },
-      }
-    );
-    return updatedBookingStatus;
+  // 5. Update
+  async updateVendor(vendorInfo, vendorId) {
+    const updateVendor = await vendorsEntity.update(vendorInfo, {
+      where: { id: vendorId },
+    });
+    return updateVendor;
   }
 }
 
-module.exports = new BookingStatusesRepo();
+module.exports = new VendorsRepo();

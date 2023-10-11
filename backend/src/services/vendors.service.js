@@ -1,77 +1,68 @@
-const bookingStatusesRepo = require("../repository/bookingStatuses.repository.js");
+const vendorsRepo = require("../repository/vendors.repository.js");
 
 // ---------------------------------------------------------
-class BookingStatusesService {
-  // 1. Get All Booking Statuses
-  async getAllBookingStatuses() {
-    const listBookingStatuses =
-      await bookingStatusesRepo.getAllBookingStatuses();
-    if (listBookingStatuses.length === 0) {
-      return { data: "No Booking Status Found", status: 404 };
+class VendorsService {
+  // 1. Get All
+  async getAllVendors() {
+    const listVendors = await vendorsRepo.getAllVendors();
+    if (listVendors.length === 0) {
+      return { data: "No Vendor Found", status: 404 };
     } else {
-      return { data: listBookingStatuses, status: 200 };
+      return { data: listVendors, status: 200 };
     }
   }
 
-  // 2. Get Detail Booking Status
-  async getDetailBookingStatus(bookingStatusId) {
-    const detailBookingStatus =
-      await bookingStatusesRepo.getDetailBookingStatus(bookingStatusId);
-    if (!detailBookingStatus) {
-      return { data: "Booking Status ID Not Found", status: 404 };
+  // 2. Get Detail
+  async getDetailVendor(vendorId) {
+    const detailVendor = await vendorsRepo.getDetailVendor(vendorId);
+    if (!detailVendor) {
+      return { data: "Vendor ID Not Found", status: 404 };
     } else {
-      return { data: detailBookingStatus, status: 200 };
+      return { data: detailVendor, status: 200 };
     }
   }
 
-  // 3. Add Booking Status
-  async addBookingStatus(name) {
+  // 3. Add
+  async addVendor(name) {
     if (!name) {
-      return { data: "Booking Status Name must not be blank", status: 406 };
+      return { data: "Vendor Name must not be blank", status: 406 };
     } else {
-      const bookingStatusInfo = {
+      const vendorInfo = {
         name: name,
       };
-      await bookingStatusesRepo.addBookingStatus(bookingStatusInfo);
-      return { data: "Booking Status Added", status: 200 };
+      await vendorsRepo.addVendor(vendorInfo);
+      return { data: "Vendor Added", status: 200 };
     }
   }
 
-  // 4. Delete Booking Status
-  async deleteBookingStatus(bookingStatusId) {
-    const findBookingStatus = await bookingStatusesRepo.findBookingStatusById(
-      bookingStatusId
-    );
-    if (!findBookingStatus) {
-      return { data: "Booking Status ID Not Found", status: 404 };
+  // 4. Delete
+  async deleteVendor(vendorId) {
+    const findVendor = await vendorsRepo.findVendorById(vendorId);
+    if (!findVendor) {
+      return { data: "Vendor ID Not Found", status: 404 };
     } else {
-      await bookingStatusesRepo.deleteBookingStatus(bookingStatusId);
-      return { data: "Booking Status Deleted", status: 200 };
+      await vendorsRepo.deleteVendor(vendorId);
+      return { data: "Vendor Deleted", status: 200 };
     }
   }
 
-  // 5. Update Booking Status
-  async updateBookingStatus(name, bookingStatusId) {
-    const findBookingStatus = await bookingStatusesRepo.findBookingStatusById(
-      bookingStatusId
-    );
-    if (!findBookingStatus) {
-      return { data: "Booking Status ID Not Found", status: 404 };
+  // 5. Update
+  async updateVendor(name, vendorId) {
+    const findVendor = await vendorsRepo.findVendorById(vendorId);
+    if (!findVendor) {
+      return { data: "Vendor ID Not Found", status: 404 };
     }
 
-    const dataBookingStatus = findBookingStatus.dataValues;
+    const dataVendor = findVendor.dataValues;
 
-    const bookingStatusInfo = {
-      name: !name ? dataBookingStatus.name : name,
+    const vendorInfo = {
+      name: !name ? dataVendor.name : name,
       updated_at: Date.now(),
     };
 
-    await bookingStatusesRepo.updateBookingStatus(
-      bookingStatusInfo,
-      bookingStatusId
-    );
-    return { data: "Booking Status Updated", status: 200 };
+    await vendorsRepo.updateVendor(vendorInfo, vendorId);
+    return { data: "Vendor Status Updated", status: 200 };
   }
 }
 
-module.exports = new BookingStatusesService();
+module.exports = new VendorsService();

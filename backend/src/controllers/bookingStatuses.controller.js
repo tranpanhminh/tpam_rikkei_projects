@@ -3,7 +3,7 @@ const bookingStatusesService = require("../services/bookingStatuses.service.js")
 // ---------------------------------------------------------
 class BookingStatusController {
   // 1. Get All Booking Status
-  async getAllBookingStatus(req, res) {
+  async getAllBookingStatuses(req, res) {
     const result = await bookingStatusesService.getAllBookingStatuses();
     return res.status(result.status).json(result.data);
   }

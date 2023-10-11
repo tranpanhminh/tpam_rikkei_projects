@@ -1,113 +1,43 @@
-const connectMySQL = require("../configs/db.config.js");
-const postStatusesEntity = require("../entities/postStatuses.entity.js");
-const bcrypt = require("bcryptjs");
+const postStatusesService = require("../services/postStatuses.service.js");
 
 // ---------------------------------------------------------
 class PostStatusesController {
-  // 1. Get All Post Statuses
+  // 1. Get All
   async getAllPostStatuses(req, res) {
-    try {
-      const listPostsStatuses = await postStatusesEntity.findAll();
-      res.status(200).json(listPostsStatuses);
-      console.log(listPostsStatuses, "listPostsStatuses");
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const result = await postStatusesService.getAllPostStatuses();
+    return res.status(result.status).json(result.data);
   }
 
-  // 2. Get Detail Post Status
+  // 2. Get Detail
   async getDetailPostStatus(req, res) {
-    try {
-      const postStatusId = req.params.postStatusId;
-      const detailPostStatus = await postStatusesEntity.findOne({
-        where: { id: postStatusId },
-      });
-      if (!detailPostStatus) {
-        return res.status(404).json({ message: "Post Status ID Not Found" });
-      } else {
-        return res.status(200).json(detailPostStatus);
-      }
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const postStatusId = req.params.postStatusId;
+    const result = await postStatusesService.getDetailPostStatus(postStatusId);
+    return res.status(result.status).json(result.data);
   }
 
-  // 3. Add Post Status
+  // 3. Add
   async addPostStatus(req, res) {
     const { name } = req.body;
-    try {
-      if (!name) {
-        res.status(406).json({ message: "Post Status Name must not be blank" });
-      } else {
-        const postStatusInfo = {
-          name: name,
-        };
-        const newPostStatus = await postStatusesEntity.create(postStatusInfo);
-        res
-          .status(200)
-          .json({ message: "Post Status Added", data: newPostStatus });
-      }
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const result = await postStatusesService.addPostStatus(name);
+    return res.status(result.status).json(result.data);
   }
 
-  // 4. Delete Post Status
+  // 4. Delete
   async deletePostStatus(req, res) {
-    try {
-      const postStatusId = req.params.postStatusId;
-      const findPostStatus = await postStatusesEntity.findOne({
-        where: { id: postStatusId },
-      });
-      if (!findPostStatus) {
-        return res.status(404).json({ message: "Post Status ID Not Found" });
-      } else {
-        const deletePostStatus = await postStatusesEntity.destroy({
-          where: { id: postStatusId },
-        });
-        return res.status(200).json({
-          message: "Post Status Deleted",
-          dataDeleted: deletePostStatus,
-        });
-      }
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const postStatusId = req.params.postStatusId;
+    const result = await postStatusesService.deletePostStatus(postStatusId);
+    return res.status(result.status).json(result.data);
   }
 
-  // 5. Update Post Status
+  // 5. Update
   async updatePostStatus(req, res) {
     const { name } = req.body;
-    try {
-      const postStatusId = req.params.postStatusId;
-      const findPostStatus = await postStatusesEntity.findOne({
-        where: { id: postStatusId },
-      });
-
-      if (!findPostStatus) {
-        return res.status(404).json({ message: "Post Status ID Not Found" });
-      }
-
-      const dataPostStatus = findPostStatus.dataValues;
-
-      const postStatusInfo = {
-        name: !name ? dataPostStatus.name : name,
-        updated_at: Date.now(),
-      };
-
-      const updatedPostStatus = await postStatusesEntity.update(
-        postStatusInfo,
-        {
-          where: { id: postStatusId },
-        }
-      );
-      return res.status(200).json({
-        message: "Post Status Updated",
-        dataUpdated: updatedPostStatus,
-      });
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const postStatusId = req.params.postStatusId;
+    const result = await postStatusesService.updatePostStatus(
+      name,
+      postStatusId
+    );
+    return res.status(result.status).json(result.data);
   }
 }
 

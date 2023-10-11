@@ -9,7 +9,7 @@ const bookingStatusesController = require("../controllers/bookingStatuses.contro
 // ---------------------------------------------------------
 
 // 1. Get All Booking Status
-bookingStatusesRouter.get("/", bookingStatusesController.getAllBookingStatus);
+bookingStatusesRouter.get("/", bookingStatusesController.getAllBookingStatuses);
 
 // 2. Get Detail Booking Status
 bookingStatusesRouter.get(
