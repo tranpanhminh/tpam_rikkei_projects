@@ -5,6 +5,17 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 class UsersRepo {
+  // Dùng chung
+  async findOneByEmail(email) {
+    const findEmail = await usersEntity.findOne({ where: { email: email } });
+    return findEmail;
+  }
+
+  async findOneById(userId) {
+    const findUser = await usersEntity.findOne({ where: { id: userId } });
+    return findUser;
+  }
+
   // 1. Get All Users
   async getAllUsers() {
     const listUsers = await usersEntity.findAll({
@@ -73,31 +84,49 @@ class UsersRepo {
       group: ["users.id"],
       raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
     });
-
     return detailUser;
   }
 
   // 3. Register User (Customer)
-  async userRegister(email) {
-    const findEmail = await usersEntity.findOne({ where: { email: email } });
-    return findEmail;
+  async userRegister(data) {
+    const newUser = await usersEntity.create(data);
+    return newUser;
   }
 
   // 4. Add User (By Admin)
-  async findOneByEmail(email) {
-    const findEmail = await usersEntity.findOne({ where: { email: email } });
-    return findEmail;
-  }
-
-  async addUser(data) {
-    const newUser = await usersEntity.create(data);
-    return newUser;
+  async addAdmin(data) {
+    const newAdmin = await usersEntity.create(data);
+    return newAdmin;
   }
 
   // 5. Add User (Optional)
   async createUser(email) {
     const findEmail = await usersEntity.findOne({ where: { email: email } });
     return findEmail;
+  }
+
+  // 6. Delete User
+  async deleteUser(userId) {
+    const deleteUser = await usersEntity.destroy({
+      where: { id: userId },
+    });
+    return deleteUser;
+  }
+
+  // 7.Change Password
+  async changePassword(userId, updatedInfo) {
+    const updatedUser = await usersEntity.update(updatedInfo, {
+      where: { id: userId },
+    });
+    return updatedUser;
+  }
+
+  // 8.Edit Avatar
+  async editAvatar(userId, updatedUser) {
+    const updatedAvatar = await usersEntity.update(updatedUser, {
+      where: { id: userId },
+    });
+    return updatedAvatar;
   }
 }
 

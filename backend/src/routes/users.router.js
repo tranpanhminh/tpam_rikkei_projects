@@ -22,7 +22,7 @@ usersRouter.get("/detail/:userId", usersController.getDetailUser);
 usersRouter.post("/register", usersController.userRegister);
 
 // 4. Add User (Admin)
-usersRouter.post("/add", usersController.addUser);
+usersRouter.post("/add", usersController.addAdmin);
 
 // 5. Create User (Manual Thêm bất kỳ User)
 usersRouter.post("/create", usersController.createUser);

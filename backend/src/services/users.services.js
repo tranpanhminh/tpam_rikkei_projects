@@ -1,29 +1,35 @@
 const usersRepo = require("../repository/users.repository.js");
 const bcrypt = require("bcryptjs");
+const sourceImage = process.env.BASE_URL_IMAGE;
 
 class UsersService {
   // 1. Get All Users
   async getAllUsers() {
     const listUsers = await usersRepo.getAllUsers();
-    return listUsers;
+    if (listUsers.length === 0) {
+      return { data: "No Data Users", status: 404 };
+    } else {
+      return { data: listUsers, status: 200 };
+    }
   }
 
   // 2. Get Detail User
   async getDetailUser(userId) {
     const detailUser = await usersRepo.getDetailUser(userId);
-    return detailUser;
+    if (detailUser.length === 0) {
+      return { data: "User Not Found", status: 404 };
+    } else {
+      return { data: detailUser, status: 200 };
+    }
   }
 
   // 3. Register User (Customer)
-  async userRegister(email) {
-    const findEmail = await usersRepo.userRegister(email);
-    return findEmail;
-  }
-
-  // 4. Add User (By Admin)
-  async addUser(data) {
+  async userRegister(data) {
     const { email, full_name, password, rePassword } = data;
-
+    const findEmail = await usersRepo.findOneByEmail(email);
+    if (findEmail) {
+      return { message: "Email is exist", status: 409 };
+    }
     if (!email) {
       return { message: "Email must not be blank", status: 406 };
     }
@@ -52,9 +58,60 @@ class UsersService {
       return { message: "Password must be the same Repassword", status: 406 };
     }
 
+    const salt = 10;
+    const genSalt = await bcrypt.genSalt(salt);
+    const encryptPassword = await bcrypt.hash(password, genSalt);
+
+    const userInfo = {
+      email: email.trim(),
+      full_name: full_name,
+      password: encryptPassword,
+      status_id: 1,
+      role_id: 3, // Thêm tài khoản với Role là Admin
+      image_avatar: "https://i.ibb.co/3BtQdVD/pet-shop.png",
+    };
+    console.log(userInfo, "userInfo");
+    const newUser = await usersRepo.userRegister(userInfo);
+    return {
+      message: "User Register Successfully",
+      data: newUser,
+      status: 200,
+    };
+  }
+
+  // 4. Add User (By Admin)
+  async addAdmin(data) {
+    const { email, full_name, password, rePassword } = data;
     const findEmail = await usersRepo.findOneByEmail(email);
     if (findEmail) {
       return { message: "Email is exist", status: 409 };
+    }
+    if (!email) {
+      return { message: "Email must not be blank", status: 406 };
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return { message: "Invalid Email Format", status: 406 };
+    }
+    if (!full_name) {
+      return { message: "Full Name must not be blank", status: 406 };
+    }
+    if (!/^[a-zA-Z\s]*$/.test(full_name)) {
+      return {
+        message: "Full Name cannot contain special characters or numbers",
+        status: 406,
+      };
+    }
+    if (!password) {
+      return { message: "Password must not be blank", status: 406 };
+    }
+    if (password.length < 8) {
+      return { message: "Password must be at least 8 characters", status: 406 };
+    }
+    if (!rePassword) {
+      return { message: "RePassword must not be blank", status: 406 };
+    }
+    if (password !== rePassword) {
+      return { message: "Password must be the same Repassword", status: 406 };
     }
 
     const salt = 10;
@@ -82,6 +139,80 @@ class UsersService {
   async createUser(email) {
     const findEmail = await usersRepo.createUser(email);
     return findEmail;
+  }
+
+  // 6. Delete User
+  async deleteUser(userId) {
+    const findUser = await usersRepo.findOneById(userId);
+    if (!findUser) {
+      return { status: 404, message: "User ID Not Found" };
+    }
+
+    await usersRepo.deleteUser(userId);
+    return { status: 200, message: "User Deleted" };
+  }
+
+  // 7. Change Password
+  async changePassword(userId, data) {
+    const { oldPassword, newPassword } = data;
+    const findUser = await usersRepo.findOneById(userId);
+
+    if (!findUser) {
+      return { message: "User is not exist", status: 404 };
+    }
+    if (!oldPassword) {
+      return { message: "Please enter your current password", status: 406 };
+    }
+    const dataUser = findUser.dataValues;
+    const checkPass = await bcrypt.compare(oldPassword, dataUser.password);
+    if (!checkPass) {
+      return { message: "Old password is not correct!", status: 406 };
+    }
+
+    if (!newPassword) {
+      return { message: "Please enter your new password", status: 406 };
+    }
+    if (newPassword.length < 8) {
+      return {
+        message: "New Password must have > 8 characters",
+        status: 406,
+      };
+    }
+    if (oldPassword === newPassword) {
+      return {
+        message: "Old Password must not be the same to New Password",
+        status: 406,
+      };
+    }
+
+    const salt = 10;
+    const genSalt = await bcrypt.genSalt(salt);
+    const encryptPassword = await bcrypt.hash(newPassword, genSalt);
+
+    const updatedInfo = {
+      password: encryptPassword,
+    };
+
+    const updatedUser = await usersRepo.changePassword(userId, updatedInfo);
+    return {
+      message: "Password Changed Successfully",
+      data: updatedUser,
+      status: 200,
+    };
+  }
+
+  // 8.Edit Avatar
+  async editAvatar(userId, avatar) {
+    const findUser = await usersRepo.findOneById(userId);
+
+    if (!findUser) {
+      return { message: "User is not exist", status: 404 };
+    }
+    const updatedUser = {
+      image_avatar: sourceImage + avatar,
+    };
+    const result = await usersRepo.editAvatar(userId, updatedUser);
+    return { message: "Avatar Changed", status: 200, data: result };
   }
 }
 
