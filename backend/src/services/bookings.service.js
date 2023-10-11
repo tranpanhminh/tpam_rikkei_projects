@@ -1,7 +1,7 @@
 const sequelize = require("sequelize");
 
 // Import Repo
-const bookingsRepo = require("../repository/bookings.repository");
+const bookingsRepo = require("../repository/bookings.repository.js");
 
 // ---------------------------------------------------------
 class BookingsService {
@@ -221,25 +221,35 @@ class BookingsService {
       return { data: "Booking ID Not Found", status: 404 };
     }
     const dataBooking = findBooking.dataValues;
-    console.log(dataBooking, "DSADSA");
-    const findUser = await bookingsRepo.findUserById(userId);
-    if (!findUser) {
-      return { data: "User ID Not Found", status: 404 };
-    }
+    // const findUser = await bookingsRepo.findUserById(userId);
+    // if (!findUser) {
+    //   return { data: "User ID Not Found", status: 404 };
+    // }
 
-    const findBookingByUser = await bookingsRepo.findBookingByUserId(
-      bookingId,
-      userId
-    );
-    if (!findBookingByUser) {
-      return { data: "Booking ID Not Found For This User ID", status: 404 };
-    }
+    // const findBookingByUser = await bookingsRepo.findBookingByUserId(
+    //   bookingId,
+    //   userId
+    // );
+    // if (!findBookingByUser) {
+    //   return { data: "Booking ID Not Found For This User ID", status: 404 };
+    // }
+
     /** Booking Status:
     1. Pending
     2. Processing
     3. Done
     4. Cancel
     */
+
+    if (dataBooking.status_id === 2) {
+      return { data: "You can't cancel because is is Processing", status: 406 };
+    }
+    if (dataBooking.status_id === 3) {
+      return { data: "You can't cancel because is is Done", status: 406 };
+    }
+    if (dataBooking.status_id === 4) {
+      return { data: "You can't cancel because is is Cancel", status: 406 };
+    }
 
     const bookingInfo = {
       status_id: 4,

@@ -71,8 +71,8 @@ class BookingsController {
   // 6. Cancel Booking
   async cancelBooking(req, res) {
     const bookingId = req.params.bookingId;
-    const userId = req.params.userId;
-    const result = await bookingsService.cancelBooking(bookingId, userId);
+    // const userId = req.params.userId;
+    const result = await bookingsService.cancelBooking(bookingId);
     return res.status(result.status).json(result.data);
   }
 
