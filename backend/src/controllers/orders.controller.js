@@ -7,114 +7,25 @@ const orderStatusesEntity = require("../entities/orderStatuses.entity.js");
 const cancelReasonsEntity = require("../entities/cancelReasons.entity.js");
 const productsEntity = require("../entities/products.entity.js");
 const usersEntity = require("../entities/users.entity.js");
-const bcrypt = require("bcryptjs");
 const paymentsEntity = require("../entities/payments.entity.js");
 const { format, parse } = require("date-fns");
 const couponsEntity = require("../entities/coupons.entity.js");
+
+const ordersService = require("../services/orders.service.js");
 
 // ---------------------------------------------------------
 class OrdersController {
   // 1. Get All Orders (For Admin)
   async getAllOrders(req, res) {
-    try {
-      // const listOrders = await ordersEntity.findAll();
-
-      const listOrders = await ordersEntity.findAll({
-        // Chọn các thuộc tính cần thiết
-        attributes: [
-          "id",
-          "user_id",
-          "customer_name",
-          "address",
-          "phone",
-          "discount_rate",
-          "card_number",
-          "cancellation_reason",
-          "order_date",
-          "bill",
-          "discounted",
-          "total_bill",
-          "updated_at",
-          "updated_at",
-        ],
-
-        // Tham gia với bảng post_types
-        include: [
-          {
-            model: usersEntity,
-            attributes: ["email"],
-          },
-          // {
-          //   model: paymentsEntity,
-          //   attributes: ["card_number"],
-          // },
-          {
-            model: orderStatusesEntity,
-            attributes: ["name"],
-          },
-          // {
-          //   model: cancelReasonsEntity,
-          //   attributes: ["name"],
-          // },
-          // {
-          //   model: couponsEntity,
-          //   attributes: ["discount_rate"],
-          // },
-        ],
-
-        // Nhóm theo id và tên của dịch vụ
-        group: ["orders.id"],
-        raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
-      });
-      res.status(200).json(listOrders);
-      console.log(listOrders, "listOrders");
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const result = await ordersService.getAllOrders();
+    res.status(result.status).json(result.data);
   }
 
   // 2. Get Detail Order (For Admin)
   async getDetailOrder(req, res) {
-    try {
-      const orderId = req.params.orderId;
-      // const detailOrder = await orderItemsEntity.findAll({
-      //   where: { order_id: orderId },
-      // });
-
-      const detailOrder = await orderItemsEntity.findAll({
-        // Chọn các thuộc tính cần thiết
-        attributes: [
-          "id",
-          "order_id",
-          "product_name",
-          "product_description",
-          "product_thumbnail",
-          "quantity",
-          "price",
-          "created_at",
-          "updated_at",
-        ],
-
-        // Tham gia với bảng post_types
-        // include: [
-        //   {
-        //     model: productsEntity,
-        //     attributes: ["name"],
-        //   },
-        // ],
-        where: { order_id: orderId },
-        // Nhóm theo id và tên của dịch vụ
-        group: ["id"],
-        raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
-      });
-      if (!detailOrder) {
-        return res.status(404).json({ message: "Order ID Not Found" });
-      } else {
-        return res.status(200).json(detailOrder);
-      }
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const orderId = req.params.orderId;
+    const result = await ordersService.getDetailOrder(orderId);
+    res.status(result.status).json(result.data);
   }
 
   // 3. Get All Orders By User (For Customer)

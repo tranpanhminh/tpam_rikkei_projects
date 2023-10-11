@@ -4,7 +4,6 @@ const cartsService = require("../services/carts.service.js");
 class CartsController {
   // 1. Get All Carts
   async getAllCarts(req, res) {
-    console.log("ASDSADS");
     const result = await cartsService.getAllCarts();
     res.status(result.status).json(result.data);
   }
