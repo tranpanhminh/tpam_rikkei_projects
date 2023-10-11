@@ -1,3 +1,5 @@
+const sourceImage = process.env.BASE_URL_IMAGE;
+
 // Import Service
 const postsRepo = require("../repository/posts.repository.js");
 
@@ -25,74 +27,80 @@ class PostsService {
   }
 
   // 3. Add Post
-  async addPost(req, res) {
-    const { title, content, author, status_id } = req.body;
-    const thumbnail = req.file ? req.file.filename : "";
+  async addPost(dataBody, thumbnail) {
+    const { title, content, author, status_id } = dataBody;
 
     if (!title) {
-      return res.status(406).json({ message: "Post Title must not be blank" });
+      return { data: "Title must not be blank", status: 406 };
     }
     if (!content) {
-      return res.status(406).json({ message: "Content must not be blank" });
+      return { data: "Content must not be blank", status: 406 };
     }
     if (!author) {
-      return res.status(406).json({
-        message: "Author must not be blank",
-      });
+      return { data: "Author must not be blank", status: 406 };
     }
     if (!status_id) {
-      return res.status(406).json({
-        message: "Status ID must not be blank",
-      });
+      return { data: "Status ID must not be blank", status: 406 };
     }
 
-    if (!req.file && status_id == 2) {
-      return res.status(406).json({
-        message: "You can't set to Published until you set thumbnail",
-      });
+    if (!thumbnail && status_id == 2) {
+      return {
+        data: "You can't set to Published until you set thumbnail",
+        status: 406,
+      };
     }
 
     const postInfo = {
       title: title,
       content: content,
-      thumbnail_url: sourceImage + thumbnail,
+      thumbnail_url: thumbnail ? sourceImage + thumbnail : thumbnail,
       author: author,
       status_id: status_id,
       post_type_id: 3,
     };
-    const newPost = await postsRepo.create(postInfo);
-    res.status(200).json({ message: "Post Added", data: newPost });
+    const newPost = await postsRepo.addPost(postInfo);
+
+    return {
+      data: newPost,
+      status: 200,
+    };
   }
 
   // 4. Delete Post
-  async deletePost(req, res) {
-    const postId = req.params.postId;
-    const findPost = await postsRepo.findOne({
-      where: { id: postId },
-    });
+  async deletePost(postId) {
+    const findPost = await postsRepo.findPostById(postId);
     if (!findPost) {
-      return res.status(404).json({ message: "Post ID Not Found" });
+      return {
+        data: "Post ID Not Found",
+        status: 404,
+      };
     } else {
-      const deletePost = await postsRepo.destroy({
-        where: { id: postId },
-      });
-      return res
-        .status(200)
-        .json({ message: "Post Deleted", dataDeleted: findPost });
+      await postsRepo.deletePost(postId);
+      return {
+        data: "Post Deleted",
+        status: 200,
+      };
     }
   }
 
   // 5. Update Post
-  async updatePost(req, res) {
-    const { title, content, thumbnail_url, author, status_id } = req.body;
-    const thumbnail = req.file ? req.file.filename : "";
-
-    const postId = req.params.postId;
-    const findPost = await postsRepo.findOne({
-      where: { id: postId },
-    });
-
+  async updatePost(dataBody, thumbnail, postId) {
+    const { title, content, author, status_id } = dataBody;
+    const findPost = await postsRepo.findPostById(postId);
+    if (!findPost) {
+      return {
+        data: "Post ID Not Found",
+        status: 404,
+      };
+    }
     const dataPost = findPost.dataValues;
+
+    if (!thumbnail && status_id == 2) {
+      return {
+        data: "You can't publish post until thumbnail set",
+        status: 406,
+      };
+    }
 
     const postInfo = {
       title: !title ? dataPost.title : title,
@@ -105,12 +113,11 @@ class PostsService {
       updated_at: Date.now(),
     };
 
-    const updatedPost = await postsRepo.update(postInfo, {
-      where: { id: postId },
-    });
-    return res
-      .status(200)
-      .json({ message: "Post Updated", dataUpdated: updatedPost });
+    await postsRepo.updatePost(postInfo, postId);
+    return {
+      data: "Post Updated",
+      status: 200,
+    };
   }
 }
 

@@ -26,69 +26,64 @@ class PagesService {
   }
 
   // 3. Add Page
-  async addPage(req, res) {
-    const { title, content, author, status_id } = req.body;
-    const thumbnail = req.file ? req.file.filename : "";
+  async addPage(dataBody, thumbnail) {
+    const { title, content, author, status_id } = dataBody;
 
     if (!title) {
-      return res.status(406).json({ message: "Post Title must not be blank" });
+      return { data: "Title must not be blank", status: 406 };
     }
     if (!content) {
-      return res.status(406).json({ message: "Content must not be blank" });
+      return { data: "Content must not be blank", status: 406 };
     }
     if (!author) {
-      return res.status(406).json({
-        message: "Author must not be blank",
-      });
+      return { data: "Author must not be blank", status: 406 };
     }
     if (!status_id) {
-      return res.status(406).json({
-        message: "Status ID must not be blank",
-      });
+      return { data: "Status ID must not be blank", status: 406 };
     }
 
-    if (!req.file && status_id == 2) {
-      return res.status(406).json({
-        message: "You can't set to Published until you set thumbnail",
-      });
+    if (!thumbnail && status_id == 2) {
+      return {
+        data: "You can't set to Published until you set thumbnail",
+        status: 406,
+      };
     }
 
-    const pageInfo = {
+    const postInfo = {
       title: title,
       content: content,
-      thumbnail_url: sourceImage + thumbnail,
+      thumbnail_url: thumbnail ? sourceImage + thumbnail : thumbnail,
       author: author,
       status_id: status_id,
-      post_type_id: 4,
+      post_type_id: 3,
     };
-    const newPage = await pagesEntity.create(pageInfo);
-    res.status(200).json({ message: "Page Added", data: newPage });
+    const newPage = await pagesRepo.addPage(postInfo);
+
+    return {
+      data: newPage,
+      status: 200,
+    };
   }
 
   // 4. Delete Page
-  async deletePage(req, res) {
-    const pageId = req.params.pageId;
-    const findPage = await pagesEntity.findOne({
-      where: { id: pageId },
-    });
+  async deletePage(pageId) {
+    const findPage = await pagesRepo.findPageById(pageId);
     if (!findPage) {
-      return res.status(404).json({ message: "Page ID Not Found" });
+      return {
+        data: "Page ID Not Found",
+        status: 404,
+      };
     } else {
-      const deletePage = await pagesEntity.destroy({
-        where: { id: pageId },
-      });
-      return res
-        .status(200)
-        .json({ message: "Page Deleted", dataDeleted: findPage });
+      await pagesRepo.deletePage(pageId);
+      return {
+        data: "Page Deleted",
+        status: 200,
+      };
     }
   }
 
   // 5. Update Page
-  async updatePage(req, res) {
-    const { title, content, thumbnail_url, author, status_id } = req.body;
-    const thumbnail = req.file ? req.file.filename : "";
-
-    const pageId = req.params.pageId;
+  async updatePage(dataBody, thumbnail, pageId) {
     const findPage = await pagesEntity.findOne({
       where: { id: pageId },
     });

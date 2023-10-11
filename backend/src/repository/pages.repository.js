@@ -7,6 +7,14 @@ const sourceImage = process.env.BASE_URL_IMAGE;
 
 // ---------------------------------------------------------
 class PagesRepo {
+  // Find Page By Id
+  async findPageById(pageId) {
+    const findPage = await pagesEntity.findOne({
+      where: { id: pageId },
+    });
+    return findPage;
+  }
+
   // 1. Get All Pages
   async getAllPages() {
     // const listPages = await pagesEntity.findAll();
@@ -80,61 +88,17 @@ class PagesRepo {
   }
 
   // 3. Add Page
-  async addPage(req, res) {
-    const { title, content, author, status_id } = req.body;
-    const thumbnail = req.file ? req.file.filename : "";
-
-    if (!title) {
-      return res.status(406).json({ message: "Post Title must not be blank" });
-    }
-    if (!content) {
-      return res.status(406).json({ message: "Content must not be blank" });
-    }
-    if (!author) {
-      return res.status(406).json({
-        message: "Author must not be blank",
-      });
-    }
-    if (!status_id) {
-      return res.status(406).json({
-        message: "Status ID must not be blank",
-      });
-    }
-
-    if (!req.file && status_id == 2) {
-      return res.status(406).json({
-        message: "You can't set to Published until you set thumbnail",
-      });
-    }
-
-    const pageInfo = {
-      title: title,
-      content: content,
-      thumbnail_url: sourceImage + thumbnail,
-      author: author,
-      status_id: status_id,
-      post_type_id: 4,
-    };
+  async addPage(pageInfo) {
     const newPage = await pagesEntity.create(pageInfo);
-    res.status(200).json({ message: "Page Added", data: newPage });
+    return newPage;
   }
 
   // 4. Delete Page
-  async deletePage(req, res) {
-    const pageId = req.params.pageId;
-    const findPage = await pagesEntity.findOne({
+  async deletePage(pageId) {
+    const deletePage = await pagesEntity.destroy({
       where: { id: pageId },
     });
-    if (!findPage) {
-      return res.status(404).json({ message: "Page ID Not Found" });
-    } else {
-      const deletePage = await pagesEntity.destroy({
-        where: { id: pageId },
-      });
-      return res
-        .status(200)
-        .json({ message: "Page Deleted", dataDeleted: findPage });
-    }
+    return deletePage;
   }
 
   // 5. Update Page
