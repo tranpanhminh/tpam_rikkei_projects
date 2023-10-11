@@ -1,74 +1,74 @@
-const userStatusesRepo = require("../repository/userStatuses.repository.js");
+const userRolesRepo = require("../repository/userRoles.repository.js");
 
 // ---------------------------------------------------------
-class UserStatusesService {
+class UserRolesService {
   // 1. Get All
-  async getAllUserStatuses() {
-    const listUserStatuses = await userStatusesRepo.getAllUserStatuses();
-    if (listUserStatuses.length === 0) {
-      return { data: "No UserStatus Found", status: 404 };
+  async getAllUserRoles() {
+    const listUserRoles = await userRolesRepo.getAllUserRoles();
+    if (listUserRoles.length === 0) {
+      return { data: "No UserRole Found", status: 404 };
     } else {
-      return { data: listUserStatuses, status: 200 };
+      return { data: listUserRoles, status: 200 };
     }
   }
 
   // 2. Get Detail
-  async getDetailUserStatus(userStatusId) {
-    const detailUserStatus = await userStatusesRepo.getDetailUserStatus(
-      userStatusId
+  async getDetailUserRole(userRoleId) {
+    const detailUserRole = await userRolesRepo.getDetailUserRole(
+      userRoleId
     );
-    if (!detailUserStatus) {
-      return { data: "UserStatus ID Not Found", status: 404 };
+    if (!detailUserRole) {
+      return { data: "UserRole ID Not Found", status: 404 };
     } else {
-      return { data: detailUserStatus, status: 200 };
+      return { data: detailUserRole, status: 200 };
     }
   }
 
   // 3. Add
-  async addUserStatus(name) {
+  async addUserRole(name) {
     if (!name) {
-      return { data: "UserStatus Name must not be blank", status: 406 };
+      return { data: "UserRole Name must not be blank", status: 406 };
     } else {
-      const userStatusInfo = {
+      const userRoleInfo = {
         name: name,
       };
-      await userStatusesRepo.addUserStatus(userStatusInfo);
-      return { data: "UserStatus Added", status: 200 };
+      await userRolesRepo.addUserRole(userRoleInfo);
+      return { data: "UserRole Added", status: 200 };
     }
   }
 
   // 4. Delete
-  async deleteUserStatus(userStatusId) {
-    const findUserStatus = await userStatusesRepo.findUserStatusById(
-      userStatusId
+  async deleteUserRole(userRoleId) {
+    const findUserRole = await userRolesRepo.findUserRoleById(
+      userRoleId
     );
-    if (!findUserStatus) {
-      return { data: "UserStatus ID Not Found", status: 404 };
+    if (!findUserRole) {
+      return { data: "UserRole ID Not Found", status: 404 };
     } else {
-      await userStatusesRepo.deleteUserStatus(userStatusId);
-      return { data: "UserStatus Deleted", status: 200 };
+      await userRolesRepo.deleteUserRole(userRoleId);
+      return { data: "UserRole Deleted", status: 200 };
     }
   }
 
   // 5. Update
-  async updateUserStatus(name, userStatusId) {
-    const findUserStatus = await userStatusesRepo.findUserStatusById(
-      userStatusId
+  async updateUserRole(name, userRoleId) {
+    const findUserRole = await userRolesRepo.findUserRoleById(
+      userRoleId
     );
-    if (!findUserStatus) {
-      return { data: "UserStatus ID Not Found", status: 404 };
+    if (!findUserRole) {
+      return { data: "UserRole ID Not Found", status: 404 };
     }
 
-    const dataUserStatus = findUserStatus.dataValues;
+    const dataUserRole = findUserRole.dataValues;
 
-    const userStatusInfo = {
-      name: !name ? dataUserStatus.name : name,
+    const userRoleInfo = {
+      name: !name ? dataUserRole.name : name,
       updated_at: Date.now(),
     };
 
-    await userStatusesRepo.updateUserStatus(userStatusInfo, userStatusId);
-    return { data: "UserStatus Status Updated", status: 200 };
+    await userRolesRepo.updateUserRole(userRoleInfo, userRoleId);
+    return { data: "UserRole Role Updated", status: 200 };
   }
 }
 
-module.exports = new UserStatusesService();
+module.exports = new UserRolesService();

@@ -1,117 +1,43 @@
-const connectMySQL = require("../configs/db.config.js");
-const orderStatusesEntity = require("../entities/orderStatuses.entity.js");
-const bcrypt = require("bcryptjs");
+const orderStatusesService = require("../services/orderStatuses.service.js");
 
 // ---------------------------------------------------------
 class OrderStatusesController {
-  // 1. Get All Order Statuses
+  // 1. Get All
   async getAllOrderStatuses(req, res) {
-    try {
-      const listOrderStatuses = await orderStatusesEntity.findAll();
-      res.status(200).json(listOrderStatuses);
-      console.log(listOrderStatuses, "listOrderStatuses");
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const result = await orderStatusesService.getAllOrderStatuses();
+    return res.status(result.status).json(result.data);
   }
 
-  // 2. Get Detail Order Status
+  // 2. Get Detail
   async getDetailOrderStatus(req, res) {
-    try {
-      const orderStatusId = req.params.orderStatusId;
-      const detailOrderStatus = await orderStatusesEntity.findOne({
-        where: { id: orderStatusId },
-      });
-      if (!detailOrderStatus) {
-        return res.status(404).json({ message: "Order Status ID Not Found" });
-      } else {
-        return res.status(200).json(detailOrderStatus);
-      }
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const orderStatusId = req.params.orderStatusId;
+    const result = await orderStatusesService.getDetailOrderStatus(orderStatusId);
+    return res.status(result.status).json(result.data);
   }
 
-  // 3. Add Order Status
+  // 3. Add
   async addOrderStatus(req, res) {
     const { name } = req.body;
-    try {
-      if (!name) {
-        res
-          .status(406)
-          .json({ message: "Order Status Name must not be blank" });
-      } else {
-        const orderStatusInfo = {
-          name: name,
-        };
-        const newOrderStatus = await orderStatusesEntity.create(
-          orderStatusInfo
-        );
-        res
-          .status(200)
-          .json({ message: "Order Status Added", data: newOrderStatus });
-      }
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const result = await orderStatusesService.addOrderStatus(name);
+    return res.status(result.status).json(result.data);
   }
 
-  // 4. Delete Order Status
+  // 4. Delete
   async deleteOrderStatus(req, res) {
-    try {
-      const orderStatusId = req.params.orderStatusId;
-      const findOrderStatus = await orderStatusesEntity.findOne({
-        where: { id: orderStatusId },
-      });
-      if (!findOrderStatus) {
-        return res.status(404).json({ message: "Order Status ID Not Found" });
-      } else {
-        const deleteOrderStatus = await orderStatusesEntity.destroy({
-          where: { id: orderStatusId },
-        });
-        return res.status(200).json({
-          message: "Order Status Deleted",
-          dataDeleted: findOrderStatus,
-        });
-      }
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const orderStatusId = req.params.orderStatusId;
+    const result = await orderStatusesService.deleteOrderStatus(orderStatusId);
+    return res.status(result.status).json(result.data);
   }
 
-  // 5. Update Order Status
+  // 5. Update
   async updateOrderStatus(req, res) {
     const { name } = req.body;
-    try {
-      const orderStatusId = req.params.orderStatusId;
-      const findOrderStatus = await orderStatusesEntity.findOne({
-        where: { id: orderStatusId },
-      });
-
-      if (!findOrderStatus) {
-        return res.status(404).json({ message: "Order Status ID Not Found" });
-      }
-
-      const dataOrderStatus = findOrderStatus.dataValues;
-
-      const orderStatusInfo = {
-        name: !name ? dataOrderStatus.name : name,
-        updated_at: Date.now(),
-      };
-
-      const updatedOrderStatus = await orderStatusesEntity.update(
-        orderStatusInfo,
-        {
-          where: { id: orderStatusId },
-        }
-      );
-      return res.status(200).json({
-        message: "Order Status Updated",
-        dataUpdated: updatedOrderStatus,
-      });
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const orderStatusId = req.params.orderStatusId;
+    const result = await orderStatusesService.updateOrderStatus(
+      name,
+      orderStatusId
+    );
+    return res.status(result.status).json(result.data);
   }
 }
 

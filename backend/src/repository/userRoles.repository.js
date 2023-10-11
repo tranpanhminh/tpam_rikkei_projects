@@ -1,49 +1,49 @@
 const userRolesEntity = require("../entities/userRoles.entity.js");
 
 // ---------------------------------------------------------
-class UserStatusesRepo {
-  async findUserStatusById(userStatusId) {
-    const findUserStatus = await userStatusesEntity.findOne({
-      where: { id: userStatusId },
+class UserRolesRepo {
+  async findUserRoleById(userRoleId) {
+    const findUserRole = await userRolesEntity.findOne({
+      where: { id: userRoleId },
     });
-    return findUserStatus;
+    return findUserRole;
   }
 
   // 1. Get All
-  async getAllUserStatuses() {
-    const listUserStatuses = await userStatusesEntity.findAll();
-    return listUserStatuses;
+  async getAllUserRoles() {
+    const listUserRoles = await userRolesEntity.findAll();
+    return listUserRoles;
   }
 
   // // 2. Get Detail
-  async getDetailUserStatus(userStatusId) {
-    const findUserStatus = await userStatusesEntity.findOne({
-      where: { id: userStatusId },
+  async getDetailUserRole(userRoleId) {
+    const findUserRole = await userRolesEntity.findOne({
+      where: { id: userRoleId },
     });
-    return findUserStatus;
+    return findUserRole;
   }
 
   // 3. Add
-  async addUserStatus(userStatusInfo) {
-    const newUserStatus = await userStatusesEntity.create(userStatusInfo);
-    return newUserStatus;
+  async addUserRole(userRoleInfo) {
+    const newUserRole = await userRolesEntity.create(userRoleInfo);
+    return newUserRole;
   }
 
   // 4. Delete
-  async deleteUserStatus(userStatusId) {
-    const deleteUserStatus = await userStatusesEntity.destroy({
-      where: { id: userStatusId },
+  async deleteUserRole(userRoleId) {
+    const deleteUserRole = await userRolesEntity.destroy({
+      where: { id: userRoleId },
     });
-    return deleteUserStatus;
+    return deleteUserRole;
   }
 
   // 5. Update
-  async updateUserStatus(userStatusInfo, userStatusId) {
-    const updateUserStatus = await userStatusesEntity.update(userStatusInfo, {
-      where: { id: userStatusId },
+  async updateUserRole(userRoleInfo, userRoleId) {
+    const updateUserRole = await userRolesEntity.update(userRoleInfo, {
+      where: { id: userRoleId },
     });
-    return updateUserStatus;
+    return updateUserRole;
   }
 }
 
-module.exports = new UserStatusesRepo();
+module.exports = new UserRolesRepo();
