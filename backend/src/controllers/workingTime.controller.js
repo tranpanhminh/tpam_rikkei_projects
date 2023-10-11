@@ -1,4 +1,4 @@
-const workingTimeEntity = require("../entities/workingTime.entity.js");
+const WorkingTimeService = require("../services/workingTime.service.js");
 
 // ---------------------------------------------------------
 class WorkingTimeController {
