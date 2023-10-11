@@ -1,6 +1,4 @@
-const connectMySQL = require("../configs/db.config.js");
 const paymentsEntity = require("../entities/payments.entity.js");
-const bcrypt = require("bcryptjs");
 
 // ---------------------------------------------------------
 class PaymentsController {
