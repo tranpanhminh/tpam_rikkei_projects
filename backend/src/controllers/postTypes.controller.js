@@ -1,106 +1,40 @@
-const connectMySQL = require("../configs/db.config.js");
-const postTypesEntity = require("../entities/postTypes.entity.js");
-const bcrypt = require("bcryptjs");
+const postTypesService = require("../services/postTypes.service.js");
 
 // ---------------------------------------------------------
 class PostTypesController {
-  // 1. Get All Post Types
+  // 1. Get All
   async getAllPostTypes(req, res) {
-    try {
-      const listPostTypes = await postTypesEntity.findAll();
-      res.status(200).json(listPostTypes);
-      console.log(listPostTypes, "listPostTypes");
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const result = await postTypesService.getAllPostTypes();
+    return res.status(result.status).json(result.data);
   }
 
-  // 2. Get Detail Post Type
+  // 2. Get Detail
   async getDetailPostType(req, res) {
-    try {
-      const postTypeId = req.params.postTypeId;
-      const detailPostType = await postTypesEntity.findOne({
-        where: { id: postTypeId },
-      });
-      if (!detailPostType) {
-        return res.status(404).json({ message: "Post Type ID Not Found" });
-      } else {
-        return res.status(200).json(detailPostType);
-      }
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const postTypeId = req.params.postTypeId;
+    const result = await postTypesService.getDetailPostType(postTypeId);
+    return res.status(result.status).json(result.data);
   }
 
-  // 3. Add Post Type
+  // 3. Add
   async addPostType(req, res) {
     const { name } = req.body;
-    try {
-      if (!name) {
-        res.status(406).json({ message: "Post Type Name not be blank" });
-      } else {
-        const postTypeInfo = {
-          name: name,
-        };
-        const newPostType = await postTypesEntity.create(postTypeInfo);
-        res.status(200).json({ message: "Post Type Added", data: newPostType });
-      }
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const result = await postTypesService.addPostType(name);
+    return res.status(result.status).json(result.data);
   }
 
-  // 4. Delete Post Type
+  // 4. Delete
   async deletePostType(req, res) {
-    try {
-      const postTypeId = req.params.postTypeId;
-      const findPostType = await postTypesEntity.findOne({
-        where: { id: postTypeId },
-      });
-      if (!findPostType) {
-        return res.status(404).json({ message: "Post Type ID Not Found" });
-      } else {
-        const deletePostType = await postTypesEntity.destroy({
-          where: { id: postTypeId },
-        });
-        return res
-          .status(200)
-          .json({ message: "Post Type Deleted", dataDeleted: findPostType });
-      }
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const postTypeId = req.params.postTypeId;
+    const result = await postTypesService.deletePostType(postTypeId);
+    return res.status(result.status).json(result.data);
   }
 
-  // 5. Update Post Type
+  // 5. Update
   async updatePostType(req, res) {
     const { name } = req.body;
-    try {
-      const postTypeId = req.params.postTypeId;
-      const findPostType = await postTypesEntity.findOne({
-        where: { id: postTypeId },
-      });
-
-      if (!findPostType) {
-        return res.status(404).json({ message: "Post Type ID Not Found" });
-      }
-
-      const dataPostType = findPostType.dataValues;
-
-      const postTypeInfo = {
-        name: !name ? dataPostType.name : name,
-        updated_at: Date.now(),
-      };
-
-      const updatedPostType = await postTypesEntity.update(postTypeInfo, {
-        where: { id: postTypeId },
-      });
-      return res
-        .status(200)
-        .json({ message: "Post Type Updated", dataUpdated: updatedPostType });
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const postTypeId = req.params.postTypeId;
+    const result = await postTypesService.updatePostType(name, postTypeId);
+    return res.status(result.status).json(result.data);
   }
 }
 
