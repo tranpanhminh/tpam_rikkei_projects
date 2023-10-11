@@ -28,56 +28,47 @@ class ProductCommentsService {
   }
 
   // 3. Add Product Comment
-  async addProductComment(req, res) {
-    const productId = req.params.productId;
-    const userId = req.params.userId;
-    const { comment, rating } = req.body;
+  async addProductComment(productId, userId, dataBody, authHeader) {
+    const { comment, rating } = dataBody;
+    // Check Login
+    if (!authHeader) {
+      return { data: "Please login to comment", status: 401 };
+    }
 
-    try {
-      // Check Login
-      const authHeader = req.header("Authorization");
-      if (!authHeader) {
-        res.status(401).json({ message: "Please login to comment" });
-      }
+    // Check Product
+    const findProduct = await productCommentsRepo.findProductById(productId);
+    if (!findProduct) {
+      return { data: "Product ID Not Found", status: 404 };
+    }
 
-      // Check Product
-      const findProduct = await productsEntity.findOne({
-        where: {
-          id: productId,
-        },
-      });
-      if (!findProduct) {
-        return res.status(404).json({ message: "Product ID Not Found" });
-      }
+    // Check User
+    const findUser = await productCommentsRepo.findUserById(userId);
 
-      // Check User
-      const findUser = await usersEntity.findOne({
-        where: {
-          id: userId,
-        },
-      });
+    if (!findUser) {
+      return { data: "User ID Not Found", status: 404 };
+    }
+    const dataUser = findUser.dataValues;
+    if (dataUser.status_id === 2) {
+      return {
+        data: "You're not allowed to comment because your account is Inactive",
+        status: 406,
+      };
+    }
 
-      if (!findUser) {
-        return res.status(404).json({ message: "User ID Not Found" });
-      }
-      const dataUser = findUser.dataValues;
-      if (dataUser.status_id === 2) {
-        return res.status(406).json({
-          message:
-            "You're not allowed to comment because your account is Inactive",
-        });
-      }
+    if (!comment) {
+      return {
+        data: "Comment must not be blank",
+        status: 406,
+      };
+    }
+    if (!rating) {
+      return {
+        data: "Please rate for the product!",
+        status: 406,
+      };
+    }
 
-      if (!comment) {
-        return res.status(406).json({ message: "Comment must not be blank" });
-      }
-      if (!rating) {
-        return res
-          .status(406)
-          .json({ message: "Please rate for the product!" });
-      }
-
-      /** 
+    /** 
           User Status:
           1. Active
           2. Inactive
@@ -94,19 +85,19 @@ class ProductCommentsService {
           4. Page
           */
 
-      const commentInfo = {
-        comment: comment,
-        rating: dataUser.role_id === 1 || dataUser.role_id === 2 ? 5 : rating,
-        post_type_id: 1,
-        post_id: productId,
-        user_id: userId,
-        user_role_id: dataUser.role_id,
-      };
-      const newProductComment = await productCommentsEntity.create(commentInfo);
-      res.status(200).json(newProductComment);
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const commentInfo = {
+      comment: comment,
+      rating: dataUser.role_id === 1 || dataUser.role_id === 2 ? 5 : rating,
+      post_type_id: 1,
+      post_id: productId,
+      user_id: userId,
+      user_role_id: dataUser.role_id,
+    };
+    await productCommentsRepo.addProductComment(commentInfo);
+    return {
+      data: "Comment Successfully",
+      status: 200,
+    };
   }
 
   // 4. Delete Product Comment
