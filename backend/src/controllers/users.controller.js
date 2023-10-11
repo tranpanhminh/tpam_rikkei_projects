@@ -1,10 +1,6 @@
-const connectMySQL = require("../configs/db.config.js");
-const usersEntity = require("../entities/users.entity.js");
-const userRolesEntity = require("../entities/userRoles.entity.js");
-const userStatusesEntity = require("../entities/userStatuses.entity.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const usersService = require("../services/users.services.js");
+const usersService = require("../services/users.service.js");
 
 // ---------------------------------------------------------
 class UsersController {

@@ -1,8 +1,6 @@
 const userRolesEntity = require("../entities/userRoles.entity.js");
 const userStatusesEntity = require("../entities/userStatuses.entity.js");
 const usersEntity = require("../entities/users.entity.js");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 
 class UsersRepo {
   // Dùng chung
