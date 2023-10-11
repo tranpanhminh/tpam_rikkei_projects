@@ -44,24 +44,13 @@ class ServicesService {
   }
 
   // 4. Delete Service
-  async deleteService(req, res) {
-    try {
-      const serviceId = req.params.serviceId;
-      const findService = await servicesEntity.findOne({
-        where: { id: serviceId },
-      });
-      if (!findService) {
-        return res.status(404).json({ message: "Service ID Not Found" });
-      } else {
-        const deleteService = await servicesEntity.destroy({
-          where: { id: serviceId },
-        });
-        return res
-          .status(200)
-          .json({ message: "Service Deleted", dataDeleted: findService });
-      }
-    } catch (error) {
-      console.log(error, "ERROR");
+  async deleteService(serviceId) {
+    const findService = await servicesRepo.findServiceById(serviceId);
+    if (!findService) {
+      return { data: "Service ID Not Found", status: 404 };
+    } else {
+      await servicesRepo.deleteService(serviceId);
+      return { data: "Service Deleted", status: 200 };
     }
   }
 }

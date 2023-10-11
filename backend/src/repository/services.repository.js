@@ -4,6 +4,13 @@ const postTypesEntity = require("../entities/postTypes.entity.js");
 const servicesEntity = require("../entities/services.entity.js");
 
 class ServicesService {
+  // Find Service By Id
+  async findServiceById(serviceId) {
+    const findService = await servicesEntity.findOne({
+      where: { id: serviceId },
+    });
+    return findService;
+  }
   // 1. Get All Services
   async getAllServices() {
     // const listServices = await servicesEntity.findAll();
@@ -94,25 +101,11 @@ class ServicesService {
   }
 
   // 4. Delete Service
-  async deleteService(req, res) {
-    try {
-      const serviceId = req.params.serviceId;
-      const findService = await servicesEntity.findOne({
-        where: { id: serviceId },
-      });
-      if (!findService) {
-        return res.status(404).json({ message: "Service ID Not Found" });
-      } else {
-        const deleteService = await servicesEntity.destroy({
-          where: { id: serviceId },
-        });
-        return res
-          .status(200)
-          .json({ message: "Service Deleted", dataDeleted: findService });
-      }
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+  async deleteService(serviceId) {
+    const deleteService = await servicesEntity.destroy({
+      where: { id: serviceId },
+    });
+    return deleteService;
   }
 }
 
