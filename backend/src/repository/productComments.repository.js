@@ -1,21 +1,54 @@
-// Import Service
-const productCommentsService = require("../services/productComments.service.js");
+const productCommentsEntity = require("../entities/productComments.entity.js");
+const productsEntity = require("../entities/products.entity.js");
+const usersEntity = require("../entities/users.entity.js");
+const postTypesEntity = require("../entities/postTypes.entity.js");
 
 // ---------------------------------------------------------
-class ProductCommentsController {
+
+class ProductCommentsRepo {
   // 1. Get All Product Comments
-  async getAllProductComments(req, res) {
-    const result = await productCommentsService.getAllProductComments();
-    return res.status(result.status).json(result.data);
+  async getAllProductComments() {
+    // const listProductComments = await productCommentsEntity.findAll();
+
+    const listProductComments = await productCommentsEntity.findAll({
+      // Chọn các thuộc tính cần thiết
+      attributes: [
+        "id",
+        "comment",
+        "rating",
+        "post_type_id",
+        "post_id",
+        "user_id",
+        "user_role_id",
+        "created_at",
+        "updated_at",
+      ],
+
+      // Tham gia với bảng post_types
+      include: [
+        {
+          model: usersEntity,
+          attributes: ["full_name", "role_id"],
+        },
+        {
+          model: postTypesEntity,
+          attributes: ["name"],
+        },
+      ],
+
+      // Nhóm theo id và tên của dịch vụ
+      group: ["id"],
+      raw: true,
+    });
+    return listProductComments;
   }
 
   // 2. Get Detail Product Comment
-  async getDetailProductComment(req, res) {
-    const productCommentId = req.params.productCommentId;
-    const result = await productCommentsService.getDetailProductComment(
-      productCommentId
-    );
-    return res.status(result.status).json(result.data);
+  async getDetailProductComment(productCommentId) {
+    const detailProductComment = await productCommentsEntity.findOne({
+      where: { id: productCommentId },
+    });
+    return detailProductComment;
   }
 
   // 3. Add Product Comment
@@ -69,21 +102,21 @@ class ProductCommentsController {
       }
 
       /** 
-        User Status:
-        1. Active
-        2. Inactive
-
-        Role:
-        1. Super Admin
-        2. Admin
-        3. Customer
-
-        Post Types:
-        1. Product
-        2. Service
-        3. Post
-        4. Page
-        */
+          User Status:
+          1. Active
+          2. Inactive
+  
+          Role:
+          1. Super Admin
+          2. Admin
+          3. Customer
+  
+          Post Types:
+          1. Product
+          2. Service
+          3. Post
+          4. Page
+          */
 
       const commentInfo = {
         comment: comment,
@@ -124,50 +157,5 @@ class ProductCommentsController {
       console.log(error, "ERROR");
     }
   }
-
-  // // 5. Update Product Comment
-  // async updateProductComment(req, res) {
-  //   const { name, code, discount_rate, min_bill } = req.body;
-  //   try {
-  //     const productCommentId = req.params.productCommentId;
-  //     const findCoupon = await productComments.findOne({
-  //       where: { id: productCommentId },
-  //     });
-  //     if (!findCoupon) {
-  //       return res.status(404).json({ message: "Coupon ID Not Found" });
-  //     }
-  //     const dataCoupon = findCoupon.dataValues;
-
-  //     if (discount_rate < 0) {
-  //       return res.status(406).json({
-  //         message: "Discount rate must > 0",
-  //       });
-  //     }
-  //     if (min_bill < 0) {
-  //       return res.status(406).json({
-  //         message: "Min Bill must > 0",
-  //       });
-  //     }
-
-  //     const couponInfo = {
-  //       name: !name ? dataCoupon.name : name,
-  //       code: !code ? dataCoupon.code : code,
-  //       discount_rate: !discount_rate
-  //         ? dataCoupon.discount_rate
-  //         : discount_rate,
-  //       min_bill: !min_bill ? dataCoupon.min_bill : min_bill,
-  //       updated_at: Date.now(),
-  //     };
-
-  //     const updatedCoupon = await productComments.update(couponInfo, {
-  //       where: { id: productCommentId },
-  //     });
-  //     return res
-  //       .status(200)
-  //       .json({ message: "Coupon Updated", dateUpdated: updatedCoupon });
-  //   } catch (error) {
-  //     console.log(error, "ERROR");
-  //   }
-  // }
 }
-module.exports = new ProductCommentsController();
+module.exports = new ProductCommentsRepo();

@@ -1,21 +1,30 @@
-// Import Service
-const productCommentsService = require("../services/productComments.service.js");
+// Import Repo
+const productCommentsRepo = require("../repository/productComments.repository.js");
 
 // ---------------------------------------------------------
-class ProductCommentsController {
+
+class ProductCommentsService {
   // 1. Get All Product Comments
-  async getAllProductComments(req, res) {
-    const result = await productCommentsService.getAllProductComments();
-    return res.status(result.status).json(result.data);
+  async getAllProductComments() {
+    const listProductComments =
+      await productCommentsRepo.getAllProductComments();
+    if (listProductComments.length === 0) {
+      return { data: "No Product Comments", status: 404 };
+    } else {
+      return { data: listProductComments, status: 200 };
+    }
   }
 
   // 2. Get Detail Product Comment
-  async getDetailProductComment(req, res) {
-    const productCommentId = req.params.productCommentId;
-    const result = await productCommentsService.getDetailProductComment(
-      productCommentId
-    );
-    return res.status(result.status).json(result.data);
+  async getDetailProductComment(productCommentId) {
+    const detailProductComment =
+      await productCommentsRepo.getDetailProductComment(productCommentId);
+
+    if (!detailProductComment) {
+      return { data: "Product Comment ID Not Found", status: 404 };
+    } else {
+      return { data: detailProductComment, status: 200 };
+    }
   }
 
   // 3. Add Product Comment
@@ -69,21 +78,21 @@ class ProductCommentsController {
       }
 
       /** 
-        User Status:
-        1. Active
-        2. Inactive
-
-        Role:
-        1. Super Admin
-        2. Admin
-        3. Customer
-
-        Post Types:
-        1. Product
-        2. Service
-        3. Post
-        4. Page
-        */
+          User Status:
+          1. Active
+          2. Inactive
+  
+          Role:
+          1. Super Admin
+          2. Admin
+          3. Customer
+  
+          Post Types:
+          1. Product
+          2. Service
+          3. Post
+          4. Page
+          */
 
       const commentInfo = {
         comment: comment,
@@ -170,4 +179,4 @@ class ProductCommentsController {
   //   }
   // }
 }
-module.exports = new ProductCommentsController();
+module.exports = new ProductCommentsService();
