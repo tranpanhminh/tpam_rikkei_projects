@@ -5,98 +5,21 @@ const userStatusesEntity = require("../entities/userStatuses.entity.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const sourceImage = process.env.BASE_URL_IMAGE;
+const usersService = require("../services/users.services.js");
 
 // ---------------------------------------------------------
 class UsersController {
   // 1. Get All Payments
   async getAllUsers(req, res) {
-    try {
-      // const listUsers = await usersEntity.findAll();
-
-      const listUsers = await usersEntity.findAll({
-        // Chọn các thuộc tính cần thiết
-        attributes: [
-          "id",
-          "email",
-          "full_name",
-          "status_id",
-          "role_id",
-          "image_avatar",
-          "created_at",
-          "updated_at",
-        ],
-
-        // Tham gia với bảng post_types
-        include: [
-          {
-            model: userRolesEntity,
-            attributes: ["name"],
-          },
-          {
-            model: userStatusesEntity,
-            attributes: ["name"],
-          },
-        ],
-
-        // Nhóm theo id và tên của dịch vụ
-        group: ["users.id"],
-        raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
-      });
-
-      res.status(200).json(listUsers);
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const listUsers = await usersService.getAllUsers();
+    res.status(200).json(listUsers);
   }
 
   // 2. Get Detail Payment
   async getDetailUser(req, res) {
-    try {
-      const userId = req.params.userId;
-      // const detailUser = await usersEntity.findOne({
-      //   where: { id: userId },
-      // });
-
-      const detailUser = await usersEntity.findAll({
-        // Chọn các thuộc tính cần thiết
-        attributes: [
-          "id",
-          "email",
-          "full_name",
-          "status_id",
-          "role_id",
-          "image_avatar",
-          "created_at",
-          "updated_at",
-        ],
-
-        // Tham gia với bảng post_types
-        include: [
-          {
-            model: userRolesEntity,
-            attributes: ["name"],
-          },
-          {
-            model: userStatusesEntity,
-            attributes: ["name"],
-          },
-        ],
-        where: {
-          id: userId,
-        },
-        // Nhóm theo id và tên của dịch vụ
-        group: ["users.id"],
-        raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
-      });
-
-      if (!detailUser) {
-        return res.status(404).json({ message: "User ID Not Found" });
-      } else {
-        return res.status(200).json(detailUser);
-      }
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const userId = req.params.userId;
+    const detailUser = await usersService.getDetailUser(userId);
+    res.status(200).json(detailUser);
   }
 
   // 3. Register User (Customer)
