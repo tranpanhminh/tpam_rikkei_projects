@@ -31,13 +31,13 @@ class BookingStatusesRepo {
     return newBookingStatus;
   }
 
-  // // 4. Delete Booking Status
-  // async deleteBookingStatus(bookingStatusId) {
-  //   const deleteBookingStatus = await bookingStatusesEntity.destroy({
-  //     where: { id: bookingStatusId },
-  //   });
-  //   return deleteBookingStatus;
-  // }
+  // 4. Delete Booking Status
+  async deleteBookingStatus(bookingStatusId) {
+    const deleteBookingStatus = await bookingStatusesEntity.destroy({
+      where: { id: bookingStatusId },
+    });
+    return deleteBookingStatus;
+  }
 
   // // 5. Update Booking Status
   // async updateBookingStatus(bookingStatusInfo, bookingStatusId) {

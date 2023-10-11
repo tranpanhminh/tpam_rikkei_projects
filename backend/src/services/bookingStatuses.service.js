@@ -38,25 +38,15 @@ class BookingStatusesService {
   }
 
   // 4. Delete Booking Status
-  async deleteBookingStatus(req, res) {
-    try {
-      const bookingStatusId = req.params.bookingStatusId;
-      const findBookingStatus = await bookingStatusModel.findOne({
-        where: { id: bookingStatusId },
-      });
-      if (!findBookingStatus) {
-        return res.status(404).json({ message: "Booking Status ID Not Found" });
-      } else {
-        const deleteBookingStatus = await bookingStatusModel.destroy({
-          where: { id: bookingStatusId },
-        });
-        return res.status(200).json({
-          message: "Post Type Deleted",
-          dataDeleted: findBookingStatus,
-        });
-      }
-    } catch (error) {
-      console.log(error, "ERROR");
+  async deleteBookingStatus(bookingStatusId) {
+    const findBookingStatus = await bookingStatusesRepo.findBookingStatusById(
+      bookingStatusId
+    );
+    if (!findBookingStatus) {
+      return { data: "Booking Status ID Not Found", status: 404 };
+    } else {
+      await bookingStatusesRepo.deleteBookingStatus(bookingStatusId);
+      return { data: "Booking Status Deleted", status: 200 };
     }
   }
 
