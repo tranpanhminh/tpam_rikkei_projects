@@ -36,36 +36,12 @@ class BookingStatusController {
   // 5. Update Booking Status
   async updateBookingStatus(req, res) {
     const { name } = req.body;
-    try {
-      const bookingStatusId = req.params.bookingStatusId;
-      const findBookingStatus = await bookingStatusModel.findOne({
-        where: { id: bookingStatusId },
-      });
-
-      if (!findBookingStatus) {
-        return res.status(404).json({ message: "Booking Status ID Not Found" });
-      }
-
-      const dataBookingStatus = findBookingStatus.dataValues;
-
-      const bookingStatusInfo = {
-        name: !name ? dataBookingStatus.name : name,
-        updated_at: Date.now(),
-      };
-
-      const updatedBookingStatus = await bookingStatusModel.update(
-        bookingStatusInfo,
-        {
-          where: { id: bookingStatusId },
-        }
-      );
-      return res.status(200).json({
-        message: "Booking Status Updated",
-        dataUpdated: updatedBookingStatus,
-      });
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const bookingStatusId = req.params.bookingStatusId;
+    const result = await bookingStatusesService.updateBookingStatus(
+      name,
+      bookingStatusId
+    );
+    return res.status(result.status).json(result.data);
   }
 }
 
