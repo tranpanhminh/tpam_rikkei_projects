@@ -1,35 +1,18 @@
-const connectMySQL = require("../configs/db.config.js");
-const couponsEntity = require("../entities/coupons.entity.js");
-const bcrypt = require("bcryptjs");
+const couponsService = require("../services/coupons.service.js");
 
 // ---------------------------------------------------------
 class CouponsController {
   // 1. Get All Coupons
   async getAllCoupons(req, res) {
-    try {
-      const listCoupons = await couponsEntity.findAll(); // include: <Tên bảng>
-      res.status(200).json(listCoupons);
-      console.log(listCoupons, "listCoupons");
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const result = await couponsService.getAllCoupons();
+    return res.status(result.status).json(result.data);
   }
 
   // 2. Get Detail Coupon
   async getDetailCoupon(req, res) {
-    try {
-      const couponId = req.params.couponId;
-      const detailCoupon = await couponsEntity.findOne({
-        where: { id: couponId },
-      });
-      if (!detailCoupon) {
-        return res.status(404).json({ message: "Coupon ID Not Found" });
-      } else {
-        return res.status(200).json(detailCoupon);
-      }
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const couponId = req.params.couponId;
+    const result = await couponsService.getDetailCoupon(couponId);
+    return res.status(result.status).json(result.data);
   }
 
   // 3. Add Coupon
