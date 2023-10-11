@@ -152,66 +152,9 @@ class UsersController {
 
   // 4. Add User (By Admin)
   async addUser(req, res) {
-    const { email, full_name, password, rePassword } = req.body;
-    try {
-      if (!email) {
-        return res.status(406).json({ message: "Email must not be blank" });
-      }
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        return res.status(406).json({ message: "Invalid Email Format" });
-      }
-      if (!full_name) {
-        return res.status(406).json({ message: "Full Name must not be blank" });
-      }
-      if (!/^[a-zA-Z\s]*$/.test(full_name)) {
-        return res.status(406).json({
-          message: "Full Name cannot contain special characters or numbers",
-        });
-      }
-      if (!password) {
-        return res.status(406).json({ message: "Password must not be blank" });
-      }
-      if (password.length < 8) {
-        return res
-          .status(406)
-          .json({ message: "Password must be at least 8 characters" });
-      }
-      if (!rePassword) {
-        return res
-          .status(406)
-          .json({ message: "RePassword must not be blank" });
-      }
-      if (password !== rePassword) {
-        return res
-          .status(406)
-          .json({ message: "Password must be the same Repassword" });
-      }
-
-      const findEmail = await usersService.addUser(email);
-      if (findEmail) {
-        return res.status(409).json({ message: "Email is exist" });
-      }
-
-      const salt = 10;
-      const genSalt = await bcrypt.genSalt(salt);
-      const encryptPassword = await bcrypt.hash(password, genSalt);
-
-      const userInfo = {
-        email: email.trim(),
-        full_name: full_name,
-        password: encryptPassword,
-        status_id: 1,
-        role_id: 2, // Thêm tài khoản với Role là Admin
-        image_avatar: "https://i.ibb.co/3BtQdVD/pet-shop.png",
-      };
-      console.log(userInfo, "userInfo");
-      const newUser = await usersEntity.create(userInfo);
-      res
-        .status(200)
-        .json({ message: "New Admin Added Successfully", data: userInfo });
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const data = req.body;
+    const result = await usersService.addUser(data);
+    res.status(result.status).json(result);
   }
 
   // 5. Add User (Optional)
@@ -276,8 +219,8 @@ class UsersController {
 
   // 6. Delete User
   async deleteUser(req, res) {
+    const userId = req.params.userId;
     try {
-      const userId = req.params.userId;
       const findUser = await usersEntity.findOne({
         where: { id: userId },
       });

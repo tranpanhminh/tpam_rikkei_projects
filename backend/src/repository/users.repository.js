@@ -84,9 +84,14 @@ class UsersRepo {
   }
 
   // 4. Add User (By Admin)
-  async addUser(email) {
+  async findOneByEmail(email) {
     const findEmail = await usersEntity.findOne({ where: { email: email } });
     return findEmail;
+  }
+
+  async addUser(data) {
+    const newUser = await usersEntity.create(data);
+    return newUser;
   }
 
   // 5. Add User (Optional)
