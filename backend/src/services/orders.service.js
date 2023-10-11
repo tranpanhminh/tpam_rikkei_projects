@@ -310,6 +310,137 @@ class OrdersService {
       status: 200,
     };
   }
+
+  // 5. Update Status Order For Admin
+  async updatedOrder(orderId, status_id) {
+    const findOrder = await ordersRepo.findOrderById(orderId);
+    if (!findOrder) {
+      return { data: "Order ID Not Found", status: 404 };
+    }
+
+    /** Order Status:
+          1. Pending
+          2. Processing
+          3. Shipping
+          4. Shipped
+          5. Cancel 
+        */
+
+    if (findOrder.status_id === 4) {
+      return {
+        data: "Order can't updated because it was shipped",
+        status: 406,
+      };
+    }
+
+    if (findOrder.status_id === 5) {
+      return {
+        data: "Order can't updated because it was canceled",
+        status: 406,
+      };
+    }
+
+    const orderInfo = {
+      status_id: status_id,
+      updated_at: Date.now(),
+    };
+
+    const updatedOrder = await ordersRepo.updatedOrder(orderInfo, orderId);
+    return {
+      data: "Order Updated Status",
+      status: 200,
+    };
+  }
+
+  // 6. Cancel Order
+  async cancelOrder(orderId, cancel_reason_id) {
+    const findOrder = await ordersRepo.findOrderById(orderId);
+    if (!findOrder) {
+      return { data: "Order ID Not Found", status: 404 };
+    }
+    const dataOrder = findOrder.dataValues;
+
+    /** 
+     * Order Status:
+      1. Pending
+      2. Processing
+      3. Shipping
+      4. Shipped
+      5. Cancel 
+      
+      * Cancel Reasons:
+      1. Ordered the wrong product
+      2. Duplicated order
+      3. I don't want to buy anymore
+      4. Another Reason...
+    */
+    if (!cancel_reason_id) {
+      return { data: "Please choose cancel reasons!", status: 406 };
+    }
+
+    if (findOrder.status_id === 2) {
+      return {
+        data: "Order can't be cancelled because it is Processing",
+        status: 406,
+      };
+    }
+
+    if (findOrder.status_id === 3) {
+      return {
+        data: "Order can't be cancelled because it is Shipping",
+        status: 406,
+      };
+    }
+
+    if (findOrder.status_id === 4) {
+      return {
+        data: "Order can't be cancelled because it was shipped",
+        status: 406,
+      };
+    }
+
+    if (findOrder.status_id === 5) {
+      return {
+        data: "Order can't be cancelled because it was canceled",
+        status: 406,
+      };
+    }
+
+    // Tìm Cancel Reason
+    const findCancelReason = await ordersRepo.findCancelReasonById(
+      cancel_reason_id
+    );
+
+    let copyDataCancelReason;
+    if (findCancelReason) {
+      const dataCancelReason = findCancelReason.dataValues;
+      copyDataCancelReason = {
+        ...dataCancelReason,
+      };
+    } else {
+      return { data: "Invalid Cancel Reason Id.", status: 404 };
+    }
+
+    const orderInfo = {
+      cancellation_reason: copyDataCancelReason.name,
+      cancel_reason_id: copyDataCancelReason.id,
+      status_id: 5,
+      updated_at: Date.now(),
+    };
+
+    const updatedOrder = await ordersRepo.updatedOrder(orderInfo, orderId);
+
+    // ---------------- Hoàn lại tiền cho khách hàng ----------------
+    const findPayment = await ordersRepo.findPaymentById(dataOrder.card_id);
+    const dataPayment = findPayment.dataValues;
+
+    const updatedPaymentBalance = {
+      ...dataPayment,
+      balance: dataPayment.balance + dataOrder.bill,
+    };
+    await ordersRepo.cancelOrder(updatedPaymentBalance, dataOrder.card_id);
+    return { data: "Cancel Order Completed", status: 200 };
+  }
 }
 
 module.exports = new OrdersService();

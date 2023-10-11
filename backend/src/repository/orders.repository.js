@@ -12,16 +12,42 @@ const { format, parse } = require("date-fns");
 const couponsEntity = require("../entities/coupons.entity.js");
 
 class OrdersRepo {
+  // Find User By ID
   async findUserById(userId) {
     const findUser = await usersEntity.findOne({ where: { id: userId } });
     return findUser;
   }
 
+  // Find Product By ID
   async findProductById(productId) {
     const findProduct = await productsEntity.findOne({
       where: { id: productId },
     });
     return findProduct;
+  }
+
+  // Find Order By ID
+  async findOrderById(orderId) {
+    const findOrder = await ordersEntity.findOne({
+      where: { id: orderId },
+    });
+    return findOrder;
+  }
+
+  // Find Cancel Reason By ID
+  async findCancelReasonById(cancel_reason_id) {
+    const findCancelReason = await cancelReasonsEntity.findOne({
+      where: { id: cancel_reason_id },
+    });
+    return findCancelReason;
+  }
+
+  // Find Card Payment By ID
+  async findPaymentById(cardId) {
+    const findPayment = await paymentsEntity.findOne({
+      where: { id: cardId },
+    });
+    return findPayment;
   }
 
   // 1. Get All Orders
@@ -228,6 +254,23 @@ class OrdersRepo {
       where: { user_id: userId },
     });
     return destroyCart;
+  }
+
+  // 5. Update Status Order For Admin
+  async updatedOrder(orderInfo, orderId) {
+    const updatedOrder = await ordersEntity.update(orderInfo, {
+      where: { id: orderId },
+    });
+    return updatedOrder;
+  }
+
+  // 6. Cancel Order
+  // 6.1. Hoàn tiền lại cho Card Payment
+  async cancelOrder(updatedPaymentBalance, cardId) {
+    const refundCard = await paymentsEntity.update(updatedPaymentBalance, {
+      where: { id: cardId },
+    });
+    return refundCard;
   }
 }
 
