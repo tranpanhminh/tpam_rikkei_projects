@@ -9,7 +9,7 @@ const usersService = require("../services/users.services.js");
 
 // ---------------------------------------------------------
 class UsersController {
-  // 1. Get All Payments
+  // 1. Get All Users
   async getAllUsers(req, res) {
     const listUsers = await usersService.getAllUsers();
     res.status(200).json(listUsers);
@@ -25,72 +25,129 @@ class UsersController {
   // 3. Register User (Customer)
   async userRegister(req, res) {
     const { email, full_name, password, rePassword } = req.body;
+    // try {
+    //   if (!email) {
+    //     return res.status(406).json({ message: "Email must not be blank" });
+    //   }
+    //   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    //     return res.status(406).json({ message: "Invalid Email Format" });
+    //   }
+    //   if (!full_name) {
+    //     return res.status(406).json({ message: "Full Name must not be blank" });
+    //   }
+    //   if (full_name.toLowerCase() === "admin") {
+    //     return res
+    //       .status(406)
+    //       .json({ message: "Full Name must not have admin word" });
+    //   }
+    //   if (!/^[a-zA-Z\s]*$/.test(full_name)) {
+    //     return res.status(406).json({
+    //       message: "Full Name cannot contain special characters or numbers",
+    //     });
+    //   }
+    //   if (!password) {
+    //     return res.status(406).json({ message: "Password must not be blank" });
+    //   }
+    //   if (password.length < 8) {
+    //     return res
+    //       .status(406)
+    //       .json({ message: "Password must be at least 8 characters" });
+    //   }
+    //   if (!rePassword) {
+    //     return res
+    //       .status(406)
+    //       .json({ message: "RePassword must not be blank" });
+    //   }
+    //   if (password !== rePassword) {
+    //     return res
+    //       .status(406)
+    //       .json({ message: "Password must be the same Repassword" });
+    //   }
 
-    console.log(req.body, " req.body");
-    try {
-      if (!email) {
-        return res.status(406).json({ message: "Email must not be blank" });
-      }
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        return res.status(406).json({ message: "Invalid Email Format" });
-      }
-      if (!full_name) {
-        return res.status(406).json({ message: "Full Name must not be blank" });
-      }
-      if (full_name.toLowerCase() === "admin") {
-        return res
-          .status(406)
-          .json({ message: "Full Name must not have admin word" });
-      }
-      if (!/^[a-zA-Z\s]*$/.test(full_name)) {
-        return res.status(406).json({
-          message: "Full Name cannot contain special characters or numbers",
-        });
-      }
-      if (!password) {
-        return res.status(406).json({ message: "Password must not be blank" });
-      }
-      if (password.length < 8) {
-        return res
-          .status(406)
-          .json({ message: "Password must be at least 8 characters" });
-      }
-      if (!rePassword) {
-        return res
-          .status(406)
-          .json({ message: "RePassword must not be blank" });
-      }
-      if (password !== rePassword) {
-        return res
-          .status(406)
-          .json({ message: "Password must be the same Repassword" });
-      }
+    //   const findEmail = await usersEntity.findOne({ where: { email: email } });
+    //   if (findEmail) {
+    //     return res.status(409).json({ message: "Email is exist" });
+    //   }
 
-      const findEmail = await usersEntity.findOne({ where: { email: email } });
-      if (findEmail) {
-        return res.status(409).json({ message: "Email is exist" });
-      }
+    //   const salt = 10;
+    //   const genSalt = await bcrypt.genSalt(salt);
+    //   const encryptPassword = await bcrypt.hash(password, genSalt);
 
-      const salt = 10;
-      const genSalt = await bcrypt.genSalt(salt);
-      const encryptPassword = await bcrypt.hash(password, genSalt);
+    //   const userInfo = {
+    //     email: email.trim(),
+    //     full_name: full_name,
+    //     password: encryptPassword,
+    //     status_id: 1,
+    //     role_id: 3, // Thêm tài khoản với Role là Customer
+    //     image_avatar: "https://i.ibb.co/3BtQdVD/pet-shop.png",
+    //   };
+    //   console.log(userInfo, "userInfo");
+    //   const newUser = await usersEntity.create(userInfo);
+    //   res
+    //     .status(200)
+    //     .json({ message: "User Register Successfully", data: newUser });
+    // } catch (error) {
+    //   console.log(error, "ERROR");
+    // }
 
-      const userInfo = {
-        email: email.trim(),
-        full_name: full_name,
-        password: encryptPassword,
-        status_id: 1,
-        role_id: 3, // Thêm tài khoản với Role là Customer
-        image_avatar: "https://i.ibb.co/3BtQdVD/pet-shop.png",
-      };
-      console.log(userInfo, "userInfo");
-      const newUser = await usersEntity.create(userInfo);
-      res
-        .status(200)
-        .json({ message: "User Register Successfully", data: newUser });
-    } catch (error) {
-      console.log(error, "ERROR");
+    if (!email) {
+      return res.status(406).json({ message: "Email must not be blank" });
     }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return res.status(406).json({ message: "Invalid Email Format" });
+    }
+    if (!full_name) {
+      return res.status(406).json({ message: "Full Name must not be blank" });
+    }
+    if (full_name.toLowerCase() === "admin") {
+      return res
+        .status(406)
+        .json({ message: "Full Name must not have admin word" });
+    }
+    if (!/^[a-zA-Z\s]*$/.test(full_name)) {
+      return res.status(406).json({
+        message: "Full Name cannot contain special characters or numbers",
+      });
+    }
+    if (!password) {
+      return res.status(406).json({ message: "Password must not be blank" });
+    }
+    if (password.length < 8) {
+      return res
+        .status(406)
+        .json({ message: "Password must be at least 8 characters" });
+    }
+    if (!rePassword) {
+      return res.status(406).json({ message: "RePassword must not be blank" });
+    }
+    if (password !== rePassword) {
+      return res
+        .status(406)
+        .json({ message: "Password must be the same Repassword" });
+    }
+
+    const findEmail = await usersService.userRegister(email);
+    if (findEmail) {
+      return res.status(409).json({ message: "Email is exist" });
+    }
+
+    const salt = 10;
+    const genSalt = await bcrypt.genSalt(salt);
+    const encryptPassword = await bcrypt.hash(password, genSalt);
+
+    const userInfo = {
+      email: email.trim(),
+      full_name: full_name,
+      password: encryptPassword,
+      status_id: 1,
+      role_id: 3, // Thêm tài khoản với Role là Customer
+      image_avatar: "https://i.ibb.co/3BtQdVD/pet-shop.png",
+    };
+    console.log(userInfo, "userInfo");
+    const newUser = await usersEntity.create(userInfo);
+    res
+      .status(200)
+      .json({ message: "User Register Successfully", data: newUser });
   }
 
   // 4. Add User (By Admin)
@@ -130,7 +187,7 @@ class UsersController {
           .json({ message: "Password must be the same Repassword" });
       }
 
-      const findEmail = await usersEntity.findOne({ where: { email: email } });
+      const findEmail = await usersService.addUser(email);
       if (findEmail) {
         return res.status(409).json({ message: "Email is exist" });
       }
@@ -144,14 +201,14 @@ class UsersController {
         full_name: full_name,
         password: encryptPassword,
         status_id: 1,
-        role_id: 1, // Thêm tài khoản với Role là Admin
+        role_id: 2, // Thêm tài khoản với Role là Admin
         image_avatar: "https://i.ibb.co/3BtQdVD/pet-shop.png",
       };
       console.log(userInfo, "userInfo");
       const newUser = await usersEntity.create(userInfo);
       res
         .status(200)
-        .json({ message: "User Added Successfully", data: userInfo });
+        .json({ message: "New Admin Added Successfully", data: userInfo });
     } catch (error) {
       console.log(error, "ERROR");
     }
@@ -190,7 +247,7 @@ class UsersController {
         return res.status(406).json({ message: "Role ID must not be blank" });
       }
 
-      const findEmail = await usersEntity.findOne({ where: { email: email } });
+      const findEmail = await usersService.createUser(email);
       if (findEmail) {
         return res.status(409).json({ message: "Email is exist" });
       }
