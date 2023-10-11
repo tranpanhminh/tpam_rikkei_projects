@@ -1,100 +1,19 @@
-const connectMySQL = require("../configs/db.config.js");
-const postsEntity = require("../entities/posts.entity.js");
-const postTypesEntity = require("../entities/postTypes.entity.js");
-const postStatusesEntity = require("../entities/postStatuses.entity.js");
-const bcrypt = require("bcryptjs");
-const sourceImage = process.env.BASE_URL_IMAGE;
+// Import Service
+const postsService = require("../services/posts.service.js");
 
 // ---------------------------------------------------------
 class PostsController {
   // 1. Get All Posts
   async getAllPosts(req, res) {
-    try {
-      // const listPosts = await postsEntity.findAll();
-      // res.status(200).json(listPosts);
-      const listPosts = await postsEntity.findAll({
-        // Chọn các thuộc tính cần thiết
-        attributes: [
-          "id",
-          "title",
-          "content",
-          "thumbnail_url",
-          "author",
-          "post_type_id",
-          "status_id",
-          "created_at",
-          "updated_at",
-        ],
-        // Tham gia với bảng post_types
-        include: [
-          {
-            model: postTypesEntity,
-            attributes: ["name"],
-          },
-          {
-            model: postStatusesEntity,
-            attributes: ["name"],
-          },
-        ],
-
-        // Nhóm theo id và tên của dịch vụ
-        group: ["id"],
-        raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
-      });
-      console.log(listPosts, "listPosts");
-      return res.status(200).json(listPosts);
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const result = await postsService.getAllPosts();
+    return res.status(result.status).json(result.data);
   }
 
   // 2. Get Detail Post
   async getDetailPost(req, res) {
-    try {
-      const postId = req.params.postId;
-      // const detailPost = await postsEntity.findOne({
-      //   where: { id: postId },
-      // });
-
-      const detailPost = await postsEntity.findAll({
-        // Chọn các thuộc tính cần thiết
-        attributes: [
-          "id",
-          "title",
-          "content",
-          "thumbnail_url",
-          "author",
-          "post_type_id",
-          "status_id",
-          "created_at",
-          "updated_at",
-        ],
-        // Tham gia với bảng post_types
-        include: [
-          {
-            model: postTypesEntity,
-            attributes: ["name"],
-          },
-          {
-            model: postStatusesEntity,
-            attributes: ["name"],
-          },
-        ],
-
-        // Nhóm theo id và tên của dịch vụ
-        where: { id: postId },
-        group: ["id"],
-        raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
-      });
-
-      if (!detailPost) {
-        return res.status(404).json({ message: "Post ID Not Found" });
-      } else {
-        return res.status(200).json(detailPost);
-      }
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const postId = req.params.postId;
+    const result = await postsService.getDetailPost(postId);
+    return res.status(result.status).json(result.data);
   }
 
   // 3. Add Post

@@ -1,100 +1,19 @@
-const connectMySQL = require("../configs/db.config.js");
-const pagesEntity = require("../entities/pages.entity.js");
-const postTypesEntity = require("../entities/postTypes.entity.js");
-const postStatusesEntity = require("../entities/postStatuses.entity.js");
-const bcrypt = require("bcryptjs");
-const sourceImage = process.env.BASE_URL_IMAGE;
+// Import Service
+const pagesService = require("../services/pages.service.js");
 
 // ---------------------------------------------------------
 class PagesController {
   // 1. Get All Pages
   async getAllPages(req, res) {
-    try {
-      // const listPages = await pagesEntity.findAll();
-
-      const listPages = await pagesEntity.findAll({
-        // Chọn các thuộc tính cần thiết
-        attributes: [
-          "id",
-          "title",
-          "content",
-          "thumbnail_url",
-          "author",
-          "post_type_id",
-          "status_id",
-          "created_at",
-          "updated_at",
-        ],
-        // Tham gia với bảng post_types
-        include: [
-          {
-            model: postTypesEntity,
-            attributes: ["name"],
-          },
-          {
-            model: postStatusesEntity,
-            attributes: ["name"],
-          },
-        ],
-
-        // Nhóm theo id và tên của dịch vụ
-        group: ["id"],
-        raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
-      });
-      res.status(200).json(listPages);
-      console.log(listPages, "listPages");
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const result = await pagesService.getAllPages();
+    return res.status(result.status).json(result.data);
   }
 
   // 2. Get Detail Page
   async getDetailPage(req, res) {
-    try {
-      const pageId = req.params.pageId;
-      // const detailPage = await pagesEntity.findOne({
-      //   where: { id: pageId },
-      // });
-
-      const detailPage = await pagesEntity.findAll({
-        // Chọn các thuộc tính cần thiết
-        attributes: [
-          "id",
-          "title",
-          "content",
-          "thumbnail_url",
-          "author",
-          "post_type_id",
-          "status_id",
-          "created_at",
-          "updated_at",
-        ],
-        // Tham gia với bảng post_types
-        include: [
-          {
-            model: postTypesEntity,
-            attributes: ["name"],
-          },
-          {
-            model: postStatusesEntity,
-            attributes: ["name"],
-          },
-        ],
-
-        // Nhóm theo id và tên của dịch vụ
-        where: { id: pageId },
-        group: ["id"],
-        raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
-      });
-
-      if (!detailPage) {
-        return res.status(404).json({ message: "Page ID Not Found" });
-      } else {
-        return res.status(200).json(detailPage);
-      }
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const pageId = req.params.pageId;
+    const result = await pagesService.getDetailPage(pageId);
+    return res.status(result.status).json(result.data);
   }
 
   // 3. Add Page
