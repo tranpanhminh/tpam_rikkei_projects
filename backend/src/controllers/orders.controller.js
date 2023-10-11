@@ -31,67 +31,8 @@ class OrdersController {
   // 3. Get All Orders By User (For Customer)
   async getAllOrderByUser(req, res) {
     const userId = req.params.userId;
-    try {
-      // const detailOrderByUser = await ordersEntity.findAll({
-      //   where: { user_id: userId },
-      // });
-
-      const listOrdersByUser = await ordersEntity.findAll({
-        // Chọn các thuộc tính cần thiết
-        attributes: [
-          "id",
-          "user_id",
-          "customer_name",
-          "address",
-          "phone",
-          "discount_rate",
-          "card_number",
-          "cancellation_reason",
-          "order_date",
-          "bill",
-          "discounted",
-          "total_bill",
-          "updated_at",
-          "updated_at",
-        ],
-
-        // Tham gia với bảng post_types
-        include: [
-          {
-            model: usersEntity,
-            attributes: ["email"],
-          },
-          // {
-          //   model: paymentsEntity,
-          //   attributes: ["card_number"],
-          // },
-          {
-            model: orderStatusesEntity,
-            attributes: ["name"],
-          },
-          // {
-          //   model: cancelReasonsEntity,
-          //   attributes: ["name"],
-          // },
-          // {
-          //   model: couponsEntity,
-          //   attributes: ["discount_rate"],
-          // },
-        ],
-        where: { user_id: userId },
-        // Nhóm theo id và tên của dịch vụ
-        group: ["id"],
-        raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
-      });
-
-      if (!listOrdersByUser) {
-        return res.status(404).json({ message: "User Has No Order" });
-      } else {
-        return res.status(200).json(listOrdersByUser);
-      }
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const result = await ordersService.getAllOrders(userId);
+    res.status(result.status).json(result.data);
   }
 
   // 4. Checkout Order

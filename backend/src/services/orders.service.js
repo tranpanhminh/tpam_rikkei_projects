@@ -34,6 +34,17 @@ class OrdersService {
       return { data: detailOrder, status: 200 };
     }
   }
+
+  // 3. Get All Orders By User
+  async getAllOrderByUser(userId) {
+    // const listOrders = await ordersEntity.findAll();
+    const listOrders = await ordersRepo.getAllOrderByUser(userId);
+    if (listOrders.length === 0) {
+      return { data: "No Data Orders", status: 404 };
+    } else {
+      return { data: listOrders, status: 200 };
+    }
+  }
 }
 
 module.exports = new OrdersService();

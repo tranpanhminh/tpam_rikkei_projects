@@ -94,6 +94,59 @@ class OrdersRepo {
     });
     return detailOrder;
   }
+
+  // 3. Get All Orders By User
+  async getAllOrderByUser(userId) {
+    const listOrders = await ordersEntity.findAll({
+      // Chọn các thuộc tính cần thiết
+      attributes: [
+        "id",
+        "user_id",
+        "customer_name",
+        "address",
+        "phone",
+        "discount_rate",
+        "card_number",
+        "cancellation_reason",
+        "order_date",
+        "bill",
+        "discounted",
+        "total_bill",
+        "updated_at",
+        "updated_at",
+      ],
+
+      // Tham gia với bảng post_types
+      include: [
+        {
+          model: usersEntity,
+          attributes: ["email"],
+        },
+        // {
+        //   model: paymentsEntity,
+        //   attributes: ["card_number"],
+        // },
+        {
+          model: orderStatusesEntity,
+          attributes: ["name"],
+        },
+        // {
+        //   model: cancelReasonsEntity,
+        //   attributes: ["name"],
+        // },
+        // {
+        //   model: couponsEntity,
+        //   attributes: ["discount_rate"],
+        // },
+      ],
+
+      // Nhóm theo id và tên của dịch vụ
+      where: { user_id: userId },
+      group: ["orders.id"],
+      raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
+    });
+    return listOrders;
+  }
 }
 
 module.exports = new OrdersRepo();
