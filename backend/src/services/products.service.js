@@ -20,7 +20,7 @@ class ProductsService {
   async getDetailProduct(productId) {
     const detailProduct = await productsRepo.getDetailProduct(productId);
     if (!detailProduct) {
-      return { data: "No Data Product", status: 404 };
+      return { data: "Product ID Not Found", status: 404 };
     } else {
       return { data: detailProduct, status: 200 };
     }

@@ -22,7 +22,7 @@ class ServicesService {
   async getDetailService(serviceId) {
     const detailService = await servicesRepo.getDetailService(serviceId);
     if (detailService.length === 0) {
-      return { data: "No Data Service", status: 404 };
+      return { data: "Service ID Not Found", status: 404 };
     } else {
       return { data: detailService, status: 200 };
     }
@@ -52,6 +52,37 @@ class ServicesService {
       await servicesRepo.deleteService(serviceId);
       return { data: "Service Deleted", status: 200 };
     }
+  }
+
+  // 5. Update Service
+  async updateService(serviceId, dataBody, newImage) {
+    const { name, description, price, working_time_id } = dataBody;
+
+    const findService = await servicesRepo.findServiceById(serviceId);
+
+    if (!findService) {
+      return { data: "Service ID Not Found", status: 404 };
+    }
+    const dataService = findService.dataValues;
+
+    if (price < 0) {
+      return { data: "Price must not be < 0", status: 406 };
+    }
+
+    const serviceInfo = {
+      name: !name ? dataService.name : name,
+      description: !description ? dataService.description : description,
+      price: !price ? dataService.price : price,
+      working_time_id: !working_time_id
+        ? dataService.working_time_id
+        : working_time_id,
+      service_image: !newImage
+        ? dataService.service_image
+        : sourceImage + newImage.filename,
+      updated_at: Date.now(),
+    };
+    await servicesRepo.updateService(serviceInfo, serviceId);
+    return { data: "Service Updated", status: 200 };
   }
 }
 

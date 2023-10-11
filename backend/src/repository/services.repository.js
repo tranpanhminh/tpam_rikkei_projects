@@ -107,6 +107,14 @@ class ServicesService {
     });
     return deleteService;
   }
+
+  // 5. Update Service
+  async updateService(serviceInfo, serviceId) {
+    const updatedService = await servicesEntity.update(serviceInfo, {
+      where: { id: serviceId },
+    });
+    return updatedService;
+  }
 }
 
 module.exports = new ServicesService();

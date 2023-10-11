@@ -41,44 +41,15 @@ class ServicesController {
 
   // 5. Update Service
   async updateService(req, res) {
-    const { name, description, price, working_time_id } = req.body;
-    try {
-      const serviceId = req.params.serviceId;
-      const findService = await servicesEntity.findOne({
-        where: { id: serviceId },
-      });
-
-      if (!findService) {
-        return res.status(404).json({ message: "Service ID Not Found" });
-      }
-      const dataService = findService.dataValues;
-
-      if (price < 0) {
-        return res.status(406).json({ message: "Price must not be < 0" });
-      }
-
-      const serviceInfo = {
-        name: !name ? dataService.name : name,
-        description: !description ? dataService.description : description,
-        price: !price ? dataService.price : price,
-        working_time_id: !working_time_id
-          ? dataService.working_time_id
-          : working_time_id,
-        service_image: !req.file
-          ? dataService.service_image
-          : sourceImage + req.file.filename,
-        updated_at: Date.now(),
-      };
-      console.log(serviceInfo, "serviceInfo");
-      const updatedService = await servicesEntity.update(serviceInfo, {
-        where: { id: serviceId },
-      });
-      return res
-        .status(200)
-        .json({ message: "Service Updated", dateUpdated: updatedService });
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const serviceId = req.params.serviceId;
+    const dataBody = req.body;
+    const newImage = req.file;
+    const result = await servicesService.updateService(
+      serviceId,
+      dataBody,
+      newImage
+    );
+    return res.status(result.status).json(result.data);
   }
 }
 module.exports = new ServicesController();
