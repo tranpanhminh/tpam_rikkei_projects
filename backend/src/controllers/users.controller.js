@@ -51,39 +51,10 @@ class UsersController {
 
   // 7. Update User
   async updateUser(req, res) {
-    const { full_name } = req.body;
+    const data = req.body;
     const userId = req.params.userId;
-
-    try {
-      const findUser = await usersEntity.findOne({ where: { id: userId } });
-      if (!findUser) {
-        return res.status(404).json({ message: "User is not exist" });
-      }
-
-      if (full_name && !/^[a-zA-Z\s]*$/.test(full_name)) {
-        return res.status(406).json({
-          message: "Full Name cannot contain special characters or numbers",
-        });
-      }
-
-      const dataUser = findUser.dataValues;
-
-      const updatedUser = {
-        full_name: !full_name ? dataUser.full_name : full_name,
-      };
-      console.log(req.body, "req.body");
-
-      console.log(updatedUser, "updatedUser");
-      const newUser = await usersEntity.update(updatedUser, {
-        where: { id: userId },
-      });
-      res.status(200).json({
-        message: "User Updated Successfully",
-        dataUpdated: newUser,
-      });
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const result = await usersService.updateUser(data, userId);
+    return res.status(result.status).json(result);
   }
 
   // 8. Edit Password
@@ -115,33 +86,9 @@ class UsersController {
 
   // 11. User Login
   async userLogin(req, res) {
-    const { email, password } = req.body;
-    try {
-      const findUser = await usersEntity.findOne({ where: { email: email } });
-      if (!findUser) {
-        res.status(404).json({ message: "Email is not exist" });
-      }
-      const dataUser = findUser.dataValues;
-      console.log(dataUser, "dataUser");
-      // Sau khi check User thành công sẽ check Password gửi lên đúng không
-      const checkPass = await bcrypt.compare(password, dataUser.password); // 2 tham số (password gửi lên, password trong db)
-      console.log(checkPass, ")))))");
-      if (!checkPass) {
-        return res.status(401).json({ message: "Password is not correct" });
-      } else {
-        const { password, ...data } = dataUser;
-
-        // Mã hóa thông tin
-        const jwtData = jwt.sign(data, process.env.ACCESS_TOKEN_SECRET); // Mã Token để biết ai đăng nhập
-        return res.status(200).json({
-          msg: "Login successfully",
-          accessToken: jwtData,
-          data: data,
-        });
-      }
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const data = req.body;
+    const result = await usersService.userLogin(data);
+    res.status(result.status).json(result);
   }
 }
 module.exports = new UsersController();

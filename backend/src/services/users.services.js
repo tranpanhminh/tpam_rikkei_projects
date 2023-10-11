@@ -1,6 +1,7 @@
 const usersRepo = require("../repository/users.repository.js");
 const bcrypt = require("bcryptjs");
 const sourceImage = process.env.BASE_URL_IMAGE;
+const jwt = require("jsonwebtoken");
 
 class UsersService {
   // 1. Get All Users
@@ -286,6 +287,64 @@ class UsersService {
       data: newUser,
       status: 200,
     };
+  }
+
+  // 11. Update User
+  async updateUser(data, userId) {
+    const { full_name } = data;
+    const findUser = await usersRepo.findOneById(userId);
+    if (!findUser) {
+      return { message: "User is not exist", status: 404 };
+    }
+
+    if (full_name && !/^[a-zA-Z\s]*$/.test(full_name)) {
+      return {
+        message: "Full Name cannot contain special characters or numbers",
+        status: 406,
+      };
+    }
+
+    const dataUser = findUser.dataValues;
+
+    const userInfo = {
+      full_name: !full_name ? dataUser.full_name : full_name,
+    };
+
+    const updatedUser = await usersRepo.updateUser(userInfo, userId);
+    return {
+      message: "User Updated Successfully",
+      dataUpdated: userInfo,
+      status: 200,
+    };
+  }
+
+  // 12. User Login
+  async userLogin(data) {
+    const { email, password } = data;
+
+    const findUser = await usersRepo.findOneByEmail(email);
+    if (!findUser) {
+      return { message: "Email is not exist", status: 404 };
+    }
+    const dataUser = findUser.dataValues;
+    // Sau khi check User thành công sẽ check Password gửi lên đúng không
+    const checkPass = await bcrypt.compare(password, dataUser.password); // 2 tham số (password gửi lên, password trong db)
+
+    if (!checkPass) {
+      return { message: "Password is not correct", status: 406 };
+    } else {
+      const { password, ...dataInfo } = dataUser;
+
+      // Mã hóa thông tin
+      const jwtData = jwt.sign(dataInfo, process.env.ACCESS_TOKEN_SECRET); // Mã Token để biết ai đăng nhập
+
+      return {
+        message: "Login successfully",
+        accessToken: jwtData,
+        data: dataInfo,
+        status: 200,
+      };
+    }
   }
 }
 

@@ -142,6 +142,14 @@ class UsersRepo {
     const newAdmin = await usersEntity.create(data);
     return newAdmin;
   }
+
+  // 11. Update User
+  async updateUser(userInfo, userId) {
+    const updatedUser = await usersEntity.update(userInfo, {
+      where: { id: userId },
+    });
+    return updatedUser;
+  }
 }
 
 module.exports = new UsersRepo();
