@@ -162,7 +162,7 @@ function ManageServices() {
           </thead>
           <tbody>
             {services &&
-              services.map((service) => (
+              services.map((service: any) => (
                 <tr key={service.id}>
                   <td>{service.id}</td>
                   <td>

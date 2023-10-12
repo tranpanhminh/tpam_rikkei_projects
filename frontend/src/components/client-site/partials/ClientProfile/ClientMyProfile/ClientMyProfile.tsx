@@ -15,13 +15,13 @@ function ClientEditProfile() {
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
   const [display, setDisplay] = useState("none");
-  const [user, setUser] = useState<Account>({
+  const [user, setUser] = useState<any>({
     id: 0,
     email: "",
-    fullName: "",
+    full_name: "",
     password: "",
     role: "",
-    status: "",
+    status_id: "",
     cart: [],
     order_history: [],
     newsletter_register: false,

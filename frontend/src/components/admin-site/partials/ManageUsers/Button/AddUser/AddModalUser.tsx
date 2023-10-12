@@ -16,7 +16,7 @@ interface AddModalProps {
   value?: string;
   title?: string;
   width?: number;
-  handleClickOk?: (newUser: Account) => void;
+  handleClickOk?: any;
 }
 
 const AddModalUser: React.FC<AddModalProps> = ({

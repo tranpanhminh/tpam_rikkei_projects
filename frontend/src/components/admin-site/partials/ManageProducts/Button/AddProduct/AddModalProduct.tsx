@@ -26,6 +26,7 @@ const AddModalProduct: React.FC<AddModalProps> = ({
   handleClickOk,
 }) => {
   const [products, setProducts] = useState<any>(null);
+  const [vendors, setVendors] = useState<any>(null);
   const [editorInitialValue, setEditorInitialValue] = useState("");
   const [newProduct, setNewProduct] = useState<any>({
     name: "",
@@ -37,8 +38,8 @@ const AddModalProduct: React.FC<AddModalProps> = ({
     image_url: [],
   });
 
-  const fetchProducts = () => {
-    axios
+  const fetchProducts = async () => {
+    await axios
       .get(`${productsAPI}`)
       .then((response) => {
         setProducts(response.data);
@@ -48,8 +49,20 @@ const AddModalProduct: React.FC<AddModalProps> = ({
       });
   };
 
+  const fetchVendors = async () => {
+    await axios
+      .get(`${vendorsAPI}`)
+      .then((response) => {
+        setVendors(response.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
   useEffect(() => {
     fetchProducts();
+    fetchVendors();
   }, []);
 
   // let listIdProduct = products?.map((product: any) => {
@@ -198,13 +211,18 @@ const AddModalProduct: React.FC<AddModalProps> = ({
           </div>
           <div className={styles["list-input-item"]}>
             <p>Vendor</p>
-            <input
-              type="text"
+            <select
+              name=""
+              id=""
               value={newProduct.vendor}
               onChange={(e) =>
                 setNewProduct({ ...newProduct, vendor: e.target.value })
               }
-            />
+            >
+              {vendors?.map((vendor: any) => {
+                return <option value={vendor.id}>{vendor.name}</option>;
+              })}
+            </select>
           </div>
           <div className={styles["list-input-item"]}>
             <p>Product Image 1</p>
