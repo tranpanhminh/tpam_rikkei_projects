@@ -88,8 +88,18 @@ const productCommentsAPI = process.env.REACT_APP_API_PRODUCT_COMMENTS;
 12. Service Comments API
 const serviceCommentsAPI = process.env.REACT_APP_API_SERVICE_COMMENTS;
 
-12. Bookings API
+13. Bookings API
 const bookingsAPI = process.env.REACT_APP_API_BOOKINGS;
 
+14. Vendors API
+const vendorsAPI = process.env.REACT_APP_API_VENDORS;
 
+15. Cancel Reasons API
+const cancelReasonsAPI = process.env.REACT_APP_API_CANCEL_REASONS;
+
+16. Order Status API
+const orderStatusAPI = process.env.REACT_APP_API_ORDER_STATUS;
+
+17. Booking Status API
+const bookingStatusAPI = process.env.REACT_APP_API_BOOKING_STATUS;
  -->

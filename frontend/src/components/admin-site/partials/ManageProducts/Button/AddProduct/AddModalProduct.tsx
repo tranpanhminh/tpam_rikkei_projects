@@ -5,6 +5,13 @@ import { Product } from "../../../../../../database";
 import axios from "axios";
 import { Editor } from "@tinymce/tinymce-react";
 
+// Import API
+// 1. Products API
+const productsAPI = process.env.REACT_APP_API_PRODUCTS;
+const vendorsAPI = process.env.REACT_APP_API_VENDORS;
+
+// ------------------------------------------------
+
 interface AddModalProps {
   className?: string;
   value?: string;
@@ -21,19 +28,18 @@ const AddModalProduct: React.FC<AddModalProps> = ({
   const [products, setProducts] = useState<any>(null);
   const [editorInitialValue, setEditorInitialValue] = useState("");
   const [newProduct, setNewProduct] = useState<any>({
-    // id: 0,
-    productImage: [],
     name: "",
     description: "",
-    price: 0,
-    vendor: "",
-    sku: "",
+    price: "",
     quantity_stock: 0,
+    vendor_id: "",
+    sku: "",
+    image_url: [],
   });
 
   const fetchProducts = () => {
     axios
-      .get("http://localhost:7373/products")
+      .get(`${productsAPI}`)
       .then((response) => {
         setProducts(response.data);
       })
@@ -46,11 +52,11 @@ const AddModalProduct: React.FC<AddModalProps> = ({
     fetchProducts();
   }, []);
 
-  let listIdProduct = products?.map((product: any) => {
-    return product.id;
-  });
+  // let listIdProduct = products?.map((product: any) => {
+  //   return product.id;
+  // });
 
-  const maxId = listIdProduct?.length > 0 ? Math.max(...listIdProduct) : 0;
+  // const maxId = listIdProduct?.length > 0 ? Math.max(...listIdProduct) : 0;
 
   // const maxId = products
   //   ? Math.max(...products.map((product) => product.id))
@@ -64,47 +70,44 @@ const AddModalProduct: React.FC<AddModalProps> = ({
   };
 
   const handleOk = () => {
-    // Kiểm tra thông tin đầy đủ
-    if (
-      !newProduct.name ||
-      !newProduct.description ||
-      newProduct.price <= 0 ||
-      newProduct.quantity_stock <= 0 ||
-      isNaN(newProduct.price) ||
-      isNaN(newProduct.quantity_stock)
-    ) {
-      notification.warning({
-        message: "Notification",
-        description:
-          "Please make sure all information filled, Price & Quantity must be integer",
-      });
-      return;
-    }
-
-    const updatedProduct = {
-      ...newProduct,
-      id: maxId + 1,
-      comments: [],
-    };
-
-    const updatedProducts = products ? [...products, updatedProduct] : null;
-
-    setProducts(updatedProducts);
-    setIsModalOpen(false);
-    if (handleClickOk) {
-      handleClickOk(updatedProduct);
-    }
-    setNewProduct({
-      // id: 0,
-      productImage: ["", "", "", ""],
-      name: "",
-      description: handleEditorChange(""),
-      price: 0,
-      vendor: "",
-      sku: "",
-      quantity_stock: 0,
-      comments: [],
-    });
+    // // Kiểm tra thông tin đầy đủ
+    // if (
+    //   !newProduct.name ||
+    //   !newProduct.description ||
+    //   newProduct.price <= 0 ||
+    //   newProduct.quantity_stock <= 0 ||
+    //   isNaN(newProduct.price) ||
+    //   isNaN(newProduct.quantity_stock)
+    // ) {
+    //   notification.warning({
+    //     message: "Notification",
+    //     description:
+    //       "Please make sure all information filled, Price & Quantity must be integer",
+    //   });
+    //   return;
+    // }
+    // const updatedProduct = {
+    //   ...newProduct,
+    //   id: maxId + 1,
+    //   comments: [],
+    // };
+    // const updatedProducts = products ? [...products, updatedProduct] : null;
+    // setProducts(updatedProducts);
+    // setIsModalOpen(false);
+    // if (handleClickOk) {
+    //   handleClickOk(updatedProduct);
+    // }
+    // setNewProduct({
+    //   // id: 0,
+    //   productImage: ["", "", "", ""],
+    //   name: "",
+    //   description: handleEditorChange(""),
+    //   price: 0,
+    //   vendor: "",
+    //   sku: "",
+    //   quantity_stock: 0,
+    //   comments: [],
+    // });
     // setEditorInitialValue("Type product description here.........");
   };
 
@@ -148,10 +151,6 @@ const AddModalProduct: React.FC<AddModalProps> = ({
       >
         <div className={styles["list-input-add-student"]}>
           <div className={styles["list-input-item"]}>
-            <p>User ID</p>
-            <input type="text" value={maxId + 1} disabled />
-          </div>
-          <div className={styles["list-input-item"]}>
             <p>Product Name</p>
             <input
               type="text"
@@ -163,12 +162,12 @@ const AddModalProduct: React.FC<AddModalProps> = ({
           </div>
           <div className={styles["list-input-item"]}>
             <p>Description</p>
-            {/* <Editor
+            <Editor
               onEditorChange={(content) =>
                 setNewProduct({ ...newProduct, description: content })
               }
               initialValue={editorInitialValue}
-            /> */}
+            />
             <Editor
               onEditorChange={handleEditorChange}
               value={editorInitialValue}
@@ -185,26 +184,6 @@ const AddModalProduct: React.FC<AddModalProps> = ({
             />
           </div>
           <div className={styles["list-input-item"]}>
-            <p>Vendor</p>
-            <input
-              type="text"
-              value={newProduct.vendor}
-              onChange={(e) =>
-                setNewProduct({ ...newProduct, vendor: e.target.value })
-              }
-            />
-          </div>
-          <div className={styles["list-input-item"]}>
-            <p>SKU</p>
-            <input
-              type="text"
-              value={newProduct.sku}
-              onChange={(e) =>
-                setNewProduct({ ...newProduct, sku: e.target.value })
-              }
-            />
-          </div>
-          <div className={styles["list-input-item"]}>
             <p>Quantity Stock</p>
             <input
               type="number"
@@ -214,6 +193,16 @@ const AddModalProduct: React.FC<AddModalProps> = ({
                   ...newProduct,
                   quantity_stock: Number(e.target.value),
                 })
+              }
+            />
+          </div>
+          <div className={styles["list-input-item"]}>
+            <p>Vendor</p>
+            <input
+              type="text"
+              value={newProduct.vendor}
+              onChange={(e) =>
+                setNewProduct({ ...newProduct, vendor: e.target.value })
               }
             />
           </div>
@@ -282,6 +271,16 @@ const AddModalProduct: React.FC<AddModalProps> = ({
               }
             />
           </div>
+          {/* <div className={styles["list-input-item"]}>
+            <p>SKU</p>
+            <input
+              type="text"
+              value={newProduct.sku}
+              onChange={(e) =>
+                setNewProduct({ ...newProduct, sku: e.target.value })
+              }
+            />
+          </div> */}
         </div>
       </Modal>
     </>
