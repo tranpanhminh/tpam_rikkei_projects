@@ -50,7 +50,7 @@ class PostsRepo {
 
   // 2. Get Detail Post
   async getDetailPost(postId) {
-    const detailPost = await postsEntity.findAll({
+    const detailPost = await postsEntity.findOne({
       // Chọn các thuộc tính cần thiết
       attributes: [
         "id",

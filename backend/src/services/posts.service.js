@@ -19,7 +19,7 @@ class PostsService {
   async getDetailPost(postId) {
     const detailPost = await postsRepo.getDetailPost(postId);
 
-    if (detailPost.length === 0) {
+    if (!detailPost) {
       return { data: "Post ID Not Found", status: 404 };
     } else {
       return { data: detailPost, status: 200 };

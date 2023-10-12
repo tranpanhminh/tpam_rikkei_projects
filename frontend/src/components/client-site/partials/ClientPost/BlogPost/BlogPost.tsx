@@ -6,6 +6,7 @@ import { Pagination } from "antd";
 import axios from "axios";
 import { useParams } from "react-router-dom"; // Import useParams để lấy giá trị slug từ URL
 import Page404 from "../../../../common/NotFoundPage/404";
+const moment = require("moment");
 
 // Import API
 // 1, Posts API
@@ -31,6 +32,8 @@ function BlogPost() {
       });
   };
 
+  console.log(post, "POST");
+
   const fetchAllPosts = () => {
     axios
       .get(`${postsAPI}`)
@@ -51,101 +54,9 @@ function BlogPost() {
 
   return (
     <>
-      {/* <div className={styles["post-content-section"]}>
-        <div className={styles["main-content-section"]}>
-          <h1 className={styles["post-title"]} id="post_title">
-            {post?.post_title}
-          </h1>
-          <div className={styles["post-thumbnail"]}>
-            <img
-              src={post?.image_url}
-              alt=""
-              className={styles["post-thumbnail-image"]}
-            />
-          </div>
-
-          <div className={styles["editor-post-bar"]}>
-            <div>
-              <Badge bg="warning" text="dark" style={{ fontSize: "13px" }}>
-                Published Date: {post?.publish_date}
-              </Badge>
-            </div>
-            {getLoginData.role === "admin" && (
-              <NavLink
-                to={`/admin/manage-posts/?edit-postId=${postId}`}
-                target="_blank"
-              >
-                <Badge bg="primary" style={{ fontSize: "16px" }}>
-                  Edit Post
-                </Badge>
-              </NavLink>
-            )}
-          </div>
-
-          <section className={styles["post-content"]}>
-            {React.createElement("div", {
-              dangerouslySetInnerHTML: { __html: post?.post_content },
-            })}
-          </section>
-        </div>
-
-        <section className={styles["writer-moderator"]}>
-          <section className={styles["fast-checked"]}>
-            <div>
-              <img
-                className={styles["moderator-thumbnail"]}
-                src="https://rabbunny.com/wp-content/uploads/2023/06/Barney-Gordon.jpg"
-                alt="Fact Checked by Barney Gordon"
-              />
-            </div>
-            <div className={styles["moderator-info"]}>
-              <span className={styles["fact-check-icon"]}>
-                <span className={styles["fact-check-text"]}>
-                  ✅ Fact-Checked by
-                </span>
-              </span>
-              <p className={styles["moderator-check"]}>
-                <b>Barney Gordon</b>
-              </p>
-              <p className={styles["moderator-check"]}>
-                Veterinarian, Content Moderator
-              </p>
-            </div>
-          </section>
-        </section>
-
-        <div className={styles["related-post"]}>
-          <span className={styles["related-post-headline"]}>
-            Related Content
-          </span>
-          <div className={styles["related-post-group"]}>
-            {allPosts?.slice(0, 3).map((post: any) => {
-              if (post.status === "Published") {
-                return (
-                  <div className={styles["related-post-item"]} key={post.id}>
-                    <div className={styles["related-post-thumbnail-item"]}>
-                      <img
-                        src={post.image_url}
-                        alt=""
-                        className={styles["img-thumbnail-related-post"]}
-                      />
-                    </div>
-
-                    <NavLink to={`/blogs/${post.id}`}>
-                      <h2 className={styles["related-post-title"]}>
-                        {post.post_title}
-                      </h2>
-                    </NavLink>
-                  </div>
-                );
-              }
-              return null; // Xử lý cho trường hợp post.status không phải là "Published"
-            })}
-          </div>
-        </div>
-      </div> */}
-
-      {(post && post.status === "Draft" && getLoginData.role !== "admin") ||
+      {(post &&
+        post.post_status.name === "Draft" &&
+        getLoginData.role !== "admin") ||
       !post?.id ? (
         // <Page404 />
         <Page404 />
@@ -153,11 +64,11 @@ function BlogPost() {
         <div className={styles["post-content-section"]}>
           <div className={styles["main-content-section"]}>
             <h1 className={styles["post-title"]} id="post_title">
-              {post?.post_title}
+              {post?.title}
             </h1>
             <div className={styles["post-thumbnail"]}>
               <img
-                src={post?.image_url}
+                src={post?.thumbnail_url}
                 alt=""
                 className={styles["post-thumbnail-image"]}
               />
@@ -166,7 +77,8 @@ function BlogPost() {
             <div className={styles["editor-post-bar"]}>
               <div>
                 <Badge bg="warning" text="dark" style={{ fontSize: "13px" }}>
-                  Published Date: {post?.publish_date}
+                  Published Date: &nbsp;
+                  {moment(post?.created_at).format("YYYY-MM-DD-hh:mm:ss")}
                 </Badge>
               </div>
               {getLoginData.role === "admin" && (
@@ -183,7 +95,7 @@ function BlogPost() {
 
             <section className={styles["post-content"]}>
               {React.createElement("div", {
-                dangerouslySetInnerHTML: { __html: post?.post_content },
+                dangerouslySetInnerHTML: { __html: post?.content },
               })}
             </section>
           </div>
@@ -219,12 +131,12 @@ function BlogPost() {
             </span>
             <div className={styles["related-post-group"]}>
               {allPosts?.slice(0, 3).map((post: any) => {
-                if (post.status === "Published") {
+                if (post.post_status.name === "Published") {
                   return (
                     <div className={styles["related-post-item"]} key={post.id}>
                       <div className={styles["related-post-thumbnail-item"]}>
                         <img
-                          src={post.image_url}
+                          src={post.thumbnail_url}
                           alt=""
                           className={styles["img-thumbnail-related-post"]}
                         />
@@ -232,7 +144,7 @@ function BlogPost() {
 
                       <NavLink to={`/blogs/${post.id}`}>
                         <h2 className={styles["related-post-title"]}>
-                          {post.post_title}
+                          {post.title}
                         </h2>
                       </NavLink>
                     </div>
