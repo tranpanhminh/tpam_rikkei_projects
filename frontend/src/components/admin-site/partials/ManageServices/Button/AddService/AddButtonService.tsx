@@ -176,7 +176,7 @@ const AddModalService: React.FC<AddModalProps> = ({
           <div className={styles["list-input-item"]}>
             <p>Service Image</p>
             <input
-              type="text"
+              type="file"
               value={newService?.serviceImage}
               onChange={(e) =>
                 setNewService({ ...newService, serviceImage: e.target.value })

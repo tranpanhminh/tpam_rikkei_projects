@@ -7,6 +7,21 @@ import { format, parse } from "date-fns";
 import { Button, Modal } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
 
+// Import API
+// 1. Products API
+const productsAPI = process.env.REACT_APP_API_PRODUCTS;
+// 2. Orders API
+const ordersAPI = process.env.REACT_APP_API_ORDERS;
+// 3. Carts API
+const cartsAPI = process.env.REACT_APP_API_CARTS;
+// 4. Order Item API
+const orderItemsAPI = process.env.REACT_APP_API_ORDER_ITEMS;
+// 5. Payments API
+const paymentsAPI = process.env.REACT_APP_API_PAYMENTS;
+// 6. Users API
+const usersAPI = process.env.REACT_APP_API_USERS;
+
+// -----------------------------------------------------
 function ClientCart() {
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
