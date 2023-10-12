@@ -7,21 +7,25 @@ import { Button, Modal, notification } from "antd";
 import styles from "../../AdminPage.module.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
 import { Account } from "../../../../database";
 import { Badge } from "react-bootstrap";
 
+// Import API
+// 1. Users API
+const usersAPI = process.env.REACT_APP_API_USERS;
+
+// ------------------------------------------------
 function ManageUsers() {
   document.title = "Manage Users | PetShop";
 
-  const [users, setUsers] = useState<null | Account[]>(null);
+  const [users, setUsers] = useState<Account[]>(null);
   const [searchText, setSearchText] = useState<string>("");
 
   const navigate = useNavigate();
 
   const fetchUsers = () => {
     axios
-      .get("http://localhost:7373/accounts")
+      .get(`${usersAPI}`)
       .then((response) => {
         setUsers(response.data);
       })
@@ -207,7 +211,7 @@ function ManageUsers() {
               <tr key={user.id}>
                 <td>{user.id}</td>
                 <td>{user.email}</td>
-                <td>{user.fullName}</td>
+                <td>{user.full_name}</td>
                 <td>
                   <Badge bg={changeColorUser(user.role)}>{user.role}</Badge>
                 </td>

@@ -43,7 +43,7 @@ class UsersRepo {
 
       // Nhóm theo id và tên của dịch vụ
       group: ["users.id"],
-      raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
+      // raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
     });
 
     return listUsers;
@@ -51,7 +51,7 @@ class UsersRepo {
 
   // 2. Get Detail User
   async getDetailUser(userId) {
-    const detailUser = await usersEntity.findAll({
+    const detailUser = await usersEntity.findOne({
       // Chọn các thuộc tính cần thiết
       attributes: [
         "id",
@@ -80,7 +80,7 @@ class UsersRepo {
       },
       // Nhóm theo id và tên của dịch vụ
       group: ["users.id"],
-      raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
+      // raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
     });
     return detailUser;
   }

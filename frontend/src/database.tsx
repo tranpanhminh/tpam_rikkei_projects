@@ -16,10 +16,11 @@ export interface Banking {
 export interface Account {
   id: number;
   email: string;
-  fullName: string;
+  full_name: string;
   password: string;
   role: string;
-  status: string;
+  status_id: number;
+  role_id: number;
   cart: any[];
   order_history: any[];
   newsletter_register: boolean;
@@ -27,6 +28,21 @@ export interface Account {
   booking_history: any[];
   image_avatar: string;
 }
+
+// export interface Account {
+//   id: number;
+//   email: string;
+//   fullName: string;
+//   password: string;
+//   role: string;
+//   status: string;
+//   cart: any[];
+//   order_history: any[];
+//   newsletter_register: boolean;
+//   newsletter: string[];
+//   booking_history: any[];
+//   image_avatar: string;
+// }
 
 export interface Subscriber {
   id: number;

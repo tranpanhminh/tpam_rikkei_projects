@@ -17,7 +17,7 @@ class UsersService {
   // 2. Get Detail User
   async getDetailUser(userId) {
     const detailUser = await usersRepo.getDetailUser(userId);
-    if (detailUser.length === 0) {
+    if (!detailUser) {
       return { data: "User Not Found", status: 404 };
     } else {
       return { data: detailUser, status: 200 };

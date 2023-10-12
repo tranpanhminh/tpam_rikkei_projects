@@ -59,46 +59,46 @@ export function RoleNavigation() {
     });
   };
 
-  useEffect(() => {
-    if (
-      (getLoginData.role === "admin" && location.pathname.includes("/user")) ||
-      (getLoginData.role === "admin" && location.pathname.includes("/cart")) ||
-      (getLoginData.role === "admin" &&
-        location.pathname.includes("/signup")) ||
-      (getLoginData.role === "admin" && location.pathname.includes("/login"))
-    ) {
-      // Redirect to "/"
-      navigate("/access-denied");
-    }
-    if (
-      (getLoginData.role === "customer" &&
-        location.pathname.includes("/admin")) ||
-      (getLoginData.role === "customer" &&
-        location.pathname.includes("/signup")) ||
-      (getLoginData.role === "customer" && location.pathname.includes("/login"))
-    ) {
-      // Redirect to "/"
-      navigate("/access-denied");
-    }
-    if (
-      (!getLoginData && location.pathname.includes("/cart")) ||
-      (!getLoginData && location.pathname.includes("/admin")) ||
-      (!getLoginData && location.pathname.includes("/user"))
-    ) {
-      // Redirect to "/"
-      navigate("/access-denied");
-    }
+  // useEffect(() => {
+  //   if (
+  //     (getLoginData.role === "admin" && location.pathname.includes("/user")) ||
+  //     (getLoginData.role === "admin" && location.pathname.includes("/cart")) ||
+  //     (getLoginData.role === "admin" &&
+  //       location.pathname.includes("/signup")) ||
+  //     (getLoginData.role === "admin" && location.pathname.includes("/login"))
+  //   ) {
+  //     // Redirect to "/"
+  //     navigate("/access-denied");
+  //   }
+  //   if (
+  //     (getLoginData.role === "customer" &&
+  //       location.pathname.includes("/admin")) ||
+  //     (getLoginData.role === "customer" &&
+  //       location.pathname.includes("/signup")) ||
+  //     (getLoginData.role === "customer" && location.pathname.includes("/login"))
+  //   ) {
+  //     // Redirect to "/"
+  //     navigate("/access-denied");
+  //   }
+  //   if (
+  //     (!getLoginData && location.pathname.includes("/cart")) ||
+  //     (!getLoginData && location.pathname.includes("/admin")) ||
+  //     (!getLoginData && location.pathname.includes("/user"))
+  //   ) {
+  //     // Redirect to "/"
+  //     navigate("/access-denied");
+  //   }
 
-    if (
-      getLoginData.role === "admin" &&
-      getLoginData.status === "Inactive" &&
-      location.pathname.includes("/admin")
-    ) {
-      // Redirect to "/"
-      navigate("/");
-      showModalAdminInactive();
-    }
-  }, [getLoginData.role, location.pathname, navigate]);
+  //   if (
+  //     getLoginData.role === "admin" &&
+  //     getLoginData.status === "Inactive" &&
+  //     location.pathname.includes("/admin")
+  //   ) {
+  //     // Redirect to "/"
+  //     navigate("/");
+  //     showModalAdminInactive();
+  //   }
+  // }, [getLoginData.role, location.pathname, navigate]);
 
   return null; // Return null or an empty component
 }
