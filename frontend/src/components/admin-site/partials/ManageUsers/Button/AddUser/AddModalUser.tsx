@@ -28,19 +28,11 @@ const AddModalUser: React.FC<AddModalProps> = ({
 }) => {
   const [users, setUsers] = useState<null | Account[]>(null);
 
-  const [newUser, setNewUser] = useState<Account>({
-    id: 0,
+  const [newUser, setNewUser] = useState<any>({
     email: "",
-    fullName: "",
+    full_name: "",
     password: "",
-    role: "",
-    status: "",
-    cart: [],
-    order_history: [],
-    newsletter_register: false,
-    newsletter: [],
-    booking_history: [],
-    image_avatar: "",
+    rePassword: "",
   });
 
   const fetchUsers = () => {
@@ -58,7 +50,7 @@ const AddModalUser: React.FC<AddModalProps> = ({
     fetchUsers();
   }, []);
 
-  const maxId = users ? Math.max(...users.map((user) => user.id)) : 0;
+  // const maxId = users ? Math.max(...users.map((user) => user.id)) : 0;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -67,81 +59,21 @@ const AddModalUser: React.FC<AddModalProps> = ({
   };
 
   const handleOk = () => {
-    if (
-      newUser.fullName.trim() === "" ||
-      newUser.email.trim() === "" ||
-      newUser.role === "" ||
-      newUser.status === "" ||
-      newUser.password.trim() === "" ||
-      newUser.password.length < 8 // Kiểm tra mật khẩu phải từ 8 ký tự trở lên
-    ) {
-      notification.warning({
-        message: "Invalid information",
-        description:
-          "Please fill in all information and make sure password length > 8 characters",
+    axios
+      .post(`${usersAPI}/add`, newUser)
+      .then((response) => {
+        notification.success({
+          message: `Added Completed`,
+        });
+        setIsModalOpen(false);
+        setNewUser({ email: "", full_name: "", password: "", rePassword: "" });
+        handleClickOk();
+      })
+      .catch((error) => {
+        notification.warning({
+          message: `${error.response.data.message}`,
+        });
       });
-      return;
-    }
-
-    // Kiểm tra Email có tồn tại không
-    const emailExists = users?.some((user) => user.email === newUser.email);
-    if (emailExists) {
-      notification.warning({
-        message: "Email is exist",
-        description: "Please use another Email.",
-      });
-      return;
-    }
-
-    // Kiểm tra tên không được chứa số hoặc ký tự đặc biệt
-    const fullNamePattern = /^[a-zA-Z\s]*$/;
-    if (!fullNamePattern.test(newUser.fullName)) {
-      notification.warning({
-        message: "Fullname is not valid",
-        description:
-          "First and last names cannot contain numbers or special characters.",
-      });
-      return;
-    }
-
-    // Kiểm tra định dạng Email
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(newUser.email)) {
-      notification.warning({
-        message: "Email is not valid",
-        description: "Email must be in the correct format.",
-      });
-      return;
-    }
-
-    const updatedUser = {
-      ...newUser,
-      id: maxId + 1,
-    };
-
-    const updatedUsers = users ? [...users, updatedUser] : null;
-
-    setUsers(updatedUsers);
-    // setDataToLocal("accountsDatabase", updatedUsers);
-    setIsModalOpen(false);
-    if (handleClickOk) {
-      handleClickOk(updatedUser);
-    }
-    // fetchUsers();
-    setNewUser({
-      id: 0,
-      email: "",
-      fullName: "",
-      password: "",
-      role: "",
-      status: "",
-      cart: [],
-      order_history: [],
-      newsletter_register: false,
-      newsletter: [],
-      booking_history: [],
-      image_avatar: "",
-    });
   };
 
   const handleCancel = () => {
@@ -166,8 +98,14 @@ const AddModalUser: React.FC<AddModalProps> = ({
       >
         <div className={styles["list-input-add-student"]}>
           <div className={styles["list-input-item"]}>
-            <p>User ID</p>
-            <input type="text" value={maxId + 1} disabled />
+            <p>Email</p>
+            <input
+              type="text"
+              value={newUser.email}
+              onChange={(e) =>
+                setNewUser({ ...newUser, email: e.target.value })
+              }
+            />
           </div>
           <div className={styles["list-input-item"]}>
             <p>Full Name</p>
@@ -180,16 +118,6 @@ const AddModalUser: React.FC<AddModalProps> = ({
             />
           </div>
           <div className={styles["list-input-item"]}>
-            <p>Email</p>
-            <input
-              type="text"
-              value={newUser.email}
-              onChange={(e) =>
-                setNewUser({ ...newUser, email: e.target.value })
-              }
-            />
-          </div>
-          <div className={styles["list-input-item"]}>
             <p>Password</p>
             <input
               type="text"
@@ -198,8 +126,18 @@ const AddModalUser: React.FC<AddModalProps> = ({
                 setNewUser({ ...newUser, password: e.target.value })
               }
             />
-          </div>
+          </div>{" "}
           <div className={styles["list-input-item"]}>
+            <p>Repassword</p>
+            <input
+              type="text"
+              value={newUser.rePassword}
+              onChange={(e) =>
+                setNewUser({ ...newUser, rePassword: e.target.value })
+              }
+            />
+          </div>
+          {/* <div className={styles["list-input-item"]}>
             <p>Role</p>
             <select
               name="role"
@@ -212,8 +150,8 @@ const AddModalUser: React.FC<AddModalProps> = ({
               <option value="admin">Admin</option>
               <option value="customer">Customer</option>
             </select>
-          </div>
-          <div className={styles["list-input-item"]}>
+          </div> */}
+          {/* <div className={styles["list-input-item"]}>
             <p>Status</p>
             <select
               name="status"
@@ -225,10 +163,10 @@ const AddModalUser: React.FC<AddModalProps> = ({
               <option value="" disabled>
                 --Select Status--
               </option>
-              <option value="Active">Active</option>
-              <option value="Inactive">Inactive</option>
+              <option value={1}>Active</option>
+              <option value={2}>Inactive</option>
             </select>
-          </div>
+          </div> */}
         </div>
       </Modal>
     </>

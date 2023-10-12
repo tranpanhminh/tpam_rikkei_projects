@@ -120,7 +120,7 @@ class UsersService {
     const encryptPassword = await bcrypt.hash(password, genSalt);
 
     const userInfo = {
-      email: email.trim(),
+      email: email.trim().toLowerCase(),
       full_name: full_name,
       password: encryptPassword,
       status_id: 1,
@@ -128,7 +128,7 @@ class UsersService {
       image_avatar: "https://i.ibb.co/3BtQdVD/pet-shop.png",
     };
     console.log(userInfo, "userInfo");
-    const newUser = await usersRepo.addUser(userInfo);
+    const newUser = await usersRepo.addAdmin(userInfo);
     return {
       message: "New Admin Added Successfully",
       data: newUser,

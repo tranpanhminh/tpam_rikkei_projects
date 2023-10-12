@@ -76,24 +76,14 @@ function ManageUsers() {
     //     });
     // }
   };
-  
+
   const handleChangeUser = async (userId: number) => {
     await axios.patch(`${usersAPI}/change-status-account/${userId}`);
     fetchUsers();
   };
 
   const handleAddUser = (newUser: Account) => {
-    axios
-      .post("http://localhost:7373/accounts", newUser)
-      .then(() => {
-        fetchUsers(); // Cập nhật lại dữ liệu users sau khi thêm
-        notification.success({
-          message: "User Added",
-        });
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+    fetchUsers();
   };
 
   const handleDeleteUser = async (userId: number) => {
@@ -209,7 +199,7 @@ function ManageUsers() {
                     }
                   ></DetailButtonUser> */}
 
-                  {user.full_name === "Super Admin" && user.role === "admin" ? (
+                  {user.full_name === "Super Admin" && user.role === "Admin" ? (
                     ""
                   ) : (
                     <>
