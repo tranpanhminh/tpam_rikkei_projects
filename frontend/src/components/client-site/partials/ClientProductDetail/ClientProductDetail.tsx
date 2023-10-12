@@ -10,16 +10,19 @@ import avatar from "../../../../assets/images/dogs-reviews-01.png";
 import { Editor } from "@tinymce/tinymce-react";
 import { Badge } from "react-bootstrap";
 import { format } from "date-fns";
-const productsAPI = process.env.REACT_APP_API_PRODUCTS;
-const productCommentsAPI = process.env.REACT_APP_API_PRODUCTS;
 
+// Import API
+const productsAPI = process.env.REACT_APP_API_PRODUCTS;
+const productCommentsAPI = process.env.REACT_APP_API_PRODUCT_COMMENTS;
+
+// ----------------------------------------------------------------------
 function ClientProductDetail() {
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { productId } = useParams();
   const [user, setUser] = useState<any>(null);
-  const [productComment, setProductComment] = useState<any>([]);
+  const [productComments, setProductComments] = useState<any>([]);
   const [userCart, setUserCart] = useState<any>(null);
   const [products, setProducts] = useState<any>(null);
   const [comments, setComments] = useState<any>([]);
@@ -27,7 +30,6 @@ function ClientProductDetail() {
   const [editorContent, setEditorContent] = useState("");
   const [rateValue, setRateValue] = useState(0);
   const [listUser, setListUser] = useState<any>([]); // Sử dụng useState để quản lý userAvatar
-  console.log(products, "DASDASD");
   const handleOk = () => {
     setIsModalOpen(false);
   };
@@ -64,11 +66,11 @@ function ClientProductDetail() {
       });
   };
 
-  const fetchProductComment = async () => {
+  const fetchProductComments = async () => {
     await axios
-      .get(`${productCommentsAPI}/detail/${productId}`)
+      .get(`${productCommentsAPI}/${productId}`)
       .then((response) => {
-        setProductComment(response.data);
+        setProductComments(response.data);
       })
       .catch((error) => {
         console.log(error.message);
@@ -78,13 +80,10 @@ function ClientProductDetail() {
   useEffect(() => {
     fetchProducts();
     fetchUsers();
-    fetchProductComment();
+    fetchProductComments();
   }, [editorContent]);
 
-  console.log("User", user);
-  console.log("User Cart", userCart);
   document.title = `${products ? `${products?.name} | PetShop` : "Loading..."}`;
-
   // Function Add To Cart
   const handleAddToCart = () => {
     if (quantity === 0) {
@@ -391,6 +390,13 @@ function ClientProductDetail() {
     return userName;
   };
 
+  const filterCommentsExcludeAdmin = () => {
+    let filterComments = productComments.filter((item: any) => {
+      return item.user_role_id !== 1 && item.user_role_id !== 2;
+    });
+    return filterComments.length;
+  };
+
   return (
     <>
       {products && (
@@ -482,9 +488,9 @@ function ClientProductDetail() {
                   <div className={styles["product-rating"]}>
                     <span>Rating:</span>
                     <div className={styles["rating-section"]}>
-                      {averageRating()}
+                      {products.avg_rating}
                       <i className="fa-solid fa-star"></i>
-                      <span>({totalComment()} reviews)</span>
+                      <span>({filterCommentsExcludeAdmin()} reviews)</span>
                     </div>
                   </div>
                   <button
@@ -559,19 +565,19 @@ function ClientProductDetail() {
             <div
               className={`${styles["main-content-comment"]} ${styles["comment-scrollable"]}`}
             >
-              {products &&
-                products.comments?.map((item: any) => {
+              {productComments &&
+                productComments?.map((item: any) => {
                   return (
                     <section className={styles["product-comment-item"]}>
                       <div className={styles["user-comment-info"]}>
                         <img
-                          src={getAvatar(item.userId)}
+                          src={item.user.image_avatar}
                           alt=""
                           className={styles["user-avatar"]}
                         />
 
-                        <span>{getUserName(item.userId).split(" ")[0]}</span>
-                        {item.userRole === "admin" ? (
+                        <span>{item.user.full_name.split(" ")[0]}</span>
+                        {item.user_role_id === 1 || item.user_role_id === 2 ? (
                           <Badge bg="success">Admin</Badge>
                         ) : item.order_history?.length !== 0 ? (
                           <Badge bg="warning" text="dark">
@@ -580,13 +586,13 @@ function ClientProductDetail() {
                         ) : (
                           ""
                         )}
-                        {item.userRole !== "admin" && (
+                        {item.user_role_id !== 1 && item.user_role_id !== 2 && (
                           <span className={styles["rating-section"]}>
                             {item.rating}
                             <i className="fa-solid fa-star"></i>
                           </span>
                         )}
-                        {/* {user?.role === "admin" && (
+                        {user?.role === "admin" && (
                           <Button
                             type="primary"
                             className={styles["delete-comment-btn"]}
@@ -594,14 +600,14 @@ function ClientProductDetail() {
                           >
                             Delete
                           </Button>
-                        )} */}
+                        )}
                       </div>
                       <div>
                         <div className={styles["comment-content-headline"]}>
                           <div
                             className={styles["comment-content-headline-item"]}
                           >
-                            <Badge bg="primary">{item.date}</Badge>
+                            <Badge bg="primary">{item.create_at}</Badge>
                             {user?.role === "admin" && (
                               <i
                                 onClick={() =>
@@ -616,7 +622,7 @@ function ClientProductDetail() {
                           className={`${styles["comment-content"]} ${styles["comment-scrollable"]}`}
                         >
                           {React.createElement("div", {
-                            dangerouslySetInnerHTML: { __html: item.content },
+                            dangerouslySetInnerHTML: { __html: item.comment },
                           })}
                         </div>
                       </div>

@@ -1,4 +1,5 @@
 # Link tải DB JSON
+
 https://drive.google.com/file/d/1wqndzPihnlY1_UAv10dYDBZ1EvYmeacK/view?usp=drive_link
 
 # Getting Started with Create React App
@@ -47,3 +48,47 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+<!--
+
+// Import API
+1. Users API
+const usersAPI = REACT_APP_API_USERS;
+
+2. Coupons API
+const couponsAPI =REACT_APP_API_COUPONS
+
+3. Orders API
+const ordersAPI =REACT_APP_API_ORDERS
+
+4. Carts API
+const cartsAPI = REACT_APP_API_CARTS
+
+5. Order Item API
+const orderItemsAPI = REACT_APP_API_ORDER_ITEMS
+
+6. Payments API
+const paymentsAPI = REACT_APP_API_PAYMENTS
+
+7. Posts API
+const postsAPI = REACT_APP_API_POSTS
+
+8. Pages API
+const pagesAPI = REACT_APP_API_PAGES
+
+9. Products API
+const productsAPI = process.env.REACT_APP_API_PRODUCTS;
+
+10. Services API
+const servicesAPI = process.env.REACT_APP_API_SERVICES;
+
+11. Product Comments API
+const productCommentsAPI = process.env.REACT_APP_API_PRODUCT_COMMENTS;
+
+12. Service Comments API
+const serviceCommentsAPI = process.env.REACT_APP_API_SERVICE_COMMENTS;
+
+
+
+
+ -->

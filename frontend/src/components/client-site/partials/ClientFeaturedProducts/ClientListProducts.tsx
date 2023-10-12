@@ -5,6 +5,11 @@ import axios from "axios";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Pagination } from "antd";
 
+// Import API
+const productsAPI = process.env.REACT_APP_API_PRODUCTS;
+console.log(productsAPI, "PRODUCS API");
+// ------------------------------------------------------------------
+
 function ClientListProducts() {
   document.title = "Products | PetShop";
 
@@ -17,7 +22,7 @@ function ClientListProducts() {
 
   const fetchProducts = () => {
     axios
-      .get("http://localhost:7373/products")
+      .get(`${productsAPI}`)
       .then((response) => {
         // setProducts(response.data);
         setPosts(response.data);
