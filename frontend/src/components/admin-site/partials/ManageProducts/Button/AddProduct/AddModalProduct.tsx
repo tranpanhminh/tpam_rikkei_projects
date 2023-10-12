@@ -4,6 +4,7 @@ import styles from "../AddProduct/AddModalProduct.module.css";
 import { Product } from "../../../../../../database";
 import axios from "axios";
 import { Editor } from "@tinymce/tinymce-react";
+import { log } from "console";
 
 // Import API
 // 1. Products API
@@ -16,7 +17,7 @@ interface AddModalProps {
   className?: string;
   value?: string;
   title?: string;
-  handleClickOk?: (newProduct: Product) => void;
+  handleClickOk?: any;
 }
 
 const AddModalProduct: React.FC<AddModalProps> = ({
@@ -26,16 +27,23 @@ const AddModalProduct: React.FC<AddModalProps> = ({
   handleClickOk,
 }) => {
   const [products, setProducts] = useState<any>(null);
+  const [files, setFiles] = useState<any>([]);
   const [vendors, setVendors] = useState<any>(null);
   const [editorInitialValue, setEditorInitialValue] = useState("");
+
+  // Xử lý Multiple Ảnh
+  let productImages: any = [];
+  for (let i = 0; i < files.length; i++) {
+    productImages.push(files[i].name);
+  }
+
   const [newProduct, setNewProduct] = useState<any>({
     name: "",
     description: "",
     price: "",
     quantity_stock: 0,
-    vendor_id: "",
-    sku: "",
-    image_url: [],
+    vendor_id: 1,
+    image_url: productImages,
   });
 
   const fetchProducts = async () => {
@@ -83,6 +91,29 @@ const AddModalProduct: React.FC<AddModalProps> = ({
   };
 
   const handleOk = () => {
+    axios
+      .post(`${productsAPI}/add`, newProduct)
+      .then((response) => {
+        notification.success({
+          message: `Product Added`,
+        });
+        setIsModalOpen(false);
+        setNewProduct({
+          name: "",
+          description: "",
+          price: "",
+          quantity_stock: 0,
+          vendor_id: 1,
+          image_url: [],
+        });
+        handleClickOk();
+      })
+      .catch((error) => {
+        notification.warning({
+          message: `${error.response.data.message}`,
+        });
+      });
+    console.log();
     // // Kiểm tra thông tin đầy đủ
     // if (
     //   !newProduct.name ||
@@ -181,10 +212,10 @@ const AddModalProduct: React.FC<AddModalProps> = ({
               }
               initialValue={editorInitialValue}
             />
-            <Editor
+            {/* <Editor
               onEditorChange={handleEditorChange}
               value={editorInitialValue}
-            />
+            /> */}
           </div>
           <div className={styles["list-input-item"]}>
             <p>Price</p>
@@ -200,7 +231,7 @@ const AddModalProduct: React.FC<AddModalProps> = ({
             <p>Quantity Stock</p>
             <input
               type="number"
-              value={newProduct.quantity_stock}
+              value={newProduct?.quantity_stock}
               onChange={(e) =>
                 setNewProduct({
                   ...newProduct,
@@ -214,7 +245,7 @@ const AddModalProduct: React.FC<AddModalProps> = ({
             <select
               name=""
               id=""
-              value={newProduct.vendor}
+              value={newProduct?.vendor}
               onChange={(e) =>
                 setNewProduct({ ...newProduct, vendor: e.target.value })
               }
@@ -225,70 +256,14 @@ const AddModalProduct: React.FC<AddModalProps> = ({
             </select>
           </div>
           <div className={styles["list-input-item"]}>
-            <p>Product Image 1</p>
+            <p>Images</p>
             <input
-              type="text"
-              value={newProduct.productImage[0]}
-              onChange={(e) =>
-                setNewProduct({
-                  ...newProduct,
-                  productImage: [
-                    e.target.value,
-                    ...newProduct.productImage.slice(1),
-                  ],
-                })
-              }
+              multiple
+              type="file"
+              onChange={(e) => setFiles(e.target.files)}
             />
           </div>
-          <div className={styles["list-input-item"]}>
-            <p>Product Image 2</p>
-            <input
-              type="text"
-              value={newProduct.productImage[1]}
-              onChange={(e) =>
-                setNewProduct({
-                  ...newProduct,
-                  productImage: [
-                    newProduct.productImage[0],
-                    e.target.value,
-                    ...newProduct.productImage.slice(2),
-                  ],
-                })
-              }
-            />
-          </div>
-          <div className={styles["list-input-item"]}>
-            <p>Product Image 3</p>
-            <input
-              type="text"
-              value={newProduct.productImage[2]}
-              onChange={(e) =>
-                setNewProduct({
-                  ...newProduct,
-                  productImage: [
-                    ...newProduct.productImage.slice(0, 2),
-                    e.target.value,
-                  ],
-                })
-              }
-            />
-          </div>
-          <div className={styles["list-input-item"]}>
-            <p>Product Image 4</p>
-            <input
-              type="text"
-              value={newProduct.productImage[3]}
-              onChange={(e) =>
-                setNewProduct({
-                  ...newProduct,
-                  productImage: [
-                    ...newProduct.productImage.slice(0, 3),
-                    e.target.value,
-                  ],
-                })
-              }
-            />
-          </div>
+
           {/* <div className={styles["list-input-item"]}>
             <p>SKU</p>
             <input
