@@ -8,11 +8,17 @@ import DetailBooking from "../ManageBooking/Button/DetailBooking/DetailBooking";
 import { notification } from "antd";
 import { Badge } from "react-bootstrap";
 
+// Import API
+// 1. Booking API
+const bookingsAPI = process.env.REACT_APP_API_BOOKINGS;
+
+// -----------------------------------------------------
 function ManageBooking() {
   document.title = "Manage Booking | PetShop";
 
   const [searchText, setSearchText] = useState<string>("");
   const [bookings, setBookings] = useState<any>([]);
+  const [groupBookingDate, setGroupBookingDate] = useState<any>([]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -28,9 +34,9 @@ function ManageBooking() {
     setIsModalOpen(false);
   };
 
-  const fetchBooking = () => {
-    axios
-      .get(`http://localhost:7373/bookings/`)
+  const fetchBooking = async () => {
+    await axios
+      .get(`${bookingsAPI}`)
       .then((response) => {
         setBookings(response.data);
       })
@@ -39,8 +45,20 @@ function ManageBooking() {
       });
   };
 
+  const fetchGroupBookingDate = async () => {
+    await axios
+      .get(`${bookingsAPI}/group`)
+      .then((response) => {
+        setGroupBookingDate(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
     fetchBooking();
+    fetchGroupBookingDate();
   }, []);
 
   // const handleDeleteBooking = (bookingId: number) => {
@@ -144,19 +162,19 @@ function ManageBooking() {
             </tr>
           </thead>
           <tbody>
-            {bookings?.map((booking: any) => {
+            {groupBookingDate?.map((item: any) => {
               return (
                 <tr key={1}>
-                  <td>{booking.date}</td>
-                  <td>{booking.listBookings.length} / 20</td>
+                  <td>{item.booking_date}</td>
+                  <td>{item.total_booking} / 20</td>
                   <td className={styles["group-btn-admin"]}>
                     <DetailBooking
                       value="Detail"
                       title="Detail Product"
                       className={styles["detail-product-btn"]}
-                      getBookingId={booking.id}
-                      getBookingDate={booking.date}
-                      getBooking={booking.listBookings}
+                      // getBookingId={booking.id}
+                      getBookingDate={item.booking_date}
+                      // getBooking={booking.listBookings}
                     ></DetailBooking>
                   </td>
                 </tr>

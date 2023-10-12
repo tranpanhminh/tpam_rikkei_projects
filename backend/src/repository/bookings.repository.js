@@ -68,7 +68,7 @@ class BookingsRepo {
 
       // Nhóm theo id và tên của dịch vụ
       group: ["id"],
-      raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
+      // raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
     });
     return listBookings;
   }
@@ -112,7 +112,7 @@ class BookingsRepo {
 
       // Nhóm theo id và tên của dịch vụ
       group: ["bookings.id"],
-      raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
+      // raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
     });
     return detailBooking;
   }
@@ -157,6 +157,57 @@ class BookingsRepo {
       where: { id: bookingId },
     });
     return updatedBooking;
+  }
+
+  // 6. Filter Booking By Date
+  async filterBookingDate(date) {
+    const filterBookingDate = await bookingsEntity.findAll({
+      // Chọn các thuộc tính cần thiết
+      attributes: [
+        "id",
+        "name",
+        "phone",
+        "user_id",
+        "service_id",
+        "service_name",
+        "service_description",
+        "service_price",
+        "service_image",
+        "date",
+        "status_id",
+        "booking_date",
+        "calendar",
+        "created_at",
+        "updated_at",
+      ],
+
+      // Tham gia với bảng post_types
+      include: [
+        {
+          model: bookingStatusesEntity,
+          attributes: ["name"],
+        },
+      ],
+      where: {
+        booking_date: date,
+      },
+      // Nhóm theo id và tên của dịch vụ
+      group: ["id"],
+    });
+    return filterBookingDate;
+  }
+
+  // 7. Group Booking Date
+  async groupBookingDate() {
+    const groupBookingDate = await bookingsEntity.findAll({
+      attributes: [
+        [sequelize.col("booking_date"), "booking_date"],
+        [sequelize.fn("COUNT", sequelize.col("id")), "total_booking"],
+      ],
+      group: ["booking_date"],
+      order: [[sequelize.literal("booking_date"), "DESC"]],
+    });
+    return groupBookingDate;
   }
 }
 

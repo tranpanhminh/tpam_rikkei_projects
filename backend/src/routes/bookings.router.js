@@ -33,9 +33,15 @@ bookingsRouter.patch(
 );
 
 // 7. Filter Booking By User ID
-bookingsRouter.get("/filter/:userId", bookingsController.filterBookingByUserId);
+bookingsRouter.get(
+  "/filter/users/:userId",
+  bookingsController.filterBookingByUserId
+);
 
-// 6. Filter Booking By Date
-// bookingsRouter.get("/filter/", bookingsController.filterBookingByDate);
+// 8. Filter Booking By Date
+bookingsRouter.get("/filter/date/:date", bookingsController.filterBookingDate);
+
+// 9. Group Booking Date
+bookingsRouter.get("/group/", bookingsController.groupBookingDate);
 
 module.exports = bookingsRouter;

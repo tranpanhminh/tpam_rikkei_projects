@@ -130,25 +130,18 @@ class BookingsController {
     }
   }
 
-  // 7. Filter Booking By Date
-  // async filterBookingByDate(req, res) {
-  //   try {
-  //     const filterBookingByDate = await bookingsEntity.findAll({
-  //       attributes: [
-  //         "booking_date",
-  //         [sequelize.fn("COUNT", sequelize.col("id")), "total_booking"],
-  //       ],
-  //       group: ["booking_date"],
-  //       where: {
-  //         booking_date: booking_date,
-  //         total_booking,
-  //       },
-  //     });
+  // 8. Filter Booking By Date
+  async filterBookingDate(req, res) {
+    const date = req.params.date;
+    console.log(date, "DATE");
+    const result = await bookingsService.filterBookingDate(date);
+    return res.status(result.status).json(result.data);
+  }
 
-  //     return res.status(200).json(filterBookingByDate);
-  //   } catch (error) {
-  //     console.log(error, "ERROR");
-  //   }
-  // }
+  // 9. Group Booking Date
+  async groupBookingDate(req, res) {
+    const result = await bookingsService.groupBookingDate();
+    return res.status(result.status).json(result.data);
+  }
 }
 module.exports = new BookingsController();

@@ -266,6 +266,26 @@ class BookingsService {
       status: 200,
     };
   }
+
+  // 7. Filter Booking By Date
+  async filterBookingDate(date) {
+    const filterBookingDate = await bookingsRepo.filterBookingDate(date);
+    if (filterBookingDate.length === 0) {
+      return { data: "No Data Bookings", status: 404 };
+    } else {
+      return { data: filterBookingDate, status: 200 };
+    }
+  }
+
+  // 8. Group Booking By Date
+  async groupBookingDate() {
+    const groupBookingDate = await bookingsRepo.groupBookingDate();
+    if (groupBookingDate.length === 0) {
+      return { data: "No Data Bookings", status: 404 };
+    } else {
+      return { data: groupBookingDate, status: 200 };
+    }
+  }
 }
 
 module.exports = new BookingsService();
