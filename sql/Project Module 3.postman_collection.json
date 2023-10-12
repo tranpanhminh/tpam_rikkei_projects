@@ -1,0 +1,4298 @@
+{
+	"info": {
+		"_postman_id": "6c349f0d-d9a2-4eae-92b3-3a1c0415f391",
+		"name": "Project Module 3",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29261211"
+	},
+	"item": [
+		{
+			"name": "Vendors",
+			"item": [
+				{
+					"name": "Get All Vendors",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7373/api/vendors",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"vendors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Detail Vendor",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7373/api/vendors/detail/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"vendors",
+								"detail",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Vendor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// // 1. New Balance\r\n// {\r\n//     \"name\": \"New Balance\"\r\n// }\r\n\r\n// // 2. Nike\r\n// {\r\n//     \"name\": \"Nike\"\r\n// }\r\n\r\n// // 3. Adidas\r\n// {\r\n//     \"name\": \"Adidas\"\r\n// }\r\n\r\n// 4. Test 1\r\n{\r\n    \"name\": \"Test 1\"\r\n}\r\n\r\n// 5. Test 2\r\n// {\r\n//     \"name\": \"Test 2\"\r\n// }\r\n\r\n// 6. Test 3\r\n// {\r\n//     \"name\": \"Test 3\"\r\n// }\r\n\r\n// 7. Test 4\r\n// {\r\n//     \"name\": \"Test 4\"\r\n// }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7373/api/vendors/add/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"vendors",
+								"add",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Vendor",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// // 1. Updated Info\r\n{\r\n    \"name\": \"New Name Update\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7373/api/vendors/update/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"vendors",
+								"update",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Vendor",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7373/api/vendors/delete/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"vendors",
+								"delete",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Working Time",
+			"item": [
+				{
+					"name": "Get All Working Time",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:7373/api/working-time",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"working-time"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Detail Working Time",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7373/api/working-time/detail/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"working-time",
+								"detail",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Working Time",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// 1.\r\n// {\r\n//     \"morning_time\": \"09:00 AM - 11:30 AM\",\r\n//     \"afternoon_time\": \"14:00 PM - 16:30 PM\"\r\n// }\r\n\r\n// // 2.\r\n// {\r\n//     \"morning_time\": \"08:00 AM - 11:00 AM\",\r\n//     \"afternoon_time\": \"13:00 PM - 15:30 PM\"\r\n// }\r\n\r\n// 3.\r\n// {\r\n//     \"name\": \"Adidas\"\r\n// }\r\n\r\n// 4. Test 1\r\n// {\r\n//     \"name\": \"Test 1\"\r\n// }\r\n\r\n// 5. Test 2\r\n// {\r\n//     \"name\": \"Test 2\"\r\n// }\r\n\r\n// 6. Test 3\r\n// {\r\n//     \"name\": \"Test 3\"\r\n// }\r\n\r\n// 7. Test 4\r\n// {\r\n//     \"name\": \"Test 4\"\r\n// }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7373/api/working-time/add/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"working-time",
+								"add",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Working Time",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// 1.\r\n{\r\n    \"morning_time\": \"New\",\r\n    \"afternoon_time\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7373/api/working-time/update/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"working-time",
+								"update",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Working Time",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7373/api/working-time/delete/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"working-time",
+								"delete",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Coupons",
+			"item": [
+				{
+					"name": "Get All Coupons",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7373/api/coupons/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"coupons",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Detail Coupon",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7373/api/coupons/detail/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"coupons",
+								"detail",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Coupon",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// // Coupon 1:\r\n// {\r\n//     \"name\": \"Sale Off 2%\",\r\n//     \"code\": \"saleoff2\",\r\n//     \"discount_rate\": 2,\r\n//     \"min_bill\": 200\r\n// }\r\n\r\n// // Coupon 2:\r\n// {\r\n//     \"name\": \"Sale Off 5%\",\r\n//     \"code\": \"saleoff5\",\r\n//     \"discount_rate\": 5,\r\n//     \"min_bill\": 500\r\n// }\r\n\r\n// // Coupon 3:\r\n// {\r\n//     \"name\": \"Sale Off 10%\",\r\n//     \"code\": \"saleoff10\",\r\n//     \"discount_rate\": 10,\r\n//     \"min_bill\": 1000\r\n// }\r\n\r\n// // Coupon 4:\r\n// {\r\n//     \"name\": \"Sale Off 15%\",\r\n//     \"code\": \"saleoff15\",\r\n//     \"discount_rate\": 15,\r\n//     \"min_bill\": 2000\r\n// }\r\n\r\n// // Coupon 5:\r\n// {\r\n//     \"name\": \"Sale Off 20%\",\r\n//     \"code\": \"saleoff20\",\r\n//     \"discount_rate\": 20,\r\n//     \"min_bill\": 3500\r\n// }\r\n\r\n// Coupon 5:\r\n// {\r\n//     \"name\": \"Sale Off 25%\",\r\n//     \"code\": \"saleoff25\",\r\n//     \"discount_rate\": 25,\r\n//     \"min_bill\": 4500\r\n// }\r\n\r\n// Coupon 6:\r\n// {\r\n//     \"name\": \"Sale Off 30%\",\r\n//     \"code\": \"saleoff30\",\r\n//     \"discount_rate\": 30,\r\n//     \"min_bill\": 5500\r\n// }\r\n\r\n// Coupon 7:\r\n// {\r\n//     \"name\": \"Sale Off 40%\",\r\n//     \"code\": \"saleoff40\",\r\n//     \"discount_rate\": 40,\r\n//     \"min_bill\": 7000\r\n// }\r\n\r\n// Coupon 8:\r\n// {\r\n//     \"name\": \"Sale Off 50%\",\r\n//     \"code\": \"saleoff50\",\r\n//     \"discount_rate\": 50,\r\n//     \"min_bill\": 8000\r\n// }\r\n\r\n// Coupon Test 1:\r\n// {\r\n//     \"name\": \"Test Coupon 1\",\r\n//     \"code\": \"saleoff21\",\r\n//     \"discount_rate\": 21,\r\n//     \"min_bill\": 2221\r\n// }\r\n\r\n// Coupon Test 2:\r\n// {\r\n//     \"name\": \"Test Coupon 2\",\r\n//     \"code\": \"saleoff22\",\r\n//     \"discount_rate\": 22,\r\n//     \"min_bill\": 2222\r\n// }\r\n\r\n// Coupon Test 3:\r\n// {\r\n//     \"name\": \"Test Coupon 3\",\r\n//     \"code\": \"saleoff23\",\r\n//     \"discount_rate\": 23,\r\n//     \"min_bill\": 2223\r\n// }\r\n\r\n// Coupon Test 4:\r\n// {\r\n//     \"name\": \"Test Coupon 4\",\r\n//     \"code\": \"saleoff24\",\r\n//     \"discount_rate\": 24,\r\n//     \"min_bill\": 2224\r\n// }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7373/api/coupons/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"coupons",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Coupon",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// // Coupon 1:\r\n{\r\n    \"name\": \"\",\r\n    \"code\": \"\",\r\n    \"discount_rate\": 25,\r\n    \"min_bill\": 4500\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7373/api/coupons/update/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"coupons",
+								"update",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Coupon",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7373/api/coupons/delete/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"coupons",
+								"delete",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Payments",
+			"item": [
+				{
+					"name": "Get All Payments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7373/api/payments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"payments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Detail Payment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7373/api/payments/detail/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"payments",
+								"detail",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Payment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// // Payment 1:\r\n// {\r\n//     \"cardholder_name\": \"TRAN PHUOC ANH MINH\",\r\n//     \"card_number\": 4032030389663551,\r\n//     \"expiry_date\": \"05/2024\",\r\n//     \"cvv\": 255,\r\n//     \"balance\": 99999999\r\n// }\r\n\r\n// // Payment 2:\r\n// {\r\n//     \"cardholder_name\": \"TONY TEO\",\r\n//     \"card_number\": 4032035757672365,\r\n//     \"expiry_date\": \"09/2025\",\r\n//     \"cvv\": 680,\r\n//     \"balance\": 20000\r\n// }\r\n\r\n// // Payment 3:\r\n// {\r\n//     \"cardholder_name\": \"DAVID ADAM\",\r\n//     \"card_number\": 4032030010422732,\r\n//     \"expiry_date\": \"02/2021\",\r\n//     \"cvv\": 666,\r\n//     \"balance\": 1000\r\n// }\r\n\r\n// // Payment 4:\r\n// {\r\n//     \"cardholder_name\": \"JOHN MIKE\",\r\n//     \"card_number\": 4032036377584881,\r\n//     \"expiry_date\": \"01/2028\",\r\n//     \"cvv\": 408,\r\n//     \"balance\": 5\r\n// }\r\n\r\n// Payment Test:\r\n// {\r\n//     \"cardholder_name\": \"TONY TEO 4\",\r\n//     \"card_number\": 1234567890123456,\r\n//     \"expiry_date\": \"01/2028\",\r\n//     \"cvv\": 433,\r\n//     \"balance\": 0\r\n// }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7373/api/payments/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"payments",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Payment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7373/api/payments/delete/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"payments",
+								"delete",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Payment",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// // Payment Test:\r\n// {\r\n//     \"cardholder_name\": \"TONY TEO 4\",\r\n//     \"card_number\": 1234567890123456,\r\n//     \"expiry_date\": \"01/2028\",\r\n//     \"cvv\": 433,\r\n//     \"balance\": 0\r\n// }\r\n\r\n// Payment Test:\r\n{\r\n    \"cardholder_name\": \"\",\r\n    \"card_number\": \"\",\r\n    \"expiry_date\": \"\",\r\n    \"cvv\": \"\",\r\n    \"balance\": 99999999\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7373/api/payments/update/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"payments",
+								"update",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Post Types",
+			"item": [
+				{
+					"name": "Get All Post Types",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7373/api/post-types",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"post-types"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Detail Post Type",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7373/api/post-types/detail/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"post-types",
+								"detail",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Post Type",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// // 1. Product\r\n// {\r\n//     \"name\": \"Product\"\r\n// }\r\n\r\n// // 2. Service\r\n// {\r\n//     \"name\": \"Service\"\r\n// }\r\n\r\n// // 4. Post\r\n// {\r\n//     \"name\": \"Post\"\r\n// }\r\n\r\n// // 5. Page\r\n// {\r\n//     \"name\": \"Page\"\r\n// }\r\n\r\n// // 6. Test\r\n// {\r\n//     \"name\": \"Test\"\r\n// }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7373/api/post-types/add/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"post-types",
+								"add",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Post Type",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// // 1. New Balance\r\n{\r\n    \"name\": \"New Type\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7373/api/post-types/update/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"post-types",
+								"update",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Post Type",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7373/api/post-types/delete/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"post-types",
+								"delete",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "User Roles",
+					"item": [
+						{
+							"name": "Get All User Roles",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/user-roles",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"user-roles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Detail User Role",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/user-roles/detail/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"user-roles",
+										"detail",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add User Role",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "// // 1. Super Admin\r\n// {\r\n//     \"name\": \"Super Admin\"\r\n// }\r\n\r\n// // 2. Admin\r\n// {\r\n//     \"name\": \"Admin\"\r\n// }\r\n\r\n// 3. Customer\r\n// {\r\n//     \"name\": \"Customer\"\r\n// }\r\n\r\n// 4. Test\r\n// {\r\n//     \"name\": \"Test\"\r\n// }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/user-roles/add/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"user-roles",
+										"add",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update User Role",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "// // 1. New Balance\r\n{\r\n    \"name\": \"New Balance\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/user-roles/update/4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"user-roles",
+										"update",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete User Role",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/user-roles/delete/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"user-roles",
+										"delete",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "User Statuses",
+					"item": [
+						{
+							"name": "Get All Users Statuses",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/user-statuses",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"user-statuses"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Detail User Status",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/user-statuses/detail/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"user-statuses",
+										"detail",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add User Status",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "// // 1. Active\r\n// {\r\n//     \"name\": \"Active\"\r\n// }\r\n\r\n// // 2. Inactive\r\n// {\r\n//     \"name\": \"Inactive\"\r\n// }\r\n\r\n// 3. Test\r\n// {\r\n//     \"name\": \"Test\"\r\n// }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/user-statuses/add/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"user-statuses",
+										"add",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update User Status",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "// // 1. New Balance\r\n{\r\n    \"name\": \"New Test\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/user-statuses/update/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"user-statuses",
+										"update",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete User Status",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/user-statuses/delete/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"user-statuses",
+										"delete",
+										"3"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Main",
+					"item": [
+						{
+							"name": "Get All Users",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/users/edit-avatar/11",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"users",
+										"edit-avatar",
+										"11"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Detail User",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/users/detail/11",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"users",
+										"detail",
+										"11"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "User Register",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "//\r\n{\r\n    \"email\": \"newuser2@gmail.com\",\r\n    \"full_name\": \"New User\",\r\n    \"password\": \"12345678\",\r\n    \"rePassword\": \"12345678\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/users/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"users",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add User (Admin)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "//\r\n{\r\n    \"email\": \"admin4.petshop@gmail.com\",\r\n    \"full_name\": \"Admin\",\r\n    \"password\": \"12345678\",\r\n    \"rePassword\": \"12345678\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/users/add",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"users",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create User (Optional)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "// Admin 1\r\n// {\r\n//     \"email\": \"admin.petshop@gmail.com\",\r\n//     \"full_name\": \"Admin\",\r\n//     \"password\": \"adminpassword1\",\r\n//     \"status_id\": 1,\r\n//     \"role_id\": 1\r\n// }\r\n\r\n// // Admin 2\r\n// {\r\n//     \"email\": \"admin2@gmail.com\",\r\n//     \"full_name\": \"Chelsie Champagne\",\r\n//     \"password\": \"adminpassword1\",\r\n//     \"status_id\": 1,\r\n//     \"role_id\": 2\r\n// }\r\n\r\n// // Admin 3\r\n// {\r\n//     \"email\": \"admin3@gmail.com\",\r\n//     \"full_name\": \"Johnson\",\r\n//     \"password\": \"adminpassword1\",\r\n//     \"status_id\": 2,\r\n//     \"role_id\": 2\r\n// }\r\n\r\n// // Customer 1\r\n// {\r\n//     \"email\": \"mohamed1972@hotmail.com\",\r\n//     \"full_name\": \"James Mohamed\",\r\n//     \"password\": \"customerpassword1\",\r\n//     \"status_id\": 1,\r\n//     \"role_id\": 3\r\n// }\r\n\r\n// // Customer 2\r\n// {\r\n//     \"email\": \"davidhelms1987@yahoo.com\",\r\n//     \"full_name\": \"David Helms\",\r\n//     \"password\": \"customerpassword2\",\r\n//     \"status_id\": 1,\r\n//     \"role_id\": 3\r\n// }\r\n\r\n// // Customer 3\r\n// {\r\n//     \"email\": \"kevinlee1997@yahoo.com\",\r\n//     \"full_name\": \"Kevin Lee\",\r\n//     \"password\": \"customerpassword3\",\r\n//     \"status_id\": 1,\r\n//     \"role_id\": 3\r\n// }\r\n\r\n// // Customer 4\r\n// {\r\n//     \"email\": \"leonardo2009@yahoo.com\",\r\n//     \"full_name\": \"Leonardo\",\r\n//     \"password\": \"customerpassword1\",\r\n//     \"status_id\": 1,\r\n//     \"role_id\": 3\r\n// }\r\n\r\n// // Customer 5\r\n// {\r\n//     \"email\": \"moses_decko9@hotmail.com\",\r\n//     \"full_name\": \"Moses Sharon\",\r\n//     \"password\": \"customerpassword1\",\r\n//     \"status_id\": 1,\r\n//     \"role_id\": 3\r\n// }\r\n\r\n// // Customer 6\r\n// {\r\n//     \"email\": \"velma.greenho@gmail.com\",\r\n//     \"full_name\": \"Velma Marinelli\",\r\n//     \"password\": \"customerpassword1\",\r\n//     \"status_id\": 1,\r\n//     \"role_id\": 3\r\n// }\r\n\r\n// // Customer 7\r\n// {\r\n//     \"email\": \"tonyteo@gmail.com\",\r\n//     \"full_name\": \"Tony Teo\",\r\n//     \"password\": \"customerpassword1\",\r\n//     \"status_id\": 2,\r\n//     \"role_id\": 3\r\n// }\r\n\r\n// // Customer 8\r\n// {\r\n//     \"email\": \"test@gmail.com\",\r\n//     \"full_name\": \"Andy Wang\",\r\n//     \"password\": \"customerpassword1\",\r\n//     \"status_id\": 2,\r\n//     \"role_id\": 3\r\n// }\r\n\r\n\r\n\r\n\r\n\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/users/create",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"users",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete User",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/users/delete/18",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"users",
+										"delete",
+										"18"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit User (Full Name)",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"full_name\": \"My Name\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/users/update/11",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"users",
+										"update",
+										"11"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Change Password",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"oldPassword\": \"12345678\",\r\n    \"newPassword\": \"123456789\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/users/change-password/11",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"users",
+										"change-password",
+										"11"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Change Status User",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/users/change-status-account/11",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"users",
+										"change-status-account",
+										"11"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Avatar",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "image_avatar",
+											"type": "file",
+											"src": "/C:/Users/tranp/Downloads/Ảnh Project Module 3/users/shiba-inu.jpg"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/users/edit-avatar/11",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"users",
+										"edit-avatar",
+										"11"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "User Login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"admin.petshop@gmail.com\",\r\n    \"password\": \"adminpassword1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/users/login/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"users",
+										"login",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Services",
+			"item": [
+				{
+					"name": "Get All Services",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7373/api/services/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"services",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Detail Service",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7373/api/services/detail/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"services",
+								"detail",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Service",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Veterinarian",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "description",
+									"value": "The health of your pets is our utmost priority. Our Veterinarian service provides health check-ups, vaccinations, diagnoses, and treatments as needed. Our experienced veterinary team ensures your pets are in prime condition, offering peace of mind for their well-being.",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "price",
+									"value": "500",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "working_time_id",
+									"value": "1",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "service_image",
+									"type": "file",
+									"src": "/C:/Users/tranp/Downloads/Ảnh Project Module 3/veterinary-service.jpg",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "Pet Grooming",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "description",
+									"value": "Our Pet Grooming service offers your furry companions a professional pampering experience. Our pet care team will clean their coat, trim their nails, and style their fur, ensuring they look and feel their best, radiating a fresh and delightful appearance.",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "price",
+									"value": "300",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "working_time_id",
+									"value": "1",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "service_image",
+									"type": "file",
+									"src": "/C:/Users/tranp/Downloads/Ảnh Project Module 3/dog-grooming-service.jpg",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "Pet Sitting",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "description",
+									"value": "When you require personal time away from your pet, our Pet Sitting service ensures they receive attentive care. Our dedicated team will visit your home to tend to your pets, providing feeding, walks, and all the love and attention they need, bridging the gap in your absence.",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "price",
+									"value": "200",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "working_time_id",
+									"value": "1",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "service_image",
+									"type": "file",
+									"src": "/C:/Users/tranp/Downloads/Ảnh Project Module 3/pet-sitting-service.png",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "Cat Service",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "From routine checkups and vaccinations to dental care and surgeries, our vets can help your pet stay healthy so they feel their very best. Conveniently located inside your neighborhood Petco, Vetco Total Care makes it easy to get care and essentials in one visit.",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "100",
+									"type": "text"
+								},
+								{
+									"key": "working_time_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "service_image",
+									"type": "file",
+									"src": "/C:/Users/tranp/Downloads/Ảnh Project Module 3/pet-shop.65ea4230eb0de89d73a4.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:7373/api/services/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"services",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Service",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7373/api/services/delete/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"services",
+								"delete",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Service",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "New Title",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "New Description",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "100",
+									"type": "text"
+								},
+								{
+									"key": "working_time_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "service_image",
+									"type": "file",
+									"src": "/C:/Users/tranp/Downloads/Ảnh Project Module 3/about-store.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:7373/api/services/update/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"services",
+								"update",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Product Images",
+					"item": [
+						{
+							"name": "Get All Product Images",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/product-images/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"product-images",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Main",
+					"item": [
+						{
+							"name": "Get All Products",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/products/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"products",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Detail Product",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/products/detail/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"products",
+										"detail",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Product",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "Blueberry Pet Essentials Zoo Fun Dog Collars",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "description",
+											"value": "These vibrant and playful collars are both fashionable and functional, featuring durable materials and adjustable sizing. Make walks more enjoyable with these eye-catching and comfortable collars for your beloved furry friend.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "price",
+											"value": "40",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "quantity_stock",
+											"value": "500",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "vendor_id",
+											"value": "1",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "image_url",
+											"type": "file",
+											"src": [
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/blueberry-pet-01.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/blueberry-pet-02.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/blueberry-pet-03.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/blueberry-pet-04.jpg"
+											],
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "Hdp Dog Boots Blue Set of 4 Medium",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "description",
+											"value": "Keep your furry friend's paws protected with the HDP Dog Boots in a vibrant blue color. This set includes four medium-sized boots designed for dogs. They provide insulation against hot or cold surfaces, making walks comfortable in any weather. The boots are durable, easy to put on, and designed to stay in place during playtime.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "price",
+											"value": "50",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "quantity_stock",
+											"value": "400",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "vendor_id",
+											"value": "3",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "image_url",
+											"type": "file",
+											"src": [
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/hdp-dog-boot-01.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/hdp-dog-boot-02.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/hdp-dog-boot-03.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/hdp-dog-boot-04.jpg"
+											],
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "Glendan Dog Brush Cat Brush Slicker Pet Grooming Brush Shedding Grooming Tools",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "description",
+											"value": "A high-quality slicker grooming brush designed for effective shedding control. Keep your pets' coat clean, healthy, and tangle-free with this essential grooming tool. Perfect for dogs and cats of all sizes, it ensures a comfortable grooming experience for your furry companions.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "price",
+											"value": "9",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "quantity_stock",
+											"value": "400",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "vendor_id",
+											"value": "3",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "image_url",
+											"type": "file",
+											"src": [
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/dog-brush-01.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/dog-brush-02.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/dog-brush-03.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/dog-brush-04.jpg"
+											],
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "Senye Retractable Dog Leash 16ft Dog Traction Rope",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "description",
+											"value": "This reliable and durable traction rope provides control and flexibility during walks. With its ergonomic design and smooth retractable mechanism, it ensures a comfortable grip and effortless handling. Enjoy outdoor adventures with your canine companion using the Senye Retractable Dog Leash.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "price",
+											"value": "70",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "quantity_stock",
+											"value": "450",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "vendor_id",
+											"value": "3",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "image_url",
+											"type": "file",
+											"src": [
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/dog-leash-01.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/dog-leash-02.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/dog-leash-03.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/dog-leash-04.jpg"
+											],
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "My Alphapet Dog Poop Bags Refill Rolls",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "description",
+											"value": "These durable and leak-proof bags ensure clean and easy disposal. With their compact design, they easily fit into standard dispensers for on-the-go use. Keep your surroundings clean and hygienic while being a responsible pet owner.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "price",
+											"value": "28",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "quantity_stock",
+											"value": "350",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "vendor_id",
+											"value": "2",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "image_url",
+											"type": "file",
+											"src": [
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/dog-poop-bags-01.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/dog-poop-bags-02.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/dog-poop-bags-03.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/dog-poop-bags-04.jpg"
+											],
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "Cuddler Pet Bed Soft And Comforting",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "description",
+											"value": "This soft and comforting bed provides a cozy retreat for your furry friend, ensuring they have a restful sleep. Its plush design and padded walls offer support and security, making it the perfect spot for relaxation. Treat your pet to a luxurious and comforting resting place with this Cuddler Pet Bed.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "price",
+											"value": "37",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "quantity_stock",
+											"value": "550",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "vendor_id",
+											"value": "3",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "image_url",
+											"type": "file",
+											"src": [
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/pet-bed-01.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/pet-bed-02.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/pet-bed-03.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/pet-bed-04.jpg"
+											],
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "Meal Automatic Pet Feeder Bowl",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "description",
+											"value": "This innovative feeder ensures timely and portion-controlled feeding for your furry friend. With customizable settings and a built-in timer, you can easily schedule multiple meals throughout the day. The spill-proof design and easy-to-clean bowl make feeding effortless and mess-free. Provide your pet with a consistent and convenient feeding experience with the Meal Automatic Pet Feeder Bowl.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "price",
+											"value": "30",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "quantity_stock",
+											"value": "600",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "vendor_id",
+											"value": "2",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "image_url",
+											"type": "file",
+											"src": [
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/pet-feeder-bowl-01.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/pet-feeder-bowl-02.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/pet-feeder-bowl-03.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/pet-feeder-bowl-04.jpg"
+											],
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "Qpey Pet Food Bowl Stainless Steel",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "description",
+											"value": "A durable stainless steel bowl designed for your pet's mealtime. Ensure a hygienic and convenient feeding experience with this easy-to-clean and long-lasting bowl. Keep your furry friend happy and satisfied during every meal.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "price",
+											"value": "34",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "quantity_stock",
+											"value": "700",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "vendor_id",
+											"value": "2",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "image_url",
+											"type": "file",
+											"src": [
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/pet-food-bowl-01.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/pet-food-bowl-02.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/pet-food-bowl-03.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/pet-food-bowl-04.jpg"
+											],
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "Gaucho Goods Tribal Leather Dog Collar",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "description",
+											"value": "Elevate your dog's style with the Gaucho Goods Tribal Leather Dog Collar. Crafted with premium leather and adorned with tribal-inspired designs, this collar combines fashion with durability. Ensure a secure and comfortable fit for your furry friend while adding a touch of uniqueness to their look. Let your dog stand out in style with the Gaucho Goods Tribal Leather Dog Collar.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "price",
+											"value": "45",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "quantity_stock",
+											"value": "600",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "vendor_id",
+											"value": "2",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "image_url",
+											"type": "file",
+											"src": [
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/tribal-leather-01.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/tribal-leather-02.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/tribal-leather-03.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/tribal-leather-04.jpg"
+											],
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "Dogline Biothane Waterproof Dog Leash Strong Coated Nylon",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "description",
+											"value": "A strong and durable coated nylon leash that withstands any weather. Perfect for active dogs, it provides a reliable grip and easy control. Keep your furry companion safe and stylish on every adventure.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "price",
+											"value": "12",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "quantity_stock",
+											"value": "750",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "vendor_id",
+											"value": "1",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "image_url",
+											"type": "file",
+											"src": [
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/waterproof-dog-leash-01.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/waterproof-dog-leash-02.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/waterproof-dog-leash-03.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/waterproof-dog-leash-04.jpg"
+											],
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "Best Friends By Sheri OrthoComfort Deep Dish Cuddler",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "description",
+											"value": "A charming animal world is already waiting for you! Little hearts of those animals we take care of are able to warm us and hide from sad thoughts no matter how big our pets are....",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "price",
+											"value": "49",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "quantity_stock",
+											"value": "650",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "vendor_id",
+											"value": "3",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "image_url",
+											"type": "file",
+											"src": [
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/deep-dish-cuddler-01.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/deep-dish-cuddler-02.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/deep-dish-cuddler-03.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/deep-dish-cuddler-04.jpg"
+											],
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "Halo Pet Microchip Scanner",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "description",
+											"value": "The Halo Pet Microchip Scanner is an essential tool for pet owners and professionals. This handheld device can read and verify microchip information, helping you locate lost pets and ensure their safety. With its user-friendly interface and compact design, it's easy to use and carry. Make pet care a breeze with this reliable scanner.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "price",
+											"value": "70",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "quantity_stock",
+											"value": "400",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "vendor_id",
+											"value": "3",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "image_url",
+											"type": "file",
+											"src": [
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/pet-scanner-01.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/pet-scanner-02.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/pet-scanner-03.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/pet-scanner-04.jpg"
+											],
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "Hing Designs The Bone Bowl with Non Slip Rubber Feet and Dishwasher Safe Removable Stainless Steel Bowls Pink",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "description",
+											"value": "The Hing Designs Bone Bowl is both functional and stylish. Its unique bone-shaped design adds a touch of fun to your pet's mealtime. The non-slip rubber feet keep the bowl in place, and the stainless steel bowls are easy to remove and dishwasher-safe, ensuring a hygienic eating experience for your pet.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "price",
+											"value": "9",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "quantity_stock",
+											"value": "700",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "vendor_id",
+											"value": "2",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "image_url",
+											"type": "file",
+											"src": [
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/bone-bowl-01.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/bone-bowl-02.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/bone-bowl-03.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/bone-bowl-04.jpg"
+											],
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "Waterproof Non Slip Fda Grade Silicone Cat Pet Bowl Feeding Placemat",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "description",
+											"value": "This FDA-grade silicone placemat is a must-have for pet owners. It's waterproof and non-slip, protecting your floors from spills and messes during mealtime. The high-quality silicone material is safe for pets, and the mat is easy to clean, making your life easier.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "price",
+											"value": "55",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "quantity_stock",
+											"value": "500",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "vendor_id",
+											"value": "1",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "image_url",
+											"type": "file",
+											"src": [
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/pet-placemat-01.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/pet-placemat-02.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/pet-placemat-03.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/pet-placemat-04.jpg"
+											],
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "Wrapok Compostable Dog Poop Bags",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "description",
+											"value": "When it comes to pet waste disposal, choose Wrapok Compostable Dog Poop Bags. These eco-friendly bags are made from compostable materials, reducing your environmental footprint. They are strong, leak-proof, and easy to tie securely. Responsible pet ownership meets sustainability with these bags.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "price",
+											"value": "28",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "quantity_stock",
+											"value": "350",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "vendor_id",
+											"value": "2",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "image_url",
+											"type": "file",
+											"src": [
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/poop-bags-01.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/poop-bags-02.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/poop-bags-03.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/poop-bags-04.jpg"
+											],
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "Zehui Pet Dog Cat Sweater Puppy T Shirt Warm Hoodies Coat Clothes Apparel Black S",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "description",
+											"value": "Keep your furry companion warm and stylish with the Zehui Pet Sweater. This black knitted sweater, available in size S, provides warmth and comfort during colder seasons. It's not only functional but also adds a fashionable touch to your pet's wardrobe. Dress your pet in comfort and style with this adorable hoodie.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "price",
+											"value": "18",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "quantity_stock",
+											"value": "450",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "vendor_id",
+											"value": "3",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "image_url",
+											"type": "file",
+											"src": [
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/puppy-shirt-01.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/puppy-shirt-02.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/puppy-shirt-03.jpg",
+												"/C:/Users/tranp/Downloads/Ảnh Project Module 3/product-images/puppy-shirt-04.jpg"
+											]
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/products/add",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"products",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Product",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/products/delete/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"products",
+										"delete",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Product",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "price",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "quantity_stock",
+											"value": "800",
+											"type": "text"
+										},
+										{
+											"key": "vendor_id",
+											"value": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/products/update/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"products",
+										"update",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Product Image",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "image_url",
+											"type": "file",
+											"src": "/C:/Users/tranp/Downloads/Ảnh Project Module 3/dogs-reviews-01.png"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/products/1/update-image/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"products",
+										"1",
+										"update-image",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Change Thumbnail",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "image_url",
+											"type": "file",
+											"src": "/C:/Users/tranp/Downloads/Ảnh Project Module 3/dogs-reviews-01.png"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/products/5/update-thumbnail/20",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"products",
+										"5",
+										"update-thumbnail",
+										"20"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Bookings",
+			"item": [
+				{
+					"name": "Booking Status",
+					"item": [
+						{
+							"name": "Get All Booking Status",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/booking-statuses/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"booking-statuses",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Detail Booking Status",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/booking-statuses/detail/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"booking-statuses",
+										"detail",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Booking Status",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "// // 1. Pending\r\n// {\r\n//     \"name\": \"Pending\"\r\n// }\r\n\r\n// // 2. Processing\r\n// {\r\n//     \"name\": \"Processing\"\r\n// }\r\n\r\n// 3. Done\r\n// {\r\n//     \"name\": \"Done\"\r\n// }\r\n\r\n// 4. Cancel\r\n// {\r\n//     \"name\": \"Cancel\"\r\n// }\r\n\r\n// 5. Test\r\n// {\r\n//     \"name\": \"Test\"\r\n// }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/booking-statuses/add/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"booking-statuses",
+										"add",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Booking Status",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "// // 1. New Balance\r\n{\r\n    \"name\": \"New Balance\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/booking-statuses/update/5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"booking-statuses",
+										"update",
+										"5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Booking Status",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/booking-statuses/delete/7",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"booking-statuses",
+										"delete",
+										"7"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Main",
+					"item": [
+						{
+							"name": "Get All Bookings",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/bookings/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"bookings",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Detail Booking",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/bookings/detail/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"bookings",
+										"detail",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Booking",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbi5wZXRzaG9wQGdtYWlsLmNvbSIsImZ1bGxfbmFtZSI6IkFkbWluIiwic3RhdHVzX2lkIjoxLCJyb2xlX2lkIjoxLCJpbWFnZV9hdmF0YXIiOiJodHRwczovL2kuaWJiLmNvLzNCdFFkVkQvcGV0LXNob3AucG5nIiwiY3JlYXRlZF9hdCI6IjIwMjMtMTAtMTBUMDc6NDM6NDkuMDAwWiIsInVwZGF0ZWRfYXQiOiIyMDIzLTEwLTEwVDA3OjQzOjQ5LjAwMFoiLCJpYXQiOjE2OTY5MjkwMjl9.YgGkNc34Fm84oW1juKwyLKGajKF7BRyFvZjYrOsBXs0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "Mohamed",
+											"type": "text"
+										},
+										{
+											"key": "phone",
+											"value": "12345678909",
+											"type": "text"
+										},
+										{
+											"key": "booking_date",
+											"value": "2023-10-14",
+											"type": "text"
+										},
+										{
+											"key": "calendar",
+											"value": "14:00 PM - 16:30 PM",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "David Helms",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "phone",
+											"value": "13232233233",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "booking_date",
+											"value": "2023-10-23",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "calendar",
+											"value": "14:00 PM - 16:30 PM",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "Kevin Lee",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "phone",
+											"value": "14232533443",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "booking_date",
+											"value": "2023-10-24",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "calendar",
+											"value": "14:00 PM - 16:30 PM",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "Leonardo",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "phone",
+											"value": "15232323223",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "booking_date",
+											"value": "2023-10-24",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "calendar",
+											"value": "14:00 PM - 16:30 PM",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "Moses Sharon",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "phone",
+											"value": "16355634343",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "booking_date",
+											"value": "2023-10-25",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "calendar",
+											"value": "09:00 AM - 11:30 AM",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "Velma Marinelli",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "phone",
+											"value": "17546454564",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "booking_date",
+											"value": "2023-10-25",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "calendar",
+											"value": "14:00 PM - 16:30 PM",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/bookings/add/users/4/services/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"bookings",
+										"add",
+										"users",
+										"4",
+										"services",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Booking",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/bookings/delete/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"bookings",
+										"delete",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Booking",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "// Payment Test:\r\n{\r\n    \"status_id\": 4\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/bookings/update/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"bookings",
+										"update",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cancel Booking",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/cancel-booking/11/users/4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"cancel-booking",
+										"11",
+										"users",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Filter Booking By User ID",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "// Payment Test:\r\n{\r\n    \"status_id\": 4\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/bookings/filter/4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"bookings",
+										"filter",
+										"4"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Comments",
+			"item": [
+				{
+					"name": "Product Comments",
+					"item": [
+						{
+							"name": "Get All Product Comments",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/comments/products/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"comments",
+										"products",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Detail Product Comment",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/comments/products/detail/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"comments",
+										"products",
+										"detail",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Product Comment",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbi5wZXRzaG9wQGdtYWlsLmNvbSIsImZ1bGxfbmFtZSI6IkFkbWluIiwic3RhdHVzX2lkIjoxLCJyb2xlX2lkIjoxLCJpbWFnZV9hdmF0YXIiOiJodHRwczovL2kuaWJiLmNvLzNCdFFkVkQvcGV0LXNob3AucG5nIiwiY3JlYXRlZF9hdCI6IjIwMjMtMTAtMDhUMDQ6NTQ6MTMuMDAwWiIsInVwZGF0ZWRfYXQiOiIyMDIzLTEwLTA4VDA0OjU0OjEzLjAwMFoiLCJpYXQiOjE2OTY3NzEzMDF9.zK5zLC7yc3xMUSRX30eF3ZV4Mox9x5-XzkyJMJS91q0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "// // Comment 1:\r\n// {\r\n//     \"comment\": \"I'm really impressed with this product. It's well-made and exceeded my expectations.\",\r\n//     \"rating\": 5\r\n// }\r\n\r\n////  Comment 2:\r\n// {\r\n//     \"comment\": \"The quality of this product is outstanding. I couldn't be happier with my purchase.\",\r\n//     \"rating\": 5\r\n// }\r\n\r\n// // Comment 3:\r\n// {\r\n//     \"comment\": \"This product is a game-changer. It's made my life so much easier and more convenient.\",\r\n//     \"rating\": 4\r\n// }\r\n\r\n// // Comment 4:\r\n// {\r\n//     \"comment\": \"I've been using this product for a while now, and it's still in perfect condition. Great durability!\",\r\n//     \"rating\": 3\r\n// }\r\n\r\n// // Comment 5:\r\n// {\r\n//     \"comment\": \"What a fantastic product! It's worth every penny and has improved my daily routine.\",\r\n//     \"rating\": 4\r\n// }\r\n\r\n// // Comment 6:\r\n// {\r\n//     \"comment\": \"I love the design of this product. It's sleek and stylish, adding a touch of elegance to my space.\",\r\n//     \"rating\": 5\r\n// }\r\n\r\n// // Comment 7:\r\n// {\r\n//     \"comment\": \"This product has become an essential part of my daily life. I can't imagine living without it.\",\r\n//     \"rating\": 5\r\n// }\r\n\r\n// // Comment 8:\r\n// {\r\n//     \"comment\": \"I purchased this product as a gift, and the recipient absolutely loved it. Great choice!\",\r\n//     \"rating\": 4\r\n// }\r\n\r\n// // Comment 9:\r\n// {\r\n//     \"comment\": \"The performance of this product is top-notch. It delivers on its promises and then some.\",\r\n//     \"rating\": 4\r\n// }\r\n\r\n// // Comment 10:\r\n// {\r\n//     \"comment\": \"I'm so glad I found this product. It's made a noticeable difference in my overall well-being.\",\r\n//     \"rating\": 4\r\n// }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/comments/products/add/1/users/9",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"comments",
+										"products",
+										"add",
+										"1",
+										"users",
+										"9"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Product Comment",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/comments/products/delete/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"comments",
+										"products",
+										"delete",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Service Comments",
+					"item": [
+						{
+							"name": "Get All Service Comments",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/comments/services/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"comments",
+										"services",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Detail Service Comment",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/comments/services/detail/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"comments",
+										"services",
+										"detail",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Service Comment",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbi5wZXRzaG9wQGdtYWlsLmNvbSIsImZ1bGxfbmFtZSI6IkFkbWluIiwic3RhdHVzX2lkIjoxLCJyb2xlX2lkIjoxLCJpbWFnZV9hdmF0YXIiOiJodHRwczovL2kuaWJiLmNvLzNCdFFkVkQvcGV0LXNob3AucG5nIiwiY3JlYXRlZF9hdCI6IjIwMjMtMTAtMDhUMDQ6NTQ6MTMuMDAwWiIsInVwZGF0ZWRfYXQiOiIyMDIzLTEwLTA4VDA0OjU0OjEzLjAwMFoiLCJpYXQiOjE2OTY3NzEzMDF9.zK5zLC7yc3xMUSRX30eF3ZV4Mox9x5-XzkyJMJS91q0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "// // Comment 1:\r\n// {\r\n//     \"comment\": \"I've gifted this product to multiple friends, and they've all been impressed. It's a crowd-pleaser.\",\r\n//     \"rating\": 5\r\n// }\r\n\r\n////  Comment 2:\r\n// {\r\n//     \"comment\": \"I love the versatility of this product. It adapts to various situations effortlessly.\",\r\n//     \"rating\": 5\r\n// }\r\n\r\n// // Comment 3:\r\n// {\r\n//     \"comment\": \"This product arrived earlier than expected, and the packaging was perfect. A great buying experience.\",\r\n//     \"rating\": 4\r\n// }\r\n\r\n// // Comment 4:\r\n// {\r\n//     \"comment\": \"I can't get over how great this product is. It's an investment in convenience and quality.\",\r\n//     \"rating\": 3\r\n// }\r\n\r\n// // Comment 5:\r\n// {\r\n//     \"comment\": \"I've compared similar products, and this one stands out for its performance and durability.\",\r\n//     \"rating\": 4\r\n// }\r\n\r\n// // Comment 6:\r\n// {\r\n//     \"comment\": \"The user manual for this product is easy to follow, making setup a breeze.\",\r\n//     \"rating\": 5\r\n// }\r\n\r\n// // Comment 7:\r\n// {\r\n//     \"comment\": \"This product has simplified my daily routine. I wonder how I managed without it before.\",\r\n//     \"rating\": 5\r\n// }\r\n\r\n// // Comment 8:\r\n// {\r\n//     \"comment\": \"I'm thrilled with this purchase. It's a fantastic addition to my collection of gadgets.\",\r\n//     \"rating\": 4\r\n// }\r\n\r\n// // Comment 9:\r\n// {\r\n//     \"comment\": \"The design of this product is not only functional but also aesthetically pleasing. I'm impressed.\",\r\n//     \"rating\": 4\r\n// }\r\n\r\n// // Comment 10:\r\n// {\r\n//     \"comment\": \"I've recommended this product to colleagues, and they've all had positive experiences. Thumbs up!\",\r\n//     \"rating\": 4\r\n// }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/comments/services/add/3/users/5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"comments",
+										"services",
+										"add",
+										"3",
+										"users",
+										"5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Service Comment",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/comments/services/delete/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"comments",
+										"services",
+										"delete",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Carts",
+			"item": [
+				{
+					"name": "Get All Carts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7373/api/carts/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"carts",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Detail Cart",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7373/api/carts/detail/users/9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"carts",
+								"detail",
+								"users",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Cart",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbi5wZXRzaG9wQGdtYWlsLmNvbSIsImZ1bGxfbmFtZSI6IkFkbWluIiwic3RhdHVzX2lkIjoxLCJyb2xlX2lkIjoxLCJpbWFnZV9hdmF0YXIiOiJodHRwczovL2kuaWJiLmNvLzNCdFFkVkQvcGV0LXNob3AucG5nIiwiY3JlYXRlZF9hdCI6IjIwMjMtMTAtMDhUMDQ6NTQ6MTMuMDAwWiIsInVwZGF0ZWRfYXQiOiIyMDIzLTEwLTA4VDA0OjU0OjEzLjAwMFoiLCJpYXQiOjE2OTY4MTU0Nzh9.d-0-UA3ikde6EGuID1ogBc2UOe14ufruh_WhBZn-sjk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "// Add Quantity:\r\n{\r\n    \"quantity\": 10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7373/api/carts/add/products/4/users/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"carts",
+								"add",
+								"products",
+								"4",
+								"users",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Cart",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbi5wZXRzaG9wQGdtYWlsLmNvbSIsImZ1bGxfbmFtZSI6IkFkbWluIiwic3RhdHVzX2lkIjoxLCJyb2xlX2lkIjoxLCJpbWFnZV9hdmF0YXIiOiJodHRwczovL2kuaWJiLmNvLzNCdFFkVkQvcGV0LXNob3AucG5nIiwiY3JlYXRlZF9hdCI6IjIwMjMtMTAtMDhUMDQ6NTQ6MTMuMDAwWiIsInVwZGF0ZWRfYXQiOiIyMDIzLTEwLTA4VDA0OjU0OjEzLjAwMFoiLCJpYXQiOjE2OTY4MTU0Nzh9.d-0-UA3ikde6EGuID1ogBc2UOe14ufruh_WhBZn-sjk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "// Coupon 1:\r\n{\r\n    \"quantity\": 20\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7373/api/carts/update/products/1/users/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"carts",
+								"update",
+								"products",
+								"1",
+								"users",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Quantity In Cart Page",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbi5wZXRzaG9wQGdtYWlsLmNvbSIsImZ1bGxfbmFtZSI6IkFkbWluIiwic3RhdHVzX2lkIjoxLCJyb2xlX2lkIjoxLCJpbWFnZV9hdmF0YXIiOiJodHRwczovL2kuaWJiLmNvLzNCdFFkVkQvcGV0LXNob3AucG5nIiwiY3JlYXRlZF9hdCI6IjIwMjMtMTAtMDhUMDQ6NTQ6MTMuMDAwWiIsInVwZGF0ZWRfYXQiOiIyMDIzLTEwLTA4VDA0OjU0OjEzLjAwMFoiLCJpYXQiOjE2OTY4MTU0Nzh9.d-0-UA3ikde6EGuID1ogBc2UOe14ufruh_WhBZn-sjk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "// Coupon 1:\r\n{\r\n    \"quantity\": 20\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7373/api/carts/update/products/1/users/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"carts",
+								"update",
+								"products",
+								"1",
+								"users",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product From Cart",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbi5wZXRzaG9wQGdtYWlsLmNvbSIsImZ1bGxfbmFtZSI6IkFkbWluIiwic3RhdHVzX2lkIjoxLCJyb2xlX2lkIjoxLCJpbWFnZV9hdmF0YXIiOiJodHRwczovL2kuaWJiLmNvLzNCdFFkVkQvcGV0LXNob3AucG5nIiwiY3JlYXRlZF9hdCI6IjIwMjMtMTAtMDhUMDQ6NTQ6MTMuMDAwWiIsInVwZGF0ZWRfYXQiOiIyMDIzLTEwLTA4VDA0OjU0OjEzLjAwMFoiLCJpYXQiOjE2OTY4MTU0Nzh9.d-0-UA3ikde6EGuID1ogBc2UOe14ufruh_WhBZn-sjk",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:7373/api/carts/delete/products/2/users/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"carts",
+								"delete",
+								"products",
+								"2",
+								"users",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete All Products From Cart",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbi5wZXRzaG9wQGdtYWlsLmNvbSIsImZ1bGxfbmFtZSI6IkFkbWluIiwic3RhdHVzX2lkIjoxLCJyb2xlX2lkIjoxLCJpbWFnZV9hdmF0YXIiOiJodHRwczovL2kuaWJiLmNvLzNCdFFkVkQvcGV0LXNob3AucG5nIiwiY3JlYXRlZF9hdCI6IjIwMjMtMTAtMDhUMDQ6NTQ6MTMuMDAwWiIsInVwZGF0ZWRfYXQiOiIyMDIzLTEwLTA4VDA0OjU0OjEzLjAwMFoiLCJpYXQiOjE2OTY4MTU0Nzh9.d-0-UA3ikde6EGuID1ogBc2UOe14ufruh_WhBZn-sjk",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:7373/api/carts/delete/users/9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"carts",
+								"delete",
+								"users",
+								"9"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "Main",
+					"item": [
+						{
+							"name": "Get All Orders",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/orders/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"orders",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Detail Order",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/orders/detail/4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"orders",
+										"detail",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Orders By User",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/orders/users/5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"orders",
+										"users",
+										"5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Checkout Order",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "// // Invalid Card:\r\n// {\r\n//     \"cardholder_name\": \"Andy\",\r\n//     \"card_number\": \"1234567890123456\",\r\n//     \"expiry_date\": \"03/2005\",\r\n//     \"cvv\": \"111\",\r\n//     \"customer_name\": \"Andy\",\r\n//     \"address\": \"New York\",\r\n//     \"phone\": 12345678901,\r\n//     \"bill\": 500\r\n// }\r\n\r\n// // Card 1 (Good):\r\n// {\r\n//     \"cardholder_name\": \"TRAN PHUOC ANH MINH\",\r\n//     \"card_number\": \"4032030389663551\",\r\n//     \"expiry_date\": \"05/2024\",\r\n//     \"cvv\": \"255\",\r\n//     \"customer_name\": \"James Mohamed\",\r\n//     \"address\": \"3119 Woodbridge Lane\",\r\n//     \"phone\": \"11394127799\"\r\n// }\r\n\r\n// {\r\n//     \"cardholder_name\": \"TRAN PHUOC ANH MINH\",\r\n//     \"card_number\": \"4032030389663551\",\r\n//     \"expiry_date\": \"05/2024\",\r\n//     \"cvv\": \"255\",\r\n//     \"customer_name\": \"David Helms\",\r\n//     \"address\": \"2623 Ryder Avenue\",\r\n//     \"phone\": \"12553870741\"\r\n// }\r\n\r\n// {\r\n//     \"cardholder_name\": \"TRAN PHUOC ANH MINH\",\r\n//     \"card_number\": \"4032030389663551\",\r\n//     \"expiry_date\": \"05/2024\",\r\n//     \"cvv\": \"255\",\r\n//     \"customer_name\": \"Kevin Lee\",\r\n//     \"address\": \"1196 Sardis Sta\",\r\n//     \"phone\": \"18220266484\"\r\n// }\r\n\r\n// {\r\n//     \"cardholder_name\": \"TRAN PHUOC ANH MINH\",\r\n//     \"card_number\": \"4032030389663551\",\r\n//     \"expiry_date\": \"05/2024\",\r\n//     \"cvv\": \"255\",\r\n//     \"customer_name\": \"Leonardo\",\r\n//     \"address\": \"1533 Virgil Street\",\r\n//     \"phone\": \"12743249848\"\r\n// }\r\n\r\n// {\r\n//     \"cardholder_name\": \"TRAN PHUOC ANH MINH\",\r\n//     \"card_number\": \"4032030389663551\",\r\n//     \"expiry_date\": \"05/2024\",\r\n//     \"cvv\": \"255\",\r\n//     \"customer_name\": \"Moses Sharon\",\r\n//     \"address\": \"1888 Nicholas Street\",\r\n//     \"phone\": \"18584544441\"\r\n// }\r\n\r\n// Card 1 (Good):\r\n// {\r\n//     \"cardholder_name\": \"TRAN PHUOC ANH MINH\",\r\n//     \"card_number\": \"4032030389663551\",\r\n//     \"expiry_date\": \"05/2024\",\r\n//     \"cvv\": \"255\",\r\n//     \"customer_name\": \"Andy\",\r\n//     \"address\": \"New York\",\r\n//     \"phone\": 12345678901\r\n// }\r\n\r\n// Card 2 (Good 2):\r\n// {\r\n//     \"cardholder_name\": \"TONY TEO\",\r\n//     \"card_number\": \"4032035757672365\",\r\n//     \"expiry_date\": \"09/2025\",\r\n//     \"cvv\": \"680\",\r\n//     \"customer_name\": \"Michael\",\r\n//     \"address\": \"Los Angeles\",\r\n//     \"phone\": 18425612423\r\n// }\r\n\r\n\r\n// Card 3 (Expired Card):\r\n// {\r\n//     \"cardholder_name\": \"DAVID ADAM\",\r\n//     \"card_number\": \"4032030010422732\",\r\n//     \"expiry_date\": \"02/2021\",\r\n//     \"cvv\": \"666\",\r\n//     \"customer_name\": \"Johnny\",\r\n//     \"address\": \"Alabama\",\r\n//     \"phone\": 19513234536\r\n// }\r\n\r\n// Card 4 (Balance not enough):\r\n// {\r\n//     \"cardholder_name\": \"JOHN MIKE\",\r\n//     \"card_number\": \"4032036377584881\",\r\n//     \"expiry_date\": \"01/2028\",\r\n//     \"cvv\": \"408\",\r\n//     \"customer_name\": \"Lenny\",\r\n//     \"address\": \"Washington\",\r\n//     \"phone\": 17421451227\r\n// }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/orders/checkout/users/6",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"orders",
+										"checkout",
+										"users",
+										"6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Order",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "/** Order Status:\r\n    1. Pending\r\n    2. Processing\r\n    3. Shipping\r\n    4. Shipped\r\n    5. Cancel \r\n*/\r\n\r\n// 1. Process\r\n// {\r\n//     \"status_id\": 2\r\n// }\r\n\r\n// // 2. Shipping\r\n// {\r\n//     \"status_id\": 3\r\n// }\r\n\r\n// // 3. Shipped\r\n// {\r\n//     \"status_id\": 4\r\n// }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/orders/update/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"orders",
+										"update",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cancel Order",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "// Order Status:\r\n//         1. Pending\r\n//         2. Processing\r\n//         3. Shipping\r\n//         4. Shipped\r\n//         5. Cancel \r\n//  Cancel Reasons:\r\n//         1. Ordered the wrong product\r\n//         2. Duplicated order\r\n//         3. I don't want to buy anymore\r\n//         4. Another Reason...\r\n//\r\n\r\n\r\n\r\n// 1. Process\r\n// {\r\n//     \"status_id\": 2\r\n// }\r\n// // 2. Shipping\r\n// {\r\n//     \"status_id\": 3\r\n// }\r\n// // 3. Shipped\r\n// {\r\n//     \"status_id\": 4\r\n// }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/orders/cancel-order/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"orders",
+										"cancel-order",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Order Items",
+					"item": [
+						{
+							"name": "Get All Order Items",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/orders/1/detail/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"orders",
+										"1",
+										"detail",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Order Statuses",
+					"item": [
+						{
+							"name": "Get All Order Statuses",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/order-statuses/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"order-statuses",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Detail Order Status",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/order-statuses/detail/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"order-statuses",
+										"detail",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Order Status",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "// // Status 1: Pending\r\n// {\r\n//     \"name\": \"Pending\"\r\n// }\r\n\r\n// // Status 2: Processing\r\n// {\r\n//     \"name\": \"Processing\"\r\n// }\r\n\r\n// // Status 3: Shipping\r\n// {\r\n//     \"name\": \"Shipping\"\r\n// }\r\n\r\n// // Status 4: Shipped\r\n// {\r\n//     \"name\": \"Shipped\"\r\n// }\r\n\r\n// // Status 5: Cancel\r\n// {\r\n//     \"name\": \"Cancel\"\r\n// }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/order-statuses/add",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"order-statuses",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Order Status",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "// {\r\n//     \"name\": \"Shipped\"\r\n// }\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/order-statuses/update/4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"order-statuses",
+										"update",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Order Status",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/order-statuses/delete/5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"order-statuses",
+										"delete",
+										"5"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Cancel Reasons",
+					"item": [
+						{
+							"name": "Get All Order Statuses",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/cancel-reasons/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"cancel-reasons",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Detail Cancel Reason",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/cancel-reasons/detail/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"cancel-reasons",
+										"detail",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Cancel Reason",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "// // Status 1: Ordered the wrong product\r\n// {\r\n//     \"name\": \"Ordered the wrong product\"\r\n// }\r\n\r\n// // Status 2: Duplicated order\r\n// {\r\n//     \"name\": \"Duplicated order\"\r\n// }\r\n\r\n// // Status 3: I don't want to buy anymore\r\n// {\r\n//     \"name\": \"I don't want to buy anymore\"\r\n// }\r\n\r\n// Status 4: Another reason...\r\n// {\r\n//     \"name\": \"Another reason...\"\r\n// }\r\n\r\n// Status 5: Cancel\r\n{\r\n    \"name\": \"Cancel\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/cancel-reasons/add",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"cancel-reasons",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Cancel Reason",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Another Reason...\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/cancel-reasons/update/4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"cancel-reasons",
+										"update",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Order Status",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/cancel-reasons/delete/5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"cancel-reasons",
+										"delete",
+										"5"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Post Statuses",
+			"item": [
+				{
+					"name": "Get All Post Statuses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7373/api/post-statuses/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"post-statuses",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Detail Post Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7373/api/post-statuses/detail/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"post-statuses",
+								"detail",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Post Status",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Type 1: Draft\r\n// {\r\n//     \"name\": \"Draft\"\r\n// }\r\n\r\n// Type 2: Published\r\n// {\r\n//     \"name\": \"Published\"\r\n// }"
+						},
+						"url": {
+							"raw": "http://localhost:7373/api/post-statuses/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"post-statuses",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Post Status",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// // Coupon 1:\r\n{\r\n    \"name\": \"\",\r\n    \"code\": \"\",\r\n    \"discount_rate\": 25,\r\n    \"min_bill\": 4500\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7373/api/post-statuses/update/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"post-statuses",
+								"update",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Post Status",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7373/api/post-statuses/delete/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"post-statuses",
+								"delete",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Posts",
+			"item": [
+				{
+					"name": "Get All Posts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7373/api/posts/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"posts",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Detail Post",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7373/api/posts/detail/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"posts",
+								"detail",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Test",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "Test",
+									"type": "text"
+								},
+								{
+									"key": "author",
+									"value": "Test",
+									"type": "text"
+								},
+								{
+									"key": "status_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "thumbnail_url",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:7373/api/posts/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"posts",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Post",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Test New",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "Test",
+									"type": "text"
+								},
+								{
+									"key": "author",
+									"value": "Test",
+									"type": "text"
+								},
+								{
+									"key": "status_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "thumbnail_url",
+									"type": "file",
+									"src": "/C:/Users/tranp/Downloads/Ảnh Project Module 3/pet-shop.65ea4230eb0de89d73a4.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:7373/api/posts/update/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"posts",
+								"update",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Post",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7373/api/posts/delete/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"posts",
+								"delete",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pages",
+			"item": [
+				{
+					"name": "Get All Pages",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7373/api/pages/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"pages",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Detail Page",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7373/api/pages/detail/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"pages",
+								"detail",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Page",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Test",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "Test",
+									"type": "text"
+								},
+								{
+									"key": "author",
+									"value": "Test",
+									"type": "text"
+								},
+								{
+									"key": "status_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "thumbnail_url",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:7373/api/pages/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"pages",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Page",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Test 2",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "Test",
+									"type": "text"
+								},
+								{
+									"key": "author",
+									"value": "Test",
+									"type": "text"
+								},
+								{
+									"key": "status_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "thumbnail_url",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:7373/api/pages/update/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"pages",
+								"update",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Page",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7373/api/pages/delete/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7373",
+							"path": [
+								"api",
+								"pages",
+								"delete",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
