@@ -81,7 +81,7 @@ function ManageServices() {
 
   const handleDeleteService = (serviceId: number) => {
     axios
-      .delete(`http://localhost:7373/api/services/detail/${serviceId}`)
+      .delete(`${servicesAPI}/delete/${serviceId}`)
       .then(() => {
         fetchServices(); // Cập nhật lại dữ liệu products sau khi xóa
         notification.success({
@@ -89,22 +89,14 @@ function ManageServices() {
         });
       })
       .catch((error) => {
-        console.log(error.message);
+        notification.warning({
+          message: `${error.response.data.message}`,
+        });
       });
   };
 
   const handleUpdateService = () => {
-    axios
-      .get("http://localhost:7373/api/services")
-      .then(() => {
-        fetchServices(); // Cập nhật lại dữ liệu users sau khi thêm
-        notification.success({
-          message: "Service Updated",
-        });
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+    fetchServices();
   };
 
   return (

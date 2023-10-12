@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Button, Modal } from "antd";
+import { Button, Modal, notification } from "antd";
 import { Product, Service } from "../../../../../../database";
 import { Editor } from "@tinymce/tinymce-react";
 import axios from "axios";
 import styles from "../DetailService/DetailModalService.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
+
+// Import API
+// 1. Services API
+const servicesAPI = process.env.REACT_APP_API_SERVICES;
+
+// ------------------------------------------------
 
 interface DetailModalProps {
   className?: string; // Thêm khai báo cho thuộc tính className
@@ -31,6 +37,13 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
   const [initPrice, setPrice] = useState("");
   const [initImage, setImage] = useState("");
   const [services, setServices] = useState<null | Service>(null);
+  const [serviceInfo, setServiceInfo] = useState<any>({
+    name: "",
+    description: "",
+    price: 0,
+    working_time_id: 1,
+    service_image: "",
+  });
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -43,7 +56,7 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
   useEffect(() => {
     const fetchServices = () => {
       axios
-        .get(`http://localhost:7373/services/${getServiceId}`)
+        .get(`${servicesAPI}/detail/${getServiceId}`)
         .then((response) => {
           setServices(response.data);
         })
@@ -58,7 +71,10 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
   console.log(services);
 
   const handleChange = (content: string, editor: any) => {
-    setDescription(content);
+    setServiceInfo({
+      ...serviceInfo,
+      description: content,
+    });
   };
 
   const showModal = () => {
@@ -67,27 +83,28 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
   };
 
   const handleOk = () => {
-    console.log("handleSubmit is called");
-    const updateService = {
-      name: initName !== "" ? initName : services?.name,
-      // serviceImage: initImage !== "" ? initImage : services?.serviceImage,
-      description:
-        initDescription !== "" ? initDescription : services?.description,
-      price: initPrice !== "" ? initPrice : services?.price,
-    };
-
     axios
-      .patch(`http://localhost:7373/api/services/detail/${getServiceId}`, updateService)
+      .patch(`${servicesAPI}/update/${getServiceId}`, serviceInfo)
       .then((response) => {
-        console.log("Service updated successfully:", response.data);
-        setIsModalOpen(false); // Close the modal
+        notification.success({
+          message: `Service Updated`,
+        });
+        setIsModalOpen(false);
+        handleFunctionOk();
+        setServiceInfo({
+          name: "",
+          description: "",
+          price: 0,
+          working_time_id: 1,
+          service_image: "",
+        });
+        navigate("/admin/manage-services/");
       })
       .catch((error) => {
-        console.error("Error updating product:", error);
+        notification.warning({
+          message: `${error.response.data.message}`,
+        });
       });
-    if (handleFunctionOk) {
-      handleFunctionOk();
-    }
   };
 
   const handleCancel = () => {
@@ -116,7 +133,7 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
       >
         {services && (
           <div className={styles["product-detail-information-container"]}>
-            {/* <img src={services && services.serviceImage} alt="" /> */}
+            <img src={services && services.service_image} alt="" />
             <div className={styles["left-product-detail-item"]}></div>
 
             <div className={styles["right-product-detail-item"]}>
@@ -139,7 +156,12 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
                   type="text"
                   name="Product Title"
                   defaultValue={services && services.name}
-                  onChange={(event) => setName(event.target.value)}
+                  onChange={(event) =>
+                    setServiceInfo({
+                      ...serviceInfo,
+                      name: event.target.value,
+                    })
+                  }
                 />
               </div>
               <div className={styles["product-info-item"]}>
@@ -160,9 +182,15 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
                 </label>
                 <input
                   type="number"
+                  min={0}
                   name="Product Title"
                   defaultValue={services && services.price}
-                  onChange={(event) => setPrice(event.target.value)}
+                  onChange={(event) =>
+                    setServiceInfo({
+                      ...serviceInfo,
+                      price: event.target.value,
+                    })
+                  }
                 />
               </div>
             </div>

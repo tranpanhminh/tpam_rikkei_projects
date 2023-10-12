@@ -141,10 +141,6 @@ const AddModalService: React.FC<AddModalProps> = ({
       >
         <div className={styles["list-input-add-student"]}>
           <div className={styles["list-input-item"]}>
-            <p>User ID</p>
-            <input type="text" value={maxId + 1} disabled />
-          </div>
-          <div className={styles["list-input-item"]}>
             <p>Service Name</p>
             <input
               type="text"
