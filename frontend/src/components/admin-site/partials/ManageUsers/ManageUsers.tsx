@@ -76,33 +76,10 @@ function ManageUsers() {
     //     });
     // }
   };
-  const handleChangeUser = (userId: number) => {
-    const updatedUsers = users?.map((user) => {
-      if (user.id === userId) {
-        return {
-          ...user,
-          status: user.status === "Active" ? "Inactive" : "Active",
-        };
-      }
-      return user;
-    });
-
-    if (updatedUsers) {
-      axios
-        .put(
-          `http://localhost:7373/accounts/${userId}`,
-          updatedUsers.find((user) => user.id === userId)
-        )
-        .then(() => {
-          setUsers(updatedUsers);
-          notification.success({
-            message: "User Status Changed",
-          });
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
-    }
+  
+  const handleChangeUser = async (userId: number) => {
+    await axios.patch(`${usersAPI}/change-status-account/${userId}`);
+    fetchUsers();
   };
 
   const handleAddUser = (newUser: Account) => {
@@ -119,18 +96,9 @@ function ManageUsers() {
       });
   };
 
-  const handleDeleteUser = (userId: number) => {
-    axios
-      .delete(`http://localhost:7373/accounts/${userId}`)
-      .then(() => {
-        fetchUsers(); // Cập nhật lại dữ liệu users sau khi xóa
-        notification.success({
-          message: "User Deleted",
-        });
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+  const handleDeleteUser = async (userId: number) => {
+    await axios.delete(`${usersAPI}/delete/${userId}`);
+    fetchUsers();
   };
 
   const changeColor = (status: string) => {
