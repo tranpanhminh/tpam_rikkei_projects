@@ -7,6 +7,13 @@ import DeleteOrder from "./Button/DeleteOrder/DeleteOrder";
 import { notification } from "antd";
 import DetailOrder from "./Button/DetailOrder/DetailOrder";
 import { Badge } from "react-bootstrap";
+const moment = require("moment");
+
+// Import API
+// 1. Users API
+const ordersAPI = process.env.REACT_APP_API_ORDERS;
+
+// ------------------------------------------------
 
 function ManageOrders() {
   document.title = "Manage Orders | PetShop";
@@ -17,7 +24,7 @@ function ManageOrders() {
 
   const fetchOrders = () => {
     axios
-      .get("http://localhost:7373/orders")
+      .get(`${ordersAPI}`)
       .then((response) => {
         setOrders(response.data);
         setOrderCart(response.data.cart);
@@ -187,16 +194,19 @@ function ManageOrders() {
                 return (
                   <tr key={order.id}>
                     <td>{order.id}</td>
-                    <td>{order.name}</td>
-                    <td>{order.email}</td>
+                    <td>{order.customer_name}</td>
+                    <td>{order.user.email}</td>
                     <td>{order.phone}</td>
-                    <td>{order.date}</td>
                     <td>
-                      <Badge bg={`${changeColor(order.status)}`}>
-                        {order.status}
+                      {" "}
+                      {moment(order.order_date).format("YYYY-MM-DD-hh:mm:ss")}
+                    </td>
+                    <td>
+                      <Badge bg={`${changeColor(order.order_status.name)}`}>
+                        {order.order_status.name}
                       </Badge>
                     </td>
-                    <td>${order.sumOrderWithDiscount}</td>
+                    <td>${order.total_bill.toLocaleString()}</td>
                     <td className={styles["group-btn-admin"]}>
                       <DetailOrder
                         value="Detail"

@@ -8,6 +8,11 @@ import AddModalProduct from "../ManageProducts/Button/AddProduct/AddModalProduct
 import styles from "../../AdminPage.module.css";
 import { NavLink } from "react-router-dom";
 
+// Import API
+// 1. Users API
+const productsAPI = process.env.REACT_APP_API_PRODUCTS;
+
+// ------------------------------------------------
 function ManageProducts() {
   document.title = "Manage Products | PetShop";
 
@@ -16,7 +21,7 @@ function ManageProducts() {
 
   const fetchProducts = () => {
     axios
-      .get("http://localhost:7373/api/products")
+      .get(`${productsAPI}`)
       .then((response) => {
         setProducts(response.data);
       })
@@ -167,7 +172,7 @@ function ManageProducts() {
               <tr key={product.id}>
                 <td>{product.id}</td>
                 <td>
-                  {/* <img src={product.productImage[0]} alt="" /> */}
+                  <img src={product.thumbnail_url} alt="" />
                 </td>
                 <td>{product.name}</td>
                 <td>${product.price}</td>

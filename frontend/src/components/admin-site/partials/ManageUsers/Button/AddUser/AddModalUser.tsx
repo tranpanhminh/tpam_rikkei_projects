@@ -5,6 +5,12 @@ import styles from "../AddUser/AddModalUser.module.css";
 import { Account } from "../../../../../../database";
 import axios from "axios";
 
+// Import API
+// 1. Users API
+const usersAPI = process.env.REACT_APP_API_USERS;
+
+// ----------------------------------------------------
+
 interface AddModalProps {
   className?: string;
   value?: string;
@@ -25,9 +31,10 @@ const AddModalUser: React.FC<AddModalProps> = ({
   const [newUser, setNewUser] = useState<Account>({
     id: 0,
     email: "",
-    full_name: "",
+    fullName: "",
     password: "",
     role: "",
+    status: "",
     cart: [],
     order_history: [],
     newsletter_register: false,
@@ -38,7 +45,7 @@ const AddModalUser: React.FC<AddModalProps> = ({
 
   const fetchUsers = () => {
     axios
-      .get("http://localhost:7373/accounts")
+      .get(`${usersAPI}`)
       .then((response) => {
         setUsers(response.data);
       })
@@ -166,9 +173,9 @@ const AddModalUser: React.FC<AddModalProps> = ({
             <p>Full Name</p>
             <input
               type="text"
-              value={newUser.fullName}
+              value={newUser.full_name}
               onChange={(e) =>
-                setNewUser({ ...newUser, fullName: e.target.value })
+                setNewUser({ ...newUser, full_name: e.target.value })
               }
             />
           </div>

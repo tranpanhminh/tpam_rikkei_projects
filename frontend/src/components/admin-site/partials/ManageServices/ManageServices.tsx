@@ -7,15 +7,22 @@ import AddButtonService from "./Button/AddService/AddButtonService";
 import { Button, notification } from "antd";
 import DetailButtonService from "./Button/DetailService/DetailButtonService";
 import { NavLink } from "react-router-dom";
+
+// Import API
+// 1. Services API
+const servicesAPI = process.env.REACT_APP_API_SERVICES;
+
+// ------------------------------------------------
+
 function ManageServices() {
   document.title = "Manage Services | PetShop";
 
-  const [services, setServices] = useState<null | Service[]>(null);
+  const [services, setServices] = useState<any>(null);
   const [searchText, setSearchText] = useState<string>("");
 
   const fetchServices = () => {
     axios
-      .get("http://localhost:7373/api/services")
+      .get(`${servicesAPI}`)
       .then((response) => {
         setServices(response.data);
       })
@@ -158,12 +165,14 @@ function ManageServices() {
               services.map((service) => (
                 <tr key={service.id}>
                   <td>{service.id}</td>
-                  <td>{/* <img src={service.serviceImage} alt="" /> */}</td>
+                  <td>
+                    <img src={service.service_image} alt="" />
+                  </td>
                   <td>{service.name}</td>
                   <td>{service.price}</td>
                   <td>
-                    {/* <p>{service.morningTime}</p>
-                    <p>{service.afternoonTime}</p> */}
+                    <p>{service.working_time.morning_time}</p>
+                    <p>{service.working_time.morning_time}</p>
                   </td>
                   <td className={styles["group-btn-admin-manage-product"]}>
                     <NavLink to={`/services/${service.id}`} target="_blank">

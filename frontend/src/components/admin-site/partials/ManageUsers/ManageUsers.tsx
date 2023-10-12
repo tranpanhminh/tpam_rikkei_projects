@@ -18,7 +18,7 @@ const usersAPI = process.env.REACT_APP_API_USERS;
 function ManageUsers() {
   document.title = "Manage Users | PetShop";
 
-  const [users, setUsers] = useState<Account[]>(null);
+  const [users, setUsers] = useState<any>(null);
   const [searchText, setSearchText] = useState<string>("");
 
   const navigate = useNavigate();
@@ -39,44 +39,42 @@ function ManageUsers() {
   }, []);
 
   const handleSearchUser = () => {
-    if (searchText === "") {
-      // Nếu searchText rỗng, gọi lại fetchUsers để lấy tất cả người dùng
-      fetchUsers();
-    } else {
-      // Nếu có searchText, thực hiện tìm kiếm và cập nhật state
-      axios
-        .get(`http://localhost:7373/accounts`)
-        .then((response) => {
-          // Lấy dữ liệu từ response
-          const allUsers = response.data;
-
-          // Tìm kiếm trong dữ liệu và cập nhật state
-          const filteredUsers = allUsers.filter((user: Account) => {
-            if (
-              user.email
-                .toLowerCase()
-                .includes(searchText.trim().toLowerCase()) ||
-              user.fullName
-                .toLowerCase()
-                .includes(searchText.trim().toLowerCase()) ||
-              user.role
-                .toLowerCase()
-                .includes(searchText.trim().toLowerCase()) ||
-              user.status
-                .toLowerCase()
-                .includes(searchText.trim().toLowerCase())
-            ) {
-              return true;
-            }
-            return false;
-          });
-
-          setUsers(filteredUsers);
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
-    }
+    // if (searchText === "") {
+    //   // Nếu searchText rỗng, gọi lại fetchUsers để lấy tất cả người dùng
+    //   fetchUsers();
+    // } else {
+    //   // Nếu có searchText, thực hiện tìm kiếm và cập nhật state
+    //   axios
+    //     .get(`http://localhost:7373/accounts`)
+    //     .then((response) => {
+    //       // Lấy dữ liệu từ response
+    //       const allUsers = response.data;
+    //       // Tìm kiếm trong dữ liệu và cập nhật state
+    //       const filteredUsers = allUsers.filter((user: Account) => {
+    //         if (
+    //           user.email
+    //             .toLowerCase()
+    //             .includes(searchText.trim().toLowerCase()) ||
+    //           user.full_name
+    //             .toLowerCase()
+    //             .includes(searchText.trim().toLowerCase()) ||
+    //           user.role
+    //             .toLowerCase()
+    //             .includes(searchText.trim().toLowerCase()) ||
+    //           user.status
+    //             .toLowerCase()
+    //             .includes(searchText.trim().toLowerCase())
+    //         ) {
+    //           return true;
+    //         }
+    //         return false;
+    //       });
+    //       setUsers(filteredUsers);
+    //     })
+    //     .catch((error) => {
+    //       console.log(error.message);
+    //     });
+    // }
   };
   const handleChangeUser = (userId: number) => {
     const updatedUsers = users?.map((user) => {
@@ -138,9 +136,9 @@ function ManageUsers() {
   const changeColor = (status: string) => {
     switch (status) {
       case "Active":
-        return "success";
+        return "info";
       case "Inactive":
-        return "secondary";
+        return "dark";
       default:
         return;
     }
@@ -148,9 +146,11 @@ function ManageUsers() {
 
   const changeColorUser = (role: string) => {
     switch (role) {
-      case "admin":
+      case "Super Admin":
+        return "success";
+      case "Admin":
         return "primary";
-      case "customer":
+      case "Customer":
         return "warning";
       default:
         return;
@@ -207,16 +207,20 @@ function ManageUsers() {
             </tr>
           </thead>
           <tbody>
-            {users?.map((user) => (
+            {users?.map((user: any) => (
               <tr key={user.id}>
                 <td>{user.id}</td>
                 <td>{user.email}</td>
                 <td>{user.full_name}</td>
                 <td>
-                  <Badge bg={changeColorUser(user.role)}>{user.role}</Badge>
+                  <Badge bg={changeColorUser(user.user_role.name)}>
+                    {user.user_role.name}
+                  </Badge>
                 </td>
                 <td>
-                  <Badge bg={changeColor(user.status)}>{user.status}</Badge>
+                  <Badge bg={changeColor(user.user_status.name)}>
+                    {user.user_status.name}
+                  </Badge>
                 </td>
                 <td className={styles["group-btn-admin"]}>
                   {/* <DetailButtonUser
@@ -228,7 +232,7 @@ function ManageUsers() {
                     content={
                       <DetailModalUserProfile
                         userId={user.id}
-                        fullName={user.fullName}
+                        fullName={user.full_name}
                         email={user.email}
                         role={user.role}
                         status={user.status}
@@ -237,7 +241,7 @@ function ManageUsers() {
                     }
                   ></DetailButtonUser> */}
 
-                  {user.fullName === "Super Admin" && user.role === "admin" ? (
+                  {user.full_name === "Super Admin" && user.role === "admin" ? (
                     ""
                   ) : (
                     <>

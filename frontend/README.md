@@ -92,6 +92,4 @@ const serviceCommentsAPI = process.env.REACT_APP_API_SERVICE_COMMENTS;
 const bookingsAPI = process.env.REACT_APP_API_BOOKINGS;
 
 
-
-
  -->
