@@ -88,7 +88,7 @@ function ManageProducts() {
 
   const handleDeleteProduct = (productId: number) => {
     axios
-      .delete(`http://localhost:7373/products/${productId}`)
+      .delete(`${productsAPI}/delete/${productId}`)
       .then(() => {
         fetchProducts(); // Cập nhật lại dữ liệu products sau khi xóa
         notification.success({
@@ -102,18 +102,7 @@ function ManageProducts() {
   };
 
   const handleUpdateProduct = () => {
-    axios
-      .get("http://localhost:7373/products")
-      .then(() => {
-        fetchProducts(); // Cập nhật lại dữ liệu users sau khi thêm
-        notification.success({
-          message: "Product Updated",
-          // placement: "bottomLeft",
-        });
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+    fetchProducts();
   };
 
   return (

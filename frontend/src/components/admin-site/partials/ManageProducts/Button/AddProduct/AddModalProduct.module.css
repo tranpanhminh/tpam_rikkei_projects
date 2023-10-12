@@ -39,3 +39,7 @@
 .group-action-user-profile {
   display: flex;
 }
+
+.select-option {
+  padding: 8px;
+}

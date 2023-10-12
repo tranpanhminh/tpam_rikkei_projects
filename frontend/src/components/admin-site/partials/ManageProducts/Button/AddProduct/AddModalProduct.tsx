@@ -27,15 +27,9 @@ const AddModalProduct: React.FC<AddModalProps> = ({
   handleClickOk,
 }) => {
   const [products, setProducts] = useState<any>(null);
-  const [files, setFiles] = useState<any>([]);
+  // const [files, setFiles] = useState<any>([]);
   const [vendors, setVendors] = useState<any>(null);
   const [editorInitialValue, setEditorInitialValue] = useState("");
-
-  // Xử lý Multiple Ảnh
-  let productImages: any = [];
-  for (let i = 0; i < files.length; i++) {
-    productImages.push(files[i].name);
-  }
 
   const [newProduct, setNewProduct] = useState<any>({
     name: "",
@@ -43,7 +37,7 @@ const AddModalProduct: React.FC<AddModalProps> = ({
     price: "",
     quantity_stock: 0,
     vendor_id: 1,
-    image_url: productImages,
+    image_url: [],
   });
 
   const fetchProducts = async () => {
@@ -91,9 +85,11 @@ const AddModalProduct: React.FC<AddModalProps> = ({
   };
 
   const handleOk = () => {
+    console.log(newProduct, "2222222");
     axios
       .post(`${productsAPI}/add`, newProduct)
       .then((response) => {
+        console.log(response, "RESPONSE");
         notification.success({
           message: `Product Added`,
         });
@@ -113,7 +109,7 @@ const AddModalProduct: React.FC<AddModalProps> = ({
           message: `${error.response.data.message}`,
         });
       });
-    console.log();
+
     // // Kiểm tra thông tin đầy đủ
     // if (
     //   !newProduct.name ||
@@ -243,12 +239,14 @@ const AddModalProduct: React.FC<AddModalProps> = ({
           <div className={styles["list-input-item"]}>
             <p>Vendor</p>
             <select
-              name=""
-              id=""
-              value={newProduct?.vendor}
+              value={newProduct?.vendor_id}
               onChange={(e) =>
-                setNewProduct({ ...newProduct, vendor: e.target.value })
+                setNewProduct({
+                  ...newProduct,
+                  vendor_id: Number(e.target.value),
+                })
               }
+              className={styles["select-option"]}
             >
               {vendors?.map((vendor: any) => {
                 return <option value={vendor.id}>{vendor.name}</option>;
@@ -260,7 +258,19 @@ const AddModalProduct: React.FC<AddModalProps> = ({
             <input
               multiple
               type="file"
-              onChange={(e) => setFiles(e.target.files)}
+              // onChange={(e) => setFiles(e.target.files)}
+              onChange={(e) => {
+                const images = [];
+                if (e.target.files !== null) {
+                  for (let i = 0; i < e.target.files.length; i++) {
+                    images.push(e.target.files[i].name);
+                  }
+                  setNewProduct({
+                    ...newProduct,
+                    image_url: images,
+                  });
+                }
+              }}
             />
           </div>
 

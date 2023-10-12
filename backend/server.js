@@ -80,6 +80,17 @@ app.use(
     methods: "GET,HEAD,PUT,PATCH,DELETE,POST",
   })
 );
+
+// Cài đặt CORS để cho phép truy cập từ frontend
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+
 Router(app);
 
 app.all("*", (req, res, next) => {

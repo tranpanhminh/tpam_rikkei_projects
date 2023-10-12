@@ -6,6 +6,13 @@ import axios from "axios";
 import styles from "../DetailProduct/DetailModalProduct.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
 
+// Import API
+// 1. Products API
+const productsAPI = process.env.REACT_APP_API_PRODUCTS;
+const vendorsAPI = process.env.REACT_APP_API_VENDORS;
+
+// ------------------------------------------------
+
 interface DetailModalProps {
   className?: string; // Thêm khai báo cho thuộc tính className
   value?: string; // Thêm khai báo cho thuộc tính className
@@ -25,17 +32,12 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
   const location = useLocation();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [initName, setName] = useState("");
-  const [initDescription, setDescription] = useState("");
-  const [initPrice, setPrice] = useState("");
-  const [initVendor, setVendor] = useState("");
-  // const [initSku, setSku] = useState("");
-  const [initStock, setStock] = useState("");
-  const [initImage1, setImage1] = useState("");
-  const [initImage2, setImage2] = useState("");
-  const [initImage3, setImage3] = useState("");
-  const [initImage4, setImage4] = useState("");
-  const [products, setProducts] = useState<null | Product>(null);
+  const [products, setProducts] = useState<any>(null);
+  const [vendors, setVendors] = useState<any>(null);
+  const [image1, setImage1] = useState<string>("");
+  const [image2, setImage2] = useState<string>("");
+  const [image3, setImage3] = useState<string>("");
+  const [image4, setImage4] = useState<string>("");
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -48,7 +50,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
   useEffect(() => {
     const fetchProduct = () => {
       axios
-        .get(`http://localhost:7373/api/products/${getProductId}`)
+        .get(`${productsAPI}/detail/${getProductId}`)
         .then((response) => {
           setProducts(response.data);
         })
@@ -60,10 +62,33 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
     fetchProduct();
   }, [getProductId]);
 
-  console.log(products);
+  const fetchVendors = async () => {
+    await axios
+      .get(`${vendorsAPI}`)
+      .then((response) => {
+        setVendors(response.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+  useEffect(() => {
+    fetchVendors();
+  }, []);
+
+  const [productInfo, setProductInfo] = useState<any>({
+    name: "",
+    description: "",
+    price: 0,
+    quantity_stock: 0,
+  });
 
   const handleChange = (content: string, editor: any) => {
-    setDescription(content);
+    setProductInfo({
+      ...productInfo,
+      description: content,
+    });
   };
 
   const showModal = () => {
@@ -72,39 +97,60 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
   };
 
   const handleOk = () => {
-    console.log("handleSubmit is called");
-    const updateProduct = {
-      // productImage: [
-      //   initImage1 || products?.productImage[0],
-      //   initImage2 || products?.productImage[1],
-      //   initImage3 || products?.productImage[2],
-      //   initImage4 || products?.productImage[3],
-      // ],
-      name: initName !== "" ? initName : products?.name,
-      description:
-        initDescription !== "" ? initDescription : products?.description,
-      price: initPrice !== "" ? initPrice : products?.price,
-      vendor: initVendor !== "" ? initVendor : products?.vendor,
-      // sku: initSku !== "" ? initSku : products?.sku,
-      quantity_stock: initStock !== "" ? initStock : products?.quantity_stock,
-    };
-
     axios
-      .patch(`http://localhost:7373/products/${getProductId}`, updateProduct)
+      .patch(`${productsAPI}/update/${getProductId}`, productInfo)
       .then((response) => {
-        console.log("Product updated successfully:", response.data);
+        notification.success({
+          message: `Product Updated`,
+        });
+        handleFunctionOk();
         setIsModalOpen(false); // Close the modal
+        navigate("/admin/manage-products/");
       })
       .catch((error) => {
-        console.error("Error updating product:", error);
+        notification.warning({
+          message: `${error.response.data.message}`,
+        });
       });
-    if (handleFunctionOk) {
-      handleFunctionOk();
-    }
   };
 
   const handleCancel = () => {
     setIsModalOpen(false);
+  };
+
+  // Update ảnh
+  console.log(image1, "image1");
+  const handleUpdateImage1 = (event: any) => {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append("file", event.target.files[0]);
+
+    const productId = products.id;
+    const imageId = products.image_url[0].id;
+
+    axios
+      .patch(`${productsAPI}/${productId}/update-image/${imageId}`, formData)
+      .then((response) => {
+        console.log(response, "-----");
+      })
+      .catch((error) => {
+        console.log(error, "++++++");
+      });
+  };
+  const handleUpdateImage2 = () => {
+    const productId = products.id;
+    const imageId = products.image_url[2].id;
+    console.log(productId, imageId);
+  };
+  const handleUpdateImage3 = () => {
+    const productId = products.id;
+    const imageId = products.image_url[3].id;
+    console.log(productId, imageId);
+  };
+  const handleUpdateImage4 = () => {
+    const productId = products.id;
+    const imageId = products.image_url[4].id;
+    console.log(productId, imageId);
   };
 
   const editorConfig = {
@@ -130,14 +176,14 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
         {products && (
           <div className={styles["product-detail-information-container"]}>
             <div className={styles["left-product-detail-item"]}>
-              {/* <img src={products && products.productImage[0]} alt="" />
-              <img src={products && products.productImage[1]} alt="" />
-              <img src={products && products.productImage[2]} alt="" />
-              <img src={products && products.productImage[3]} alt="" /> */}
+              <img src={products && products.image_url[0].image_url} alt="" />
+              <img src={products && products.image_url[1].image_url} alt="" />
+              <img src={products && products.image_url[2].image_url} alt="" />
+              <img src={products && products.image_url[3].image_url} alt="" />
             </div>
 
             <div className={styles["right-product-detail-item"]}>
-              <div className={styles["product-info-item"]}>
+              {/* <div className={styles["product-info-item"]}>
                 <label className={styles["label-product"]} htmlFor="">
                   Product ID
                 </label>
@@ -147,7 +193,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
                   value={products && products.id}
                   disabled
                 />
-              </div>
+              </div> */}
               <div className={styles["product-info-item"]}>
                 <label className={styles["label-product"]} htmlFor="">
                   Product Title
@@ -155,8 +201,10 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
                 <input
                   type="text"
                   name="Product Title"
-                  defaultValue={products && products.name}
-                  onChange={(event) => setName(event.target.value)}
+                  defaultValue={products?.name}
+                  onChange={(event) =>
+                    setProductInfo({ ...productInfo, name: event.target.value })
+                  }
                 />
               </div>
               <div className={styles["product-info-item"]}>
@@ -165,7 +213,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
                 </label>
                 <div>
                   <Editor
-                    initialValue={products && products.description}
+                    initialValue={products?.description}
                     onEditorChange={handleChange}
                     init={editorConfig}
                   />
@@ -178,20 +226,33 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
                 <input
                   type="number"
                   name="Price"
-                  defaultValue={products && products.price}
-                  onChange={(event) => setPrice(event.target.value)}
+                  defaultValue={products?.price}
+                  onChange={(event) =>
+                    setProductInfo({
+                      ...productInfo,
+                      price: event.target.value,
+                    })
+                  }
                 />
               </div>
               <div className={styles["product-info-item"]}>
                 <label className={styles["label-product"]} htmlFor="">
                   Vendor
                 </label>
-                <input
-                  type="text"
-                  name="Vendor"
-                  defaultValue={products && products.vendor}
-                  onChange={(event) => setVendor(event.target.value)}
-                />
+                <select
+                  defaultValue={products?.vendor_id}
+                  onChange={(e) =>
+                    setProductInfo({
+                      ...productInfo,
+                      vendor_id: Number(e.target.value),
+                    })
+                  }
+                  className={styles["select-option"]}
+                >
+                  {vendors?.map((vendor: any) => {
+                    return <option value={vendor.id}>{vendor.name}</option>;
+                  })}
+                </select>
               </div>
               {/* <div className={styles["product-info-item"]}>
                 <label className={styles["label-product"]} htmlFor="">
@@ -211,53 +272,84 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
                 <input
                   type="number"
                   name="Quantity Stock"
-                  defaultValue={products && products.quantity_stock}
-                  onChange={(event) => setStock(event.target.value)}
+                  defaultValue={products?.quantity_stock}
+                  onChange={(e) =>
+                    setProductInfo({
+                      ...productInfo,
+                      quantity_stock: Number(e.target.value),
+                    })
+                  }
                 />
               </div>
               <div className={styles["product-info-item"]}>
                 <label className={styles["label-product"]} htmlFor="">
-                  Product Image 1
+                  Image 1
                 </label>
-                <input
+                <div>
+                  <form
+                    method="POST"
+                    encType="multipart/form-data"
+                    onSubmit={handleUpdateImage1}
+                  >
+                    <input
+                      type="file"
+                      onChange={(event) =>
+                        setImage1(
+                          event.target.files ? event.target.files[0].name : ""
+                        )
+                      }
+                    />
+                    <input type="submit" value="Upload" />
+                  </form>
+                </div>
+
+                {/* <input
                   type="text"
                   name="Product Image 1"
                   // defaultValue={products && products.productImage[0]}
                   onChange={(event) => setImage1(event.target.value)}
-                />
+                /> */}
               </div>
               <div className={styles["product-info-item"]}>
                 <label className={styles["label-product"]} htmlFor="">
-                  Product Image 2
+                  Image 2
                 </label>
-                <input
+                <input type="file" />
+
+                {/* <input
                   type="text"
                   name="Product Image 2"
-                  // defaultValue={products && products.productImage[1]}
+                  defaultValue={products && products.productImage[1]}
                   onChange={(event) => setImage2(event.target.value)}
-                />
+                /> */}
               </div>
               <div className={styles["product-info-item"]}>
                 <label className={styles["label-product"]} htmlFor="">
-                  Product Image 3
+                  Image 3
                 </label>
-                <input
+                <form action="">
+                  <input type="file" />
+                </form>
+
+                {/* <input
                   type="text"
                   name="Product Image 3"
-                  // defaultValue={products && products.productImage[2]}
+                  defaultValue={products && products.productImage[2]}
                   onChange={(event) => setImage3(event.target.value)}
-                />
+                /> */}
               </div>
               <div className={styles["product-info-item"]}>
                 <label className={styles["label-product"]} htmlFor="">
-                  Product Image 4
+                  Image 4
                 </label>
-                <input
+                <input type="file" />
+
+                {/* <input
                   type="text"
                   name="Product Image 4"
                   // defaultValue={products && products.productImage[3]}
                   onChange={(event) => setImage4(event.target.value)}
-                />
+                /> */}
               </div>
             </div>
           </div>

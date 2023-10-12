@@ -54,7 +54,7 @@ class ProductsController {
   async updateProductImage(req, res) {
     const productId = req.params.productId;
     const imageId = req.params.imageId;
-    const newImage = req.file.filename;
+    const newImage = req.file ? req.file.filename : "";
     const result = await productsService.updateProductImage(
       productId,
       imageId,
