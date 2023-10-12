@@ -88,6 +88,9 @@ function ManageUsers() {
 
   const handleDeleteUser = async (userId: number) => {
     await axios.delete(`${usersAPI}/delete/${userId}`);
+    notification.success({
+      message: `Deleted Completed`,
+    });
     fetchUsers();
   };
 
