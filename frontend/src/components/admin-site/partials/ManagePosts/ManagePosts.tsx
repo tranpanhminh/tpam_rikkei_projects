@@ -7,6 +7,12 @@ import DetailPostButton from "./DetailPost/DetailPostButton";
 import AddPostButton from "./AddPost/AddPostButton";
 import { NavLink, useNavigate } from "react-router-dom";
 
+// Import API
+// 1. Products API
+const postsAPI = process.env.REACT_APP_API_POSTS;
+
+// ------------------------------------------------
+
 function ManagePosts() {
   document.title = "Manage Posts | PetShop";
 
@@ -14,9 +20,9 @@ function ManagePosts() {
   const [posts, setPosts] = useState<any>([]);
   const navigate = useNavigate();
 
-  const fetchPosts = () => {
-    axios
-      .get(`http://localhost:7373/posts/`)
+  const fetchPosts = async () => {
+    await axios
+      .get(`${postsAPI}`)
       .then((response) => {
         setPosts(response.data);
       })
@@ -169,12 +175,12 @@ function ManagePosts() {
                 <tr key={1}>
                   <td>{index + 1}</td>
                   <td>
-                    <img src={post.image_url} alt="" />
+                    <img src={post.thumbnail_url} alt="" />
                   </td>
-                  <td>{post.post_title}</td>
+                  <td>{post.title}</td>
                   <td>
-                    <Badge bg={`${changeColor(post.status)}`}>
-                      {post.status}
+                    <Badge bg={`${changeColor(post.post_status.name)}`}>
+                      {post.post_status.name}
                     </Badge>
                   </td>
                   <td className={styles["group-btn-admin-manage-posts"]}>

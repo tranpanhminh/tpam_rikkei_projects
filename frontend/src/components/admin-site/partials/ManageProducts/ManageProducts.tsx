@@ -9,7 +9,7 @@ import styles from "../../AdminPage.module.css";
 import { NavLink } from "react-router-dom";
 
 // Import API
-// 1. Users API
+// 1. Products API
 const productsAPI = process.env.REACT_APP_API_PRODUCTS;
 
 // ------------------------------------------------

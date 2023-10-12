@@ -6,6 +6,12 @@ import axios from "axios";
 import { Button, notification } from "antd";
 import AddButtonCoupon from "./Button/AddCoupon/AddButtonCoupon";
 
+// Import API
+// 1. Coupons API
+const couponsAPI = process.env.REACT_APP_API_COUPONS;
+
+// ------------------------------------------------
+
 function ManageNewsletter() {
   document.title = "Manage Coupons | PetShop";
 
@@ -28,7 +34,7 @@ function ManageNewsletter() {
 
   const fetchCoupons = () => {
     axios
-      .get("http://localhost:7373/coupons")
+      .get(`${couponsAPI}`)
       .then((response) => {
         setCoupons(response.data);
       })
@@ -248,21 +254,23 @@ function ManageNewsletter() {
             <tr>
               <th>Coupon ID</th>
               <th>Name</th>
-              <th>Code</th>
+              {/* <th>Code</th> */}
               <th>Discount</th>
+              <th>Min Bill</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {coupons?.map((coupon) => {
+            {coupons?.map((coupon: any) => {
               return (
                 <tr key={coupon.id}>
                   <td>{coupon.id}</td>
                   <td>{coupon.name}</td>
-                  <td>{coupon.code}</td>
-                  <td>{coupon.discount}%</td>
+                  {/* <td>{coupon.code}</td> */}
+                  <td>{coupon.discount_rate}%</td>
+                  <td>${coupon.min_bill}</td>
                   <td className={styles["group-btn-admin"]}>
-                    <Button
+                    {/* <Button
                       type="primary"
                       className={styles["detail-product-btn"]}
                       onClick={() => {
@@ -271,7 +279,7 @@ function ManageNewsletter() {
                       disabled={coupon.status === "Sended" ? true : false}
                     >
                       Send
-                    </Button>
+                    </Button> */}
                     <Button
                       type="primary"
                       className={styles["delete-product-btn"]}

@@ -62,7 +62,7 @@ class ProductCommentsRepo {
 
       // Nhóm theo id và tên của dịch vụ
       group: ["id"],
-      raw: true,
+      // raw: true,
     });
     return listProductComments;
   }
@@ -102,7 +102,7 @@ class ProductCommentsRepo {
       // Nhóm theo id và tên của dịch vụ
       where: { id: productCommentId },
       group: ["id"],
-      raw: true,
+      // raw: true,
     });
     return detailProductComment;
   }
@@ -145,13 +145,13 @@ class ProductCommentsRepo {
     return detailProductComment;
   }
 
-  // 3. Add Product Comment
+  // 4. Add Product Comment
   async addProductComment(commentInfo) {
     const newProductComment = await productCommentsEntity.create(commentInfo);
     return newProductComment;
   }
 
-  // 4. Delete Product Comment
+  // 5. Delete Product Comment
   async deleteProductComment(productCommentId) {
     const deleteProductComment = await productCommentsEntity.destroy({
       where: { id: productCommentId },

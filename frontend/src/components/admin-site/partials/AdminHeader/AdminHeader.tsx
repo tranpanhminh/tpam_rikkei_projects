@@ -157,7 +157,7 @@ const AdminHeader: React.FC = () => {
               </li>
             </NavLink>
           </div>
-          <div>
+          {/* <div>
             <NavLink
               to="/admin/manage-subscribers"
               style={navLinkStyle}
@@ -168,7 +168,7 @@ const AdminHeader: React.FC = () => {
                 Manage Subscriber
               </li>
             </NavLink>
-          </div>
+          </div> */}
           <div>
             <NavLink
               to="/admin/manage-coupons"

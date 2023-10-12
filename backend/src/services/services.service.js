@@ -21,7 +21,7 @@ class ServicesService {
   // 2. Get Detail Service
   async getDetailService(serviceId) {
     const detailService = await servicesRepo.getDetailService(serviceId);
-    if (detailService.length === 0) {
+    if (!detailService) {
       return { data: "Service ID Not Found", status: 404 };
     } else {
       return { data: detailService, status: 200 };

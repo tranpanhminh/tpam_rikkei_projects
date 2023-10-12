@@ -6,60 +6,63 @@ import axios from "axios";
 import { Button, notification } from "antd";
 import { NavLink } from "react-router-dom";
 import { Badge } from "react-bootstrap";
+const moment = require("moment");
+
+// Import API
+// 1. Product Comments API
+const postCommentsAPI = process.env.REACT_APP_API_PRODUCT_COMMENTS;
+
+// 2. Service Comments API
+const serviceCommentsAPI = process.env.REACT_APP_API_SERVICE_COMMENTS;
+
+// ------------------------------------------------
 
 function ManageComments() {
   document.title = "Manage Comments | PetShop";
 
   const [searchText, setSearchText] = useState<string>("");
-  const [listProducts, setListProducts] = useState<any>([]);
   const [productComments, setProductComments] = useState<any>([]);
-  const [listServices, setListServices] = useState<any>([]);
   const [serviceComments, setServiceComments] = useState<any>([]);
   const [filteredComments, setFilteredComments] = useState<any>([]);
 
   let allComments: any[] = [];
-
-  const fetchProducts = () => {
+  // Fecth Product Comments
+  const fetchProductComments = async () => {
     axios
-      .get(`http://localhost:7373/products`)
+      .get(`${postCommentsAPI}`)
       .then((response) => {
-        setListProducts(response.data);
+        setProductComments(response.data);
       })
-      .catch((error) => {
-        console.log(error.message);
+      .then((error) => {
+        console.log(error);
       });
   };
 
-  const fetchServices = () => {
+  // Fecth Service Comments
+  const fetchServiceComments = async () => {
     axios
-      .get(`http://localhost:7373/services`)
+      .get(`${serviceCommentsAPI}`)
       .then((response) => {
-        setListServices(response.data);
+        setServiceComments(response.data);
       })
-      .catch((error) => {
-        console.log(error.message);
+      .then((error) => {
+        console.log(error);
       });
   };
 
   useEffect(() => {
-    fetchProducts();
-    fetchServices();
+    fetchProductComments();
+    fetchServiceComments();
   }, []);
 
-  listProducts.forEach((product: any) => {
-    allComments = [...allComments, ...product?.comments];
-  });
-
-  listServices.forEach((service: any) => {
-    allComments = [...allComments, ...service?.comments];
-  });
+  allComments = productComments.concat(serviceComments);
   console.log("All Comments", allComments);
 
   // Function Search Comment
   const handleSearchComment = () => {
     // Tìm kiếm dựa trên searchText và cập nhật filteredComments
     const filterComment = allComments.filter((comment) => {
-      return comment.content
+      return comment.comment
         .toString()
         .toLowerCase()
         .includes(searchText.trim().toLowerCase());
@@ -149,9 +152,9 @@ function ManageComments() {
 
   const changeColor = (type: string) => {
     switch (type) {
-      case "product":
+      case "Product":
         return "warning";
-      case "service":
+      case "Service":
         return "info";
       default:
         return;
@@ -206,38 +209,20 @@ function ManageComments() {
                 return (
                   <tr>
                     <td>{index + 1}</td>
-                    <td>{stripHTMLTags(comment.content)}</td>
                     <td>
-                      <Badge bg={changeColor(comment.type)}>
-                        {comment.type}
+                      {stripHTMLTags(comment.comment).slice(0, 60) + "..."}
+                    </td>
+                    <td>
+                      <Badge bg={changeColor(comment.post_type.name)}>
+                        {comment.post_type.name}
                       </Badge>
                     </td>
                     <td>
-                      {/* {comment.type === "product" ? (
-                        <NavLink
-                          to={`/products/${comment.productId}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{ textDecoration: "none" }}
-                        >
-                          Link
-                        </NavLink>
-                      ) : (
-                        <NavLink
-                          to={`/services/${comment.serviceId}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{ textDecoration: "none" }}
-                        >
-                          Link
-                        </NavLink>
-                      )} */}
-
                       <NavLink
                         to={
-                          comment.type === "product"
-                            ? `/products/${comment.productId}`
-                            : `/services/${comment.serviceId}`
+                          comment.post_type.name === "Product"
+                            ? `/products/${comment.post_id}`
+                            : `/services/${comment.post_id}`
                         }
                         target="_blank"
                         rel="noopener noreferrer"
@@ -246,7 +231,9 @@ function ManageComments() {
                         <Button type="primary">View</Button>
                       </NavLink>
                     </td>
-                    <td>{comment.date}</td>
+                    <td>
+                      {moment(comment.created_at).format("YYYY-MM-DD-hh:mm:ss")}
+                    </td>
                     <td>
                       <Button
                         type="primary"
