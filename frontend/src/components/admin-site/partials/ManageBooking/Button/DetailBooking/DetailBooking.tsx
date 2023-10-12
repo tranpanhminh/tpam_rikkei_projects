@@ -42,7 +42,7 @@ const DetailBooking: React.FC<DetailModalProps> = ({
 
   const fetchBookingByDate = async () => {
     await axios
-      .get(`${bookingsAPI}/filter/${getBookingDate}`)
+      .get(`${bookingsAPI}/filter/date/${getBookingDate}`)
       .then((response) => {
         setGroupBookingDate(response.data);
       })
@@ -51,20 +51,22 @@ const DetailBooking: React.FC<DetailModalProps> = ({
       });
   };
 
-  const fetchBookings = () => {
-    axios
-      .get(`http://localhost:7373/bookings/${getBookingId}`)
-      .then((response) => {
-        setBooking(response.data);
-        setListBooking(response.data.listBookings);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  };
+  console.log(groupBookingDate, "groupBookingDate");
+
+  // const fetchBookings = () => {
+  //   axios
+  //     .get(`http://localhost:7373/bookings/${getBookingId}`)
+  //     .then((response) => {
+  //       setBooking(response.data);
+  //       setListBooking(response.data.listBookings);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.message);
+  //     });
+  // };
 
   useEffect(() => {
-    fetchBookings();
+    // fetchBookings();
     fetchBookingByDate();
   }, []);
   console.log(booking);
@@ -129,38 +131,35 @@ const DetailBooking: React.FC<DetailModalProps> = ({
   };
 
   const handleOkUpdateStatus = () => {
-    if (bookingStatus === "") {
-      setIsModalOpenUpdateStatus(false);
-      return;
-    }
-
-    const updatedListBookings = listBooking.map((item: any) => {
-      if (item.bookingId === selectedBooking.bookingId) {
-        return {
-          ...item,
-          status: bookingStatus,
-        };
-      }
-      return item;
-    });
-
-    axios
-      .patch(`http://localhost:7373/bookings/${getBookingId}`, {
-        listBookings: updatedListBookings,
-      })
-      .then(() => {
-        fetchBookings();
-        // Cập nhật lại trạng thái sau khi cập nhật thành công
-        setSelectedBooking((prevSelectedBooking: any) => ({
-          ...prevSelectedBooking,
-          status: bookingStatus,
-        }));
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-
-    setIsModalOpenUpdateStatus(false);
+    // if (bookingStatus === "") {
+    //   setIsModalOpenUpdateStatus(false);
+    //   return;
+    // }
+    // const updatedListBookings = listBooking.map((item: any) => {
+    //   if (item.bookingId === selectedBooking.bookingId) {
+    //     return {
+    //       ...item,
+    //       status: bookingStatus,
+    //     };
+    //   }
+    //   return item;
+    // });
+    // axios
+    //   .patch(`http://localhost:7373/bookings/${getBookingId}`, {
+    //     listBookings: updatedListBookings,
+    //   })
+    //   .then(() => {
+    //     fetchBookings();
+    //     // Cập nhật lại trạng thái sau khi cập nhật thành công
+    //     setSelectedBooking((prevSelectedBooking: any) => ({
+    //       ...prevSelectedBooking,
+    //       status: bookingStatus,
+    //     }));
+    //   })
+    //   .catch((error) => {
+    //     console.log(error.message);
+    //   });
+    // setIsModalOpenUpdateStatus(false);
   };
 
   const handleCancelUpdateStatus = () => {
@@ -168,46 +167,44 @@ const DetailBooking: React.FC<DetailModalProps> = ({
   };
 
   const handleSearchBooking = () => {
-    if (searchText === "") {
-      // Nếu searchText rỗng, gọi lại fetchUsers để lấy tất cả người dùng
-      fetchBookings();
-    } else {
-      // Nếu có searchText, thực hiện tìm kiếm và cập nhật state
-      axios
-        .get(`http://localhost:7373/bookings/detail/${getBookingId}`)
-        .then((response) => {
-          // Lấy dữ liệu từ response
-          const allBooking = response.data;
-
-          // Tìm kiếm trong dữ liệu và cập nhật state
-          const filteredBooking = allBooking.listBookings.filter(
-            (booking: any) => {
-              if (
-                booking.bookingId
-                  .toString()
-                  .includes(searchText.trim().toLowerCase()) ||
-                booking.userName
-                  .toLowerCase()
-                  .includes(searchText.trim().toLowerCase()) ||
-                booking.userPhone
-                  .toString()
-                  .includes(searchText.trim().toLowerCase()) ||
-                booking.serviceName
-                  .toLowerCase()
-                  .includes(searchText.trim().toLowerCase())
-              ) {
-                return true;
-              }
-              return false;
-            }
-          );
-
-          setListBooking(filteredBooking);
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
-    }
+    // if (searchText === "") {
+    //   // Nếu searchText rỗng, gọi lại fetchUsers để lấy tất cả người dùng
+    //   fetchBookings();
+    // } else {
+    //   // Nếu có searchText, thực hiện tìm kiếm và cập nhật state
+    //   axios
+    //     .get(`http://localhost:7373/bookings/detail/${getBookingId}`)
+    //     .then((response) => {
+    //       // Lấy dữ liệu từ response
+    //       const allBooking = response.data;
+    //       // Tìm kiếm trong dữ liệu và cập nhật state
+    //       const filteredBooking = allBooking.listBookings.filter(
+    //         (booking: any) => {
+    //           if (
+    //             booking.bookingId
+    //               .toString()
+    //               .includes(searchText.trim().toLowerCase()) ||
+    //             booking.userName
+    //               .toLowerCase()
+    //               .includes(searchText.trim().toLowerCase()) ||
+    //             booking.userPhone
+    //               .toString()
+    //               .includes(searchText.trim().toLowerCase()) ||
+    //             booking.serviceName
+    //               .toLowerCase()
+    //               .includes(searchText.trim().toLowerCase())
+    //           ) {
+    //             return true;
+    //           }
+    //           return false;
+    //         }
+    //       );
+    //       setListBooking(filteredBooking);
+    //     })
+    //     .catch((error) => {
+    //       console.log(error.message);
+    //     });
+    // }
   };
 
   return (
@@ -254,7 +251,7 @@ const DetailBooking: React.FC<DetailModalProps> = ({
               </div>
 
               <div className={styles["group-total-booking"]}>
-                <span>Total Booking: {getBooking.length}</span>
+                <span>Total Booking: {groupBookingDate.length}</span>
               </div>
             </div>
           </div>
