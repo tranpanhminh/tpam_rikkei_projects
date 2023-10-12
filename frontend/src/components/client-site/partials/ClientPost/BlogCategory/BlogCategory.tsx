@@ -6,6 +6,12 @@ import { Pagination } from "antd";
 import axios from "axios";
 import { useParams } from "react-router-dom"; // Import useParams để lấy giá trị slug từ URL
 
+// Import API
+// 1, Posts API
+const postsAPI = process.env.REACT_APP_API_POSTS;
+console.log(postsAPI, "ĐÁ");
+// --------------------------------------------------
+
 function BlogCategory() {
   const [searchTerm, setSearchTerm] = useState("");
   const [posts, setPosts] = useState<any>([]);
@@ -17,8 +23,8 @@ function BlogCategory() {
   // const [listProducts, setListProducts] = useState<any>([]);
   // const [listServices, setListServices] = useState<any>([]);
 
-  // const fetchProducts = () => {
-  //   axios
+  // const fetchProducts = async() => {
+  //   await axios
   //     .get(`http://localhost:7373/products`)
   //     .then((response) => {
   //       setListProducts(response.data);
@@ -28,9 +34,9 @@ function BlogCategory() {
   //     });
   // };
 
-  const fetchPosts = () => {
-    axios
-      .get(`http://localhost:7373/posts`)
+  const fetchPosts = async () => {
+    await axios
+      .get(`${postsAPI}`)
       .then((response) => {
         setPosts(response.data);
         setTotal(response.data.length);
@@ -40,8 +46,10 @@ function BlogCategory() {
       });
   };
 
-  // const fetchServices = () => {
-  //   axios
+  console.log(posts, "PÓDASDSA");
+
+  // const fetchServices = async () => {
+  //   await axios
   //     .get(`http://localhost:7373/products`)
   //     .then((response) => {
   //       setListServices(response.data);
@@ -64,11 +72,10 @@ function BlogCategory() {
 
   const indexOfLastPage = page + postPerPage;
   const indexOfFirstPage = indexOfLastPage - postPerPage;
-  const currentPosts = posts.slice(indexOfFirstPage, indexOfLastPage);
+  const currentPosts = posts?.slice(indexOfFirstPage, indexOfLastPage);
   const onShowSizeChange = (current: any, pageSize: any) => {
     setPostPerPage(pageSize);
   };
-
   const handlePageChange = (value: number) => {
     setPage(value); // Cập nhật trang hiện tại
     window.scrollTo(0, 0);
@@ -91,15 +98,15 @@ function BlogCategory() {
   return (
     <div className={styles["list-blogs"]}>
       {currentPosts &&
-        currentPosts.map((post: any) => {
-          if (post.status === "Published") {
+        currentPosts?.map((post: any) => {
+          if (post.post_status.name === "Published") {
             return (
               <>
                 <div className={styles["post-item"]}>
                   <NavLink to={`/blogs/${post.id}`}>
                     <div className={styles["post-thumbnail-item"]}>
                       <img
-                        src={post.image_url}
+                        src={post.thumbnail_url}
                         alt=""
                         className={styles["img-thumbnail-item"]}
                       />
@@ -109,7 +116,7 @@ function BlogCategory() {
                   <div className={styles["post-item-content"]}>
                     <NavLink to={`/blogs/${post.id}`}>
                       <h2 className={styles["post-item-title"]}>
-                        {post.post_title}
+                        {post.title}
                         {/* {Array.from(post.post_title).slice(0, 50).join("")} */}
                       </h2>
                     </NavLink>
@@ -117,14 +124,14 @@ function BlogCategory() {
                       {/* {React.createElement("div", {
                         dangerouslySetInnerHTML: { __html: post?.post_content },
                       })} */}
-                      {post?.post_content.length > 200 ? (
+                      {post?.content.length > 200 ? (
                         <div>
                           {stripHTMLTags(post?.post_content.slice(0, 200))}...
                         </div>
                       ) : (
                         <div
                           dangerouslySetInnerHTML={{
-                            __html: post?.post_content,
+                            __html: post?.content,
                           }}
                         />
                       )}
