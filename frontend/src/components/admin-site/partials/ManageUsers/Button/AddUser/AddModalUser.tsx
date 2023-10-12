@@ -25,10 +25,9 @@ const AddModalUser: React.FC<AddModalProps> = ({
   const [newUser, setNewUser] = useState<Account>({
     id: 0,
     email: "",
-    fullName: "",
+    full_name: "",
     password: "",
     role: "",
-    status: "",
     cart: [],
     order_history: [],
     newsletter_register: false,

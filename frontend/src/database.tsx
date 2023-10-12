@@ -21,11 +21,6 @@ export interface Account {
   role: string;
   status_id: number;
   role_id: number;
-  cart: any[];
-  order_history: any[];
-  newsletter_register: boolean;
-  newsletter: string[];
-  booking_history: any[];
   image_avatar: string;
 }
 
