@@ -7,6 +7,11 @@ import axios from "axios";
 import { useParams } from "react-router-dom"; // Import useParams để lấy giá trị slug từ URL
 import Page404 from "../../../../common/NotFoundPage/404";
 
+// Posts API
+const postsAPI = REACT_APP_API_POSTS
+
+
+
 function BlogPost() {
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";

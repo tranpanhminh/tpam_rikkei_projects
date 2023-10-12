@@ -47,7 +47,7 @@ class ServicesService {
 
       // Nhóm theo id và tên của dịch vụ
       group: ["id", "name"],
-      raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
+      // raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
     });
     return listServices;
   }
@@ -55,7 +55,7 @@ class ServicesService {
   // 2. Get Detail Service
   async getDetailService(serviceId) {
     // const listServices = await servicesEntity.findAll();
-    const detailService = await servicesEntity.findAll({
+    const detailService = await servicesEntity.findOne({
       // Chọn các thuộc tính cần thiết
       attributes: [
         "id",
@@ -89,7 +89,7 @@ class ServicesService {
       // Nhóm theo id và tên của dịch vụ
       where: { id: serviceId },
       group: ["id", "name"],
-      raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
+      // raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
     });
     return detailService;
   }

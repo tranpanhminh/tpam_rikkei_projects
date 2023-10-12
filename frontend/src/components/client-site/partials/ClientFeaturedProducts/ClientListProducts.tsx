@@ -7,7 +7,6 @@ import { Pagination } from "antd";
 
 // Import API
 const productsAPI = process.env.REACT_APP_API_PRODUCTS;
-console.log(productsAPI, "PRODUCS API");
 // ------------------------------------------------------------------
 
 function ClientListProducts() {
@@ -80,7 +79,7 @@ function ClientListProducts() {
                     <div className={styles["card"]}>
                       <NavLink to={`/products/${product.id}`}>
                         <img
-                          src={product.productImage[0]}
+                          src={product.thumbnail_url}
                           className={styles["card-img-top"]}
                           alt="..."
                         />

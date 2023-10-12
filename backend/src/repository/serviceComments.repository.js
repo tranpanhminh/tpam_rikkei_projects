@@ -62,7 +62,7 @@ class ServiceCommentsRepo {
 
       // Nhóm theo id và tên của dịch vụ
       group: ["id"],
-      raw: true,
+      // raw: true,
     });
     return listServiceComments;
   }
@@ -102,7 +102,7 @@ class ServiceCommentsRepo {
       // Nhóm theo id và tên của dịch vụ
       where: { id: serviceCommentId },
       group: ["id"],
-      raw: true,
+      // raw: true,
     });
     return detailServiceComment;
   }
@@ -142,7 +142,7 @@ class ServiceCommentsRepo {
       // Nhóm theo id và tên của dịch vụ
       where: { post_id: serviceId },
       group: ["id"],
-      raw: true,
+      // raw: true,
     });
     return detailServiceComment;
   }

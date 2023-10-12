@@ -4,11 +4,17 @@ import styles from "../../ClientPage.module.css";
 import axios from "axios";
 import { Service } from "../../../../database";
 import { NavLink } from "react-router-dom";
+
+// Import API
+const servicesAPI = process.env.REACT_APP_API_SERVICES;
+console.log(servicesAPI, "SERVICES API");
+// ------------------------------------------------------------------
+
 function ClientListServices() {
-  const [services, setServices] = useState<null | Service[]>(null);
+  const [services, setServices] = useState<Service[]>([]);
   const fetchServices = () => {
     axios
-      .get(`http://localhost:7373/services/`)
+      .get(`${servicesAPI}`)
       .then((response) => {
         setServices(response.data);
       })
@@ -34,7 +40,7 @@ function ClientListServices() {
                   <div className="col-12 col-sm-12 col-md-6 col-xl-4 px-3 my-2">
                     <div className={styles["collection-item"]}>
                       <img
-                        // src={service.serviceImage}
+                        src={service.service_image}
                         alt=""
                         className="collection-image"
                       />

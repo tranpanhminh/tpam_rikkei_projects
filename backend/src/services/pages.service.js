@@ -57,7 +57,7 @@ class PagesService {
       thumbnail_url: thumbnail ? sourceImage + thumbnail : thumbnail,
       author: author,
       status_id: status_id,
-      post_type_id: 3,
+      post_type_id: 4,
     };
     const newPage = await pagesRepo.addPage(pageInfo);
 

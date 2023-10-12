@@ -53,28 +53,28 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 // Import API
 1. Users API
-const usersAPI = REACT_APP_API_USERS;
+const usersAPI = process.env.REACT_APP_API_USERS;
 
 2. Coupons API
-const couponsAPI =REACT_APP_API_COUPONS
+const couponsAPI = process.env.REACT_APP_API_COUPONS
 
 3. Orders API
-const ordersAPI =REACT_APP_API_ORDERS
+const ordersAPI = process.env.REACT_APP_API_ORDERS
 
 4. Carts API
-const cartsAPI = REACT_APP_API_CARTS
+const cartsAPI = process.env.REACT_APP_API_CARTS
 
 5. Order Item API
-const orderItemsAPI = REACT_APP_API_ORDER_ITEMS
+const orderItemsAPI = process.env.REACT_APP_API_ORDER_ITEMS
 
 6. Payments API
-const paymentsAPI = REACT_APP_API_PAYMENTS
+const paymentsAPI = process.env.REACT_APP_API_PAYMENTS
 
 7. Posts API
-const postsAPI = REACT_APP_API_POSTS
+const postsAPI = process.env.REACT_APP_API_POSTS
 
 8. Pages API
-const pagesAPI = REACT_APP_API_PAGES
+const pagesAPI = process.env.REACT_APP_API_PAGES
 
 9. Products API
 const productsAPI = process.env.REACT_APP_API_PRODUCTS;
@@ -87,6 +87,9 @@ const productCommentsAPI = process.env.REACT_APP_API_PRODUCT_COMMENTS;
 
 12. Service Comments API
 const serviceCommentsAPI = process.env.REACT_APP_API_SERVICE_COMMENTS;
+
+12. Bookings API
+const bookingsAPI = process.env.REACT_APP_API_BOOKINGS;
 
 
 

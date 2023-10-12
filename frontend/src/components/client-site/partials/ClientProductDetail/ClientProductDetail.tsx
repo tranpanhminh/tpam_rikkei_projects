@@ -10,6 +10,7 @@ import avatar from "../../../../assets/images/dogs-reviews-01.png";
 import { Editor } from "@tinymce/tinymce-react";
 import { Badge } from "react-bootstrap";
 import { format } from "date-fns";
+const moment = require("moment");
 
 // Import API
 const productsAPI = process.env.REACT_APP_API_PRODUCTS;
@@ -324,24 +325,6 @@ function ClientProductDetail() {
     console.log("Update Products", products);
   };
 
-  const averageRating = () => {
-    let filterComment = comments?.filter((comment: any) => {
-      return comment.userRole === "customer";
-    });
-
-    let sumRating = filterComment?.reduce(
-      (accumulator: number, currentValue: any) => {
-        return accumulator + currentValue.rating;
-      },
-      0
-    );
-    if (sumRating === 0 || isNaN(sumRating)) {
-      return "No Rating";
-    } else {
-      return (sumRating / filterComment?.length).toFixed(1);
-    }
-  };
-
   const totalComment = () => {
     let filterComment = comments?.filter((comment: any) => {
       return comment.userRole === "customer";
@@ -394,7 +377,7 @@ function ClientProductDetail() {
     let filterComments = productComments.filter((item: any) => {
       return item.user_role_id !== 1 && item.user_role_id !== 2;
     });
-    return filterComments.length;
+    return filterComments?.length || 0;
   };
 
   return (
@@ -529,7 +512,7 @@ function ClientProductDetail() {
           >
             <div className={styles["comment-heading"]}>
               <h3 className={styles["user-comment-product"]}>
-                {comments?.length} comments
+                {productComments?.length} comments
               </h3>
 
               {getLoginData.role !== "admin" && (
@@ -607,7 +590,11 @@ function ClientProductDetail() {
                           <div
                             className={styles["comment-content-headline-item"]}
                           >
-                            <Badge bg="primary">{item.create_at}</Badge>
+                            <Badge bg="primary">
+                              {moment(item.created_at).format(
+                                "YYYY-MM-DD-hh:mm:ss"
+                              )}
+                            </Badge>
                             {user?.role === "admin" && (
                               <i
                                 onClick={() =>

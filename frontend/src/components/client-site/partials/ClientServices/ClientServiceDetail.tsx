@@ -9,13 +9,24 @@ import { Editor } from "@tinymce/tinymce-react";
 import type { DatePickerProps } from "antd";
 import { DatePicker } from "antd";
 import { format, parse } from "date-fns";
+const moment = require("moment");
+
+// Import API
+const usersAPI = process.env.REACT_APP_API_USERS;
+const serviceAPI = process.env.REACT_APP_API_SERVICES;
+const serviceCommentsAPI = process.env.REACT_APP_API_SERVICE_COMMENTS;
+const bookingsAPI = process.env.REACT_APP_API_BOOKINGS;
+console.log(serviceAPI, "SERVICES API");
+
+// ------------------------------------------------------------------
 
 function ClientServiceDetail() {
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
   const { serviceId } = useParams();
+  const [serviceComments, setServiceComments] = useState<any>(null);
   const [user, setUser] = useState<any>(null);
-  const [services, setServices] = useState<any>(null);
+  const [service, setService] = useState<any>(null);
   const [comments, setComments] = useState<any>([]);
   const [editorContent, setEditorContent] = useState<any>("");
   const [rateValue, setRateValue] = useState<any>(0);
@@ -29,9 +40,9 @@ function ClientServiceDetail() {
   // const location = useLocation();
   const [listUser, setListUser] = useState<any>([]); // Sử dụng useState để quản lý userAvatar
 
-  const fetchUsers = () => {
-    axios
-      .get(`http://localhost:7373/accounts/${getLoginData.loginId}`)
+  const fetchUsers = async () => {
+    await axios
+      .get(`${usersAPI}/${getLoginData.loginId}`)
       .then((response) => {
         setUser(response.data);
       })
@@ -40,21 +51,20 @@ function ClientServiceDetail() {
       });
   };
 
-  const fetchServices = () => {
-    axios
-      .get(`http://localhost:7373/services/${serviceId}`)
+  const fetchService = async () => {
+    await axios
+      .get(`${serviceAPI}/detail/${serviceId}`)
       .then((response) => {
-        setServices(response.data);
-        setComments(response.data.comments);
+        setService(response.data);
       })
       .catch((error) => {
         console.log(error.message);
       });
   };
 
-  const fetchBooking = () => {
-    axios
-      .get(`http://localhost:7373/bookings/`)
+  const fetchBooking = async () => {
+    await axios
+      .get(`${bookingsAPI}`)
       .then((response) => {
         setBookings(response.data);
         setTimeZone("Select time");
@@ -64,13 +74,25 @@ function ClientServiceDetail() {
       });
   };
 
+  const fetchServiceComments = async () => {
+    await axios
+      .get(`${serviceCommentsAPI}/${serviceId}`)
+      .then((response) => {
+        setServiceComments(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
-    fetchServices();
+    fetchService();
     fetchUsers();
     fetchBooking();
+    fetchServiceComments();
   }, []);
 
-  document.title = `${services ? `${services?.name} | PetShop` : "Loading..."}`;
+  document.title = `${service ? `${service?.name} | PetShop` : "Loading..."}`;
 
   const handleEditorChange = (content: string) => {
     setEditorContent(content);
@@ -104,12 +126,12 @@ function ClientServiceDetail() {
       return;
     }
 
-    console.log(services.comments, "dasdsa");
-    let listCommentId = services.comments?.map((item: any) => {
+    console.log(service.comments, "dasdsa");
+    let listCommentId = service.comments?.map((item: any) => {
       return item.commentId;
     });
 
-    let maxId = services.comments?.length > 0 ? Math.max(...listCommentId) : 0;
+    let maxId = service.comments?.length > 0 ? Math.max(...listCommentId) : 0;
 
     const newComment = {
       commentId: maxId + 1,
@@ -125,17 +147,17 @@ function ClientServiceDetail() {
 
     console.log("New Comment", newComment);
 
-    services.comments?.push(newComment);
+    service.comments?.push(newComment);
 
-    console.log("services", services);
+    console.log("service", service);
 
     axios
-      .patch(`http://localhost:7373/services/${serviceId}`, {
-        comments: services.comments,
+      .patch(`http://localhost:7373/service/${serviceId}`, {
+        comments: service.comments,
       })
       .then((response) => {
-        fetchServices();
-        setServices(response.data);
+        fetchService();
+        setService(response.data);
         handleEditorChange("");
         setRateValue(0);
       })
@@ -154,12 +176,12 @@ function ClientServiceDetail() {
     comments.splice(findCommentIndex, 1);
 
     axios
-      .patch(`http://localhost:7373/services/${serviceId}`, {
+      .patch(`http://localhost:7373/service/${serviceId}`, {
         comments: comments,
       })
       .then((response) => {
-        fetchServices();
-        setServices(response.data);
+        fetchService();
+        setService(response.data);
         setComments(response.data.comments);
         notification.success({
           message: "Comment Deleted",
@@ -172,29 +194,11 @@ function ClientServiceDetail() {
       });
   };
 
-  const averageRating = () => {
-    let filterComment = comments?.filter((comment: any) => {
-      return comment.userRole === "customer";
+  const filterCommentsExcludeAdmin = () => {
+    let filterComments = serviceComments?.filter((item: any) => {
+      return item.user_role_id !== 1 && item.user_role_id !== 2;
     });
-
-    let sumRating = filterComment?.reduce(
-      (accumulator: number, currentValue: any) => {
-        return accumulator + currentValue.rating;
-      },
-      0
-    );
-    if (sumRating === 0 || isNaN(sumRating)) {
-      return "No Rating";
-    } else {
-      return (sumRating / filterComment?.length).toFixed(1);
-    }
-  };
-
-  const totalComment = () => {
-    let filterComment = comments?.filter((comment: any) => {
-      return comment.userRole === "customer";
-    });
-    return filterComment?.length;
+    return filterComments ? filterComments?.length : 0;
   };
 
   const editorConfig = {
@@ -306,9 +310,9 @@ function ClientServiceDetail() {
       userPhone: phone,
       calendar: timeZone,
       serviceId: serviceId,
-      serviceName: services.name,
-      serviceImage: services.serviceImage,
-      servicePrice: services.price,
+      serviceName: service.name,
+      serviceImage: service.serviceImage,
+      servicePrice: service.price,
       status: "Processing", // Đặt trạng thái là "Pending" ban đầu
     };
 
@@ -537,7 +541,7 @@ function ClientServiceDetail() {
   return (
     <>
       <div className={styles["wrap-service-detail-page"]}>
-        {services && (
+        {service && (
           <div className={styles["service-detail"]}>
             <div className="container text-center">
               <div className="row align-items-center">
@@ -546,7 +550,7 @@ function ClientServiceDetail() {
                     <div className="row row-cols-2">
                       <div className="col-12">
                         <img
-                          src={services && services.serviceImage}
+                          src={service.service_image}
                           alt=""
                           className={styles["service-image"]}
                         />
@@ -557,12 +561,12 @@ function ClientServiceDetail() {
                 <div className="col-xl-6 col-sm-12">
                   <div className={styles["service-detail-info"]}>
                     <h2 className={styles["service-title-name"]}>
-                      {services && services.name}
+                      {service && service.name}
                     </h2>
                     {getLoginData.role === "admin" && (
                       <div className={styles["editor-post-bar"]}>
                         <NavLink
-                          to={`/admin/manage-services/?edit-serviceId=${services.id}`}
+                          to={`/admin/manage-service/?edit-serviceId=${service.id}`}
                           target="_blank"
                         >
                           <Badge bg="primary" style={{ fontSize: "16px" }}>
@@ -574,7 +578,7 @@ function ClientServiceDetail() {
                     <p className={styles["service-description"]}>
                       {React.createElement("div", {
                         dangerouslySetInnerHTML: {
-                          __html: services?.description,
+                          __html: service?.description,
                         },
                       })}
                     </p>
@@ -593,10 +597,10 @@ function ClientServiceDetail() {
                       <tbody>
                         <tr>
                           <td rowSpan={2}>Monday - Saturday</td>
-                          <td>{services?.morningTime}</td>
+                          <td>{service?.working_time.morning_time}</td>
                         </tr>
                         <tr>
-                          <td>{services?.afternoonTime}</td>
+                          <td>{service?.working_time.afternoon_time}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -607,7 +611,7 @@ function ClientServiceDetail() {
                           Price:
                         </span>
                         <span style={{ fontSize: "20px" }}>
-                          ${services?.price}
+                          ${service?.price}
                         </span>
                       </div>
 
@@ -616,11 +620,11 @@ function ClientServiceDetail() {
                           Rating:
                         </span>
                         <span style={{ fontSize: "20px" }}>
-                          {averageRating()}
+                          {service.avg_rating}
                         </span>
                         <i className="fa-solid fa-star"></i>
                         <span style={{ fontSize: "20px" }}>
-                          ({totalComment()} reviews)
+                          ({filterCommentsExcludeAdmin()} reviews)
                         </span>
                       </div>
                     </div>
@@ -680,7 +684,7 @@ function ClientServiceDetail() {
                 <button
                   className={styles["booking-btn"]}
                   onClick={() => {
-                    handleBooking(getLoginData.loginId, services.id);
+                    handleBooking(getLoginData.loginId, service.id);
                   }}
                 >
                   Book
@@ -698,7 +702,7 @@ function ClientServiceDetail() {
           >
             <div className={styles["comment-heading"]}>
               <h3 className={styles["user-comment-product"]}>
-                {comments?.length} comments
+                {serviceComments?.length} comments
               </h3>
 
               {getLoginData.role !== "admin" && (
@@ -734,8 +738,8 @@ function ClientServiceDetail() {
             <div
               className={`${styles["main-content-comment"]} ${styles["comment-scrollable"]}`}
             >
-              {services &&
-                services.comments?.map((item: any) => {
+              {serviceComments &&
+                serviceComments?.map((item: any) => {
                   return (
                     <section className={styles["product-comment-item"]}>
                       <div className={styles["user-comment-info"]}>
@@ -743,13 +747,13 @@ function ClientServiceDetail() {
                           // src={
                           //   getLoginData.avatar ? getLoginData.avatar : avatar
                           // }
-                          src={getAvatar(item.userId)}
+                          src={item.user.image_avatar}
                           alt=""
                           className={styles["user-avatar"]}
                         />
 
-                        <span>{getUserName(item.userId).split(" ")[0]}</span>
-                        {item.userRole === "admin" ? (
+                        <span>{item.user.full_name.split(" ")[0]}</span>
+                        {item.user_role_id === 1 || item.user_role_id === 2 ? (
                           <Badge bg="success">Admin</Badge>
                         ) : item.order_history?.length !== 0 ? (
                           <Badge bg="warning" text="dark">
@@ -758,7 +762,7 @@ function ClientServiceDetail() {
                         ) : (
                           ""
                         )}
-                        {item.userRole !== "admin" && (
+                        {item.user_role_id !== 1 && item.user_role_id !== 2 && (
                           <span className={styles["rating-section"]}>
                             {item.rating}
                             <i className="fa-solid fa-star"></i>
@@ -779,7 +783,11 @@ function ClientServiceDetail() {
                           <div
                             className={styles["comment-content-headline-item"]}
                           >
-                            <Badge bg="primary">{item.date}</Badge>
+                            <Badge bg="primary">
+                              {moment(item.created_at).format(
+                                "YYYY-MM-DD-hh:mm:ss"
+                              )}
+                            </Badge>
                             {user?.role === "admin" && (
                               <i
                                 onClick={() =>
@@ -794,7 +802,7 @@ function ClientServiceDetail() {
                           className={`${styles["comment-content"]} ${styles["comment-scrollable"]}`}
                         >
                           {React.createElement("div", {
-                            dangerouslySetInnerHTML: { __html: item.content },
+                            dangerouslySetInnerHTML: { __html: item.comment },
                           })}
                         </div>
                       </div>
