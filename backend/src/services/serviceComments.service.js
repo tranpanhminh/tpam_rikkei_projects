@@ -27,7 +27,19 @@ class ServiceCommentsService {
     }
   }
 
-  // 3. Add Service Comment
+  // 3. Get Detail Service Comment
+  async getDetailServiceCommentByService(serviceId) {
+    const detailServiceComment =
+      await serviceCommentsRepo.getDetailServiceCommentByService(serviceId);
+
+    if (detailServiceComment.length === 0) {
+      return { data: "Service Has No Comment", status: 404 };
+    } else {
+      return { data: detailServiceComment, status: 200 };
+    }
+  }
+
+  // 4. Add Service Comment
   async addServiceComment(serviceId, userId, dataBody, authHeader) {
     const { comment, rating } = dataBody;
     // Check Login
@@ -88,7 +100,7 @@ class ServiceCommentsService {
     const commentInfo = {
       comment: comment,
       rating: dataUser.role_id === 1 || dataUser.role_id === 2 ? 5 : rating,
-      post_type_id: 1,
+      post_type_id: 2,
       post_id: serviceId,
       user_id: userId,
       user_role_id: dataUser.role_id,
@@ -100,7 +112,7 @@ class ServiceCommentsService {
     };
   }
 
-  // 4. Delete Service Comment
+  // 5. Delete Service Comment
   async deleteServiceComment(serviceCommentId) {
     const findServiceComment = await serviceCommentsRepo.findServiceCommentById(
       serviceCommentId

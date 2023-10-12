@@ -20,14 +20,20 @@ productCommentsRouter.get(
   productCommentsController.getDetailProductComment
 );
 
-// 3. Add Comment
+// 3. Get Detail Comment By Product Id
+productCommentsRouter.get(
+  "/:productId",
+  productCommentsController.getDetailProductCommentByProduct
+);
+
+// 4. Add Comment
 productCommentsRouter.post(
   "/add/:productId/users/:userId",
   //   checkAuthentication,
   productCommentsController.addProductComment
 );
 
-// 4. Delete Comment
+// 5. Delete Comment
 productCommentsRouter.delete(
   "/delete/:productCommentId",
   productCommentsController.deleteProductComment

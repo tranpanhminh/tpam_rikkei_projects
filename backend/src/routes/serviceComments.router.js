@@ -20,20 +20,26 @@ serviceCommentsRouter.get(
   serviceCommentsController.getDetailServiceComment
 );
 
-// 3. Add Service Comment
+// 3. Get Detail Service Comment
+serviceCommentsRouter.get(
+  "/:serviceId",
+  serviceCommentsController.getDetailServiceCommentByService
+);
+
+// 4. Add Service Comment
 serviceCommentsRouter.post(
   "/add/:serviceId/users/:userId",
   //   checkAuthentication,
   serviceCommentsController.addServiceComment
 );
 
-// 4. Delete Service Comment
+// 5. Delete Service Comment
 serviceCommentsRouter.delete(
   "/delete/:serviceCommentId",
   serviceCommentsController.deleteServiceComment
 );
 
-// 5. Update Service Comment
+// 6. Update Service Comment
 // serviceCommentsRouter.patch(
 //   "/update/:serviceCommentId",
 //   serviceCommentsController.updateServiceComment

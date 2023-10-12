@@ -5,8 +5,8 @@ const productsEntity = require("../entities/products.entity.js");
 const productCommentsEntity = require("../entities/productComments.entity.js");
 const postTypesEntity = require("../entities/postTypes.entity.js");
 const vendorsEntity = require("../entities/vendors.entity.js");
+const usersEntity = require("../entities/vendors.entity.js");
 const productImagesEntity = require("../entities/productImages.entity.js");
-const productCommentsController = require("../controllers/productComments.controller.js");
 const bcrypt = require("bcryptjs");
 const sourceImage = process.env.BASE_URL_IMAGE;
 
@@ -62,6 +62,19 @@ class ProductsRepo {
           ),
           "image_url",
         ],
+        // [
+        //   sequelize.fn(
+        //     "JSON_ARRAYAGG",
+        //     sequelize.fn(
+        //       "JSON_OBJECT",
+        //       "id",
+        //       col("product_comments.id"),
+        //       "comment",
+        //       col("product_comments.comment")
+        //     )
+        //   ),
+        //   "comment",
+        // ],
       ],
       include: [
         {

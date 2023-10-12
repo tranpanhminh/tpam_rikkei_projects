@@ -107,6 +107,44 @@ class ProductCommentsRepo {
     return detailProductComment;
   }
 
+  // 3. Get Detail Product Comment By Product ID
+  async getDetailProductCommentByProduct(productId) {
+    const detailProductComment = await productCommentsEntity.findAll({
+      // Chọn các thuộc tính cần thiết
+      attributes: [
+        "id",
+        "comment",
+        "rating",
+        "post_type_id",
+        "post_id",
+        "user_id",
+        "user_role_id",
+        "created_at",
+        "updated_at",
+      ],
+
+      // Tham gia với bảng post_types
+      include: [
+        {
+          model: usersEntity,
+          attributes: ["full_name", "role_id", "image_avatar"],
+        },
+        {
+          model: postTypesEntity,
+          attributes: ["name"],
+        },
+        {
+          model: productsEntity,
+          attributes: [],
+        },
+      ],
+
+      // Nhóm theo id và tên của dịch vụ
+      where: { post_id: productId },
+    });
+    return detailProductComment;
+  }
+
   // 3. Add Product Comment
   async addProductComment(commentInfo) {
     const newProductComment = await productCommentsEntity.create(commentInfo);

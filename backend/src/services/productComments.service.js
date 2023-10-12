@@ -27,7 +27,19 @@ class ProductCommentsService {
     }
   }
 
-  // 3. Add Product Comment
+  // 3. Get Detail Product Comment
+  async getDetailProductCommentByProduct(productId) {
+    const detailProductComment =
+      await productCommentsRepo.getDetailProductCommentByProduct(productId);
+
+    if (!detailProductComment) {
+      return { data: "Product Has No Comment", status: 404 };
+    } else {
+      return { data: detailProductComment, status: 200 };
+    }
+  }
+
+  // 4. Add Product Comment
   async addProductComment(productId, userId, dataBody, authHeader) {
     const { comment, rating } = dataBody;
     // Check Login
@@ -100,7 +112,7 @@ class ProductCommentsService {
     };
   }
 
-  // 4. Delete Product Comment
+  // 5. Delete Product Comment
   async deleteProductComment(productCommentId) {
     const findProductComment = await productCommentsRepo.findProductCommentById(
       productCommentId

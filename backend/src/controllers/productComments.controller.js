@@ -18,7 +18,15 @@ class ProductCommentsController {
     return res.status(result.status).json(result.data);
   }
 
-  // 3. Add Product Comment
+  // 3. Get Detail Product Comment
+  async getDetailProductCommentByProduct(req, res) {
+    const productId = req.params.productId;
+    const result =
+      await productCommentsService.getDetailProductCommentByProduct(productId);
+    return res.status(result.status).json(result.data);
+  }
+
+  // 4. Add Product Comment
   async addProductComment(req, res) {
     const productId = req.params.productId;
     const userId = req.params.userId;
@@ -33,7 +41,7 @@ class ProductCommentsController {
     return res.status(result.status).json(result.data);
   }
 
-  // 4. Delete Product Comment
+  // 5. Delete Product Comment
   async deleteProductComment(req, res) {
     const productCommentId = req.params.productCommentId;
     const result = await productCommentsService.deleteProductComment(

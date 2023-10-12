@@ -107,13 +107,53 @@ class ServiceCommentsRepo {
     return detailServiceComment;
   }
 
-  // 3. Add Service Comment
+  // 3. Get Detail Service Comment
+  async getDetailServiceCommentByService(serviceId) {
+    const detailServiceComment = await serviceCommentsEntity.findAll({
+      // Chọn các thuộc tính cần thiết
+      attributes: [
+        "id",
+        "comment",
+        "rating",
+        "post_type_id",
+        "post_id",
+        "user_id",
+        "user_role_id",
+        "created_at",
+        "updated_at",
+      ],
+
+      // Tham gia với bảng post_types
+      include: [
+        {
+          model: usersEntity,
+          attributes: ["full_name", "role_id", "image_avatar"],
+        },
+        {
+          model: postTypesEntity,
+          attributes: ["name"],
+        },
+        {
+          model: servicesEntity,
+          attributes: [],
+        },
+      ],
+
+      // Nhóm theo id và tên của dịch vụ
+      where: { post_id: serviceId },
+      group: ["id"],
+      raw: true,
+    });
+    return detailServiceComment;
+  }
+
+  // 4. Add Service Comment
   async addServiceComment(commentInfo) {
     const newProductComment = await serviceCommentsEntity.create(commentInfo);
     return newProductComment;
   }
 
-  // 4. Delete Service Comment
+  // 5. Delete Service Comment
   async deleteServiceComment(serviceCommentId) {
     const deleteProductComment = await serviceCommentsEntity.destroy({
       where: { id: serviceCommentId },

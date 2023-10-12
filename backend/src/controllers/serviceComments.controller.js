@@ -18,7 +18,15 @@ class ServiceCommentsController {
     return res.status(result.status).json(result.data);
   }
 
-  // 3. Add Service Comment
+  // 3. Get Detail Service Comment By Service
+  async getDetailServiceCommentByService(req, res) {
+    const serviceId = req.params.serviceId;
+    const result =
+      await serviceCommentsService.getDetailServiceCommentByService(serviceId);
+    return res.status(result.status).json(result.data);
+  }
+
+  // 4. Add Service Comment
   async addServiceComment(req, res) {
     const serviceId = req.params.serviceId;
     const userId = req.params.userId;
@@ -33,7 +41,7 @@ class ServiceCommentsController {
     return res.status(result.status).json(result.data);
   }
 
-  // 4. Delete Service Comment
+  // 5. Delete Service Comment
   async deleteServiceComment(req, res) {
     const serviceCommentId = req.params.serviceCommentId;
     const result = await serviceCommentsService.deleteServiceComment(
