@@ -9,7 +9,8 @@ import { useParams } from "react-router-dom"; // Import useParams để lấy gi
 // Import API
 // 1, Posts API
 const postsAPI = process.env.REACT_APP_API_POSTS;
-console.log(postsAPI, "ĐÁ");
+const productsAPI = process.env.REACT_APP_API_PRODUCTS;
+const servicesAPI = process.env.REACT_APP_API_SERVICES;
 // --------------------------------------------------
 
 function BlogCategory() {
@@ -18,14 +19,14 @@ function BlogCategory() {
   const [total, setTotal] = useState<any>("");
   const [page, setPage] = useState<any>(0); // Đặt giá trị mặc định cho page
   const [postPerPage, setPostPerPage] = useState<any>(7);
-  // const { pageNumber } = useParams(); // Lấy giá trị slug từ URL
+  const { pageNumber } = useParams(); // Lấy giá trị slug từ URL
 
   // const [listProducts, setListProducts] = useState<any>([]);
   // const [listServices, setListServices] = useState<any>([]);
 
-  // const fetchProducts = async() => {
+  // const fetchProducts = async () => {
   //   await axios
-  //     .get(`http://localhost:7373/products`)
+  //     .get(`${productsAPI}`)
   //     .then((response) => {
   //       setListProducts(response.data);
   //     })
@@ -50,7 +51,7 @@ function BlogCategory() {
 
   // const fetchServices = async () => {
   //   await axios
-  //     .get(`http://localhost:7373/products`)
+  //     .get(`${servicesAPI}`)
   //     .then((response) => {
   //       setListServices(response.data);
   //     })
@@ -126,7 +127,7 @@ function BlogCategory() {
                       })} */}
                       {post?.content.length > 200 ? (
                         <div>
-                          {stripHTMLTags(post?.post_content.slice(0, 200))}...
+                          {stripHTMLTags(post?.content.slice(0, 200))}...
                         </div>
                       ) : (
                         <div

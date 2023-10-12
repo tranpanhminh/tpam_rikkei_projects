@@ -7,6 +7,13 @@ import axios from "axios";
 import { useParams } from "react-router-dom"; // Import useParams để lấy giá trị slug từ URL
 import ClientSearch from "../../ClientSearch/ClientSearch";
 
+// Import API
+// 1, Posts API
+const productsAPI = process.env.REACT_APP_API_PRODUCTS;
+const servicesAPI = process.env.REACT_APP_API_SERVICES;
+
+// --------------------------------------------------
+
 function BlogSidebar() {
   // const [searchTerm, setSearchTerm] = useState("");
   const [products, setProducts] = useState<any>([]);
@@ -19,7 +26,7 @@ function BlogSidebar() {
 
   const fetchProducts = () => {
     axios
-      .get(`http://localhost:7373/products/`)
+      .get(`${productsAPI}`)
       .then((response) => {
         setProducts(response.data);
       })
@@ -30,7 +37,7 @@ function BlogSidebar() {
 
   const fetchServices = () => {
     axios
-      .get(`http://localhost:7373/services/`)
+      .get(`${servicesAPI}`)
       .then((response) => {
         setServices(response.data);
       })
@@ -73,7 +80,7 @@ function BlogSidebar() {
           return (
             <div className={styles["sidebar-featured-product-item"]}>
               <NavLink to={`/products/${product.id}`}>
-                <img src={product.productImage[0]} alt="" />
+                <img src={product.thumbnail_url} alt="" />
               </NavLink>
 
               <NavLink to={`/products/${product.id}`}>
@@ -94,7 +101,7 @@ function BlogSidebar() {
           return (
             <div className={styles["sidebar-featured-product-item"]}>
               <NavLink to={`/services/${service.id}`}>
-                <img src={service.serviceImage} alt="" />
+                <img src={service.service_image} alt="" />
               </NavLink>
 
               <NavLink to={`/services/${service.id}`}>
