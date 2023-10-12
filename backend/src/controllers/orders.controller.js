@@ -58,5 +58,12 @@ class OrdersController {
     const result = await ordersService.cancelOrder(orderId, cancel_reason_id);
     res.status(result.status).json(result.data);
   }
+
+  // 7. GetOrder By Order ID
+  async getOrder(req, res) {
+    const orderId = req.params.orderId;
+    const result = await ordersService.getOrder(orderId);
+    res.status(result.status).json(result.data);
+  }
 }
 module.exports = new OrdersController();

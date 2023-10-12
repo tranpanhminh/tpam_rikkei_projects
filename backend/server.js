@@ -1,6 +1,7 @@
 const express = require("express");
 require("dotenv").config();
 const cors = require("cors");
+const multer = require("multer");
 const connectMySQL = require("./src/configs/db.config.js");
 const app = express();
 const port = process.env.PORT || 5000;
@@ -80,16 +81,6 @@ app.use(
     methods: "GET,HEAD,PUT,PATCH,DELETE,POST",
   })
 );
-
-// Cài đặt CORS để cho phép truy cập từ frontend
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
 
 Router(app);
 

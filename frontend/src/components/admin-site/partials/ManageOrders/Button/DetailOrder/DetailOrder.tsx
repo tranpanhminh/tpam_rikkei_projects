@@ -3,6 +3,13 @@ import { Button, Modal, notification } from "antd";
 import axios from "axios";
 import styles from "../../../../AdminPage.module.css";
 
+// Import API
+// 1. Users API
+const ordersAPI = process.env.REACT_APP_API_ORDERS;
+const paymentsAPI = process.env.REACT_APP_API_PAYMENTS;
+
+// ------------------------------------------------
+
 interface DetailModalProps {
   className?: string; // Thêm khai báo cho thuộc tính className
   value?: string; // Thêm khai báo cho thuộc tính className
@@ -25,17 +32,34 @@ const DetailOrders: React.FC<DetailModalProps> = ({
   const [orderCart, setOrderCart] = useState<any>(null);
   const [userId, setUserId] = useState<any>();
   const [user, setUser] = useState<any>();
+  const [orderById, setOrderById] = useState<any>(null);
+
+  // Fetch All Orders
+  // 1. Get Order By ID
+  const fetchOrderById = () => {
+    axios
+      .get(`${ordersAPI}/${getOrderId}`)
+      .then((response) => {
+        setOrderById(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    fetchOrderById();
+  }, []);
 
   useEffect(() => {
     const fetchOrders = () => {
       axios
-        .get(`http://localhost:7373/orders/${getOrderId}`)
+        .get(`${ordersAPI}/detail/${getOrderId}`)
         .then((response) => {
           setOrders(response.data);
-          setOrderCart(response.data.cart);
-          setUserId(response.data.user_id);
-
-          fetchUser();
+          // setOrderCart(response.data.cart);
+          // setUserId(response.data.user_id);
+          // fetchUser();
         })
         .catch((error) => {
           console.log(error.message);
@@ -64,39 +88,29 @@ const DetailOrders: React.FC<DetailModalProps> = ({
   const showModal = () => {
     setIsModalOpen(true);
   };
-
   const handleOk = () => {
-    if (shippingStatus === "") {
-      setIsModalOpen(false);
-      return;
-    }
-    handleFunctionOk(shippingStatus, getOrderId);
-
+    const orderInfo = {
+      status_id: shippingStatus,
+      // updated_at: Date.now(),
+    };
+    axios
+      .patch(`${ordersAPI}/update/${getOrderId}`, orderInfo)
+      .then((response) => {
+        notification.success({
+          message: "Shipping Status Updated Successfully",
+        });
+        handleFunctionOk();
+        setShippingStatus("");
+        setIsModalOpen(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     // Cập nhật trạng thái đơn hàng trong cơ sở dữ liệu của người dùng
-
-    notification.success({
-      message: "Shipping Status Updated Successfully",
-    });
-    setShippingStatus("");
-    setIsModalOpen(false);
   };
 
   const handleCancel = () => {
     setIsModalOpen(false);
-  };
-
-  const handleSumOrder = () => {
-    if (orderCart) {
-      const totalOrder = orderCart.reduce(
-        (accumulator: number, currentItem: any) => {
-          return (accumulator +=
-            currentItem.productQuantity * currentItem.price);
-        },
-        0
-      );
-      return totalOrder;
-    }
-    return 0;
   };
 
   function maskCardNumber(cardNumber: string) {
@@ -135,26 +149,26 @@ const DetailOrders: React.FC<DetailModalProps> = ({
         <div className={styles["list-input-admin-order"]}>
           <div className={styles["admin-order-input-item"]}>
             <p>Order ID</p>
-            <input type="text" disabled value={orders?.id} />
+            <input type="text" disabled value={getOrderId} />
           </div>
           <div className={styles["admin-order-input-item"]}>
             <p>Name</p>
-            <input type="text" disabled value={orders?.name} />
+            <input type="text" disabled value={orderById?.customer_name} />
           </div>
           <div className={styles["admin-order-input-item"]}>
             <p>Phone</p>
-            <input type="text" disabled value={orders?.phone} />
+            <input type="text" disabled value={orderById?.phone} />
           </div>
           <div className={styles["admin-order-input-item"]}>
             <p>Address</p>
-            <input type="text" disabled value={orders?.address} />
+            <input type="text" disabled value={orderById?.address} />
           </div>
           <div className={styles["admin-order-input-item"]}>
             <p>Card Number</p>
             <input
               type="text"
               disabled
-              value={maskCardNumber(orders?.cardNumber.toString())}
+              value={maskCardNumber(orderById?.card_number.toString())}
             />
           </div>
           <div className={styles["admin-order-input-item"]}>
@@ -163,7 +177,8 @@ const DetailOrders: React.FC<DetailModalProps> = ({
               name=""
               id=""
               disabled={
-                orders?.status === "Cancel" || orders?.status === "Shipped"
+                orderById?.order_status.name === "Cancel" ||
+                orderById?.order_status.name === "Shipped"
                   ? true
                   : false
               }
@@ -171,32 +186,42 @@ const DetailOrders: React.FC<DetailModalProps> = ({
               onChange={(event) => setShippingStatus(event.target.value)}
             >
               <option
-                value="Shipped"
-                selected={orders?.status === "Shipped" ? true : false}
+                value={4}
+                selected={
+                  orderById?.order_status.name === "Shipped" ? true : false
+                }
               >
                 Shipped
               </option>
               <option
-                value="Shipping"
-                selected={orders?.status === "Shipping" ? true : false}
+                value={3}
+                selected={
+                  orderById?.order_status.name === "Shipping" ? true : false
+                }
               >
                 Shipping
               </option>
               <option
-                value="Processing"
-                selected={orders?.status === "Processing" ? true : false}
+                value={2}
+                selected={
+                  orderById?.order_status.name === "Processing" ? true : false
+                }
               >
                 Processing
               </option>
               <option
-                value="Pending"
-                selected={orders?.status === "Pending" ? true : false}
+                value={1}
+                selected={
+                  orderById?.order_status.name === "Pending" ? true : false
+                }
               >
                 Pending
               </option>
               <option
-                value="Cancel"
-                selected={orders?.status === "Cancel" ? true : false}
+                value={5}
+                selected={
+                  orderById?.order_status.name === "Cancel" ? true : false
+                }
               >
                 Cancel
               </option>
@@ -222,19 +247,17 @@ const DetailOrders: React.FC<DetailModalProps> = ({
             </tr>
           </thead>
           <tbody>
-            {orderCart?.map((item: any, index: number) => {
+            {orders?.map((item: any, index: number) => {
               return (
                 <tr>
                   <td>{index + 1}</td>
                   <td>
-                    <img src={item.productImage} alt="" />
+                    <img src={item.product_thumbnail} alt="" />
                   </td>
-                  <td>{item.productName}</td>
-                  <td>{item.productQuantity}</td>
+                  <td>{item.product_name}</td>
+                  <td>{item.quantity}</td>
                   <td>${Number(item.price)}</td>
-                  <td>
-                    ${(item.price * item.productQuantity).toLocaleString()}
-                  </td>
+                  <td>${(item.price * item.quantity).toLocaleString()}</td>
                 </tr>
               );
             })}
@@ -242,16 +265,16 @@ const DetailOrders: React.FC<DetailModalProps> = ({
         </table>
         <div className={styles["admin-order-my-order-card"]}>
           <span className={styles["my-order-card-item"]}>
-            Item: {orderCart?.length}
+            Item: {orders?.length}
           </span>
-          <span className={styles["my-order-card-total-quantity"]}>
+          {/* <span className={styles["my-order-card-total-quantity"]}>
             Shipping Fee: $5
+          </span> */}
+          <span className={styles["my-order-card-total-quantity"]}>
+            Discount: {orderById?.discount_rate ? orderById?.discount_rate : 0}%
           </span>
           <span className={styles["my-order-card-total-quantity"]}>
-            Discount: {orders?.discount}%
-          </span>
-          <span className={styles["my-order-card-total-quantity"]}>
-            Total: ${orders?.sumOrderWithDiscount}
+            Total: ${orderById?.total_bill}
           </span>
         </div>
       </Modal>

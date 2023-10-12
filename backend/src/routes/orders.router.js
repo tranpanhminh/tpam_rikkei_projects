@@ -23,7 +23,10 @@ ordersRouter.post("/checkout/users/:userId", ordersController.checkoutOrder);
 // 5. Update Order
 ordersRouter.patch("/update/:orderId", ordersController.updatedOrder);
 
-// 5. Cancel Order
+// 6. Cancel Order
 ordersRouter.patch("/cancel-order/:orderId/", ordersController.cancelOrder);
+
+// 7. Get Order By ID
+ordersRouter.get("/:orderId", ordersController.getOrder);
 
 module.exports = ordersRouter;

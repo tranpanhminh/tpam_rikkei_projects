@@ -27,7 +27,7 @@ function ManageOrders() {
       .get(`${ordersAPI}`)
       .then((response) => {
         setOrders(response.data);
-        setOrderCart(response.data.cart);
+        // setOrderCart(response.data.cart);
       })
       .catch((error) => {
         console.log(error.message);
@@ -72,33 +72,6 @@ function ManageOrders() {
     }
   };
 
-  // const handleDeleteOrder = (orderId: number) => {
-  //   axios
-  //     .delete(`http://localhost:7373/orders/${orderId}`)
-  //     .then(() => {
-  //       fetchOrders(); // Cập nhật lại dữ liệu products sau khi xóa
-  //       notification.success({
-  //         message: "Order Deleted",
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       console.log(error.message);
-  //     });
-  // };
-
-  const handleSumOrder = (orderId: number) => {
-    // if (orders) {
-    const totalOrder = orders[orderId - 1]?.cart.reduce(
-      (accumulator: number, currentItem: any) => {
-        return accumulator + currentItem.productQuantity * currentItem.price;
-      },
-      0
-    );
-    return totalOrder;
-    // }
-    // return 0;
-  };
-
   const changeColor = (status: string) => {
     switch (status) {
       case "Shipped":
@@ -116,24 +89,8 @@ function ManageOrders() {
     }
   };
 
-  const handleUpdateStatus = (shippingStatus: any, orderId: any) => {
-    axios
-      .patch(`http://localhost:7373/orders/${orderId}`, {
-        status: shippingStatus,
-      })
-      .then((response) => {
-        // Cập nhật lại orders bằng cách tạo mảng mới với orders đã cập nhật
-        const updatedOrders = orders.map((order: any) => {
-          if (order.id === orderId) {
-            return { ...order, status: shippingStatus };
-          }
-          return order;
-        });
-        setOrders(updatedOrders);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const handleUpdateStatus = () => {
+    fetchOrders();
   };
 
   return (
@@ -198,7 +155,6 @@ function ManageOrders() {
                     <td>{order.user.email}</td>
                     <td>{order.phone}</td>
                     <td>
-                      {" "}
                       {moment(order.order_date).format("YYYY-MM-DD-hh:mm:ss")}
                     </td>
                     <td>

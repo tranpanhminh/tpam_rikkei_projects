@@ -121,15 +121,11 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
   // Update ảnh
   console.log(image1, "image1");
   const handleUpdateImage1 = (event: any) => {
-    event.preventDefault();
-    const formData = new FormData();
-    formData.append("file", event.target.files[0]);
-
+    event?.preventDefault();
     const productId = products.id;
     const imageId = products.image_url[0].id;
-
     axios
-      .patch(`${productsAPI}/${productId}/update-image/${imageId}`, formData)
+      .patch(`${productsAPI}/${productId}/update-image/${imageId}`, image1)
       .then((response) => {
         console.log(response, "-----");
       })
@@ -287,9 +283,8 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
                 </label>
                 <div>
                   <form
-                    method="POST"
                     encType="multipart/form-data"
-                    onSubmit={handleUpdateImage1}
+                    onSubmit={(event) => handleUpdateImage1}
                   >
                     <input
                       type="file"
@@ -299,7 +294,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
                         )
                       }
                     />
-                    <input type="submit" value="Upload" />
+                    <button>Update</button>
                   </form>
                 </div>
 

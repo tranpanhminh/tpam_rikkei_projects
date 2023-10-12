@@ -345,7 +345,7 @@ class OrdersService {
       updated_at: Date.now(),
     };
 
-    const updatedOrder = await ordersRepo.updatedOrder(orderInfo, orderId);
+    await ordersRepo.updatedOrder(orderInfo, orderId);
     return {
       data: "Order Updated Status",
       status: 200,
@@ -440,6 +440,16 @@ class OrdersService {
     };
     await ordersRepo.cancelOrder(updatedPaymentBalance, dataOrder.card_id);
     return { data: "Cancel Order Completed", status: 200 };
+  }
+
+  // 7. GetOrder By Order ID
+  async getOrder(orderId) {
+    const findOrder = await ordersRepo.getOrder(orderId);
+    if (findOrder.length === 0) {
+      return { data: "No Data", status: 404 };
+    } else {
+      return { data: findOrder, status: 200 };
+    }
   }
 }
 

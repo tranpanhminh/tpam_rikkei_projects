@@ -272,6 +272,45 @@ class OrdersRepo {
     });
     return refundCard;
   }
+
+  // 7. Get Order By ID
+  async getOrder(orderId) {
+    const findOrder = await ordersEntity.findOne({
+      // Chọn các thuộc tính cần thiết
+      attributes: [
+        "id",
+        "user_id",
+        "customer_name",
+        "address",
+        "phone",
+        "discount_rate",
+        "cancellation_reason",
+        "card_number",
+        "order_date",
+        "bill",
+        "discounted",
+        "total_bill",
+        "card_id",
+        "coupon_id",
+        "status_id",
+        "cancel_reason_id",
+        "created_at",
+        "updated_at",
+      ],
+
+      // Tham gia với bảng post_types
+      include: [
+        {
+          model: orderStatusesEntity,
+          attributes: ["name"],
+        },
+      ],
+
+      group: ["id"],
+      where: { id: orderId },
+    });
+    return findOrder;
+  }
 }
 
 module.exports = new OrdersRepo();
