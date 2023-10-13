@@ -119,14 +119,14 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
     });
   };
 
-  const test = () => {
+  const reloadThumbnail = () => {
     if (postInfo.thumbnail_url) {
       const formData: any = new FormData();
-      formData.append("title", postInfo.title);
-      formData.append("content", postInfo.content);
+      // formData.append("title", postInfo.title);
+      // formData.append("content", postInfo.content);
       formData.append("thumbnail_url", postInfo.thumbnail_url);
-      formData.append("author", postInfo.author);
-      formData.append("status_id", postInfo.status_id);
+      // formData.append("author", postInfo.author);
+      // formData.append("status_id", postInfo.status_id);
       formData.append("_method", "PATCH");
 
       const config = {
@@ -184,55 +184,52 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
         console.log(error.message);
       });
 
-    // const formData: any = new FormData();
-    // formData.append("title", postInfo.title);
-    // formData.append("content", postInfo.content);
-    // formData.append("thumbnail_url", postInfo.thumbnail_url);
-    // formData.append("author", postInfo.author);
-    // formData.append("status_id", postInfo.status_id);
-    // formData.append("_method", "PATCH");
-    // const config = {
-    //   headers: {
-    //     "Content-Type": "multipart/form-data",
-    //   },
-    // };
-    // console.log(postInfo, "POST INFO");
-    // axios
-    //   .patch(`${postsAPI}/update/${getPost.id}`, formData, config)
-    //   .then((response) => {
-    //     // Đặt giá trị của input type file về rỗng
-    //     const fileInput: any = document.querySelector(`#thumbnail-service`);
-    //     if (fileInput) {
-    //       fileInput.value = ""; // Xóa giá trị đã chọn
-    //     }
-    //     axios
-    //       .get(`${postsAPI}/detail/${getPost.id}`)
-    //       .then((response) => {
-    //         setPost(response.data);
-    //       })
-    //       .catch((error) => {
-    //         console.log(error.message);
-    //       });
-    //     notification.success({
-    //       message: `Service Updated`,
-    //     });
+    const formData: any = new FormData();
+    formData.append("title", postInfo.title);
+    formData.append("content", postInfo.content);
+    formData.append(
+      "thumbnail_url",
+      postInfo.thumbnail_url ? postInfo.thumbnail_url : getPost.thumbnail_url
+    );
+    formData.append("author", postInfo.author);
+    formData.append("status_id", postInfo.status_id);
+    formData.append("_method", "PATCH");
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    axios
+      .patch(`${postsAPI}/update/${getPost.id}`, formData, config)
+      .then((response) => {
+        axios
+          .get(`${postsAPI}/detail/${getPost.id}`)
+          .then((response) => {
+            setPost(response.data);
+          })
+          .catch((error) => {
+            console.log(error.message);
+          });
+        notification.success({
+          message: `Service Updated`,
+        });
 
-    //     setPostInfo({
-    //       title: "",
-    //       content: "",
-    //       thumbnail_url: "",
-    //       author: "",
-    //       status_id: "",
-    //     });
-    //     navigate("/admin/manage-posts/");
-    //     handleFunctionOk();
-    //     setIsModalOpen(false);
-    //   })
-    //   .catch((error) => {
-    //     notification.warning({
-    //       message: `${error.response.data}`,
-    //     });
-    //   });
+        setPostInfo({
+          title: "",
+          content: "",
+          thumbnail_url: "",
+          author: "",
+          status_id: "",
+        });
+        navigate("/admin/manage-posts/");
+        handleFunctionOk();
+        setIsModalOpen(false);
+      })
+      .catch((error) => {
+        notification.warning({
+          message: `${error.response.data}`,
+        });
+      });
   };
 
   return (
@@ -273,7 +270,10 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
                 alt=""
                 className={styles["post-editor-thumbnail"]}
               />
-              <button className={styles["set-thumbnail-btn"]} onClick={test}>
+              <button
+                className={styles["set-thumbnail-btn"]}
+                onClick={reloadThumbnail}
+              >
                 Reload Thumbnail
               </button>
             </div>
