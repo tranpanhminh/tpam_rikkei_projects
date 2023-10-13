@@ -18,7 +18,7 @@ const filestore = require("session-file-store")(session);
 app.use(
   session({
     name: "session-id",
-    secret: "GFGEnter", // Secret key,
+    secret: "tranpanhminhsecret", // Secret key: Đặt tên ở file .env
     saveUninitialized: false,
     resave: false,
     store: new filestore(),
