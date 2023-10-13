@@ -32,10 +32,8 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
   const navigate = useNavigate();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [initName, setName] = useState("");
-  const [initDescription, setDescription] = useState("");
-  const [initPrice, setPrice] = useState("");
-  const [initImage, setImage] = useState("");
+  const [thumbnail, setThumbnail] = useState<any>(null);
+
   const [services, setServices] = useState<null | Service>(null);
   const [serviceInfo, setServiceInfo] = useState<any>({
     name: "",
@@ -82,15 +80,59 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
     setIsModalOpen(true);
   };
 
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const editorConfig = {
+    height: "600px",
+  };
+
+  let fileUploaded = false;
+  const handleFileChange = (event: any) => {
+    if (fileUploaded === true) {
+      setThumbnail("");
+    } else {
+      if (event.target.files.length > 0) {
+        setThumbnail(event.target.files[0]);
+      }
+    }
+  };
+
   const handleOk = () => {
+    const formData: any = new FormData();
+    formData.append("name", serviceInfo.name);
+    formData.append("description", serviceInfo.description);
+    formData.append("price", serviceInfo.price);
+    formData.append("working_time_id", serviceInfo.working_time_id);
+    formData.append("service_image", thumbnail);
+    formData.append("_method", "PATCH");
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    console.log(getServiceId, "FORMD");
     axios
-      .patch(`${servicesAPI}/update/${getServiceId}`, serviceInfo)
+      .patch(`${servicesAPI}/update/${getServiceId}`, formData, config)
       .then((response) => {
+        // Đặt giá trị của input type file về rỗng
+        const fileInput: any = document.querySelector(`#thumbnail-service`);
+        if (fileInput) {
+          fileInput.value = ""; // Xóa giá trị đã chọn
+        }
+        axios
+          .get(`${servicesAPI}/detail/${getServiceId}`)
+          .then((response) => {
+            setServices(response.data);
+          })
+          .catch((error) => {
+            console.log(error.message);
+          });
         notification.success({
           message: `Service Updated`,
         });
-        setIsModalOpen(false);
-        handleFunctionOk();
+        setThumbnail("");
         setServiceInfo({
           name: "",
           description: "",
@@ -99,20 +141,15 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
           service_image: "",
         });
         navigate("/admin/manage-services/");
+        handleFunctionOk();
+        fileUploaded = true;
+        setIsModalOpen(false);
       })
       .catch((error) => {
         notification.warning({
-          message: `${error.response.data.message}`,
+          message: `${error.response.data}`,
         });
       });
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-
-  const editorConfig = {
-    height: "600px",
   };
 
   return (
@@ -134,6 +171,7 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
         {services && (
           <div className={styles["product-detail-information-container"]}>
             <img src={services && services.service_image} alt="" />
+
             <div className={styles["left-product-detail-item"]}></div>
 
             <div className={styles["right-product-detail-item"]}>
@@ -192,6 +230,19 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
                     })
                   }
                 />
+              </div>
+              <div className={styles["product-info-item"]}>
+                <label className={styles["label-product"]} htmlFor="">
+                  Thumbnail
+                </label>
+                <div className={styles["upload-image-form"]}>
+                  <input
+                    type="file"
+                    name="image-01"
+                    onChange={handleFileChange}
+                    id={`thumbnail-service`}
+                  />
+                </div>
               </div>
             </div>
           </div>

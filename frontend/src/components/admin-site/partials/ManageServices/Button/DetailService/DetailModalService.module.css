@@ -45,3 +45,21 @@
   font-weight: bold;
   font-size: 15px;
 }
+
+.select-option {
+  padding: 8px
+}
+
+.upload-image-form {
+  display: flex;
+  width: 600px;
+  justify-content: space-between;
+}
+
+.upload-image-form input {
+  width: 300px;
+}
+
+.upload-image-form button {
+  background-color: #0c337c
+}

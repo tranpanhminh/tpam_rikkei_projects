@@ -340,17 +340,6 @@ class OrdersService {
       };
     }
 
-    // if (status_id < findOrder.status_id) {
-    //   return {
-    //     data: `Can't return previous status`,
-    //     status: 406,
-    //   };
-    // }
-
-    // if (status_id === findOrder.status_id) {
-    //   status_id = findOrder.status_id;
-    // }
-
     const orderInfo = {
       status_id: !status_id ? findOrder.status_id : status_id,
       updated_at: Date.now(),

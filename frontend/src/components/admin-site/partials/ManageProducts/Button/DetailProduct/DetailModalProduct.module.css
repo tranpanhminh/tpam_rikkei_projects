@@ -18,10 +18,10 @@
   gap: 20px
 }
 
-.left-product-detail-item img {
+/* .left-product-detail-item img {
   width: 200px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-}
+} */
 
 /* Hiển thị nút "Check" khi hình ảnh được hover */
 /* Container phải có position: relative để làm điểm neo cho nút */
