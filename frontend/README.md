@@ -103,4 +103,7 @@ const orderStatusAPI = process.env.REACT_APP_API_ORDER_STATUS;
 17. Booking Status API
 const bookingStatusAPI = process.env.REACT_APP_API_BOOKING_STATUS;
 
+18. Post Status API
+const postStatusAPI = process.env.REACT_APP_API_POST_STATUS;
+
  -->

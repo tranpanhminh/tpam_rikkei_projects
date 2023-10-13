@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, DatePicker, DatePickerProps, Modal, notification } from "antd";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "../../../AdminPage.module.css";
 import { Editor } from "@tinymce/tinymce-react";
@@ -9,19 +10,33 @@ export interface Props {
   handleClickOk: Function;
 }
 
+// Import API
+// 1. Products API
+const postsAPI = process.env.REACT_APP_API_POSTS;
+const postStatusAPI = process.env.REACT_APP_API_POST_STATUS;
+
+// ------------------------------------------------
+
 const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [title, setTitle] = useState<any>("");
-  const [image, setImage] = useState<any>("");
-  const [content, setContent] = useState<any>("");
-  const [status, setStatus] = useState<any>("Draft");
-  const [author, setAuthor] = useState<any>("");
+  const [image, setImage] = useState(null);
+  const [initText, setInitText] = useState("");
+  const [postInfo, setPostInfo] = useState<any>({
+    title: "",
+    content: "",
+    thumbnail_url: "",
+    author: "",
+    status_id: 1,
+  });
   const [posts, setPosts] = useState<any>("");
+  const [postStatus, setPostStatus] = useState<any>([]);
+
   // const [publishedDate, setPublishedDate] = useState<any>();
 
   const fetchPosts = () => {
     axios
-      .get("http://localhost:7373/posts")
+      .get(`${postsAPI}`)
       .then((response) => {
         setPosts(response.data);
       })
@@ -30,11 +45,24 @@ const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
       });
   };
 
+  const fetchPostStatus = async () => {
+    await axios
+      .get(`${postStatusAPI}`)
+      .then((response) => {
+        setPostStatus(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  console.log(postStatus, "SDAd");
   useEffect(() => {
     fetchPosts();
+    fetchPostStatus();
   }, []);
 
   const showModal = () => {
+    navigate(`/admin/manage-posts/?add`);
     setIsModalOpen(true);
   };
 
@@ -47,89 +75,100 @@ const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
     setIsModalOpen(false);
   };
 
-  const onChange: DatePickerProps["onChange"] = (date, dateString) => {
-    console.log(date, dateString);
-  };
-
-  const handleEditorChange = (content: string) => {
-    setContent(content);
-  };
-
-  // const onChangeDatePicker: DatePickerProps["onChange"] = (
-  //   date,
-  //   dateString
-  // ) => {
+  // const onChange: DatePickerProps["onChange"] = (date, dateString) => {
   //   console.log(date, dateString);
-  //   setPublishedDate(dateString);
   // };
 
+  const handleEditorChange = (content: string) => {
+    setPostInfo({
+      ...postInfo,
+      content: content,
+    });
+  };
+
+  const handleFileChange = (event: any) => {
+    const selectedFile = event.target.files[0];
+
+    if (selectedFile) {
+      const imageURL: any = URL.createObjectURL(selectedFile);
+      setImage(imageURL);
+    }
+
+    setPostInfo({
+      ...postInfo,
+      thumbnail_url: event.target.files[0],
+    });
+  };
+
   const handleAddPost = () => {
-    if (title === "") {
-      notification.warning({
-        message: "Please fill Post Title",
+    if (!postInfo.title) {
+      return notification.warning({
+        message: "Title must not be blank",
       });
-      return;
+    }
+    if (!postInfo.content) {
+      return notification.warning({
+        message: "Content must not be blank",
+      });
+    }
+    if (!postInfo.author) {
+      return notification.warning({
+        message: "Author must not be blank",
+      });
+    }
+    if (!postInfo.status_id) {
+      return notification.warning({
+        message: "Status ID must not be blank",
+      });
     }
 
-    if (image === "") {
-      notification.warning({
-        message: "Please fill Image Url",
-      });
-      return;
+    if (!postInfo.thumbnail_url && postInfo.status_id === 2) {
+      return {
+        data: "You can't set to Published until you set thumbnail",
+        status: 406,
+      };
     }
 
-    if (status === "") {
-      notification.warning({
-        message: "Please select Post Status",
-      });
-      return;
-    }
+    const formData: any = new FormData();
+    formData.append("title", postInfo.title);
+    formData.append("content", postInfo.content);
+    formData.append("thumbnail_url", postInfo.thumbnail_url);
+    formData.append("author", postInfo.author);
+    formData.append("status_id", postInfo.status_id);
+    formData.append("_method", "POST");
 
-    if (author === "") {
-      notification.warning({
-        message: "Please fill Author Name",
-      });
-      return;
-    }
-
-    if (content === "") {
-      notification.warning({
-        message: "Please fill Post Content",
-      });
-      return;
-    }
-
-    const currentDate = moment().format("DD/MM/YYYY HH:mm:ss");
-
-    const newPost = {
-      post_title: title,
-      post_content: content,
-      author: author,
-      publish_date: currentDate,
-      image_url: image,
-      status: status,
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     };
-
     axios
-      .post(`http://localhost:7373/posts`, newPost)
+      .post(`${postsAPI}/add`, postInfo, config)
       .then((response) => {
         fetchPosts();
         setPosts(response.data);
         notification.success({
           message: "Post Added",
         });
+        navigate("/admin/manage-posts/");
+        const fileInput: any = document.querySelector(`#thumbnail`);
+        fileInput.value = "";
+        setPostInfo({
+          title: "",
+          content: "",
+          thumbnail_url: "",
+          author: "",
+          status_id: 1,
+        });
+        setImage(null);
+        handleClickOk();
+        setIsModalOpen(false);
       })
       .catch((error) => {
-        console.log(error.message);
+        notification.warning({
+          message: `${error.response.data}`,
+        });
       });
-    handleClickOk();
-
-    setIsModalOpen(false);
-    setTitle("");
-    setImage("");
-    setContent("");
-    setStatus("Draft");
-    setAuthor("");
   };
 
   const editorConfig = {
@@ -154,56 +193,67 @@ const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
               type="text"
               placeholder="Post Title"
               className={styles["post-title-editor"]}
-              value={title}
-              onChange={(event) => setTitle(event.target.value)}
+              value={postInfo.title}
+              onChange={(event) =>
+                setPostInfo({ ...postInfo, title: event.target.value })
+              }
             />
             <div className={styles["post-content-editor"]}>
               <Editor
                 onEditorChange={handleEditorChange}
-                value={content}
                 init={editorConfig}
+                value={postInfo.content}
               />
             </div>
           </div>
           <div className={styles["info-editor-post"]}>
             <div>
-              <img
-                src={image}
-                alt=""
-                className={styles["post-editor-thumbnail"]}
-              />
+              {image ? (
+                <img
+                  src={image}
+                  alt="Preview"
+                  className={styles["post-editor-thumbnail"]}
+                  id="thumbnail"
+                />
+              ) : (
+                <img
+                  alt=""
+                  className={styles["post-editor-thumbnail"]}
+                  id="thumbnail"
+                />
+              )}
             </div>
             <div className={styles["info-editor-post-item"]}>
               <span>Image URL</span>
-              <input
-                type="text"
-                value={image}
-                onChange={(event) => setImage(event.target.value)}
-              />
+              <input type="file" onChange={handleFileChange} accept="image/*" />
             </div>
             <div className={styles["info-editor-post-item"]}>
               <span>Status</span>
               <select
-                value={status}
                 name=""
                 id=""
                 className={styles["post-editor-select-status"]}
-                onChange={(event) => setStatus(event.target.value)}
+                onChange={(event) =>
+                  setPostInfo({ ...postInfo, status_id: event.target.value })
+                }
+                value={postInfo.status_id}
               >
-                <option value="Published">Published</option>
-                <option value="Draft">Draft</option>
+                {postStatus &&
+                  postStatus?.map((status: any) => {
+                    return <option value={status.id}>{status.name}</option>;
+                  })}
               </select>
             </div>
-
-            {/* <div className={styles["info-editor-post-item"]}>
+            {/* 
+            <div className={styles["info-editor-post-item"]}>
               <span>Published Date</span>
               <input
                 type="text"
                 value={author}
                 onChange={(event) => setAuthor(event.target.value)}
               />
-            </div> */}
-            {/* <div className={styles["test"]}>
+            </div>
+            <div className={styles["test"]}>
               <span>Published Date</span>
 
               <DatePicker
@@ -217,8 +267,10 @@ const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
               <span>Author</span>
               <input
                 type="text"
-                value={author}
-                onChange={(event) => setAuthor(event.target.value)}
+                value={postInfo.author}
+                onChange={(event) =>
+                  setPostInfo({ ...postInfo, author: event.target.value })
+                }
               />
             </div>
           </div>

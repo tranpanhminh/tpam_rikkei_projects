@@ -53,7 +53,7 @@ class PostsService {
     const postInfo = {
       title: title,
       content: content,
-      thumbnail_url: thumbnail ? sourceImage + thumbnail : thumbnail,
+      thumbnail_url: sourceImage + thumbnail,
       author: author,
       status_id: status_id,
       post_type_id: 3,

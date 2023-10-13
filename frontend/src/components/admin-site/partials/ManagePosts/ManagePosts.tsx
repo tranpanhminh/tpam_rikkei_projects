@@ -80,18 +80,18 @@ function ManagePosts() {
     }
   };
 
-  // Function Add Post
-  const handleAddPost = () => {
-    axios
-      .get(`http://localhost:7373/posts/`)
-      .then((response) => {
-        fetchPosts();
-        setPosts(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  // // Function Add Post
+  // const handleAddPost = () => {
+  //   axios
+  //     .get(`http://localhost:7373/posts/`)
+  //     .then((response) => {
+  //       fetchPosts();
+  //       setPosts(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
 
   // Function Delete Post
   const handleDeletePost = (postId: number) => {
@@ -141,7 +141,7 @@ function ManagePosts() {
           </button>
         </div>
 
-        <AddPostButton handleClickOk={handleAddPost} />
+        <AddPostButton handleClickOk={handleUpdatePost} />
       </div>
 
       <div className={styles["main-content"]}>
