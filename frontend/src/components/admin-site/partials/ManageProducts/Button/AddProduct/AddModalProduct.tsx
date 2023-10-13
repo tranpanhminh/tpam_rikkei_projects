@@ -4,7 +4,7 @@ import styles from "../AddProduct/AddModalProduct.module.css";
 import { Product } from "../../../../../../database";
 import axios from "axios";
 import { Editor } from "@tinymce/tinymce-react";
-import { log } from "console";
+import { useLocation, useNavigate } from "react-router-dom";
 
 // Import API
 // 1. Products API
@@ -26,6 +26,7 @@ const AddModalProduct: React.FC<AddModalProps> = ({
   title,
   handleClickOk,
 }) => {
+  const navigate = useNavigate();
   const [products, setProducts] = useState<any>(null);
   // const [files, setFiles] = useState<any>([]);
   const [vendors, setVendors] = useState<any>(null);
@@ -67,16 +68,6 @@ const AddModalProduct: React.FC<AddModalProps> = ({
     fetchVendors();
   }, []);
 
-  // let listIdProduct = products?.map((product: any) => {
-  //   return product.id;
-  // });
-
-  // const maxId = listIdProduct?.length > 0 ? Math.max(...listIdProduct) : 0;
-
-  // const maxId = products
-  //   ? Math.max(...products.map((product) => product.id))
-  //   : 0;
-
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -84,71 +75,63 @@ const AddModalProduct: React.FC<AddModalProps> = ({
     setIsModalOpen(true);
   };
 
+  // Handle Add Post
   const handleOk = () => {
-    console.log(newProduct, "2222222");
-    axios
-      .post(`${productsAPI}/add`, newProduct)
-      .then((response) => {
-        console.log(response, "RESPONSE");
-        notification.success({
-          message: `Product Added`,
-        });
-        setIsModalOpen(false);
-        setNewProduct({
-          name: "",
-          description: "",
-          price: "",
-          quantity_stock: 0,
-          vendor_id: 1,
-          image_url: [],
-        });
-        handleClickOk();
-      })
-      .catch((error) => {
-        notification.warning({
-          message: `${error.response.data.message}`,
-        });
+    if (newProduct.image_url.length === 4) {
+      const formData: any = new FormData();
+      formData.append("name", newProduct.name);
+      formData.append("description", newProduct.description);
+      formData.append("price", newProduct.price);
+      formData.append("quantity_stock", newProduct.quantity_stock);
+      formData.append("vendor_id", newProduct.vendor_id);
+
+      newProduct.image_url.forEach((image: File, index: number) => {
+        formData.append(`image_url`, image);
       });
 
-    // // Kiểm tra thông tin đầy đủ
-    // if (
-    //   !newProduct.name ||
-    //   !newProduct.description ||
-    //   newProduct.price <= 0 ||
-    //   newProduct.quantity_stock <= 0 ||
-    //   isNaN(newProduct.price) ||
-    //   isNaN(newProduct.quantity_stock)
-    // ) {
-    //   notification.warning({
-    //     message: "Notification",
-    //     description:
-    //       "Please make sure all information filled, Price & Quantity must be integer",
-    //   });
-    //   return;
-    // }
-    // const updatedProduct = {
-    //   ...newProduct,
-    //   id: maxId + 1,
-    //   comments: [],
-    // };
-    // const updatedProducts = products ? [...products, updatedProduct] : null;
-    // setProducts(updatedProducts);
-    // setIsModalOpen(false);
-    // if (handleClickOk) {
-    //   handleClickOk(updatedProduct);
-    // }
-    // setNewProduct({
-    //   // id: 0,
-    //   productImage: ["", "", "", ""],
-    //   name: "",
-    //   description: handleEditorChange(""),
-    //   price: 0,
-    //   vendor: "",
-    //   sku: "",
-    //   quantity_stock: 0,
-    //   comments: [],
-    // });
-    // setEditorInitialValue("Type product description here.........");
+      formData.append("_method", "POST");
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+
+      axios
+        .post(`${productsAPI}/add`, formData, config)
+        .then((response) => {
+          console.log(response, "RESPONSE");
+          notification.success({
+            message: `Product Added`,
+          });
+          setIsModalOpen(false);
+          const fileInput: any = document.querySelector(
+            `#upload-multiple-images`
+          );
+          if (fileInput) {
+            fileInput.value = ""; // Xóa giá trị đã chọn
+          }
+          setNewProduct({
+            name: "",
+            description: "",
+            price: "",
+            quantity_stock: 0,
+            vendor_id: 1,
+            image_url: [],
+          });
+          navigate("/admin/manage-products/");
+          handleEditorChange("");
+          handleClickOk();
+        })
+        .catch((error) => {
+          notification.warning({
+            message: `${error.response.data.message}`,
+          });
+        });
+    } else {
+      return notification.warning({
+        message: `Please upload only 4 Images`,
+      });
+    }
   };
 
   const handleCancel = () => {
@@ -258,12 +241,11 @@ const AddModalProduct: React.FC<AddModalProps> = ({
             <input
               multiple
               type="file"
-              // onChange={(e) => setFiles(e.target.files)}
               onChange={(e) => {
                 const images = [];
                 if (e.target.files !== null) {
                   for (let i = 0; i < e.target.files.length; i++) {
-                    images.push(e.target.files[i].name);
+                    images.push(e.target.files[i]);
                   }
                   setNewProduct({
                     ...newProduct,
@@ -271,6 +253,7 @@ const AddModalProduct: React.FC<AddModalProps> = ({
                   });
                 }
               }}
+              id="upload-multiple-images"
             />
           </div>
 
