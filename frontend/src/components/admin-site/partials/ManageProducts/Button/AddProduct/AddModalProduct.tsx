@@ -35,8 +35,8 @@ const AddModalProduct: React.FC<AddModalProps> = ({
   const [newProduct, setNewProduct] = useState<any>({
     name: "",
     description: "",
-    price: 0,
-    quantity_stock: 0,
+    price: "",
+    quantity_stock: "",
     vendor_id: 1,
     image_url: [],
   });
@@ -113,7 +113,7 @@ const AddModalProduct: React.FC<AddModalProps> = ({
           }
           setNewProduct({
             name: "",
-            description: setEditorInitialValue(""),
+            description: "",
             price: 0,
             quantity_stock: 0,
             vendor_id: 1,
@@ -187,6 +187,7 @@ const AddModalProduct: React.FC<AddModalProps> = ({
                 setNewProduct({ ...newProduct, description: content })
               }
               initialValue={editorInitialValue}
+              value={newProduct.description}
             />
             {/* <Editor
               onEditorChange={handleEditorChange}
@@ -207,7 +208,7 @@ const AddModalProduct: React.FC<AddModalProps> = ({
             <p>Quantity Stock</p>
             <input
               type="number"
-              value={newProduct?.quantity_stock}
+              value={newProduct.quantity_stock}
               onChange={(e) =>
                 setNewProduct({
                   ...newProduct,
@@ -219,7 +220,7 @@ const AddModalProduct: React.FC<AddModalProps> = ({
           <div className={styles["list-input-item"]}>
             <p>Vendor</p>
             <select
-              value={newProduct?.vendor_id}
+              value={newProduct.vendor_id}
               onChange={(e) =>
                 setNewProduct({
                   ...newProduct,
