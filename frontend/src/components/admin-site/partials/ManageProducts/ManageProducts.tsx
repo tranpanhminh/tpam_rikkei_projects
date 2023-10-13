@@ -4,7 +4,7 @@ import { Button, notification } from "antd";
 import { Product } from "../../../../database";
 import axios from "axios";
 import AddModalProduct from "../ManageProducts/Button/AddProduct/AddModalProduct";
-
+import { useLocation, useNavigate } from "react-router-dom";
 import styles from "../../AdminPage.module.css";
 import { NavLink } from "react-router-dom";
 
@@ -15,7 +15,7 @@ const productsAPI = process.env.REACT_APP_API_PRODUCTS;
 // ------------------------------------------------
 function ManageProducts() {
   document.title = "Manage Products | PetShop";
-
+  const navigate = useNavigate();
   const [products, setProducts] = useState<null | Product[]>(null);
   const [searchText, setSearchText] = useState<string>("");
 
@@ -71,21 +71,6 @@ function ManageProducts() {
     }
   };
 
-  const handleAddProduct = (newProduct: Product) => {
-    axios
-      .post("http://localhost:7373/products", newProduct)
-      .then(() => {
-        fetchProducts(); // Cập nhật lại dữ liệu products sau khi thêm
-        notification.success({
-          message: "Product Added",
-          // placement: "bottomLeft",
-        });
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  };
-
   const handleDeleteProduct = (productId: number) => {
     axios
       .delete(`${productsAPI}/delete/${productId}`)
@@ -102,6 +87,7 @@ function ManageProducts() {
   };
 
   const handleUpdateProduct = () => {
+    navigate("/admin/manage-products/");
     fetchProducts();
   };
 
@@ -137,7 +123,7 @@ function ManageProducts() {
           className={styles["add-product-btn"]}
           value="Add Product"
           title="Add Product"
-          handleClickOk={handleAddProduct}
+          handleClickOk={handleUpdateProduct}
         />
       </div>
 

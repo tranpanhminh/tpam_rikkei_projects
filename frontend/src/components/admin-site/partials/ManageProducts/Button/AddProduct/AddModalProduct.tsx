@@ -35,7 +35,7 @@ const AddModalProduct: React.FC<AddModalProps> = ({
   const [newProduct, setNewProduct] = useState<any>({
     name: "",
     description: "",
-    price: "",
+    price: 0,
     quantity_stock: 0,
     vendor_id: 1,
     image_url: [],
@@ -71,8 +71,10 @@ const AddModalProduct: React.FC<AddModalProps> = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
-    fetchProducts();
+    navigate(`/admin/manage-products/?add`);
     setIsModalOpen(true);
+    // fetchProducts();
+    // setIsModalOpen(true);
   };
 
   // Handle Add Post
@@ -99,7 +101,6 @@ const AddModalProduct: React.FC<AddModalProps> = ({
       axios
         .post(`${productsAPI}/add`, formData, config)
         .then((response) => {
-          console.log(response, "RESPONSE");
           notification.success({
             message: `Product Added`,
           });
@@ -112,14 +113,13 @@ const AddModalProduct: React.FC<AddModalProps> = ({
           }
           setNewProduct({
             name: "",
-            description: "",
-            price: "",
+            description: setEditorInitialValue(""),
+            price: 0,
             quantity_stock: 0,
             vendor_id: 1,
             image_url: [],
           });
           navigate("/admin/manage-products/");
-          handleEditorChange("");
           handleClickOk();
         })
         .catch((error) => {
@@ -136,15 +136,12 @@ const AddModalProduct: React.FC<AddModalProps> = ({
 
   const handleCancel = () => {
     setNewProduct({
-      // id: 0,
-      productImage: ["", "", "", ""],
       name: "",
-      description: handleEditorChange(""),
-      price: 0,
-      vendor: "",
-      sku: "",
+      description: "",
+      price: "",
       quantity_stock: 0,
-      comments: [],
+      vendor_id: 1,
+      image_url: [],
     });
 
     // setEditorInitialValue("Type product description here.........");
