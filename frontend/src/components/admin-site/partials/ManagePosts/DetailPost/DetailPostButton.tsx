@@ -208,10 +208,13 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
             setPost(response.data);
           })
           .catch((error) => {
-            console.log(error.message);
+            console.log(error, "ERRORR");
+            notification.warning({
+              message: `${error.response.data}`,
+            });
           });
         notification.success({
-          message: `Service Updated`,
+          message: `Post Updated`,
         });
 
         setPostInfo({
@@ -226,6 +229,7 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
         setIsModalOpen(false);
       })
       .catch((error) => {
+        console.log(error, "ERRORR");
         notification.warning({
           message: `${error.response.data}`,
         });
