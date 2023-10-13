@@ -53,6 +53,11 @@
 .upload-image-form {
   display: flex;
   width: 600px;
+  justify-content: space-between;
+}
+
+.upload-image-form input {
+  width: 300px;
 }
 
 .upload-image-form button {

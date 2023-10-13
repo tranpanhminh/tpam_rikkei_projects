@@ -38,7 +38,10 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
   const [image2, setImage2] = useState<string>("");
   const [image3, setImage3] = useState<string>("");
   const [image4, setImage4] = useState<string>("");
-  const [show, setShow] = useState<boolean>(false);
+  const [showUpdateImage1, setShowUpdateImage1] = useState<boolean>(false);
+  const [showUpdateImage2, setShowUpdateImage2] = useState<boolean>(false);
+  const [showUpdateImage3, setShowUpdateImage3] = useState<boolean>(false);
+  const [showUpdateImage4, setShowUpdateImage4] = useState<boolean>(false);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -120,13 +123,20 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
   };
 
   // Update ảnh
-
-  const handleFileChange = (event: any) => {
-    if (event.target.files.length > 0) {
-      setImage1(event.target.files[0]);
+  // Ảnh 1:
+  let fileUploaded1 = false;
+  const handleFileChange1 = (event: any) => {
+    if (fileUploaded1 === true) {
+      console.log(event.target.value, "222");
+      setShowUpdateImage1(false);
+      return event.target.value === "";
+    } else {
+      if (event.target.files.length > 0) {
+        setImage1(event.target.files[0]);
+        setShowUpdateImage1(true);
+      }
     }
   };
-  console.log(image1, "image1");
 
   const handleUpdateImage1 = () => {
     if (image1) {
@@ -148,6 +158,11 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
           config
         )
         .then((response) => {
+          // Đặt giá trị của input type file về rỗng
+          const fileInput: any = document.querySelector(`#image-${imageId}`);
+          if (fileInput) {
+            fileInput.value = ""; // Xóa giá trị đã chọn
+          }
           notification.success({
             message: `Image Updated`,
           });
@@ -160,31 +175,214 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
               console.log(error.message);
             });
           setImage1("");
+          setShowUpdateImage1(false);
           navigate("/admin/manage-products/");
           handleFunctionOk();
+          fileUploaded1 = true;
         })
         .catch((error) => {
           console.log(error, "++++++");
         });
     } else {
-      console.log("Không có tệp nào");
+      notification.warning({
+        message: `Please Upload Image`,
+      });
+    }
+  };
+
+  // Ảnh 2:
+  let fileUploaded2 = false;
+  const handleFileChange2 = (event: any) => {
+    if (fileUploaded2 === true) {
+      setShowUpdateImage2(false);
+      return event.target.value === "";
+    } else {
+      if (event.target.files.length > 0) {
+        setImage2(event.target.files[0]);
+        setShowUpdateImage2(true);
+      }
     }
   };
 
   const handleUpdateImage2 = () => {
-    const productId = products.id;
-    const imageId = products.image_url[2].id;
-    console.log(productId, imageId);
+    if (image2) {
+      const formData: any = new FormData();
+      formData.append("image_url", image2);
+      formData.append("_method", "PATCH");
+      const productId = products.id;
+      const imageId = products.image_url[1].id;
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+      axios
+        .patch(
+          `${productsAPI}/${productId}/update-image/${imageId}`,
+          formData,
+          config
+        )
+        .then((response) => {
+          // Đặt giá trị của input type file về rỗng
+          const fileInput: any = document.querySelector(`#image-${imageId}`);
+          if (fileInput) {
+            fileInput.value = ""; // Xóa giá trị đã chọn
+          }
+          notification.success({
+            message: `Image Updated`,
+          });
+          axios
+            .get(`${productsAPI}/detail/${getProductId}`)
+            .then((response) => {
+              setProducts(response.data);
+            })
+            .catch((error) => {
+              console.log(error.message);
+            });
+          setImage2("");
+          setShowUpdateImage2(false);
+          navigate("/admin/manage-products/");
+          handleFunctionOk();
+          fileUploaded2 = true;
+        })
+        .catch((error) => {
+          console.log(error, "++++++");
+        });
+    } else {
+      notification.warning({
+        message: `Please Upload Image`,
+      });
+    }
   };
+
+  // Ảnh 3:
+  let fileUploaded3 = false;
+  const handleFileChange3 = (event: any) => {
+    if (fileUploaded3 === true) {
+      setShowUpdateImage3(false);
+      return event.target.value === "";
+    } else {
+      if (event.target.files.length > 0) {
+        setImage3(event.target.files[0]);
+        setShowUpdateImage3(true);
+      }
+    }
+  };
+
   const handleUpdateImage3 = () => {
-    const productId = products.id;
-    const imageId = products.image_url[3].id;
-    console.log(productId, imageId);
+    if (image3) {
+      const formData: any = new FormData();
+      formData.append("image_url", image3);
+      formData.append("_method", "PATCH");
+      const productId = products.id;
+      const imageId = products.image_url[2].id;
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+      axios
+        .patch(
+          `${productsAPI}/${productId}/update-image/${imageId}`,
+          formData,
+          config
+        )
+        .then((response) => {
+          // Đặt giá trị của input type file về rỗng
+          const fileInput: any = document.querySelector(`#image-${imageId}`);
+          if (fileInput) {
+            fileInput.value = ""; // Xóa giá trị đã chọn
+          }
+          notification.success({
+            message: `Image Updated`,
+          });
+          axios
+            .get(`${productsAPI}/detail/${getProductId}`)
+            .then((response) => {
+              setProducts(response.data);
+            })
+            .catch((error) => {
+              console.log(error.message);
+            });
+          setImage3("");
+          setShowUpdateImage3(false);
+          navigate("/admin/manage-products/");
+          handleFunctionOk();
+          fileUploaded3 = true;
+        })
+        .catch((error) => {
+          console.log(error, "++++++");
+        });
+    } else {
+      notification.warning({
+        message: `Please Upload Image`,
+      });
+    }
   };
+
+  // Ảnh 4:
+  let fileUploaded4 = false;
+  const handleFileChange4 = (event: any) => {
+    if (fileUploaded4 === true) {
+      setShowUpdateImage4(false);
+      return event.target.value === "";
+    } else {
+      if (event.target.files.length > 0) {
+        setImage4(event.target.files[0]);
+        setShowUpdateImage4(true);
+      }
+    }
+  };
+
   const handleUpdateImage4 = () => {
-    const productId = products.id;
-    const imageId = products.image_url[4].id;
-    console.log(productId, imageId);
+    if (image4) {
+      const formData: any = new FormData();
+      formData.append("image_url", image4);
+      formData.append("_method", "PATCH");
+      const productId = products.id;
+      const imageId = products.image_url[3].id;
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+      axios
+        .patch(
+          `${productsAPI}/${productId}/update-image/${imageId}`,
+          formData,
+          config
+        )
+        .then((response) => {
+          // Đặt giá trị của input type file về rỗng
+          const fileInput: any = document.querySelector(`#image-${imageId}`);
+          if (fileInput) {
+            fileInput.value = ""; // Xóa giá trị đã chọn
+          }
+          notification.success({
+            message: `Image Updated`,
+          });
+          axios
+            .get(`${productsAPI}/detail/${getProductId}`)
+            .then((response) => {
+              setProducts(response.data);
+            })
+            .catch((error) => {
+              console.log(error.message);
+            });
+          setImage4("");
+          setShowUpdateImage4(false);
+          navigate("/admin/manage-products/");
+          handleFunctionOk();
+          fileUploaded4 = true;
+        })
+        .catch((error) => {
+          console.log(error, "++++++");
+        });
+    } else {
+      notification.warning({
+        message: `Please Upload Image`,
+      });
+    }
   };
 
   const editorConfig = {
@@ -326,30 +524,81 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
                   <input
                     type="file"
                     name="image-01"
-                    onChange={handleFileChange}
+                    onChange={handleFileChange1}
+                    id={`image-${products.image_url[0].id}`}
                   />
-                  <button onClick={handleUpdateImage1}>Update</button>
+                  <button
+                    onClick={handleUpdateImage1}
+                    style={{
+                      display: showUpdateImage1 ? "inline-block" : "none",
+                    }}
+                  >
+                    Update
+                  </button>
                 </div>
               </div>
               <div className={styles["product-info-item"]}>
                 <label className={styles["label-product"]} htmlFor="">
                   Image 2
                 </label>
-                <input type="file" />
+                <div className={styles["upload-image-form"]}>
+                  <input
+                    type="file"
+                    name="image-02"
+                    onChange={handleFileChange2}
+                    id={`image-${products.image_url[1].id}`}
+                  />
+                  <button
+                    onClick={handleUpdateImage2}
+                    style={{
+                      display: showUpdateImage2 ? "inline-block" : "none",
+                    }}
+                  >
+                    Update
+                  </button>
+                </div>
               </div>
               <div className={styles["product-info-item"]}>
                 <label className={styles["label-product"]} htmlFor="">
                   Image 3
                 </label>
-                <form action="">
-                  <input type="file" />
-                </form>
+                <div className={styles["upload-image-form"]}>
+                  <input
+                    type="file"
+                    name="image-03"
+                    onChange={handleFileChange3}
+                    id={`image-${products.image_url[2].id}`}
+                  />
+                  <button
+                    onClick={handleUpdateImage3}
+                    style={{
+                      display: showUpdateImage3 ? "inline-block" : "none",
+                    }}
+                  >
+                    Update
+                  </button>
+                </div>
               </div>
               <div className={styles["product-info-item"]}>
                 <label className={styles["label-product"]} htmlFor="">
                   Image 4
                 </label>
-                <input type="file" />
+                <div className={styles["upload-image-form"]}>
+                  <input
+                    type="file"
+                    name="image-04"
+                    onChange={handleFileChange4}
+                    id={`image-${products.image_url[3].id}`}
+                  />
+                  <button
+                    onClick={handleUpdateImage4}
+                    style={{
+                      display: showUpdateImage4 ? "inline-block" : "none",
+                    }}
+                  >
+                    Update
+                  </button>
+                </div>
               </div>
             </div>
           </div>
