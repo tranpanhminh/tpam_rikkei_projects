@@ -141,43 +141,44 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
         "Content-Type": "multipart/form-data",
       },
     };
-    axios
-      .patch(`${postsAPI}/update/${getPost.id}`, formData, config)
-      .then((response) => {
-        // Đặt giá trị của input type file về rỗng
-        const fileInput: any = document.querySelector(`#thumbnail-service`);
-        if (fileInput) {
-          fileInput.value = ""; // Xóa giá trị đã chọn
-        }
-        axios
-          .get(`${postsAPI}/detail/${getPost.id}`)
-          .then((response) => {
-            setPost(response.data);
-          })
-          .catch((error) => {
-            console.log(error.message);
-          });
-        notification.success({
-          message: `Service Updated`,
-        });
+    console.log(postInfo, "POST INFO");
+    // axios
+    //   .patch(`${postsAPI}/update/${getPost.id}`, formData, config)
+    //   .then((response) => {
+    //     // Đặt giá trị của input type file về rỗng
+    //     const fileInput: any = document.querySelector(`#thumbnail-service`);
+    //     if (fileInput) {
+    //       fileInput.value = ""; // Xóa giá trị đã chọn
+    //     }
+    //     axios
+    //       .get(`${postsAPI}/detail/${getPost.id}`)
+    //       .then((response) => {
+    //         setPost(response.data);
+    //       })
+    //       .catch((error) => {
+    //         console.log(error.message);
+    //       });
+    //     notification.success({
+    //       message: `Service Updated`,
+    //     });
 
-        setPostInfo({
-          title: "",
-          content: "",
-          thumbnail_url: "",
-          author: "",
-          status_id: "",
-        });
-        navigate("/admin/manage-posts/");
-        handleFunctionOk();
-        fileUploaded = true;
-        setIsModalOpen(false);
-      })
-      .catch((error) => {
-        notification.warning({
-          message: `${error.response.data}`,
-        });
-      });
+    //     setPostInfo({
+    //       title: "",
+    //       content: "",
+    //       thumbnail_url: "",
+    //       author: "",
+    //       status_id: "",
+    //     });
+    //     navigate("/admin/manage-posts/");
+    //     handleFunctionOk();
+    //     fileUploaded = true;
+    //     setIsModalOpen(false);
+    //   })
+    //   .catch((error) => {
+    //     notification.warning({
+    //       message: `${error.response.data}`,
+    //     });
+    //   });
   };
 
   return (
@@ -274,7 +275,12 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
               <input
                 type="text"
                 defaultValue={getPost?.author}
-                onChange={(event) => setAuthor(event.target.value)}
+                onChange={(event) =>
+                  setPostInfo({
+                    ...postInfo,
+                    author: event.target.value,
+                  })
+                }
               />
             </div>
           </div>
