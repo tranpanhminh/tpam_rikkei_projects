@@ -247,14 +247,18 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
                 }
               >
                 <option
-                  defaultValue="Published"
-                  selected={getPost?.status === "Published" ? true : false}
+                  value={2}
+                  selected={
+                    getPost?.post_status.name === "Published" ? true : false
+                  }
                 >
                   Published
                 </option>
                 <option
-                  defaultValue="Draft"
-                  selected={getPost?.status === "Draft" ? true : false}
+                  value={1}
+                  selected={
+                    getPost?.post_status.name === "Draft" ? true : false
+                  }
                 >
                   Draft
                 </option>
