@@ -32,8 +32,6 @@ function BlogPost() {
       });
   };
 
-  console.log(post, "POST");
-
   const fetchAllPosts = () => {
     axios
       .get(`${postsAPI}`)
@@ -50,7 +48,7 @@ function BlogPost() {
     fetchAllPosts();
   }, [postId]);
 
-  document.title = `${post ? `${post?.post_title} | PetShop` : "Loading..."}`;
+  document.title = `${post ? `${post?.title} | PetShop` : "Loading..."}`;
 
   return (
     <>
