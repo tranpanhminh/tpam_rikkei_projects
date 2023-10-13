@@ -15,10 +15,36 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   justify-items: center;
+  gap: 20px
 }
 
 .left-product-detail-item img {
   width: 200px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+/* Hiển thị nút "Check" khi hình ảnh được hover */
+/* Container phải có position: relative để làm điểm neo cho nút */
+.image-container {
+  position: relative;
+}
+
+.image-container:hover .set-thumbnail-btn {
+  display: block;
+}
+
+.image-container:hover img {
+  opacity: 70%;
+}
+
+.set-thumbnail-btn {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: #0c337c;
+  transform: translate(-50%, -50%);
+  font-size: 12px;
 }
 
 .right-product-detail-item {

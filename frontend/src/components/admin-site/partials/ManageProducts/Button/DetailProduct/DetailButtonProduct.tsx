@@ -385,6 +385,29 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
     }
   };
 
+  // Set Thumbnail
+  const changeThumbnail = (productId: any, imageId: any) => {
+    axios
+      .patch(`${productsAPI}/${productId}/update-thumbnail/${imageId}}`)
+      .then((response) => {
+        notification.success({
+          message: `Thumbnail Updated`,
+        });
+        axios
+          .get(`${productsAPI}/detail/${getProductId}`)
+          .then((response) => {
+            setProducts(response.data);
+          })
+          .catch((error) => {
+            console.log(error.message);
+          });
+        handleFunctionOk();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const editorConfig = {
     height: "600px",
   };
@@ -408,10 +431,50 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
         {products && (
           <div className={styles["product-detail-information-container"]}>
             <div className={styles["left-product-detail-item"]}>
-              <img src={products && products.image_url[0].image_url} alt="" />
-              <img src={products && products.image_url[1].image_url} alt="" />
-              <img src={products && products.image_url[2].image_url} alt="" />
-              <img src={products && products.image_url[3].image_url} alt="" />
+              <div className={styles["image-container"]}>
+                <img src={products && products.image_url[0].image_url} alt="" />
+                <button
+                  className={styles["set-thumbnail-btn"]}
+                  onClick={() =>
+                    changeThumbnail(products.id, products.image_url[0]?.id)
+                  }
+                >
+                  Set Thumbnail
+                </button>
+              </div>
+              <div className={styles["image-container"]}>
+                <img src={products && products.image_url[1].image_url} alt="" />
+                <button
+                  className={styles["set-thumbnail-btn"]}
+                  onClick={() =>
+                    changeThumbnail(products.id, products.image_url[1]?.id)
+                  }
+                >
+                  Set Thumbnail
+                </button>
+              </div>
+              <div className={styles["image-container"]}>
+                <img src={products && products.image_url[2].image_url} alt="" />
+                <button
+                  className={styles["set-thumbnail-btn"]}
+                  onClick={() =>
+                    changeThumbnail(products.id, products.image_url[2]?.id)
+                  }
+                >
+                  Set Thumbnail
+                </button>
+              </div>
+              <div className={styles["image-container"]}>
+                <img src={products && products.image_url[3].image_url} alt="" />
+                <button
+                  className={styles["set-thumbnail-btn"]}
+                  onClick={() =>
+                    changeThumbnail(products.id, products.image_url[3]?.id)
+                  }
+                >
+                  Set Thumbnail
+                </button>
+              </div>
             </div>
 
             <div className={styles["right-product-detail-item"]}>
