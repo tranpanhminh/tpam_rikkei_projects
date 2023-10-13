@@ -6,6 +6,7 @@ import { Badge } from "react-bootstrap";
 import DetailPostButton from "./DetailPost/DetailPostButton";
 import AddPostButton from "./AddPost/AddPostButton";
 import { NavLink, useNavigate } from "react-router-dom";
+const moment = require("moment");
 
 // Import API
 // 1. Products API
@@ -95,7 +96,7 @@ function ManagePosts() {
   // Function Delete Post
   const handleDeletePost = (postId: number) => {
     axios
-      .delete(`http://localhost:7373/posts/${postId}`)
+      .delete(`${postsAPI}/delete/${postId}`)
       .then((response) => {
         fetchPosts();
         notification.success({
@@ -156,6 +157,8 @@ function ManagePosts() {
               <th>#</th>
               <th>Image</th>
               <th>Title</th>
+              <th>Date</th>
+              <th>Author</th>
               <th>Status</th>
               <th>Action</th>
             </tr>
@@ -169,6 +172,8 @@ function ManagePosts() {
                     <img src={post.thumbnail_url} alt="" />
                   </td>
                   <td>{post.title}</td>
+                  <td>{moment(post.created_at).format("YYYY-MM-DD")}</td>
+                  <td>{post.author}</td>
                   <td>
                     <Badge bg={`${changeColor(post.post_status.name)}`}>
                       {post.post_status.name}

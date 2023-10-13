@@ -105,7 +105,7 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
     height: "600px",
   };
 
-  const handleChange = (content: string, editor: any) => {
+  const handleEditContent = (content: string, editor: any) => {
     setPostInfo({
       ...postInfo,
       content: content,
@@ -174,7 +174,7 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
     }
   };
 
-  const handleOk = () => {
+  const handleUpdatePost = () => {
     axios
       .get(`${postsAPI}/detail/${getPost.id}`)
       .then((response) => {
@@ -244,7 +244,7 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
       <Modal
         title="Detail Post"
         open={isModalOpen}
-        onOk={handleOk}
+        onOk={handleUpdatePost}
         onCancel={handleCancel}
         width={1500}
       >
@@ -263,7 +263,7 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
               <Editor
                 init={editorConfig}
                 initialValue={getPost?.content}
-                onEditorChange={handleChange}
+                onEditorChange={handleEditContent}
               />
             </div>
           </div>
