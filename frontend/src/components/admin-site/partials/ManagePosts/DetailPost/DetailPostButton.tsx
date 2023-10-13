@@ -97,6 +97,7 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
   // };
 
   const handleCancel = () => {
+    navigate("/admin/manage-posts/");
     setIsModalOpen(false);
   };
 
@@ -111,37 +112,91 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
     });
   };
 
-  let fileUploaded = false;
   const handleFileChange = (event: any) => {
-    if (fileUploaded === true) {
-      setPostInfo({
-        ...postInfo,
-        thumbnail_url: "",
-      });
-    } else {
-      if (event.target.files.length > 0) {
-        setPostInfo({
-          ...postInfo,
-          content: event.target.files[0],
+    setPostInfo({
+      ...postInfo,
+      thumbnail_url: event.target.files[0],
+    });
+  };
+
+  const test = () => {
+    if (postInfo.thumbnail_url) {
+      const formData: any = new FormData();
+      formData.append("title", postInfo.title);
+      formData.append("content", postInfo.content);
+      formData.append("thumbnail_url", postInfo.thumbnail_url);
+      formData.append("author", postInfo.author);
+      formData.append("status_id", postInfo.status_id);
+      formData.append("_method", "PATCH");
+
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+      axios
+        .patch(`${postsAPI}/update/${getPost.id}`, formData, config)
+        .then((response) => {
+          axios
+            .get(`${postsAPI}/detail/${getPost.id}`)
+            .then((response) => {
+              setPost(response.data);
+              const fileInput: any = document.querySelector(`#thumbnail`);
+
+              fileInput.value = "";
+
+              setPostInfo({
+                ...postInfo,
+                thumbnail_url: "",
+              });
+              fetchPost();
+            })
+            .catch((error) => {
+              console.log(error.message);
+            });
+          handleFunctionOk();
+        })
+        .catch((error) => {
+          console.log(error);
         });
-      }
+    } else {
+      axios
+        .get(`${postsAPI}/detail/${getPost.id}`)
+        .then((response) => {
+          setPost(response.data);
+          console.log(response.data, "_DASDAAS");
+          fetchPost();
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+      handleFunctionOk();
     }
   };
 
   const handleOk = () => {
-    const formData: any = new FormData();
-    formData.append("title", postInfo.title);
-    formData.append("content", postInfo.content);
-    formData.append("thumbnail_url", postInfo.thumbnail_url);
-    formData.append("author", postInfo.author);
-    formData.append("status_id", postInfo.status_id);
-    formData.append("_method", "PATCH");
-    const config = {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    };
-    console.log(postInfo, "POST INFO");
+    axios
+      .get(`${postsAPI}/detail/${getPost.id}`)
+      .then((response) => {
+        setPost(response.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+
+    // const formData: any = new FormData();
+    // formData.append("title", postInfo.title);
+    // formData.append("content", postInfo.content);
+    // formData.append("thumbnail_url", postInfo.thumbnail_url);
+    // formData.append("author", postInfo.author);
+    // formData.append("status_id", postInfo.status_id);
+    // formData.append("_method", "PATCH");
+    // const config = {
+    //   headers: {
+    //     "Content-Type": "multipart/form-data",
+    //   },
+    // };
+    // console.log(postInfo, "POST INFO");
     // axios
     //   .patch(`${postsAPI}/update/${getPost.id}`, formData, config)
     //   .then((response) => {
@@ -171,7 +226,6 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
     //     });
     //     navigate("/admin/manage-posts/");
     //     handleFunctionOk();
-    //     fileUploaded = true;
     //     setIsModalOpen(false);
     //   })
     //   .catch((error) => {
@@ -213,12 +267,15 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
             </div>
           </div>
           <div className={styles["info-editor-post"]}>
-            <div>
+            <div className={styles["image-container"]}>
               <img
                 src={getPost?.thumbnail_url}
                 alt=""
                 className={styles["post-editor-thumbnail"]}
               />
+              <button className={styles["set-thumbnail-btn"]} onClick={test}>
+                Reload Thumbnail
+              </button>
             </div>
             <div className={styles["info-editor-post-item"]}>
               <span>Post ID</span>
@@ -228,9 +285,9 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
               <span>Author</span>
               <input
                 type="file"
-                name="image-01"
-                // onChange={handleFileChange}
-                id={`thumbnail-service`}
+                name="thumbnail"
+                onChange={handleFileChange}
+                id={`thumbnail`}
               />
             </div>
             <div className={styles["info-editor-post-item"]}>

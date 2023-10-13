@@ -19,8 +19,9 @@ img {
 #background-main-menu {
   background-color: white;
 }
+
 .navlink-main-menu {
-  text-decoration: none !important ;
+  text-decoration: none !important;
   padding: 10px 15px 10px 15px;
 }
 
@@ -54,6 +55,7 @@ img {
 .header-menu-logo {
   width: 80px;
 }
+
 .shipping-label-shipped {
   background-color: #50a851;
   padding: 10px;
@@ -1334,6 +1336,16 @@ table.table.table-cart {
   font-weight: bold;
 }
 
+.set-thumbnail-btn {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: #0c337c;
+  transform: translate(-50%, -50%);
+  font-size: 12px;
+}
+
 /* CSS Comment Section */
 .comment-heading {
   display: flex;
@@ -1436,9 +1448,12 @@ table.table.table-cart {
 }
 
 .comment-content {
-  max-height: 160px; /* Thay đổi chiều cao cố định tùy theo mong muốn */
-  overflow-y: auto; /* Thanh cuộn dọc sẽ xuất hiện khi nội dung vượt quá chiều cao */
-  word-wrap: break-word; /* Cắt chữ nếu vượt quá chiều rộng */
+  max-height: 160px;
+  /* Thay đổi chiều cao cố định tùy theo mong muốn */
+  overflow-y: auto;
+  /* Thanh cuộn dọc sẽ xuất hiện khi nội dung vượt quá chiều cao */
+  word-wrap: break-word;
+  /* Cắt chữ nếu vượt quá chiều rộng */
 }
 
 .rating-section {
@@ -2055,9 +2070,11 @@ table.table.table-cart {
   }
 
   .comment-content {
-    max-height: 200px; /* Thay đổi chiều cao cố định tùy theo mong muốn */
+    max-height: 200px;
+    /* Thay đổi chiều cao cố định tùy theo mong muốn */
     /* overflow-y: auto;  */
-    word-wrap: break-word; /* Cắt chữ nếu vượt quá chiều rộng */
+    word-wrap: break-word;
+    /* Cắt chữ nếu vượt quá chiều rộng */
   }
 
   .comment-scrollable {

@@ -12,17 +12,20 @@
 }
 
 .ant-select-selection-item [title="Done"] {
-  color: #42f548 !important; /* Thay đổi màu nền ở đây */
+  color: #42f548 !important;
+  /* Thay đổi màu nền ở đây */
   font-weight: bold;
 }
 
 .ant-select-selection-item [title="Processing"] {
-  color: #4290f5 !important; /* Thay đổi màu nền ở đây */
+  color: #4290f5 !important;
+  /* Thay đổi màu nền ở đây */
   font-weight: bold;
 }
 
 .ant-select-selection-item [title="Cancel"] {
-  color: #f54251 !important; /* Thay đổi màu nền ở đây */
+  color: #f54251 !important;
+  /* Thay đổi màu nền ở đây */
   font-weight: bold;
 }
 
@@ -285,6 +288,8 @@ table td {
 
 table tr td img {
   width: 50px;
+  border-radius: 10px;
+  height: 75px
 }
 
 .group-btn-admin {
@@ -679,6 +684,29 @@ table tr td img {
   gap: 40px;
 }
 
+/* CSS Post */
+.image-container {
+  position: relative;
+}
+
+.image-container:hover .set-thumbnail-btn {
+  display: block;
+}
+
+.image-container:hover img {
+  opacity: 70%;
+}
+
+.set-thumbnail-btn {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: #0c337c;
+  transform: translate(-50%, -50%);
+  font-size: 12px;
+}
+
 /* .post-content-editor {
   max-height: 500px;
   overflow-y: auto;
@@ -723,6 +751,10 @@ table tr td img {
 .post-editor-thumbnail {
   border-radius: 10px;
   margin-bottom: 20px;
+  width: 100%;
+  object-fit: cover;
+  height: 200px;
+
 }
 
 .post-editor-select-status {

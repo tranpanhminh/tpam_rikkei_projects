@@ -109,16 +109,7 @@ function ManagePosts() {
 
   // Function Update After Add Post
   const handleUpdatePost = () => {
-    axios
-      .get(`http://localhost:7373/posts/`)
-      .then((response) => {
-        fetchPosts();
-        setPosts(response.data); // Cập nhật lại dữ liệu users sau khi thêm
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-    navigate("/admin/manage-posts");
+    fetchPosts();
   };
 
   return (
