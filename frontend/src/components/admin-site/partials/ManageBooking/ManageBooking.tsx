@@ -74,37 +74,37 @@ function ManageBooking() {
   //       console.log(error.message);
   //     });
   // };
-  const handleSearchBooking = () => {
-    if (searchText === "") {
-      // Nếu searchText rỗng, gọi lại fetchUsers để lấy tất cả người dùng
-      fetchBooking();
-    } else {
-      // Nếu có searchText, thực hiện tìm kiếm và cập nhật state
-      axios
-        .get(`http://localhost:7373/bookings`)
-        .then((response) => {
-          // Lấy dữ liệu từ response
-          const allBooking = response.data;
+  // const handleSearchBooking = () => {
+  //   if (searchText === "") {
+  //     // Nếu searchText rỗng, gọi lại fetchUsers để lấy tất cả người dùng
+  //     fetchBooking();
+  //   } else {
+  //     // Nếu có searchText, thực hiện tìm kiếm và cập nhật state
+  //     axios
+  //       .get(`http://localhost:7373/bookings`)
+  //       .then((response) => {
+  //         // Lấy dữ liệu từ response
+  //         const allBooking = response.data;
 
-          // Tìm kiếm trong dữ liệu và cập nhật state
-          const filteredBooking = allBooking.filter((booking: Booking) => {
-            if (
-              booking.date
-                .toLowerCase()
-                .includes(searchText.trim().toLowerCase())
-            ) {
-              return true;
-            }
-            return false;
-          });
+  //         // Tìm kiếm trong dữ liệu và cập nhật state
+  //         const filteredBooking = allBooking.filter((booking: Booking) => {
+  //           if (
+  //             booking.date
+  //               .toLowerCase()
+  //               .includes(searchText.trim().toLowerCase())
+  //           ) {
+  //             return true;
+  //           }
+  //           return false;
+  //         });
 
-          setBookings(filteredBooking);
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
-    }
-  };
+  //         setBookings(filteredBooking);
+  //       })
+  //       .catch((error) => {
+  //         console.log(error.message);
+  //       });
+  //   }
+  // };
 
   const changeColor = (status: string) => {
     switch (status) {
@@ -141,7 +141,7 @@ function ManageBooking() {
             className={`btn  ${styles["btn-outline-success"]}`}
             type="submit"
             id={styles["search-btn"]}
-            onClick={handleSearchBooking}
+            // onClick={handleSearchBooking}
           >
             Search
           </button>
@@ -162,24 +162,25 @@ function ManageBooking() {
             </tr>
           </thead>
           <tbody>
-            {groupBookingDate?.map((item: any) => {
-              return (
-                <tr key={1}>
-                  <td>{item.booking_date}</td>
-                  <td>{item.total_booking} / 20</td>
-                  <td className={styles["group-btn-admin"]}>
-                    <DetailBooking
-                      value="Detail"
-                      title="Detail Product"
-                      className={styles["detail-product-btn"]}
-                      // getBookingId={booking.id}
-                      getBookingDate={item.booking_date}
-                      // getBooking={booking.listBookings}
-                    ></DetailBooking>
-                  </td>
-                </tr>
-              );
-            })}
+            {groupBookingDate &&
+              groupBookingDate?.map((item: any) => {
+                return (
+                  <tr key={1}>
+                    <td>{item?.booking_date}</td>
+                    <td>{item?.total_booking} / 20</td>
+                    <td className={styles["group-btn-admin"]}>
+                      <DetailBooking
+                        value="Detail"
+                        title="Detail Product"
+                        className={styles["detail-product-btn"]}
+                        getBookingId={item.id}
+                        getBookingDate={item?.booking_date}
+                        // getBooking={booking.listBookings}
+                      ></DetailBooking>
+                    </td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
       </div>

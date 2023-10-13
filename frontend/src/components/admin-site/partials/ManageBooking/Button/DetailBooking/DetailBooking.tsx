@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Button, Modal, Select } from "antd";
+import { Button, Modal, notification } from "antd";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import styles from "../../../../AdminPage.module.css";
 import { Badge, Table } from "react-bootstrap";
 const moment = require("moment");
@@ -8,6 +9,7 @@ const moment = require("moment");
 // Import API
 // 1. Booking API
 const bookingsAPI = process.env.REACT_APP_API_BOOKINGS;
+const bookingStatusAPI = process.env.REACT_APP_API_BOOKING_STATUS;
 
 // -----------------------------------------------------
 
@@ -17,9 +19,8 @@ interface DetailModalProps {
   title?: string;
   handleFunctionOk?: any;
   handleFunctionBtn?: any;
-  // getBookingId: number;
-  getBookingDate: string;
-  // getBooking: any;
+  getBookingId?: number;
+  getBookingDate?: any;
 }
 const DetailBooking: React.FC<DetailModalProps> = ({
   className,
@@ -27,18 +28,19 @@ const DetailBooking: React.FC<DetailModalProps> = ({
   title,
   handleFunctionOk,
   handleFunctionBtn,
-  // getBookingId,
   getBookingDate,
-  // getBooking,
+  getBookingId,
 }) => {
+  const navigate = useNavigate();
   const [searchText, setSearchText] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [booking, setBooking] = useState<any>(null);
   const [listBooking, setListBooking] = useState<any>(null);
   const [selectedBooking, setSelectedBooking] = useState<any>(null);
-  const [bookingStatus, setBookingStatus] = useState("");
   const [isModalOpenUpdateStatus, setIsModalOpenUpdateStatus] = useState(false);
   const [groupBookingDate, setGroupBookingDate] = useState<any>([]);
+  const [bookingStatus, setBookingStatus] = useState<any>([]);
+  const [status, setStatus] = useState("");
 
   const fetchBookingByDate = async () => {
     await axios
@@ -51,7 +53,16 @@ const DetailBooking: React.FC<DetailModalProps> = ({
       });
   };
 
-  console.log(groupBookingDate, "groupBookingDate");
+  const fetchBookingStatus = async () => {
+    await axios
+      .get(`${bookingStatusAPI}`)
+      .then((response) => {
+        setBookingStatus(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   // const fetchBookings = () => {
   //   axios
@@ -66,12 +77,12 @@ const DetailBooking: React.FC<DetailModalProps> = ({
   // };
 
   useEffect(() => {
-    // fetchBookings();
+    fetchBookingStatus();
     fetchBookingByDate();
   }, []);
-  console.log(booking);
 
   const showModal = () => {
+    navigate(`/admin/manage-booking/?date=${getBookingDate}`);
     setIsModalOpen(true);
   };
 
@@ -111,16 +122,25 @@ const DetailBooking: React.FC<DetailModalProps> = ({
       case "Cancel":
         return "danger";
       case "Pending":
-        return "Warning";
+        return "warning";
       default:
         return;
     }
   };
 
-  const handleDetailClick = (item: any) => {
-    setSelectedBooking(item);
+  const handleDetailClick = (serviceId: any) => {
+    navigate(
+      `/admin/manage-booking/?date=${getBookingDate}/?bookingId=${serviceId}`
+    );
+    axios
+      .get(`${bookingsAPI}/detail/${serviceId}`)
+      .then((response) => {
+        setSelectedBooking(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     setIsModalOpenUpdateStatus(true);
-    console.log(selectedBooking);
   };
 
   const updateBookingStatus = (bookingId: number, status: string) => {
@@ -131,81 +151,68 @@ const DetailBooking: React.FC<DetailModalProps> = ({
   };
 
   const handleOkUpdateStatus = () => {
-    // if (bookingStatus === "") {
-    //   setIsModalOpenUpdateStatus(false);
-    //   return;
-    // }
-    // const updatedListBookings = listBooking.map((item: any) => {
-    //   if (item.bookingId === selectedBooking.bookingId) {
-    //     return {
-    //       ...item,
-    //       status: bookingStatus,
-    //     };
-    //   }
-    //   return item;
-    // });
-    // axios
-    //   .patch(`http://localhost:7373/bookings/${getBookingId}`, {
-    //     listBookings: updatedListBookings,
-    //   })
-    //   .then(() => {
-    //     fetchBookings();
-    //     // Cập nhật lại trạng thái sau khi cập nhật thành công
-    //     setSelectedBooking((prevSelectedBooking: any) => ({
-    //       ...prevSelectedBooking,
-    //       status: bookingStatus,
-    //     }));
-    //   })
-    //   .catch((error) => {
-    //     console.log(error.message);
-    //   });
-    // setIsModalOpenUpdateStatus(false);
+    console.log(status, "STATUS");
+    const updateBooking = {
+      status_id: status,
+    };
+    axios
+      .patch(`${bookingsAPI}/update/${selectedBooking?.id}`, updateBooking)
+      .then((response) => {
+        notification.success({
+          message: `Booking Updated`,
+        });
+      })
+      .catch((error) => {
+        notification.warning({
+          message: `${error.response.data.message}`,
+        });
+      });
   };
 
   const handleCancelUpdateStatus = () => {
     setIsModalOpenUpdateStatus(false);
   };
 
-  const handleSearchBooking = () => {
-    // if (searchText === "") {
-    //   // Nếu searchText rỗng, gọi lại fetchUsers để lấy tất cả người dùng
-    //   fetchBookings();
-    // } else {
-    //   // Nếu có searchText, thực hiện tìm kiếm và cập nhật state
-    //   axios
-    //     .get(`http://localhost:7373/bookings/detail/${getBookingId}`)
-    //     .then((response) => {
-    //       // Lấy dữ liệu từ response
-    //       const allBooking = response.data;
-    //       // Tìm kiếm trong dữ liệu và cập nhật state
-    //       const filteredBooking = allBooking.listBookings.filter(
-    //         (booking: any) => {
-    //           if (
-    //             booking.bookingId
-    //               .toString()
-    //               .includes(searchText.trim().toLowerCase()) ||
-    //             booking.userName
-    //               .toLowerCase()
-    //               .includes(searchText.trim().toLowerCase()) ||
-    //             booking.userPhone
-    //               .toString()
-    //               .includes(searchText.trim().toLowerCase()) ||
-    //             booking.serviceName
-    //               .toLowerCase()
-    //               .includes(searchText.trim().toLowerCase())
-    //           ) {
-    //             return true;
-    //           }
-    //           return false;
-    //         }
-    //       );
-    //       setListBooking(filteredBooking);
-    //     })
-    //     .catch((error) => {
-    //       console.log(error.message);
-    //     });
-    // }
-  };
+  // const handleSearchBooking = () => {
+  //   // if (searchText === "") {
+  //   //   // Nếu searchText rỗng, gọi lại fetchUsers để lấy tất cả người dùng
+  //   //   fetchBookings();
+  //   // } else {
+  //   //   // Nếu có searchText, thực hiện tìm kiếm và cập nhật state
+  //   //   axios
+  //   //     .get(`http://localhost:7373/bookings/detail/${getBookingId}`)
+  //   //     .then((response) => {
+  //   //       // Lấy dữ liệu từ response
+  //   //       const allBooking = response.data;
+  //   //       // Tìm kiếm trong dữ liệu và cập nhật state
+  //   //       const filteredBooking = allBooking.listBookings.filter(
+  //   //         (booking: any) => {
+  //   //           if (
+  //   //             booking.bookingId
+  //   //               .toString()
+  //   //               .includes(searchText.trim().toLowerCase()) ||
+  //   //             booking.userName
+  //   //               .toLowerCase()
+  //   //               .includes(searchText.trim().toLowerCase()) ||
+  //   //             booking.userPhone
+  //   //               .toString()
+  //   //               .includes(searchText.trim().toLowerCase()) ||
+  //   //             booking.serviceName
+  //   //               .toLowerCase()
+  //   //               .includes(searchText.trim().toLowerCase())
+  //   //           ) {
+  //   //             return true;
+  //   //           }
+  //   //           return false;
+  //   //         }
+  //   //       );
+  //   //       setListBooking(filteredBooking);
+  //   //     })
+  //   //     .catch((error) => {
+  //   //       console.log(error.message);
+  //   //     });
+  //   // }
+  // };
 
   return (
     <>
@@ -244,7 +251,7 @@ const DetailBooking: React.FC<DetailModalProps> = ({
                   className={`btn  ${styles["btn-outline-success"]}`}
                   type="submit"
                   id={styles["search-btn"]}
-                  onClick={handleSearchBooking}
+                  // onClick={handleSearchBooking}
                 >
                   Search
                 </button>
@@ -271,24 +278,24 @@ const DetailBooking: React.FC<DetailModalProps> = ({
               </thead>
               <tbody>
                 {groupBookingDate &&
-                  groupBookingDate.map((item: any) => {
+                  groupBookingDate?.map((item: any) => {
                     return (
                       <>
                         <tr>
-                          <td>{item.id}</td>
-                          <td>{item.name}</td>
-                          <td>{item.phone}</td>
+                          <td>{item?.id}</td>
+                          <td>{item?.name}</td>
+                          <td>{item?.phone}</td>
                           <td>
-                            {moment(item.date).format("YYYY-MM-DD-hh:mm:ss")}
+                            {moment(item?.date).format("YYYY-MM-DD-hh:mm:ss")}
                           </td>
                           <td>
-                            <p>{item.booking_date}</p>
-                            <p>{item.calendar}</p>
+                            <p>{item?.booking_date}</p>
+                            <p>{item?.calendar}</p>
                           </td>
                           <td>{item.service_name}</td>
                           <td>
                             <Badge
-                              bg={`${changeColor(item.booking_status.name)}`}
+                              bg={`${changeColor(item?.booking_status.name)}`}
                             >
                               {item.booking_status.name}
                             </Badge>
@@ -296,7 +303,7 @@ const DetailBooking: React.FC<DetailModalProps> = ({
                           <td>
                             <Button
                               type="primary"
-                              onClick={() => handleDetailClick(item.id)}
+                              onClick={() => handleDetailClick(item?.id)}
                             >
                               Detail
                             </Button>
@@ -345,7 +352,7 @@ const DetailBooking: React.FC<DetailModalProps> = ({
                                   <input
                                     type="text"
                                     disabled
-                                    value={moment(selectedBooking.date).format(
+                                    value={moment(selectedBooking?.date).format(
                                       "YYYY-MM-DD-hh:mm:ss"
                                     )}
                                   />
@@ -396,24 +403,36 @@ const DetailBooking: React.FC<DetailModalProps> = ({
                                   className={styles["admin-order-input-item"]}
                                 >
                                   <p>Booking Status</p>
+
                                   <select
                                     name=""
                                     id=""
-                                    value={selectedBooking?.booking_status.name}
-                                    onChange={(event) =>
-                                      setBookingStatus(event.target.value)
-                                    }
                                     disabled={
                                       selectedBooking?.booking_status.name ===
-                                        "Done" ||
+                                        "Cancel" ||
                                       selectedBooking?.booking_status.name ===
-                                        "Cancel"
+                                        "Shipped"
                                         ? true
                                         : false
                                     }
+                                    // defaultValue={shippingStatus}
+                                    onChange={(event) =>
+                                      setStatus(event.target.value)
+                                    }
                                   >
                                     <option
-                                      value="Done"
+                                      value={4}
+                                      selected={
+                                        selectedBooking?.booking_status.name ===
+                                        "Cancel"
+                                          ? true
+                                          : false
+                                      }
+                                    >
+                                      Cancel
+                                    </option>
+                                    <option
+                                      value={3}
                                       selected={
                                         selectedBooking?.booking_status.name ===
                                         "Done"
@@ -424,7 +443,7 @@ const DetailBooking: React.FC<DetailModalProps> = ({
                                       Done
                                     </option>
                                     <option
-                                      value="Processing"
+                                      value={2}
                                       selected={
                                         selectedBooking?.booking_status.name ===
                                         "Processing"
@@ -435,7 +454,7 @@ const DetailBooking: React.FC<DetailModalProps> = ({
                                       Processing
                                     </option>
                                     <option
-                                      value="Pending"
+                                      value={1}
                                       selected={
                                         selectedBooking?.booking_status.name ===
                                         "Pending"
@@ -443,18 +462,7 @@ const DetailBooking: React.FC<DetailModalProps> = ({
                                           : false
                                       }
                                     >
-                                      Cancel
-                                    </option>
-                                    <option
-                                      value="Cancel"
-                                      selected={
-                                        selectedBooking?.booking_status.name ===
-                                        "Cancel"
-                                          ? true
-                                          : false
-                                      }
-                                    >
-                                      Cancel
+                                      Pending
                                     </option>
                                   </select>
                                 </div>
