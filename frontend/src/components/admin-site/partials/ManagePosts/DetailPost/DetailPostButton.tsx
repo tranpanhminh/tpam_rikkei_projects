@@ -27,14 +27,14 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
 }) => {
   const location = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [postTitle, setPostTitle] = useState<any>("");
-  const [image, setImage] = useState<any>("");
-  const [content, setContent] = useState<any>("");
-  const [status, setStatus] = useState<any>("");
-  const [author, setAuthor] = useState<any>("");
+  // const [postTitle, setPostTitle] = useState<any>("");
+  // const [image, setImage] = useState<any>("");
+  // const [content, setContent] = useState<any>("");
+  // const [status, setStatus] = useState<any>("");
+  // const [author, setAuthor] = useState<any>("");
   const [post, setPost] = useState<any>("");
   const navigate = useNavigate();
-  const [postInfo, setPostInfo] = useState<Object>({
+  const [postInfo, setPostInfo] = useState<any>({
     title: "",
     content: "",
     thumbnail_url: "",
@@ -70,31 +70,31 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
     setIsModalOpen(true);
   };
 
-  const handleOk = () => {
-    const updatedPost = {
-      post_title: postTitle !== "" ? postTitle : getPost.post_title,
-      post_content: content !== "" ? content : getPost.post_content,
-      author: author !== "" ? author : getPost.author,
-      publish_date: getPost.publish_date,
-      image_url: image !== "" ? image : getPost.image_url,
-      status: status !== "" ? status : getPost.status,
-    };
-    console.log("DSADASDSA", status);
-    console.log("Updated Post", updatedPost);
-    axios
-      .put(`http://localhost:7373/posts/${getPost.id}`, updatedPost)
-      .then((response) => {
-        fetchPost();
-        notification.success({
-          message: "Post Updated Successfully",
-        });
-      })
-      .catch((error) => {
-        console.error("Error updating post:", error);
-      });
-    handleFunctionOk();
-    setIsModalOpen(false); // Close the modal
-  };
+  // const handleOk = () => {
+  //   const updatedPost = {
+  //     post_title: postTitle !== "" ? postTitle : getPost.post_title,
+  //     post_content: content !== "" ? content : getPost.post_content,
+  //     author: author !== "" ? author : getPost.author,
+  //     publish_date: getPost.publish_date,
+  //     image_url: image !== "" ? image : getPost.image_url,
+  //     status: status !== "" ? status : getPost.status,
+  //   };
+  //   console.log("DSADASDSA", status);
+  //   console.log("Updated Post", updatedPost);
+  //   axios
+  //     .put(`http://localhost:7373/posts/${getPost.id}`, updatedPost)
+  //     .then((response) => {
+  //       fetchPost();
+  //       notification.success({
+  //         message: "Post Updated Successfully",
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error updating post:", error);
+  //     });
+  //   handleFunctionOk();
+  //   setIsModalOpen(false); // Close the modal
+  // };
 
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -105,36 +105,44 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
   };
 
   const handleChange = (content: string, editor: any) => {
-    setContent(content);
+    setPostInfo({
+      ...postInfo,
+      content: content,
+    });
   };
 
   let fileUploaded = false;
   const handleFileChange = (event: any) => {
     if (fileUploaded === true) {
-      setThumbnail("");
+      setPostInfo({
+        ...postInfo,
+        thumbnail_url: "",
+      });
     } else {
       if (event.target.files.length > 0) {
-        setThumbnail(event.target.files[0]);
+        setPostInfo({
+          ...postInfo,
+          content: event.target.files[0],
+        });
       }
     }
   };
 
   const handleOk = () => {
     const formData: any = new FormData();
-    formData.append("name", serviceInfo.name);
-    formData.append("description", serviceInfo.description);
-    formData.append("price", serviceInfo.price);
-    formData.append("working_time_id", serviceInfo.working_time_id);
-    formData.append("service_image", thumbnail);
+    formData.append("title", postInfo.title);
+    formData.append("content", postInfo.content);
+    formData.append("thumbnail_url", postInfo.thumbnail_url);
+    formData.append("author", postInfo.author);
+    formData.append("status_id", postInfo.status_id);
     formData.append("_method", "PATCH");
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     };
-    console.log(getServiceId, "FORMD");
     axios
-      .patch(`${servicesAPI}/update/${getServiceId}`, formData, config)
+      .patch(`${postsAPI}/update/${getPost.id}`, formData, config)
       .then((response) => {
         // Đặt giá trị của input type file về rỗng
         const fileInput: any = document.querySelector(`#thumbnail-service`);
@@ -142,9 +150,9 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
           fileInput.value = ""; // Xóa giá trị đã chọn
         }
         axios
-          .get(`${servicesAPI}/detail/${getServiceId}`)
+          .get(`${postsAPI}/detail/${getPost.id}`)
           .then((response) => {
-            setServices(response.data);
+            setPost(response.data);
           })
           .catch((error) => {
             console.log(error.message);
@@ -152,15 +160,15 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
         notification.success({
           message: `Service Updated`,
         });
-        setThumbnail("");
-        setServiceInfo({
-          name: "",
-          description: "",
-          price: 0,
-          working_time_id: 1,
-          service_image: "",
+
+        setPostInfo({
+          title: "",
+          content: "",
+          thumbnail_url: "",
+          author: "",
+          status_id: "",
         });
-        navigate("/admin/manage-services/");
+        navigate("/admin/manage-posts/");
         handleFunctionOk();
         fileUploaded = true;
         setIsModalOpen(false);
