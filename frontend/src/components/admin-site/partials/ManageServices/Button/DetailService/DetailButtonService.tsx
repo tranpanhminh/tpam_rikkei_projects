@@ -33,7 +33,6 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [thumbnail, setThumbnail] = useState<any>(null);
-
   const [services, setServices] = useState<null | Service>(null);
   const [serviceInfo, setServiceInfo] = useState<any>({
     name: "",
@@ -162,7 +161,7 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
         {value}
       </Button>
       <Modal
-        width={800}
+        width={900}
         title={title}
         open={isModalOpen}
         onOk={handleOk}

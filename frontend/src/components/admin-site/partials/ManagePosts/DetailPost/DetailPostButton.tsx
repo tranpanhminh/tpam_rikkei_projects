@@ -39,7 +39,7 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
     content: "",
     thumbnail_url: "",
     author: "",
-    status_id: 2,
+    status_id: "",
   });
 
   useEffect(() => {
@@ -108,6 +108,70 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
     setContent(content);
   };
 
+  let fileUploaded = false;
+  const handleFileChange = (event: any) => {
+    if (fileUploaded === true) {
+      setThumbnail("");
+    } else {
+      if (event.target.files.length > 0) {
+        setThumbnail(event.target.files[0]);
+      }
+    }
+  };
+
+  const handleOk = () => {
+    const formData: any = new FormData();
+    formData.append("name", serviceInfo.name);
+    formData.append("description", serviceInfo.description);
+    formData.append("price", serviceInfo.price);
+    formData.append("working_time_id", serviceInfo.working_time_id);
+    formData.append("service_image", thumbnail);
+    formData.append("_method", "PATCH");
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    console.log(getServiceId, "FORMD");
+    axios
+      .patch(`${servicesAPI}/update/${getServiceId}`, formData, config)
+      .then((response) => {
+        // Đặt giá trị của input type file về rỗng
+        const fileInput: any = document.querySelector(`#thumbnail-service`);
+        if (fileInput) {
+          fileInput.value = ""; // Xóa giá trị đã chọn
+        }
+        axios
+          .get(`${servicesAPI}/detail/${getServiceId}`)
+          .then((response) => {
+            setServices(response.data);
+          })
+          .catch((error) => {
+            console.log(error.message);
+          });
+        notification.success({
+          message: `Service Updated`,
+        });
+        setThumbnail("");
+        setServiceInfo({
+          name: "",
+          description: "",
+          price: 0,
+          working_time_id: 1,
+          service_image: "",
+        });
+        navigate("/admin/manage-services/");
+        handleFunctionOk();
+        fileUploaded = true;
+        setIsModalOpen(false);
+      })
+      .catch((error) => {
+        notification.warning({
+          message: `${error.response.data}`,
+        });
+      });
+  };
+
   return (
     <>
       <Button type="primary" onClick={showModal} className={className}>
@@ -127,7 +191,9 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
               placeholder="Post Title"
               className={styles["post-title-editor"]}
               defaultValue={getPost?.title}
-              onChange={(event) => setPostTitle(event.target.value)}
+              onChange={(event) =>
+                setPostInfo({ ...postInfo, title: event.target.value })
+              }
             />
             <div className={styles["post-content-editor"]}>
               <Editor
@@ -150,11 +216,12 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
               <input type="text" value={getPost.id} disabled />
             </div>
             <div className={styles["info-editor-post-item"]}>
-              <span>Image URL</span>
+              <span>Author</span>
               <input
-                type="text"
-                defaultValue={getPost?.image_url}
-                onChange={(event) => setImage(event.target.value)}
+                type="file"
+                name="image-01"
+                // onChange={handleFileChange}
+                id={`thumbnail-service`}
               />
             </div>
             <div className={styles["info-editor-post-item"]}>
@@ -163,7 +230,12 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
                 name=""
                 id=""
                 className={styles["post-editor-select-status"]}
-                onChange={(event) => setStatus(event.target.value)}
+                onChange={(event) =>
+                  setPostInfo({
+                    ...postInfo,
+                    status_id: event.target.value,
+                  })
+                }
               >
                 <option
                   defaultValue="Published"
