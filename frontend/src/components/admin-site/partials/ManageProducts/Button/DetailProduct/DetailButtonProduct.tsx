@@ -34,10 +34,11 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [products, setProducts] = useState<any>(null);
   const [vendors, setVendors] = useState<any>(null);
-  const [image1, setImage1] = useState<string>("");
+  const [image1, setImage1] = useState<any>(null);
   const [image2, setImage2] = useState<string>("");
   const [image3, setImage3] = useState<string>("");
   const [image4, setImage4] = useState<string>("");
+  const [show, setShow] = useState<boolean>(false);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -119,20 +120,57 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
   };
 
   // Update ảnh
-  console.log(image1, "image1");
-  const handleUpdateImage1 = (event: any) => {
-    event?.preventDefault();
-    const productId = products.id;
-    const imageId = products.image_url[0].id;
-    axios
-      .patch(`${productsAPI}/${productId}/update-image/${imageId}`, image1)
-      .then((response) => {
-        console.log(response, "-----");
-      })
-      .catch((error) => {
-        console.log(error, "++++++");
-      });
+
+  const handleFileChange = (event: any) => {
+    if (event.target.files.length > 0) {
+      setImage1(event.target.files[0]);
+    }
   };
+  console.log(image1, "image1");
+
+  const handleUpdateImage1 = () => {
+    if (image1) {
+      const formData: any = new FormData();
+      formData.append("image_url", image1);
+      formData.append("_method", "PATCH");
+      const productId = products.id;
+      const imageId = products.image_url[0].id;
+      // console.log(formData, "FORM DATA");
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+      axios
+        .patch(
+          `${productsAPI}/${productId}/update-image/${imageId}`,
+          formData,
+          config
+        )
+        .then((response) => {
+          notification.success({
+            message: `Image Updated`,
+          });
+          axios
+            .get(`${productsAPI}/detail/${getProductId}`)
+            .then((response) => {
+              setProducts(response.data);
+            })
+            .catch((error) => {
+              console.log(error.message);
+            });
+          setImage1("");
+          navigate("/admin/manage-products/");
+          handleFunctionOk();
+        })
+        .catch((error) => {
+          console.log(error, "++++++");
+        });
+    } else {
+      console.log("Không có tệp nào");
+    }
+  };
+
   const handleUpdateImage2 = () => {
     const productId = products.id;
     const imageId = products.image_url[2].id;
@@ -179,7 +217,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
             </div>
 
             <div className={styles["right-product-detail-item"]}>
-              {/* <div className={styles["product-info-item"]}>
+              <div className={styles["product-info-item"]}>
                 <label className={styles["label-product"]} htmlFor="">
                   Product ID
                 </label>
@@ -189,7 +227,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
                   value={products && products.id}
                   disabled
                 />
-              </div> */}
+              </div>
               <div className={styles["product-info-item"]}>
                 <label className={styles["label-product"]} htmlFor="">
                   Product Title
@@ -199,7 +237,10 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
                   name="Product Title"
                   defaultValue={products?.name}
                   onChange={(event) =>
-                    setProductInfo({ ...productInfo, name: event.target.value })
+                    setProductInfo({
+                      ...productInfo,
+                      name: event.target.value,
+                    })
                   }
                 />
               </div>
@@ -281,42 +322,20 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
                 <label className={styles["label-product"]} htmlFor="">
                   Image 1
                 </label>
-                <div>
-                  <form
-                    encType="multipart/form-data"
-                    onSubmit={(event) => handleUpdateImage1}
-                  >
-                    <input
-                      type="file"
-                      onChange={(event) =>
-                        setImage1(
-                          event.target.files ? event.target.files[0].name : ""
-                        )
-                      }
-                    />
-                    <button>Update</button>
-                  </form>
+                <div className={styles["upload-image-form"]}>
+                  <input
+                    type="file"
+                    name="image-01"
+                    onChange={handleFileChange}
+                  />
+                  <button onClick={handleUpdateImage1}>Update</button>
                 </div>
-
-                {/* <input
-                  type="text"
-                  name="Product Image 1"
-                  // defaultValue={products && products.productImage[0]}
-                  onChange={(event) => setImage1(event.target.value)}
-                /> */}
               </div>
               <div className={styles["product-info-item"]}>
                 <label className={styles["label-product"]} htmlFor="">
                   Image 2
                 </label>
                 <input type="file" />
-
-                {/* <input
-                  type="text"
-                  name="Product Image 2"
-                  defaultValue={products && products.productImage[1]}
-                  onChange={(event) => setImage2(event.target.value)}
-                /> */}
               </div>
               <div className={styles["product-info-item"]}>
                 <label className={styles["label-product"]} htmlFor="">
@@ -325,26 +344,12 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
                 <form action="">
                   <input type="file" />
                 </form>
-
-                {/* <input
-                  type="text"
-                  name="Product Image 3"
-                  defaultValue={products && products.productImage[2]}
-                  onChange={(event) => setImage3(event.target.value)}
-                /> */}
               </div>
               <div className={styles["product-info-item"]}>
                 <label className={styles["label-product"]} htmlFor="">
                   Image 4
                 </label>
                 <input type="file" />
-
-                {/* <input
-                  type="text"
-                  name="Product Image 4"
-                  // defaultValue={products && products.productImage[3]}
-                  onChange={(event) => setImage4(event.target.value)}
-                /> */}
               </div>
             </div>
           </div>

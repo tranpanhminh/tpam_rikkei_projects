@@ -49,3 +49,12 @@
 .select-option {
   padding: 8px
 }
+
+.upload-image-form {
+  display: flex;
+  width: 600px;
+}
+
+.upload-image-form button {
+  background-color: #0c337c
+}
