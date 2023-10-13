@@ -6,6 +6,10 @@ import axios from "axios";
 import { Account } from "../../../../database";
 import { NavLink } from "react-router-dom";
 
+// Import API
+const usersAPI = process.env.REACT_APP_API_USERS;
+
+// ----------------------------------------------------------
 function SignupForm() {
   const [listAccounts, setListAccounts] = useState<Account[]>([]);
   const [listEmail, setListEmail] = useState<string[]>([]);
@@ -13,10 +17,15 @@ function SignupForm() {
   const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
   const [repassword, setRePassword] = useState("");
-
+  const [userInfo, setUserInfo] = useState({
+    email: "",
+    full_name: "",
+    password: "",
+    rePassword: "",
+  });
   const fetchUsers = () => {
     axios
-      .get("http://localhost:7373/accounts")
+      .get(`${usersAPI}`)
       .then((response) => {
         setListAccounts(response.data);
         let filterEmail = response.data.map((account: any) => {
@@ -144,8 +153,10 @@ function SignupForm() {
           placeholder="Email"
           className={styles["input-email"]}
           title="Please enter a valid email format."
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
+          value={userInfo.email}
+          onChange={(event) =>
+            setUserInfo({ ...userInfo, email: event.target.value })
+          }
         />
         <div className="email-notify"></div>
         <input
@@ -153,24 +164,30 @@ function SignupForm() {
           placeholder="Full Name"
           className={styles["input-fullname"]}
           pattern="^[a-zA-Z\s]*$"
-          value={fullName}
-          onChange={(event) => setFullName(event.target.value)}
+          value={userInfo.full_name}
+          onChange={(event) =>
+            setUserInfo({ ...userInfo, full_name: event.target.value })
+          }
         />
         <div className={styles["fullname-notify"]}></div>
         <input
           type="password"
           placeholder="Password"
           className={styles["input-password"]}
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
+          value={userInfo.password}
+          onChange={(event) =>
+            setUserInfo({ ...userInfo, password: event.target.value })
+          }
         />
         <div className={styles["password-notify"]}></div>
         <input
           type="password"
           placeholder="Confirm Password"
           className={styles["input-repassword"]}
-          value={repassword}
-          onChange={(event) => setRePassword(event.target.value)}
+          value={userInfo.rePassword}
+          onChange={(event) =>
+            setUserInfo({ ...userInfo, rePassword: event.target.value })
+          }
         />
         <div className={styles["repassword-notify"]}></div>
         <button className={styles["signup-button"]} onClick={handleSignUp}>

@@ -178,7 +178,7 @@ function App() {
           {/* Kiểm tra User đã Login chưa */}
           <Route element={<IsLogin />}>
             <Route path="/login" element={<ClientLoginPage />}></Route>
-            <Route path="/register" element={<ClientSignupPage />}></Route>
+            <Route path="/signup" element={<ClientSignupPage />}></Route>
           </Route>
         </Routes>
       </BrowserRouter>
