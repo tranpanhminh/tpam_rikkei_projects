@@ -89,6 +89,7 @@ const DetailOrders: React.FC<DetailModalProps> = ({
     setIsModalOpen(true);
   };
   const handleOk = () => {
+    console.log(shippingStatus, "---");
     const orderInfo = {
       status_id: shippingStatus,
       // updated_at: Date.now(),
@@ -104,7 +105,10 @@ const DetailOrders: React.FC<DetailModalProps> = ({
         setIsModalOpen(false);
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error, "--");
+        notification.warning({
+          message: `${error.response.data}`,
+        });
       });
     // Cập nhật trạng thái đơn hàng trong cơ sở dữ liệu của người dùng
   };
@@ -182,7 +186,7 @@ const DetailOrders: React.FC<DetailModalProps> = ({
                   ? true
                   : false
               }
-              // value={shippingStatus}
+              // defaultValue={shippingStatus}
               onChange={(event) => setShippingStatus(event.target.value)}
             >
               <option

@@ -326,22 +326,33 @@ class OrdersService {
           5. Cancel 
         */
 
-    if (findOrder.status_id === 4) {
+    if (status_id && status_id !== 4 && findOrder.status_id === 4) {
       return {
         data: "Order can't updated because it was shipped",
         status: 406,
       };
     }
 
-    if (findOrder.status_id === 5) {
+    if (status_id && status_id !== 4 && findOrder.status_id === 5) {
       return {
         data: "Order can't updated because it was canceled",
         status: 406,
       };
     }
 
+    // if (status_id < findOrder.status_id) {
+    //   return {
+    //     data: `Can't return previous status`,
+    //     status: 406,
+    //   };
+    // }
+
+    // if (status_id === findOrder.status_id) {
+    //   status_id = findOrder.status_id;
+    // }
+
     const orderInfo = {
-      status_id: status_id,
+      status_id: !status_id ? findOrder.status_id : status_id,
       updated_at: Date.now(),
     };
 
