@@ -4,6 +4,12 @@ import axios from "axios";
 import styles from "../../../AdminPage.module.css";
 import { Editor } from "@tinymce/tinymce-react";
 import { useLocation, useNavigate } from "react-router-dom";
+const moment = require("moment");
+
+// Posts API
+const postsAPI = process.env.REACT_APP_API_POSTS;
+
+// -------------------------------------------------------------
 
 interface DetailModalProps {
   className?: string; // Thêm khai báo cho thuộc tính className
@@ -28,6 +34,13 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
   const [author, setAuthor] = useState<any>("");
   const [post, setPost] = useState<any>("");
   const navigate = useNavigate();
+  const [postInfo, setPostInfo] = useState<Object>({
+    title: "",
+    content: "",
+    thumbnail_url: "",
+    author: "",
+    status_id: 2,
+  });
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -39,7 +52,7 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
 
   const fetchPost = () => {
     axios
-      .get(`http://localhost:7373/posts/${getPost.id}`)
+      .get(`${postsAPI}/detail/${getPost.id}`)
       .then((response) => {
         setPost(response.data);
       })
@@ -113,13 +126,13 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
               type="text"
               placeholder="Post Title"
               className={styles["post-title-editor"]}
-              defaultValue={getPost?.post_title}
+              defaultValue={getPost?.title}
               onChange={(event) => setPostTitle(event.target.value)}
             />
             <div className={styles["post-content-editor"]}>
               <Editor
                 init={editorConfig}
-                initialValue={getPost?.post_content}
+                initialValue={getPost?.content}
                 onEditorChange={handleChange}
               />
             </div>
@@ -127,7 +140,7 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
           <div className={styles["info-editor-post"]}>
             <div>
               <img
-                src={getPost?.image_url}
+                src={getPost?.thumbnail_url}
                 alt=""
                 className={styles["post-editor-thumbnail"]}
               />
@@ -168,7 +181,13 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
             </div>
             <div className={styles["info-editor-post-item"]}>
               <span>Published Date</span>
-              <input type="text" disabled value={getPost?.publish_date} />
+              <input
+                type="text"
+                disabled
+                value={moment(getPost?.created_at).format(
+                  "YYYY-MM-DD-hh:mm:ss"
+                )}
+              />
             </div>
             <div className={styles["info-editor-post-item"]}>
               <span>Author</span>
