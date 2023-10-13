@@ -151,7 +151,6 @@ const DetailBooking: React.FC<DetailModalProps> = ({
   };
 
   const handleOkUpdateStatus = () => {
-    console.log(status, "STATUS");
     const updateBooking = {
       status_id: status,
     };
@@ -161,6 +160,8 @@ const DetailBooking: React.FC<DetailModalProps> = ({
         notification.success({
           message: `Booking Updated`,
         });
+        fetchBookingByDate();
+        setIsModalOpenUpdateStatus(false);
       })
       .catch((error) => {
         notification.warning({
