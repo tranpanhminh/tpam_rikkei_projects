@@ -5,7 +5,19 @@ const usersEntity = require("../entities/users.entity.js");
 class UsersRepo {
   // Dùng chung
   async findOneByEmail(email) {
-    const findEmail = await usersEntity.findOne({ where: { email: email } });
+    const findEmail = await usersEntity.findOne({
+      include: [
+        {
+          model: userRolesEntity,
+          attributes: ["name"],
+        },
+        {
+          model: userStatusesEntity,
+          attributes: ["name"],
+        },
+      ],
+      where: { email: email },
+    });
     return findEmail;
   }
 

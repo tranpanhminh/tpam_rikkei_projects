@@ -45,7 +45,7 @@ function ClientCart() {
   // Get List Products
   const fetchProducts = () => {
     axios
-      .get(`http://localhost:7373/products/`)
+      .get(`${productsAPI}`)
       .then((response) => {
         setProducts(response.data);
       })
@@ -57,7 +57,7 @@ function ClientCart() {
   // Get List Orders
   const fetchOrders = () => {
     axios
-      .get(`http://localhost:7373/orders/`)
+      .get(`${ordersAPI}`)
       .then((response) => {
         setListOrders(response.data);
       })
@@ -69,11 +69,11 @@ function ClientCart() {
   // Get User Data
   const fetchUser = () => {
     axios
-      .get(`http://localhost:7373/accounts/${getLoginData.loginId}`)
+      .get(`usersAPI/detail/${getLoginData.id}`)
       .then((response) => {
         setUser(response.data);
         setUserCart(response.data.cart);
-        setNewsletter(response.data.newsletter);
+        // setNewsletter(response.data.newsletter);
       })
       .catch((error) => {
         console.log(error);
@@ -82,7 +82,7 @@ function ClientCart() {
 
   const fetchCard = () => {
     axios
-      .get(`http://localhost:7373/banking/`)
+      .get(`${paymentsAPI}`)
       .then((response) => {
         setCard(response.data);
       })

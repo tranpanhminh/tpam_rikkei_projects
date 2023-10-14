@@ -4,7 +4,10 @@ import axios from "axios";
 import { userAccount } from "../../../../database";
 import { message, notification } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
+
+// Import API
 const usersAPI = process.env.REACT_APP_API_USERS;
+// ----------------------------------------------
 
 function LoginForm() {
   const [email, setEmail] = useState("");
@@ -30,7 +33,7 @@ function LoginForm() {
       password: password,
     };
     await axios
-      .post(`http://localhost:7373/api/users/login`, loginData)
+      .post(`${usersAPI}/login`, loginData)
       .then((response) => {
         localStorage.setItem("token", response.data.accessToken);
         localStorage.setItem("auth", JSON.stringify(response.data.data));

@@ -26,7 +26,6 @@ function ClientHeaderPC() {
 
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
-  console.log(getLoginData);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -144,9 +143,12 @@ function ClientHeaderPC() {
                 to="/cart"
                 style={{
                   display:
-                    getLoginData.role === "admin"
+                    (getLoginData &&
+                      getLoginData?.user_role.name === "Super Admin") ||
+                    (getLoginData && getLoginData?.user_role.name === "Admin")
                       ? "none"
-                      : getLoginData.role === "customer"
+                      : getLoginData &&
+                        getLoginData?.user_role.name === "Customer"
                       ? ""
                       : "none",
                 }}
@@ -160,9 +162,12 @@ function ClientHeaderPC() {
               </NavLink>
               <NavLink
                 to={
-                  getLoginData.role === "admin"
+                  (getLoginData &&
+                    getLoginData?.user_role.name === "Super Admin") ||
+                  (getLoginData && getLoginData.user_role.name === "Admin")
                     ? "/admin"
-                    : getLoginData.role === "customer"
+                    : getLoginData &&
+                      getLoginData?.user_role.name === "Customer"
                     ? "/user"
                     : "/"
                 }

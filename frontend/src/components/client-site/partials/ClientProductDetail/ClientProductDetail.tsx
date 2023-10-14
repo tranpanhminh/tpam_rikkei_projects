@@ -15,6 +15,7 @@ const moment = require("moment");
 // Import API
 const productsAPI = process.env.REACT_APP_API_PRODUCTS;
 const productCommentsAPI = process.env.REACT_APP_API_PRODUCT_COMMENTS;
+const cartsAPI = process.env.REACT_APP_API_CARTS;
 
 // ----------------------------------------------------------------------
 function ClientProductDetail() {

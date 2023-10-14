@@ -333,7 +333,13 @@ class UsersService {
     if (!checkPass) {
       return { message: "Password is not correct", status: 406 };
     } else {
-      const { password, ...dataInfo } = dataUser;
+      const {
+        password,
+
+        created_at,
+        updated_at,
+        ...dataInfo
+      } = dataUser;
 
       // Mã hóa thông tin
       const jwtData = jwt.sign(dataInfo, process.env.ACCESS_TOKEN_SECRET); // Mã Token để biết ai đăng nhập
