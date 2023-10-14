@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Modal, notification } from "antd";
 import styles from "../AddService/AddButtonService.module.css";
 import { Service } from "../../../../../../database";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Editor } from "@tinymce/tinymce-react";
 
@@ -16,7 +17,7 @@ interface AddModalProps {
   className?: string;
   value?: string;
   title?: string;
-  handleClickOk?: (newService: Service) => void;
+  handleClickOk?: any;
 }
 
 const AddModalService: React.FC<AddModalProps> = ({
@@ -25,11 +26,12 @@ const AddModalService: React.FC<AddModalProps> = ({
   title,
   handleClickOk,
 }) => {
+  const navigate = useNavigate();
   const [services, setServices] = useState<any>(null);
   const [workingTime, setWorkingTime] = useState<any>(null);
   const [editorInitialValue, setEditorInitialValue] = useState("");
   const [newService, setNewService] = useState<any>(null);
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState<any>("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [serviceInfo, setServiceInfo] = useState({
     name: "",
@@ -39,6 +41,7 @@ const AddModalService: React.FC<AddModalProps> = ({
     service_image: "",
   });
 
+  // Fetch dữ liệu
   const fetchServices = () => {
     axios
       .get(`${servicesAPI}`)
@@ -66,73 +69,49 @@ const AddModalService: React.FC<AddModalProps> = ({
     fetchWorkingTime();
   }, []);
 
+  // ---------------------------------------
+
+  // Ẩn - Hiện Modal
+  let fileInput: any = document.querySelector(`#thumbnail`);
+
   const showModal = () => {
-    fetchServices();
+    navigate("/admin/manage-services/?add");
+    setServiceInfo({
+      name: "",
+      description: "",
+      price: "",
+      working_time_id: "",
+      service_image: "",
+    });
+    // // fileInput.value = "";
+    // console.log(fileInput?.value, "đasadasdsa");
+
+    // setImage("");
+    resetInputImage();
+
     setIsModalOpen(true);
   };
 
-  const handleAddService = () => {
-    // // Kiểm tra thông tin đầy đủ
-    // if (
-    //   !newService?.name ||
-    //   !newService?.description ||
-    //   newService?.price <= 0
-    // ) {
-    //   notification.warning({
-    //     message: "Notification",
-    //     description:
-    //       "Please make sure all information filled, Seat must be integer",
-    //   });
-    //   return;
-    // }
-    // const morningTime = "09:00 AM - 11:30 AM";
-    // const afternoonTime = "14:00 PM - 16:30 PM";
-    // const updatedService = {
-    //   ...newService,
-    //   morningTime: morningTime,
-    //   afternoonTime: afternoonTime,
-    //   id: maxId + 1,
-    //   comments: [],
-    // };
-    // const updatedServices = services ? [...services, updatedService] : null;
-    // setServices(updatedServices);
-    // setIsModalOpen(false);
-    // if (handleClickOk) {
-    //   handleClickOk(updatedService);
-    // }
-    // setNewService({
-    //   // id: 0,
-    //   name: "",
-    //   serviceImage: "",
-    //   description: handleEditorChange(""),
-    //   price: 0,
-    //   morningTime: "",
-    //   // morningSlot: 0,
-    //   afternoonTime: "",
-    //   // afternoonSlot: 0,
-    //   comments: [],
-    // });
-    // // setEditorInitialValue("");
-  };
-
   const handleCancel = () => {
-    setNewService({
-      // id: 0,
+    setServiceInfo({
       name: "",
-      serviceImage: "",
-      description: handleEditorChange(""),
-      price: 0,
-      morningTime: "",
-      // morningSlot: 0,
-      afternoonTime: "",
-      // afternoonSlot: 0,
-      comments: [],
+      description: "",
+      price: "",
+      working_time_id: "",
+      service_image: "",
     });
+
+    resetInputImage();
+
     setIsModalOpen(false);
+    navigate("/admin/manage-services/");
   };
+  // ---------------------------------------
+
+  // Add Service
 
   const handleEditorChange = (content: string) => {
-    setNewService({ ...serviceInfo, description: content });
+    setServiceInfo({ ...serviceInfo, description: content });
   };
 
   const handleFileChange = (event: any) => {
@@ -148,6 +127,60 @@ const AddModalService: React.FC<AddModalProps> = ({
       service_image: event.target.files[0],
     });
   };
+
+  const fileInputRef = useRef<any>(null);
+  const resetInputImage = () => {
+    if (image) {
+      setServiceInfo({
+        ...serviceInfo,
+        service_image: "",
+      });
+      setImage(null);
+      fileInputRef.current.value = null; // Đặt giá trị về null
+    }
+  };
+
+  const handleAddService = () => {
+    const formData = new FormData();
+    formData.append("name", serviceInfo.name);
+    formData.append("description", serviceInfo.description);
+    formData.append("price", serviceInfo.price);
+    formData.append("working_time_id", serviceInfo.working_time_id);
+    formData.append("service_image", serviceInfo.service_image);
+    formData.append("_method", "POST");
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    axios
+      .post(`${servicesAPI}/add`, formData, config)
+      .then((response) => {
+        notification.success({
+          message: `Service Added`,
+        });
+        fetchServices();
+        handleClickOk();
+        setIsModalOpen(false);
+        setServiceInfo({
+          name: "",
+          description: "",
+          price: "",
+          working_time_id: "",
+          service_image: "",
+        });
+        resetInputImage();
+        navigate("/admin/manage-services/");
+      })
+      .catch((error) => {
+        console.log(error, ")ERER");
+        notification.warning({
+          message: `${error.response.data.message}`,
+        });
+      });
+  };
+
+  // ---------------------------------------
 
   return (
     <>
@@ -176,6 +209,7 @@ const AddModalService: React.FC<AddModalProps> = ({
               />
             ) : (
               <img
+                src="https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg"
                 alt="Service Thumbnail"
                 className={styles["service-thumbnail"]}
                 id="thumbnail"
@@ -203,7 +237,7 @@ const AddModalService: React.FC<AddModalProps> = ({
             <p>Price</p>
             <input
               type="number"
-              value={newService?.price}
+              value={serviceInfo?.price}
               onChange={(e) =>
                 setServiceInfo({
                   ...serviceInfo,
@@ -215,7 +249,18 @@ const AddModalService: React.FC<AddModalProps> = ({
           <div className={styles["list-input-item"]}>
             <p>Working Time</p>
 
-            <select name="" id="" className={styles["select-option"]}>
+            <select
+              name=""
+              id=""
+              className={styles["select-option"]}
+              onChange={(event) => {
+                setServiceInfo({
+                  ...serviceInfo,
+                  working_time_id: event.target.value,
+                });
+              }}
+            >
+              <option value="">Select Working Time</option>
               {workingTime &&
                 workingTime.map((item: any) => {
                   return (
@@ -229,7 +274,13 @@ const AddModalService: React.FC<AddModalProps> = ({
           <div className={styles["list-input-item"]}>
             <p>Service Image</p>
 
-            <input type="file" onChange={handleFileChange} accept="image/*" />
+            <input
+              type="file"
+              onChange={handleFileChange}
+              accept="image/*"
+              id="thumbnail"
+              ref={fileInputRef}
+            />
           </div>
         </div>
       </Modal>

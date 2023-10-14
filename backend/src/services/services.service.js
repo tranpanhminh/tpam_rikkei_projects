@@ -32,6 +32,30 @@ class ServicesService {
   async addService(dataBody, serviceImage) {
     const { name, description, price, working_time_id } = dataBody;
 
+    if (!name) {
+      return { data: "Service Name must not be blank", status: 406 };
+    }
+
+    if (!description) {
+      return { data: "Service Description must not be blank", status: 406 };
+    }
+
+    if (!price) {
+      return { data: "Service Price must not be blank", status: 406 };
+    }
+
+    if (price < 0) {
+      return { data: "Service Price must not be < 0", status: 406 };
+    }
+
+    if (!working_time_id) {
+      return { data: "Please choose working time", status: 406 };
+    }
+
+    if (!serviceImage) {
+      return { data: "Please upload Image", status: 406 };
+    }
+
     const servicesInfo = {
       name: name,
       description: description,

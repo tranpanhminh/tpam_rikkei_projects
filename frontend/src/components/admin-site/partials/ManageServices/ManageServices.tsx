@@ -65,20 +65,6 @@ function ManageServices() {
     }
   };
 
-  const handleAddService = (newService: Service) => {
-    axios
-      .post("http://localhost:7373/api/services", newService)
-      .then(() => {
-        fetchServices(); // Cập nhật lại dữ liệu products sau khi thêm
-        notification.success({
-          message: "Service Added",
-        });
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  };
-
   const handleDeleteService = (serviceId: number) => {
     axios
       .delete(`${servicesAPI}/delete/${serviceId}`)
@@ -130,7 +116,7 @@ function ManageServices() {
           className={styles["add-service-btn"]}
           value="Add Service"
           title="Add Service"
-          handleClickOk={handleAddService}
+          handleClickOk={handleUpdateService}
         />
       </div>
 
