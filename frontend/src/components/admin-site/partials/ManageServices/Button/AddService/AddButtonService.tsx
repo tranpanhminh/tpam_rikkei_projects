@@ -209,7 +209,7 @@ const AddModalService: React.FC<AddModalProps> = ({
               />
             ) : (
               <img
-                src="https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg"
+                src="https://www.its.ac.id/tmesin/wp-content/uploads/sites/22/2022/07/no-image.png"
                 alt="Service Thumbnail"
                 className={styles["service-thumbnail"]}
                 id="thumbnail"
