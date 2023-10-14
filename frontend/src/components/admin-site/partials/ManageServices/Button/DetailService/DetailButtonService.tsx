@@ -118,7 +118,9 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
         service_image: "",
       });
       setImage(null);
-      fileInputRef.current.value = null; // Đặt giá trị về null
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ""; // Đảm bảo rằng phần tử input tồn tại trước khi đặt giá trị.
+      }
     }
   };
 
@@ -285,6 +287,7 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
                     type="file"
                     name="image-01"
                     onChange={handleFileChange}
+                    ref={fileInputRef}
                   />
                 </div>
               </div>
