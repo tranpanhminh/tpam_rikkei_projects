@@ -15,7 +15,7 @@ class CartsService {
   async getDetailCart(userId) {
     const detailUserCart = await cartsRepo.getDetailCart(userId);
     if (detailUserCart.length === 0) {
-      return { data: "This User ID Has No Products In Cart", status: 404 };
+      return { data: [], status: 200 };
     } else {
       return {
         status: 200,
@@ -164,11 +164,6 @@ class CartsService {
 
   // 4. Delete Product From Cart
   async deleteProductFromCart(userId, productId, authHeader) {
-    // Check Login
-    if (!authHeader) {
-      return { data: "Please Login", status: 401 };
-    }
-
     // /**
     // User Status:
     // 1. Active

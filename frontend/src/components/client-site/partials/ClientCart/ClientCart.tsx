@@ -51,20 +51,19 @@ function ClientCart() {
   // Fetch API
 
   // Get User Cart
-  const fetchCart = () => {
-    BaseAxios.get(`${cartsAPI}/detail/users/${getLoginData.id}`)
-      .then((response) => {
-        setCart(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  // const fetchCart = () => {
+  //   BaseAxios.get(`${cartsAPI}/detail/users/${getLoginData.id}`)
+  //     .then((response) => {
+  //       setCart(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
 
   // Get User Cart
   const fetchUserCart = () => {
-    axios
-      .get(`${cartsAPI}/detail/users/${getLoginData.id}`)
+    BaseAxios.get(`${cartsAPI}/detail/users/${getLoginData.id}`)
       .then((response) => {
         setUserCart(response.data);
       })
@@ -72,11 +71,11 @@ function ClientCart() {
         console.log(error);
       });
   };
+  console.log(userCart, "p---");
 
   // Get Coupons
   const fetchCoupons = () => {
-    axios
-      .get(`${couponsAPI}`)
+    BaseAxios.get(`${couponsAPI}`)
       .then((response) => {
         setCoupons(response.data);
       })
@@ -86,60 +85,9 @@ function ClientCart() {
   };
 
   useEffect(() => {
-    fetchCart();
     fetchUserCart();
     fetchCoupons();
-  }, [quantity]);
-
-  // Get List Products
-  // const fetchProducts = () => {
-  //   axios
-  //     .get(`${productsAPI}`)
-  //     .then((response) => {
-  //       setProducts(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error.message);
-  //     });
-  // };
-
-  // Get List Orders
-  // const fetchOrders = () => {
-  //   axios
-  //     .get(`${ordersAPI}`)
-  //     .then((response) => {
-  //       setListOrders(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error.message);
-  //     });
-  // };
-
-  // Get User Data
-  // const fetchUser = () => {
-  //   axios
-  //     .get(`usersAPI/detail/${getLoginData.id}`)
-  //     .then((response) => {
-  //       setUser(response.data);
-  //       setUserCart(response.data.cart);
-  //       // setNewsletter(response.data.newsletter);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
-
-  // Get Card
-  // const fetchCard = () => {
-  //   axios
-  //     .get(`${paymentsAPI}`)
-  //     .then((response) => {
-  //       setCard(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
+  }, []);
 
   // -----------------------------------------------------------
 
@@ -160,7 +108,10 @@ function ClientCart() {
       const findCoupons = coupons.filter((item: any) => {
         return Number(total) > Number(item.min_bill);
       });
-      return findCoupons[findCoupons.length - 1];
+      const sortCoupons = findCoupons.sort((a: any, b: any) => {
+        return b.min_bill - a.min_bill;
+      });
+      return sortCoupons[0];
     } else {
       return 0;
     }
@@ -180,13 +131,13 @@ function ClientCart() {
     return subTotal();
   };
 
-  const orderMessage = (
-    <div>
-      <a href="/user/my-orders" style={{ textDecoration: "none" }}>
-        View Order History
-      </a>
-    </div>
-  );
+  // const orderMessage = (
+  //   <div>
+  //     <NavLink to="/user/my-orders" style={{ textDecoration: "none" }}>
+  //       View Order History
+  //     </NavLink>
+  //   </div>
+  // );
 
   // Xoá sản phẩm
   const handleDeleteProduct = (productId: number) => {
@@ -194,10 +145,10 @@ function ClientCart() {
       `${cartsAPI}/delete/products/${productId}/users/${getLoginData.id}`
     )
       .then((response) => {
-        fetchCart();
         notification.success({
           message: `${response.data}`,
         });
+        fetchUserCart();
       })
       .catch((error) => {
         notification.warning({
@@ -212,12 +163,13 @@ function ClientCart() {
     const cartInfo = {
       quantity: event.target.value,
     };
-    BaseAxios.patch(
-      `${cartsAPI}/update/products/${productId}/users/${getLoginData.id}`,
-      cartInfo
-    )
+    axios
+      .patch(
+        `${cartsAPI}/update/products/${productId}/users/${getLoginData.id}`,
+        cartInfo
+      )
       .then((response) => {
-        fetchCart();
+        fetchUserCart();
       })
       .catch((error) => {
         notification.warning({
@@ -232,7 +184,29 @@ function ClientCart() {
 
   // CheckOut
   const handleCheckout = async () => {
-    console.log(userInfo, "UISER INFO");
+    BaseAxios.post(`${ordersAPI}/checkout/users/${getLoginData.id}`, userInfo)
+      .then((response) => {
+        fetchUserCart();
+        setUserInfo({
+          user_id: "",
+          customer_name: "",
+          address: "",
+          phone: "",
+          cardholder_name: "",
+          card_number: "",
+          expiry_date: "",
+          cvv: "",
+        });
+        notification.success({
+          message: `${response.data}`,
+        });
+        navigate("/user/my-orders");
+      })
+      .catch((error) => {
+        notification.warning({
+          message: `${error.response.data}`,
+        });
+      });
   };
   // --------------------------------------------------------
 
@@ -267,46 +241,45 @@ function ClientCart() {
                     </tr>
                   </thead>
                   <tbody id={styles["table-my-cart"]}>
-                    {cart &&
-                      cart.map((item: any, index: number) => {
-                        return (
-                          <tr>
-                            <td>{index + 1}</td>
-                            <td>
-                              <img src={item.product.thumbnail_url} alt="" />
-                            </td>
-                            <td>{item.product.name}</td>
-                            <td>
-                              <input
-                                type="number"
-                                min="1"
-                                className={styles["product-cart-quantity"]}
-                                defaultValue={item.quantity}
-                                onChange={(event) =>
-                                  handleQuantityInputChange(
-                                    event,
-                                    item.product_id
-                                  )
-                                }
-                              />
-                            </td>
-                            <td>{item.price}</td>
-                            <td>
-                              ${(item.quantity * item.price).toLocaleString()}
-                            </td>
-                            <td>
-                              <i
-                                className="fa-solid fa-xmark"
-                                id={styles["delete-product-icon"]}
-                                style={{ cursor: "pointer" }}
-                                onClick={() => {
-                                  handleDeleteProduct(item.product_id);
-                                }}
-                              />
-                            </td>
-                          </tr>
-                        );
-                      })}
+                    {userCart?.map((item: any, index: number) => {
+                      return (
+                        <tr>
+                          <td>{index + 1}</td>
+                          <td>
+                            <img src={item.product.thumbnail_url} alt="" />
+                          </td>
+                          <td>{item.product.name}</td>
+                          <td>
+                            <input
+                              type="number"
+                              min="1"
+                              className={styles["product-cart-quantity"]}
+                              defaultValue={item.quantity}
+                              onChange={(event) =>
+                                handleQuantityInputChange(
+                                  event,
+                                  item.product_id
+                                )
+                              }
+                            />
+                          </td>
+                          <td>{item.price}</td>
+                          <td>
+                            ${(item.quantity * item.price).toLocaleString()}
+                          </td>
+                          <td>
+                            <i
+                              className="fa-solid fa-xmark"
+                              id={styles["delete-product-icon"]}
+                              style={{ cursor: "pointer" }}
+                              onClick={() => {
+                                handleDeleteProduct(item.product_id);
+                              }}
+                            />
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
@@ -412,6 +385,21 @@ function ClientCart() {
                     type="text"
                     id="typeText"
                     className="form-control form-control-lg"
+                    placeholder="Customer Name"
+                    value={userInfo.customer_name}
+                    onChange={(event) => {
+                      setUserInfo({
+                        ...userInfo,
+                        customer_name: event.target.value,
+                      });
+                    }}
+                  />
+                </div>
+                <div className={styles["card-info-item"]}>
+                  <input
+                    type="text"
+                    id="typeText"
+                    className="form-control form-control-lg"
                     size={16}
                     placeholder="Phone"
                     minLength={16}
@@ -483,7 +471,7 @@ function ClientCart() {
               </div>
 
               <div className={styles["card-total"]}>
-                <span>$ {1}</span>
+                <span>${total().toLocaleString()}</span>
                 <button onClick={handleCheckout}>Checkout</button>
               </div>
             </div>

@@ -35,12 +35,7 @@ class CartsController {
   async deleteProductFromCart(req, res) {
     const userId = req.params.userId;
     const productId = req.params.productId;
-    const authHeader = req.header("Authorization");
-    const result = await cartsService.deleteProductFromCart(
-      userId,
-      productId,
-      authHeader
-    );
+    const result = await cartsService.deleteProductFromCart(userId, productId);
     res.status(result.status).json(result.data);
   }
 

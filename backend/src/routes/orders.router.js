@@ -6,6 +6,10 @@ const ordersRouter = express.Router();
 // Import Controller
 const ordersController = require("../controllers/orders.controller.js");
 
+// ----------------------MiddleWares------------------------
+const checkAuthentication = require("../middlewares/CheckUser/checkAuthentication.js");
+const checkRoles = require("../middlewares/CheckUser/checkRoles.js");
+
 // ---------------------------------------------------------
 
 // 1. Get All Orders (For Admin)
@@ -18,7 +22,12 @@ ordersRouter.get("/detail/:orderId", ordersController.getDetailOrder);
 ordersRouter.get("/users/:userId", ordersController.getAllOrderByUser);
 
 // 4. Checkout Order
-ordersRouter.post("/checkout/users/:userId", ordersController.checkoutOrder);
+ordersRouter.post(
+  "/checkout/users/:userId",
+  checkAuthentication,
+  checkRoles,
+  ordersController.checkoutOrder
+);
 
 // 5. Update Order
 ordersRouter.patch("/update/:orderId", ordersController.updatedOrder);
