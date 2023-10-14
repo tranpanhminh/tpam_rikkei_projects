@@ -321,6 +321,13 @@ class UsersService {
   // 12. User Login
   async userLogin(data) {
     const { email, password } = data;
+    if (!email) {
+      return { message: "Please fill Email", status: 406 };
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return { message: "Invalid Email Format", status: 406 };
+    }
 
     const findUser = await usersRepo.findOneByEmail(email);
     if (!findUser) {
@@ -333,13 +340,7 @@ class UsersService {
     if (!checkPass) {
       return { message: "Password is not correct", status: 406 };
     } else {
-      const {
-        password,
-
-        created_at,
-        updated_at,
-        ...dataInfo
-      } = dataUser;
+      const { password, created_at, updated_at, ...dataInfo } = dataUser;
 
       // Mã hóa thông tin
       const jwtData = jwt.sign(dataInfo, process.env.ACCESS_TOKEN_SECRET); // Mã Token để biết ai đăng nhập

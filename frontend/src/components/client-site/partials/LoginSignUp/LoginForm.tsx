@@ -4,86 +4,45 @@ import axios from "axios";
 import { userAccount } from "../../../../database";
 import { message, notification } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
+import BaseAxios from "./../../../../api/apiAxiosClient";
 
 // Import API
+const baseURL = process.env.REACT_APP_BASE_URL;
 const usersAPI = process.env.REACT_APP_API_USERS;
 // ----------------------------------------------
 
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [dataLogin, setDataLogin] = useState("");
+  const [dataLogin, setDataLogin] = useState({
+    email: "",
+    password: "",
+  });
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    if (email === "" || email === null) {
-      notification.warning({
-        message: "Email not be blank",
-      });
-      return false;
-    }
-    if (password === "" || password === null) {
-      notification.warning({
-        message: "Password not be blank",
-      });
-      return false;
-    }
-    const loginData = {
-      email: email,
-      password: password,
-    };
-    await axios
-      .post(`${usersAPI}/login`, loginData)
+    await BaseAxios.post(`${usersAPI}/login`, dataLogin)
       .then((response) => {
         localStorage.setItem("token", response.data.accessToken);
         localStorage.setItem("auth", JSON.stringify(response.data.data));
         navigate("/");
       })
       .catch((error) => {
-        console.log(error);
+        notification.warning({
+          message: `${error.response.data.message}`,
+        });
       });
-
-    // await axios
-    //   .get(`http://localhost:7373/accounts/?email=${email}`)
-    //   .then((response) => {
-    //     if (response.data.length === 0) {
-    //       notification.warning({
-    //         message: "Email is not exist",
-    //       });
-    //     } else {
-    //       const account = response.data.find(
-    //         (acc: userAccount) => acc.email === email
-    //       );
-
-    //       if (account.password !== password) {
-    //         notification.warning({
-    //           message: "Password is not valid",
-    //         });
-    //       } else {
-    //         message.open({
-    //           type: "success",
-    //           content: "Login Successfully",
-    //         });
-
-    //         // notification.success({
-    //         //   message: "Login Successfully",
-    //         // });
-    //         navigate("/");
-    //         const loginData = {
-    //           loginId: account.id,
-    //           fullName: account.fullName,
-    //           role: account.role,
-    //           status: account.status,
-    //           avatar: account.image_avatar,
-    //         };
-
-    //         localStorage.setItem("auth", JSON.stringify(loginData));
-    //       }
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.log("Failed");
-    //   });
+    // await axios.interceptors.request.use(
+    //   (config) => {
+    //     config.headers["Authorization"] = `${localStorage.getItem(
+    //       "token"
+    //     )}`;
+    //     return config;
+    //   },
+    //   (error) => {
+    //     return Promise.reject(error);
+    //   }
+    // );
   };
 
   return (
@@ -95,16 +54,20 @@ function LoginForm() {
           placeholder="Email"
           id={styles["input-login-email"]}
           required
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
+          value={dataLogin.email}
+          onChange={(event) =>
+            setDataLogin({ ...dataLogin, email: event.target.value })
+          }
         />
         <input
           type="password"
           placeholder="Password"
           id={styles["input-login-password"]}
           required
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
+          value={dataLogin.password}
+          onChange={(event) =>
+            setDataLogin({ ...dataLogin, password: event.target.value })
+          }
         />
         {/* <p className={styles["forgot-password"]}>
           <a href="#" className={styles["forgot-password-text"]}>

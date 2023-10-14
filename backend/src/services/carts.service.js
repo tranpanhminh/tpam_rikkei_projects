@@ -26,10 +26,7 @@ class CartsService {
 
   // 3. Add To Cart
   async addCart(userId, productId, quantity, authHeader) {
-    if (!authHeader) {
-      return { message: "Please login to buy product", status: 401 };
-    }
-
+    console.log(userId, ":ADSDASd");
     // Check Product
     const findProduct = await cartsRepo.findProductId(productId);
     if (!findProduct) {
@@ -103,7 +100,7 @@ class CartsService {
 
       const newCart = await cartsRepo.newCart(cartInfo);
       return {
-        message: `Product Added`,
+        message: `${quantity} Product Added`,
         data: newCart,
         status: 200,
       };
@@ -130,7 +127,7 @@ class CartsService {
     if (checkCart.length === 0) {
       const newCart = await cartsRepo.newCart(cartInfo);
       return {
-        message: `Product Added`,
+        message: `${quantity} Product Added`,
         data: newCart,
         status: 200,
       };
@@ -141,7 +138,7 @@ class CartsService {
     if (!checkExistProduct) {
       const newProductToCart = await cartsRepo.newCart(cartInfo);
       return {
-        message: `Product Added`,
+        message: `${quantity} Product Added`,
         data: newProductToCart,
         status: 200,
       };
@@ -159,7 +156,7 @@ class CartsService {
     );
 
     return {
-      message: `Product Added`,
+      message: `${quantity} Product Added`,
       data: updatedExistProduct,
       status: 200,
     };

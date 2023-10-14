@@ -4,7 +4,7 @@ require("dotenv").config();
 const checkAuthentication = (req, res, next) => {
   // Lấy phần header 'Authorization' từ request
   const authHeader = req.header("Authorization");
-
+  console.log(authHeader, "AUTH HEADER");
   // Kiểm tra xem header 'Authorization' có tồn tại không
   if (!authHeader) {
     return res.sendStatus(401); // Unauthorized

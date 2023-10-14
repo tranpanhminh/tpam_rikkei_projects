@@ -51,6 +51,9 @@ usersRouter.patch(
 );
 
 // 11. User Login
-usersRouter.post("/login", usersController.userLogin);
+usersRouter.post(
+  "/login",
+  usersController.userLogin
+);
 
 module.exports = usersRouter;
