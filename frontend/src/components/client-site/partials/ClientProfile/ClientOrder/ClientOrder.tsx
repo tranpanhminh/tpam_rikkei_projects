@@ -12,7 +12,7 @@ import BaseAxios from "./../../../../../api/apiAxiosClient";
 const moment = require("moment");
 
 // Import API
-// 1. Orders API
+
 const usersAPI = process.env.REACT_APP_API_USERS;
 const ordersAPI = process.env.REACT_APP_API_ORDERS;
 
@@ -66,8 +66,6 @@ function ClientOrder() {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
-  console.log("User Order", userOrder);
 
   const hanldeSearchOrder = () => {};
 

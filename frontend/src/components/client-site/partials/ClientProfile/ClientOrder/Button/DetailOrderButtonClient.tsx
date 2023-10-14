@@ -4,6 +4,14 @@ import { Button, Modal, notification } from "antd";
 import styles from "../../UserProfile.module.css";
 import axios from "axios";
 import Decimal from "decimal.js";
+import BaseAxios from "../../../../../../api/apiAxiosClient";
+
+// Import API
+
+const usersAPI = process.env.REACT_APP_API_USERS;
+const ordersAPI = process.env.REACT_APP_API_ORDERS;
+
+// -----------------------------------------------------
 
 interface DetailOrderProps {
   orderId: number;
@@ -18,36 +26,41 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
   const getLoginData = JSON.parse(getData) || "";
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [cancelReason, setCancelReason] = useState("");
-  const [listOrders, setListOrders] = useState<any>(null);
-  const [listCard, setListCard] = useState<any>([]);
+
   const [userOrder, setUserOrder] = useState<any>([]);
+  const [orderItem, setOrderItem] = useState<any>([]);
 
-  const fetchOrders = () => {
-    axios
-      .get(`http://localhost:7373/orders/${orderId}`)
+  // Fetch API
+  const fetchUserOrder = () => {
+    BaseAxios.get(`${ordersAPI}/${orderId}`)
       .then((response) => {
-        setListOrders(response.data);
+        setUserOrder(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  const fetchCard = () => {
-    axios
-      .get(`http://localhost:7373/banking/`)
+  console.log(userOrder, "USER ORDER");
+
+  const fetchOrderItems = () => {
+    BaseAxios.get(`${ordersAPI}/detail/${orderId}`)
       .then((response) => {
-        setListCard(response.data);
+        setOrderItem(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
+  // ----------------------------------------
 
   useEffect(() => {
-    fetchOrders();
-    fetchCard();
+    fetchUserOrder();
+    fetchOrderItems();
   }, []);
+
+  console.log(userOrder, "AAAA");
 
   // const handleOk = () => {
   //   if (cancelReason === "" || cancelReason === "No Cancel Order") {
@@ -70,54 +83,49 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
   // };
 
   const handleOk = () => {
-    if (cancelReason === "" || cancelReason === "No Cancel Order") {
-      setIsModalOpen(false);
-      return;
-    }
-
-    axios
-      .patch(`http://localhost:7373/orders/${orderId}`, {
-        status: "Cancel",
-        cancel_reason: cancelReason,
-      })
-      .then((response) => {
-        // Order status updated successfully
-        fetchOrders();
-        setUserOrder(response.data);
-
-        // Find the associated card for the order
-        let findCard = listCard.find((card: any) => {
-          return Number(card.cardNumber) === Number(listOrders.cardNumber);
-        });
-
-        if (findCard) {
-          // Update the banking data using Decimal
-          const newBalance = new Decimal(findCard.balance)
-            .plus(new Decimal(listOrders.sumOrderWithDiscount))
-            .toNumber(); // Convert back to number
-
-          axios
-            .patch(`http://localhost:7373/banking/${findCard.id}`, {
-              balance: newBalance,
-            })
-            .then(() => {
-              fetchCard();
-              notification.success({
-                message: "Cancel Order Successfully",
-              });
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        }
-
-        // Gọi hàm cập nhật trạng thái đơn hàng
-        handleFunctionOk(cancelReason, orderId);
-        setIsModalOpen(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    // if (cancelReason === "" || cancelReason === "No Cancel Order") {
+    //   setIsModalOpen(false);
+    //   return;
+    // }
+    // axios
+    //   .patch(`http://localhost:7373/orders/${orderId}`, {
+    //     status: "Cancel",
+    //     cancel_reason: cancelReason,
+    //   })
+    //   .then((response) => {
+    //     // Order status updated successfully
+    //     fetchOrders();
+    //     setUserOrder(response.data);
+    //     // Find the associated card for the order
+    //     let findCard = listCard.find((card: any) => {
+    //       return Number(card.cardNumber) === Number(listOrders.cardNumber);
+    //     });
+    //     if (findCard) {
+    //       // Update the banking data using Decimal
+    //       const newBalance = new Decimal(findCard.balance)
+    //         .plus(new Decimal(listOrders.sumOrderWithDiscount))
+    //         .toNumber(); // Convert back to number
+    //       axios
+    //         .patch(`http://localhost:7373/banking/${findCard.id}`, {
+    //           balance: newBalance,
+    //         })
+    //         .then(() => {
+    //           fetchCard();
+    //           notification.success({
+    //             message: "Cancel Order Successfully",
+    //           });
+    //         })
+    //         .catch((error) => {
+    //           console.log(error);
+    //         });
+    //     }
+    //     // Gọi hàm cập nhật trạng thái đơn hàng
+    //     handleFunctionOk(cancelReason, orderId);
+    //     setIsModalOpen(false);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   };
 
   const showModal = () => {
@@ -128,21 +136,7 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
     setIsModalOpen(false);
   };
 
-  console.log("LIST ORDER", listOrders);
-
-  const handleSumOrder = () => {
-    if (listOrders) {
-      const totalOrder = listOrders.cart.reduce(
-        (accumulator: number, currentItem: any) => {
-          return (accumulator +=
-            currentItem.productQuantity * currentItem.price);
-        },
-        0
-      );
-      return totalOrder;
-    }
-    return 0;
-  };
+  const handleSumOrder = () => {};
 
   function maskCardNumber(cardNumber: string) {
     if (cardNumber && cardNumber.length === 16) {
@@ -176,33 +170,33 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
         <div className={styles["list-input-my-profile"]}>
           <div className={styles["my-profile-input-item"]}>
             <p>Order ID</p>
-            <input type="text" disabled value={listOrders?.id} />
+            <input type="text" disabled value={userOrder?.id} />
           </div>
           <div className={styles["my-profile-input-item"]}>
             <p>Name</p>
-            <input type="text" disabled value={listOrders?.name} />
+            <input type="text" disabled value={userOrder?.customer_name} />
           </div>
           <div className={styles["my-profile-input-item"]}>
             <p>Phone</p>
-            <input type="text" disabled value={listOrders?.phone} />
+            <input type="text" disabled value={userOrder?.phone} />
           </div>
           <div className={styles["my-profile-input-item"]}>
             <p>Address</p>
-            <input type="text" disabled value={listOrders?.address} />
+            <input type="text" disabled value={userOrder?.address} />
           </div>
           <div className={styles["my-profile-input-item"]}>
             <p>Status</p>
-            <input type="text" disabled value={listOrders?.status} />
+            <input type="text" disabled value={userOrder?.order_status.name} />
           </div>
           <div className={styles["my-profile-input-item"]}>
             <p>Card Number</p>
             <input
               type="text"
               disabled
-              value={maskCardNumber(listOrders?.cardNumber.toString())}
+              value={maskCardNumber((userOrder?.card_number).toString())}
             />
           </div>
-          {listOrders?.status === "Pending" && (
+          {userOrder?.status === "Pending" && (
             <div className={styles["my-profile-input-item"]}>
               <p>Request Cancel</p>
               <select
@@ -230,10 +224,10 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
               </select>
             </div>
           )}
-          {listOrders?.status === "Cancel" && (
+          {userOrder?.status === "Cancel" && (
             <div className={styles["my-profile-input-item"]}>
               <p>Cancel Reason</p>
-              <input type="text" disabled value={listOrders?.cancel_reason} />
+              <input type="text" disabled value={userOrder?.cancel_reason} />
             </div>
           )}
         </div>
@@ -252,20 +246,18 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
             </thead>
 
             <tbody>
-              {listOrders &&
-                listOrders.cart.map((item: any, index: number) => {
+              {orderItem &&
+                orderItem.map((item: any, index: number) => {
                   return (
                     <tr>
                       <td>{index + 1}</td>
                       <td>
-                        <img src={item.productImage} alt="" />
+                        <img src={item.product_thumbnail} alt="" />
                       </td>
-                      <td>{item.productName}</td>
-                      <td>{item.productQuantity}</td>
+                      <td>{item.product_name}</td>
+                      <td>{item.quantity}</td>
                       <td>${Number(item.price)}</td>
-                      <td>
-                        ${(item.productQuantity * item.price).toLocaleString()}
-                      </td>
+                      <td>${(item.quantity * item.price).toLocaleString()}</td>
                     </tr>
                   );
                 })}
@@ -274,17 +266,17 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
         </div>
         <div className={styles["my-profile-my-order-card"]}>
           <span className={styles["my-order-card-item"]}>
-            Item: {listOrders?.cart.length}
+            Item: {orderItem.length}
           </span>
           <span className={styles["my-order-card-total-quantity"]}>
             Shipping Fee: $5
           </span>
           <span className={styles["my-order-card-total-quantity"]}>
-            Discount: {listOrders?.discount}%
+            {/* Discount: {userOrder?.discount}% */}
           </span>
           <span className={styles["my-order-card-total-quantity"]}>
-            Total: ${listOrders?.sumOrderWithDiscount}
-          </span>{" "}
+            {/* Total: ${userOrder?.sumOrderWithDiscount} */}
+          </span>
         </div>
       </Modal>
     </>

@@ -8,4 +8,9 @@ const orderItemsController = require("../controllers/orderItems.controller.js");
 
 // ---------------------------------------------------------
 
+orderItemsRouter.get(
+  "/:orderId/detail",
+  orderItemsController.getAllItemsByOrderId
+);
+
 module.exports = orderItemsRouter;
