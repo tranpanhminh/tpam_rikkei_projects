@@ -63,3 +63,10 @@
 .upload-image-form button {
   background-color: #0c337c
 }
+
+.service-thumbnail {
+  width: 100%;
+  height: 500px;
+  object-fit: contain;
+  border-radius: 10px;
+}

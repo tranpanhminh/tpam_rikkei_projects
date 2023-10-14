@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Button, Modal, notification } from "antd";
 import { Product, Service } from "../../../../../../database";
 import { Editor } from "@tinymce/tinymce-react";
@@ -30,7 +30,7 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
 }) => {
   const location = useLocation();
   const navigate = useNavigate();
-
+  const [image, setImage] = useState<any>("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [thumbnail, setThumbnail] = useState<any>(null);
   const [services, setServices] = useState<null | Service>(null);
@@ -74,37 +74,74 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
     });
   };
 
+  // Ẩn - hiện Modal
   const showModal = () => {
     navigate(`/admin/manage-services/?edit-serviceId=${getServiceId}`);
+    setServiceInfo({
+      name: "",
+      description: "",
+      price: "",
+      working_time_id: "",
+      service_image: "",
+    });
+    resetInputImage();
     setIsModalOpen(true);
   };
 
   const handleCancel = () => {
+    setServiceInfo({
+      name: "",
+      description: "",
+      price: "",
+      working_time_id: "",
+      service_image: "",
+    });
+    resetInputImage();
     setIsModalOpen(false);
+    navigate(`/admin/manage-services/`);
   };
+
+  // ------------------------------------------------
 
   const editorConfig = {
     height: "600px",
   };
 
-  let fileUploaded = false;
-  const handleFileChange = (event: any) => {
-    if (fileUploaded === true) {
-      setThumbnail("");
-    } else {
-      if (event.target.files.length > 0) {
-        setThumbnail(event.target.files[0]);
-      }
+  // Update thông tin Service
+  // let fileUploaded = false;
+
+  const fileInputRef = useRef<any>(null);
+  const resetInputImage = () => {
+    if (image) {
+      setServiceInfo({
+        ...serviceInfo,
+        service_image: "",
+      });
+      setImage(null);
+      fileInputRef.current.value = null; // Đặt giá trị về null
     }
   };
 
-  const handleOk = () => {
+  const handleFileChange = (event: any) => {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      const imageURL: any = URL.createObjectURL(selectedFile);
+      setImage(imageURL);
+    }
+
+    setServiceInfo({
+      ...serviceInfo,
+      service_thumbnail: event.target.files[0],
+    });
+  };
+
+  const handleUpdate = () => {
     const formData: any = new FormData();
     formData.append("name", serviceInfo.name);
     formData.append("description", serviceInfo.description);
     formData.append("price", serviceInfo.price);
     formData.append("working_time_id", serviceInfo.working_time_id);
-    formData.append("service_image", thumbnail);
+    formData.append("service_image", serviceInfo.service_thumbnail);
     formData.append("_method", "PATCH");
     const config = {
       headers: {
@@ -116,22 +153,21 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
       .patch(`${servicesAPI}/update/${getServiceId}`, formData, config)
       .then((response) => {
         // Đặt giá trị của input type file về rỗng
-        const fileInput: any = document.querySelector(`#thumbnail-service`);
-        if (fileInput) {
-          fileInput.value = ""; // Xóa giá trị đã chọn
-        }
         axios
           .get(`${servicesAPI}/detail/${getServiceId}`)
           .then((response) => {
             setServices(response.data);
+            setIsModalOpen(false);
+            handleFunctionOk();
           })
           .catch((error) => {
-            console.log(error.message);
+            // notification.warning({
+            //   message: `${error.response.data}`,
+            // });
           });
         notification.success({
           message: `Service Updated`,
         });
-        setThumbnail("");
         setServiceInfo({
           name: "",
           description: "",
@@ -139,17 +175,19 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
           working_time_id: 1,
           service_image: "",
         });
+        resetInputImage();
+
         navigate("/admin/manage-services/");
-        handleFunctionOk();
-        fileUploaded = true;
-        setIsModalOpen(false);
       })
       .catch((error) => {
-        notification.warning({
-          message: `${error.response.data}`,
-        });
+        console.log(error);
+        // notification.warning({
+        //   message: `${error.response.data}`,
+        // });
       });
   };
+
+  // ------------------------------------------------
 
   return (
     <>
@@ -161,15 +199,23 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
         {value}
       </Button>
       <Modal
-        width={900}
+        width={800}
         title={title}
         open={isModalOpen}
-        onOk={handleOk}
+        onOk={handleUpdate}
         onCancel={handleCancel}
       >
         {services && (
           <div className={styles["product-detail-information-container"]}>
-            <img src={services && services.service_image} alt="" />
+            {image ? (
+              <img src={image} alt="" className={styles["service-thumbnail"]} />
+            ) : (
+              <img
+                src={services && services.service_image}
+                alt=""
+                className={styles["service-thumbnail"]}
+              />
+            )}
 
             <div className={styles["left-product-detail-item"]}></div>
 
@@ -239,7 +285,6 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
                     type="file"
                     name="image-01"
                     onChange={handleFileChange}
-                    id={`thumbnail-service`}
                   />
                 </div>
               </div>

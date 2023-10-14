@@ -83,12 +83,7 @@ const AddModalService: React.FC<AddModalProps> = ({
       working_time_id: "",
       service_image: "",
     });
-    // // fileInput.value = "";
-    // console.log(fileInput?.value, "đasadasdsa");
-
-    // setImage("");
     resetInputImage();
-
     setIsModalOpen(true);
   };
 

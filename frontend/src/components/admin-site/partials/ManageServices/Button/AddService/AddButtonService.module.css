@@ -43,7 +43,7 @@
 .service-thumbnail {
   width: 99%;
   height: 500px;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 10px;
 }
 
