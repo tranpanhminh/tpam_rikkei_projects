@@ -10,6 +10,7 @@ import BaseAxios from "../../../../../../api/apiAxiosClient";
 
 const usersAPI = process.env.REACT_APP_API_USERS;
 const ordersAPI = process.env.REACT_APP_API_ORDERS;
+const cancelReasonsAPI = process.env.REACT_APP_API_CANCEL_REASONS;
 
 // -----------------------------------------------------
 
@@ -25,8 +26,8 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [cancelReason, setCancelReason] = useState("");
-
+  const [reason, setReason] = useState("");
+  const [cancelReasons, setCancelReasons] = useState("");
   const [userOrder, setUserOrder] = useState<any>([]);
   const [orderItem, setOrderItem] = useState<any>([]);
 
@@ -41,12 +42,20 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
       });
   };
 
-  console.log(userOrder, "USER ORDER");
-
   const fetchOrderItems = () => {
     BaseAxios.get(`${ordersAPI}/detail/${orderId}`)
       .then((response) => {
         setOrderItem(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const fetchCancelReasons = () => {
+    BaseAxios.get(`${cancelReasonsAPI}`)
+      .then((response) => {
+        setCancelReasons(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -58,6 +67,7 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
   useEffect(() => {
     fetchUserOrder();
     fetchOrderItems();
+    fetchCancelReasons();
   }, []);
 
   console.log(userOrder, "AAAA");
@@ -186,15 +196,15 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
           </div>
           <div className={styles["my-profile-input-item"]}>
             <p>Status</p>
-            <input type="text" disabled value={userOrder?.order_status.name} />
+            {/* <input type="text" disabled value={userOrder?.order_status.name} /> */}
           </div>
           <div className={styles["my-profile-input-item"]}>
             <p>Card Number</p>
-            <input
+            {/* <input
               type="text"
               disabled
               value={maskCardNumber((userOrder?.card_number).toString())}
-            />
+            /> */}
           </div>
           {userOrder?.status === "Pending" && (
             <div className={styles["my-profile-input-item"]}>
@@ -202,8 +212,8 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
               <select
                 name=""
                 id=""
-                value={cancelReason}
-                onChange={(event) => setCancelReason(event?.target.value)}
+                value={reason}
+                onChange={(event) => setReason(event?.target.value)}
               >
                 <option value="No Cancel Order" selected>
                   -- Choose Reason --
@@ -269,13 +279,13 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
             Item: {orderItem.length}
           </span>
           <span className={styles["my-order-card-total-quantity"]}>
-            Shipping Fee: $5
+            SubTotal: ${userOrder?.bill}
           </span>
           <span className={styles["my-order-card-total-quantity"]}>
-            {/* Discount: {userOrder?.discount}% */}
+            Discount: {userOrder?.discount_rate}%
           </span>
           <span className={styles["my-order-card-total-quantity"]}>
-            {/* Total: ${userOrder?.sumOrderWithDiscount} */}
+            Total: ${userOrder?.total_bill}
           </span>
         </div>
       </Modal>
