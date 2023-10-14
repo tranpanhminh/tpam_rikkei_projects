@@ -106,4 +106,8 @@ const bookingStatusAPI = process.env.REACT_APP_API_BOOKING_STATUS;
 18. Post Status API
 const postStatusAPI = process.env.REACT_APP_API_POST_STATUS;
 
+18. Working Time API
+const workingTimeAPI = process.env.REACT_APP_API_WORKING_TIME;
+
+
  -->

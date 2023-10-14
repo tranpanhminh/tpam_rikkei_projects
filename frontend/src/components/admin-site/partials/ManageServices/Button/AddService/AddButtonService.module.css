@@ -39,3 +39,14 @@
 .group-action-user-profile {
   display: flex;
 }
+
+.service-thumbnail {
+  width: 99%;
+  height: 500px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.select-option {
+  padding: 5px;
+}

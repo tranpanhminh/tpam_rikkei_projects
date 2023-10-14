@@ -1571,11 +1571,18 @@
 						},
 						{
 							"name": "Get Detail Product",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"method": "GET",
 								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
 								"url": {
-									"raw": "http://localhost:7373/api/products/detail/2",
+									"raw": "http://localhost:7373/api/products/detail/27",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1585,7 +1592,7 @@
 										"api",
 										"products",
 										"detail",
-										"2"
+										"27"
 									]
 								}
 							},
@@ -2891,6 +2898,74 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Filter Booking Date",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "// Payment Test:\r\n{\r\n    \"status_id\": 4\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/bookings/filter/2023-10-16",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"bookings",
+										"filter",
+										"2023-10-16"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Group Booking Date",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "// Payment Test:\r\n{\r\n    \"status_id\": 4\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/bookings/group/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"bookings",
+										"group",
+										""
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				}
@@ -2948,6 +3023,28 @@
 							"response": []
 						},
 						{
+							"name": "Get Detail Product Comment By Product",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/comments/products/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"comments",
+										"products",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Add Product Comment",
 							"request": {
 								"method": "POST",
@@ -2968,7 +3065,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:7373/api/comments/products/add/1/users/9",
+									"raw": "http://localhost:7373/api/comments/products/add/2/users/9",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2979,7 +3076,7 @@
 										"comments",
 										"products",
 										"add",
-										"1",
+										"2",
 										"users",
 										"9"
 									]
@@ -3061,6 +3158,28 @@
 							"response": []
 						},
 						{
+							"name": "Get Detail Service Comment By Service",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/comments/services/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"comments",
+										"services",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Add Service Comment",
 							"request": {
 								"method": "POST",
@@ -3073,7 +3192,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "// // Comment 1:\r\n// {\r\n//     \"comment\": \"I've gifted this product to multiple friends, and they've all been impressed. It's a crowd-pleaser.\",\r\n//     \"rating\": 5\r\n// }\r\n\r\n////  Comment 2:\r\n// {\r\n//     \"comment\": \"I love the versatility of this product. It adapts to various situations effortlessly.\",\r\n//     \"rating\": 5\r\n// }\r\n\r\n// // Comment 3:\r\n// {\r\n//     \"comment\": \"This product arrived earlier than expected, and the packaging was perfect. A great buying experience.\",\r\n//     \"rating\": 4\r\n// }\r\n\r\n// // Comment 4:\r\n// {\r\n//     \"comment\": \"I can't get over how great this product is. It's an investment in convenience and quality.\",\r\n//     \"rating\": 3\r\n// }\r\n\r\n// // Comment 5:\r\n// {\r\n//     \"comment\": \"I've compared similar products, and this one stands out for its performance and durability.\",\r\n//     \"rating\": 4\r\n// }\r\n\r\n// // Comment 6:\r\n// {\r\n//     \"comment\": \"The user manual for this product is easy to follow, making setup a breeze.\",\r\n//     \"rating\": 5\r\n// }\r\n\r\n// // Comment 7:\r\n// {\r\n//     \"comment\": \"This product has simplified my daily routine. I wonder how I managed without it before.\",\r\n//     \"rating\": 5\r\n// }\r\n\r\n// // Comment 8:\r\n// {\r\n//     \"comment\": \"I'm thrilled with this purchase. It's a fantastic addition to my collection of gadgets.\",\r\n//     \"rating\": 4\r\n// }\r\n\r\n// // Comment 9:\r\n// {\r\n//     \"comment\": \"The design of this product is not only functional but also aesthetically pleasing. I'm impressed.\",\r\n//     \"rating\": 4\r\n// }\r\n\r\n// // Comment 10:\r\n// {\r\n//     \"comment\": \"I've recommended this product to colleagues, and they've all had positive experiences. Thumbs up!\",\r\n//     \"rating\": 4\r\n// }",
+									"raw": "// // Comment 1:\r\n// {\r\n//     \"comment\": \"I've gifted this service to multiple friends, and they've all been impressed. It's a crowd-pleaser.\",\r\n//     \"rating\": 5\r\n// }\r\n\r\n////  Comment 2:\r\n// {\r\n//     \"comment\": \"I love the versatility of this service. It adapts to various situations effortlessly.\",\r\n//     \"rating\": 5\r\n// }\r\n\r\n// // Comment 3:\r\n// {\r\n//     \"comment\": \"This service arrived earlier than expected, and the packaging was perfect. A great buying experience.\",\r\n//     \"rating\": 4\r\n// }\r\n\r\n// // Comment 4:\r\n// {\r\n//     \"comment\": \"I can't get over how great this service is. It's an investment in convenience and quality.\",\r\n//     \"rating\": 3\r\n// }\r\n\r\n// // Comment 5:\r\n// {\r\n//     \"comment\": \"I've compared similar services, and this one stands out for its performance and durability.\",\r\n//     \"rating\": 4\r\n// }\r\n\r\n// // Comment 6:\r\n// {\r\n//     \"comment\": \"The user manual for this service is easy to follow, making setup a breeze.\",\r\n//     \"rating\": 5\r\n// }\r\n\r\n// // Comment 7:\r\n// {\r\n//     \"comment\": \"This service has simplified my daily routine. I wonder how I managed without it before.\",\r\n//     \"rating\": 5\r\n// }\r\n\r\n// // Comment 8:\r\n// {\r\n//     \"comment\": \"I'm thrilled with this purchase. It's a fantastic addition to my collection of gadgets.\",\r\n//     \"rating\": 4\r\n// }\r\n\r\n// // Comment 9:\r\n// {\r\n//     \"comment\": \"The design of this service is not only functional but also aesthetically pleasing. I'm impressed.\",\r\n//     \"rating\": 4\r\n// }\r\n\r\n// // Comment 10:\r\n// {\r\n//     \"comment\": \"I've recommended this service to colleagues, and they've all had positive experiences. Thumbs up!\",\r\n//     \"rating\": 4\r\n// }",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3081,7 +3200,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:7373/api/comments/services/add/3/users/5",
+									"raw": "http://localhost:7373/api/comments/services/add/2/users/8",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -3092,9 +3211,9 @@
 										"comments",
 										"services",
 										"add",
-										"3",
+										"2",
 										"users",
-										"5"
+										"8"
 									]
 								}
 							},
@@ -3385,6 +3504,28 @@
 						},
 						{
 							"name": "Get Detail Order",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/orders/detail/4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"orders",
+										"detail",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Order By ID",
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -3978,7 +4119,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:7373/api/posts/detail/1",
+							"raw": "http://localhost:7373/api/posts/detail/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -3988,7 +4129,7 @@
 								"api",
 								"posts",
 								"detail",
-								"1"
+								"2"
 							]
 						}
 					},

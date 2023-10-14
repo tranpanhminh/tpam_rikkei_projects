@@ -5,6 +5,13 @@ import { Service } from "../../../../../../database";
 import axios from "axios";
 import { Editor } from "@tinymce/tinymce-react";
 
+// Import API
+// 1. Services API
+const servicesAPI = process.env.REACT_APP_API_SERVICES;
+const workingTimeAPI = process.env.REACT_APP_API_WORKING_TIME;
+
+// ------------------------------------------------
+
 interface AddModalProps {
   className?: string;
   value?: string;
@@ -19,12 +26,22 @@ const AddModalService: React.FC<AddModalProps> = ({
   handleClickOk,
 }) => {
   const [services, setServices] = useState<any>(null);
+  const [workingTime, setWorkingTime] = useState<any>(null);
   const [editorInitialValue, setEditorInitialValue] = useState("");
   const [newService, setNewService] = useState<any>(null);
+  const [image, setImage] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [serviceInfo, setServiceInfo] = useState({
+    name: "",
+    description: "",
+    price: "",
+    working_time_id: "",
+    service_image: "",
+  });
 
   const fetchServices = () => {
     axios
-      .get("http://localhost:7373/services")
+      .get(`${servicesAPI}`)
       .then((response) => {
         setServices(response.data);
       })
@@ -33,73 +50,69 @@ const AddModalService: React.FC<AddModalProps> = ({
       });
   };
 
+  const fetchWorkingTime = () => {
+    axios
+      .get(`${workingTimeAPI}`)
+      .then((response) => {
+        setWorkingTime(response.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
   useEffect(() => {
     fetchServices();
+    fetchWorkingTime();
   }, []);
-
-  let listIdService = services?.map((service: any) => {
-    return service.id;
-  });
-
-  const maxId = listIdService?.length > 0 ? Math.max(...listIdService) : 0;
-
-  // const maxId = services
-  //   ? Math.max(...services.map((service) => service.id))
-  //   : 0;
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
     fetchServices();
     setIsModalOpen(true);
   };
 
-  const handleOk = () => {
-    // Kiểm tra thông tin đầy đủ
-    if (
-      !newService?.name ||
-      !newService?.description ||
-      newService?.price <= 0
-    ) {
-      notification.warning({
-        message: "Notification",
-        description:
-          "Please make sure all information filled, Seat must be integer",
-      });
-      return;
-    }
-
-    const morningTime = "09:00 AM - 11:30 AM";
-    const afternoonTime = "14:00 PM - 16:30 PM";
-
-    const updatedService = {
-      ...newService,
-      morningTime: morningTime,
-      afternoonTime: afternoonTime,
-      id: maxId + 1,
-      comments: [],
-    };
-
-    const updatedServices = services ? [...services, updatedService] : null;
-
-    setServices(updatedServices);
-    setIsModalOpen(false);
-    if (handleClickOk) {
-      handleClickOk(updatedService);
-    }
-    setNewService({
-      // id: 0,
-      name: "",
-      serviceImage: "",
-      description: handleEditorChange(""),
-      price: 0,
-      morningTime: "",
-      // morningSlot: 0,
-      afternoonTime: "",
-      // afternoonSlot: 0,
-      comments: [],
-    });
-    // setEditorInitialValue("");
+  const handleAddService = () => {
+    // // Kiểm tra thông tin đầy đủ
+    // if (
+    //   !newService?.name ||
+    //   !newService?.description ||
+    //   newService?.price <= 0
+    // ) {
+    //   notification.warning({
+    //     message: "Notification",
+    //     description:
+    //       "Please make sure all information filled, Seat must be integer",
+    //   });
+    //   return;
+    // }
+    // const morningTime = "09:00 AM - 11:30 AM";
+    // const afternoonTime = "14:00 PM - 16:30 PM";
+    // const updatedService = {
+    //   ...newService,
+    //   morningTime: morningTime,
+    //   afternoonTime: afternoonTime,
+    //   id: maxId + 1,
+    //   comments: [],
+    // };
+    // const updatedServices = services ? [...services, updatedService] : null;
+    // setServices(updatedServices);
+    // setIsModalOpen(false);
+    // if (handleClickOk) {
+    //   handleClickOk(updatedService);
+    // }
+    // setNewService({
+    //   // id: 0,
+    //   name: "",
+    //   serviceImage: "",
+    //   description: handleEditorChange(""),
+    //   price: 0,
+    //   morningTime: "",
+    //   // morningSlot: 0,
+    //   afternoonTime: "",
+    //   // afternoonSlot: 0,
+    //   comments: [],
+    // });
+    // // setEditorInitialValue("");
   };
 
   const handleCancel = () => {
@@ -119,8 +132,21 @@ const AddModalService: React.FC<AddModalProps> = ({
   };
 
   const handleEditorChange = (content: string) => {
-    setEditorInitialValue(content);
-    setNewService({ ...newService, description: content });
+    setNewService({ ...serviceInfo, description: content });
+  };
+
+  const handleFileChange = (event: any) => {
+    const selectedFile = event.target.files[0];
+
+    if (selectedFile) {
+      const imageURL: any = URL.createObjectURL(selectedFile);
+      setImage(imageURL);
+    }
+
+    setServiceInfo({
+      ...serviceInfo,
+      service_image: event.target.files[0],
+    });
   };
 
   return (
@@ -135,32 +161,42 @@ const AddModalService: React.FC<AddModalProps> = ({
       <Modal
         title={title}
         visible={isModalOpen}
-        onOk={handleOk}
+        onOk={handleAddService}
         onCancel={handleCancel}
         width={800}
       >
         <div className={styles["list-input-add-student"]}>
+          <div>
+            {image ? (
+              <img
+                src={image}
+                alt="Service Thumbnail"
+                className={styles["service-thumbnail"]}
+                id="thumbnail"
+              />
+            ) : (
+              <img
+                alt="Service Thumbnail"
+                className={styles["service-thumbnail"]}
+                id="thumbnail"
+              />
+            )}
+          </div>
           <div className={styles["list-input-item"]}>
             <p>Service Name</p>
             <input
               type="text"
-              value={newService?.name}
+              value={serviceInfo?.name}
               onChange={(e) =>
-                setNewService({ ...newService, name: e.target.value })
+                setServiceInfo({ ...serviceInfo, name: e.target.value })
               }
             />
           </div>
           <div className={styles["list-input-item"]}>
             <p>Description</p>
-            {/* <Editor
-              onEditorChange={(content) =>
-                setNewService({ ...newService, description: content })
-              }
-              initialValue={editorInitialValue}
-            /> */}
             <Editor
               onEditorChange={handleEditorChange}
-              value={editorInitialValue}
+              value={serviceInfo.description}
             />
           </div>
           <div className={styles["list-input-item"]}>
@@ -169,19 +205,31 @@ const AddModalService: React.FC<AddModalProps> = ({
               type="number"
               value={newService?.price}
               onChange={(e) =>
-                setNewService({ ...newService, price: Number(e.target.value) })
+                setServiceInfo({
+                  ...serviceInfo,
+                  price: e.target.value,
+                })
               }
             />
           </div>
           <div className={styles["list-input-item"]}>
+            <p>Working Time</p>
+
+            <select name="" id="" className={styles["select-option"]}>
+              {workingTime &&
+                workingTime.map((item: any) => {
+                  return (
+                    <option value={item.id}>
+                      {item.morning_time} - {item.afternoon_time}
+                    </option>
+                  );
+                })}
+            </select>
+          </div>
+          <div className={styles["list-input-item"]}>
             <p>Service Image</p>
-            <input
-              type="file"
-              value={newService?.serviceImage}
-              onChange={(e) =>
-                setNewService({ ...newService, serviceImage: e.target.value })
-              }
-            />
+
+            <input type="file" onChange={handleFileChange} accept="image/*" />
           </div>
         </div>
       </Modal>
