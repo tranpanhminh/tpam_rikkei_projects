@@ -21,6 +21,8 @@ const orderItemsAPI = process.env.REACT_APP_API_ORDER_ITEMS;
 const paymentsAPI = process.env.REACT_APP_API_PAYMENTS;
 // 6. Users API
 const usersAPI = process.env.REACT_APP_API_USERS;
+// 7. Coupons API
+const couponsAPI = process.env.REACT_APP_API_COUPONS;
 
 // -----------------------------------------------------
 function ClientCart() {
@@ -29,21 +31,10 @@ function ClientCart() {
   const navigate = useNavigate();
 
   // List State
-  const [user, setUser] = useState<any>([]);
   const [cart, setCart] = useState([]);
-  const [products, setProducts] = useState<any>(null);
   const [userCart, setUserCart] = useState<any>([]);
-  const [quantity, setQuantity] = useState("");
-  const [card, setCard] = useState<any>(null);
-  const [cardName, setCardName] = useState("");
-  const [cardNumber, setCardNumber] = useState("");
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
-  const [expiration, setExpiration] = useState("");
-  const [cvv, setCVV] = useState("");
-  const [couponCode, setCouponCode] = useState("");
-  const [newsletter, setNewsletter] = useState<any>(null);
-  const [listOrders, setListOrders] = useState<any>(null);
+  const [coupons, setCoupons] = useState<any>([]);
+  const [quantity, setQuantity] = useState<any>("");
   const [userInfo, setUserInfo] = useState({
     user_id: "",
     customer_name: "",
@@ -70,49 +61,24 @@ function ClientCart() {
       });
   };
 
-  // Get List Products
-  const fetchProducts = () => {
+  // Get User Cart
+  const fetchUserCart = () => {
     axios
-      .get(`${productsAPI}`)
+      .get(`${cartsAPI}/detail/users/${getLoginData.id}`)
       .then((response) => {
-        setProducts(response.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  };
-
-  // Get List Orders
-  const fetchOrders = () => {
-    axios
-      .get(`${ordersAPI}`)
-      .then((response) => {
-        setListOrders(response.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  };
-
-  // Get User Data
-  const fetchUser = () => {
-    axios
-      .get(`usersAPI/detail/${getLoginData.id}`)
-      .then((response) => {
-        setUser(response.data);
-        setUserCart(response.data.cart);
-        // setNewsletter(response.data.newsletter);
+        setUserCart(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  const fetchCard = () => {
+  // Get Coupons
+  const fetchCoupons = () => {
     axios
-      .get(`${paymentsAPI}`)
+      .get(`${couponsAPI}`)
       .then((response) => {
-        setCard(response.data);
+        setCoupons(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -121,70 +87,97 @@ function ClientCart() {
 
   useEffect(() => {
     fetchCart();
-    fetchUser();
-    fetchProducts();
-    fetchCard();
-    fetchOrders();
-  }, []);
+    fetchUserCart();
+    fetchCoupons();
+  }, [quantity]);
+
+  // Get List Products
+  // const fetchProducts = () => {
+  //   axios
+  //     .get(`${productsAPI}`)
+  //     .then((response) => {
+  //       setProducts(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.message);
+  //     });
+  // };
+
+  // Get List Orders
+  // const fetchOrders = () => {
+  //   axios
+  //     .get(`${ordersAPI}`)
+  //     .then((response) => {
+  //       setListOrders(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.message);
+  //     });
+  // };
+
+  // Get User Data
+  // const fetchUser = () => {
+  //   axios
+  //     .get(`usersAPI/detail/${getLoginData.id}`)
+  //     .then((response) => {
+  //       setUser(response.data);
+  //       setUserCart(response.data.cart);
+  //       // setNewsletter(response.data.newsletter);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+
+  // Get Card
+  // const fetchCard = () => {
+  //   axios
+  //     .get(`${paymentsAPI}`)
+  //     .then((response) => {
+  //       setCard(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
 
   // -----------------------------------------------------------
 
-  // Kiểm tra Coupon Code
-  let findCouponCode = newsletter?.find((item: any) => {
-    return item.couponCode === couponCode;
-  });
-  let findCouponIndex = newsletter?.findIndex((item: any) => {
-    return item.couponCode === couponCode;
-  });
-  console.log(findCouponIndex);
-
-  // Lấy MaxID Của Order đưa vào order history
-  // let listOrder = orderProducts?.map((order: any) => {
-  //   return order.orderId;
-  // });
-
-  // let maxIdOrder = Number(Math.max(...listOrder));
-  // console.log(maxIdOrder)
-
-  let sumCart = userCart.map((item: any) => {
-    return item.productQuantity * item.price;
-  });
-
-  //  Lấy MaxID của order để đưa vào List Order đẩy cho Admin
-  let listOrdersDatabase = [];
-  if (listOrders) {
-    listOrdersDatabase = listOrders?.map((item: any) => {
-      return item.id;
-    });
-  }
-
-  let maxIdOrderDatabase = Number(Math.max(...listOrdersDatabase));
-
   const subTotal = () => {
-    let sumTotalCart = sumCart.reduce(
-      (accumulator: any, currentValue: number) => {
-        return (accumulator += currentValue);
-      },
-      0
-    );
-    return Number(sumTotalCart + 5);
+    let subTotalCart = 0;
+    if (userCart.length > 0) {
+      subTotalCart = userCart.reduce((accumulator: any, item: any) => {
+        return accumulator + item.quantity * item.price;
+      }, 0);
+      return subTotalCart;
+    }
+    return 0;
   };
 
-  const handleTotalCart = () => {
-    let sumTotalCart = sumCart.reduce(
-      (accumulator: any, currentValue: number) => {
-        return (accumulator += currentValue);
-      },
-      0
-    );
-
-    if (findCouponCode) {
-      return (sumTotalCart = Number(
-        5 + sumTotalCart - (findCouponCode?.discount * sumTotalCart) / 100
-      ));
+  const findDiscount = () => {
+    const total = subTotal(); // Gọi hàm subTotal() để tính tổng tiền
+    if (coupons.length > 0) {
+      const findCoupons = coupons.filter((item: any) => {
+        return Number(total) > Number(item.min_bill);
+      });
+      return findCoupons[findCoupons.length - 1];
     } else {
-      return Number(sumTotalCart + 5);
+      return 0;
     }
+  };
+
+  const discountAmount = () => {
+    if (findDiscount()) {
+      return subTotal() * (Number(findDiscount().discount_rate) / 100);
+    }
+    return 0;
+  };
+
+  const total = () => {
+    if (findDiscount()) {
+      return subTotal() - discountAmount();
+    }
+    return subTotal();
   };
 
   const orderMessage = (
@@ -466,15 +459,18 @@ function ClientCart() {
                 </div> */}
                 <div className={styles["card-info-item-detail"]}>
                   <span>Subtotal</span>
-                  <span>${subTotal()}</span>
+                  <span>${subTotal().toLocaleString()}</span>
                 </div>
                 <div className={styles["card-info-item-detail"]}>
                   <span>Discount</span>
-                  <span>{findCouponCode?.discount}%</span>
+                  <span>
+                    {" "}
+                    {findDiscount() ? findDiscount().discount_rate : 0}%
+                  </span>
                 </div>
                 <div className={styles["card-info-item-detail"]}>
                   <span>Discount Amount:</span>
-                  <span>{findCouponCode?.discount}</span>
+                  <span>${discountAmount().toLocaleString()} </span>
                 </div>
                 {/* <div className={styles["card-info-item-detail"]}>
                   <span>Shipping</span>
@@ -482,12 +478,12 @@ function ClientCart() {
                 </div> */}
                 <div className={styles["card-info-item-detail"]}>
                   <span>Total</span>
-                  <span>${handleTotalCart()}</span>
+                  <span>${total().toLocaleString()}</span>
                 </div>
               </div>
 
               <div className={styles["card-total"]}>
-                <span>$ {handleTotalCart()}</span>
+                <span>$ {1}</span>
                 <button onClick={handleCheckout}>Checkout</button>
               </div>
             </div>
