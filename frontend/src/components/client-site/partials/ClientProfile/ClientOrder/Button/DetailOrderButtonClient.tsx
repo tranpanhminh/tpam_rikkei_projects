@@ -28,7 +28,7 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
   const getLoginData = JSON.parse(getData) || "";
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [reason, setReason] = useState("");
-  const [cancelReasons, setCancelReasons] = useState("");
+  const [cancelReasons, setCancelReasons] = useState([]);
   const [userOrder, setUserOrder] = useState<any>([]);
   const [orderItem, setOrderItem] = useState<any>([]);
   const [orderStatus, setOrderStatus] = useState("");
@@ -75,49 +75,27 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
   console.log(userOrder, "AAAA");
 
   const handleOk = () => {
-    // if (cancelReason === "" || cancelReason === "No Cancel Order") {
-    //   setIsModalOpen(false);
-    //   return;
-    // }
-    // axios
-    //   .patch(`http://localhost:7373/orders/${orderId}`, {
-    //     status: "Cancel",
-    //     cancel_reason: cancelReason,
-    //   })
-    //   .then((response) => {
-    //     // Order status updated successfully
-    //     fetchOrders();
-    //     setUserOrder(response.data);
-    //     // Find the associated card for the order
-    //     let findCard = listCard.find((card: any) => {
-    //       return Number(card.cardNumber) === Number(listOrders.cardNumber);
-    //     });
-    //     if (findCard) {
-    //       // Update the banking data using Decimal
-    //       const newBalance = new Decimal(findCard.balance)
-    //         .plus(new Decimal(listOrders.sumOrderWithDiscount))
-    //         .toNumber(); // Convert back to number
-    //       axios
-    //         .patch(`http://localhost:7373/banking/${findCard.id}`, {
-    //           balance: newBalance,
-    //         })
-    //         .then(() => {
-    //           fetchCard();
-    //           notification.success({
-    //             message: "Cancel Order Successfully",
-    //           });
-    //         })
-    //         .catch((error) => {
-    //           console.log(error);
-    //         });
-    //     }
-    //     // Gọi hàm cập nhật trạng thái đơn hàng
-    //     handleFunctionOk(cancelReason, orderId);
-    //     setIsModalOpen(false);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
+    if (!reason) {
+      return setIsModalOpen(false);
+    }
+
+    const orderInfo = {
+      cancel_reason_id: reason,
+    };
+    BaseAxios.patch(`${ordersAPI}/cancel-order/${orderId}`, orderInfo)
+      .then((response) => {
+        handleFunctionOk();
+        navigate(`/user/my-orders/`);
+        setIsModalOpen(false);
+        notification.success({
+          message: `${response.data}`,
+        });
+      })
+      .catch((error) => {
+        notification.error({
+          message: `${error.response.data}`,
+        });
+      });
   };
 
   const showModal = () => {
@@ -127,6 +105,7 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
 
   const handleCancel = () => {
     navigate(`/user/my-orders/`);
+    setReason("");
     setIsModalOpen(false);
   };
 
@@ -146,30 +125,8 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
       return cardNumber;
     }
   }
-  console.log(userOrder, "USER ORDER");
 
-  // const orderStatusName = (order_status: number) => {
-  //   switch (order_status) {
-  //     case 1:
-  //       setOrderStatus("Pending");
-  //       break;
-  //     case 2:
-  //       setOrderStatus("Processing");
-  //       break;
-  //     case 3:
-  //       setOrderStatus("Shipping");
-  //       break;
-  //     case 4:
-  //       setOrderStatus("Shipped");
-  //       break;
-  //     case 5:
-  //       setOrderStatus("Cancel");
-  //       break;
-  //     default:
-  //       return;
-  //   }
-  // };
-
+  console.log(reason, "REASON");
   return (
     <>
       <Button type="primary" onClick={showModal}>
@@ -220,22 +177,12 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
                 value={reason}
                 onChange={(event) => setReason(event?.target.value)}
               >
-                <option value="No Cancel Order" selected>
+                <option value="" selected>
                   -- Choose Reason --
                 </option>
-                <option value="Ordered the wrong product">
-                  1. Ordered the wrong product
-                </option>
-                <option value="Duplicate order">2. Duplicated order</option>
-                <option value="I don't want to buy anymore">
-                  3. I don't want to buy anymore
-                </option>
-                <option value="Ordered the wrong product">
-                  4. Delivery time too long
-                </option>
-                <option value="Ordered the wrong product">
-                  5. Another reason...
-                </option>
+                {cancelReasons?.map((item: any) => {
+                  return <option value={item.id}>{item.name}</option>;
+                })}
               </select>
             </div>
           )}

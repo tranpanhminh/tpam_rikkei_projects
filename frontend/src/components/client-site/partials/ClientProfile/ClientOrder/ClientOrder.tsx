@@ -86,7 +86,9 @@ function ClientOrder() {
     }
   };
 
-  const handleUpdateStatus = (updatedStatus: string, orderId: number) => {};
+  const handleUpdateStatus = () => {
+    fetchUserOrder();
+  };
 
   return (
     <div>

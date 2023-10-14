@@ -39,7 +39,7 @@ const UserHeader: React.FC = () => {
   });
 
   const handleLogout = () => {
-    localStorage.removeItem("auth");
+    localStorage.clear();
     navigate("/");
     message.open({
       type: "success",

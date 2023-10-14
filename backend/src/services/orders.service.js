@@ -373,9 +373,9 @@ class OrdersService {
       3. I don't want to buy anymore
       4. Another Reason...
     */
-    if (!cancel_reason_id) {
-      return { data: "Please choose cancel reasons!", status: 406 };
-    }
+    // if (!cancel_reason_id) {
+    //   return { data: "Please choose cancel reasons!", status: 406 };
+    // }
 
     if (findOrder.status_id === 2) {
       return {
