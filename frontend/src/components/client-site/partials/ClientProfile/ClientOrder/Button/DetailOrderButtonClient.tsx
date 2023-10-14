@@ -1,10 +1,10 @@
-// --------------------------------------------------------- //
 import React, { useEffect, useState } from "react";
 import { Button, Modal, notification } from "antd";
 import styles from "../../UserProfile.module.css";
 import axios from "axios";
 import Decimal from "decimal.js";
 import BaseAxios from "../../../../../../api/apiAxiosClient";
+import { useNavigate } from "react-router-dom";
 
 // Import API
 
@@ -23,6 +23,7 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
   orderId,
   handleFunctionOk,
 }) => {
+  const navigate = useNavigate();
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,10 +31,11 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
   const [cancelReasons, setCancelReasons] = useState("");
   const [userOrder, setUserOrder] = useState<any>([]);
   const [orderItem, setOrderItem] = useState<any>([]);
+  const [orderStatus, setOrderStatus] = useState("");
 
   // Fetch API
-  const fetchUserOrder = () => {
-    BaseAxios.get(`${ordersAPI}/${orderId}`)
+  const fetchUserOrder = async () => {
+    await BaseAxios.get(`${ordersAPI}/${orderId}`)
       .then((response) => {
         setUserOrder(response.data);
       })
@@ -42,8 +44,8 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
       });
   };
 
-  const fetchOrderItems = () => {
-    BaseAxios.get(`${ordersAPI}/detail/${orderId}`)
+  const fetchOrderItems = async () => {
+    await BaseAxios.get(`${ordersAPI}/detail/${orderId}`)
       .then((response) => {
         setOrderItem(response.data);
       })
@@ -52,8 +54,8 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
       });
   };
 
-  const fetchCancelReasons = () => {
-    BaseAxios.get(`${cancelReasonsAPI}`)
+  const fetchCancelReasons = async () => {
+    await BaseAxios.get(`${cancelReasonsAPI}`)
       .then((response) => {
         setCancelReasons(response.data);
       })
@@ -71,26 +73,6 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
   }, []);
 
   console.log(userOrder, "AAAA");
-
-  // const handleOk = () => {
-  //   if (cancelReason === "" || cancelReason === "No Cancel Order") {
-  //     setIsModalOpen(false);
-  //     return;
-  //   }
-  //   axios
-  //     .patch(`http://localhost:7373/orders/${orderId}`, {
-  //       status: "Cancel",
-  //       cancel_reason: cancelReason,
-  //     })
-  //     .then((response) => {
-  //       fetchOrders();
-  //       setUserOrder(response.data);
-  //     });
-
-  //   handleFunctionOk(cancelReason, orderId);
-
-  //   setIsModalOpen(false);
-  // };
 
   const handleOk = () => {
     // if (cancelReason === "" || cancelReason === "No Cancel Order") {
@@ -139,14 +121,14 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
   };
 
   const showModal = () => {
+    navigate(`/user/my-orders/?detail-oder=${orderId}`);
     setIsModalOpen(true);
   };
 
   const handleCancel = () => {
+    navigate(`/user/my-orders/`);
     setIsModalOpen(false);
   };
-
-  const handleSumOrder = () => {};
 
   function maskCardNumber(cardNumber: string) {
     if (cardNumber && cardNumber.length === 16) {
@@ -164,6 +146,29 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
       return cardNumber;
     }
   }
+  console.log(userOrder, "USER ORDER");
+
+  // const orderStatusName = (order_status: number) => {
+  //   switch (order_status) {
+  //     case 1:
+  //       setOrderStatus("Pending");
+  //       break;
+  //     case 2:
+  //       setOrderStatus("Processing");
+  //       break;
+  //     case 3:
+  //       setOrderStatus("Shipping");
+  //       break;
+  //     case 4:
+  //       setOrderStatus("Shipped");
+  //       break;
+  //     case 5:
+  //       setOrderStatus("Cancel");
+  //       break;
+  //     default:
+  //       return;
+  //   }
+  // };
 
   return (
     <>
@@ -196,17 +201,17 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
           </div>
           <div className={styles["my-profile-input-item"]}>
             <p>Status</p>
-            {/* <input type="text" disabled value={userOrder?.order_status.name} /> */}
+            <input type="text" disabled value={userOrder?.order_status?.name} />
           </div>
           <div className={styles["my-profile-input-item"]}>
             <p>Card Number</p>
-            {/* <input
+            <input
               type="text"
               disabled
-              value={maskCardNumber((userOrder?.card_number).toString())}
-            /> */}
+              value={maskCardNumber(userOrder?.card_number)}
+            />
           </div>
-          {userOrder?.status === "Pending" && (
+          {userOrder?.status_id === 1 && (
             <div className={styles["my-profile-input-item"]}>
               <p>Request Cancel</p>
               <select
