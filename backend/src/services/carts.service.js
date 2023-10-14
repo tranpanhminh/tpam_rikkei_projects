@@ -227,10 +227,6 @@ class CartsService {
 
   // 6. Update Cart
   async updateCart(userId, productId, quantity, authHeader) {
-    // Check Login
-    if (!authHeader) {
-      return { data: "Please Login", status: 401 };
-    }
     // /**
     // User Status:
     // 1. Active
@@ -274,7 +270,7 @@ class CartsService {
     // Check số lượng mới so với số lượng hàng tồn kho
     if (newQuantity > dataProduct.quantity_stock) {
       return {
-        data: `You can't add more than product stock: ${dataProduct.quantity_stock}, you have typed ${newQuantity} products`,
+        data: `You can't add more than product stock: ${dataProduct.quantity_stock} of this product, you have typed ${newQuantity} products`,
         status: 406,
       };
     }

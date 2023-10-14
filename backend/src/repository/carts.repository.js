@@ -41,11 +41,11 @@ class CartsRepo {
         },
         {
           model: productsEntity,
-          attributes: ["thumbnail_url"],
+          attributes: ["name", "thumbnail_url"],
         },
       ],
       group: ["id"],
-      raw: true,
+      // raw: true,
     });
 
     return listCarts;
@@ -70,12 +70,12 @@ class CartsRepo {
         },
         {
           model: productsEntity,
-          attributes: ["thumbnail_url"],
+          attributes: ["name", "thumbnail_url"],
         },
       ],
       where: { user_id: userId },
       group: ["id"],
-      raw: true,
+      // raw: true,
     });
     return detailUserCart;
   }

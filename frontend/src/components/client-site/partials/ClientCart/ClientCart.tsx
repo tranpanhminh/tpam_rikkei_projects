@@ -6,6 +6,7 @@ import { notification } from "antd";
 import { format, parse } from "date-fns";
 import { Button, Modal } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
+import BaseAxios from "./../../../../api/apiAxiosClient";
 
 // Import API
 // 1. Products API
@@ -26,12 +27,14 @@ function ClientCart() {
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
   const navigate = useNavigate();
+
+  // List State
   const [user, setUser] = useState<any>([]);
+  const [cart, setCart] = useState([]);
   const [products, setProducts] = useState<any>(null);
   const [userCart, setUserCart] = useState<any>([]);
-
+  const [quantity, setQuantity] = useState("");
   const [card, setCard] = useState<any>(null);
-
   const [cardName, setCardName] = useState("");
   const [cardNumber, setCardNumber] = useState("");
   const [phone, setPhone] = useState("");
@@ -41,6 +44,31 @@ function ClientCart() {
   const [couponCode, setCouponCode] = useState("");
   const [newsletter, setNewsletter] = useState<any>(null);
   const [listOrders, setListOrders] = useState<any>(null);
+  const [userInfo, setUserInfo] = useState({
+    user_id: "",
+    customer_name: "",
+    address: "",
+    phone: "",
+    cardholder_name: "",
+    card_number: "",
+    expiry_date: "",
+    cvv: "",
+  });
+
+  // -----------------------------------------------------------
+
+  // Fetch API
+
+  // Get User Cart
+  const fetchCart = () => {
+    BaseAxios.get(`${cartsAPI}/detail/users/${getLoginData.id}`)
+      .then((response) => {
+        setCart(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   // Get List Products
   const fetchProducts = () => {
@@ -92,11 +120,14 @@ function ClientCart() {
   };
 
   useEffect(() => {
+    fetchCart();
     fetchUser();
     fetchProducts();
     fetchCard();
     fetchOrders();
   }, []);
+
+  // -----------------------------------------------------------
 
   // Kiểm tra Coupon Code
   let findCouponCode = newsletter?.find((item: any) => {
@@ -129,7 +160,7 @@ function ClientCart() {
 
   let maxIdOrderDatabase = Number(Math.max(...listOrdersDatabase));
 
-  const handleTotalCartNoDiscount = () => {
+  const subTotal = () => {
     let sumTotalCart = sumCart.reduce(
       (accumulator: any, currentValue: number) => {
         return (accumulator += currentValue);
@@ -156,36 +187,6 @@ function ClientCart() {
     }
   };
 
-  const handleDeleteProduct = (productId: number) => {
-    let filterProduct = userCart.filter((item: any) => {
-      return item.productId !== productId;
-    });
-    console.log(filterProduct);
-
-    setUserCart(filterProduct);
-
-    let updatedCart = {
-      cart: filterProduct,
-    };
-
-    axios
-      .patch(
-        `http://localhost:7373/accounts/${getLoginData.loginId}`,
-        updatedCart
-      )
-      .then(() => {
-        notification.success({
-          message: "Product Deleted",
-        });
-        fetchOrders();
-        fetchUser();
-        fetchProducts();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
   const orderMessage = (
     <div>
       <a href="/user/my-orders" style={{ textDecoration: "none" }}>
@@ -194,226 +195,53 @@ function ClientCart() {
     </div>
   );
 
+  // Xoá sản phẩm
+  const handleDeleteProduct = (productId: number) => {
+    BaseAxios.delete(
+      `${cartsAPI}/delete/products/${productId}/users/${getLoginData.id}`
+    )
+      .then((response) => {
+        fetchCart();
+        notification.success({
+          message: `${response.data}`,
+        });
+      })
+      .catch((error) => {
+        notification.warning({
+          message: `${error.response.data}`,
+        });
+      });
+  };
+  // --------------------------------------------------------
+
+  // Xoá sản phẩm
+  const handleQuantityInputChange = (event: any, productId: number) => {
+    const cartInfo = {
+      quantity: event.target.value,
+    };
+    BaseAxios.patch(
+      `${cartsAPI}/update/products/${productId}/users/${getLoginData.id}`,
+      cartInfo
+    )
+      .then((response) => {
+        fetchCart();
+      })
+      .catch((error) => {
+        notification.warning({
+          message: `${error.response.data}`,
+        });
+      });
+
+    setQuantity(event.target.value);
+    console.log(productId, "PRODUCT ID");
+  };
+  // --------------------------------------------------------
+
+  // CheckOut
   const handleCheckout = async () => {
-    try {
-      // Kiểm tra Phone & Address
-      const phoneNumberPattern = /^1\d{10}$/;
-
-      if (!phone || !address) {
-        notification.warning({
-          message: "Please fill Phone & Address",
-        });
-        return;
-      } else if (!phoneNumberPattern.test(phone)) {
-        notification.warning({
-          message: "Invalid Phone Number (Use the format 1234567890)",
-        });
-        return;
-      }
-
-      if (userCart?.length === 0) {
-        notification.warning({
-          message: "Your Cart Is Empty",
-        });
-        return;
-      }
-      if (!cardName || !cardNumber || !expiration || !cvv) {
-        notification.warning({
-          message: "Card Payment must not be empty",
-        });
-        return;
-      }
-
-      const checkValidCard = card.find((item: any) => {
-        return (
-          item.cardName.toUpperCase() === cardName.toUpperCase() &&
-          Number(item.cardNumber) === Number(cardNumber) &&
-          item.expiredDate === expiration &&
-          Number(item.cvv) === Number(cvv)
-        );
-      });
-      // Kiểm tra Card có Valid hay không
-      if (!checkValidCard) {
-        notification.warning({
-          message: "Card Is not valid",
-        });
-        return;
-      }
-      // Kiểm tra Card có còn hạn sử dụng
-      const currentDateTime = new Date();
-      const checkValidCardDate = parse(
-        checkValidCard.expiredDate,
-        "MM/yyyy",
-        new Date()
-      );
-      const formattedDateTime = new Date(
-        currentDateTime.getFullYear(),
-        currentDateTime.getMonth(),
-        1
-      );
-
-      if (checkValidCardDate < formattedDateTime) {
-        notification.warning({
-          message: "Card Is Expired",
-        });
-        return;
-      }
-
-      // // Kiểm tra số dư trong Card
-      if (checkValidCard.balance < Number(handleTotalCart())) {
-        notification.warning({
-          message: "Card Balance is not enough",
-        });
-        return;
-      }
-
-      const newOrder = {
-        orderId: listOrders.length > 0 ? maxIdOrderDatabase + 1 : 1,
-      };
-
-      const updatedUser = {
-        ...user,
-        order_history: [...user.order_history, newOrder],
-        cart: [], // Clear the cart after creating the order
-      };
-
-      // Xử lý Post vào Orders
-      let pushNewOrder = {
-        // id: listOrdersDatabase.length > 0 ? maxIdOrderDatabase + 1 : 1,
-        user_id: user.id,
-        name: user.fullName,
-        email: user.email,
-        phone: phone,
-        date: format(new Date(), "dd/MM/yyyy HH:mm:ss"),
-        status: "Pending",
-        address: address,
-        cart: userCart,
-        discount: findCouponCode?.discount ? findCouponCode?.discount : 0,
-        sumOrderNoDiscount: handleTotalCartNoDiscount(),
-        sumOrderWithDiscount: handleTotalCart(),
-        cardNumber: Number(cardNumber),
-      };
-
-      // Xử lý Post vào Orders
-      const response1 = await axios.post(
-        `http://localhost:7373/orders/`,
-        pushNewOrder
-      );
-      console.log(response1);
-      fetchOrders();
-
-      // user.cart = [];
-
-      const response2 = await axios.patch(
-        `http://localhost:7373/accounts/${getLoginData.loginId}`,
-        updatedUser
-      );
-      // setUserCart([]);
-      fetchUser(); // Refresh user data after the update
-
-      // //  Xử lý giảm Balance trong Cart
-      const updatedBalance = {
-        balance: checkValidCard.balance - handleTotalCart(),
-      };
-
-      const response3 = await axios.patch(
-        `http://localhost:7373/banking/${checkValidCard.id}`,
-        updatedBalance
-      );
-      fetchCard();
-
-      // // Xử lý xóa Coupon Code đã sử dụng ra khỏi Newsletter
-      if (findCouponIndex !== -1) {
-        newsletter.splice(findCouponIndex, 1);
-
-        const updatedNewsletter = {
-          newsletter: newsletter,
-        };
-
-        const response4 = await axios.patch(
-          `http://localhost:7373/accounts/${getLoginData.loginId}`,
-          updatedNewsletter
-        );
-        fetchUser(); // Refresh user data after the update
-      }
-
-      // Xử lý giảm hàng tồn kho cho từng sản phẩm trong userCart
-      for (const product of products) {
-        for (const item of userCart) {
-          if (product.id === item.productId) {
-            product.quantity_stock -= item.productQuantity;
-            const response5 = await axios.patch(
-              `http://localhost:7373/products/${product.id}`,
-              {
-                quantity_stock: product.quantity_stock,
-              }
-            );
-          }
-        }
-      }
-
-      notification.success({
-        message: "Order Completed",
-        description: orderMessage,
-      });
-
-      // Trả về rỗng
-      setCardName("");
-      setCardNumber("");
-      setPhone("");
-      setAddress("");
-      setExpiration("");
-      setCVV("");
-      setCouponCode("");
-    } catch (error) {
-      console.error(error);
-      // Xử lý lỗi ở đây nếu cần
-    }
+    console.log(userInfo, "UISER INFO");
   };
-
-  const handleQuantityInputChange = (event: any, item: any) => {
-    const newQuantity = Number(event.target.value);
-
-    if (!isNaN(newQuantity) && newQuantity >= 0) {
-      axios
-        .get(`http://localhost:7373/products/${item.productId}`)
-        .then((response) => {
-          const updatedProduct = response.data;
-
-          if (newQuantity > updatedProduct.quantity_stock) {
-            notification.warning({
-              message: `Quantity must not exceed ${updatedProduct.quantity_stock}`,
-            });
-          } else {
-            item.productQuantity = newQuantity;
-
-            const updatedUserCart = userCart.map((cartItem: any) => {
-              if (cartItem.productId === item.productId) {
-                return {
-                  ...cartItem,
-                  productQuantity: newQuantity,
-                };
-              }
-              return cartItem;
-            });
-
-            axios
-              .patch(`http://localhost:7373/accounts/${getLoginData.loginId}`, {
-                cart: updatedUserCart,
-              })
-              .then(() => {
-                setUserCart(updatedUserCart);
-              })
-              .catch((error) => {
-                console.log(error);
-              });
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  };
+  // --------------------------------------------------------
 
   return (
     <>
@@ -446,32 +274,32 @@ function ClientCart() {
                     </tr>
                   </thead>
                   <tbody id={styles["table-my-cart"]}>
-                    {userCart &&
-                      userCart.map((item: any, index: number) => {
+                    {cart &&
+                      cart.map((item: any, index: number) => {
                         return (
                           <tr>
                             <td>{index + 1}</td>
                             <td>
-                              <img src={item.productImage} alt="" />
+                              <img src={item.product.thumbnail_url} alt="" />
                             </td>
-                            <td>{item.productName}</td>
+                            <td>{item.product.name}</td>
                             <td>
                               <input
                                 type="number"
                                 min="1"
                                 className={styles["product-cart-quantity"]}
-                                value={item.productQuantity}
+                                defaultValue={item.quantity}
                                 onChange={(event) =>
-                                  handleQuantityInputChange(event, item)
+                                  handleQuantityInputChange(
+                                    event,
+                                    item.product_id
+                                  )
                                 }
                               />
                             </td>
                             <td>{item.price}</td>
                             <td>
-                              $
-                              {(
-                                item.productQuantity * item.price
-                              ).toLocaleString()}
+                              ${(item.quantity * item.price).toLocaleString()}
                             </td>
                             <td>
                               <i
@@ -479,7 +307,7 @@ function ClientCart() {
                                 id={styles["delete-product-icon"]}
                                 style={{ cursor: "pointer" }}
                                 onClick={() => {
-                                  handleDeleteProduct(item.productId);
+                                  handleDeleteProduct(item.product_id);
                                 }}
                               />
                             </td>
@@ -499,18 +327,18 @@ function ClientCart() {
               <div className={styles["card-type"]}>
                 <span>Card Type</span>
                 <div className={styles["list-card-type"]}>
-                  <img
+                  {/* <img
                     src="https://i.pcmag.com/imagery/reviews/068BjcjwBw0snwHIq0KNo5m-15..v1602794215.png"
                     alt=""
-                  />
+                  /> */}
                   <img
                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Old_Visa_Logo.svg/2560px-Old_Visa_Logo.svg.png"
                     alt=""
                   />
-                  <img
+                  {/* <img
                     src="https://www.pngall.com/wp-content/uploads/2016/07/Mastercard-Download-PNG.png"
                     alt=""
-                  />
+                  /> */}
                 </div>
               </div>
 
@@ -520,9 +348,12 @@ function ClientCart() {
                     type="text"
                     className="form-control form-control-lg"
                     placeholder="Cardholder's Name"
-                    value={cardName.toUpperCase()}
+                    value={userInfo.cardholder_name.toUpperCase()}
                     onChange={(event) => {
-                      setCardName(event.target.value);
+                      setUserInfo({
+                        ...userInfo,
+                        cardholder_name: event.target.value,
+                      });
                     }}
                   />
                 </div>
@@ -535,9 +366,12 @@ function ClientCart() {
                     placeholder="Card Numbers"
                     minLength={16}
                     maxLength={16}
-                    value={Number(cardNumber)}
+                    value={Number(userInfo.card_number)}
                     onChange={(event) => {
-                      Number(setCardNumber(event.target.value));
+                      setUserInfo({
+                        ...userInfo,
+                        card_number: event.target.value,
+                      });
                     }}
                   />
                 </div>
@@ -552,9 +386,12 @@ function ClientCart() {
                       size={7}
                       minLength={7}
                       maxLength={7}
-                      value={expiration}
+                      value={userInfo.expiry_date}
                       onChange={(event) => {
-                        setExpiration(event.target.value);
+                        setUserInfo({
+                          ...userInfo,
+                          expiry_date: event.target.value,
+                        });
                       }}
                     />
                   </div>
@@ -567,9 +404,12 @@ function ClientCart() {
                       placeholder="&#9679;&#9679;&#9679;"
                       minLength={3}
                       maxLength={3}
-                      value={cvv}
+                      value={userInfo.cvv}
                       onChange={(event) => {
-                        Number(setCVV(event.target.value));
+                        setUserInfo({
+                          ...userInfo,
+                          cvv: event.target.value,
+                        });
                       }}
                     />
                   </div>
@@ -583,9 +423,12 @@ function ClientCart() {
                     placeholder="Phone"
                     minLength={16}
                     maxLength={16}
-                    value={phone}
+                    value={userInfo.phone}
                     onChange={(event) => {
-                      setPhone(event.target.value);
+                      setUserInfo({
+                        ...userInfo,
+                        phone: event.target.value,
+                      });
                     }}
                   />
                 </div>
@@ -598,16 +441,19 @@ function ClientCart() {
                     placeholder="Address"
                     minLength={16}
                     maxLength={16}
-                    value={address}
+                    value={userInfo.address}
                     onChange={(event) => {
-                      setAddress(event.target.value);
+                      setUserInfo({
+                        ...userInfo,
+                        address: event.target.value,
+                      });
                     }}
                   />
                 </div>
               </div>
 
               <div className={styles["card-info-item"]}>
-                <div className={styles["card-info-item-detail"]}>
+                {/* <div className={styles["card-info-item-detail"]}>
                   <span>Coupon Code</span>
                   <input
                     type="text"
@@ -617,19 +463,23 @@ function ClientCart() {
                       setCouponCode(event.target.value);
                     }}
                   />
+                </div> */}
+                <div className={styles["card-info-item-detail"]}>
+                  <span>Subtotal</span>
+                  <span>${subTotal()}</span>
                 </div>
                 <div className={styles["card-info-item-detail"]}>
                   <span>Discount</span>
                   <span>{findCouponCode?.discount}%</span>
                 </div>
                 <div className={styles["card-info-item-detail"]}>
-                  <span>Subtotal</span>
-                  <span>${handleTotalCartNoDiscount()}</span>
+                  <span>Discount Amount:</span>
+                  <span>{findCouponCode?.discount}</span>
                 </div>
-                <div className={styles["card-info-item-detail"]}>
+                {/* <div className={styles["card-info-item-detail"]}>
                   <span>Shipping</span>
                   <span>${5}</span>
-                </div>
+                </div> */}
                 <div className={styles["card-info-item-detail"]}>
                   <span>Total</span>
                   <span>${handleTotalCart()}</span>

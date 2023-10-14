@@ -23,7 +23,7 @@ function ClientProductDetail() {
   // List States
 
   const getData: any = localStorage.getItem("auth");
-  const getLoginData = JSON.parse(getData);
+  const getLoginData = JSON.parse(getData) || "";
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { productId } = useParams();
   const [user, setUser] = useState<any>(null);
@@ -206,7 +206,6 @@ function ClientProductDetail() {
     const dataCart = {
       quantity: quantity,
     };
-    console.log(dataCart, "AAA");
     BaseAxios.post(
       `${cartsAPI}/add/products/${productId}/users/${getLoginData.id}`,
       dataCart

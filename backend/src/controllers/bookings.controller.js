@@ -120,7 +120,7 @@ class BookingsController {
 
         // Nhóm theo id và tên của dịch vụ
         group: ["bookings.id"],
-        raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
+        // raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
       });
       return res
         .status(200)
