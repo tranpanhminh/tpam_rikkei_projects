@@ -19,7 +19,12 @@ ordersRouter.get("/", ordersController.getAllOrders);
 ordersRouter.get("/detail/:orderId", ordersController.getDetailOrder);
 
 // 3. Get All Orders (For User)
-ordersRouter.get("/users/:userId", ordersController.getAllOrderByUser);
+ordersRouter.get(
+  "/users/:userId",
+  checkAuthentication,
+  checkRoles,
+  ordersController.getAllOrderByUser
+);
 
 // 4. Checkout Order
 ordersRouter.post(

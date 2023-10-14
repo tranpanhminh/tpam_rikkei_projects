@@ -31,7 +31,7 @@ class OrdersController {
   // 3. Get All Orders By User (For Customer)
   async getAllOrderByUser(req, res) {
     const userId = req.params.userId;
-    const result = await ordersService.getAllOrders(userId);
+    const result = await ordersService.getAllOrderByUser(userId);
     res.status(result.status).json(result.data);
   }
 

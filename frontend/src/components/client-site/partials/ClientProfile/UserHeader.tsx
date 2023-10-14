@@ -102,7 +102,7 @@ const UserHeader: React.FC = () => {
               </li>
             </NavLink>
           </div>
-          <div>
+          {/* <div>
             <NavLink
               to="/user/my-coupons"
               className={styles["navlink-menu-user-panel"]}
@@ -113,7 +113,7 @@ const UserHeader: React.FC = () => {
                 My Coupons
               </li>
             </NavLink>
-          </div>
+          </div> */}
           <div>
             <NavLink
               to="/"
