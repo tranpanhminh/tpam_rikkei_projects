@@ -34,7 +34,7 @@ bookingsRouter.patch("/update/:bookingId", bookingsController.updateBooking);
 
 // 6. Cancel Booking By User
 bookingsRouter.patch(
-  "/cancel-booking/:bookingId",
+  "/cancel-booking/:bookingId/users/:userId",
   bookingsController.cancelBooking
 );
 

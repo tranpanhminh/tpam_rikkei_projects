@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { Button, Modal } from "antd";
+import { Button, Modal, notification } from "antd";
 // Import CSS
 import styles from "../UserProfile.module.css";
 import "../../../../../assets/bootstrap-5.3.0-dist/css/bootstrap.min.css";
 import axios from "axios";
 import { Badge } from "react-bootstrap";
+import BaseAxios from "../../../../../api/apiAxiosClient";
+const moment = require("moment");
 
 // Import API
 
@@ -25,7 +27,7 @@ function ClientBooking() {
   const [userBooking, setUserBooking] = useState<any>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const fetchBookings = () => {
+  const fetchUserBooking = () => {
     axios
       .get(`${bookingsAPI}/filter/users/${getLoginData.id}`)
       .then((response) => {
@@ -37,7 +39,7 @@ function ClientBooking() {
   };
 
   useEffect(() => {
-    fetchBookings();
+    fetchUserBooking();
   }, []);
 
   const handleSearchBooking = () => {
@@ -68,30 +70,21 @@ function ClientBooking() {
     // }
   };
 
-  const handleCancelBooking = (bookingId: number, bookingDate: string) => {
-    // // Tìm kiếm các lịch đặt theo ngày
-    // const filterBooking = dataBooking?.find(
-    //   (item: any) => item.date === bookingDate
-    // );
-    // console.log("FilterBooking", filterBooking);
-    // if (filterBooking) {
-    //   const bookingToUpdate = filterBooking.listBookings.find((item: any) => {
-    //     return item.bookingId === bookingId;
-    //   });
-    //   if (bookingToUpdate) {
-    //     bookingToUpdate.status = "Cancel";
-    //     axios
-    //       .patch(`http://localhost:7373/bookings/${filterBooking.id}`, {
-    //         listBookings: filterBooking.listBookings,
-    //       })
-    //       .then((response) => {
-    //         fetchBookings();
-    //       })
-    //       .catch((error) => {
-    //         console.log(error);
-    //       });
-    //   }
-    // }
+  const handleCancelBooking = (bookingId: number) => {
+    BaseAxios.patch(
+      `${bookingsAPI}/cancel-booking/${bookingId}/users/${getLoginData.id}`
+    )
+      .then((response) => {
+        notification.success({
+          message: `${response.data}`,
+        });
+        fetchUserBooking();
+      })
+      .catch((error) => {
+        notification.warning({
+          message: `${error.response.data.messaage}`,
+        });
+      });
   };
 
   const changeColor = (status: string) => {
@@ -102,6 +95,8 @@ function ClientBooking() {
         return "primary";
       case "Cancel":
         return "secondary";
+      case "Pending":
+        return "warning";
       default:
         return;
     }
@@ -148,7 +143,7 @@ function ClientBooking() {
               <th>Booking Service</th>
               <th>Booking Date</th>
               <th>Booking Calendar</th>
-              <th>Price</th>
+              {/* <th>Price</th> */}
               <th>Status</th>
               <th>Action</th>
             </tr>
@@ -158,28 +153,30 @@ function ClientBooking() {
               return (
                 <tr>
                   <td>{item.id}</td>
-                  <td>{item.userName}</td>
-                  <td>{item.userPhone}</td>
-                  <td>{item.serviceName}</td>
-                  <td>{item.time}</td>
-                  <td>{`${item.bookingDate} | ${item.calendar}`}</td>
-                  <td>${item.servicePrice}</td>
+                  <td>{item.name}</td>
+                  <td>{item.phone}</td>
+                  <td>{item.service.name}</td>
+                  <td>{moment(item.date).format("YYYY-MM-DD-hh:mm:ss")}</td>
+                  <td>{`${item.booking_date} | ${item.calendar}`}</td>
+                  {/* <td>${item.price}</td> */}
                   <td>
-                    <Badge bg={changeColor(item.status)}>{item.status}</Badge>
+                    <Badge bg={changeColor(item.booking_status.name)}>
+                      {item.booking_status.name}
+                    </Badge>
                   </td>
                   <td>
-                    {item.status === "Processing" ? (
+                    {item.booking_status.name === "Pending" ? (
                       <Button
                         type="primary"
                         danger
                         disabled={
-                          item.status === "Done" || item.status === "Cancel"
+                          item.booking_status.name === "Done" ||
+                          item.booking_status.name === "Processing" ||
+                          item.booking_status.name === "Cancel"
                             ? true
                             : false
                         }
-                        onClick={() =>
-                          handleCancelBooking(item.bookingId, item.bookingDate)
-                        }
+                        onClick={() => handleCancelBooking(item.id)}
                       >
                         Cancel
                       </Button>

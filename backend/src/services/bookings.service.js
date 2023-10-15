@@ -223,18 +223,18 @@ class BookingsService {
       return { data: "Booking ID Not Found", status: 404 };
     }
     const dataBooking = findBooking.dataValues;
-    // const findUser = await bookingsRepo.findUserById(userId);
-    // if (!findUser) {
-    //   return { data: "User ID Not Found", status: 404 };
-    // }
+    const findUser = await bookingsRepo.findUserById(userId);
+    if (!findUser) {
+      return { data: "User ID Not Found", status: 404 };
+    }
 
-    // const findBookingByUser = await bookingsRepo.findBookingByUserId(
-    //   bookingId,
-    //   userId
-    // );
-    // if (!findBookingByUser) {
-    //   return { data: "Booking ID Not Found For This User ID", status: 404 };
-    // }
+    const findBookingByUser = await bookingsRepo.findBookingByUserId(
+      bookingId,
+      userId
+    );
+    if (!findBookingByUser) {
+      return { data: "Booking ID Not Found For This User ID", status: 404 };
+    }
 
     /** Booking Status:
     1. Pending
@@ -254,6 +254,8 @@ class BookingsService {
     }
 
     const bookingInfo = {
+      id: bookingId,
+      user_id: userId,
       status_id: 4,
       updated_at: Date.now(),
     };
