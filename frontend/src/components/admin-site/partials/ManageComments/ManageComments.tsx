@@ -195,7 +195,7 @@ function ManageComments() {
       </div>
 
       <div className={styles["main-content"]}>
-        <h3 className={styles["main-title-content"]}>List Coupons</h3>
+        <h3 className={styles["main-title-content"]}>List Comments</h3>
         <table className="table table-striped" id={styles["table-order-list"]}>
           <thead>
             <tr>
