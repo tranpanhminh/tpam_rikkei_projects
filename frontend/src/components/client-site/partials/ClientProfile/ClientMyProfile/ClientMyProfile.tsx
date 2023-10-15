@@ -340,7 +340,7 @@ function ClientEditProfile() {
             />
             <Button
               type="primary"
-              style={{ display: image === null ? "none" : "inline-block" }}
+              style={{ display: !image ? "none" : "inline-block" }}
               onClick={updateAvatar}
             >
               Update
