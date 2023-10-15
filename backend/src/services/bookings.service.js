@@ -84,12 +84,7 @@ class BookingsService {
         status: 406,
       };
     }
-    if (!calendar) {
-      return {
-        data: "Calendar must not be blank",
-        status: 406,
-      };
-    }
+
     const bookingDate = new Date(booking_date);
     const currentDate = new Date();
     if (bookingDate < currentDate) {
@@ -104,6 +99,13 @@ class BookingsService {
     if (dayOfWeek === 0 || dayOfWeek === 6) {
       return {
         data: "You can't book on Saturday & Sunday",
+        status: 406,
+      };
+    }
+
+    if (!calendar) {
+      return {
+        data: "Calendar must not be blank",
         status: 406,
       };
     }
@@ -164,7 +166,7 @@ class BookingsService {
     const newBooking = await bookingsRepo.addBooking(bookingInfo);
 
     return {
-      data: newBooking,
+      data: "Booking Completed",
       status: 200,
     };
   }

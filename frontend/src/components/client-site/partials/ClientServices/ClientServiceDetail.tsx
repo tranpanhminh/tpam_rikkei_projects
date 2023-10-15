@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styles from "../ClientServices/ClientServiceDetail.module.css";
 import axios from "axios";
 import { NavLink, useLocation, useParams } from "react-router-dom";
@@ -41,7 +41,9 @@ function ClientServiceDetail() {
   // const location = useLocation();
   const [listUser, setListUser] = useState<any>([]); // Sử dụng useState để quản lý userAvatar
 
-  const [userInfo, setUserInfo] = useState<any>({
+  let [userInfo, setUserInfo] = useState<any>({
+    user_id: "",
+    service_id: "",
     name: "",
     phone: "",
     booking_date: "",
@@ -100,6 +102,17 @@ function ClientServiceDetail() {
     fetchBooking();
     fetchServiceComments();
   }, []);
+
+  useEffect(() => {
+    axios
+      .get(`${usersAPI}`)
+      .then((response) => {
+        setListUser(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching user avatar:", error);
+      });
+  }, []); // Gọi chỉ một lần khi component được tạo
   // ---------------------------------------------------
 
   document.title = `${service ? `${service?.name} | PetShop` : "Loading..."}`;
@@ -217,16 +230,34 @@ function ClientServiceDetail() {
 
   // Function Booking Service
   const handleBooking = (userId: number, serviceId: number) => {
+    userInfo = {
+      ...userInfo,
+      user_id: userId,
+      service_id: serviceId,
+    };
     console.log(userInfo, "USER INFO");
-    BaseAxios.post(`${bookingsAPI}/add/users/${userId}/services/${serviceId}`)
+
+    BaseAxios.post(
+      `${bookingsAPI}/add/users/${userId}/services/${serviceId}`,
+      userInfo
+    )
       .then((response) => {
-        notification.warning({
+        console.log(response, "RES");
+        notification.success({
           message: `${response.data}`,
+        });
+        setUserInfo({
+          user_id: "",
+          service_id: "",
+          name: "",
+          phone: "",
+          booking_date: "",
+          calendar: "",
         });
       })
       .catch((error) => {
         notification.warning({
-          message: `${error.response.data.message}`,
+          message: `${error.response.data}`,
         });
       });
   };
@@ -244,18 +275,7 @@ function ClientServiceDetail() {
       calendar: value,
     });
   };
-
-  useEffect(() => {
-    axios
-      .get(`http://localhost:7373/accounts/`)
-      .then((response) => {
-        setListUser(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching user avatar:", error);
-      });
-  }, []); // Gọi chỉ một lần khi component được tạo
-
+  console.log(DatePicker, "DATE ");
   return (
     <>
       <div className={styles["wrap-service-detail-page"]}>
@@ -378,9 +398,19 @@ function ClientServiceDetail() {
                 }}
               />
               <div className={styles["booking-calendar-pick"]}>
-                <DatePicker format="YYYY-MM-DD" onChange={bookingDate} />
+                <DatePicker
+                  format="YYYY-MM-DD"
+                  onChange={bookingDate}
+                  value={
+                    userInfo.booking_date !== ""
+                      ? moment(userInfo.booking_date)
+                      : null
+                  }
+                  // defaultValue={userInfo.booking_date}
+                />
                 <Select
                   style={{ width: 200 }}
+                  value={userInfo.calendar}
                   onChange={handleSelectTime}
                   options={[
                     {
