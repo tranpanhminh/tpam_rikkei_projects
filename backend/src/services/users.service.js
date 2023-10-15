@@ -230,7 +230,7 @@ class UsersService {
       image_avatar: sourceImage + avatar,
     };
     const result = await usersRepo.editAvatar(userId, updatedUser);
-    return { message: "Avatar Changed", status: 200, message: result };
+    return { message: "Avatar Changed", status: 200, data: result };
   }
 
   // 10. Create User

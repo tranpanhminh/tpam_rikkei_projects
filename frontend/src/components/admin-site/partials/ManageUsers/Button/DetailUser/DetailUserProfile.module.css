@@ -39,3 +39,14 @@
 .group-action-user-profile {
   display: flex;
 }
+
+.user-avatar {
+  width: 100%;
+  border-radius: 10px;
+  height: 300px;
+  object-fit: contain;
+}
+
+.fa-btn {
+  cursor: pointer;
+}

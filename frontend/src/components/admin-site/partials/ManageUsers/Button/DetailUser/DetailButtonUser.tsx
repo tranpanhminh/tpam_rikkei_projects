@@ -1,4 +1,5 @@
-import React, { useState, ReactNode, useEffect } from "react";
+import React, { useState, ReactNode, useEffect, useRef } from "react";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { Button, Modal, notification } from "antd";
 import styles from "../DetailUser/DetailUserProfile.module.css";
 import axios from "axios";
@@ -27,13 +28,15 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
   getUserId,
 }) => {
   // States
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [name, setName] = useState<any>("");
   const [oldPassword, setOldPassword] = useState<any>("");
   const [newPassword, setNewPassword] = useState<any>("");
   const [avatar, setAvatar] = useState<any>("");
+  const [name, setName] = useState("");
   const [user, setUser] = useState<any>({});
   const [image, setImage] = useState<any>("");
+  const [showBtn, setShowBtn] = useState<boolean>(false);
   // -----------------------------------------------------------
   // Fetch API
   const fetchUser = () => {
@@ -55,18 +58,116 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
 
   // Ẩn hiện Modal
   const showModal = () => {
+    navigate("/admin/?edit-user");
     setIsModalOpen(true);
   };
 
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
   // -----------------------------------------------------------
 
-  // Handle Update User
+  // Handle Update Password
+
   const handleOk = () => {
     handleFunctionOk();
+    resetInputImage();
     setIsModalOpen(false);
+  };
+
+  // -----------------------------------------------------------
+
+  // Handle Update Name
+
+  const handleChangeName = () => {
+    const userInfo = {
+      full_name: name,
+    };
+    axios
+      .patch(`${usersAPI}/update/${getUserId}`, userInfo)
+      .then((response) => {
+        notification.success({
+          message: `${response.data.message}`,
+        });
+        fetchUser();
+        setShowBtn(false);
+        navigate("/admin/");
+      })
+      .catch((error) => {
+        notification.error({
+          message: `${error.response.data.message}`,
+        });
+      });
+  };
+
+  // -----------------------------------------------------------
+
+  // Handle Change Avatar
+
+  const fileInputRef = useRef<any>(null);
+  const resetInputImage = () => {
+    if (image) {
+      setAvatar("");
+    }
+    setShowBtn(false);
+    setImage(null);
+    fileInputRef.current.value = null; // Đặt giá trị về null
+  };
+
+  const handleFileChange = (event: any) => {
+    const selectedFile = event.target.files[0];
+
+    if (selectedFile) {
+      const imageURL: any = URL.createObjectURL(selectedFile);
+      setImage(imageURL);
+    }
+
+    setAvatar(event.target.files[0]);
+  };
+
+  const changeAvatar = () => {
+    const formData: any = new FormData();
+    formData.append("image_avatar", avatar);
+    formData.append("_method", "PATCH");
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    axios
+      .patch(`${usersAPI}/edit-avatar/${getUserId}`, formData, config)
+      .then((response) => {
+        notification.success({
+          message: `${response.data.message}`,
+        });
+        resetInputImage();
+        fetchUser();
+        navigate("/admin/");
+      })
+      .catch((error) => {
+        notification.error({
+          message: `${error.response.data.message}`,
+        });
+      });
+  };
+
+  // -----------------------------------------------------------
+
+  // Set Show Button
+  const checkButton = () => {
+    if (showBtn === true) {
+      return true;
+    }
+    return false;
+  };
+
+  const setButton = () => {
+    if (showBtn === true) {
+      return setShowBtn(false);
+    } else {
+      return setShowBtn(true);
+    }
   };
   // -----------------------------------------------------------
 
@@ -86,36 +187,61 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
           <span style={{ fontSize: "16px", fontWeight: "bold" }}>
             Change User Information (Optional)
           </span>
-          <img
-            src="https://vishwaentertainers.com/wp-content/uploads/2020/04/No-Preview-Available.jpg"
-            alt=""
-          />
+          {image ? (
+            <img src={image} alt="" className={styles["user-avatar"]} />
+          ) : (
+            <img
+              src={user.image_avatar}
+              alt=""
+              className={styles["user-avatar"]}
+            />
+          )}
+
           {/* <div className={styles["list-input-item"]}>
             <p>User ID</p>
             <input type="text" value={user?.id} disabled />
           </div> */}
+          <div className={styles["list-input-item"]}>
+            <p>Email</p>
+            <input type="text" value={user?.email} disabled />
+            <i
+              className="fa-solid fa-pen-to-square"
+              style={{ color: "white" }}
+            ></i>
+          </div>
           <div className={styles["list-input-item"]}>
             <p>Full Name</p>
             <input
               type="text"
               defaultValue={user?.full_name}
               onChange={(event) => setName(event.target.value)}
+              disabled={checkButton() === true ? false : true}
             />
-            {/* <i className="fa-solid fa-pen-to-square"></i> */}
+            <i
+              className={`${
+                showBtn === false
+                  ? "fa-solid fa-pen-to-square"
+                  : "fa-solid fa-check"
+              }  ${styles["fa-btn"]}`}
+              onClick={showBtn === false ? setButton : handleChangeName}
+            ></i>
           </div>
-          <div className={styles["list-input-item"]}>
-            <p>Email</p>
-            <input type="text" value={user?.email} disabled />
-          </div>
+
           <div className={styles["list-input-item"]}>
             <p>Avatar</p>
             <input
-              type="text"
-              defaultValue={user?.image_avatar}
-              onChange={(event) => {
-                setAvatar(event.target.value);
-              }}
+              type="file"
+              onChange={handleFileChange}
+              accept="image/*"
+              id="thumbnail"
+              ref={fileInputRef}
             />
+            <i
+              className={`${
+                image ? "fa-solid fa-check" : "fa-solid fa-pen-to-square"
+              } ${styles["fa-btn"]}`}
+              onClick={image ? changeAvatar : undefined}
+            ></i>
           </div>
           <span style={{ fontSize: "16px", fontWeight: "bold" }}>
             Change Password (Optional)
@@ -128,6 +254,10 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
                 setOldPassword(event.target.value);
               }}
             />
+            <i
+              className="fa-solid fa-pen-to-square"
+              style={{ color: "white" }}
+            ></i>
           </div>
           <div className={styles["list-input-item"]}>
             <p>New Password</p>
@@ -137,6 +267,10 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
                 setNewPassword(event.target.value);
               }}
             />
+            <i
+              className="fa-solid fa-pen-to-square"
+              style={{ color: "white" }}
+            ></i>
           </div>
           {/* <div className={styles["list-input-item"]}>
             <p>Role</p>
