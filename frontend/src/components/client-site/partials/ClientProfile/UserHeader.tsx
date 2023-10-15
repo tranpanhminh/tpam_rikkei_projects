@@ -1,16 +1,19 @@
 import React, { useEffect, useMemo, useState } from "react";
 import logo from "../../../../assets/images/pet-shop.png";
-
-// Import CSS Admin Page
-import styles from "./UserProfile.module.css";
-import "../../../../assets/bootstrap-5.3.0-dist/css/bootstrap.min.css";
-
-// Import Components
 import { NavLink, useNavigate } from "react-router-dom";
 import { Account } from "../../../../database";
 import axios from "axios";
 import { Badge } from "react-bootstrap";
 import { message } from "antd";
+
+// Import CSS Admin Page
+import styles from "./UserProfile.module.css";
+import "../../../../assets/bootstrap-5.3.0-dist/css/bootstrap.min.css";
+
+//  API
+const usersAPI = process.env.REACT_APP_API_USERS;
+
+// -------------------------------------------------
 
 const UserHeader: React.FC = () => {
   const getData: any = localStorage.getItem("auth");
@@ -19,7 +22,7 @@ const UserHeader: React.FC = () => {
   const [user, setUser] = useState<any>(null);
   const fetchUser = () => {
     axios
-      .get(`http://localhost:7373/accounts/${getLoginData.loginId}`)
+      .get(`${usersAPI}/detail/${getLoginData.id}`)
       .then((response) => {
         setUser(response.data);
       })
@@ -38,6 +41,7 @@ const UserHeader: React.FC = () => {
     color: isActive ? "#33d6bb" : "",
   });
 
+  // Logout
   const handleLogout = () => {
     localStorage.clear();
     navigate("/");
@@ -46,6 +50,8 @@ const UserHeader: React.FC = () => {
       content: "Logout Successfully",
     });
   };
+  // ---------------------------------
+
   return (
     <>
       <header className={styles["vertical-menu"]}>
@@ -59,9 +65,9 @@ const UserHeader: React.FC = () => {
           </NavLink>
           {/* <p className={styles["user-title"]}>User Panel</p> */}
           <Badge bg="success" style={{ fontSize: "16px", marginTop: "30px" }}>
-            {user?.fullName.length > 15
-              ? user?.fullName.split(" ")[0]
-              : user?.fullName}
+            {user?.full_name.length > 15
+              ? user?.full_name.split(" ")[0]
+              : user?.full_name}
           </Badge>
         </div>
 

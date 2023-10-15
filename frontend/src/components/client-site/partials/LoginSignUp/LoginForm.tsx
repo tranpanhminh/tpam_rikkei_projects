@@ -25,6 +25,10 @@ function LoginForm() {
       .then((response) => {
         localStorage.setItem("token", response.data.accessToken);
         localStorage.setItem("auth", JSON.stringify(response.data.data));
+        message.open({
+          type: "success",
+          content: "Login Successfully",
+        });
         navigate("/");
       })
       .catch((error) => {
