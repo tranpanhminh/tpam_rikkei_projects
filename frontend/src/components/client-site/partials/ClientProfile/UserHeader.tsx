@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import logo from "../../../../assets/images/pet-shop.png";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { Account } from "../../../../database";
 import axios from "axios";
 import { Badge } from "react-bootstrap";
@@ -16,9 +16,9 @@ const usersAPI = process.env.REACT_APP_API_USERS;
 // -------------------------------------------------
 
 const UserHeader: React.FC = () => {
+  const navigate = useNavigate();
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
-  console.log(getLoginData);
   const [user, setUser] = useState<any>(null);
   const fetchUser = () => {
     axios
@@ -34,8 +34,6 @@ const UserHeader: React.FC = () => {
   useEffect(() => {
     fetchUser();
   }, []);
-
-  const navigate = useNavigate();
 
   const navLinkStyle = ({ isActive }: { isActive: boolean }) => ({
     color: isActive ? "#33d6bb" : "",

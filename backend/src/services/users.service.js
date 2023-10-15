@@ -307,7 +307,7 @@ class UsersService {
     const dataUser = findUser.dataValues;
 
     const userInfo = {
-      full_name: !full_name ? dataUser.full_name : full_name,
+      full_name: !full_name ? dataUser.full_name.trim() : full_name.trim(),
     };
 
     const updatedUser = await usersRepo.updateUser(userInfo, userId);
