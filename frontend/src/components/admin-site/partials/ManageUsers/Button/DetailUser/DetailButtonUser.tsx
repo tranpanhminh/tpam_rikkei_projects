@@ -33,6 +33,7 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
   const [newPassword, setNewPassword] = useState<any>("");
   const [avatar, setAvatar] = useState<any>("");
   const [user, setUser] = useState<any>({});
+  const [image, setImage] = useState<any>("");
   // -----------------------------------------------------------
   // Fetch API
   const fetchUser = () => {
@@ -79,12 +80,16 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
-        width={600}
+        width={500}
       >
         <div className={styles["list-input-add-student"]}>
           <span style={{ fontSize: "16px", fontWeight: "bold" }}>
             Change User Information (Optional)
           </span>
+          <img
+            src="https://vishwaentertainers.com/wp-content/uploads/2020/04/No-Preview-Available.jpg"
+            alt=""
+          />
           {/* <div className={styles["list-input-item"]}>
             <p>User ID</p>
             <input type="text" value={user?.id} disabled />

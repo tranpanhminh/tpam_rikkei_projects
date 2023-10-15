@@ -159,12 +159,14 @@ function ManageUsers() {
           </button>
         </div>
 
-        <AddModalUser
-          className={styles["add-user-btn"]}
-          value="Add User"
-          title="Add User"
-          handleClickOk={handleAddUser}
-        />
+        {user.role_id === 1 && (
+          <AddModalUser
+            className={styles["add-user-btn"]}
+            value="Add Admin"
+            title="Add Admin"
+            handleClickOk={handleAddUser}
+          />
+        )}
       </div>
       <div className={styles["search-result"]}></div>
 
