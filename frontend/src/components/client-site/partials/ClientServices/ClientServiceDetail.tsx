@@ -234,8 +234,11 @@ function ClientServiceDetail() {
     });
   };
 
-  const handleSelect = (value: string) => {
-    setTimeZone(value);
+  const handleSelectTime = (value: string) => {
+    setUserInfo({
+      ...userInfo,
+      calendar: value,
+    });
   };
 
   useEffect(() => {
@@ -373,22 +376,20 @@ function ClientServiceDetail() {
               <div className={styles["booking-calendar-pick"]}>
                 <DatePicker format="YYYY-MM-DD" onChange={bookingDate} />
                 <Select
-                  value={timeZone}
-                  // defaultValue="Select time"
                   style={{ width: 200 }}
-                  onChange={handleSelect}
+                  onChange={handleSelectTime}
                   options={[
                     {
-                      value: "Select time",
+                      value: "",
                       label: "Select time",
                     },
                     {
-                      value: "09:00 AM - 11:30 AM",
-                      label: "09:00 AM - 11:30 AM",
+                      value: `${service?.working_time.morning_time}`,
+                      label: `${service?.working_time.morning_time}`,
                     },
                     {
-                      value: "14:00 PM - 16:30 PM",
-                      label: "14:00 PM - 16:30 PM",
+                      value: `${service?.working_time.afternoon_time}`,
+                      label: `${service?.working_time.afternoon_time}`,
                     },
                   ]}
                 />
