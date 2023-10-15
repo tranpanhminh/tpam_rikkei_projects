@@ -120,6 +120,9 @@
 
 .service-image {
   border-radius: 10px;
+  width: 100%;
+  object-fit: cover;
+  height: 400px;
 }
 
 /* CSS Comment */
