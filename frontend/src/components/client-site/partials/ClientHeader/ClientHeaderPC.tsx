@@ -15,6 +15,12 @@ import {
 import { message, notification } from "antd";
 import ClientSearch from "../ClientSearch/ClientSearch";
 
+// Import API
+
+const usersAPI = process.env.REACT_APP_API_USERS;
+
+// -----------------------------------------------------
+
 function ClientHeaderPC() {
   // const [searchTerm, setSearchTerm] = useState("");
   const NavLinkStyle = ({ isActive }: { isActive: boolean }) => ({
@@ -23,9 +29,24 @@ function ClientHeaderPC() {
     backgroundColor: isActive ? "#33d6bb" : "",
   });
   const navigate = useNavigate();
-
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
+
+  const [user, setUser] = useState<any>({});
+  const fetchUser = () => {
+    axios
+      .get(`${usersAPI}/detail/${getLoginData.id}`)
+      .then((response) => {
+        setUser(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -143,12 +164,10 @@ function ClientHeaderPC() {
                 to="/cart"
                 style={{
                   display:
-                    (getLoginData &&
-                      getLoginData?.user_role.name === "Super Admin") ||
-                    (getLoginData && getLoginData?.user_role.name === "Admin")
+                    user?.user_role?.name === "Super Admin" ||
+                    user?.user_role?.name === "Admin"
                       ? "none"
-                      : getLoginData &&
-                        getLoginData?.user_role.name === "Customer"
+                      : user?.user_role?.name === "Customer"
                       ? ""
                       : "none",
                 }}
@@ -162,12 +181,10 @@ function ClientHeaderPC() {
               </NavLink>
               <NavLink
                 to={
-                  (getLoginData &&
-                    getLoginData?.user_role.name === "Super Admin") ||
-                  (getLoginData && getLoginData.user_role.name === "Admin")
+                  user?.user_role?.name === "Super Admin" ||
+                  user.user_role?.name === "Admin"
                     ? "/admin"
-                    : getLoginData &&
-                      getLoginData?.user_role.name === "Customer"
+                    : user?.user_role?.name === "Customer"
                     ? "/user"
                     : "/"
                 }
