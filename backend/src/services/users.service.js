@@ -360,7 +360,7 @@ class UsersService {
       return {
         message: "Login successfully",
         accessToken: jwtData,
-        message: dataInfo,
+        data: dataInfo,
         status: 200,
       };
     }
