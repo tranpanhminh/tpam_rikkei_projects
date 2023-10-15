@@ -172,7 +172,6 @@ function ClientProductDetail() {
 
   // Function Delete Comment
   const handleDeleteComment = (commentId: number) => {
-    console.log(commentId);
     BaseAxios.delete(`${productCommentsAPI}/delete/${commentId}`)
       .then((response) => {
         console.log(response);

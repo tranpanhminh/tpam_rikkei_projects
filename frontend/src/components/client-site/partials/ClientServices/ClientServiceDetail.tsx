@@ -152,7 +152,18 @@ function ClientServiceDetail() {
   // -----------------------------------------------------
 
   // Delete Comment
-  const handleDeleteComment = (commentId: number) => {};
+  const handleDeleteComment = (commentId: number) => {
+    BaseAxios.delete(`${serviceCommentsAPI}/delete/${commentId}`)
+      .then((response) => {
+        console.log(response);
+        notification.success({ message: response.data.message });
+        fetchServiceComments();
+      })
+      .catch((error) => {
+        console.log(error, "EROR");
+        notification.warning({ message: error.data.message });
+      });
+  };
 
   const checkShowDeleteCommentBtn = () => {
     if (

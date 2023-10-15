@@ -38,7 +38,7 @@ class ServiceCommentsController {
       dataBody
       // authHeader
     );
-    return res.status(result.status).json(result.message);
+    return res.status(result.status).json(result);
   }
 
   // 5. Delete Service Comment
