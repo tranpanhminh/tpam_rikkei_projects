@@ -17,8 +17,10 @@ const usersAPI = process.env.REACT_APP_API_USERS;
 // ------------------------------------------------
 function ManageUsers() {
   document.title = "Manage Users | PetShop";
-
-  const [users, setUsers] = useState<any>(null);
+  const getData: any = localStorage.getItem("auth");
+  const getLoginData = JSON.parse(getData) || "";
+  const [users, setUsers] = useState<any>([]);
+  const [user, setUser] = useState<any>({});
   const [searchText, setSearchText] = useState<string>("");
 
   const navigate = useNavigate();
@@ -34,8 +36,20 @@ function ManageUsers() {
       });
   };
 
+  const fetchUser = () => {
+    axios
+      .get(`${usersAPI}/detail/${getLoginData.id}`)
+      .then((response) => {
+        setUser(response.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
   useEffect(() => {
     fetchUsers();
+    fetchUser();
   }, []);
 
   const handleSearchUser = () => {
@@ -202,7 +216,7 @@ function ManageUsers() {
                     }
                   ></DetailButtonUser> */}
 
-                  {user.full_name === "Super Admin" && user.role === "Admin" ? (
+                  {user.role_id === 1 && user.role_id === 2 ? (
                     ""
                   ) : (
                     <>
@@ -210,6 +224,13 @@ function ManageUsers() {
                         type="primary"
                         className={styles["change-user-btn"]}
                         onClick={() => handleChangeUser(user.id)}
+                        style={{
+                          display:
+                            user.role_id === 1 ||
+                            (getLoginData.id !== user.id && user.role_id === 2)
+                              ? "none"
+                              : "inline-block",
+                        }}
                       >
                         Change
                       </Button>
@@ -223,6 +244,13 @@ function ManageUsers() {
                         type="primary"
                         className={styles["delete-user-btn"]}
                         onClick={() => handleDeleteUser(user.id)}
+                        style={{
+                          display:
+                            user.role_id === 1 ||
+                            (getLoginData.id !== user.id && user.role_id === 2)
+                              ? "none"
+                              : "inline-block",
+                        }}
                       >
                         Delete
                       </Button>

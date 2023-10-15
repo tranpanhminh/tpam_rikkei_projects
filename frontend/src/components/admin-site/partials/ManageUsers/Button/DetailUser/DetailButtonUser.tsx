@@ -79,7 +79,7 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
-        width={500}
+        width={600}
       >
         <div className={styles["list-input-add-student"]}>
           <span style={{ fontSize: "16px", fontWeight: "bold" }}>
@@ -96,12 +96,12 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
               defaultValue={user?.full_name}
               onChange={(event) => setName(event.target.value)}
             />
-            
+            {/* <i className="fa-solid fa-pen-to-square"></i> */}
           </div>
           <div className={styles["list-input-item"]}>
             <p>Email</p>
             <input type="text" value={user?.email} disabled />
-          </div>{" "}
+          </div>
           <div className={styles["list-input-item"]}>
             <p>Avatar</p>
             <input
