@@ -64,6 +64,7 @@ function ClientHeaderPC() {
   // const handleSearch = () => {
   //   navigate(`/search/${searchTerm}`);
   // };
+
   return (
     <header className={styles["header"]}>
       <Navbar
@@ -164,10 +165,10 @@ function ClientHeaderPC() {
                 to="/cart"
                 style={{
                   display:
-                    user?.user_role?.name === "Super Admin" ||
-                    user?.user_role?.name === "Admin"
+                    (getLoginData && user?.user_role?.name === "Super Admin") ||
+                    (getLoginData && user?.user_role?.name === "Admin")
                       ? "none"
-                      : user?.user_role?.name === "Customer"
+                      : getLoginData && user?.user_role?.name === "Customer"
                       ? ""
                       : "none",
                 }}

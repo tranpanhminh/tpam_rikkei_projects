@@ -218,13 +218,17 @@ function ClientServiceDetail() {
   // Function Booking Service
   const handleBooking = (userId: number, serviceId: number) => {
     console.log(userInfo, "USER INFO");
-    // BaseAxios.post(`${bookingsAPI}/add/users/${userId}/services/${serviceId}`)
-    //   .then((response) => {
-    //     console.log(response);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
+    BaseAxios.post(`${bookingsAPI}/add/users/${userId}/services/${serviceId}`)
+      .then((response) => {
+        notification.warning({
+          message: `${response.data}`,
+        });
+      })
+      .catch((error) => {
+        notification.warning({
+          message: `${error.response.data.message}`,
+        });
+      });
   };
 
   const bookingDate: DatePickerProps["onChange"] = (date, dateString) => {
