@@ -36,7 +36,7 @@ class CartsController {
     const userId = req.params.userId;
     const productId = req.params.productId;
     const result = await cartsService.deleteProductFromCart(userId, productId);
-    res.status(result.status).json(result);
+    res.status(result.status).json(result.message);
   }
 
   // 5. Delete All Products From Cart

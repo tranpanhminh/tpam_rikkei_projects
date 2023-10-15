@@ -10,6 +10,7 @@ import { Editor } from "@tinymce/tinymce-react";
 import { Badge } from "react-bootstrap";
 import { format } from "date-fns";
 import BaseAxios from "./../../../../api/apiAxiosClient";
+import tinymce from "tinymce";
 const moment = require("moment");
 
 // Import API
@@ -34,7 +35,7 @@ function ClientProductDetail() {
   const [quantity, setQuantity] = useState<number>(1);
   const [editorContent, setEditorContent] = useState("");
   const [rateValue, setRateValue] = useState(0);
-  const [userComment, setUserComment] = useState({
+  const [userComment, setUserComment] = useState<any>({
     comment: "",
     rating: 5,
   });
@@ -127,24 +128,32 @@ function ClientProductDetail() {
       });
   };
   // --------------------------------------------------------
-
+  console.log(userComment.comment, "USER COMMENT");
   // Add Comment
   const handleComment = () => {
-    console.log(userComment, "USER COMMENT");
     BaseAxios.post(
-      `${productCommentsAPI}/add/${productId}/users/${getLoginData.id}`
+      `${productCommentsAPI}/add/${productId}/users/${getLoginData.id}`,
+      userComment
     )
       .then((response) => {
-        console.log(response);
         notification.success({ message: response.data.message });
+        setUserComment({
+          comment: "",
+          rating: 5,
+        });
+        const editor = tinymce.get("editorID");
+        if (editor) {
+          // Đặt nội dung của trình soạn thảo về trạng thái trống
+          editor.setContent("");
+        }
+        fetchProducts();
         fetchProductComments();
       })
       .catch((error) => {
-        console.log(error, "EROR");
         notification.warning({ message: error.data.message });
       });
   };
-
+  console.log(userComment, "USER COMMENT");
   const editorConfig = {
     height: "300px",
     // plugins: "maxlength", // Sử dụng plugin maxlength
@@ -153,12 +162,12 @@ function ClientProductDetail() {
     // // Các tùy chọn khác bạn muốn cấu hình
   };
 
-  const handleEditorChange = (content: string) => {
-    setUserComment({
-      ...userComment,
-      comment: content,
-    });
-  };
+  // const handleEditorChange = (content: string) => {
+  //   setUserComment({
+  //     ...userComment,
+  //     comment: content,
+  //   });
+  // };
 
   const handleRateChange = (value: number) => {
     setUserComment({
@@ -338,24 +347,26 @@ function ClientProductDetail() {
                 {productComments?.length} comments
               </h3>
 
-              {user?.role_id === 1 ||
-                (user?.role_id === 2 && (
-                  <div>
-                    <span className={styles["rating-text"]}>Rating: </span>
-                    <Rate
-                      allowHalf
-                      value={userComment.rating}
-                      onChange={handleRateChange}
-                    />
-                  </div>
-                ))}
+              {user?.role_id === 3 && (
+                <div>
+                  <span className={styles["rating-text"]}>Rating: </span>
+                  <Rate
+                    allowHalf
+                    value={userComment.rating}
+                    onChange={handleRateChange}
+                  />
+                </div>
+              )}
             </div>
 
             <div className={styles["comment-input"]}>
               <Editor
                 init={editorConfig}
-                onEditorChange={handleEditorChange}
+                onEditorChange={(content) =>
+                  setUserComment({ ...userComment, comment: content })
+                }
                 value={userComment.comment}
+                id="editorID"
               />
               <div className={styles["send-comment-btn"]}>
                 {getLoginData ? (

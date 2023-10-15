@@ -77,6 +77,22 @@ const AddModalProduct: React.FC<AddModalProps> = ({
     // setIsModalOpen(true);
   };
 
+  const handleCancel = () => {
+    navigate(`/admin/manage-products/`);
+
+    setNewProduct({
+      name: "",
+      description: "",
+      price: "",
+      quantity_stock: 0,
+      vendor_id: 1,
+      image_url: [],
+    });
+
+    // setEditorInitialValue("Type product description here.........");
+    setIsModalOpen(false);
+  };
+
   // Handle Add Post
   const handleOk = () => {
     if (newProduct.image_url.length === 4) {
@@ -132,25 +148,6 @@ const AddModalProduct: React.FC<AddModalProps> = ({
         message: `Please upload only 4 Images`,
       });
     }
-  };
-
-  const handleCancel = () => {
-    setNewProduct({
-      name: "",
-      description: "",
-      price: "",
-      quantity_stock: 0,
-      vendor_id: 1,
-      image_url: [],
-    });
-
-    // setEditorInitialValue("Type product description here.........");
-    setIsModalOpen(false);
-  };
-
-  const handleEditorChange = (content: string) => {
-    setEditorInitialValue(content);
-    setNewProduct({ ...newProduct, description: content });
   };
 
   return (

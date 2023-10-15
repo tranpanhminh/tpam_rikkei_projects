@@ -35,10 +35,10 @@ class ProductCommentsController {
     const result = await productCommentsService.addProductComment(
       productId,
       userId,
-      dataBody,
-      authHeader
+      dataBody
+      // authHeader
     );
-    return res.status(result.status).json(result.message);
+    return res.status(result.status).json(result);
   }
 
   // 5. Delete Product Comment

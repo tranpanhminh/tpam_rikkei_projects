@@ -40,7 +40,7 @@ class ProductCommentsService {
   }
 
   // 4. Add Product Comment
-  async addProductComment(productId, userId, dataBody, authHeader) {
+  async addProductComment(productId, userId, dataBody) {
     const { comment, rating } = dataBody;
     // // Check Login
     // if (!authHeader) {

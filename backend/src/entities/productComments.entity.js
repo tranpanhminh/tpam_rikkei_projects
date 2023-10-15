@@ -21,7 +21,7 @@ const productCommentsEntity = sequelize.define(
       allowNull: false,
     },
     rating: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DECIMAL(2, 1),
       allowNull: false,
       defaultValue: 5,
     },

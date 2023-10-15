@@ -97,7 +97,8 @@
   padding: 10px;
   font-size: 15px;
   color: white;
-  outline: none; /* Loại bỏ đường viền khi focus */
+  outline: none;
+  /* Loại bỏ đường viền khi focus */
 }
 
 .booking-input-form input::placeholder {
@@ -240,13 +241,17 @@
 }
 
 .comment-content {
-  max-height: 160px; /* Thay đổi chiều cao cố định tùy theo mong muốn */
-  overflow-y: auto; /* Thanh cuộn dọc sẽ xuất hiện khi nội dung vượt quá chiều cao */
-  word-wrap: break-word; /* Cắt chữ nếu vượt quá chiều rộng */
+  max-height: 160px;
+  /* Thay đổi chiều cao cố định tùy theo mong muốn */
+  overflow-y: auto;
+  /* Thanh cuộn dọc sẽ xuất hiện khi nội dung vượt quá chiều cao */
+  word-wrap: break-word;
+  /* Cắt chữ nếu vượt quá chiều rộng */
 }
 
 .rating-section {
   text-align: center;
+  padding-left: 15px;
 }
 
 .rating-section i {
@@ -270,6 +275,7 @@
   .service-detail {
     margin-bottom: 25px;
   }
+
   .service-title-name {
     margin-top: 30px;
   }
@@ -340,9 +346,12 @@
   }
 
   .comment-content {
-    max-height: 200px; /* Thay đổi chiều cao cố định tùy theo mong muốn */
-    overflow-y: auto; /* Thanh cuộn dọc sẽ xuất hiện khi nội dung vượt quá chiều cao */
-    word-wrap: break-word; /* Cắt chữ nếu vượt quá chiều rộng */
+    max-height: 200px;
+    /* Thay đổi chiều cao cố định tùy theo mong muốn */
+    overflow-y: auto;
+    /* Thanh cuộn dọc sẽ xuất hiện khi nội dung vượt quá chiều cao */
+    word-wrap: break-word;
+    /* Cắt chữ nếu vượt quá chiều rộng */
   }
 
   .comment-scrollable {
@@ -394,7 +403,8 @@
     padding: 10px;
     font-size: 15px;
     color: white;
-    outline: none; /* Loại bỏ đường viền khi focus */
+    outline: none;
+    /* Loại bỏ đường viền khi focus */
   }
 
   .booking-input-form input::placeholder {

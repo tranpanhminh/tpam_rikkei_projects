@@ -101,7 +101,7 @@ class CartsService {
       const newCart = await cartsRepo.newCart(cartInfo);
       return {
         message: `${quantity} Product Added`,
-        message: newCart,
+        data: newCart,
         status: 200,
       };
     }
@@ -128,7 +128,7 @@ class CartsService {
       const newCart = await cartsRepo.newCart(cartInfo);
       return {
         message: `${quantity} Product Added`,
-        message: newCart,
+        data: newCart,
         status: 200,
       };
     }
@@ -139,7 +139,7 @@ class CartsService {
       const newProductToCart = await cartsRepo.newCart(cartInfo);
       return {
         message: `${quantity} Product Added`,
-        message: newProductToCart,
+        data: newProductToCart,
         status: 200,
       };
     }
@@ -157,7 +157,7 @@ class CartsService {
 
     return {
       message: `${quantity} Product Added`,
-      message: updatedExistProduct,
+      data: updatedExistProduct,
       status: 200,
     };
   }
