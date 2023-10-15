@@ -1418,7 +1418,7 @@ table.table.table-cart {
 
 .comment-content-headline {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-bottom: 10px;
 }
 
@@ -1426,7 +1426,7 @@ table.table.table-cart {
   display: flex;
   gap: 10px;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
 
 .trash-comment-icon {

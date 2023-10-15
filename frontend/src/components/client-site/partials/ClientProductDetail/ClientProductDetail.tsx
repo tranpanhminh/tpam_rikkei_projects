@@ -6,7 +6,6 @@ import { NavLink, useParams } from "react-router-dom";
 import { notification, Button, Modal } from "antd";
 import {} from "antd";
 import { Rate } from "antd";
-import avatar from "../../../../assets/images/dogs-reviews-01.png";
 import { Editor } from "@tinymce/tinymce-react";
 import { Badge } from "react-bootstrap";
 import { format } from "date-fns";
@@ -14,6 +13,7 @@ import BaseAxios from "./../../../../api/apiAxiosClient";
 const moment = require("moment");
 
 // Import API
+const usersAPI = process.env.REACT_APP_API_USERS;
 const productsAPI = process.env.REACT_APP_API_PRODUCTS;
 const productCommentsAPI = process.env.REACT_APP_API_PRODUCT_COMMENTS;
 const cartsAPI = process.env.REACT_APP_API_CARTS;
@@ -70,7 +70,7 @@ function ClientProductDetail() {
 
   const fetchUsers = async () => {
     await axios
-      .get(`http://localhost:7373/users/detail/${getLoginData.loginId}`)
+      .get(`${usersAPI}/detail/${getLoginData.id}`)
       .then((response) => {
         setUser(response.data);
         setUserCart(response.data.cart);
@@ -206,6 +206,7 @@ function ClientProductDetail() {
     const dataCart = {
       quantity: quantity,
     };
+    console.log(dataCart, "DAS");
     BaseAxios.post(
       `${cartsAPI}/add/products/${productId}/users/${getLoginData.id}`,
       dataCart
@@ -349,56 +350,19 @@ function ClientProductDetail() {
       });
     console.log("Update Products", products);
   };
+  console.log(user, "user");
+  const checkShowDeleteCommentBtn = () => {
+    if (
+      (getLoginData && user?.role_id === 1) ||
+      (getLoginData && user?.role_id === 2)
+    ) {
+      return true;
+    }
+    return false;
+  };
+  console.log(checkShowDeleteCommentBtn(), "--");
 
   // ----------------------------------------------
-
-  const totalComment = () => {
-    let filterComment = comments?.filter((comment: any) => {
-      return comment.userRole === "customer";
-    });
-    return filterComment?.length;
-  };
-
-  useEffect(() => {
-    axios
-      .get(`http://localhost:7373/users/`)
-      .then((response) => {
-        setListUser(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching user avatar:", error);
-      });
-  }, []); // Gọi chỉ một lần khi component được tạo
-
-  const getAvatar = (userId: number) => {
-    let defaultAvatar = "https://i.ibb.co/3BtQdVD/pet-shop.png";
-    let userAvatar = "";
-    let findUser = listUser.find((item: any) => {
-      return item.id === userId;
-    });
-    if (findUser) {
-      userAvatar = findUser.image_avatar
-        ? findUser.image_avatar
-        : defaultAvatar;
-    } else {
-      userAvatar = defaultAvatar;
-    }
-    return userAvatar;
-  };
-
-  const getUserName = (userId: number) => {
-    let defaultAvatar = "Anonymous";
-    let userName = "";
-    let findUser = listUser.find((item: any) => {
-      return item.id === userId;
-    });
-    if (findUser) {
-      userName = findUser.fullName;
-    } else {
-      userName = defaultAvatar;
-    }
-    return userName;
-  };
 
   const filterCommentsExcludeAdmin = () => {
     let filterComments = productComments.filter((item: any) => {
@@ -542,7 +506,7 @@ function ClientProductDetail() {
                 {productComments?.length} comments
               </h3>
 
-              {getLoginData.role !== "admin" && (
+              {user?.role_name?.name !== "admin" && (
                 <div>
                   <span className={styles["rating-text"]}>Rating: </span>
                   <Rate
@@ -596,13 +560,14 @@ function ClientProductDetail() {
                         ) : (
                           ""
                         )}
+
                         {item.user_role_id !== 1 && item.user_role_id !== 2 && (
                           <span className={styles["rating-section"]}>
                             {item.rating}
                             <i className="fa-solid fa-star"></i>
                           </span>
                         )}
-                        {user?.role === "admin" && (
+                        {/* {item.user_role_id !== 1 && item.user_role_id !== 2 && (
                           <Button
                             type="primary"
                             className={styles["delete-comment-btn"]}
@@ -610,7 +575,7 @@ function ClientProductDetail() {
                           >
                             Delete
                           </Button>
-                        )}
+                        )} */}
                       </div>
                       <div>
                         <div className={styles["comment-content-headline"]}>
@@ -622,15 +587,18 @@ function ClientProductDetail() {
                                 "YYYY-MM-DD-hh:mm:ss"
                               )}
                             </Badge>
-                            {user?.role === "admin" && (
-                              <i
-                                onClick={() =>
-                                  handleDeleteComment(item.commentId)
-                                }
-                                className={`fa-solid fa-trash-can ${styles["trash-comment-icon"]}`}
-                              ></i>
-                            )}
                           </div>
+
+                          <i
+                            onClick={() => handleDeleteComment(item.commentId)}
+                            className={`fa-solid fa-trash-can ${styles["trash-comment-icon"]}`}
+                            style={{
+                              display:
+                                checkShowDeleteCommentBtn() === true
+                                  ? "inline-block"
+                                  : "none",
+                            }}
+                          ></i>
                         </div>
                         <div
                           className={`${styles["comment-content"]} ${styles["comment-scrollable"]}`}

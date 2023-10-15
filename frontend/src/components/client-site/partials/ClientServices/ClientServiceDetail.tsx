@@ -256,8 +256,9 @@ function ClientServiceDetail() {
         });
       })
       .catch((error) => {
+        console.log(error, "EROR");
         notification.warning({
-          message: `${error.response.data}`,
+          message: `${error.response.data.message}`,
         });
       });
   };

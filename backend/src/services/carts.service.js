@@ -5,9 +5,9 @@ class CartsService {
   async getAllCarts() {
     const listCarts = await cartsRepo.getAllCarts();
     if (listCarts.length === 0) {
-      return { data: "No Data Carts", status: 404 };
+      return { message: "No Data Carts", status: 404 };
     } else {
-      return { data: listCarts, status: 200 };
+      return { message: listCarts, status: 200 };
     }
   }
 
@@ -15,11 +15,11 @@ class CartsService {
   async getDetailCart(userId) {
     const detailUserCart = await cartsRepo.getDetailCart(userId);
     if (detailUserCart.length === 0) {
-      return { data: [], status: 200 };
+      return { message: [], status: 200 };
     } else {
       return {
         status: 200,
-        data: detailUserCart,
+        message: detailUserCart,
       };
     }
   }
@@ -101,7 +101,7 @@ class CartsService {
       const newCart = await cartsRepo.newCart(cartInfo);
       return {
         message: `${quantity} Product Added`,
-        data: newCart,
+        message: newCart,
         status: 200,
       };
     }
@@ -128,7 +128,7 @@ class CartsService {
       const newCart = await cartsRepo.newCart(cartInfo);
       return {
         message: `${quantity} Product Added`,
-        data: newCart,
+        message: newCart,
         status: 200,
       };
     }
@@ -139,7 +139,7 @@ class CartsService {
       const newProductToCart = await cartsRepo.newCart(cartInfo);
       return {
         message: `${quantity} Product Added`,
-        data: newProductToCart,
+        message: newProductToCart,
         status: 200,
       };
     }
@@ -157,7 +157,7 @@ class CartsService {
 
     return {
       message: `${quantity} Product Added`,
-      data: updatedExistProduct,
+      message: updatedExistProduct,
       status: 200,
     };
   }
@@ -177,7 +177,7 @@ class CartsService {
 
     const findUser = await cartsRepo.findUserId(userId);
     if (!findUser) {
-      return { data: "User Not Found", status: 404 };
+      return { message: "User Not Found", status: 404 };
     }
 
     const deleteProduct = await cartsRepo.deleteProductFromCart(
@@ -185,16 +185,16 @@ class CartsService {
       productId
     );
     if (!deleteProduct) {
-      return { data: "Product ID Not Found In Cart", status: 404 };
+      return { message: "Product ID Not Found In Cart", status: 404 };
     }
-    return { data: "Product Deleted", status: 200 };
+    return { message: "Product Deleted", status: 200 };
   }
 
   // 5. Delete All Products From Cart
   async deleteAllProductsFromCart(userId, authHeader) {
     // Check Login
     if (!authHeader) {
-      return { data: "Please Login", status: 401 };
+      return { message: "Please Login", status: 401 };
     }
 
     // /**
@@ -210,14 +210,14 @@ class CartsService {
 
     const findUser = await cartsRepo.findUserId(userId);
     if (!findUser) {
-      return { data: "User Not Found", status: 404 };
+      return { message: "User Not Found", status: 404 };
     }
 
     const deleteAllProducts = await cartsRepo.deleteAllProductsFromCart(userId);
     if (!deleteAllProducts) {
-      return { data: "No Products In User Cart", status: 404 };
+      return { message: "No Products In User Cart", status: 404 };
     }
-    return { data: "All Products Deleted From Cart", status: 200 };
+    return { message: "All Products Deleted From Cart", status: 200 };
   }
 
   // 6. Update Cart
@@ -236,7 +236,7 @@ class CartsService {
     // Check Product
     const findProduct = await cartsRepo.findProductId(productId);
     if (!findProduct) {
-      return { data: "Product ID Not Found", status: 404 };
+      return { message: "Product ID Not Found", status: 404 };
     }
     const dataProduct = findProduct.dataValues;
 
@@ -247,14 +247,14 @@ class CartsService {
     );
     if (!findProductFromCart) {
       return {
-        data: "Not Found Product ID From Cart of this User ID",
+        message: "Not Found Product ID From Cart of this User ID",
         status: 404,
       };
     }
 
     if (!quantity) {
       return {
-        data: "Min quantity to buy must be 1",
+        message: "Min quantity to buy must be 1",
         status: 406,
       };
     }
@@ -265,7 +265,7 @@ class CartsService {
     // Check số lượng mới so với số lượng hàng tồn kho
     if (newQuantity > dataProduct.quantity_stock) {
       return {
-        data: `You can't add more than product stock: ${dataProduct.quantity_stock} of this product, you have typed ${newQuantity} products`,
+        message: `You can't add more than product stock: ${dataProduct.quantity_stock} of this product, you have typed ${newQuantity} products`,
         status: 406,
       };
     }
@@ -279,7 +279,7 @@ class CartsService {
       productId
     );
     return {
-      data: "Product Updated",
+      message: "Product Updated",
       status: 200,
     };
   }

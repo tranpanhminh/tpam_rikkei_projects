@@ -23,8 +23,13 @@ function LoginForm() {
   const handleLogin = async () => {
     await BaseAxios.post(`${usersAPI}/login`, dataLogin)
       .then((response) => {
+        const dataResponse = response.data.data;
+        const dataUser = {
+          id: dataResponse.id,
+        };
+
         localStorage.setItem("token", response.data.accessToken);
-        localStorage.setItem("auth", JSON.stringify(response.data.data));
+        localStorage.setItem("auth", JSON.stringify(dataUser));
         message.open({
           type: "success",
           content: "Login Successfully",

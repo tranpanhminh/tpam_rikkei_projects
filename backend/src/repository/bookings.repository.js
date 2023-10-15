@@ -223,6 +223,8 @@ class BookingsRepo {
         "date",
         "status_id",
         "booking_date",
+        "service_image",
+        "service_price",
         "calendar",
         "created_at",
         "updated_at",
