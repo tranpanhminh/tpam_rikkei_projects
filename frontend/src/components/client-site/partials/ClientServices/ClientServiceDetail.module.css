@@ -224,13 +224,6 @@
   background-color: #ed5e68;
 }
 
-.comment-content-headline-item {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  justify-content: flex-end;
-}
-
 .trash-comment-icon {
   color: red;
   cursor: pointer;
@@ -261,8 +254,15 @@
 
 .comment-content-headline {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-bottom: 10px;
+}
+
+.comment-content-headline-item {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
 }
 
 @media only screen and (max-width: 1079px) {

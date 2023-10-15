@@ -40,12 +40,12 @@ class ServiceCommentsService {
   }
 
   // 4. Add Service Comment
-  async addServiceComment(serviceId, userId, dataBody, authHeader) {
+  async addServiceComment(serviceId, userId, dataBody) {
     const { comment, rating } = dataBody;
     // Check Login
-    if (!authHeader) {
-      return { message: "Please login to comment", status: 401 };
-    }
+    // if (!authHeader) {
+    //   return { message: "Please login to comment", status: 401 };
+    // }
 
     // Check Service
     const findService = await serviceCommentsRepo.findServiceById(serviceId);

@@ -133,6 +133,7 @@ function ClientServiceDetail() {
         fetchServiceComments();
       })
       .catch((error) => {
+        console.log(error, "ERROR");
         notification.warning({ message: error.data.message });
       });
   };
@@ -141,19 +142,27 @@ function ClientServiceDetail() {
     height: "300px",
   };
 
-  const handleEditorChange = (content: string) => {
-    setEditorContent(content);
-  };
-
   const handleRateChange = (value: number) => {
-    setRateValue(value);
-    console.log(value);
+    setUserComment({
+      ...userComment,
+      rating: value,
+    });
   };
 
   // -----------------------------------------------------
 
   // Delete Comment
   const handleDeleteComment = (commentId: number) => {};
+
+  const checkShowDeleteCommentBtn = () => {
+    if (
+      (getLoginData && user?.role_id === 1) ||
+      (getLoginData && user?.role_id === 2)
+    ) {
+      return true;
+    }
+    return false;
+  };
 
   // -----------------------------------------------------
 
@@ -393,7 +402,7 @@ function ClientServiceDetail() {
                   <span className={styles["rating-text"]}>Rating: </span>
                   <Rate
                     allowHalf
-                    value={rateValue}
+                    value={userComment.rating}
                     onChange={handleRateChange}
                   />
                 </div>
@@ -403,8 +412,11 @@ function ClientServiceDetail() {
             <div className={styles["comment-input"]}>
               <Editor
                 init={editorConfig}
-                onEditorChange={handleEditorChange}
-                value={editorContent}
+                onEditorChange={(content) =>
+                  setUserComment({ ...userComment, comment: content })
+                }
+                value={userComment.comment}
+                id="editorID"
               />
               <div className={styles["send-comment-btn"]}>
                 {getLoginData ? (
@@ -471,15 +483,17 @@ function ClientServiceDetail() {
                                 "YYYY-MM-DD-hh:mm:ss"
                               )}
                             </Badge>
-                            {user?.role === "admin" && (
-                              <i
-                                onClick={() =>
-                                  handleDeleteComment(item.commentId)
-                                }
-                                className={`fa-solid fa-trash-can ${styles["trash-comment-icon"]}`}
-                              ></i>
-                            )}
                           </div>
+                          <i
+                            onClick={() => handleDeleteComment(item.id)}
+                            className={`fa-solid fa-trash-can ${styles["trash-comment-icon"]}`}
+                            style={{
+                              display:
+                                checkShowDeleteCommentBtn() === true
+                                  ? "inline-block"
+                                  : "none",
+                            }}
+                          ></i>
                         </div>
                         <div
                           className={`${styles["comment-content"]} ${styles["comment-scrollable"]}`}

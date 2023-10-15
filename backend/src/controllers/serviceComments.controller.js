@@ -31,14 +31,14 @@ class ServiceCommentsController {
     const serviceId = req.params.serviceId;
     const userId = req.params.userId;
     const dataBody = req.body;
-    const authHeader = req.header("Authorization");
+    // const authHeader = req.header("Authorization");
     const result = await serviceCommentsService.addServiceComment(
       serviceId,
       userId,
-      dataBody,
-      authHeader
+      dataBody
+      // authHeader
     );
-    return res.status(result.status).json(result);
+    return res.status(result.status).json(result.message);
   }
 
   // 5. Delete Service Comment
