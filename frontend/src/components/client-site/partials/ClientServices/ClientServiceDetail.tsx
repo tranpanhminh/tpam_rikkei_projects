@@ -244,7 +244,7 @@ function ClientServiceDetail() {
       .then((response) => {
         console.log(response, "RES");
         notification.success({
-          message: `${response.data}`,
+          message: `${response.data.message}`,
         });
         setUserInfo({
           user_id: "",
