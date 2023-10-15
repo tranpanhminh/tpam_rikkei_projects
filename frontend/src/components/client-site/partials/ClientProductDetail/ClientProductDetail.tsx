@@ -34,6 +34,10 @@ function ClientProductDetail() {
   const [quantity, setQuantity] = useState<number>(1);
   const [editorContent, setEditorContent] = useState("");
   const [rateValue, setRateValue] = useState(0);
+  const [userComment, setUserComment] = useState({
+    comment: "",
+    rating: 5,
+  });
 
   // --------------------------------------------------------
 
@@ -124,81 +128,21 @@ function ClientProductDetail() {
   };
   // --------------------------------------------------------
 
-  // Comment
+  // Add Comment
   const handleComment = () => {
-    if (!getLoginData) {
-      notification.warning({
-        message: `Please login to comment`,
-      });
-      return;
-    }
-
-    if (getLoginData && getLoginData.status === "Inactive") {
-      notification.warning({
-        message: `Your account is Inactive so you can't comment`,
-      });
-      return;
-    }
-
-    if (editorContent === "") {
-      notification.warning({
-        message: "Please fill comment",
-      });
-      return;
-    }
-
-    if (!rateValue) {
-      notification.warning({
-        message: "Please rate",
-      });
-      return;
-    }
-
-    console.log(products.comments, "dasdsa");
-
-    // Kiểm tra nếu products.comments là undefined hoặc null, thì khởi tạo nó là một mảng rỗng
-    if (!products.comments) {
-      products.comments = [];
-    }
-
-    let listCommentId = products.comments.map((item: any) => {
-      return item.commentId;
-    });
-
-    let maxId = products.comments.length > 0 ? Math.max(...listCommentId) : 0;
-
-    const newComment = {
-      commentId: maxId + 1,
-      productId: Number(productId),
-      userId: getLoginData.loginId,
-      userName: getLoginData.fullName,
-      userRole: getLoginData.role,
-      content: editorContent,
-      rating: rateValue,
-      date: format(new Date(), "dd/MM/yyyy HH:mm:ss"),
-      type: "product",
-    };
-
-    console.log("New Comment", newComment);
-
-    products.comments.push(newComment);
-
-    console.log("Products", products);
-
-    axios
-      .patch(`http://localhost:7373/products/${productId}`, {
-        comments: products.comments,
-      })
+    console.log(userComment, "USER COMMENT");
+    BaseAxios.post(
+      `${productCommentsAPI}/add/${productId}/users/${getLoginData.id}`
+    )
       .then((response) => {
-        fetchProducts();
-        setProducts(response.data);
-        handleEditorChange("");
-        setRateValue(0);
+        console.log(response);
+        notification.success({ message: response.data.message });
+        fetchProductComments();
       })
       .catch((error) => {
-        console.log(error.message);
+        console.log(error, "EROR");
+        notification.warning({ message: error.data.message });
       });
-    console.log("Update Products", products);
   };
 
   const editorConfig = {
@@ -210,12 +154,17 @@ function ClientProductDetail() {
   };
 
   const handleEditorChange = (content: string) => {
-    setEditorContent(content);
+    setUserComment({
+      ...userComment,
+      comment: content,
+    });
   };
 
   const handleRateChange = (value: number) => {
-    setRateValue(value);
-    console.log(value);
+    setUserComment({
+      ...userComment,
+      rating: value,
+    });
   };
 
   // --------------------------------------------------------
@@ -389,23 +338,24 @@ function ClientProductDetail() {
                 {productComments?.length} comments
               </h3>
 
-              {user?.role_name?.name !== "admin" && (
-                <div>
-                  <span className={styles["rating-text"]}>Rating: </span>
-                  <Rate
-                    allowHalf
-                    value={rateValue}
-                    onChange={handleRateChange}
-                  />
-                </div>
-              )}
+              {user?.role_id === 1 ||
+                (user?.role_id === 2 && (
+                  <div>
+                    <span className={styles["rating-text"]}>Rating: </span>
+                    <Rate
+                      allowHalf
+                      value={userComment.rating}
+                      onChange={handleRateChange}
+                    />
+                  </div>
+                ))}
             </div>
 
             <div className={styles["comment-input"]}>
               <Editor
                 init={editorConfig}
                 onEditorChange={handleEditorChange}
-                value={editorContent}
+                value={userComment.comment}
               />
               <div className={styles["send-comment-btn"]}>
                 {getLoginData ? (

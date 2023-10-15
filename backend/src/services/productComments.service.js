@@ -42,10 +42,10 @@ class ProductCommentsService {
   // 4. Add Product Comment
   async addProductComment(productId, userId, dataBody, authHeader) {
     const { comment, rating } = dataBody;
-    // Check Login
-    if (!authHeader) {
-      return { message: "Please login to comment", status: 401 };
-    }
+    // // Check Login
+    // if (!authHeader) {
+    //   return { message: "Please login to comment", status: 401 };
+    // }
 
     // Check Product
     const findProduct = await productCommentsRepo.findProductById(productId);

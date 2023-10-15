@@ -38,7 +38,7 @@ class ProductCommentsController {
       dataBody,
       authHeader
     );
-    return res.status(result.status).json(result);
+    return res.status(result.status).json(result.message);
   }
 
   // 5. Delete Product Comment
