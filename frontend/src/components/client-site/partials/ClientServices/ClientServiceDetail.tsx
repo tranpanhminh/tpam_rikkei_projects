@@ -31,14 +31,6 @@ function ClientServiceDetail() {
   const [comments, setComments] = useState<any>([]);
   const [editorContent, setEditorContent] = useState<any>("");
   const [rateValue, setRateValue] = useState<any>(0);
-  const [name, setName] = useState<any>("");
-  const [phone, setPhone] = useState<any>("");
-  const [dateBooking, setDateBooking] = useState<any>("");
-  const [timeZone, setTimeZone] = useState<any>("");
-  const [bookings, setBookings] = useState<any>([]);
-  // const [dataBookings, setDataBookings] = useState<any>([]);
-  // const [dataBookingId, setDataBookingId] = useState<any>([]);
-  // const location = useLocation();
   const [listUser, setListUser] = useState<any>([]); // Sử dụng useState để quản lý userAvatar
 
   let [userInfo, setUserInfo] = useState<any>({
@@ -76,10 +68,7 @@ function ClientServiceDetail() {
   const fetchBooking = async () => {
     await axios
       .get(`${bookingsAPI}`)
-      .then((response) => {
-        setBookings(response.data);
-        setTimeZone("Select time");
-      })
+      .then((response) => {})
       .catch((error) => {
         console.log(error.message);
       });
@@ -113,9 +102,16 @@ function ClientServiceDetail() {
         console.error("Error fetching user avatar:", error);
       });
   }, []); // Gọi chỉ một lần khi component được tạo
-  // ---------------------------------------------------
+  // -----------------------------------------------------
 
   document.title = `${service ? `${service?.name} | PetShop` : "Loading..."}`;
+
+  // Add Comment
+  const handleComment = () => {};
+
+  const editorConfig = {
+    height: "300px",
+  };
 
   const handleEditorChange = (content: string) => {
     setEditorContent(content);
@@ -126,107 +122,12 @@ function ClientServiceDetail() {
     console.log(value);
   };
 
-  // Function Comment
-  const handleComment = () => {
-    if (!getLoginData) {
-      notification.warning({
-        message: `Please login to comment`,
-      });
-      return;
-    }
+  // -----------------------------------------------------
 
-    if (editorContent === "") {
-      notification.warning({
-        message: "Please fill comment",
-      });
-      return;
-    }
+  // Delete Comment
+  const handleDeleteComment = (commentId: number) => {};
 
-    if (!rateValue) {
-      notification.warning({
-        message: "Please rate",
-      });
-      return;
-    }
-
-    console.log(service.comments, "dasdsa");
-    let listCommentId = service.comments?.map((item: any) => {
-      return item.commentId;
-    });
-
-    let maxId = service.comments?.length > 0 ? Math.max(...listCommentId) : 0;
-
-    const newComment = {
-      commentId: maxId + 1,
-      serviceId: Number(serviceId),
-      userId: getLoginData.loginId,
-      userName: getLoginData.fullName,
-      userRole: getLoginData.role,
-      content: editorContent,
-      rating: rateValue,
-      date: format(new Date(), "dd/MM/yyyy HH:mm:ss"),
-      type: "service",
-    };
-
-    console.log("New Comment", newComment);
-
-    service.comments?.push(newComment);
-
-    console.log("service", service);
-
-    axios
-      .patch(`http://localhost:7373/service/${serviceId}`, {
-        comments: service.comments,
-      })
-      .then((response) => {
-        fetchService();
-        setService(response.data);
-        handleEditorChange("");
-        setRateValue(0);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  };
-
-  // Function Delete Comment
-  const handleDeleteComment = (commentId: number) => {
-    let findCommentIndex = comments.findIndex((comment: any) => {
-      return comment.commentId === commentId;
-    });
-    console.log(findCommentIndex);
-
-    comments.splice(findCommentIndex, 1);
-
-    axios
-      .patch(`http://localhost:7373/service/${serviceId}`, {
-        comments: comments,
-      })
-      .then((response) => {
-        fetchService();
-        setService(response.data);
-        setComments(response.data.comments);
-        notification.success({
-          message: "Comment Deleted",
-        });
-        handleEditorChange("");
-        setRateValue(0);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  };
-
-  const filterCommentsExcludeAdmin = () => {
-    let filterComments = serviceComments?.filter((item: any) => {
-      return item.user_role_id !== 1 && item.user_role_id !== 2;
-    });
-    return filterComments ? filterComments?.length : 0;
-  };
-
-  const editorConfig = {
-    height: "300px",
-  };
+  // -----------------------------------------------------
 
   // Function Booking Service
   const handleBooking = (userId: number, serviceId: number) => {
@@ -276,7 +177,15 @@ function ClientServiceDetail() {
       calendar: value,
     });
   };
-  console.log(DatePicker, "DATE ");
+  // -----------------------------------------------------
+
+  const filterCommentsExcludeAdmin = () => {
+    let filterComments = serviceComments?.filter((item: any) => {
+      return item.user_role_id !== 1 && item.user_role_id !== 2;
+    });
+    return filterComments ? filterComments?.length : 0;
+  };
+
   return (
     <>
       <div className={styles["wrap-service-detail-page"]}>
