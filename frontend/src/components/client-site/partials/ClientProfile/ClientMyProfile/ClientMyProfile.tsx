@@ -19,28 +19,9 @@ function ClientEditProfile() {
   const [userFullName, setUserFullName] = useState("");
   const [show, setShow] = useState<boolean>(false);
   const [image, setImage] = useState<any>("");
-
-  const [oldPassword, setOldPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
+  const [user, setUser] = useState<any>({});
   const [avatar, setAvatar] = useState("");
-
   const [display, setDisplay] = useState("none");
-
-  const [user, setUser] = useState<any>({
-    id: 0,
-    email: "",
-    full_name: "",
-    password: "",
-    role: "",
-    status_id: "",
-    cart: [],
-    order_history: [],
-    newsletter_register: false,
-    newsletter: [],
-    booking_history: [],
-    image_avatar: "",
-  });
-
   const [userPassword, setUserPassword] = useState<any>({
     oldPassword: "",
     newPassword: "",
@@ -58,7 +39,6 @@ function ClientEditProfile() {
         console.log(error);
       });
   };
-
   useEffect(() => {
     fetchUser();
   }, []);
@@ -68,84 +48,6 @@ function ClientEditProfile() {
   const showModal = () => {
     navigate("/user/my-profile/?edit");
     setIsModalOpen(true);
-  };
-
-  const handleOk = () => {
-    // Kiểm tra Full Name
-
-    // if (!userFullName) {
-    //   notification.warning({
-    //     message: "Error",
-    //     description: "Please Enter Full Name",
-    //   });
-    //   return;
-    // } else
-    if (!/^[a-zA-Z\s]*$/.test(userFullName)) {
-      notification.warning({
-        message: "Full Name cannot contain special characters or numbers",
-      });
-      return false;
-    } else {
-      setUserFullName(userFullName);
-    }
-
-    // Kiểm tra Old Password
-    if (oldPassword !== "" && oldPassword !== user.password) {
-      notification.warning({
-        message: "Old Password is not correct",
-      });
-      return;
-    }
-
-    if (oldPassword !== "" && newPassword === "") {
-      notification.warning({
-        message: "Please fill New Password",
-      });
-      return;
-    }
-
-    if (newPassword !== "" && newPassword.length < 8) {
-      notification.warning({
-        message: "Password must be at least 8 characters",
-      });
-      return false;
-    }
-    if (
-      oldPassword !== "" &&
-      newPassword !== "" &&
-      newPassword === user.password
-    ) {
-      notification.warning({
-        message: "New Password & Old password must not be the same",
-      });
-      return;
-    } else {
-      setNewPassword(user.password);
-    }
-
-    const updatedUserData = {
-      fullName: userFullName !== "" ? userFullName : user.fullName,
-      password: newPassword !== "" ? newPassword : user.password, // Keep the same password if not changed
-      image_avatar: avatar !== "" ? avatar : user.image_avatar,
-    };
-
-    // Make PUT request to update user data
-    axios
-      .patch(`http://localhost:7373/accounts/${user.id}`, updatedUserData)
-      .then((response) => {
-        setIsModalOpen(false);
-        notification.success({
-          message: "Updated Profile",
-        });
-        setUserFullName("");
-        setOldPassword("");
-        setNewPassword("");
-        setDisplay("none");
-        fetchUser();
-      })
-      .catch((error) => {
-        console.log("Error updating user data:", error);
-      });
   };
 
   const handleCancel = () => {
@@ -272,12 +174,12 @@ function ClientEditProfile() {
       <div className={styles["list-input-my-profile"]}>
         <div className={styles["my-profile-input-item"]}>
           <p>User ID</p>
-          <input type="text" disabled value={user.id} />
+          <input type="text" disabled value={user?.id} />
         </div>
         <div className={styles["my-profile-input-item"]}>
           <p>Full Name</p>
           <input
-            defaultValue={user.full_name}
+            defaultValue={user?.full_name}
             disabled={show === false ? true : false}
             onChange={(event) => {
               setUserFullName(event?.target.value);
@@ -348,11 +250,11 @@ function ClientEditProfile() {
           </div>
           <h6 onClick={handleChangePassword}>
             Change Password (Optional)&nbsp;
-            <i className="fa-solid fa-pen-to-square"></i>
+            {/* <i className="fa-solid fa-pen-to-square"></i> */}
           </h6>
           <div
             style={{
-              display: `${display}`,
+              display: "flex",
               flexDirection: "column",
               gap: "20px",
             }}
