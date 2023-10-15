@@ -26,13 +26,13 @@ class BookingsService {
   }
 
   // 3. Add Booking
-  async addBooking(dataBody, userId, serviceId, authHeader) {
+  async addBooking(dataBody, userId, serviceId) {
     const { name, phone, booking_date, calendar } = dataBody;
 
-    // Check Login
-    if (!authHeader) {
-      return { data: "Please login to Book", status: 401 };
-    }
+    // // Check Login
+    // if (!authHeader) {
+    //   return { data: "Please login to Book", status: 401 };
+    // }
     // Check User Before Booking
     const findUser = await bookingsRepo.findUserById(userId);
     if (!findUser) {

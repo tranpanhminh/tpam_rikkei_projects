@@ -6,6 +6,10 @@ const bookingsRouter = express.Router();
 // Import Controller
 const bookingsController = require("../controllers/bookings.controller.js");
 
+// ----------------------MiddleWares------------------------
+const checkAuthentication = require("../middlewares/CheckUser/checkAuthentication.js");
+const checkRoles = require("../middlewares/CheckUser/checkRoles.js");
+
 // ---------------------------------------------------------
 
 // 1. Get All Bookings
@@ -17,6 +21,8 @@ bookingsRouter.get("/detail/:bookingId", bookingsController.getDetailBooking);
 // 3. Add Booking
 bookingsRouter.post(
   "/add/users/:userId/services/:serviceId",
+  checkAuthentication,
+  checkRoles,
   bookingsController.addBooking
 );
 

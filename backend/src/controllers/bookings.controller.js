@@ -27,12 +27,12 @@ class BookingsController {
     const dataBody = req.body;
     const userId = req.params.userId;
     const serviceId = req.params.serviceId;
-    const authHeader = req.header("Authorization");
+    // const authHeader = req.header("Authorization");
     const result = await bookingsService.addBooking(
       dataBody,
       userId,
       serviceId,
-      authHeader
+      // authHeader
     );
     return res.status(result.status).json(result.data);
   }
