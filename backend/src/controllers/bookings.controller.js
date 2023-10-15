@@ -31,7 +31,7 @@ class BookingsController {
     const result = await bookingsService.addBooking(
       dataBody,
       userId,
-      serviceId,
+      serviceId
       // authHeader
     );
     return res.status(result.status).json(result.data);
@@ -79,55 +79,8 @@ class BookingsController {
   // 7. Filter Booking By User ID
   async filterBookingByUserId(req, res) {
     const userId = req.params.userId;
-    try {
-      const userId = req.params.userId;
-      const findUser = await usersEntity.findOne({
-        where: { id: userId },
-      });
-      if (!findUser) {
-        return res.status(404).json({ message: "User ID Not Found" });
-      }
-      const detailBooking = await bookingsEntity.findOne({
-        // Chọn các thuộc tính cần thiết
-        attributes: [
-          "id",
-          "name",
-          "phone",
-          "user_id",
-          "service_id",
-          "date",
-          "status_id",
-          "booking_date",
-          "calendar",
-          "created_at",
-          "updated_at",
-        ],
-
-        // Tham gia với bảng post_types
-        include: [
-          {
-            model: servicesEntity,
-            attributes: ["name"],
-          },
-          {
-            model: bookingStatusesEntity,
-            attributes: ["name"],
-          },
-        ],
-
-        // Lọc theo id của dịch vụ
-        where: { user_id: userId },
-
-        // Nhóm theo id và tên của dịch vụ
-        group: ["bookings.id"],
-        // raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
-      });
-      return res
-        .status(200)
-        .json({ message: "Booking Filtered", data: detailBooking });
-    } catch (error) {
-      console.log(error, "ERROR");
-    }
+    const result = await bookingsService.filterBookingByUserId(userId);
+    return res.status(result.status).json(result.data);
   }
 
   // 8. Filter Booking By Date

@@ -288,6 +288,21 @@ class BookingsService {
       return { data: groupBookingDate, status: 200 };
     }
   }
+
+  // 9. Filter Booking By User ID
+  async filterBookingByUserId(userId) {
+    const findUser = await bookingsRepo.findUserById(userId);
+    if (!findUser) {
+      return { data: "User ID Not Found", message: 404 };
+    }
+
+    const filterBooking = await bookingsRepo.filterBookingByUserId(userId);
+    if (filterBooking.length === 0) {
+      return { data: [], status: 200 };
+    } else {
+      return { data: filterBooking, status: 200 };
+    }
+  }
 }
 
 module.exports = new BookingsService();

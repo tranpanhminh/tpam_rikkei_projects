@@ -209,6 +209,46 @@ class BookingsRepo {
     });
     return groupBookingDate;
   }
+
+  // 8. Filter Booking By User ID
+  async filterBookingByUserId(userId) {
+    const detailBooking = await bookingsEntity.findAll({
+      // Chọn các thuộc tính cần thiết
+      attributes: [
+        "id",
+        "name",
+        "phone",
+        "user_id",
+        "service_id",
+        "date",
+        "status_id",
+        "booking_date",
+        "calendar",
+        "created_at",
+        "updated_at",
+      ],
+
+      // Tham gia với bảng post_types
+      include: [
+        {
+          model: servicesEntity,
+          attributes: ["name"],
+        },
+        {
+          model: bookingStatusesEntity,
+          attributes: ["name"],
+        },
+      ],
+
+      // Lọc theo id của dịch vụ
+      where: { user_id: userId },
+
+      // Nhóm theo id và tên của dịch vụ
+      group: ["bookings.id"],
+      // raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
+    });
+    return detailBooking;
+  }
 }
 
 module.exports = new BookingsRepo();
