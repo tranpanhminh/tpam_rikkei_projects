@@ -17,7 +17,7 @@ function ClientEditProfile() {
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
   const [userFullName, setUserFullName] = useState("");
-  const [changeFullNameBtn, setChangeFullNameBtn] = useState<boolean>(false);
+  const [show, setShow] = useState<boolean>(false);
   const [image, setImage] = useState<any>("");
 
   const [oldPassword, setOldPassword] = useState("");
@@ -39,6 +39,11 @@ function ClientEditProfile() {
     newsletter: [],
     booking_history: [],
     image_avatar: "",
+  });
+
+  const [userPassword, setUserPassword] = useState<any>({
+    oldPassword: "",
+    newPassword: "",
   });
 
   const fetchUser = () => {
@@ -144,11 +149,12 @@ function ClientEditProfile() {
   };
 
   const handleCancel = () => {
-    setUserFullName(user.fullName);
-    setAvatar(user.image_avatar);
-    setOldPassword("");
-    setNewPassword("");
-    setDisplay("none");
+    setImage("");
+    resetInputImage();
+    setUserPassword({
+      oldPassword: "",
+      newPassword: "",
+    });
     setIsModalOpen(false);
   };
 
@@ -159,7 +165,7 @@ function ClientEditProfile() {
   // Change Full Name
   const showButton = () => {
     navigate("/user/my-profile/?edit-full-name");
-    setChangeFullNameBtn(true);
+    setShow(true);
   };
   const changeFullName = () => {
     const userInfo = {
@@ -171,7 +177,7 @@ function ClientEditProfile() {
         notification.success({
           message: `${response.data.message}`,
         });
-        setChangeFullNameBtn(false);
+        setShow(false);
         fetchUser();
         navigate("/user/my-profile/");
       })
@@ -205,17 +211,22 @@ function ClientEditProfile() {
   };
 
   const updateAvatar = () => {
-    const userInfo = {
-      image_avatar: avatar,
+    const formData: any = new FormData();
+    formData.append("image_avatar", avatar);
+    formData.append("_method", "PATCH");
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     };
-
     axios
-      .patch(`${usersAPI}/edit-avatar/${getLoginData.id}`, userInfo)
+      .patch(`${usersAPI}/edit-avatar/${getLoginData.id}`, formData, config)
       .then((response) => {
         notification.success({
           message: `${response.data.message}`,
         });
-        setChangeFullNameBtn(false);
+        setShow(false);
+        resetInputImage();
         fetchUser();
         navigate("/user/my-profile/");
       })
@@ -225,8 +236,32 @@ function ClientEditProfile() {
         });
       });
   };
+  // ------------------------------------------
 
-  console.log(userFullName, "USER FULLN A");
+  // Change Password
+  const changePassword = () => {
+    axios
+      .patch(`${usersAPI}/change-password/${getLoginData.id}`, userPassword)
+      .then((response) => {
+        notification.success({
+          message: `${response.data.message}`,
+        });
+        setUserPassword({
+          oldPassword: "",
+          newPassword: "",
+        });
+        fetchUser();
+        navigate("/user/my-profile/");
+        setIsModalOpen(false);
+      })
+      .catch((error) => {
+        notification.error({
+          message: `${error.response.data.message}`,
+        });
+      });
+  };
+
+  // ------------------------------------------
   return (
     <>
       <div className={styles["breadcrumb"]}>
@@ -243,7 +278,7 @@ function ClientEditProfile() {
           <p>Full Name</p>
           <input
             defaultValue={user.full_name}
-            disabled={changeFullNameBtn === false ? true : false}
+            disabled={show === false ? true : false}
             onChange={(event) => {
               setUserFullName(event?.target.value);
             }}
@@ -252,14 +287,14 @@ function ClientEditProfile() {
           <i
             className={`fa-solid fa-pen-to-square  ${styles["fullname-btn"]}`}
             style={{
-              display: changeFullNameBtn === false ? "inline-block" : "none",
+              display: show === false ? "inline-block" : "none",
             }}
             onClick={showButton}
           ></i>
           <i
             className={`fa-solid fa-check  ${styles["fullname-btn"]}`}
             style={{
-              display: changeFullNameBtn === true ? "inline-block" : "none",
+              display: show === true ? "inline-block" : "none",
             }}
             onClick={changeFullName}
           ></i>
@@ -280,7 +315,7 @@ function ClientEditProfile() {
       <Modal
         // title="Edit Profile"
         open={isModalOpen}
-        onOk={handleOk}
+        onOk={changePassword}
         onCancel={handleCancel}
       >
         <div className={styles["list-input-my-profile"]}>
@@ -305,7 +340,8 @@ function ClientEditProfile() {
             />
             <Button
               type="primary"
-              style={{ display: image === false ? "none" : "inline-block" }}
+              style={{ display: image === null ? "none" : "inline-block" }}
+              onClick={updateAvatar}
             >
               Update
             </Button>
@@ -325,9 +361,12 @@ function ClientEditProfile() {
               <p>Old Password</p>
               <input
                 type="password"
-                value={oldPassword}
+                value={userPassword.oldPassword}
                 onChange={(event) => {
-                  setOldPassword(event?.target.value);
+                  setUserPassword({
+                    ...userPassword,
+                    oldPassword: event?.target.value,
+                  });
                 }}
               />
             </div>
@@ -335,9 +374,12 @@ function ClientEditProfile() {
               <p>New Password</p>
               <input
                 type="password"
-                value={newPassword}
+                value={userPassword.newPassword}
                 onChange={(event) => {
-                  setNewPassword(event?.target.value);
+                  setUserPassword({
+                    ...userPassword,
+                    newPassword: event?.target.value,
+                  });
                 }}
               />
             </div>
