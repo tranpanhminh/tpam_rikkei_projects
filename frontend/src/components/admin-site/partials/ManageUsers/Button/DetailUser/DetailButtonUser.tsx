@@ -95,8 +95,8 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
               type="text"
               defaultValue={user?.full_name}
               onChange={(event) => setName(event.target.value)}
-              disabled={user?.fullName === "Super Admin" ? true : false}
             />
+            
           </div>
           <div className={styles["list-input-item"]}>
             <p>Email</p>
