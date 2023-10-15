@@ -29,12 +29,12 @@ function ClientProductDetail() {
   const { productId } = useParams();
   const [user, setUser] = useState<any>(null);
   const [productComments, setProductComments] = useState<any>([]);
-  const [userCart, setUserCart] = useState<any>(null);
+  // const [userCart, setUserCart] = useState<any>(null);
   const [products, setProducts] = useState<any>(null);
-  const [comments, setComments] = useState<any>([]);
+  // const [comments, setComments] = useState<any>([]);
   const [quantity, setQuantity] = useState<number>(1);
-  const [editorContent, setEditorContent] = useState("");
-  const [rateValue, setRateValue] = useState(0);
+  // const [editorContent, setEditorContent] = useState("");
+  // const [rateValue, setRateValue] = useState(0);
   const [userComment, setUserComment] = useState<any>({
     comment: "",
     rating: 5,
@@ -66,7 +66,7 @@ function ClientProductDetail() {
       .get(`${productsAPI}/detail/${productId}`)
       .then((response) => {
         setProducts(response.data);
-        setComments(response.data.comments);
+        // setComments(response.data.comments);
       })
       .catch((error) => {
         console.log(error.message);
@@ -78,7 +78,7 @@ function ClientProductDetail() {
       .get(`${usersAPI}/detail/${getLoginData.id}`)
       .then((response) => {
         setUser(response.data);
-        setUserCart(response.data.cart);
+        // setUserCart(response.data.cart);
       })
       .catch((error) => {
         console.log(error.message);
@@ -100,7 +100,7 @@ function ClientProductDetail() {
     fetchProducts();
     fetchUsers();
     fetchProductComments();
-  }, [editorContent]);
+  }, []);
 
   // --------------------------------------------------------
 
@@ -128,7 +128,7 @@ function ClientProductDetail() {
       });
   };
   // --------------------------------------------------------
-  console.log(userComment.comment, "USER COMMENT");
+
   // Add Comment
   const handleComment = () => {
     BaseAxios.post(
@@ -153,7 +153,6 @@ function ClientProductDetail() {
         notification.warning({ message: error.data.message });
       });
   };
-  console.log(userComment, "USER COMMENT");
   const editorConfig = {
     height: "300px",
     // plugins: "maxlength", // Sử dụng plugin maxlength
@@ -161,13 +160,6 @@ function ClientProductDetail() {
     // max_chars: 200, // Giới hạn số ký tự
     // // Các tùy chọn khác bạn muốn cấu hình
   };
-
-  // const handleEditorChange = (content: string) => {
-  //   setUserComment({
-  //     ...userComment,
-  //     comment: content,
-  //   });
-  // };
 
   const handleRateChange = (value: number) => {
     setUserComment({

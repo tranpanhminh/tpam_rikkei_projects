@@ -10,6 +10,7 @@ import type { DatePickerProps } from "antd";
 import { DatePicker } from "antd";
 import { format, parse } from "date-fns";
 import BaseAxios from "../../../../api/apiAxiosClient";
+import tinymce from "tinymce";
 
 const moment = require("moment");
 
@@ -31,7 +32,12 @@ function ClientServiceDetail() {
   const [comments, setComments] = useState<any>([]);
   const [editorContent, setEditorContent] = useState<any>("");
   const [rateValue, setRateValue] = useState<any>(0);
-  const [listUser, setListUser] = useState<any>([]); // Sử dụng useState để quản lý userAvatar
+  const [listUser, setListUser] = useState<any>([]);
+
+  const [userComment, setUserComment] = useState<any>({
+    comment: "",
+    rating: 5,
+  });
 
   let [userInfo, setUserInfo] = useState<any>({
     user_id: "",
@@ -107,7 +113,29 @@ function ClientServiceDetail() {
   document.title = `${service ? `${service?.name} | PetShop` : "Loading..."}`;
 
   // Add Comment
-  const handleComment = () => {};
+  const handleComment = () => {
+    BaseAxios.post(
+      `${serviceCommentsAPI}/add/${serviceId}/users/${getLoginData.id}`,
+      userComment
+    )
+      .then((response) => {
+        notification.success({ message: response.data.message });
+        setUserComment({
+          comment: "",
+          rating: 5,
+        });
+        const editor = tinymce.get("editorID");
+        if (editor) {
+          // Đặt nội dung của trình soạn thảo về trạng thái trống
+          editor.setContent("");
+        }
+        fetchService();
+        fetchServiceComments();
+      })
+      .catch((error) => {
+        notification.warning({ message: error.data.message });
+      });
+  };
 
   const editorConfig = {
     height: "300px",
@@ -316,7 +344,6 @@ function ClientServiceDetail() {
                       ? moment(userInfo.booking_date)
                       : null
                   }
-                  // defaultValue={userInfo.booking_date}
                 />
                 <Select
                   style={{ width: 200 }}
@@ -361,7 +388,7 @@ function ClientServiceDetail() {
                 {serviceComments?.length} comments
               </h3>
 
-              {getLoginData.role !== "admin" && (
+              {user?.role_id === 3 && (
                 <div>
                   <span className={styles["rating-text"]}>Rating: </span>
                   <Rate
