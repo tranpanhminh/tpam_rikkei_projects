@@ -6,7 +6,7 @@ class UserStatusesService {
   async getAllUserStatuses() {
     const listUserStatuses = await userStatusesRepo.getAllUserStatuses();
     if (listUserStatuses.length === 0) {
-      return { data: "No UserStatus Found", status: 404 };
+      return { data: [], status: 404 };
     } else {
       return { data: listUserStatuses, status: 200 };
     }
@@ -18,7 +18,7 @@ class UserStatusesService {
       userStatusId
     );
     if (!detailUserStatus) {
-      return { data: "UserStatus ID Not Found", status: 404 };
+      return { data: {}, status: 404 };
     } else {
       return { data: detailUserStatus, status: 200 };
     }
@@ -27,13 +27,13 @@ class UserStatusesService {
   // 3. Add
   async addUserStatus(name) {
     if (!name) {
-      return { data: "UserStatus Name must not be blank", status: 406 };
+      return { message: "UserStatus Name must not be blank", status: 406 };
     } else {
       const userStatusInfo = {
         name: name,
       };
       await userStatusesRepo.addUserStatus(userStatusInfo);
-      return { data: "UserStatus Added", status: 200 };
+      return { message: "UserStatus Added", status: 200 };
     }
   }
 
@@ -43,10 +43,10 @@ class UserStatusesService {
       userStatusId
     );
     if (!findUserStatus) {
-      return { data: "UserStatus ID Not Found", status: 404 };
+      return { message: "UserStatus ID Not Found", status: 404 };
     } else {
       await userStatusesRepo.deleteUserStatus(userStatusId);
-      return { data: "UserStatus Deleted", status: 200 };
+      return { message: "UserStatus Deleted", status: 200 };
     }
   }
 
@@ -56,7 +56,7 @@ class UserStatusesService {
       userStatusId
     );
     if (!findUserStatus) {
-      return { data: "UserStatus ID Not Found", status: 404 };
+      return { message: "UserStatus ID Not Found", status: 404 };
     }
 
     const dataUserStatus = findUserStatus.dataValues;
@@ -67,7 +67,7 @@ class UserStatusesService {
     };
 
     await userStatusesRepo.updateUserStatus(userStatusInfo, userStatusId);
-    return { data: "UserStatus Status Updated", status: 200 };
+    return { message: "UserStatus Status Updated", status: 200 };
   }
 }
 

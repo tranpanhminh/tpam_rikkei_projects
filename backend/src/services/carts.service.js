@@ -5,9 +5,9 @@ class CartsService {
   async getAllCarts() {
     const listCarts = await cartsRepo.getAllCarts();
     if (listCarts.length === 0) {
-      return { message: "No Data Carts", status: 404 };
+      return { data: [], status: 404 };
     } else {
-      return { message: listCarts, status: 200 };
+      return { data: listCarts, status: 200 };
     }
   }
 
@@ -15,11 +15,11 @@ class CartsService {
   async getDetailCart(userId) {
     const detailUserCart = await cartsRepo.getDetailCart(userId);
     if (detailUserCart.length === 0) {
-      return { message: [], status: 200 };
+      return { data: [], status: 200 };
     } else {
       return {
         status: 200,
-        message: detailUserCart,
+        data: detailUserCart,
       };
     }
   }

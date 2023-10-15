@@ -19,14 +19,14 @@ class PostStatusesController {
   async addPostStatus(req, res) {
     const { name } = req.body;
     const result = await postStatusesService.addPostStatus(name);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 
   // 4. Delete
   async deletePostStatus(req, res) {
     const postStatusId = req.params.postStatusId;
     const result = await postStatusesService.deletePostStatus(postStatusId);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 
   // 5. Update
@@ -37,7 +37,7 @@ class PostStatusesController {
       name,
       postStatusId
     );
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 }
 

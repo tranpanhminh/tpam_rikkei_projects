@@ -21,14 +21,14 @@ class PagesController {
     const dataBody = req.body;
     const thumbnail = req.file ? req.file.filename : "";
     const result = await pagesService.addPage(dataBody, thumbnail);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 
   // 4. Delete Page
   async deletePage(req, res) {
     const pageId = req.params.pageId;
     const result = await pagesService.deletePage(pageId);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 
   // 5. Update Page
@@ -38,7 +38,7 @@ class PagesController {
     const pageId = req.params.pageId;
 
     const result = await pagesService.updatePage(dataBody, thumbnail, pageId);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 }
 module.exports = new PagesController();

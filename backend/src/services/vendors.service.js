@@ -6,7 +6,7 @@ class VendorsService {
   async getAllVendors() {
     const listVendors = await vendorsRepo.getAllVendors();
     if (listVendors.length === 0) {
-      return { data: "No Vendor Found", status: 404 };
+      return { data: [], status: 404 };
     } else {
       return { data: listVendors, status: 200 };
     }
@@ -16,7 +16,7 @@ class VendorsService {
   async getDetailVendor(vendorId) {
     const detailVendor = await vendorsRepo.getDetailVendor(vendorId);
     if (!detailVendor) {
-      return { data: "Vendor ID Not Found", status: 404 };
+      return { data: {}, status: 404 };
     } else {
       return { data: detailVendor, status: 200 };
     }
@@ -25,13 +25,13 @@ class VendorsService {
   // 3. Add
   async addVendor(name) {
     if (!name) {
-      return { data: "Vendor Name must not be blank", status: 406 };
+      return { message: "Vendor Name must not be blank", status: 406 };
     } else {
       const vendorInfo = {
         name: name,
       };
       await vendorsRepo.addVendor(vendorInfo);
-      return { data: "Vendor Added", status: 200 };
+      return { message: "Vendor Added", status: 200 };
     }
   }
 
@@ -39,10 +39,10 @@ class VendorsService {
   async deleteVendor(vendorId) {
     const findVendor = await vendorsRepo.findVendorById(vendorId);
     if (!findVendor) {
-      return { data: "Vendor ID Not Found", status: 404 };
+      return { message: "Vendor ID Not Found", status: 404 };
     } else {
       await vendorsRepo.deleteVendor(vendorId);
-      return { data: "Vendor Deleted", status: 200 };
+      return { message: "Vendor Deleted", status: 200 };
     }
   }
 
@@ -50,7 +50,7 @@ class VendorsService {
   async updateVendor(name, vendorId) {
     const findVendor = await vendorsRepo.findVendorById(vendorId);
     if (!findVendor) {
-      return { data: "Vendor ID Not Found", status: 404 };
+      return { message: "Vendor ID Not Found", status: 404 };
     }
 
     const dataVendor = findVendor.dataValues;
@@ -61,7 +61,7 @@ class VendorsService {
     };
 
     await vendorsRepo.updateVendor(vendorInfo, vendorId);
-    return { data: "Vendor Status Updated", status: 200 };
+    return { message: "Vendor Status Updated", status: 200 };
   }
 }
 

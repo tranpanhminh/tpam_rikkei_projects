@@ -6,7 +6,7 @@ class CancelReasonsService {
   async getAllCancelReasons() {
     const listCancelReasons = await cancelReasonsRepo.getAllCancelReasons();
     if (listCancelReasons.length === 0) {
-      return { data: "No CancelReason Found", status: 404 };
+      return { data: [], status: 404 };
     } else {
       return { data: listCancelReasons, status: 200 };
     }
@@ -18,7 +18,7 @@ class CancelReasonsService {
       cancelReasonId
     );
     if (!detailCancelReason) {
-      return { data: "CancelReason ID Not Found", status: 404 };
+      return { data: {}, status: 404 };
     } else {
       return { data: detailCancelReason, status: 200 };
     }
@@ -27,13 +27,13 @@ class CancelReasonsService {
   // 3. Add
   async addCancelReason(name) {
     if (!name) {
-      return { data: "CancelReason Name must not be blank", status: 406 };
+      return { message: "CancelReason Name must not be blank", status: 406 };
     } else {
       const cancelReasonInfo = {
         name: name,
       };
       await cancelReasonsRepo.addCancelReason(cancelReasonInfo);
-      return { data: "CancelReason Added", status: 200 };
+      return { message: "CancelReason Added", status: 200 };
     }
   }
 
@@ -43,10 +43,10 @@ class CancelReasonsService {
       cancelReasonId
     );
     if (!findCancelReason) {
-      return { data: "CancelReason ID Not Found", status: 404 };
+      return { message: "CancelReason ID Not Found", status: 404 };
     } else {
       await cancelReasonsRepo.deleteCancelReason(cancelReasonId);
-      return { data: "CancelReason Deleted", status: 200 };
+      return { message: "CancelReason Deleted", status: 200 };
     }
   }
 
@@ -56,7 +56,7 @@ class CancelReasonsService {
       cancelReasonId
     );
     if (!findCancelReason) {
-      return { data: "CancelReason ID Not Found", status: 404 };
+      return { message: "CancelReason ID Not Found", status: 404 };
     }
 
     const dataCancelReason = findCancelReason.dataValues;
@@ -70,7 +70,7 @@ class CancelReasonsService {
       cancelReasonInfo,
       cancelReasonId
     );
-    return { data: "CancelReason Status Updated", status: 200 };
+    return { message: "CancelReason Status Updated", status: 200 };
   }
 }
 

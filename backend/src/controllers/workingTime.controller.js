@@ -19,14 +19,14 @@ class WorkingTimeController {
   async addWorkingTime(req, res) {
     const dataBody = req.body;
     const result = await WorkingTimeService.addWorkingTime(dataBody);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 
   // 4. Delete Working Time
   async deleteWorkingTime(req, res) {
     const workingTimeId = req.params.workingTimeId;
     const result = await WorkingTimeService.deleteWorkingTime(workingTimeId);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 
   // 5. Update Working Time
@@ -37,7 +37,7 @@ class WorkingTimeController {
       dataBody,
       workingTimeId
     );
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 }
 module.exports = new WorkingTimeController();

@@ -53,7 +53,7 @@ class PagesRepo {
 
   // 2. Get Detail Page
   async getDetailPage(pageId) {
-    const detailPage = await pagesEntity.findAll({
+    const detailPage = await pagesEntity.findOne({
       // Chọn các thuộc tính cần thiết
       attributes: [
         "id",

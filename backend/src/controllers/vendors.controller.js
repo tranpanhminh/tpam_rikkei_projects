@@ -19,14 +19,14 @@ class VendorsController {
   async addVendor(req, res) {
     const { name } = req.body;
     const result = await vendorsService.addVendor(name);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 
   // 4. Delete
   async deleteVendor(req, res) {
     const vendorId = req.params.vendorId;
     const result = await vendorsService.deleteVendor(vendorId);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 
   // 5. Update
@@ -34,7 +34,7 @@ class VendorsController {
     const { name } = req.body;
     const vendorId = req.params.vendorId;
     const result = await vendorsService.updateVendor(name, vendorId);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 }
 

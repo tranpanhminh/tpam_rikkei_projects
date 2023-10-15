@@ -19,14 +19,14 @@ class PaymentsController {
   async addPayment(req, res) {
     const dataBody = req.body;
     const result = await paymentsService.addPayment(dataBody);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 
   // 4. Delete Payment
   async deletePayment(req, res) {
     const paymentId = req.params.paymentId;
     const result = await paymentsService.deletePayment(paymentId);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 
   // 5. Update Payment
@@ -34,7 +34,7 @@ class PaymentsController {
     const dataBody = req.body;
     const paymentId = req.params.paymentId;
     const result = await paymentsService.updatePayment(dataBody, paymentId);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 }
 module.exports = new PaymentsController();

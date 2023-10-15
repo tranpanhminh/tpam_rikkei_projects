@@ -6,7 +6,7 @@ class PaymentsService {
   async getAllPayments() {
     const listPayments = await paymentsRepo.getAllPayments();
     if (listPayments.length === 0) {
-      return { data: "No Payment Found", status: 404 };
+      return { data: [], status: 404 };
     } else {
       return { data: listPayments, status: 200 };
     }
@@ -16,7 +16,7 @@ class PaymentsService {
   async getDetailPayment(paymentId) {
     const detailPayment = await paymentsRepo.getDetailPayment(paymentId);
     if (!detailPayment) {
-      return { data: "Payment ID Not Found", status: 404 };
+      return { data: {}, status: 404 };
     } else {
       return { data: detailPayment, status: 200 };
     }
@@ -29,43 +29,43 @@ class PaymentsService {
 
     if (!cardholder_name) {
       return {
-        data: "Cardholder Name must not be blank",
+        message: "Cardholder Name must not be blank",
         status: 406,
       };
     }
     if (!card_number) {
       return {
-        data: "Card Number must not be blank",
+        message: "Card Number must not be blank",
         status: 406,
       };
     }
     if (card_number.toString().length !== 16) {
       return {
-        data: "Card Number length must = 16",
+        message: "Card Number length must = 16",
         status: 406,
       };
     }
     if (!expiry_date) {
       return {
-        data: "Expiry Date must not be blank",
+        message: "Expiry Date must not be blank",
         status: 406,
       };
     }
     if (!cvv) {
       return {
-        data: "CVV must not be blank",
+        message: "CVV must not be blank",
         status: 406,
       };
     }
     if (cvv.toString().length !== 3) {
       return {
-        data: "CVV length must = 3",
+        message: "CVV length must = 3",
         status: 406,
       };
     }
     if (balance < 0) {
       return {
-        data: "Balance must not be < 0",
+        message: "Balance must not be < 0",
         status: 406,
       };
     }
@@ -79,17 +79,17 @@ class PaymentsService {
     };
 
     await paymentsRepo.addPayment(paymentInfo);
-    return { data: "Payment Added", status: 200 };
+    return { message: "Payment Added", status: 200 };
   }
 
   // 4. Delete
   async deletePayment(paymentId) {
     const findPayment = await paymentsRepo.findPaymentById(paymentId);
     if (!findPayment) {
-      return { data: "Payment ID Not Found", status: 404 };
+      return { message: "Payment ID Not Found", status: 404 };
     } else {
       await paymentsRepo.deletePayment(paymentId);
-      return { data: "Payment Deleted", status: 200 };
+      return { message: "Payment Deleted", status: 200 };
     }
   }
 
@@ -99,20 +99,20 @@ class PaymentsService {
       dataBody;
     const findPayment = await paymentsRepo.findPaymentById(paymentId);
     if (!findPayment) {
-      return { data: "Payment ID Not Found", status: 404 };
+      return { message: "Payment ID Not Found", status: 404 };
     }
 
     const dataPayment = findPayment.dataValues;
 
     if (card_number && card_number.toString().length !== 16) {
-      return { data: "Card Number length must = 16", status: 406 };
+      return { message: "Card Number length must = 16", status: 406 };
     }
 
     if (cvv && cvv.toString().length !== 3) {
-      return { data: "CVV length must = 3", status: 406 };
+      return { message: "CVV length must = 3", status: 406 };
     }
     if (balance < 0) {
-      return { data: "Balance must not be < 0", status: 406 };
+      return { message: "Balance must not be < 0", status: 406 };
     }
 
     const paymentInfo = {
@@ -127,7 +127,7 @@ class PaymentsService {
     };
 
     await paymentsRepo.updatePayment(paymentInfo, paymentId);
-    return { data: "Payment Status Updated", status: 200 };
+    return { message: "Payment Status Updated", status: 200 };
   }
 }
 

@@ -6,7 +6,7 @@ class CouponsService {
   async getAllCoupons() {
     const listCoupons = await couponsRepo.getAllCoupons();
     if (listCoupons.length === 0) {
-      return { data: "No Coupon Found", status: 404 };
+      return { data: [], status: 404 };
     } else {
       return { data: listCoupons, status: 200 };
     }
@@ -16,7 +16,7 @@ class CouponsService {
   async getDetailCoupon(couponId) {
     const detailCoupon = await couponsRepo.getDetailCoupon(couponId);
     if (!detailCoupon) {
-      return { data: "Coupon ID Not Found", status: 404 };
+      return { data: {}, status: 404 };
     } else {
       return { data: detailCoupon, status: 200 };
     }
@@ -26,27 +26,27 @@ class CouponsService {
   async addCoupon(dataBody) {
     const { name, code, discount_rate, min_bill } = dataBody;
     if (!name) {
-      return { data: "Coupon Name not be blank", status: 406 };
+      return { message: "Coupon Name not be blank", status: 406 };
     }
     if (!code) {
-      return { data: "Coupon Code not be blank", status: 406 };
+      return { message: "Coupon Code not be blank", status: 406 };
     }
     if (!discount_rate) {
-      return { data: "Discount rate not be blank", status: 406 };
+      return { message: "Discount rate not be blank", status: 406 };
     }
     if (discount_rate < 0) {
-      return { data: "Discount rate must > 0", status: 406 };
+      return { message: "Discount rate must > 0", status: 406 };
     }
     if (!min_bill) {
       return {
-        data: "Min Bill not be blank and Min Bill must > 0",
+        message: "Min Bill not be blank and Min Bill must > 0",
         status: 406,
       };
     }
 
     if (min_bill < 0) {
       return {
-        data: "Min Bill must > 0",
+        message: "Min Bill must > 0",
         status: 406,
       };
     }
@@ -59,17 +59,17 @@ class CouponsService {
     };
 
     await couponsRepo.addCoupon(couponInfo);
-    return { data: "Coupon Added", status: 200 };
+    return { message: "Coupon Added", status: 200 };
   }
 
   // 4. Delete
   async deleteCoupon(couponId) {
     const findCoupon = await couponsRepo.findCouponById(couponId);
     if (!findCoupon) {
-      return { data: "Coupon ID Not Found", status: 404 };
+      return { message: "Coupon ID Not Found", status: 404 };
     } else {
       await couponsRepo.deleteCoupon(couponId);
-      return { data: "Coupon Deleted", status: 200 };
+      return { message: "Coupon Deleted", status: 200 };
     }
   }
 
@@ -78,16 +78,16 @@ class CouponsService {
     const { name, code, discount_rate, min_bill } = dataBody;
     const findCoupon = await couponsRepo.findCouponById(couponId);
     if (!findCoupon) {
-      return { data: "Coupon ID Not Found", status: 404 };
+      return { message: "Coupon ID Not Found", status: 404 };
     }
 
     const dataCoupon = findCoupon.dataValues;
 
     if (discount_rate < 0) {
-      return { data: "Discount rate must > 0", status: 406 };
+      return { message: "Discount rate must > 0", status: 406 };
     }
     if (min_bill < 0) {
-      return { data: "Min Bill must > 0", status: 406 };
+      return { message: "Min Bill must > 0", status: 406 };
     }
 
     const couponInfo = {
@@ -99,7 +99,7 @@ class CouponsService {
     };
 
     await couponsRepo.updateCoupon(couponInfo, couponId);
-    return { data: "Coupon Status Updated", status: 200 };
+    return { message: "Coupon Status Updated", status: 200 };
   }
 }
 

@@ -12,7 +12,7 @@ class ServicesService {
   async getAllServices() {
     const listServices = await servicesRepo.getAllServices();
     if (listServices.length === 0) {
-      return { data: "No Data Services", status: 404 };
+      return { data: [], status: 404 };
     } else {
       return { data: listServices, status: 200 };
     }
@@ -22,7 +22,7 @@ class ServicesService {
   async getDetailService(serviceId) {
     const detailService = await servicesRepo.getDetailService(serviceId);
     if (!detailService) {
-      return { data: "Service ID Not Found", status: 404 };
+      return { data: {}, status: 404 };
     } else {
       return { data: detailService, status: 200 };
     }
@@ -33,27 +33,27 @@ class ServicesService {
     const { name, description, price, working_time_id } = dataBody;
 
     if (!name) {
-      return { data: "Service Name must not be blank", status: 406 };
+      return { message: "Service Name must not be blank", status: 406 };
     }
 
     if (!description) {
-      return { data: "Service Description must not be blank", status: 406 };
+      return { message: "Service Description must not be blank", status: 406 };
     }
 
     if (!price) {
-      return { data: "Service Price must not be blank", status: 406 };
+      return { message: "Service Price must not be blank", status: 406 };
     }
 
     if (price < 0) {
-      return { data: "Service Price must not be < 0", status: 406 };
+      return { message: "Service Price must not be < 0", status: 406 };
     }
 
     if (!working_time_id) {
-      return { data: "Please choose working time", status: 406 };
+      return { message: "Please choose working time", status: 406 };
     }
 
     if (!serviceImage) {
-      return { data: "Please upload Image", status: 406 };
+      return { message: "Please upload Image", status: 406 };
     }
 
     const servicesInfo = {
@@ -64,17 +64,17 @@ class ServicesService {
       service_image: sourceImage + serviceImage,
     };
     const newService = await servicesRepo.addService(servicesInfo);
-    return { data: newService, status: 200 };
+    return { message: newService, status: 200 };
   }
 
   // 4. Delete Service
   async deleteService(serviceId) {
     const findService = await servicesRepo.findServiceById(serviceId);
     if (!findService) {
-      return { data: "Service ID Not Found", status: 404 };
+      return { message: "Service ID Not Found", status: 404 };
     } else {
       await servicesRepo.deleteService(serviceId);
-      return { data: "Service Deleted", status: 200 };
+      return { message: "Service Deleted", status: 200 };
     }
   }
 
@@ -85,12 +85,12 @@ class ServicesService {
     const findService = await servicesRepo.findServiceById(serviceId);
 
     if (!findService) {
-      return { data: "Service ID Not Found", status: 404 };
+      return { message: "Service ID Not Found", status: 404 };
     }
     const dataService = findService.dataValues;
 
     if (price < 0) {
-      return { data: "Price must not be < 0", status: 406 };
+      return { message: "Price must not be < 0", status: 406 };
     }
 
     const serviceInfo = {
@@ -106,7 +106,7 @@ class ServicesService {
       updated_at: Date.now(),
     };
     await servicesRepo.updateService(serviceInfo, serviceId);
-    return { data: "Service Updated", status: 200 };
+    return { message: "Service Updated", status: 200 };
   }
 }
 

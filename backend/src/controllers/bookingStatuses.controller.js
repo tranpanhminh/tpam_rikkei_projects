@@ -21,7 +21,7 @@ class BookingStatusController {
   async addBookingStatus(req, res) {
     const { name } = req.body;
     const result = await bookingStatusesService.addBookingStatus(name);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 
   // 4. Delete Booking Status
@@ -30,7 +30,7 @@ class BookingStatusController {
     const result = await bookingStatusesService.deleteBookingStatus(
       bookingStatusId
     );
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 
   // 5. Update Booking Status
@@ -41,7 +41,7 @@ class BookingStatusController {
       name,
       bookingStatusId
     );
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 }
 

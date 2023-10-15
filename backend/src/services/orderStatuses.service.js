@@ -6,7 +6,7 @@ class OrderStatusesService {
   async getAllOrderStatuses() {
     const listOrderStatuses = await orderStatusesRepo.getAllOrderStatuses();
     if (listOrderStatuses.length === 0) {
-      return { data: "No OrderStatus Found", status: 404 };
+      return { data: [], status: 404 };
     } else {
       return { data: listOrderStatuses, status: 200 };
     }
@@ -18,7 +18,7 @@ class OrderStatusesService {
       orderStatusId
     );
     if (!detailOrderStatus) {
-      return { data: "OrderStatus ID Not Found", status: 404 };
+      return { data: {}, status: 404 };
     } else {
       return { data: detailOrderStatus, status: 200 };
     }
@@ -27,13 +27,13 @@ class OrderStatusesService {
   // 3. Add
   async addOrderStatus(name) {
     if (!name) {
-      return { data: "OrderStatus Name must not be blank", status: 406 };
+      return { message: "OrderStatus Name must not be blank", status: 406 };
     } else {
       const orderStatusInfo = {
         name: name,
       };
       await orderStatusesRepo.addOrderStatus(orderStatusInfo);
-      return { data: "OrderStatus Added", status: 200 };
+      return { message: "OrderStatus Added", status: 200 };
     }
   }
 
@@ -43,10 +43,10 @@ class OrderStatusesService {
       orderStatusId
     );
     if (!findOrderStatus) {
-      return { data: "OrderStatus ID Not Found", status: 404 };
+      return { message: "OrderStatus ID Not Found", status: 404 };
     } else {
       await orderStatusesRepo.deleteOrderStatus(orderStatusId);
-      return { data: "OrderStatus Deleted", status: 200 };
+      return { message: "OrderStatus Deleted", status: 200 };
     }
   }
 
@@ -56,7 +56,7 @@ class OrderStatusesService {
       orderStatusId
     );
     if (!findOrderStatus) {
-      return { data: "OrderStatus ID Not Found", status: 404 };
+      return { message: "OrderStatus ID Not Found", status: 404 };
     }
 
     const dataOrderStatus = findOrderStatus.dataValues;
@@ -67,7 +67,7 @@ class OrderStatusesService {
     };
 
     await orderStatusesRepo.updateOrderStatus(orderStatusInfo, orderStatusId);
-    return { data: "OrderStatus Status Updated", status: 200 };
+    return { message: "OrderStatus Status Updated", status: 200 };
   }
 }
 

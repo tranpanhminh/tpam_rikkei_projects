@@ -36,7 +36,7 @@ class CartsController {
     const userId = req.params.userId;
     const productId = req.params.productId;
     const result = await cartsService.deleteProductFromCart(userId, productId);
-    res.status(result.status).json(result.data);
+    res.status(result.status).json(result);
   }
 
   // 5. Delete All Products From Cart
@@ -47,7 +47,7 @@ class CartsController {
       userId,
       authHeader
     );
-    res.status(result.status).json(result.data);
+    res.status(result.status).json(result);
   }
 
   // 6. Update Cart (Update Quantity From Cart Page)
@@ -62,7 +62,7 @@ class CartsController {
       quantity,
       authHeader
     );
-    res.status(result.status).json(result.data);
+    res.status(result.status).json(result);
   }
 }
 module.exports = new CartsController();

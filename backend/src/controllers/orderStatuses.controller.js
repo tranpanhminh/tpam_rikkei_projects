@@ -21,14 +21,14 @@ class OrderStatusesController {
   async addOrderStatus(req, res) {
     const { name } = req.body;
     const result = await orderStatusesService.addOrderStatus(name);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 
   // 4. Delete
   async deleteOrderStatus(req, res) {
     const orderStatusId = req.params.orderStatusId;
     const result = await orderStatusesService.deleteOrderStatus(orderStatusId);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 
   // 5. Update
@@ -39,7 +39,7 @@ class OrderStatusesController {
       name,
       orderStatusId
     );
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 }
 

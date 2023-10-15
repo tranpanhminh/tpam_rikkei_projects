@@ -9,9 +9,9 @@ class BookingsService {
   async getAllBookings() {
     const listBookings = await bookingsRepo.getAllBookings();
     if (listBookings.length === 0) {
-      return { message: "No Data Bookings", status: 404 };
+      return { data: [], status: 404 };
     } else {
-      return { message: listBookings, status: 200 };
+      return { data: listBookings, status: 200 };
     }
   }
 
@@ -19,9 +19,9 @@ class BookingsService {
   async getDetailBooking(bookingId) {
     const detailBooking = await bookingsRepo.getDetailBooking(bookingId);
     if (!detailBooking) {
-      return { message: "No Data Bookings", status: 404 };
+      return { data: {}, status: 404 };
     } else {
-      return { message: detailBooking, status: 200 };
+      return { data: detailBooking, status: 200 };
     }
   }
 
@@ -278,9 +278,9 @@ class BookingsService {
   async filterBookingDate(date) {
     const filterBookingDate = await bookingsRepo.filterBookingDate(date);
     if (filterBookingDate.length === 0) {
-      return { message: "No Data Bookings", status: 404 };
+      return { data: [], status: 404 };
     } else {
-      return { message: filterBookingDate, status: 200 };
+      return { data: filterBookingDate, status: 200 };
     }
   }
 
@@ -288,9 +288,9 @@ class BookingsService {
   async groupBookingDate() {
     const groupBookingDate = await bookingsRepo.groupBookingDate();
     if (groupBookingDate.length === 0) {
-      return { message: "No Data Bookings", status: 404 };
+      return { data: [], status: 404 };
     } else {
-      return { message: groupBookingDate, status: 200 };
+      return { data: groupBookingDate, status: 200 };
     }
   }
 
@@ -298,14 +298,14 @@ class BookingsService {
   async filterBookingByUserId(userId) {
     const findUser = await bookingsRepo.findUserById(userId);
     if (!findUser) {
-      return { message: "User ID Not Found", message: 404 };
+      return { message: "User ID Not Found", status: 404 };
     }
 
     const filterBooking = await bookingsRepo.filterBookingByUserId(userId);
     if (filterBooking.length === 0) {
-      return { message: [], status: 200 };
+      return { data: [], status: 200 };
     } else {
-      return { message: filterBooking, status: 200 };
+      return { data: filterBooking, status: 200 };
     }
   }
 }

@@ -19,14 +19,14 @@ class PostTypesController {
   async addPostType(req, res) {
     const { name } = req.body;
     const result = await postTypesService.addPostType(name);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 
   // 4. Delete
   async deletePostType(req, res) {
     const postTypeId = req.params.postTypeId;
     const result = await postTypesService.deletePostType(postTypeId);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 
   // 5. Update
@@ -34,7 +34,7 @@ class PostTypesController {
     const { name } = req.body;
     const postTypeId = req.params.postTypeId;
     const result = await postTypesService.updatePostType(name, postTypeId);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 }
 

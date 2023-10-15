@@ -6,7 +6,7 @@ class UserRolesService {
   async getAllUserRoles() {
     const listUserRoles = await userRolesRepo.getAllUserRoles();
     if (listUserRoles.length === 0) {
-      return { data: "No UserRole Found", status: 404 };
+      return { data: [], status: 404 };
     } else {
       return { data: listUserRoles, status: 200 };
     }
@@ -14,11 +14,9 @@ class UserRolesService {
 
   // 2. Get Detail
   async getDetailUserRole(userRoleId) {
-    const detailUserRole = await userRolesRepo.getDetailUserRole(
-      userRoleId
-    );
+    const detailUserRole = await userRolesRepo.getDetailUserRole(userRoleId);
     if (!detailUserRole) {
-      return { data: "UserRole ID Not Found", status: 404 };
+      return { data: {}, status: 404 };
     } else {
       return { data: detailUserRole, status: 200 };
     }
@@ -27,36 +25,32 @@ class UserRolesService {
   // 3. Add
   async addUserRole(name) {
     if (!name) {
-      return { data: "UserRole Name must not be blank", status: 406 };
+      return { message: "UserRole Name must not be blank", status: 406 };
     } else {
       const userRoleInfo = {
         name: name,
       };
       await userRolesRepo.addUserRole(userRoleInfo);
-      return { data: "UserRole Added", status: 200 };
+      return { message: "UserRole Added", status: 200 };
     }
   }
 
   // 4. Delete
   async deleteUserRole(userRoleId) {
-    const findUserRole = await userRolesRepo.findUserRoleById(
-      userRoleId
-    );
+    const findUserRole = await userRolesRepo.findUserRoleById(userRoleId);
     if (!findUserRole) {
-      return { data: "UserRole ID Not Found", status: 404 };
+      return { message: "UserRole ID Not Found", status: 404 };
     } else {
       await userRolesRepo.deleteUserRole(userRoleId);
-      return { data: "UserRole Deleted", status: 200 };
+      return { message: "UserRole Deleted", status: 200 };
     }
   }
 
   // 5. Update
   async updateUserRole(name, userRoleId) {
-    const findUserRole = await userRolesRepo.findUserRoleById(
-      userRoleId
-    );
+    const findUserRole = await userRolesRepo.findUserRoleById(userRoleId);
     if (!findUserRole) {
-      return { data: "UserRole ID Not Found", status: 404 };
+      return { message: "UserRole ID Not Found", status: 404 };
     }
 
     const dataUserRole = findUserRole.dataValues;
@@ -67,7 +61,7 @@ class UserRolesService {
     };
 
     await userRolesRepo.updateUserRole(userRoleInfo, userRoleId);
-    return { data: "UserRole Role Updated", status: 200 };
+    return { message: "UserRole Role Updated", status: 200 };
   }
 }
 

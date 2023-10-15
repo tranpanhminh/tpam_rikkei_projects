@@ -10,7 +10,7 @@ class ProductsService {
   async getAllProducts(req, res) {
     const listProducts = await productsRepo.getAllProducts();
     if (listProducts.length === 0) {
-      return { data: "No Data Products", status: 404 };
+      return { data: [], status: 404 };
     } else {
       return { data: listProducts, status: 200 };
     }
@@ -20,7 +20,7 @@ class ProductsService {
   async getDetailProduct(productId) {
     const detailProduct = await productsRepo.getDetailProduct(productId);
     if (!detailProduct) {
-      return { data: "Product ID Not Found", status: 404 };
+      return { data: {}, status: 404 };
     } else {
       return { data: detailProduct, status: 200 };
     }
@@ -48,17 +48,17 @@ class ProductsService {
 
       await productsRepo.uploadProductImages(imagesInfo);
     }
-    return { data: newProduct, status: 200 };
+    return { message: newProduct, status: 200 };
   }
 
   // 4. Delete Product
   async deleteProduct(productId) {
     const findProduct = await productsRepo.findProductById(productId);
     if (!findProduct) {
-      return { data: "Product ID Not Found", status: 404 };
+      return { message: "Product ID Not Found", status: 404 };
     } else {
       await productsRepo.deleteProduct(productId);
-      return { data: "Product Deleted", status: 200 };
+      return { message: "Product Deleted", status: 200 };
     }
   }
 
@@ -69,16 +69,16 @@ class ProductsService {
     const findProduct = await productsRepo.findProductById(productId);
 
     if (!findProduct) {
-      return { data: "Product ID Not Found", status: 404 };
+      return { message: "Product ID Not Found", status: 404 };
     }
     const dataProduct = findProduct.dataValues;
 
     if (price < 0) {
-      return { data: "Price must not be < 0", status: 406 };
+      return { message: "Price must not be < 0", status: 406 };
     }
 
     if (quantity_stock < 0) {
-      return { data: "Quantity Stock must not be < 0", status: 406 };
+      return { message: "Quantity Stock must not be < 0", status: 406 };
     }
 
     const productInfo = {
@@ -96,18 +96,18 @@ class ProductsService {
       productId
     );
 
-    return { data: "Product Updated", status: 200 };
+    return { message: "Product Updated", status: 200 };
   }
 
   // 6. Update Product Image
   async updateProductImage(productId, imageId, newImage) {
     const findProduct = await productsRepo.findProductById(productId);
     if (!findProduct) {
-      return { data: "Product ID Not Found", status: 404 };
+      return { message: "Product ID Not Found", status: 404 };
     }
     const findImage = await productsRepo.findImageById(imageId);
     if (!findImage) {
-      return { data: "Image ID Not Found", status: 404 };
+      return { message: "Image ID Not Found", status: 404 };
     }
     const imageInfor = {
       image_url: sourceImage + newImage,
@@ -117,7 +117,7 @@ class ProductsService {
       imageInfor,
       imageId
     );
-    return { data: "Update Image Successfully", status: 200 };
+    return { message: "Update Image Successfully", status: 200 };
   }
 
   // 7. Change Thumbnail
@@ -125,12 +125,12 @@ class ProductsService {
     const findProduct = await productsRepo.findProductById(productId);
 
     if (!findProduct) {
-      return { data: "Product ID Not Found", status: 404 };
+      return { message: "Product ID Not Found", status: 404 };
     }
 
     const findImage = await productsRepo.findImageById(imageId);
     if (!findImage) {
-      return { data: "Image ID Not Found", status: 404 };
+      return { message: "Image ID Not Found", status: 404 };
     }
 
     const dataImage = findImage.dataValues;
@@ -143,7 +143,7 @@ class ProductsService {
       thumbnailInfo,
       productId
     );
-    return { data: "Update Thumbnail Successfully", status: 200 };
+    return { message: "Update Thumbnail Successfully", status: 200 };
   }
 }
 

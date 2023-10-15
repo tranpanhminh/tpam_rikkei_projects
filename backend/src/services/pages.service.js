@@ -10,7 +10,7 @@ class PagesService {
   async getAllPages() {
     const listPages = await pagesRepo.getAllPages();
     if (listPages.length === 0) {
-      return { data: "No Data Pages", status: 404 };
+      return { data: [], status: 404 };
     } else {
       return { data: listPages, status: 200 };
     }
@@ -21,7 +21,7 @@ class PagesService {
     const detailPage = await pagesRepo.getDetailPage(pageId);
 
     if (detailPage.length === 0) {
-      return { data: "Page ID Not Found", status: 404 };
+      return { data: {}, status: 404 };
     } else {
       return { data: detailPage, status: 200 };
     }
@@ -32,21 +32,21 @@ class PagesService {
     const { title, content, author, status_id } = dataBody;
 
     if (!title) {
-      return { data: "Title must not be blank", status: 406 };
+      return { message: "Title must not be blank", status: 406 };
     }
     if (!content) {
-      return { data: "Content must not be blank", status: 406 };
+      return { message: "Content must not be blank", status: 406 };
     }
     if (!author) {
-      return { data: "Author must not be blank", status: 406 };
+      return { message: "Author must not be blank", status: 406 };
     }
     if (!status_id) {
-      return { data: "Status ID must not be blank", status: 406 };
+      return { message: "Status ID must not be blank", status: 406 };
     }
 
     if (!thumbnail && status_id == 2) {
       return {
-        data: "You can't set to Published until you set thumbnail",
+        message: "You can't set to Published until you set thumbnail",
         status: 406,
       };
     }
@@ -62,7 +62,7 @@ class PagesService {
     const newPage = await pagesRepo.addPage(pageInfo);
 
     return {
-      data: newPage,
+      message: newPage,
       status: 200,
     };
   }
@@ -72,13 +72,13 @@ class PagesService {
     const findPage = await pagesRepo.findPageById(pageId);
     if (!findPage) {
       return {
-        data: "Page ID Not Found",
+        message: "Page ID Not Found",
         status: 404,
       };
     } else {
       await pagesRepo.deletePage(pageId);
       return {
-        data: "Page Deleted",
+        message: "Page Deleted",
         status: 200,
       };
     }
@@ -90,7 +90,7 @@ class PagesService {
     const findPage = await pagesRepo.findPageById(pageId);
     if (!findPage) {
       return {
-        data: "Page ID Not Found",
+        message: "Page ID Not Found",
         status: 404,
       };
     }
@@ -98,7 +98,7 @@ class PagesService {
 
     if (!dataPage.thumbnail_url && !thumbnail && status_id == 2) {
       return {
-        data: "You can't publish page until thumbnail set",
+        message: "You can't publish page until thumbnail set",
         status: 406,
       };
     }
@@ -116,7 +116,7 @@ class PagesService {
 
     await pagesRepo.updatePage(pageInfo, pageId);
     return {
-      data: "Page Updated",
+      message: "Page Updated",
       status: 200,
     };
   }

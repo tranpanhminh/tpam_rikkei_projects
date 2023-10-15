@@ -7,7 +7,7 @@ class BookingStatusesService {
     const listBookingStatuses =
       await bookingStatusesRepo.getAllBookingStatuses();
     if (listBookingStatuses.length === 0) {
-      return { data: "No Booking Status Found", status: 404 };
+      return { data: [], status: 404 };
     } else {
       return { data: listBookingStatuses, status: 200 };
     }
@@ -18,7 +18,7 @@ class BookingStatusesService {
     const detailBookingStatus =
       await bookingStatusesRepo.getDetailBookingStatus(bookingStatusId);
     if (!detailBookingStatus) {
-      return { data: "Booking Status ID Not Found", status: 404 };
+      return { data: {}, status: 404 };
     } else {
       return { data: detailBookingStatus, status: 200 };
     }
@@ -27,13 +27,13 @@ class BookingStatusesService {
   // 3. Add Booking Status
   async addBookingStatus(name) {
     if (!name) {
-      return { data: "Booking Status Name must not be blank", status: 406 };
+      return { message: "Booking Status Name must not be blank", status: 406 };
     } else {
       const bookingStatusInfo = {
         name: name,
       };
       await bookingStatusesRepo.addBookingStatus(bookingStatusInfo);
-      return { data: "Booking Status Added", status: 200 };
+      return { message: "Booking Status Added", status: 200 };
     }
   }
 
@@ -43,10 +43,10 @@ class BookingStatusesService {
       bookingStatusId
     );
     if (!findBookingStatus) {
-      return { data: "Booking Status ID Not Found", status: 404 };
+      return { message: "Booking Status ID Not Found", status: 404 };
     } else {
       await bookingStatusesRepo.deleteBookingStatus(bookingStatusId);
-      return { data: "Booking Status Deleted", status: 200 };
+      return { message: "Booking Status Deleted", status: 200 };
     }
   }
 
@@ -56,7 +56,7 @@ class BookingStatusesService {
       bookingStatusId
     );
     if (!findBookingStatus) {
-      return { data: "Booking Status ID Not Found", status: 404 };
+      return { message: "Booking Status ID Not Found", status: 404 };
     }
 
     const dataBookingStatus = findBookingStatus.dataValues;
@@ -70,7 +70,7 @@ class BookingStatusesService {
       bookingStatusInfo,
       bookingStatusId
     );
-    return { data: "Booking Status Updated", status: 200 };
+    return { message: "Booking Status Updated", status: 200 };
   }
 }
 

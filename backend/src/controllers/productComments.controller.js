@@ -38,7 +38,7 @@ class ProductCommentsController {
       dataBody,
       authHeader
     );
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 
   // 5. Delete Product Comment
@@ -47,7 +47,7 @@ class ProductCommentsController {
     const result = await productCommentsService.deleteProductComment(
       productCommentId
     );
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 
   // // 5. Update Product Comment

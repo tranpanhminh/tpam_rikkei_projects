@@ -19,7 +19,7 @@ class OrdersService {
     // const listOrders = await ordersEntity.findAll();
     const listOrders = await ordersRepo.getAllOrders();
     if (listOrders.length === 0) {
-      return { data: "No Data Orders", status: 404 };
+      return { data: [], status: 404 };
     } else {
       return { data: listOrders, status: 200 };
     }
@@ -29,7 +29,7 @@ class OrdersService {
   async getDetailOrder(orderId) {
     const detailOrder = await ordersRepo.getDetailOrder(orderId);
     if (detailOrder.length === 0) {
-      return { data: "No Data Orders", status: 404 };
+      return { data: [], status: 404 };
     } else {
       return { data: detailOrder, status: 200 };
     }
@@ -59,38 +59,38 @@ class OrdersService {
     // Kiểm tra User
     const findUser = await ordersRepo.findUserById(userId);
     if (!findUser) {
-      return { data: "User ID Not Found", status: 404 };
+      return { message: "User ID Not Found", status: 404 };
     }
 
     const dataUser = findUser.dataValues;
     if (dataUser.role_id === 1 || dataUser.role_id === 2) {
-      return { data: "Admin can't checkout", status: 403 };
+      return { message: "Admin can't checkout", status: 403 };
     }
 
     // Kiểm tra giỏ hàng
     const checkCart = await ordersRepo.checkCart(userId);
     // console.log(checkCart, "CHECK CART");
     if (checkCart.length === 0) {
-      return { data: "Your cart is empty", status: 404 };
+      return { message: "Your cart is empty", status: 404 };
     }
 
     // Check thông tin người dùng
     if (!customer_name) {
-      return { data: "Please fill customer name", status: 406 };
+      return { message: "Please fill customer name", status: 406 };
     }
 
     if (!address) {
-      return { data: "Please fill address", status: 406 };
+      return { message: "Please fill address", status: 406 };
     }
 
     if (!phone) {
-      return { data: "Please fill phone number", status: 406 };
+      return { message: "Please fill phone number", status: 406 };
     }
 
     const phoneNumberPattern = /^1\d{10}$/;
     if (!phoneNumberPattern.test(phone)) {
       return {
-        data: "Invalid Phone Number (Use the format 1234567890)",
+        message: "Invalid Phone Number (Use the format 1234567890)",
         status: 406,
       };
     }
@@ -98,37 +98,37 @@ class OrdersService {
     // ----------- Check thẻ thanh toán -------------
     if (!cardholder_name) {
       return {
-        data: "Please fill cardholder name",
+        message: "Please fill cardholder name",
         status: 406,
       };
     }
     if (!card_number) {
       return {
-        data: "Please fill card number",
+        message: "Please fill card number",
         status: 406,
       };
     }
     if (card_number.toString().length < 16) {
       return {
-        data: "Card Number length must be 16",
+        message: "Card Number length must be 16",
         status: 406,
       };
     }
     if (!expiry_date) {
       return {
-        data: "Please fill expiry date (Use format MM/YYYY",
+        message: "Please fill expiry date (Use format MM/YYYY",
         status: 406,
       };
     }
     if (!cvv) {
       return {
-        data: "Please fill CVV",
+        message: "Please fill CVV",
         status: 406,
       };
     }
     if (cvv.toString().length !== 3) {
       return {
-        data: "Invalid CVV Format. CVV length must be 3 (Ex: 111)",
+        message: "Invalid CVV Format. CVV length must be 3 (Ex: 111)",
         status: 406,
       };
     }
@@ -141,7 +141,7 @@ class OrdersService {
     );
     if (!checkCardPayment) {
       return {
-        data: "Invalid Card",
+        message: "Invalid Card",
         status: 406,
       };
     }
@@ -163,7 +163,7 @@ class OrdersService {
 
     if (checkValidCardDate < formattedDateTime) {
       return {
-        data: "Card is expired",
+        message: "Card is expired",
         status: 406,
       };
     }
@@ -218,7 +218,7 @@ class OrdersService {
     const totalBill = (bill - discountedAmount).toFixed(2);
     // Kiểm tra balance trong thẻ
     if (dataCard.balance < totalBill) {
-      return { data: "Balance is not enough", status: 406 };
+      return { message: "Balance is not enough", status: 406 };
     }
 
     // ----------- Thông tin Order -------------
@@ -305,7 +305,7 @@ class OrdersService {
     // Xóa toàn bộ giỏ hàng của người dùng sau khi vòng lặp
     await ordersRepo.destroyCart(userId);
     return {
-      data: "Order Completed",
+      message: "Order Completed",
       status: 200,
     };
   }
@@ -314,7 +314,7 @@ class OrdersService {
   async updatedOrder(orderId, status_id) {
     const findOrder = await ordersRepo.findOrderById(orderId);
     if (!findOrder) {
-      return { data: "Order ID Not Found", status: 404 };
+      return { message: "Order ID Not Found", status: 404 };
     }
 
     /** Order Status:
@@ -327,14 +327,14 @@ class OrdersService {
 
     if (status_id && status_id !== 4 && findOrder.status_id === 4) {
       return {
-        data: "Order can't updated because it was shipped",
+        message: "Order can't updated because it was shipped",
         status: 406,
       };
     }
 
     if (status_id && status_id !== 4 && findOrder.status_id === 5) {
       return {
-        data: "Order can't updated because it was canceled",
+        message: "Order can't updated because it was canceled",
         status: 406,
       };
     }
@@ -346,7 +346,7 @@ class OrdersService {
 
     await ordersRepo.updatedOrder(orderInfo, orderId);
     return {
-      data: "Order Updated Status",
+      message: "Order Updated Status",
       status: 200,
     };
   }
@@ -355,7 +355,7 @@ class OrdersService {
   async cancelOrder(orderId, cancel_reason_id) {
     const findOrder = await ordersRepo.findOrderById(orderId);
     if (!findOrder) {
-      return { data: "Order ID Not Found", status: 404 };
+      return { message: "Order ID Not Found", status: 404 };
     }
     const dataOrder = findOrder.dataValues;
 
@@ -374,33 +374,33 @@ class OrdersService {
       4. Another Reason...
     */
     // if (!cancel_reason_id) {
-    //   return { data: "Please choose cancel reasons!", status: 406 };
+    //   return { message: "Please choose cancel reasons!", status: 406 };
     // }
 
     if (findOrder.status_id === 2) {
       return {
-        data: "Order can't be cancelled because it is Processing",
+        message: "Order can't be cancelled because it is Processing",
         status: 406,
       };
     }
 
     if (findOrder.status_id === 3) {
       return {
-        data: "Order can't be cancelled because it is Shipping",
+        message: "Order can't be cancelled because it is Shipping",
         status: 406,
       };
     }
 
     if (findOrder.status_id === 4) {
       return {
-        data: "Order can't be cancelled because it was shipped",
+        message: "Order can't be cancelled because it was shipped",
         status: 406,
       };
     }
 
     if (findOrder.status_id === 5) {
       return {
-        data: "Order can't be cancelled because it was canceled",
+        message: "Order can't be cancelled because it was canceled",
         status: 406,
       };
     }
@@ -417,7 +417,7 @@ class OrdersService {
         ...dataCancelReason,
       };
     } else {
-      return { data: "Invalid Cancel Reason Id.", status: 404 };
+      return { message: "Invalid Cancel Reason Id.", status: 404 };
     }
 
     const orderInfo = {
@@ -438,14 +438,14 @@ class OrdersService {
       balance: dataPayment.balance + dataOrder.bill,
     };
     await ordersRepo.cancelOrder(updatedPaymentBalance, dataOrder.card_id);
-    return { data: "Cancel Order Completed", status: 200 };
+    return { message: "Cancel Order Completed", status: 200 };
   }
 
   // 7. GetOrder By Order ID
   async getOrder(orderId) {
     const findOrder = await ordersRepo.getOrder(orderId);
     if (findOrder.length === 0) {
-      return { data: "No Data", status: 404 };
+      return { data: {}, status: 404 };
     } else {
       return { data: findOrder, status: 200 };
     }

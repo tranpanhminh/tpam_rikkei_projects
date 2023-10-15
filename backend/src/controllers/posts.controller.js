@@ -21,14 +21,14 @@ class PostsController {
     const dataBody = req.body;
     const thumbnail = req.file ? req.file.filename : "";
     const result = await postsService.addPost(dataBody, thumbnail);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 
   // 4. Delete Post
   async deletePost(req, res) {
     const postId = req.params.postId;
     const result = await postsService.deletePost(postId);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 
   // 5. Update Post
@@ -38,7 +38,7 @@ class PostsController {
     const postId = req.params.postId;
 
     const result = await postsService.updatePost(dataBody, thumbnail, postId);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 }
 module.exports = new PostsController();

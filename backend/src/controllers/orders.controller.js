@@ -40,7 +40,7 @@ class OrdersController {
     const dataBody = req.body;
     const userId = req.params.userId;
     const result = await ordersService.checkoutOrder(userId, dataBody);
-    res.status(result.status).json(result.data);
+    res.status(result.status).json(result);
   }
 
   // 5. Update Status Order For Admin
@@ -48,7 +48,7 @@ class OrdersController {
     const { status_id } = req.body;
     const orderId = req.params.orderId;
     const result = await ordersService.updatedOrder(orderId, status_id);
-    res.status(result.status).json(result.data);
+    res.status(result.status).json(result);
   }
 
   // 6. Cancel Order For Customer
@@ -56,7 +56,7 @@ class OrdersController {
     const { cancel_reason_id } = req.body;
     const orderId = req.params.orderId;
     const result = await ordersService.cancelOrder(orderId, cancel_reason_id);
-    res.status(result.status).json(result.data);
+    res.status(result.status).json(result);
   }
 
   // 7. GetOrder By Order ID

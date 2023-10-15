@@ -19,14 +19,14 @@ class UserRolesController {
   async addUserRole(req, res) {
     const { name } = req.body;
     const result = await userRolesService.addUserRole(name);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 
   // 4. Delete
   async deleteUserRole(req, res) {
     const userRoleId = req.params.userRoleId;
     const result = await userRolesService.deleteUserRole(userRoleId);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 
   // 5. Update
@@ -34,7 +34,7 @@ class UserRolesController {
     const { name } = req.body;
     const userRoleId = req.params.userRoleId;
     const result = await userRolesService.updateUserRole(name, userRoleId);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 }
 

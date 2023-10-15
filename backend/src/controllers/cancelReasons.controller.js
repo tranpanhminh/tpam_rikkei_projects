@@ -21,7 +21,7 @@ class CancelReasonsController {
   async addCancelReason(req, res) {
     const { name } = req.body;
     const result = await cancelReasonsService.addCancelReason(name);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 
   // 4. Delete
@@ -30,7 +30,7 @@ class CancelReasonsController {
     const result = await cancelReasonsService.deleteCancelReason(
       cancelReasonId
     );
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 
   // 5. Update
@@ -41,7 +41,7 @@ class CancelReasonsController {
       name,
       cancelReasonId
     );
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 }
 

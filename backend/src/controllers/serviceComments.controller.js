@@ -38,7 +38,7 @@ class ServiceCommentsController {
       dataBody,
       authHeader
     );
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 
   // 5. Delete Service Comment
@@ -47,7 +47,7 @@ class ServiceCommentsController {
     const result = await serviceCommentsService.deleteServiceComment(
       serviceCommentId
     );
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 }
 module.exports = new ServiceCommentsController();

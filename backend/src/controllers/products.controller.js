@@ -32,14 +32,14 @@ class ProductsController {
     const data = req.body;
     const productImages = req.files;
     const result = await productsService.addProduct(data, productImages);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 
   // 4. Delete Product
   async deleteProduct(req, res) {
     const productId = req.params.productId;
     const result = await productsService.deleteProduct(productId);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 
   // 5. Update Product
@@ -47,7 +47,7 @@ class ProductsController {
     const productId = req.params.productId;
     const dataBody = req.body;
     const result = await productsService.updateProduct(productId, dataBody);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 
   // 6. Update Product Image
@@ -60,7 +60,7 @@ class ProductsController {
       imageId,
       newImage
     );
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 
   // 7. Change Thumbnail
@@ -68,7 +68,7 @@ class ProductsController {
     const productId = req.params.productId;
     const imageId = req.params.imageId;
     const result = await productsService.changeThumbnail(productId, imageId);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 }
 module.exports = new ProductsController();

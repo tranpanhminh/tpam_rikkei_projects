@@ -12,14 +12,14 @@ class BookingsController {
   // 1. Get All Bookings
   async getAllBookings(req, res) {
     const result = await bookingsService.getAllBookings();
-    return res.status(result.status).json(result);
+    return res.status(result.status).json(result.data);
   }
 
   // 2. Get Detail Booking
   async getDetailBooking(req, res) {
     const bookingId = req.params.bookingId;
     const result = await bookingsService.getDetailBooking(bookingId);
-    return res.status(result.status).json(result);
+    return res.status(result.status).json(result.data);
   }
 
   // 3. Add Booking
@@ -80,7 +80,7 @@ class BookingsController {
   async filterBookingByUserId(req, res) {
     const userId = req.params.userId;
     const result = await bookingsService.filterBookingByUserId(userId);
-    return res.status(result.status).json(result);
+    return res.status(result.status).json(result.data);
   }
 
   // 8. Filter Booking By Date
@@ -88,13 +88,13 @@ class BookingsController {
     const date = req.params.date;
     console.log(date, "DATE");
     const result = await bookingsService.filterBookingDate(date);
-    return res.status(result.status).json(result);
+    return res.status(result.status).json(result.data);
   }
 
   // 9. Group Booking Date
   async groupBookingDate(req, res) {
     const result = await bookingsService.groupBookingDate();
-    return res.status(result.status).json(result);
+    return res.status(result.status).json(result.data);
   }
 }
 module.exports = new BookingsController();

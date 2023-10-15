@@ -29,14 +29,14 @@ class ServicesController {
     const dataBody = req.body;
     const serviceImage = req.file.filename;
     const result = await servicesService.addService(dataBody, serviceImage);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 
   // 4. Delete Service
   async deleteService(req, res) {
     const serviceId = req.params.serviceId;
     const result = await servicesService.deleteService(serviceId);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 
   // 5. Update Service
@@ -49,7 +49,7 @@ class ServicesController {
       dataBody,
       newImage
     );
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 }
 module.exports = new ServicesController();

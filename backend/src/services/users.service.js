@@ -8,7 +8,7 @@ class UsersService {
   async getAllUsers() {
     const listUsers = await usersRepo.getAllUsers();
     if (listUsers.length === 0) {
-      return { data: "No Data Users", status: 404 };
+      return { data: [], status: 404 };
     } else {
       return { data: listUsers, status: 200 };
     }
@@ -18,7 +18,7 @@ class UsersService {
   async getDetailUser(userId) {
     const detailUser = await usersRepo.getDetailUser(userId);
     if (!detailUser) {
-      return { data: "User Not Found", status: 404 };
+      return { data: {}, status: 404 };
     } else {
       return { data: detailUser, status: 200 };
     }
@@ -75,7 +75,7 @@ class UsersService {
     const newUser = await usersRepo.userRegister(userInfo);
     return {
       message: "User Register Successfully",
-      data: newUser,
+      message: newUser,
       status: 200,
     };
   }
@@ -131,7 +131,7 @@ class UsersService {
     const newUser = await usersRepo.addAdmin(userInfo);
     return {
       message: "New Admin Added Successfully",
-      data: newUser,
+      message: newUser,
       status: 200,
     };
   }
@@ -197,7 +197,7 @@ class UsersService {
     const updatedUser = await usersRepo.changePassword(userId, updatedInfo);
     return {
       message: "Password Changed Successfully",
-      data: updatedUser,
+      message: updatedUser,
       status: 200,
     };
   }
@@ -216,7 +216,7 @@ class UsersService {
           : (dataUser.status_id = 1),
     };
     const resultUpdate = await usersRepo.changeStatus(updatedUser, userId);
-    return { message: "Status Changed", data: resultUpdate, status: 200 };
+    return { message: "Status Changed", message: resultUpdate, status: 200 };
   }
 
   // 9.Edit Avatar
@@ -230,7 +230,7 @@ class UsersService {
       image_avatar: sourceImage + avatar,
     };
     const result = await usersRepo.editAvatar(userId, updatedUser);
-    return { message: "Avatar Changed", status: 200, data: result };
+    return { message: "Avatar Changed", status: 200, message: result };
   }
 
   // 10. Create User
@@ -284,7 +284,7 @@ class UsersService {
     const newUser = await usersRepo.createUser(userInfo);
     return {
       message: "New Admin Added Successfully",
-      data: newUser,
+      message: newUser,
       status: 200,
     };
   }
@@ -360,7 +360,7 @@ class UsersService {
       return {
         message: "Login successfully",
         accessToken: jwtData,
-        data: dataInfo,
+        message: dataInfo,
         status: 200,
       };
     }

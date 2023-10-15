@@ -19,14 +19,14 @@ class CouponsController {
   async addCoupon(req, res) {
     const dataBody = req.body;
     const result = await couponsService.addCoupon(dataBody);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 
   // 4. Delete Coupon
   async deleteCoupon(req, res) {
     const couponId = req.params.couponId;
     const result = await couponsService.deleteCoupon(couponId);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 
   // 5. Update Coupon
@@ -34,7 +34,7 @@ class CouponsController {
     const dataBody = req.body;
     const couponId = req.params.couponId;
     const result = await couponsService.updateCoupon(dataBody, couponId);
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
   }
 }
 module.exports = new CouponsController();

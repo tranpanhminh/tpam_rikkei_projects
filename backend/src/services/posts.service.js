@@ -9,7 +9,7 @@ class PostsService {
   async getAllPosts() {
     const listPosts = await postsRepo.getAllPosts();
     if (listPosts.length === 0) {
-      return { data: "No Data Posts", status: 404 };
+      return { data: [], status: 404 };
     } else {
       return { data: listPosts, status: 200 };
     }
@@ -20,7 +20,7 @@ class PostsService {
     const detailPost = await postsRepo.getDetailPost(postId);
 
     if (!detailPost) {
-      return { data: "Post ID Not Found", status: 404 };
+      return { data: {}, status: 404 };
     } else {
       return { data: detailPost, status: 200 };
     }
@@ -31,21 +31,21 @@ class PostsService {
     const { title, content, author, status_id } = dataBody;
 
     if (!title) {
-      return { data: "Title must not be blank", status: 406 };
+      return { message: "Title must not be blank", status: 406 };
     }
     if (!content) {
-      return { data: "Content must not be blank", status: 406 };
+      return { message: "Content must not be blank", status: 406 };
     }
     if (!author) {
-      return { data: "Author must not be blank", status: 406 };
+      return { message: "Author must not be blank", status: 406 };
     }
     if (!status_id) {
-      return { data: "Status ID must not be blank", status: 406 };
+      return { message: "Status ID must not be blank", status: 406 };
     }
 
     if (!thumbnail && status_id == 2) {
       return {
-        data: "You can't set to Published until you set thumbnail",
+        message: "You can't set to Published until you set thumbnail",
         status: 406,
       };
     }
@@ -61,7 +61,7 @@ class PostsService {
     const newPost = await postsRepo.addPost(postInfo);
 
     return {
-      data: newPost,
+      message: newPost,
       status: 200,
     };
   }
@@ -71,13 +71,13 @@ class PostsService {
     const findPost = await postsRepo.findPostById(postId);
     if (!findPost) {
       return {
-        data: "Post ID Not Found",
+        message: "Post ID Not Found",
         status: 404,
       };
     } else {
       await postsRepo.deletePost(postId);
       return {
-        data: "Post Deleted",
+        message: "Post Deleted",
         status: 200,
       };
     }
@@ -89,7 +89,7 @@ class PostsService {
     const findPost = await postsRepo.findPostById(postId);
     if (!findPost) {
       return {
-        data: "Post ID Not Found",
+        message: "Post ID Not Found",
         status: 404,
       };
     }
@@ -97,7 +97,7 @@ class PostsService {
 
     if (!dataPost.thumbnail_url && !thumbnail && status_id == 2) {
       return {
-        data: "You can't publish post until thumbnail set",
+        message: "You can't publish post until thumbnail set",
         status: 406,
       };
     }
@@ -115,7 +115,7 @@ class PostsService {
 
     await postsRepo.updatePost(postInfo, postId);
     return {
-      data: "Post Updated",
+      message: "Post Updated",
       status: 200,
     };
   }
