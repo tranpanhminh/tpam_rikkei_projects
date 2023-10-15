@@ -8,6 +8,7 @@ const productCommentsController = require("../controllers/productComments.contro
 
 // ---------------------- MiddleWares ----------------------
 const checkAuthentication = require("../middlewares/CheckUser/checkAuthentication");
+const checkRoleAdmin = require("../middlewares/CheckComment/CheckRoleAdmin.js");
 
 // ---------------------------------------------------------
 
@@ -29,13 +30,15 @@ productCommentsRouter.get(
 // 4. Add Comment
 productCommentsRouter.post(
   "/add/:productId/users/:userId",
-  //   checkAuthentication,
+  checkAuthentication,
   productCommentsController.addProductComment
 );
 
 // 5. Delete Comment
 productCommentsRouter.delete(
   "/delete/:productCommentId",
+  checkAuthentication,
+  checkRoleAdmin,
   productCommentsController.deleteProductComment
 );
 

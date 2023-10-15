@@ -34,7 +34,6 @@ function ClientProductDetail() {
   const [quantity, setQuantity] = useState<number>(1);
   const [editorContent, setEditorContent] = useState("");
   const [rateValue, setRateValue] = useState(0);
-  const [listUser, setListUser] = useState<any>([]);
 
   // --------------------------------------------------------
 
@@ -56,6 +55,7 @@ function ClientProductDetail() {
 
   // --------------------------------------------------------
 
+  // Fetch API
   const fetchProducts = async () => {
     await axios
       .get(`${productsAPI}/detail/${productId}`)
@@ -97,111 +97,9 @@ function ClientProductDetail() {
     fetchProductComments();
   }, [editorContent]);
 
-  // Function Add To Cart
-  // const handleAddToCart = () => {
-  //   if (quantity === 0) {
-  //     notification.warning({
-  //       message: "Quantity must be at least 1",
-  //     });
-  //     return;
-  //   }
-  //   // Kiểm tra User có phải là Admin
-  //   if (getLoginData.role === "admin") {
-  //     notification.warning({
-  //       message: "Admin is not allowed to buy products",
-  //     });
-  //     return;
-  //   }
-  //   // Kiểm tra User có phải là Customer và tài khoản bị Inactive
-  //   if (
-  //     getLoginData.role === "customer" &&
-  //     getLoginData.status === "Inactive"
-  //   ) {
-  //     notification.warning({
-  //       message:
-  //         "Your account status is Inactive, please wait for admin's verification",
-  //     });
-  //     return;
-  //   }
-  //   // Kiểm tra số lượng hàng tồn kho
-  //   if (products && products.quantity_stock <= 0) {
-  //     notification.warning({
-  //       message: "Product is out of stock",
-  //     });
-  //     return;
-  //   }
-  //   // Kiểm tra số lượng mà User nhập vào có lớn hơn hàng tồn kho không
-  //   if (quantity > products.quantity_stock) {
-  //     notification.warning({
-  //       message: "Input quantity exceeds stock",
-  //     });
-  //     return;
-  //   }
-  //   // Nếu số lượng nhập vào dưới hàng tồn kho sẽ tiếp tục các logic bên dưới
-  //   // Kiểm tra xem sản phẩm có tồn tại trong giỏ hàng hay không
-  //   let findProduct = userCart.find((item: any) => {
-  //     return item.productId === products.id;
-  //   });
-  //   // Nếu như sản phẩm không tồn tại trong giỏ hàng thì sẽ tạo ra 1 sản phẩm mới
-  //   if (!findProduct) {
-  //     let newProductAdd = {
-  //       productId: products.id,
-  //       productImage: products.productImage[0],
-  //       productName: products.name,
-  //       productQuantity: quantity,
-  //       price: products.price,
-  //     };
-  //     console.log("1", userCart);
-  //     userCart.push(newProductAdd);
-  //     console.log("2", userCart);
-  //     let updatedCart = {
-  //       cart: userCart,
-  //     };
-  //     console.log(updatedCart);
-  //     axios
-  //       .patch(
-  //         `http://localhost:7373/accounts/${getLoginData.loginId}`,
-  //         updatedCart
-  //       )
-  //       .then((response) => {
-  //         fetchUsers();
-  //         setUserCart(response.data.cart);
-  //         notification.success({
-  //           message: "Product Added To Cart",
-  //         });
-  //       })
-  //       .catch((error) => {
-  //         console.log(error.message);
-  //       });
-  //   } else {
-  //     let findCartIndex = userCart.findIndex((item: any) => {
-  //       return item.productId === findProduct.productId;
-  //     });
-  //     // Cập nhật số lượng sản phẩm trong bản sao của mảng userCart
-  //     userCart[findCartIndex].productQuantity += quantity;
-  //     console.log("ADSAD", userCart);
-  //     let updatedCart = {
-  //       cart: [...userCart],
-  //     };
-  //     console.log(updatedCart);
-  //     axios
-  //       .patch(
-  //         `http://localhost:7373/accounts/${getLoginData.loginId}`,
-  //         updatedCart
-  //       )
-  //       .then((response) => {
-  //         fetchUsers();
-  //         setUserCart(response.data.cart);
-  //         notification.success({
-  //           message: `${quantity} Product Added`,
-  //         });
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
-  //   }
-  // };
+  // --------------------------------------------------------
 
+  // Add To Cart
   const handleAddToCart = () => {
     const dataCart = {
       quantity: quantity,
@@ -224,26 +122,9 @@ function ClientProductDetail() {
         });
       });
   };
+  // --------------------------------------------------------
 
-  const editorConfig = {
-    height: "300px",
-    // plugins: "maxlength", // Sử dụng plugin maxlength
-    // toolbar: "undo redo | bold italic | maxlength", // Thêm nút maxlength vào thanh công cụ
-    // max_chars: 200, // Giới hạn số ký tự
-    // // Các tùy chọn khác bạn muốn cấu hình
-  };
-
-  // Chức năng Comment
-  const handleEditorChange = (content: string) => {
-    setEditorContent(content);
-  };
-
-  const handleRateChange = (value: number) => {
-    setRateValue(value);
-    console.log(value);
-  };
-
-  // Function Comment
+  // Comment
   const handleComment = () => {
     if (!getLoginData) {
       notification.warning({
@@ -320,37 +201,40 @@ function ClientProductDetail() {
     console.log("Update Products", products);
   };
 
-  // ----------------------------------------------
+  const editorConfig = {
+    height: "300px",
+    // plugins: "maxlength", // Sử dụng plugin maxlength
+    // toolbar: "undo redo | bold italic | maxlength", // Thêm nút maxlength vào thanh công cụ
+    // max_chars: 200, // Giới hạn số ký tự
+    // // Các tùy chọn khác bạn muốn cấu hình
+  };
+
+  const handleEditorChange = (content: string) => {
+    setEditorContent(content);
+  };
+
+  const handleRateChange = (value: number) => {
+    setRateValue(value);
+    console.log(value);
+  };
+
+  // --------------------------------------------------------
 
   // Function Delete Comment
   const handleDeleteComment = (commentId: number) => {
-    let findCommentIndex = comments.findIndex((comment: any) => {
-      return comment.commentId === commentId;
-    });
-    console.log(findCommentIndex);
-
-    comments.splice(findCommentIndex, 1);
-
-    axios
-      .patch(`http://localhost:7373/products/${productId}`, {
-        comments: comments,
-      })
+    console.log(commentId);
+    BaseAxios.delete(`${productCommentsAPI}/delete/${commentId}`)
       .then((response) => {
-        fetchProducts();
-        setProducts(response.data);
-        setComments(response.data.comments);
-        notification.success({
-          message: "Comment Deleted",
-        });
-        handleEditorChange("");
-        setRateValue(0);
+        console.log(response);
+        notification.success({ message: response.data.message });
+        fetchProductComments();
       })
       .catch((error) => {
-        console.log(error.message);
+        console.log(error, "EROR");
+        notification.warning({ message: error.data.message });
       });
-    console.log("Update Products", products);
   };
-  console.log(user, "user");
+
   const checkShowDeleteCommentBtn = () => {
     if (
       (getLoginData && user?.role_id === 1) ||
@@ -360,9 +244,8 @@ function ClientProductDetail() {
     }
     return false;
   };
-  console.log(checkShowDeleteCommentBtn(), "--");
 
-  // ----------------------------------------------
+  // --------------------------------------------------------
 
   const filterCommentsExcludeAdmin = () => {
     let filterComments = productComments.filter((item: any) => {
@@ -590,7 +473,7 @@ function ClientProductDetail() {
                           </div>
 
                           <i
-                            onClick={() => handleDeleteComment(item.commentId)}
+                            onClick={() => handleDeleteComment(item.id)}
                             className={`fa-solid fa-trash-can ${styles["trash-comment-icon"]}`}
                             style={{
                               display:
