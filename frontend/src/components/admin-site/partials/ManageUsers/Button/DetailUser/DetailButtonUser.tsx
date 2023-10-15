@@ -2,6 +2,12 @@ import React, { useState, ReactNode, useEffect } from "react";
 import { Button, Modal, notification } from "antd";
 import styles from "../DetailUser/DetailUserProfile.module.css";
 import axios from "axios";
+
+// Import API
+const usersAPI = process.env.REACT_APP_API_USERS;
+
+// -----------------------------------------------------------
+
 interface DetailModalProps {
   className?: string; // Thêm khai báo cho thuộc tính className
   value?: string; // Thêm khai báo cho thuộc tính className
@@ -20,17 +26,20 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
   title,
   getUserId,
 }) => {
+  // States
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [name, setName] = useState<any>("");
   const [oldPassword, setOldPassword] = useState<any>("");
   const [newPassword, setNewPassword] = useState<any>("");
   const [avatar, setAvatar] = useState<any>("");
-  const [user, setUser] = useState<any>(null);
-
+  const [user, setUser] = useState<any>({});
+  // -----------------------------------------------------------
+  // Fetch API
   const fetchUser = () => {
     axios
-      .get(`http://localhost:7373/accounts/${getUserId}`)
+      .get(`${usersAPI}/detail/${getUserId}`)
       .then((response) => {
+        console.log(response, "DDAA");
         setUser(response.data);
       })
       .catch((error) => {
@@ -41,87 +50,24 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
   useEffect(() => {
     fetchUser();
   }, []);
+  // -----------------------------------------------------------
 
+  // Ẩn hiện Modal
   const showModal = () => {
     setIsModalOpen(true);
-  };
-
-  const handleOk = () => {
-    // Kiểm tra Full Name
-    if (name === "Super Admin") {
-      notification.warning({
-        message: "Error",
-        description: "Don't set Name same to Super Admin",
-      });
-      return;
-    } else if (!/^[a-zA-Z\s]*$/.test(name)) {
-      notification.warning({
-        message: "Full Name cannot contain special characters or numbers",
-      });
-      return false;
-    } else {
-      setName(name);
-    }
-
-    // Kiểm tra Old Password
-    if (oldPassword !== "" && oldPassword !== user.password) {
-      notification.warning({
-        message: "Old Password is not correct",
-      });
-      return;
-    }
-
-    if (oldPassword !== "" && newPassword === "") {
-      notification.warning({
-        message: "Please fill New Password",
-      });
-      return;
-    }
-
-    if (newPassword !== "" && newPassword.length < 8) {
-      notification.warning({
-        message: "Password must be at least 8 characters",
-      });
-      return false;
-    }
-
-    if (
-      oldPassword !== "" &&
-      newPassword !== "" &&
-      newPassword === user.password
-    ) {
-      notification.warning({
-        message: "New Password & Old password must not be the same",
-      });
-      return;
-    } else {
-      setNewPassword(user.password);
-    }
-
-    const updatedUserData = {
-      fullName: name !== "" ? name : user.fullName,
-      password: newPassword !== "" ? newPassword : user.password, // Keep the same password if not changed
-      image_avatar: avatar !== "" ? avatar : user.image_avatar,
-    };
-
-    // Make PUT request to update user data
-    axios
-      .patch(`http://localhost:7373/accounts/${getUserId}`, updatedUserData)
-      .then((response) => {
-        notification.success({
-          message: "Updated Profile",
-        });
-      })
-      .catch((error) => {
-        console.log("Error updating user data:", error);
-      });
-    handleFunctionOk();
-    setIsModalOpen(false);
   };
 
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+  // -----------------------------------------------------------
+
+  // Handle Update User
+  const handleOk = () => {
+    handleFunctionOk();
+    setIsModalOpen(false);
+  };
+  // -----------------------------------------------------------
 
   return (
     <>
@@ -139,15 +85,15 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
           <span style={{ fontSize: "16px", fontWeight: "bold" }}>
             Change User Information (Optional)
           </span>
-          <div className={styles["list-input-item"]}>
+          {/* <div className={styles["list-input-item"]}>
             <p>User ID</p>
             <input type="text" value={user?.id} disabled />
-          </div>
+          </div> */}
           <div className={styles["list-input-item"]}>
             <p>Full Name</p>
             <input
               type="text"
-              defaultValue={user?.fullName}
+              defaultValue={user?.full_name}
               onChange={(event) => setName(event.target.value)}
               disabled={user?.fullName === "Super Admin" ? true : false}
             />
@@ -187,7 +133,7 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
               }}
             />
           </div>
-          <div className={styles["list-input-item"]}>
+          {/* <div className={styles["list-input-item"]}>
             <p>Role</p>
             <select name="role" disabled>
               <option value="" disabled>
@@ -196,8 +142,8 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
               <option value="admin">Admin</option>
               <option value="customer">Customer</option>
             </select>
-          </div>
-          <div className={styles["list-input-item"]}>
+          </div> */}
+          {/* <div className={styles["list-input-item"]}>
             <p>Status</p>
             <select name="status" disabled>
               <option value="" disabled>
@@ -206,7 +152,7 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
               <option value="Active">Active</option>
               <option value="Inactive">Inactive</option>
             </select>
-          </div>
+          </div> */}
         </div>
       </Modal>
     </>

@@ -9,14 +9,23 @@ import axios from "axios";
 import { Badge } from "react-bootstrap";
 import DetailButtonUser from "../ManageUsers/Button/DetailUser/DetailButtonUser";
 
+// Import API
+const usersAPI = process.env.REACT_APP_API_USERS;
+
+// -----------------------------------------------------------
+
 const AdminHeader: React.FC = () => {
+  // States
+  const navigate = useNavigate();
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
   const [user, setUser] = useState<any>(null);
+  // -----------------------------------------------------------
 
+  // Fetch API
   const fetchUser = () => {
     axios
-      .get(`http://localhost:7373/accounts/${getLoginData.loginId}`)
+      .get(`${usersAPI}/detail/${getLoginData.id}`)
       .then((response) => {
         setUser(response.data);
       })
@@ -28,8 +37,8 @@ const AdminHeader: React.FC = () => {
   useEffect(() => {
     fetchUser();
   }, []);
+  // -----------------------------------------------------------
 
-  const navigate = useNavigate();
   const navLinkStyle = ({ isActive }: { isActive: boolean }) => ({
     color: isActive ? "#33d6bb" : "",
   });
@@ -41,10 +50,6 @@ const AdminHeader: React.FC = () => {
       type: "success",
       content: "Logout Successfully",
     });
-
-    // notification.success({
-    //   message: "Logout Successfully",
-    // });
   };
 
   const handleUpdateUser = () => {
@@ -79,11 +84,11 @@ const AdminHeader: React.FC = () => {
               marginBottom: "20px",
             }}
           >
-            {user?.fullName.length > 15
-              ? user?.fullName.split(" ")[0]
-              : user?.fullName}
+            {user?.full_name.length > 15
+              ? user?.full_name.split(" ")[0]
+              : user?.full_name}
           </Badge>
-          {user?.role === "admin" && (
+          {(user?.role_id === 1 || user?.role_id === 2) && (
             <DetailButtonUser
               getUserId={user.id}
               value="Edit Profile"
