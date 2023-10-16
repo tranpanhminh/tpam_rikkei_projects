@@ -84,7 +84,7 @@ const AddModalProduct: React.FC<AddModalProps> = ({
       name: "",
       description: "",
       price: "",
-      quantity_stock: 0,
+      quantity_stock: "",
       vendor_id: 1,
       image_url: [],
     });
@@ -130,8 +130,8 @@ const AddModalProduct: React.FC<AddModalProps> = ({
           setNewProduct({
             name: "",
             description: "",
-            price: 0,
-            quantity_stock: 0,
+            price: "",
+            quantity_stock: "",
             vendor_id: 1,
             image_url: [],
           });
