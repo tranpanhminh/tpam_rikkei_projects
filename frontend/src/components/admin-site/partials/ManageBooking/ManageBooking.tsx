@@ -19,7 +19,6 @@ function ManageBooking() {
   const [searchText, setSearchText] = useState<string>("");
   const [bookings, setBookings] = useState<any>([]);
   const [groupBookingDate, setGroupBookingDate] = useState<any>([]);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -34,6 +33,7 @@ function ManageBooking() {
     setIsModalOpen(false);
   };
 
+  // Fetch API
   const fetchBooking = async () => {
     await axios
       .get(`${bookingsAPI}`)
@@ -60,6 +60,40 @@ function ManageBooking() {
     fetchBooking();
     fetchGroupBookingDate();
   }, []);
+  // -----------------------------------------------------
+
+  // Hanlde Search
+  const handleSearchBooking = () => {
+    if (!searchText) {
+      fetchGroupBookingDate();
+    } else {
+      const filteredBooking = groupBookingDate.filter((booking: any) => {
+        if (
+          booking.booking_date
+            .toLowerCase()
+            .includes(searchText.trim().toLowerCase())
+        ) {
+          return true;
+        }
+        return false;
+      });
+      setGroupBookingDate(filteredBooking);
+    }
+  };
+  // -----------------------------------------------------
+
+  const changeColor = (status: string) => {
+    switch (status) {
+      case "Done":
+        return "success";
+      case "Processing":
+        return "primary";
+      case "Cancel":
+        return "secondary";
+      default:
+        return;
+    }
+  };
 
   // const handleDeleteBooking = (bookingId: number) => {
   //   axios
@@ -74,50 +108,6 @@ function ManageBooking() {
   //       console.log(error.message);
   //     });
   // };
-  // const handleSearchBooking = () => {
-  //   if (searchText === "") {
-  //     // Nếu searchText rỗng, gọi lại fetchUsers để lấy tất cả người dùng
-  //     fetchBooking();
-  //   } else {
-  //     // Nếu có searchText, thực hiện tìm kiếm và cập nhật state
-  //     axios
-  //       .get(`http://localhost:7373/bookings`)
-  //       .then((response) => {
-  //         // Lấy dữ liệu từ response
-  //         const allBooking = response.data;
-
-  //         // Tìm kiếm trong dữ liệu và cập nhật state
-  //         const filteredBooking = allBooking.filter((booking: Booking) => {
-  //           if (
-  //             booking.date
-  //               .toLowerCase()
-  //               .includes(searchText.trim().toLowerCase())
-  //           ) {
-  //             return true;
-  //           }
-  //           return false;
-  //         });
-
-  //         setBookings(filteredBooking);
-  //       })
-  //       .catch((error) => {
-  //         console.log(error.message);
-  //       });
-  //   }
-  // };
-
-  const changeColor = (status: string) => {
-    switch (status) {
-      case "Done":
-        return "success";
-      case "Processing":
-        return "primary";
-      case "Cancel":
-        return "secondary";
-      default:
-        return;
-    }
-  };
 
   return (
     <>
@@ -141,7 +131,7 @@ function ManageBooking() {
             className={`btn  ${styles["btn-outline-success"]}`}
             type="submit"
             id={styles["search-btn"]}
-            // onClick={handleSearchBooking}
+            onClick={handleSearchBooking}
           >
             Search
           </button>
