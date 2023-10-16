@@ -56,7 +56,8 @@ function BlogPost() {
       {(post &&
         post?.post_status.name === "Draft" &&
         ((token && data?.role_id !== 1) || (token && data?.role_id !== 2))) ||
-      !post?.id ? (
+      !post?.id ||
+      (post && post?.post_status.name === "Draft" && !token) ? (
         <Page404 />
       ) : (
         <div className={styles["post-content-section"]}>
