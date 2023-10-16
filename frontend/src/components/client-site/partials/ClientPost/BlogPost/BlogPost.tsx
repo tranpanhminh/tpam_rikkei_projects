@@ -1,3 +1,4 @@
+import jwtDecode from "jwt-decode";
 import React, { useEffect, useState } from "react";
 import styles from "../BlogPost.module.css";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -15,8 +16,8 @@ const postsAPI = process.env.REACT_APP_API_POSTS;
 // --------------------------------------------------
 
 function BlogPost() {
-  const getData: any = localStorage.getItem("auth");
-  const getLoginData = JSON.parse(getData) || "";
+  const token: any = localStorage.getItem("token");
+  const data: any = jwtDecode(token);
   const { postId } = useParams(); // Lấy giá trị slug từ URL
   const [post, setPost] = useState<any>(null);
   const [allPosts, setAllPosts] = useState<any>(null);
@@ -53,10 +54,9 @@ function BlogPost() {
   return (
     <>
       {(post &&
-        post.post_status.name === "Draft" &&
-        getLoginData.role !== "admin") ||
+        post?.post_status.name === "Draft" &&
+        ((token && data?.role_id !== 1) || (token && data?.role_id !== 2))) ||
       !post?.id ? (
-        // <Page404 />
         <Page404 />
       ) : (
         <div className={styles["post-content-section"]}>
@@ -79,16 +79,17 @@ function BlogPost() {
                   {moment(post?.created_at).format("YYYY-MM-DD-hh:mm:ss")}
                 </Badge>
               </div>
-              {getLoginData.role === "admin" && (
-                <NavLink
-                  to={`/admin/manage-posts/?edit-postId=${postId}`}
-                  target="_blank"
-                >
-                  <Badge bg="primary" style={{ fontSize: "16px" }}>
-                    Edit Post
-                  </Badge>
-                </NavLink>
-              )}
+              {data?.role_id === 1 ||
+                (data?.role_id === 2 && (
+                  <NavLink
+                    to={`/admin/manage-posts/?edit-postId=${postId}`}
+                    target="_blank"
+                  >
+                    <Badge bg="primary" style={{ fontSize: "16px" }}>
+                      Edit Post
+                    </Badge>
+                  </NavLink>
+                ))}
             </div>
 
             <section className={styles["post-content"]}>
