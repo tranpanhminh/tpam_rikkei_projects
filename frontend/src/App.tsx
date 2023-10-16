@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-
 // Import AdminPage
 import {
   BrowserRouter,
@@ -46,6 +45,8 @@ import BlogCategory from "./components/client-site/partials/ClientPost/BlogCateg
 import ClientSearchPage from "./components/client-site/layouts/ClientSearchPage";
 import AccessDenied from "./components/common/AccessDenied/AccessDenied";
 import IsLogin from "./components/common/Validate/IsLogin";
+import IsAdmin from "./components/common/Validate/IsAdmin";
+import IsCustomer from "./components/common/Validate/IsCustomer";
 
 export function RoleNavigation() {
   const getData: any = localStorage.getItem("userLogin");
@@ -115,30 +116,37 @@ function App() {
         <Routes>
           <Route path="/" element={<ClientHomePage />}></Route>
           <Route path="/about" element={<ClientAboutPage />}></Route>
-          <Route path="/cart" element={<ClientCartPage />}></Route>
 
           {/* Route của Admin */}
-          <Route path="/admin" element={<AdminMainPage />}>
-            <Route index element={<ManageUsers />} />
-            <Route path="manage-users" element={<ManageUsers />} />
-            <Route path="manage-products" element={<ManageProducts />} />
-            <Route path="manage-orders" element={<ManageOrders />} />
-            <Route path="manage-services" element={<ManageServices />} />
-            <Route path="manage-booking" element={<ManageBooking />} />
-            <Route path="manage-subscribers" element={<ManageSubscribers />} />
-            <Route path="manage-coupons" element={<ManageCoupons />} />
-            <Route path="manage-posts" element={<ManagePosts />} />
-            <Route path="manage-comments" element={<ManageComments />} />
-            <Route path="report" element={<Report />} />
+          <Route element={<IsAdmin />}>
+            <Route path="/admin" element={<AdminMainPage />}>
+              <Route index element={<ManageUsers />} />
+              <Route path="manage-users" element={<ManageUsers />} />
+              <Route path="manage-products" element={<ManageProducts />} />
+              <Route path="manage-orders" element={<ManageOrders />} />
+              <Route path="manage-services" element={<ManageServices />} />
+              <Route path="manage-booking" element={<ManageBooking />} />
+              {/* <Route
+                path="manage-subscribers"
+                element={<ManageSubscribers />}
+              /> */}
+              <Route path="manage-coupons" element={<ManageCoupons />} />
+              <Route path="manage-posts" element={<ManagePosts />} />
+              <Route path="manage-comments" element={<ManageComments />} />
+              <Route path="report" element={<Report />} />
+            </Route>
           </Route>
 
           {/* Route của User */}
-          <Route path="/user" element={<ClientMainPage />}>
-            <Route index element={<ClientEditProfile />} />
-            <Route path="my-profile" element={<ClientEditProfile />} />
-            <Route path="my-orders" element={<ClientOrder />} />
-            <Route path="my-booking" element={<ClientBooking />} />
-            <Route path="my-coupons" element={<ClientCoupons />} />
+          <Route element={<IsCustomer />}>
+            <Route path="/user" element={<ClientMainPage />}>
+              <Route index element={<ClientEditProfile />} />
+              <Route path="my-profile" element={<ClientEditProfile />} />
+              <Route path="my-orders" element={<ClientOrder />} />
+              <Route path="my-booking" element={<ClientBooking />} />
+              <Route path="my-coupons" element={<ClientCoupons />} />
+            </Route>
+            <Route path="/cart" element={<ClientCartPage />}></Route>
           </Route>
 
           {/* Route của chuyên mục Products */}
