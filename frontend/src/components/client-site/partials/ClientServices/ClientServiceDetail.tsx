@@ -1,7 +1,8 @@
+import jwtDecode from "jwt-decode";
 import React, { useEffect, useState, useRef } from "react";
 import styles from "../ClientServices/ClientServiceDetail.module.css";
 import axios from "axios";
-import { NavLink, useLocation, useParams } from "react-router-dom";
+import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Button, Rate, Select, notification } from "antd";
 import avatar from "../../../../assets/images/dogs-reviews-01.png";
 import { Badge } from "react-bootstrap";
@@ -23,6 +24,7 @@ const bookingsAPI = process.env.REACT_APP_API_BOOKINGS;
 // ------------------------------------------------------------------
 
 function ClientServiceDetail() {
+  const navigate = useNavigate();
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
   const { serviceId } = useParams();
@@ -47,6 +49,31 @@ function ClientServiceDetail() {
     booking_date: "",
     calendar: "",
   });
+
+  // Check Token
+  const token: any = localStorage.getItem("token") || "";
+  let data: any;
+  if (token) {
+    try {
+      data = jwtDecode(token);
+
+      // Đây là một đối tượng được giải mã từ token
+      console.log(data);
+
+      // Kiểm tra thời hạn của token
+      const currentTimestamp = Math.floor(Date.now() / 1000);
+      if (data.exp < currentTimestamp) {
+        console.log("Token is expired.");
+      } else {
+        console.log("Token is valid.");
+      }
+    } catch (error) {
+      navigate("/");
+    }
+  } else {
+    console.log("Token Not Found.");
+  }
+  // ------------------------------------------------------------------
 
   // Fetch API
   const fetchUsers = async () => {
@@ -259,7 +286,7 @@ function ClientServiceDetail() {
                     <h2 className={styles["service-title-name"]}>
                       {service && service.name}
                     </h2>
-                    {getLoginData.role === "admin" && (
+                    {(data.role_id === 1 || data.role_id === 2) && (
                       <div className={styles["editor-post-bar"]}>
                         <NavLink
                           to={`/admin/manage-service/?edit-serviceId=${service.id}`}

@@ -74,9 +74,9 @@ function BlogPost() {
 
   return (
     <>
-      {post &&
-      post?.status_id === 1 &&
-      (data?.role_id === 1 || data?.role_id === 2) ? (
+      {post && post.status_id === 1 && data?.role_id !== 1 ? (
+        <Page404 />
+      ) : (
         <div className={styles["post-content-section"]}>
           <div className={styles["main-content-section"]}>
             <h1 className={styles["post-title"]} id="post_title">
@@ -172,8 +172,6 @@ function BlogPost() {
             </div>
           </div>
         </div>
-      ) : (
-        <Page404 />
       )}
     </>
   );

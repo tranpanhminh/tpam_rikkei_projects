@@ -1,8 +1,9 @@
+import jwtDecode from "jwt-decode";
 import React, { useEffect, useState } from "react";
 import styles from "../../ClientPage.module.css";
 import axios from "axios";
 import { Product } from "../../../../database";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { notification, Button, Modal } from "antd";
 import {} from "antd";
 import { Rate } from "antd";
@@ -22,19 +23,15 @@ const cartsAPI = process.env.REACT_APP_API_CARTS;
 // ----------------------------------------------------------------------
 function ClientProductDetail() {
   // List States
-
+  const navigate = useNavigate();
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { productId } = useParams();
   const [user, setUser] = useState<any>(null);
   const [productComments, setProductComments] = useState<any>([]);
-  // const [userCart, setUserCart] = useState<any>(null);
   const [products, setProducts] = useState<any>(null);
-  // const [comments, setComments] = useState<any>([]);
   const [quantity, setQuantity] = useState<number>(1);
-  // const [editorContent, setEditorContent] = useState("");
-  // const [rateValue, setRateValue] = useState(0);
   const [userComment, setUserComment] = useState<any>({
     comment: "",
     rating: 5,
@@ -43,6 +40,30 @@ function ClientProductDetail() {
   // --------------------------------------------------------
 
   document.title = `${products ? `${products?.name} | PetShop` : "Loading..."}`;
+  // Check Token
+  const token: any = localStorage.getItem("token") || "";
+  let data: any;
+  if (token) {
+    try {
+      data = jwtDecode(token);
+
+      // Đây là một đối tượng được giải mã từ token
+      console.log(data);
+
+      // Kiểm tra thời hạn của token
+      const currentTimestamp = Math.floor(Date.now() / 1000);
+      if (data.exp < currentTimestamp) {
+        console.log("Token is expired.");
+      } else {
+        console.log("Token is valid.");
+      }
+    } catch (error) {
+      navigate("/");
+    }
+  } else {
+    console.log("Token Not Found.");
+  }
+  // --------------------------------------------------------
 
   // Ẩn hiện Modal
 
@@ -247,7 +268,7 @@ function ClientProductDetail() {
                   <h2 className={styles["product-title-name"]}>
                     {products && products.name}
                   </h2>
-                  {getLoginData.role === "admin" && (
+                  {(data.role_id === 1 || data.role_id === 2) && (
                     <div className={styles["editor-post-bar"]}>
                       <NavLink
                         to={`/admin/manage-products/?edit-productId=${products.id}`}
