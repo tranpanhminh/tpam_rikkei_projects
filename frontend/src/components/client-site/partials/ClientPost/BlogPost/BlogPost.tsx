@@ -16,8 +16,29 @@ const postsAPI = process.env.REACT_APP_API_POSTS;
 // --------------------------------------------------
 
 function BlogPost() {
-  const token: any = localStorage.getItem("token");
-  const data: any = jwtDecode(token);
+  const navigate = useNavigate();
+  const token: any = localStorage.getItem("token") || "";
+  let data: any;
+  if (token) {
+    try {
+      data = jwtDecode(token);
+
+      // Đây là một đối tượng được giải mã từ token
+      console.log(data);
+
+      // Kiểm tra thời hạn của token
+      const currentTimestamp = Math.floor(Date.now() / 1000);
+      if (data.exp < currentTimestamp) {
+        console.log("Token hết hạn.");
+      } else {
+        console.log("Token hợp lệ.");
+      }
+    } catch (error) {
+      navigate("/");
+    }
+  } else {
+    console.log("Không có token.");
+  }
   const { postId } = useParams(); // Lấy giá trị slug từ URL
   const [post, setPost] = useState<any>(null);
   const [allPosts, setAllPosts] = useState<any>(null);
@@ -53,13 +74,9 @@ function BlogPost() {
 
   return (
     <>
-      {(post &&
-        post?.post_status.name === "Draft" &&
-        ((token && data?.role_id !== 1) || (token && data?.role_id !== 2))) ||
-      !post?.id ||
-      (post && post?.post_status.name === "Draft" && !token) ? (
-        <Page404 />
-      ) : (
+      {post &&
+      post?.status_id === 1 &&
+      (data?.role_id === 1 || data?.role_id === 2) ? (
         <div className={styles["post-content-section"]}>
           <div className={styles["main-content-section"]}>
             <h1 className={styles["post-title"]} id="post_title">
@@ -116,7 +133,7 @@ function BlogPost() {
                   </span>
                 </span>
                 <p className={styles["moderator-check"]}>
-                  <b>{post.author}</b>
+                  <b>{post?.author}</b>
                 </p>
                 <p className={styles["moderator-check"]}>
                   Veterinarian, Content Moderator
@@ -155,6 +172,8 @@ function BlogPost() {
             </div>
           </div>
         </div>
+      ) : (
+        <Page404 />
       )}
     </>
   );
