@@ -16,9 +16,10 @@ const productsAPI = process.env.REACT_APP_API_PRODUCTS;
 function ManageProducts() {
   document.title = "Manage Products | PetShop";
   const navigate = useNavigate();
-  const [products, setProducts] = useState<null | Product[]>(null);
+  const [products, setProducts] = useState<any>([]);
   const [searchText, setSearchText] = useState<string>("");
 
+  // Fetch API
   const fetchProducts = () => {
     axios
       .get(`${productsAPI}`)
@@ -33,44 +34,36 @@ function ManageProducts() {
   useEffect(() => {
     fetchProducts();
   }, []);
+  // ------------------------------------------------
 
+  // Handle Search
   const handleSearchProduct = () => {
-    if (searchText === "") {
+    if (!searchText) {
       // Nếu searchText rỗng, gọi lại fetchProducts để lấy tất cả người dùng
       fetchProducts();
     } else {
-      // Nếu có searchText, thực hiện tìm kiếm và cập nhật state
-      axios
-        .get(`http://localhost:7373/products`)
-        .then((response) => {
-          // Lấy dữ liệu từ response
-          const allProducts = response.data;
+      const filterProducts = products.filter((product: any) => {
+        if (
+          product?.name
+            .toLowerCase()
+            .includes(searchText.trim().toLowerCase()) ||
+          product?.price.toString().includes(searchText.trim()) ||
+          product?.vendor?.name
+            .toLowerCase()
+            .includes(searchText.trim().toLowerCase()) ||
+          product?.quantity_stock.toString().includes(searchText.trim())
+        ) {
+          return true;
+        }
+        return false;
+      });
 
-          // Tìm kiếm trong dữ liệu và cập nhật state
-          const filterProducts = allProducts.filter((product: Product) => {
-            if (
-              product.name
-                .toLowerCase()
-                .includes(searchText.trim().toLowerCase()) ||
-              product.price.toString().includes(searchText.trim()) ||
-              product.vendor
-                .toLowerCase()
-                .includes(searchText.trim().toLowerCase()) ||
-              product.quantity_stock.toString().includes(searchText.trim())
-            ) {
-              return true;
-            }
-            return false;
-          });
-
-          setProducts(filterProducts);
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
+      setProducts(filterProducts);
     }
   };
+  // ------------------------------------------------
 
+  // Handle Delete Product
   const handleDeleteProduct = (productId: number) => {
     axios
       .delete(`${productsAPI}/delete/${productId}`)
@@ -85,11 +78,15 @@ function ManageProducts() {
         console.log(error.message);
       });
   };
+  // ------------------------------------------------
 
+  // Handle Update Product
   const handleUpdateProduct = () => {
     navigate("/admin/manage-products/");
     fetchProducts();
   };
+
+  // ------------------------------------------------
 
   return (
     <div>
@@ -143,7 +140,7 @@ function ManageProducts() {
             </tr>
           </thead>
           <tbody>
-            {products?.map((product) => (
+            {products?.map((product: any) => (
               <tr key={product.id}>
                 <td>{product.id}</td>
                 <td>

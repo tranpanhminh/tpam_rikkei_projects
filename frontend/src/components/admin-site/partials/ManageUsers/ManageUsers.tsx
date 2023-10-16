@@ -17,14 +17,14 @@ const usersAPI = process.env.REACT_APP_API_USERS;
 // ------------------------------------------------
 function ManageUsers() {
   document.title = "Manage Users | PetShop";
+  const navigate = useNavigate();
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
   const [users, setUsers] = useState<any>([]);
   const [user, setUser] = useState<any>({});
   const [searchText, setSearchText] = useState<string>("");
 
-  const navigate = useNavigate();
-
+  // Fetch API
   const fetchUsers = () => {
     axios
       .get(`${usersAPI}`)
@@ -51,55 +51,51 @@ function ManageUsers() {
     fetchUsers();
     fetchUser();
   }, []);
+  // ------------------------------------------------
 
+  // Handle Search
   const handleSearchUser = () => {
-    // if (searchText === "") {
-    //   // Nếu searchText rỗng, gọi lại fetchUsers để lấy tất cả người dùng
-    //   fetchUsers();
-    // } else {
-    //   // Nếu có searchText, thực hiện tìm kiếm và cập nhật state
-    //   axios
-    //     .get(`http://localhost:7373/accounts`)
-    //     .then((response) => {
-    //       // Lấy dữ liệu từ response
-    //       const allUsers = response.data;
-    //       // Tìm kiếm trong dữ liệu và cập nhật state
-    //       const filteredUsers = allUsers.filter((user: Account) => {
-    //         if (
-    //           user.email
-    //             .toLowerCase()
-    //             .includes(searchText.trim().toLowerCase()) ||
-    //           user.full_name
-    //             .toLowerCase()
-    //             .includes(searchText.trim().toLowerCase()) ||
-    //           user.role
-    //             .toLowerCase()
-    //             .includes(searchText.trim().toLowerCase()) ||
-    //           user.status
-    //             .toLowerCase()
-    //             .includes(searchText.trim().toLowerCase())
-    //         ) {
-    //           return true;
-    //         }
-    //         return false;
-    //       });
-    //       setUsers(filteredUsers);
-    //     })
-    //     .catch((error) => {
-    //       console.log(error.message);
-    //     });
-    // }
+    console.log(searchText, "SADDA");
+    if (!searchText) {
+      // Nếu searchText rỗng, gọi lại fetchUsers để lấy tất cả người dùng
+      fetchUsers();
+    } else {
+      const filteredUsers = users.filter((user: any) => {
+        if (
+          user?.email.toLowerCase().includes(searchText.trim().toLowerCase()) ||
+          user?.full_name
+            .toLowerCase()
+            .includes(searchText.trim().toLowerCase()) ||
+          user?.user_role?.name
+            .toLowerCase()
+            .includes(searchText.trim().toLowerCase()) ||
+          user?.user_status?.name
+            .toLowerCase()
+            .includes(searchText.trim().toLowerCase())
+        ) {
+          return true;
+        }
+        return false;
+      });
+      setUsers(filteredUsers);
+    }
   };
+  // ------------------------------------------------
 
+  // Handle Change User
   const handleChangeUser = async (userId: number) => {
     await axios.patch(`${usersAPI}/change-status-account/${userId}`);
     fetchUsers();
   };
+  // ------------------------------------------------
 
+  // Handle Add User
   const handleAddUser = (newUser: Account) => {
     fetchUsers();
   };
+  // ------------------------------------------------
 
+  // Handle Delete User
   const handleDeleteUser = async (userId: number) => {
     await axios.delete(`${usersAPI}/delete/${userId}`);
     notification.success({
@@ -107,6 +103,7 @@ function ManageUsers() {
     });
     fetchUsers();
   };
+  // ------------------------------------------------
 
   const changeColor = (status: string) => {
     switch (status) {
@@ -218,7 +215,7 @@ function ManageUsers() {
                     }
                   ></DetailButtonUser> */}
 
-                  {user.role_id === 1 && user.role_id === 2 ? (
+                  {user?.role_id === 1 && user?.role_id === 2 ? (
                     ""
                   ) : (
                     <>
