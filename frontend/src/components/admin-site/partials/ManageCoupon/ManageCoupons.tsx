@@ -14,24 +14,13 @@ const couponsAPI = process.env.REACT_APP_API_COUPONS;
 
 function ManageNewsletter() {
   document.title = "Manage Coupons | PetShop";
-
-  const [coupons, setCoupons] = useState<null | Coupon[]>(null);
+  const [coupons, setCoupons] = useState<any>([]);
   const [users, setUsers] = useState<any>(null);
   const [searchText, setSearchText] = useState<string>("");
   const [sentCoupons, setSentCoupons] = useState<number[]>([]);
   const [clickedCoupons, setClickedCoupons] = useState<number[]>([]);
 
-  const fetchUsers = () => {
-    axios
-      .get("http://localhost:7373/accounts")
-      .then((response) => {
-        setUsers(response.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  };
-
+  // Fetch API
   const fetchCoupons = () => {
     axios
       .get(`${couponsAPI}`)
@@ -43,40 +32,29 @@ function ManageNewsletter() {
       });
   };
 
-  // useEffect(() => {
-  //   fetchCoupons();
-  //   fetchUsers();
-  // }, []);
+  useEffect(() => {
+    fetchCoupons();
+  }, []);
+  // ------------------------------------------------
 
+  // Handle Search
   const handleSearchCoupons = () => {
-    if (searchText === "") {
+    if (!searchText) {
       fetchCoupons();
     } else {
-      axios
-        .get(`http://localhost:7373/coupons`)
-        .then((response) => {
-          // Lấy dữ liệu từ response
-          const allCoupons = response.data;
+      const filterCoupons = coupons.filter((coupon: any) => {
+        if (
+          coupon.name.toLowerCase().includes(searchText.trim().toLowerCase())
+        ) {
+          return true;
+        }
+        return false;
+      });
 
-          // Tìm kiếm trong dữ liệu và cập nhật state
-          const filterCoupons = allCoupons.filter((coupon: Coupon) => {
-            if (
-              coupon.name
-                .toLowerCase()
-                .includes(searchText.trim().toLowerCase())
-            ) {
-              return true;
-            }
-            return false;
-          });
-
-          setCoupons(filterCoupons);
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
+      setCoupons(filterCoupons);
     }
   };
+  // ------------------------------------------------
 
   const handleAddCoupon = () => {
     axios
@@ -91,7 +69,7 @@ function ManageNewsletter() {
 
   const handleDeleteCoupon = (couponId: number) => {
     axios
-      .delete(`http://localhost:7373/coupons/${couponId}`)
+      .delete(`${couponsAPI}/delete/${couponId}`)
       .then(() => {
         fetchCoupons(); // Cập nhật lại dữ liệu products sau khi xóa
         notification.success({
@@ -158,59 +136,54 @@ function ManageNewsletter() {
   //   [sentCoupons, clickedCoupons, coupons, users]
   // );
 
-  const handleSendCoupon = async (couponId: number) => {
-    try {
-      const response = await axios.patch(
-        `http://localhost:7373/coupons/${couponId}`,
-        {
-          status: "Sended",
-        }
-      );
+  // const handleSendCoupon = async (couponId: number) => {
+  //   try {
+  //     const response = await axios.patch(
+  //       `http://localhost:7373/coupons/${couponId}`,
+  //       {
+  //         status: "Sended",
+  //       }
+  //     );
 
-      fetchCoupons();
+  //     fetchCoupons();
 
-      const findCoupon = coupons?.find((coupon) => coupon.id === couponId);
+  //     const findCoupon = coupons?.find((coupon) => coupon.id === couponId);
 
-      const filterUserRegister = users.filter(
-        (user: any) => user.newsletter_register === true
-      );
+  //     const filterUserRegister = users.filter(
+  //       (user: any) => user.newsletter_register === true
+  //     );
 
-      for (let user of filterUserRegister) {
-        let maxNewsletterId = Math.max(
-          ...user.newsletter.map((item: any) => item.id),
-          0
-        );
+  //     for (let user of filterUserRegister) {
+  //       let maxNewsletterId = Math.max(
+  //         ...user.newsletter.map((item: any) => item.id),
+  //         0
+  //       );
 
-        const newCoupon = {
-          id: maxNewsletterId + 1,
-          couponName: findCoupon?.name,
-          couponCode: findCoupon?.code,
-          discount: findCoupon?.discount,
-          status: findCoupon?.status,
-        };
+  //       const newCoupon = {
+  //         id: maxNewsletterId + 1,
+  //         couponName: findCoupon?.name,
+  //         couponCode: findCoupon?.code,
+  //         discount: findCoupon?.discount,
+  //         status: findCoupon?.status,
+  //       };
 
-        const response = await axios.patch(
-          `http://localhost:7373/accounts/${user.id}`,
-          {
-            newsletter: [...user.newsletter, newCoupon],
-          }
-        );
+  //       const response = await axios.patch(
+  //         `http://localhost:7373/accounts/${user.id}`,
+  //         {
+  //           newsletter: [...user.newsletter, newCoupon],
+  //         }
+  //       );
 
-        fetchUsers();
-      }
+  //       fetchUsers();
+  //     }
 
-      notification.success({
-        message: `Coupon sent successfully`,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchCoupons();
-    fetchUsers();
-  }, []);
+  //     notification.success({
+  //       message: `Coupon sent successfully`,
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   return (
     <>

@@ -11,7 +11,9 @@ class CouponsRepo {
 
   // 1. Get All
   async getAllCoupons() {
-    const listCoupons = await couponsEntity.findAll();
+    const listCoupons = await couponsEntity.findAll({
+      order: [["discount_rate", "ASC"]],
+    });
     return listCoupons;
   }
 

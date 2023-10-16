@@ -19,8 +19,6 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
   title,
   handleClickOk,
 }) => {
-  // const [dates, setDates] = useState<string[]>([]);
-  // const [editorInitialValue, setEditorInitialValue] = useState("");
   const [couponName, setCouponName] = useState("");
   const [couponCode, setCouponCode] = useState("");
   const [couponDiscount, setCouponDiscount] = useState(1);
