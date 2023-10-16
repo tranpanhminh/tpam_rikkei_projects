@@ -224,7 +224,7 @@ function ManageNewsletter() {
             <tr>
               <th>Coupon ID</th>
               <th>Name</th>
-              {/* <th>Code</th> */}
+              <th>Code</th>
               <th>Discount</th>
               <th>Min Bill</th>
               <th>Action</th>
@@ -236,7 +236,7 @@ function ManageNewsletter() {
                 <tr key={coupon.id}>
                   <td>{coupon.id}</td>
                   <td>{coupon.name}</td>
-                  {/* <td>{coupon.code}</td> */}
+                  <td>{coupon.code}</td>
                   <td>{coupon.discount_rate}%</td>
                   <td>${coupon.min_bill}</td>
                   <td className={styles["group-btn-admin"]}>

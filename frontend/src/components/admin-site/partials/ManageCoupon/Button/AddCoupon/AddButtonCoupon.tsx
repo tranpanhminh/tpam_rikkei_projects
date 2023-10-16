@@ -25,9 +25,7 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
   title,
   handleClickOk,
 }) => {
-  const [couponName, setCouponName] = useState("");
-  const [couponCode, setCouponCode] = useState("");
-  const [couponDiscount, setCouponDiscount] = useState(1);
+  const [coupons, setCoupons] = useState<any>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [couponInfo, setCouponInfo] = useState({
     name: "",
@@ -36,8 +34,7 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
     min_bill: "",
   });
 
-  const [coupons, setCoupons] = useState<any>([]);
-
+  // Fetch API
   const fetchCoupons = () => {
     axios
       .get(`${couponsAPI}`)
@@ -53,60 +50,37 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
     fetchCoupons();
   }, []);
 
+  // ------------------------------------------------
+
   const showModal = () => {
     fetchCoupons();
     setIsModalOpen(true);
   };
 
-  const handleOk = () => {
-    if (couponDiscount > 100) {
-      notification.warning({
-        message: "Notification",
-        description: "Discount must be <= 100",
-      });
-      return;
-    }
-
-    // Kiểm tra thông tin đầy đủ
-    if (couponName === "" || couponCode === "" || couponDiscount <= 0) {
-      notification.warning({
-        message: "Notification",
-        description:
-          "Please make sure all information filled, Discount must be integer",
-        // placement: "bottomLeft",
-      });
-      return;
-    } else {
-      const updatedCoupon = {
-        name: couponName,
-        code: couponCode,
-        discount: couponDiscount,
-        status: "New",
-      };
-      axios
-        .post("http://localhost:7373/coupons", updatedCoupon)
-        .then((response) => {
-          fetchCoupons(); // Cập nhật lại dữ liệu products sau khi thêm
-          notification.success({
-            message: "Coupon Added",
-            // placement: "bottomLeft",
-          });
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
-      handleClickOk();
-
-      setIsModalOpen(false);
-      setCouponName("");
-      setCouponCode("");
-      setCouponDiscount(1);
-    }
-  };
-
   const handleCancel = () => {
+    setCouponInfo({
+      name: "",
+      code: "",
+      discount_rate: "",
+      min_bill: "",
+    });
     setIsModalOpen(false);
   };
+
+  // Handle Add Coupon
+  const handleOk = () => {
+    axios
+      .post(`${couponsAPI}/add`, couponInfo)
+      .then((response) => {
+        notification.success({ message: response.data.message });
+        handleClickOk();
+        setIsModalOpen(false);
+      })
+      .catch((error) => {
+        notification.warning({ message: error.response.data.message });
+      });
+  };
+  // ------------------------------------------------
 
   return (
     <>
@@ -152,7 +126,7 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
           <div className={styles["list-input-item"]}>
             <p>Discount</p>
             <input
-              type="text"
+              type="number"
               value={couponInfo.discount_rate}
               onChange={(event) =>
                 setCouponInfo({
@@ -165,7 +139,7 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
           <div className={styles["list-input-item"]}>
             <p>Min Bill</p>
             <input
-              type="text"
+              type="number"
               value={couponInfo.min_bill}
               onChange={(event) =>
                 setCouponInfo({

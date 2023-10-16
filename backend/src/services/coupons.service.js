@@ -53,7 +53,7 @@ class CouponsService {
 
     const couponInfo = {
       name: name,
-      code: code,
+      code: code.trim(),
       discount_rate: discount_rate,
       min_bill: min_bill,
     };
