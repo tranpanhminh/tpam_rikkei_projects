@@ -251,6 +251,27 @@ class BookingsRepo {
     });
     return detailBooking;
   }
+
+  // 9. Report Booking
+  async reportBooking() {
+    const reportBooking = await bookingsEntity.findAll({
+      attributes: [
+        "service_id",
+        [sequelize.col("service.name"), "name"],
+        [sequelize.col("service.price"), "price"],
+        [sequelize.col("service.service_image"), "service_image"],
+        [sequelize.fn("COUNT", sequelize.col("service_id")), "book_count"],
+      ],
+      include: [
+        {
+          model: servicesEntity,
+          required: true,
+        },
+      ],
+      group: ["service_id"],
+    });
+    return reportBooking;
+  }
 }
 
 module.exports = new BookingsRepo();

@@ -50,4 +50,7 @@ bookingsRouter.get("/filter/date/:date", bookingsController.filterBookingDate);
 // 9. Group Booking Date
 bookingsRouter.get("/group/", bookingsController.groupBookingDate);
 
+// 10. Report Booking
+bookingsRouter.get("/report/", bookingsController.reportBooking);
+
 module.exports = bookingsRouter;

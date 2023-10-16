@@ -65,6 +65,7 @@ class OrdersRepo {
         "cancellation_reason",
         "order_date",
         "bill",
+        "status_id",
         "discounted",
         "total_bill",
         "updated_at",
@@ -305,7 +306,6 @@ class OrdersRepo {
           attributes: ["name"],
         },
       ],
-
       group: ["id"],
       where: { id: orderId },
     });

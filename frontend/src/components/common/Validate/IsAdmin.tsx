@@ -7,7 +7,7 @@ import { message, notification } from "antd";
 
 function IsAdmin() {
   const token: any = localStorage.getItem("token");
-  const location = useLocation();
+  // const location = useLocation();
 
   const data: any = jwtDecode(token);
   if (data?.role_id !== 1 && data?.role_id !== 2) {

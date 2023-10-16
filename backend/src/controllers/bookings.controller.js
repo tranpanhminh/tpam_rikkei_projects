@@ -96,5 +96,11 @@ class BookingsController {
     const result = await bookingsService.groupBookingDate();
     return res.status(result.status).json(result.data);
   }
+
+  // 10. Report Booking
+  async reportBooking(req, res) {
+    const result = await bookingsService.reportBooking();
+    return res.status(result.status).json(result.data);
+  }
 }
 module.exports = new BookingsController();

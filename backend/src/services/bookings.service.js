@@ -308,6 +308,15 @@ class BookingsService {
       return { data: filterBooking, status: 200 };
     }
   }
+  //  10. Report Booking
+  async reportBooking() {
+    const reportBooking = await bookingsRepo.reportBooking();
+    if (reportBooking.length === 0) {
+      return { data: [], status: 200 };
+    } else {
+      return { data: reportBooking, status: 200 };
+    }
+  }
 }
 
 module.exports = new BookingsService();
