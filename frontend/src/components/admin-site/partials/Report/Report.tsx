@@ -190,7 +190,46 @@ function Report() {
   // --------------------------------------------------
 
   // Biểu đồ Booking - Date
+  // Tạo một đối tượng Map để lưu trữ dữ liệu theo tháng
+  const monthBookingMap = new Map();
 
+  // Lặp qua mảng đơn hàng ban đầu
+  bookings.forEach((booking: any) => {
+    const bookingDate = moment(booking.booking_date).format("DD/MM/YYYY");
+    const dateParts = bookingDate.split(" "); // Tách ngày và thời gian
+    const monthYear = dateParts[0].split("/").slice(1).join("/"); // Lấy tháng và năm
+
+    // Kiểm tra xem tháng đã tồn tại trong Map chưa
+    if (monthBookingMap.has(monthYear)) {
+      // Nếu tồn tại, thêm đơn hàng vào mảng order của tháng đó
+      monthBookingMap.get(monthYear).booking.push(booking);
+      // Cộng tổng giá trị đơn hàng có giảm giá vào sumorderwithdiscount của tháng
+      monthBookingMap.get(monthYear).service_price += booking.service_price;
+    } else {
+      // Nếu chưa tồn tại, tạo một tháng mới với đơn hàng đầu tiên
+      monthBookingMap.set(monthYear, {
+        month: monthYear,
+        service_price: booking.service_price,
+        booking: [booking],
+      });
+    }
+  });
+
+  // Chuyển dữ liệu từ Map sang mảng kết quả
+  const resultBookingArray = Array.from(monthBookingMap.values());
+
+  // Tạo mảng dữ liệu cho biểu đồ
+  const bookingData = [["Month", "Booking"]];
+
+  // Lặp qua mảng kết quả
+  resultBookingArray.forEach((item: any) => {
+    bookingData.push([item.month, item.booking?.length]);
+  });
+
+  const bookingDataOption = {
+    curveType: "function",
+    legend: { position: "bottom" },
+  };
   // --------------------------------------------------
 
   return (
@@ -241,7 +280,8 @@ function Report() {
             chartType="Bar"
             width="100%"
             height="400px"
-            // data={bookingService}
+            data={bookingData} // Sử dụng saleOrderData thay cho data
+            options={bookingDataOption} // Sử dụng saleOrderDataOption thay cho optio
           />
         </div>
       </div>
