@@ -6,6 +6,12 @@ import axios from "axios";
 import dayjs, { Dayjs } from "dayjs";
 const { RangePicker } = DatePicker;
 
+// Import API
+// 1. Coupons API
+const couponsAPI = process.env.REACT_APP_API_COUPONS;
+
+// ------------------------------------------------
+
 interface AddModalProps {
   className?: string;
   value?: string;
@@ -22,11 +28,19 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
   const [couponName, setCouponName] = useState("");
   const [couponCode, setCouponCode] = useState("");
   const [couponDiscount, setCouponDiscount] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [couponInfo, setCouponInfo] = useState({
+    name: "",
+    code: "",
+    discount_rate: "",
+    min_bill: "",
+  });
+
   const [coupons, setCoupons] = useState<any>([]);
 
   const fetchCoupons = () => {
     axios
-      .get("http://localhost:7373/coupons")
+      .get(`${couponsAPI}`)
       .then((response) => {
         setCoupons(response.data);
       })
@@ -38,14 +52,6 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
   useEffect(() => {
     fetchCoupons();
   }, []);
-
-  let listIdCoupon = coupons?.map((coupon: any) => {
-    return coupon.id;
-  });
-
-  const maxId = listIdCoupon?.length > 0 ? Math.max(...listIdCoupon) : 0;
-  console.log("MAX ID", maxId);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
     fetchCoupons();
@@ -102,10 +108,6 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
     setIsModalOpen(false);
   };
 
-  const dateTime = (start: string, end: string) => {
-    console.log(start, end);
-  };
-
   return (
     <>
       <Button
@@ -123,33 +125,53 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
         width={500}
       >
         <div className={styles["list-input-add-student"]}>
-          <div className={styles["list-input-item"]}>
+          {/* <div className={styles["list-input-item"]}>
             <p>Coupon ID</p>
-            <input type="text" value={maxId + 1} disabled />
-          </div>
+            <input type="text" disabled />
+          </div> */}
           <div className={styles["list-input-item"]}>
             <p>Coupon Name</p>
             <input
               type="text"
-              value={couponName}
-              onChange={(event) => setCouponName(event.target.value)}
+              value={couponInfo.name}
+              onChange={(event) =>
+                setCouponInfo({ ...couponInfo, name: event.target.value })
+              }
             />
           </div>
           <div className={styles["list-input-item"]}>
             <p>Code</p>
             <input
               type="text"
-              value={couponCode}
-              onChange={(event) => setCouponCode(event.target.value)}
+              value={couponInfo.code}
+              onChange={(event) =>
+                setCouponInfo({ ...couponInfo, code: event.target.value })
+              }
             />
           </div>
           <div className={styles["list-input-item"]}>
             <p>Discount</p>
             <input
               type="text"
-              value={Number(couponDiscount)}
+              value={couponInfo.discount_rate}
               onChange={(event) =>
-                setCouponDiscount(Number(event.target.value))
+                setCouponInfo({
+                  ...couponInfo,
+                  discount_rate: event.target.value,
+                })
+              }
+            />
+          </div>
+          <div className={styles["list-input-item"]}>
+            <p>Min Bill</p>
+            <input
+              type="text"
+              value={couponInfo.min_bill}
+              onChange={(event) =>
+                setCouponInfo({
+                  ...couponInfo,
+                  min_bill: event.target.value,
+                })
               }
             />
           </div>

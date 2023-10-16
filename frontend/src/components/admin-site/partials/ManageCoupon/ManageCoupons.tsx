@@ -56,17 +56,13 @@ function ManageNewsletter() {
   };
   // ------------------------------------------------
 
+  // Handle Add
   const handleAddCoupon = () => {
-    axios
-      .get("http://localhost:7373/coupons")
-      .then((response) => {
-        fetchCoupons(); // Cập nhật lại dữ liệu products sau khi thêm
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+    fetchCoupons();
   };
+  // ------------------------------------------------
 
+  // Handle Delete
   const handleDeleteCoupon = (couponId: number) => {
     axios
       .delete(`${couponsAPI}/delete/${couponId}`)
@@ -81,6 +77,7 @@ function ManageNewsletter() {
         console.log(error.message);
       });
   };
+  // ------------------------------------------------
 
   // const handleSendCoupon = useCallback(
   //   (couponId: number) => {
