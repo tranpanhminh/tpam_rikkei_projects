@@ -19,9 +19,9 @@ function ManageOrders() {
   document.title = "Manage Orders | PetShop";
 
   const [orders, setOrders] = useState<any>(null);
-  const [orderCart, setOrderCart] = useState<any>(null);
   const [searchText, setSearchText] = useState<string>("");
 
+  // Fetch API
   const fetchOrders = () => {
     axios
       .get(`${ordersAPI}`)
@@ -38,39 +38,32 @@ function ManageOrders() {
     fetchOrders();
   }, []);
 
+  // ------------------------------------------------
+
+  // Handle Search
   const handleSearchOrders = () => {
     if (searchText === "") {
       fetchOrders(); // Không có searchText, fetch toàn bộ đơn hàng
       return;
     } else {
-      axios
-        .get(`http://localhost:7373/orders`)
-        .then((response) => {
-          // Lấy dữ liệu từ response
-          const allOrders = response.data;
+      const filterOrders = orders.filter((order: any) => {
+        if (
+          order?.customer_name
+            .toLowerCase()
+            .includes(searchText.trim().toLowerCase()) ||
+          order?.order_status?.name
+            .toLowerCase()
+            .includes(searchText.trim().toLowerCase())
+        ) {
+          return true; // Bạn có thể sử dụng `.toLowerCase()` để làm cho tìm kiếm không phân biệt chữ hoa, chữ thường.
+        }
+        return false;
+      });
 
-          // Tìm kiếm trong dữ liệu và cập nhật state
-          const filterOrders = allOrders.filter((order: Order) => {
-            if (
-              order.name
-                .toLowerCase()
-                .includes(searchText.trim().toLowerCase()) ||
-              order.status
-                .toLowerCase()
-                .includes(searchText.trim().toLowerCase())
-            ) {
-              return true; // Bạn có thể sử dụng `.toLowerCase()` để làm cho tìm kiếm không phân biệt chữ hoa, chữ thường.
-            }
-            return false;
-          });
-
-          setOrders(filterOrders);
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
+      setOrders(filterOrders);
     }
   };
+  // ------------------------------------------------
 
   const changeColor = (status: string) => {
     switch (status) {
