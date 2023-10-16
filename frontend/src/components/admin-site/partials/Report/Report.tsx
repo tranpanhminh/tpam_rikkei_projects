@@ -28,7 +28,6 @@ function Report() {
   const [bookings, setBookings] = useState<any>([]);
   const [bestSellingProduct, setBestSellingProduct] = useState<any>([]);
   const [bestBookingService, setBestBookingService] = useState<any>([]);
-  const [listProductsRating, setListProductRating] = useState<any>([]);
 
   // Fetch API
   const fetchUsers = () => {
@@ -97,11 +96,15 @@ function Report() {
       });
   };
 
-  const listProductRating = () => {
-    const sortProducts = products.sort((a: any, b: any) => {
-      return b.avg_rating - a.avg_rating;
-    });
-    return setListProductRating(sortProducts);
+  const fetchBookingService = () => {
+    axios
+      .get(`${bookingsAPI}/report`)
+      .then((response) => {
+        setBestBookingService(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
@@ -111,7 +114,7 @@ function Report() {
     fetchOrders();
     fetchBookings();
     fetchSellingProduct();
-    listProductRating();
+    fetchBookingService();
   }, []);
 
   // --------------------------------------------------
@@ -125,8 +128,22 @@ function Report() {
     }, 0); // 0 là giá trị khởi tạo cho accumulator
     return totalSales;
   };
-  console.log(bestSellingProduct, "BEST :S");
+
   // --------------------------------------------------
+  let bestProductRating: any = [];
+  let bestServiceRating: any = [];
+  const listProductRating = () => {
+    const sortProducts = products.sort((a: any, b: any) => {
+      return b.avg_rating - a.avg_rating;
+    });
+    bestProductRating = sortProducts;
+
+    const sortService = services.sort((a: any, b: any) => {
+      return b.avg_rating - a.avg_rating;
+    });
+    bestServiceRating = sortService;
+  };
+  listProductRating();
 
   // // Tạo một đối tượng Map để lưu trữ dữ liệu theo tháng
   // const monthMap = new Map();
@@ -524,14 +541,14 @@ function Report() {
           <h4>Best Rating Product</h4>
           <NavLink to={`/products/`} target="_blank">
             <img
-              src={listProductsRating[0]?.name || 0}
+              src={bestProductRating[0]?.thumbnail_url || 0}
               alt=""
               className={styles["best-report-image"]}
             />
           </NavLink>
           <NavLink to={`/products/`} target="_blank">
             <p className={styles["best-report-overview-name"]}>
-              {listProductsRating[0]?.name || 0}
+              {bestProductRating[0]?.name || 0}
             </p>
           </NavLink>
           <div className={styles["best-report-overview-statistic"]}>
@@ -540,7 +557,7 @@ function Report() {
                 bg="primary"
                 className={styles["best-report-overview-badge"]}
               >
-                Avg Rating: {listProductsRating[0]?.avg_rating || 0}
+                Avg Rating: {bestProductRating[0]?.avg_rating || 0}
                 <i
                   className={`fa-solid fa-star  ${styles["best-rating-star-icon"]}`}
                 ></i>
@@ -552,29 +569,29 @@ function Report() {
                 text="dark"
                 className={styles["best-report-overview-badge"]}
               >
-                Avg Rating: {listProductsRating[0]?.avg_rating || 0}
+                Total Reviews: {bestProductRating[0]?.total_reviews || 0}
               </Badge>
             </div>
           </div>
         </div>
         <div className={styles["best-report-overview-item"]}>
           <h4>Best Booking Service</h4>
-          {/* <NavLink
-            // to={`/services/${sortUniqueBooking[0]?.serviceId}`}
+          <NavLink
+            to={`/services/${bestBookingService[0]?.service_id}`}
             target="_blank"
           >
             <img
-              // src={sortUniqueBooking[0]?.serviceImage || 0}
+              src={bestBookingService[0]?.service_image || 0}
               alt=""
               className={styles["best-report-image"]}
             />
-          </NavLink> */}
+          </NavLink>
           <NavLink
-            // to={`/services/${sortUniqueBooking[0]?.serviceId}`}
+            to={`/services/${bestBookingService[0]?.service_id}`}
             target="_blank"
           >
             <p className={styles["best-report-overview-name"]}>
-              {/* {sortUniqueBooking[0]?.serviceName || 0} */}
+              {bestBookingService[0]?.name || 0}
             </p>
           </NavLink>
           <div className={styles["best-report-overview-statistic"]}>
@@ -583,7 +600,7 @@ function Report() {
                 bg="primary"
                 className={styles["best-report-overview-badge"]}
               >
-                {/* Total Booked: {sortUniqueBooking[0]?.count || 0} */}
+                Total Booked: {bestBookingService[0]?.book_count || 0}
               </Badge>
             </div>
             <div>
@@ -592,23 +609,23 @@ function Report() {
                 text="dark"
                 className={styles["best-report-overview-badge"]}
               >
-                {/* Price: ${sortUniqueBooking[0]?.servicePrice || 0} */}
+                Price: ${bestBookingService[0]?.price || 0}
               </Badge>
             </div>
           </div>
         </div>
         <div className={styles["best-report-overview-item"]}>
           <h4>Best Rating Service</h4>
-          <NavLink to={`/services/`} target="_blank">
+          <NavLink to={`/services/${bestServiceRating[0].id}`} target="_blank">
             <img
-              // src={sortServiceRating[0]?.serviceImage || 0}
+              src={bestServiceRating[0]?.service_image || 0}
               alt=""
               className={styles["best-report-image"]}
             />
           </NavLink>
-          <NavLink to={`/services/`} target="_blank">
+          <NavLink to={`/services/${bestServiceRating[0].id}`} target="_blank">
             <p className={styles["best-report-overview-name"]}>
-              {/* {sortServiceRating[0]?.name || 0} */}
+              {bestServiceRating[0]?.name || 0}
             </p>
           </NavLink>
           <div className={styles["best-report-overview-statistic"]}>
@@ -617,7 +634,7 @@ function Report() {
                 bg="primary"
                 className={styles["best-report-overview-badge"]}
               >
-                {/* Rating: {sortServiceRating[0]?.averateRating.toFixed(1) || 0} */}
+                Rating: {bestServiceRating[0]?.avg_rating || 0}
                 <i
                   className={`fa-solid fa-star  ${styles["best-rating-star-icon"]}`}
                 ></i>
@@ -629,7 +646,7 @@ function Report() {
                 text="dark"
                 className={styles["best-report-overview-badge"]}
               >
-                {/* Total reviews: {sortServiceRating[0]?.totalReviews || 0} */}
+                Total reviews: {bestServiceRating[0]?.total_reviews || 0}
               </Badge>
             </div>
           </div>
