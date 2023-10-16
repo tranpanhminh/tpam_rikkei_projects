@@ -146,6 +146,7 @@ function Report() {
   };
   listProductRating();
 
+  // Biểu đồ Sale - Order
   // Tạo một đối tượng Map để lưu trữ dữ liệu theo tháng
   const monthMap = new Map();
 
@@ -174,9 +175,6 @@ function Report() {
   // Chuyển dữ liệu từ Map sang mảng kết quả
   const resultArray = Array.from(monthMap.values());
 
-  // In ra kết quả
-  console.log(resultArray, "resultArray");
-
   // Tạo mảng dữ liệu cho biểu đồ
   const saleOrderData = [["Month", "Sales", "Orders"]];
 
@@ -189,83 +187,11 @@ function Report() {
     curveType: "function",
     legend: { position: "bottom" },
   };
+  // --------------------------------------------------
 
-  // Khởi tạo mảng của Service Booking
-  // Khởi tạo đối tượng Map để lưu trữ số lần booking của từng dịch vụ theo tháng
-  const serviceCountByMonth = new Map();
+  // Biểu đồ Booking - Date
 
-  // Lặp qua mảng bookings
-  // bookings.forEach((booking: any) => {
-  //   const { date, listBookings } = booking;
-
-  //   // Khởi tạo biến đếm cho các dịch vụ
-  //   let countVeterinarian = 0;
-  //   let countPetGrooming = 0;
-  //   let countPetSitting = 0;
-
-  //   // Lặp qua danh sách đặt lịch trong mỗi ngày
-  //   listBookings.forEach((bookingItem: any) => {
-  //     // Đếm số lần booking của từng dịch vụ
-  //     switch (bookingItem.service_name) {
-  //       case "Veterinarian":
-  //         countVeterinarian++;
-  //         break;
-  //       case "Pet Grooming":
-  //         countPetGrooming++;
-  //         break;
-  //       case "Pet Sitting":
-  //         countPetSitting++;
-  //         break;
-  //       default:
-  //         break;
-  //     }
-  //   });
-
-  //   // Chuyển đổi ngày thành đối tượng Date
-  //   const dateParts = date.split("/");
-  //   const year = parseInt(dateParts[2], 10);
-  //   const month = parseInt(dateParts[1], 10) - 1; // Lưu ý: Tháng trong JavaScript là 0-based (0: Tháng 1, 1: Tháng 2, ...)
-
-  //   // Tạo khóa dựa trên tháng và năm
-  //   const monthYear = `${(month + 1).toString().padStart(2, "0")}/${year}`; // Định dạng tháng và năm thành "MM/YYYY"
-
-  //   // Kiểm tra xem tháng đã tồn tại trong Map chưa
-  //   if (serviceCountByMonth.has(monthYear)) {
-  //     // Nếu tồn tại, cập nhật số lần booking của các dịch vụ
-  //     const existingData = serviceCountByMonth.get(monthYear);
-  //     existingData.countVeterinarian += countVeterinarian;
-  //     existingData.countPetGrooming += countPetGrooming;
-  //     existingData.countPetSitting += countPetSitting;
-  //   } else {
-  //     // Nếu chưa tồn tại, tạo một bản ghi mới
-  //     serviceCountByMonth.set(monthYear, {
-  //       Month: monthYear, // Thay đổi Month để hiển thị đúng định dạng "MM/YYYY"
-  //       countVeterinarian,
-  //       countPetGrooming,
-  //       countPetSitting,
-  //     });
-  //   }
-  // });
-
-  // Chuyển dữ liệu từ Map sang mảng kết quả
-  const serviceBookingByMonth = Array.from(serviceCountByMonth.values());
-
-  // Tạo mảng dữ liệu cho biểu đồ
-  const bookingService = [
-    ["Month", "Veterinarian", "Pet Grooming", "Pet Sitting"],
-  ];
-
-  // Thêm dữ liệu vào mảng data2
-  serviceBookingByMonth.forEach((item) => {
-    const { Month, countVeterinarian, countPetGrooming, countPetSitting } =
-      item;
-    bookingService.push([
-      Month,
-      countVeterinarian,
-      countPetGrooming,
-      countPetSitting,
-    ]);
-  });
+  // --------------------------------------------------
 
   return (
     <>
