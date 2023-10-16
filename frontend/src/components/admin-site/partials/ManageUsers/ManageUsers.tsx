@@ -220,23 +220,91 @@ function ManageUsers() {
                   </Badge>
                 </td>
                 <td className={styles["group-btn-admin"]}>
-                  <div>
-                    <Button
-                      type="primary"
-                      className={styles["change-user-btn"]}
-                      onClick={() => handleChangeUser(user.id)}
-                    >
-                      Change
-                    </Button>
-                    &nbsp;
-                    <Button
-                      type="primary"
-                      className={styles["delete-user-btn"]}
-                      onClick={() => handleDeleteUser(user.id)}
-                    >
-                      Delete
-                    </Button>
-                  </div>
+                  {userLogin?.role_id === 2 ? (
+                    userLogin?.role_id === 1 ? (
+                      <div>
+                        <Button
+                          type="primary"
+                          className={styles["change-user-btn"]}
+                          onClick={() => handleChangeUser(user.id)}
+                          style={{
+                            display:
+                              user?.role_id === 1 ? "none" : "inline-block",
+                          }}
+                        >
+                          Change
+                        </Button>
+                        &nbsp;
+                        <Button
+                          type="primary"
+                          className={styles["delete-user-btn"]}
+                          onClick={() => handleDeleteUser(user.id)}
+                          style={{
+                            display:
+                              user?.role_id === 1 ? "none" : "inline-block",
+                          }}
+                        >
+                          Delete
+                        </Button>
+                      </div>
+                    ) : (
+                      <div>
+                        <Button
+                          type="primary"
+                          className={styles["change-user-btn"]}
+                          onClick={() => handleChangeUser(user.id)}
+                          style={{
+                            display:
+                              user?.role_id === 1 || user?.role_id === 2
+                                ? "none"
+                                : "inline-block",
+                          }}
+                        >
+                          Change
+                        </Button>
+                        &nbsp;
+                        <Button
+                          type="primary"
+                          className={styles["delete-user-btn"]}
+                          onClick={() => handleDeleteUser(user.id)}
+                          style={{
+                            display:
+                              user?.role_id === 1 || user?.role_id === 2
+                                ? "none"
+                                : "inline-block",
+                          }}
+                        >
+                          Delete
+                        </Button>
+                      </div>
+                    )
+                  ) : (
+                    <div>
+                      <Button
+                        type="primary"
+                        className={styles["change-user-btn"]}
+                        onClick={() => handleChangeUser(user.id)}
+                        style={{
+                          display:
+                            user?.role_id === 1 ? "none" : "inline-block",
+                        }}
+                      >
+                        Change
+                      </Button>
+                      &nbsp;
+                      <Button
+                        type="primary"
+                        className={styles["delete-user-btn"]}
+                        onClick={() => handleDeleteUser(user.id)}
+                        style={{
+                          display:
+                            user?.role_id === 1 ? "none" : "inline-block",
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  )}
 
                   {/* <DetailButtonUser
                     className={styles["detail-user-btn"]}
