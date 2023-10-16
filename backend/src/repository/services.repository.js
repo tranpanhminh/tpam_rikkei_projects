@@ -32,6 +32,12 @@ class ServicesService {
           ),
           "avg_rating",
         ],
+        [
+          sequelize.literal(
+            `IFNULL((SELECT COUNT(id) FROM service_comments WHERE service_comments.post_id = services.id AND service_comments.user_role_id NOT IN (1, 2)), 0)`
+          ),
+          "total_reviews",
+        ],
       ],
       // Tham gia với bảng post_types
       include: [
@@ -72,6 +78,12 @@ class ServicesService {
             `IFNULL((SELECT ROUND(AVG(rating), 1) FROM service_comments WHERE service_comments.post_id = services.id AND service_comments.user_role_id NOT IN (1, 2)), 0)`
           ),
           "avg_rating",
+        ],
+        [
+          sequelize.literal(
+            `IFNULL((SELECT COUNT(id) FROM service_comments WHERE service_comments.post_id = services.id AND service_comments.user_role_id NOT IN (1, 2)), 0)`
+          ),
+          "total_reviews",
         ],
       ],
       // Tham gia với bảng post_types
