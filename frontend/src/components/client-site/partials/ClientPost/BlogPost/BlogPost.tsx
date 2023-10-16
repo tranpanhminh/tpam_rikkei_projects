@@ -29,15 +29,15 @@ function BlogPost() {
       // Kiểm tra thời hạn của token
       const currentTimestamp = Math.floor(Date.now() / 1000);
       if (data.exp < currentTimestamp) {
-        console.log("Token hết hạn.");
+        console.log("Token is expired.");
       } else {
-        console.log("Token hợp lệ.");
+        console.log("Token is valid.");
       }
     } catch (error) {
       navigate("/");
     }
   } else {
-    console.log("Không có token.");
+    console.log("Token Not Found.");
   }
   const { postId } = useParams(); // Lấy giá trị slug từ URL
   const [post, setPost] = useState<any>(null);

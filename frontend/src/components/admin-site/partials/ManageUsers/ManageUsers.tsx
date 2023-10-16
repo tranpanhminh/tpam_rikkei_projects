@@ -1,9 +1,8 @@
+import jwtDecode from "jwt-decode";
 import React, { useEffect, useState } from "react";
 import AddModalUser from "../ManageUsers/Button/AddUser/AddModalUser";
-
 import DetailButtonUser from "./Button/DetailUser/DetailButtonUser";
 import { Button, Modal, notification } from "antd";
-
 import styles from "../../AdminPage.module.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -105,6 +104,30 @@ function ManageUsers() {
   };
   // ------------------------------------------------
 
+  // Check Token
+  const token: any = localStorage.getItem("token") || "";
+  let userLogin: any;
+  if (token) {
+    try {
+      userLogin = jwtDecode(token);
+
+      // Đây là một đối tượng được giải mã từ token
+      console.log(userLogin);
+
+      // Kiểm tra thời hạn của token
+      const currentTimestamp = Math.floor(Date.now() / 1000);
+      if (userLogin.exp < currentTimestamp) {
+        console.log("Token is expired.");
+      } else {
+        console.log("Token is valid.");
+      }
+    } catch (error) {
+      navigate("/");
+    }
+  } else {
+    console.log("Token Not Found.");
+  }
+
   const changeColor = (status: string) => {
     switch (status) {
       case "Active":
@@ -197,6 +220,24 @@ function ManageUsers() {
                   </Badge>
                 </td>
                 <td className={styles["group-btn-admin"]}>
+                  <div>
+                    <Button
+                      type="primary"
+                      className={styles["change-user-btn"]}
+                      onClick={() => handleChangeUser(user.id)}
+                    >
+                      Change
+                    </Button>
+                    &nbsp;
+                    <Button
+                      type="primary"
+                      className={styles["delete-user-btn"]}
+                      onClick={() => handleDeleteUser(user.id)}
+                    >
+                      Delete
+                    </Button>
+                  </div>
+
                   {/* <DetailButtonUser
                     className={styles["detail-user-btn"]}
                     value="Detail"
@@ -215,52 +256,39 @@ function ManageUsers() {
                     }
                   ></DetailButtonUser> */}
 
-                  {user?.role_id === 1 && user?.role_id === 2 ? (
+                  {/* {user?.role_id === 1 && user?.role_id === 2 ? (
                     ""
                   ) : (
-                    <>
-                      <Button
-                        type="primary"
-                        className={styles["change-user-btn"]}
-                        onClick={() => handleChangeUser(user.id)}
-                        style={{
-                          display:
-                            user.role_id === 1 ||
-                            (getLoginData.id !== user.id && user.role_id === 2)
-                              ? "none"
-                              : "inline-block",
-                        }}
-                      >
-                        Change
-                      </Button>
-                      {/* <DetailButtonUser
+                   
+                  )} */}
+                  <>
+                    {/* <Button
+                      type="primary"
+                      className={styles["change-user-btn"]}
+                      onClick={() => handleChangeUser(user.id)}
+                    >
+                      Change
+                    </Button> */}
+                    {/* <DetailButtonUser
                         value="Change"
                         className={styles["change-user-btn"]}
                         handleFunctionBtn={() => handleChangeUser(user.id)}
                       /> */}
 
-                      <Button
-                        type="primary"
-                        className={styles["delete-user-btn"]}
-                        onClick={() => handleDeleteUser(user.id)}
-                        style={{
-                          display:
-                            user.role_id === 1 ||
-                            (getLoginData.id !== user.id && user.role_id === 2)
-                              ? "none"
-                              : "inline-block",
-                        }}
-                      >
-                        Delete
-                      </Button>
+                    {/* <Button
+                      type="primary"
+                      className={styles["delete-user-btn"]}
+                      onClick={() => handleDeleteUser(user.id)}
+                    >
+                      Delete
+                    </Button> */}
 
-                      {/* <DetailButtonUser
+                    {/* <DetailButtonUser
                         value="Delete"
                         className={styles["delete-user-btn"]}
                         handleFunctionBtn={() => handleDeleteUser(user.id)}
                       /> */}
-                    </>
-                  )}
+                  </>
                 </td>
               </tr>
             ))}
