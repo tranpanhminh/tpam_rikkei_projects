@@ -6,6 +6,7 @@ import axios from "axios";
 import { Chart } from "react-google-charts";
 import { Badge } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+const moment = require("moment");
 
 // Import API
 // 1. Users API
@@ -145,30 +146,30 @@ function Report() {
   };
   listProductRating();
 
-  // // Tạo một đối tượng Map để lưu trữ dữ liệu theo tháng
-  // const monthMap = new Map();
+  // Tạo một đối tượng Map để lưu trữ dữ liệu theo tháng
+  const monthMap = new Map();
 
-  // // Lặp qua mảng đơn hàng ban đầu
-  // orders.forEach((order: any) => {
-  //   const dateParts = order.date.split(" "); // Tách ngày và thời gian
-  //   const monthYear = dateParts[0].split("/").slice(1).join("/"); // Lấy tháng và năm
+  // Lặp qua mảng đơn hàng ban đầu
+  orders.forEach((order: any) => {
+    const orderDate = moment(order.order_date).format("DD/MM/YYYY");
+    const dateParts = orderDate.split(" "); // Tách ngày và thời gian
+    const monthYear = dateParts[0].split("/").slice(1).join("/"); // Lấy tháng và năm
 
-  //   // Kiểm tra xem tháng đã tồn tại trong Map chưa
-  //   if (monthMap.has(monthYear)) {
-  //     // Nếu tồn tại, thêm đơn hàng vào mảng order của tháng đó
-  //     monthMap.get(monthYear).order.push(order);
-  //     // Cộng tổng giá trị đơn hàng có giảm giá vào sumorderwithdiscount của tháng
-  //     monthMap.get(monthYear).sumorderwithdiscount +=
-  //       order.sumOrderWithDiscount;
-  //   } else {
-  //     // Nếu chưa tồn tại, tạo một tháng mới với đơn hàng đầu tiên
-  //     monthMap.set(monthYear, {
-  //       month: monthYear,
-  //       sumorderwithdiscount: order.sumOrderWithDiscount,
-  //       order: [order],
-  //     });
-  //   }
-  // });
+    // Kiểm tra xem tháng đã tồn tại trong Map chưa
+    if (monthMap.has(monthYear)) {
+      // Nếu tồn tại, thêm đơn hàng vào mảng order của tháng đó
+      monthMap.get(monthYear).order.push(order);
+      // Cộng tổng giá trị đơn hàng có giảm giá vào sumorderwithdiscount của tháng
+      monthMap.get(monthYear).total_bill += order.total_bill;
+    } else {
+      // Nếu chưa tồn tại, tạo một tháng mới với đơn hàng đầu tiên
+      monthMap.set(monthYear, {
+        month: monthYear,
+        total_bill: order.total_bill,
+        order: [order],
+      });
+    }
+  });
 
   // // Chuyển dữ liệu từ Map sang mảng kết quả
   // const resultArray = Array.from(monthMap.values());
@@ -539,14 +540,14 @@ function Report() {
         </div>
         <div className={styles["best-report-overview-item"]}>
           <h4>Best Rating Product</h4>
-          <NavLink to={`/products/`} target="_blank">
+          <NavLink to={`/products/${bestProductRating[0]?.id}`} target="_blank">
             <img
               src={bestProductRating[0]?.thumbnail_url || 0}
               alt=""
               className={styles["best-report-image"]}
             />
           </NavLink>
-          <NavLink to={`/products/`} target="_blank">
+          <NavLink to={`/products/${bestProductRating[0]?.id}`} target="_blank">
             <p className={styles["best-report-overview-name"]}>
               {bestProductRating[0]?.name || 0}
             </p>
@@ -616,14 +617,14 @@ function Report() {
         </div>
         <div className={styles["best-report-overview-item"]}>
           <h4>Best Rating Service</h4>
-          <NavLink to={`/services/${bestServiceRating[0].id}`} target="_blank">
+          <NavLink to={`/services/${bestServiceRating[0]?.id}`} target="_blank">
             <img
               src={bestServiceRating[0]?.service_image || 0}
               alt=""
               className={styles["best-report-image"]}
             />
           </NavLink>
-          <NavLink to={`/services/${bestServiceRating[0].id}`} target="_blank">
+          <NavLink to={`/services/${bestServiceRating[0]?.id}`} target="_blank">
             <p className={styles["best-report-overview-name"]}>
               {bestServiceRating[0]?.name || 0}
             </p>
