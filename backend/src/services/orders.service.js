@@ -245,7 +245,7 @@ class OrdersService {
       total_bill: totalBill,
     };
 
-    // ----------- Xử lý giảm hàng tồn khi -------------
+    // ----------- Xử lý giảm hàng tồn kho -------------
     let hasCreatedNewOrder = false;
     let hasPaid = false;
     let orderId;
@@ -288,7 +288,7 @@ class OrdersService {
         price: cartProduct.price,
       };
 
-      // Đẩy Cart vào Order chi tiết
+      // Đẩy Cart vào Order Item
       await ordersRepo.pushCartToOrderItem(orderItemInfo);
 
       // Trừ balance trong thẻ nếu chưa thanh toán
@@ -302,7 +302,7 @@ class OrdersService {
       }
     }
 
-    // Xóa toàn bộ giỏ hàng của người dùng sau khi vòng lặp
+    // Xóa toàn bộ giỏ hàng của người dùng sau khi thực hiện vòng lặp
     await ordersRepo.destroyCart(userId);
     return {
       message: "Order Completed",

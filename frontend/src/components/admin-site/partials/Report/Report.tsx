@@ -194,7 +194,7 @@ function Report() {
   // Khởi tạo đối tượng Map để lưu trữ số lần booking của từng dịch vụ theo tháng
   const serviceCountByMonth = new Map();
 
-  // // Lặp qua mảng bookings
+  // Lặp qua mảng bookings
   // bookings.forEach((booking: any) => {
   //   const { date, listBookings } = booking;
 
@@ -206,7 +206,7 @@ function Report() {
   //   // Lặp qua danh sách đặt lịch trong mỗi ngày
   //   listBookings.forEach((bookingItem: any) => {
   //     // Đếm số lần booking của từng dịch vụ
-  //     switch (bookingItem.serviceName) {
+  //     switch (bookingItem.service_name) {
   //       case "Veterinarian":
   //         countVeterinarian++;
   //         break;
@@ -247,26 +247,25 @@ function Report() {
   //   }
   // });
 
-  // // Chuyển dữ liệu từ Map sang mảng kết quả
-  // const serviceBookingByMonth = Array.from(serviceCountByMonth.values());
+  // Chuyển dữ liệu từ Map sang mảng kết quả
+  const serviceBookingByMonth = Array.from(serviceCountByMonth.values());
 
-  // // Tạo mảng dữ liệu cho biểu đồ
-  // const bookingService = [
-  //   ["Month", "Veterinarian", "Pet Grooming", "Pet Sitting"],
-  // ];
+  // Tạo mảng dữ liệu cho biểu đồ
+  const bookingService = [
+    ["Month", "Veterinarian", "Pet Grooming", "Pet Sitting"],
+  ];
 
-  // // Thêm dữ liệu vào mảng data2
-  // serviceBookingByMonth.forEach((item) => {
-  //   const { Month, countVeterinarian, countPetGrooming, countPetSitting } =
-  //     item;
-  //   bookingService.push([
-  //     Month,
-  //     countVeterinarian,
-  //     countPetGrooming,
-  //     countPetSitting,
-  //   ]);
-  // });
-
+  // Thêm dữ liệu vào mảng data2
+  serviceBookingByMonth.forEach((item) => {
+    const { Month, countVeterinarian, countPetGrooming, countPetSitting } =
+      item;
+    bookingService.push([
+      Month,
+      countVeterinarian,
+      countPetGrooming,
+      countPetSitting,
+    ]);
+  });
 
   return (
     <>
@@ -306,8 +305,8 @@ function Report() {
             chartType="LineChart"
             width="100%"
             height="400px"
-            // data={saleOrderData} // Sử dụng saleOrderData thay cho data
-            // options={saleOrderDataOption} // Sử dụng saleOrderDataOption thay cho options
+            data={saleOrderData} // Sử dụng saleOrderData thay cho data
+            options={saleOrderDataOption} // Sử dụng saleOrderDataOption thay cho options
           />
         </div>
         <div className={styles["double-chart-item"]}>
