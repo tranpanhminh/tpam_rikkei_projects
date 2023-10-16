@@ -55,6 +55,7 @@ class UsersRepo {
 
       // Nhóm theo id và tên của dịch vụ
       group: ["users.id"],
+      order: ["role_id"],
       // raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
     });
 

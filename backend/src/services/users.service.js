@@ -197,7 +197,6 @@ class UsersService {
     const updatedUser = await usersRepo.changePassword(userId, updatedInfo);
     return {
       message: "Password Changed Successfully",
-      message: updatedUser,
       status: 200,
     };
   }

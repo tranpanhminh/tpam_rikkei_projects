@@ -30,13 +30,17 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
   // States
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [oldPassword, setOldPassword] = useState<any>("");
-  const [newPassword, setNewPassword] = useState<any>("");
+
   const [avatar, setAvatar] = useState<any>("");
   const [name, setName] = useState("");
   const [user, setUser] = useState<any>({});
   const [image, setImage] = useState<any>("");
   const [showBtn, setShowBtn] = useState<boolean>(false);
+  const [userPassword, setUserPassword] = useState<any>({
+    oldPassword: "",
+    newPassword: "",
+  });
+
   // -----------------------------------------------------------
   // Fetch API
   const fetchUser = () => {
@@ -63,6 +67,12 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
   };
 
   const handleCancel = () => {
+    setName("");
+    setUserPassword({
+      oldPassword: "",
+      newPassword: "",
+    });
+    resetInputImage();
     setIsModalOpen(false);
   };
 
@@ -71,9 +81,25 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
   // Handle Update Password
 
   const handleOk = () => {
-    handleFunctionOk();
-    resetInputImage();
-    setIsModalOpen(false);
+    axios
+      .patch(`${usersAPI}/change-password/${getUserId}`, userPassword)
+      .then((response) => {
+        notification.success({
+          message: `${response.data.message}`,
+        });
+        setUserPassword({
+          oldPassword: "",
+          newPassword: "",
+        });
+        handleFunctionOk();
+        navigate("/admin/");
+        setIsModalOpen(false);
+      })
+      .catch((error) => {
+        notification.error({
+          message: `${error.response.data.message}`,
+        });
+      });
   };
 
   // -----------------------------------------------------------
@@ -249,9 +275,13 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
           <div className={styles["list-input-item"]}>
             <p>Old Password</p>
             <input
-              type="text"
+              type="password"
+              value={userPassword.oldPassword}
               onChange={(event) => {
-                setOldPassword(event.target.value);
+                setUserPassword({
+                  ...userPassword,
+                  oldPassword: event.target.value,
+                });
               }}
             />
             <i
@@ -262,9 +292,13 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
           <div className={styles["list-input-item"]}>
             <p>New Password</p>
             <input
-              type="text"
+              type="password"
+              value={userPassword.newPassword}
               onChange={(event) => {
-                setNewPassword(event.target.value);
+                setUserPassword({
+                  ...userPassword,
+                  newPassword: event.target.value,
+                });
               }}
             />
             <i
