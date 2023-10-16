@@ -1,82 +1,60 @@
-SELECT * FROM project_module_3.carts;
+-- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
+--
+-- Host: 127.0.0.1    Database: project_module_3
+-- ------------------------------------------------------
+-- Server version	8.0.34
 
-use project_module_3;
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- truncate project_module_3.carts;
+--
+-- Table structure for table `carts`
+--
 
--- List Data Cart
-INSERT INTO project_module_3.carts (user_id, product_id, quantity, price)
-VALUES(1,4,1),
-(2,4,1),
-(3,4,1),
-(4,4,1),
-(5,4,1),
-(1,5,1),
-(2,5,2),
-(3,5,3),
-(4,5,4),
-(5,5,5),
-(6,5,6),
-(1,6,5),
-(2,6,5),
-(3,6,5),
-(4,6,5),
-(1,7,1),
-(2,7,2),
-(3,7,1),
-(4,7,2),
-(5,8,1),
-(6,8,1),
-(7,8,2),
-(8,8,2);
+DROP TABLE IF EXISTS `carts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `carts` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `product_id` int NOT NULL,
+  `quantity` int NOT NULL,
+  `price` int NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `product_id` (`product_id`),
+  CONSTRAINT `carts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `carts_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Dumping data for table `carts`
+--
 
+LOCK TABLES `carts` WRITE;
+/*!40000 ALTER TABLE `carts` DISABLE KEYS */;
+/*!40000 ALTER TABLE `carts` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
-SELECT *
-FROM project_module_3.carts
-WHERE user_id = 4;
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
-
-SELECT user_id, name, SUM(project_module_3.carts.quantity * project_module_3.carts.price) AS `bill`
-FROM project_module_3.carts
-inner join project_module_3.coupons
-WHERE user_id =4 and  150 between 100 and 200
-GROUP BY user_id, coupons.name;
-
-SELECT user_id, name, code,
-  CASE
-    WHEN bill < project_module_3.coupons.min_bill THEN 0  
-    ELSE project_module_3.coupons.min_bill
-  END AS min_bill,
-discount_rate, bill, discounted_amount, total_bill
-FROM (
-  SELECT user_id, coupons.name, code,min_bill, discount_rate, ROUND(SUM(project_module_3.carts.quantity * project_module_3.carts.price),1) AS `bill`,
-  ROUND(SUM(project_module_3.carts.quantity * project_module_3.carts.price * project_module_3.coupons.discount_rate / 100),1) AS `discounted_amount`,
-  ROUND(SUM(project_module_3.carts.quantity * project_module_3.carts.price - project_module_3.carts.quantity * project_module_3.carts.price * project_module_3.coupons.discount_rate / 100),1) AS `total_bill`
-  FROM project_module_3.carts
-  INNER JOIN project_module_3.coupons
-  WHERE user_id = 5
-  GROUP BY user_id, coupons.name, coupons.code,min_bill, discount_rate
-  ORDER BY discount_rate DESC
-) AS subquery
-WHERE bill > (SELECT min_bill FROM project_module_3.coupons WHERE name = subquery.name) or bill < (SELECT min_bill FROM project_module_3.coupons WHERE name = subquery.name)
-LIMIT 1;
-
-
-SELECT *
-FROM project_module_3.carts
-WHERE user_id = 4;
-
-
--- Lấy thông tin sản phẩm từ bảng carts và products cho user_id cụ thể (user_id = 4)
-SELECT c.*, p.quantity_stock
-FROM project_module_3.carts AS c
-INNER JOIN project_module_3.products AS p ON c.product_id = p.id
-WHERE c.user_id = 4;
-
--- Sau khi lấy thông tin sản phẩm, cập nhật bảng products để giảm số lượng tồn kho (quantity_stock)
-UPDATE project_module_3.products AS p
-INNER JOIN project_module_3.carts AS c ON p.id = c.product_id
-SET p.quantity_stock = p.quantity_stock - c.quantity
-WHERE c.user_id = 4;
-
+-- Dump completed on 2023-10-16 23:14:48

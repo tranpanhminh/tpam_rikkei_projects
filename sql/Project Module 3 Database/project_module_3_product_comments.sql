@@ -1,44 +1,65 @@
-SELECT * FROM project_module_3.product_comments;
+-- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
+--
+-- Host: 127.0.0.1    Database: project_module_3
+-- ------------------------------------------------------
+-- Server version	8.0.34
 
-SELECT post_id, ROUND(AVG(rating), 1) AS avg_rating
-FROM project_module_3.product_comments
-WHERE user_role_id NOT IN (1, 2)
-GROUP BY post_id;
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+--
+-- Table structure for table `product_comments`
+--
 
-SELECT post_id, ROUND(AVG(rating), 1) AS `avg_rating`
-FROM project_module_3.product_comments
-WHERE project_module_3.product_comments.user_role_id NOT IN (1, 2)
-GROUP BY project_module_3.product_comments.post_id
+DROP TABLE IF EXISTS `product_comments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `product_comments` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `comment` text NOT NULL,
+  `rating` decimal(2,1) NOT NULL DEFAULT '5.0',
+  `post_type_id` int NOT NULL DEFAULT '1',
+  `post_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `user_role_id` int NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`),
+  KEY `post_type_id` (`post_type_id`),
+  KEY `post_id` (`post_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `product_comments_ibfk_1` FOREIGN KEY (`post_type_id`) REFERENCES `post_types` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `product_comments_ibfk_2` FOREIGN KEY (`post_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `product_comments_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-INSERT INTO project_module_3.product_comments(
-VALUES (1,1,"I'm really impressed with this product. It's well-made and exceeded my expectations.",5),
-(1,2,"The quality of this product is outstanding. I couldn't be happier with my purchase.",5),
-(1,4,"This product is a game-changer. It's made my life so much easier and more convenient.",4),
-(1,5,"I've been using this product for a while now, and it's still in perfect condition. Great durability!",3),
-(1,6,"What a fantastic product! It's worth every penny and has improved my daily routine.",4),
-(2,2,"I love the design of this product. It's sleek and stylish, adding a touch of elegance to my space.",5),
-(2,4,"This product has become an essential part of my daily life. I can't imagine living without it.",5),
-(2,7,"I purchased this product as a gift, and the recipient absolutely loved it. Great choice!",4),
-(2,8,"The performance of this product is top-notch. It delivers on its promises and then some.",4),
-(2,9,"I'm so glad I found this product. It's made a noticeable difference in my overall well-being.",4),
-(3,4,"This product is user-friendly and easy to set up. No complicated instructions to worry about.",5),
-(3,5,"I appreciate the eco-friendly materials used in this product. It's a responsible choice.",4),
-(3,6,"The customer service for this product is excellent. They were quick to address my concerns.",3),
-(3,7,"I'm amazed at how versatile this product is. It can be used in so many different ways.",2),
-(3,8,"The packaging was great, and the product arrived in perfect condition. A+ for presentation.",4),
-(4,9,"This product is a great value for the quality you receive. I highly recommend it.",4),
-(4,4,"I've recommended this product to all my friends. It's a must-have for anyone.",5),
-(4,5,"The product's performance has exceeded my expectations. It's a reliable choice.",4),
-(4,6,"I've used similar products before, but this one stands out for its durability and efficiency.",3),
-(4,7,"I'm thoroughly satisfied with this purchase. This product has made my life easier and more enjoyable.",4),
-(5,8,"I've been using this product for months, and it still works like new. Impressive longevity!",5),
-(5,9,"I can't believe how affordable this product is for the quality you get. It's a steal!",4),
-(5,4,"This product is a real game-changer. It's made my daily tasks so much easier and more efficient.",3),
-(5,5,"The attention to detail in the design of this product is remarkable. It's both functional and beautiful.",45050),
-(5,6,"I bought this product on a friend's recommendation, and it didn't disappoint. Great purchase!",45049),
-(6,7,"The customer support for this product is exceptional. They go above and beyond to assist you.",45050),
-(6,8,"I appreciate the thought put into making this product user-friendly. It's hassle-free.",45048),
-(6,9,"The product's performance is consistent and reliable. It's a trustworthy choice.",45050),
-(6,4,"I'm really happy with this purchase. This product has become an indispensable part of my life.",5),
-(6,5,"The craftsmanship of this product is outstanding. You can tell it's built to last.",4),
+--
+-- Dumping data for table `product_comments`
+--
+
+LOCK TABLES `product_comments` WRITE;
+/*!40000 ALTER TABLE `product_comments` DISABLE KEYS */;
+INSERT INTO `product_comments` VALUES (1,'I\'m really impressed with this product. It\'s well-made and exceeded my expectations.',5.0,1,1,4,3,'2023-10-12 02:23:28','2023-10-12 02:23:28'),(2,'The quality of this product is outstanding. I couldn\'t be happier with my purchase.',5.0,1,1,1,1,'2023-10-12 02:23:41','2023-10-12 02:23:41'),(4,'I\'ve been using this product for a while now, and it\'s still in perfect condition. Great durability!',3.0,1,1,5,3,'2023-10-12 02:23:49','2023-10-12 02:23:49'),(6,'I love the design of this product. It\'s sleek and stylish, adding a touch of elegance to my space.',5.0,1,2,2,2,'2023-10-12 02:24:05','2023-10-12 02:24:05'),(7,'This product has become an essential part of my daily life. I can\'t imagine living without it.',5.0,1,2,4,3,'2023-10-12 02:24:09','2023-10-12 02:24:09'),(8,'I purchased this product as a gift, and the recipient absolutely loved it. Great choice!',4.0,1,2,7,3,'2023-10-12 02:24:14','2023-10-12 02:24:14'),(9,'The performance of this product is top-notch. It delivers on its promises and then some.',4.0,1,2,8,3,'2023-10-12 02:24:18','2023-10-12 02:24:18'),(10,'I\'m so glad I found this product. It\'s made a noticeable difference in my overall well-being.',4.0,1,2,9,3,'2023-10-12 02:24:21','2023-10-12 02:24:21'),(11,'<p>Anh Minh</p>',5.0,1,1,1,1,'2023-10-15 13:25:05','2023-10-15 13:25:05'),(12,'<p>Tony Teo</p>',5.0,1,1,1,1,'2023-10-15 13:25:41','2023-10-15 13:25:41'),(13,'<p>Tony Teo</p>',5.0,1,1,1,1,'2023-10-15 13:26:07','2023-10-15 13:26:07'),(14,'<p>Tony Teo</p>',5.0,1,1,1,1,'2023-10-15 13:26:30','2023-10-15 13:26:30'),(15,'<p>Tony Teo</p>',5.0,1,1,1,1,'2023-10-15 13:27:18','2023-10-15 13:27:18'),(16,'<p>Tony Teo</p>',5.0,1,1,1,1,'2023-10-15 13:27:41','2023-10-15 13:27:41'),(17,'<p>Test</p>',5.0,1,1,1,1,'2023-10-15 13:27:49','2023-10-15 13:27:49'),(18,'<p>Test</p>',5.0,1,1,1,1,'2023-10-15 13:31:50','2023-10-15 13:31:50'),(19,'<p>test</p>',5.0,1,1,1,1,'2023-10-15 13:32:53','2023-10-15 13:32:53'),(20,'<p>test</p>',5.0,1,1,1,1,'2023-10-15 13:32:53','2023-10-15 13:32:53'),(21,'<p>test</p>',5.0,1,1,1,1,'2023-10-15 13:33:41','2023-10-15 13:33:41'),(22,'<p>test</p>',5.0,1,1,1,1,'2023-10-15 13:33:41','2023-10-15 13:33:41'),(23,'<p>Test</p>',5.0,1,1,1,1,'2023-10-15 13:33:46','2023-10-15 13:33:46'),(24,'<p>Test</p>',5.0,1,1,1,1,'2023-10-15 13:34:02','2023-10-15 13:34:02'),(25,'<p>Test</p>',5.0,1,1,1,1,'2023-10-15 13:34:05','2023-10-15 13:34:05'),(26,'<p>test</p>',5.0,1,1,1,1,'2023-10-15 13:36:12','2023-10-15 13:36:12'),(31,'<p>Good</p>',4.0,1,1,4,3,'2023-10-15 13:43:31','2023-10-15 13:43:31'),(32,'<p>Sản phẩm qu&aacute; tuyệt vời</p>',4.0,1,1,4,3,'2023-10-15 13:43:47','2023-10-15 13:43:47'),(33,'<p>Good Product</p>',4.0,1,1,4,3,'2023-10-15 13:44:04','2023-10-15 13:44:04'),(34,'<p>T</p>',4.0,1,1,4,3,'2023-10-15 13:45:36','2023-10-15 13:45:36'),(35,'<p>ok</p>',3.0,1,1,4,3,'2023-10-15 13:45:45','2023-10-15 13:45:45'),(36,'<p>dstset</p>',4.5,1,1,4,3,'2023-10-15 13:51:24','2023-10-15 13:51:24'),(37,'<p>Good</p>',4.0,1,1,4,3,'2023-10-15 13:52:08','2023-10-15 13:52:08'),(38,'<p>Goood</p>',4.0,1,1,4,3,'2023-10-15 14:24:15','2023-10-15 14:24:15');
+/*!40000 ALTER TABLE `product_comments` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2023-10-16 23:14:49

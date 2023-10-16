@@ -2611,7 +2611,7 @@
 								"header": [
 									{
 										"key": "Authorization",
-										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbi5wZXRzaG9wQGdtYWlsLmNvbSIsImZ1bGxfbmFtZSI6IkFkbWluIiwic3RhdHVzX2lkIjoxLCJyb2xlX2lkIjoxLCJpbWFnZV9hdmF0YXIiOiJodHRwczovL2kuaWJiLmNvLzNCdFFkVkQvcGV0LXNob3AucG5nIiwiY3JlYXRlZF9hdCI6IjIwMjMtMTAtMTBUMDc6NDM6NDkuMDAwWiIsInVwZGF0ZWRfYXQiOiIyMDIzLTEwLTEwVDA3OjQzOjQ5LjAwMFoiLCJpYXQiOjE2OTY5MjkwMjl9.YgGkNc34Fm84oW1juKwyLKGajKF7BRyFvZjYrOsBXs0",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJtb2hhbWVkMTk3MkBob3RtYWlsLmNvbSIsImZ1bGxfbmFtZSI6IkphbWVzIE1vaGFtZWQiLCJzdGF0dXNfaWQiOjEsInJvbGVfaWQiOjMsImltYWdlX2F2YXRhciI6Imh0dHA6Ly9sb2NhbGhvc3Q6NzM3My91cGxvYWRzLzE2OTczNDk0MzQyODAtc2hpYmEgLSBDb3B5LmpwZyIsInVzZXJfcm9sZSI6eyJuYW1lIjoiQ3VzdG9tZXIifSwidXNlcl9zdGF0dXMiOnsibmFtZSI6IkFjdGl2ZSJ9LCJpYXQiOjE2OTczNTE1Mjd9.2p4K9tFMGQ0XdayF1Dd1cw3knJulth3VkWrRDXGpcQ8",
 										"type": "text"
 									}
 								],
@@ -2630,7 +2630,7 @@
 										},
 										{
 											"key": "booking_date",
-											"value": "2023-10-14",
+											"value": "2023-10-16",
 											"type": "text"
 										},
 										{
@@ -2966,6 +2966,40 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Report Booking",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "// Payment Test:\r\n{\r\n    \"status_id\": 4\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7373/api/bookings/report/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"bookings",
+										"report",
+										""
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				}
@@ -3271,7 +3305,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Detail Cart",
+					"name": "Get Detail Cart By User",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -3503,7 +3537,7 @@
 							"response": []
 						},
 						{
-							"name": "Get Detail Order",
+							"name": "Get Detail Order By ID",
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -3692,6 +3726,27 @@
 										"1",
 										"detail",
 										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Report Order Item",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7373/api/order-items/reports",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7373",
+									"path": [
+										"api",
+										"order-items",
+										"reports"
 									]
 								}
 							},

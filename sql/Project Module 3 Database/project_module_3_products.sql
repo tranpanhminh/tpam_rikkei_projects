@@ -1,64 +1,63 @@
-SELECT * FROM project_module_3.products;
--- truncate project_module_3.products;
+-- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
+--
+-- Host: 127.0.0.1    Database: project_module_3
+-- ------------------------------------------------------
+-- Server version	8.0.34
 
-use project_module_3;
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-SELECT
-    products.id, products.name, products.description, products.price, products.quantity_stock, post_type_id,
-    post_types.name AS post_type,
-    vendors.name AS vendor,
-    GROUP_CONCAT(product_images.image_url) AS image_url
-FROM
-    products
-JOIN
-    product_images ON products.id = product_images.product_id
-JOIN
-    vendors ON products.vendor_id = vendors.id
-JOIN
-    post_types ON products.post_type_id = post_types.id
-GROUP BY
-    products.id, products.name;
-    
-SELECT * 
-FROM project_module_3.products
-UNION ALL
-SELECT ROUND(AVG(rating), 1) AS avg_rating
-FROM project_module_3.product_comments 
-WHERE project_module_3.product_comments.post_id = project_module_3.products.id
-AND user_role_id NOT IN (1, 2);
+--
+-- Table structure for table `products`
+--
 
+DROP TABLE IF EXISTS `products`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `products` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `price` int NOT NULL,
+  `quantity_stock` int NOT NULL,
+  `thumbnail_url` text NOT NULL,
+  `vendor_id` int NOT NULL,
+  `post_type_id` int NOT NULL DEFAULT '1',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `vendor_id` (`vendor_id`),
+  KEY `post_type_id` (`post_type_id`),
+  CONSTRAINT `products_ibfk_1` FOREIGN KEY (`vendor_id`) REFERENCES `vendors` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `products_ibfk_2` FOREIGN KEY (`post_type_id`) REFERENCES `post_types` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-SELECT
-  p.*, 
-  ROUND(AVG(c.rating), 1) AS avg_rating
-FROM products p
-LEFT JOIN product_comments c ON c.post_id = p.id
-WHERE c.user_role_id NOT IN (1, 2)  
-GROUP BY p.id;
+--
+-- Dumping data for table `products`
+--
 
--- Get All Products With Rating 
-SELECT 
-  project_module_3.products.*,
-  ROUND(AVG(project_module_3.product_comments.rating), 1) AS avg_rating
-FROM project_module_3.products  
-LEFT JOIN project_module_3.product_comments
-ON project_module_3.products.id = project_module_3.product_comments.post_id
-WHERE project_module_3.product_comments.user_role_id NOT IN (1, 2) 
-OR project_module_3.product_comments.post_id IS NULL
-GROUP BY project_module_3.products.id;
+LOCK TABLES `products` WRITE;
+/*!40000 ALTER TABLE `products` DISABLE KEYS */;
+INSERT INTO `products` VALUES (1,'Blueberry Pet Essentials Zoo Fun Dog Collars','<p>These vibrant and playful collars are both fashionable and functional, featuring durable materials and adjustable sizing. Make walks more enjoyable with these eye-catching and comfortable collars for your beloved furry friend.</p>',40,431,'http://localhost:7373/uploads/1697170206437-blueberry-pet-01.jpg',1,1,'2023-10-10 13:42:12','2023-10-13 03:47:34'),(2,'Hdp Dog Boots Blue Set of 4 Medium','<p>Keep your furry friend\'s paws protected with the HDP Dog Boots in a vibrant blue color. This set includes four medium-sized boots designed for dogs. They provide insulation against hot or cold surfaces, making walks comfortable in any weather. The boots are durable, easy to put on, and designed to stay in place during playtime.</p>',50,383,'http://localhost:7373/uploads/1697471832764-hdp-dog-boot-01.jpg',3,1,'2023-10-10 13:42:34','2023-10-16 15:57:16'),(3,'Glendan Dog Brush Cat Brush Slicker Pet Grooming Brush Shedding Grooming Tools','<p>A high-quality slicker grooming brush designed for effective shedding control. Keep your pets\' coat clean, healthy, and tangle-free with this essential grooming tool. Perfect for dogs and cats of all sizes, it ensures a comfortable grooming experience for your furry companions.</p>',9,383,'http://localhost:7373/uploads/1697471859554-dog-brush-01.jpg',3,1,'2023-10-10 13:42:55','2023-10-16 15:57:43'),(4,'Senye Retractable Dog Leash 16ft Dog Traction Rope','<p>This reliable and durable traction rope provides control and flexibility during walks. With its ergonomic design and smooth retractable mechanism, it ensures a comfortable grip and effortless handling. Enjoy outdoor adventures with your canine companion using the Senye Retractable Dog Leash.</p>',70,429,'http://localhost:7373/uploads/1697471885089-dog-leash-01.jpg',3,1,'2023-10-10 13:43:03','2023-10-16 15:58:08'),(5,'My Alphapet Dog Poop Bags Refill Rolls','<p>These durable and leak-proof bags ensure clean and easy disposal. With their compact design, they easily fit into standard dispensers for on-the-go use. Keep your surroundings clean and hygienic while being a responsible pet owner.</p>',28,297,'http://localhost:7373/uploads/1697471897448-dog-poop-bags-01.jpg',2,1,'2023-10-10 13:43:10','2023-10-16 15:58:21'),(6,'Cuddler Pet Bed Soft And Comforting','This soft and comforting bed provides a cozy retreat for your furry friend, ensuring they have a restful sleep. Its plush design and padded walls offer support and security, making it the perfect spot for relaxation. Treat your pet to a luxurious and comforting resting place with this Cuddler Pet Bed.',37,537,'http://localhost:7373/uploads/1696945354271-hdp-dog-boot-02.jpg',3,1,'2023-10-10 13:43:19','2023-10-10 13:43:19'),(7,'Meal Automatic Pet Feeder Bowl','<p>This innovative feeder ensures timely and portion-controlled feeding for your furry friend. With customizable settings and a built-in timer, you can easily schedule multiple meals throughout the day. The spill-proof design and easy-to-clean bowl make feeding effortless and mess-free. Provide your pet with a consistent and convenient feeding experience with the Meal Automatic Pet Feeder Bowl.</p>',30,539,'http://localhost:7373/uploads/1697472016867-pet-feeder-bowl-01.jpg',2,1,'2023-10-10 13:43:26','2023-10-16 16:00:20'),(8,'Qpey Pet Food Bowl Stainless Steel','<p>A durable stainless steel bowl designed for your pet\'s mealtime. Ensure a hygienic and convenient feeding experience with this easy-to-clean and long-lasting bowl. Keep your furry friend happy and satisfied during every meal.</p>',34,694,'http://localhost:7373/uploads/1697472029036-pet-food-bowl-01.jpg',2,1,'2023-10-10 13:43:34','2023-10-16 16:00:31'),(9,'Gaucho Goods Tribal Leather Dog Collar','<p>Elevate your dog\'s style with the Gaucho Goods Tribal Leather Dog Collar. Crafted with premium leather and adorned with tribal-inspired designs, this collar combines fashion with durability. Ensure a secure and comfortable fit for your furry friend while adding a touch of uniqueness to their look. Let your dog stand out in style with the Gaucho Goods Tribal Leather Dog Collar.</p>',45,599,'http://localhost:7373/uploads/1697471961632-tribal-leather-01.jpg',2,1,'2023-10-10 13:43:41','2023-10-16 15:59:24'),(10,'Dogline Biothane Waterproof Dog Leash Strong Coated Nylon','<p>A strong and durable coated nylon leash that withstands any weather. Perfect for active dogs, it provides a reliable grip and easy control. Keep your furry companion safe and stylish on every adventure.</p>',12,750,'http://localhost:7373/uploads/1697471971496-waterproof-dog-leash-01.jpg',1,1,'2023-10-10 13:43:50','2023-10-16 15:59:33'),(11,'Best Friends By Sheri OrthoComfort Deep Dish Cuddler','<p>A charming animal world is already waiting for you! Little hearts of those animals we take care of are able to warm us and hide from sad thoughts no matter how big our pets are....</p>',49,650,'http://localhost:7373/uploads/1697471985449-deep-dish-cuddler-01.jpg',3,1,'2023-10-10 13:43:56','2023-10-16 15:59:47'),(44,'Halo Pet Microchip Scanner','<p><span data-sheets-value=\"{&quot;1&quot;:2,&quot;2&quot;:&quot;The Halo Pet Microchip Scanner is an essential tool for pet owners and professionals. This handheld device can read and verify microchip information, helping you locate lost pets and ensure their safety. With its user-friendly interface and compact design, it\'s easy to use and carry. Make pet care a breeze with this reliable scanner.&quot;}\" data-sheets-userformat=\"{&quot;2&quot;:340138,&quot;4&quot;:{&quot;1&quot;:2,&quot;2&quot;:16773836},&quot;6&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;8&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;10&quot;:1,&quot;15&quot;:&quot;Cambria&quot;,&quot;16&quot;:12,&quot;19&quot;:0,&quot;21&quot;:0}\">The Halo Pet Microchip Scanner is an essential tool for pet owners and professionals. This handheld device can read and verify microchip information, helping you locate lost pets and ensure their safety. With its user-friendly interface and compact design, it\'s easy to use and carry. Make pet care a breeze with this reliable scanner.</span></p>',70,300,'http://localhost:7373/uploads/1697472112735-pet-scanner-01.jpg',3,1,'2023-10-16 16:01:52','2023-10-16 16:01:52'),(45,'Hing Designs The Bone Bowl with Non Slip Rubber','<p><span data-sheets-value=\"{&quot;1&quot;:2,&quot;2&quot;:&quot;The Hing Designs Bone Bowl is both functional and stylish. Its unique bone-shaped design adds a touch of fun to your pet\'s mealtime. The non-slip rubber feet keep the bowl in place, and the stainless steel bowls are easy to remove and dishwasher-safe, ensuring a hygienic eating experience for your pet.&quot;}\" data-sheets-userformat=\"{&quot;2&quot;:340138,&quot;4&quot;:{&quot;1&quot;:2,&quot;2&quot;:16773836},&quot;6&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;8&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;10&quot;:1,&quot;15&quot;:&quot;Cambria&quot;,&quot;16&quot;:12,&quot;19&quot;:0,&quot;21&quot;:0}\">The Hing Designs Bone Bowl is both functional and stylish. Its unique bone-shaped design adds a touch of fun to your pet\'s mealtime. The non-slip rubber feet keep the bowl in place, and the stainless steel bowls are easy to remove and dishwasher-safe, ensuring a hygienic eating experience for your pet.</span></p>',9,400,'http://localhost:7373/uploads/1697472201432-bone-bowl-01.jpg',2,1,'2023-10-16 16:03:21','2023-10-16 16:03:21'),(46,'Waterproof Non Slip Fda Grade Silicone Cat Pet Bowl Feeding Placemat','<p><span data-sheets-value=\"{&quot;1&quot;:2,&quot;2&quot;:&quot;This FDA-grade silicone placemat is a must-have for pet owners. It\'s waterproof and non-slip, protecting your floors from spills and messes during mealtime. The high-quality silicone material is safe for pets, and the mat is easy to clean, making your life easier.&quot;}\" data-sheets-userformat=\"{&quot;2&quot;:340651,&quot;3&quot;:{&quot;1&quot;:0},&quot;4&quot;:{&quot;1&quot;:2,&quot;2&quot;:16773836},&quot;6&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;8&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;10&quot;:1,&quot;12&quot;:0,&quot;15&quot;:&quot;Cambria&quot;,&quot;16&quot;:12,&quot;19&quot;:0,&quot;21&quot;:0}\">This FDA-grade silicone placemat is a must-have for pet owners. It\'s waterproof and non-slip, protecting your floors from spills and messes during mealtime. The high-quality silicone material is safe for pets, and the mat is easy to clean, making your life easier.</span></p>',55,500,'http://localhost:7373/uploads/1697472236909-waterproof-dog-leash-01.jpg',1,1,'2023-10-16 16:03:56','2023-10-16 16:03:56'),(47,'Wrapok Compostable Dog Poop Bags','<p><span data-sheets-value=\"{&quot;1&quot;:2,&quot;2&quot;:&quot;When it comes to pet waste disposal, choose Wrapok Compostable Dog Poop Bags. These eco-friendly bags are made from compostable materials, reducing your environmental footprint. They are strong, leak-proof, and easy to tie securely. Responsible pet ownership meets sustainability with these bags.&quot;}\" data-sheets-userformat=\"{&quot;2&quot;:340651,&quot;3&quot;:{&quot;1&quot;:0},&quot;4&quot;:{&quot;1&quot;:2,&quot;2&quot;:16773836},&quot;6&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;8&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;10&quot;:1,&quot;12&quot;:0,&quot;15&quot;:&quot;Cambria&quot;,&quot;16&quot;:12,&quot;19&quot;:0,&quot;21&quot;:0}\">When it comes to pet waste disposal, choose Wrapok Compostable Dog Poop Bags. These eco-friendly bags are made from compostable materials, reducing your environmental footprint. They are strong, leak-proof, and easy to tie securely. Responsible pet ownership meets sustainability with these bags.</span></p>',28,350,'http://localhost:7373/uploads/1697472302711-poop-bags-01.jpg',2,1,'2023-10-16 16:05:02','2023-10-16 16:05:02'),(48,'Zehui Pet Dog Cat Sweater Puppy T Shirt Warm Hoodies Size S','<p><span data-sheets-value=\"{&quot;1&quot;:2,&quot;2&quot;:&quot;Keep your furry companion warm and stylish with the Zehui Pet Sweater. This black knitted sweater, available in size S, provides warmth and comfort during colder seasons. It\'s not only functional but also adds a fashionable touch to your pet\'s wardrobe. Dress your pet in comfort and style with this adorable hoodie.&quot;}\" data-sheets-userformat=\"{&quot;2&quot;:340651,&quot;3&quot;:{&quot;1&quot;:0},&quot;4&quot;:{&quot;1&quot;:2,&quot;2&quot;:16773836},&quot;6&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;8&quot;:{&quot;1&quot;:[{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:2},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}]},&quot;10&quot;:1,&quot;12&quot;:0,&quot;15&quot;:&quot;Cambria&quot;,&quot;16&quot;:12,&quot;19&quot;:0,&quot;21&quot;:0}\">Keep your furry companion warm and stylish with the Zehui Pet Sweater. This black knitted sweater, available in size S, provides warmth and comfort during colder seasons. It\'s not only functional but also adds a fashionable touch to your pet\'s wardrobe. Dress your pet in comfort and style with this adorable hoodie.</span></p>',18,360,'http://localhost:7373/uploads/1697472353639-puppy-shirt-01.jpg',3,1,'2023-10-16 16:05:53','2023-10-16 16:05:53');
+/*!40000 ALTER TABLE `products` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
--- Get All Products With Rating Cách 2
-SELECT 
-  project_module_3.products.*, 
-  IFNULL(subquery.avg_rating, 0) AS avg_rating
-FROM project_module_3.products
-LEFT JOIN (
-  SELECT 
-    post_id,
-    ROUND(AVG(rating), 1) AS avg_rating
-  FROM project_module_3.product_comments
-  WHERE project_module_3.product_comments.user_role_id NOT IN (1, 2)
-  GROUP BY post_id
-) AS subquery
-ON project_module_3.products.id = subquery.post_id;
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
+-- Dump completed on 2023-10-16 23:14:48
