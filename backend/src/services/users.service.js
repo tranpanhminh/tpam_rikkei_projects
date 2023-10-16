@@ -28,11 +28,11 @@ class UsersService {
   async userRegister(data) {
     const { email, full_name, password, rePassword } = data;
     const findEmail = await usersRepo.findOneByEmail(email);
-    if (findEmail) {
-      return { message: "Email is exist", status: 409 };
-    }
     if (!email) {
       return { message: "Email must not be blank", status: 406 };
+    }
+    if (findEmail) {
+      return { message: "Email is exist", status: 409 };
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return { message: "Invalid Email Format", status: 406 };
@@ -68,14 +68,12 @@ class UsersService {
       full_name: full_name,
       password: encryptPassword,
       status_id: 1,
-      role_id: 3, // Thêm tài khoản với Role là Admin
+      role_id: 3, // Thêm tài khoản với Role là Customer
       image_avatar: "https://i.ibb.co/3BtQdVD/pet-shop.png",
     };
-    console.log(userInfo, "userInfo");
-    const newUser = await usersRepo.userRegister(userInfo);
+    await usersRepo.userRegister(userInfo);
     return {
       message: "User Register Successfully",
-      message: newUser,
       status: 200,
     };
   }

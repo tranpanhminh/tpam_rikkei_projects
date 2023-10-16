@@ -4,147 +4,37 @@ import { notification } from "antd";
 import axios from "axios";
 
 import { Account } from "../../../../database";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 // Import API
 const usersAPI = process.env.REACT_APP_API_USERS;
 
 // ----------------------------------------------------------
 function SignupForm() {
-  const [listAccounts, setListAccounts] = useState<Account[]>([]);
-  const [listEmail, setListEmail] = useState<string[]>([]);
-  const [email, setEmail] = useState("");
-  const [fullName, setFullName] = useState("");
-  const [password, setPassword] = useState("");
-  const [repassword, setRePassword] = useState("");
+  const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({
     email: "",
     full_name: "",
     password: "",
     rePassword: "",
   });
-  const fetchUsers = () => {
-    axios
-      .get(`${usersAPI}`)
-      .then((response) => {
-        setListAccounts(response.data);
-        let filterEmail = response.data.map((account: any) => {
-          return account.email;
-        });
-        setListEmail(filterEmail);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  useEffect(() => {
-    fetchUsers();
-  }, []);
 
   const handleSignUp = () => {
-    if (email === "" || email === null) {
-      notification.warning({
-        message: "Email not be blank",
+    axios
+      .post(`${usersAPI}/register`, userInfo)
+      .then((response) => {
+        notification.success({ message: response.data.message });
+        navigate("/login");
+      })
+      .catch((error) => {
+        console.log(error, "EROR");
+        notification.warning({ message: error.response.data.message });
       });
-      return false;
-    }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      notification.warning({
-        message: "Invalid email format",
-      });
-      return false;
-    }
-    if (fullName === "" || fullName === null) {
-      notification.warning({
-        message: "Full Name not be blank",
-      });
-      return false;
-    }
-    if (!/^[a-zA-Z\s]*$/.test(fullName)) {
-      notification.warning({
-        message: "Full Name cannot contain special characters or numbers",
-      });
-      return false;
-    }
-    if (password === "" || password === null) {
-      notification.warning({
-        message: "Password not be blank",
-      });
-      return false;
-    }
-    if (password.length < 8) {
-      notification.warning({
-        message: "Password must be at least 8 characters",
-      });
-      return false;
-    }
-    if (repassword === "" || repassword === null) {
-      notification.warning({
-        message: "Confirm Password not be blank",
-      });
-      return false;
-    }
-
-    if (password !== repassword) {
-      notification.warning({
-        message: "Password must match with Confirm Password",
-      });
-      return false;
-    }
-
-    if (listEmail.includes(email)) {
-      notification.warning({
-        message: "Email is already taken",
-      });
-    } else {
-      const listId: any = listAccounts.map((account) => {
-        return account.id;
-      });
-
-      const maxId = listId.length > 0 ? Math.max(...listId) : 0;
-      const newUser = {
-        id: maxId + 1,
-        email: email,
-        fullName: fullName,
-        password: password,
-        role: "customer",
-        status: "Active",
-        cart: [],
-        order_history: [],
-        newsletter_register: false,
-        newsletter: [],
-        booking: [],
-        booking_history: [],
-      };
-
-      axios
-        .post("http://localhost:7373/accounts", newUser)
-        .then((response) => {
-          setListAccounts(response.data);
-          notification.success({
-            message: "Signup Successfully",
-          });
-          setEmail("");
-          setFullName("");
-          setPassword("");
-          setRePassword("");
-          fetchUsers();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  };
-
-  const handlePreventForm = (event: React.FormEvent) => {
-    event.preventDefault();
-    // Optionally handle other form submission logic here
   };
 
   return (
     <div className={styles["outside-form-login"]}>
-      <form className={styles["form-signup"]} onSubmit={handlePreventForm}>
+      <div className={styles["form-signup"]}>
         <h3 className={styles["signup-title"]}>Signup</h3>
         <input
           type="email"
@@ -199,7 +89,7 @@ function SignupForm() {
             Login
           </NavLink>
         </p>
-      </form>
+      </div>
     </div>
   );
 }
