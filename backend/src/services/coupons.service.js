@@ -34,8 +34,8 @@ class CouponsService {
     if (!discount_rate) {
       return { message: "Discount rate not be blank", status: 406 };
     }
-    if (discount_rate < 0) {
-      return { message: "Discount rate must > 0", status: 406 };
+    if (discount_rate < 0 || discount_rate > 100) {
+      return { message: "Discount rate must between 0 and 100", status: 406 };
     }
     if (!min_bill) {
       return {
