@@ -171,32 +171,28 @@ function Report() {
     }
   });
 
-  // // Chuyển dữ liệu từ Map sang mảng kết quả
-  // const resultArray = Array.from(monthMap.values());
+  // Chuyển dữ liệu từ Map sang mảng kết quả
+  const resultArray = Array.from(monthMap.values());
 
-  // // In ra kết quả
-  // console.log(resultArray);
+  // In ra kết quả
+  console.log(resultArray, "resultArray");
 
-  // // Tạo mảng dữ liệu cho biểu đồ
-  // const saleOrderData = [["Month", "Sales", "Orders"]];
+  // Tạo mảng dữ liệu cho biểu đồ
+  const saleOrderData = [["Month", "Sales", "Orders"]];
 
-  // // Lặp qua mảng kết quả
-  // resultArray.forEach((item: any) => {
-  //   saleOrderData.push([
-  //     item.month,
-  //     item.sumorderwithdiscount,
-  //     item.order?.length,
-  //   ]);
-  // });
+  // Lặp qua mảng kết quả
+  resultArray.forEach((item: any) => {
+    saleOrderData.push([item.month, item.total_bill, item.order?.length]);
+  });
 
-  // const saleOrderDataOption = {
-  //   curveType: "function",
-  //   legend: { position: "bottom" },
-  // };
+  const saleOrderDataOption = {
+    curveType: "function",
+    legend: { position: "bottom" },
+  };
 
-  // // Khởi tạo mảng của Service Booking
-  // // Khởi tạo đối tượng Map để lưu trữ số lần booking của từng dịch vụ theo tháng
-  // const serviceCountByMonth = new Map();
+  // Khởi tạo mảng của Service Booking
+  // Khởi tạo đối tượng Map để lưu trữ số lần booking của từng dịch vụ theo tháng
+  const serviceCountByMonth = new Map();
 
   // // Lặp qua mảng bookings
   // bookings.forEach((booking: any) => {
@@ -271,178 +267,6 @@ function Report() {
   //   ]);
   // });
 
-  // // 1. Tìm sản phẩm bán chạy nhất (Tổng số lần bán ra)
-  // let totalProductIdArray = orders.map((order: any) => {
-  //   return {
-  //     status: order.status,
-  //     listProductId: order.cart,
-  //     sumOrderWithDiscount: order.sumOrderWithDiscount,
-  //   };
-  // });
-
-  // let filterTotalProductShipped = totalProductIdArray.filter((item: any) => {
-  //   return item.status === "Shipped";
-  // });
-
-  // let listProductIdArray = filterTotalProductShipped.map((item: any) => {
-  //   return item.listProductId;
-  // });
-
-  // let allProductId: any = [];
-
-  // listProductIdArray.forEach((item: any) => {
-  //   allProductId = [...allProductId, ...item];
-  //   return allProductId;
-  // });
-
-  // let listProductArrayWithCount = allProductId.map((item: any) => {
-  //   let loopAllProductId = allProductId.filter((product: any) => {
-  //     return item.productId === product.productId;
-  //   });
-
-  //   return {
-  //     productId: item.productId,
-  //     productName: item.productName,
-  //     productImage: item.productImage,
-  //     productPrice: item.price,
-  //     count: loopAllProductId.length,
-  //   };
-  // });
-
-  // const uniqueProductIds = new Set();
-  // const uniqueProductArray = listProductArrayWithCount.filter((item: any) => {
-  //   if (!uniqueProductIds.has(item.productId)) {
-  //     uniqueProductIds.add(item.productId);
-  //     return true;
-  //   }
-  //   return false;
-  // });
-
-  // const sortUniqueProductArray = uniqueProductArray.sort((a: any, b: any) => {
-  //   return b.count - a.count;
-  // });
-
-  // // 2. Tìm sản phẩm rating cao nhất
-  // let filterProduct = products.map((product: any) => {
-  //   return {
-  //     id: product.id,
-  //     productImage: product.productImage,
-  //     name: product.name,
-  //     price: product.price,
-  //     comments: product.comments.filter((item: any) => {
-  //       return item.userRole === "customer";
-  //     }),
-  //     averateRating: product.comments.reduce(
-  //       (accumulator: any, currentValue: any) => {
-  //         return accumulator + currentValue.rating;
-  //       },
-  //       0
-  //     ),
-  //   };
-  // });
-
-  // let filterProductWithAverateRating = filterProduct.map((product: any) => {
-  //   return {
-  //     ...product,
-  //     averateRating: Number(
-  //       (product.averateRating / product.comments.length).toFixed(1)
-  //     ),
-  //     totalReviews: Number(product.comments.length),
-  //   };
-  // });
-
-  // const sortProductRating = filterProductWithAverateRating.sort(
-  //   (a: any, b: any) => {
-  //     return b.averateRating - a.averateRating;
-  //   }
-  // );
-
-  // // 3. Tìm dịch vụ có số lần booking nhiều nhất
-  // let filterBooking = bookings.map((booking: any) => {
-  //   return booking.listBookings;
-  // });
-
-  // let listBookings: any = [];
-  // filterBooking.forEach((booking: any) => {
-  //   listBookings = [...listBookings, ...booking];
-  // });
-
-  // let filterBookingDone = listBookings.filter((item: any) => {
-  //   return item.status === "Done";
-  // });
-
-  // let listServcieArrayWithCount = filterBookingDone.map((item: any) => {
-  //   let loopAllServiceId = filterBookingDone.filter((service: any) => {
-  //     return item.serviceId === service.serviceId;
-  //   });
-
-  //   return {
-  //     serviceId: item.serviceId,
-  //     serviceName: item.serviceName,
-  //     serviceImage: item.serviceImage,
-  //     servicePrice: item.servicePrice,
-  //     count: loopAllServiceId.length,
-  //   };
-  // });
-
-  // const uniqueBookingId = new Set();
-  // const uniqueBookingArray = listServcieArrayWithCount.filter((item: any) => {
-  //   if (!uniqueBookingId.has(item.serviceId)) {
-  //     uniqueBookingId.add(item.serviceId);
-  //     return true;
-  //   }
-  //   return false;
-  // });
-
-  // const sortUniqueBooking = uniqueBookingArray.sort((a: any, b: any) => {
-  //   return b.count - a.count;
-  // });
-
-  // // 4. Tìm dịch vụ có tổng điểm rating cao nhất
-  // let filterService = services.map((service: any) => {
-  //   return {
-  //     id: service.id,
-  //     serviceImage: service.serviceImage,
-  //     name: service.name,
-  //     price: service.price,
-  //     comments: service.comments.filter((item: any) => {
-  //       return item.userRole === "customer";
-  //     }),
-  //     averateRating: service.comments.reduce(
-  //       (accumulator: any, currentValue: any) => {
-  //         return accumulator + currentValue.rating;
-  //       },
-  //       0
-  //     ),
-  //   };
-  // });
-
-  // let filterServiceWithAverateRating = filterService.map((service: any) => {
-  //   return {
-  //     ...service,
-  //     averateRating: Number(
-  //       (service.averateRating / service.comments.length).toFixed(1)
-  //     ),
-  //     totalReviews: Number(service.comments.length),
-  //   };
-  // });
-
-  // const sortServiceRating = filterServiceWithAverateRating.sort(
-  //   (a: any, b: any) => {
-  //     return b.averateRating - a.averateRating;
-  //   }
-  // );
-
-  // // Tính Total Sales Orders
-  // const totalSaleOrders = () => {
-  //   let totalSales = filterTotalProductShipped?.reduce(
-  //     (accumulator: any, currentValue: any) => {
-  //       return accumulator + currentValue.sumOrderWithDiscount;
-  //     },
-  //     0
-  //   );
-  //   return totalSales.toFixed(1);
-  // };
 
   return (
     <>
