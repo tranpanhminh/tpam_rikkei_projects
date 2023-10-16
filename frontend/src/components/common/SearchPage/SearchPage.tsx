@@ -4,6 +4,12 @@ import { Product, Service } from "../../../database";
 import axios from "axios";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 
+// Import API
+const productsAPI = process.env.REACT_APP_API_PRODUCTS;
+const servicesAPI = process.env.REACT_APP_API_SERVICES;
+
+// -------------------------------------------------
+
 function SearchPage() {
   const navigate = useNavigate();
   const { searchTerm } = useParams();
@@ -11,7 +17,7 @@ function SearchPage() {
   const [services, setServices] = useState<Service[]>([]);
   const fetchProducts = () => {
     axios
-      .get("http://localhost:7373/api/products")
+      .get(`${productsAPI}`)
       .then((response) => {
         setProducts(response.data);
       })
@@ -22,7 +28,7 @@ function SearchPage() {
 
   const fetchServices = () => {
     axios
-      .get("http://localhost:7373/api/services")
+      .get(`${servicesAPI}`)
       .then((response) => {
         setServices(response.data);
       })
