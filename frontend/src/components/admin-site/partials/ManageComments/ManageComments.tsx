@@ -19,13 +19,12 @@ const serviceCommentsAPI = process.env.REACT_APP_API_SERVICE_COMMENTS;
 
 function ManageComments() {
   document.title = "Manage Comments | PetShop";
-
   const [searchText, setSearchText] = useState<string>("");
   const [productComments, setProductComments] = useState<any>([]);
   const [serviceComments, setServiceComments] = useState<any>([]);
   const [filteredComments, setFilteredComments] = useState<any>([]);
-
   let allComments: any[] = [];
+  // Fetch API
   // Fecth Product Comments
   const fetchProductComments = async () => {
     axios
@@ -54,6 +53,7 @@ function ManageComments() {
     fetchProductComments();
     fetchServiceComments();
   }, []);
+  // ------------------------------------------------
 
   allComments = productComments.concat(serviceComments);
 
@@ -71,88 +71,16 @@ function ManageComments() {
     setFilteredComments(filterComment);
   };
 
-  function stripHTMLTags(html: any) {
-    return html.replace(/<\/?[^>]+(>|$)/g, "");
-  }
-
   // Function Delete Comment
   const handleDeleteComment = (
     id: number,
     commentId: number,
     commentType: string
   ) => {};
-  // const handleDeleteComment = (
-  //   id: number,
-  //   commentId: number,
-  //   commentType: string
-  // ) => {
-  //   let updatedComments = []; // Danh sách comment đã được cập nhật
 
-  //   // Xóa Comment của Product
-  //   if (commentType === "product") {
-  //     axios
-  //       .get(`http://localhost:7373/products/${id}`)
-  //       .then((response) => {
-  //         // Lấy danh sách comment từ máy chủ
-  //         const productComments = response.data.comments;
-
-  //         // Loại bỏ comment cần xóa
-  //         updatedComments = productComments.filter((comment: any) => {
-  //           return comment.commentId !== commentId;
-  //         });
-
-  //         // Cập nhật trạng thái sản phẩm với danh sách mới
-  //         setProductComments(updatedComments);
-
-  //         // Gọi yêu cầu PATCH để cập nhật danh sách comment trên máy chủ
-  //         axios
-  //           .patch(`http://localhost:7373/products/${id}`, {
-  //             comments: updatedComments,
-  //           })
-  //           .then((response) => {
-  //             fetchProducts(); // Lấy sản phẩm lại để cập nhật dữ liệu
-  //             notification.success({
-  //               message: "Comment Deleted",
-  //             });
-  //           })
-  //           .catch((error) => {
-  //             console.log(error.message);
-  //           });
-  //       })
-  //       .catch((error) => {
-  //         console.log(error.message);
-  //       });
-  //   }
-
-  //   // Tương tự cho việc xóa Comment của Service
-  //   if (commentType === "service") {
-  //     axios
-  //       .get(`http://localhost:7373/services/${id}`)
-  //       .then((response) => {
-  //         const serviceComments = response.data.comments;
-  //         updatedComments = serviceComments.filter((comment: any) => {
-  //           return comment.commentId !== commentId;
-  //         });
-  //         setServiceComments(updatedComments);
-  //         axios
-  //           .patch(`http://localhost:7373/services/${id}`, {
-  //             comments: updatedComments,
-  //           })
-  //           .then((response) => {
-  //             fetchServices();
-  //             notification.success({
-  //               message: "Comment Deleted",
-  //             });
-  //           })
-  //           .catch((error) => {
-  //             console.log(error.message);
-  //           });
-  //       })
-  //       .catch((error) => {
-  //         console.log(error.message);
-  //       });
-  //   }
-  // };
+  function stripHTMLTags(html: any) {
+    return html.replace(/<\/?[^>]+(>|$)/g, "");
+  }
 
   const changeColor = (type: string) => {
     switch (type) {

@@ -16,11 +16,11 @@ const postsAPI = process.env.REACT_APP_API_POSTS;
 
 function ManagePosts() {
   document.title = "Manage Posts | PetShop";
-
   const [searchText, setSearchText] = useState<string>("");
   const [posts, setPosts] = useState<any>([]);
   const navigate = useNavigate();
 
+  // Fetch API
   const fetchPosts = async () => {
     await axios
       .get(`${postsAPI}`)
@@ -35,63 +35,28 @@ function ManagePosts() {
   useEffect(() => {
     fetchPosts();
   }, []);
+  // ------------------------------------------------
 
-  // Function Search Posts
+  // Handle Search
   const handleSearchPosts = () => {
-    if (searchText === "") {
+    if (!searchText) {
       // Nếu searchText rỗng, gọi lại fetchUsers để lấy tất cả người dùng
       fetchPosts();
     } else {
-      // Nếu có searchText, thực hiện tìm kiếm và cập nhật state
-      axios
-        .get(`http://localhost:7373/posts`)
-        .then((response) => {
-          // Lấy dữ liệu từ response
-          const allPosts = response.data;
+      const filteredPosts = posts.filter((post: any) => {
+        if (
+          post.title.toLowerCase().includes(searchText.trim().toLowerCase())
+        ) {
+          return true;
+        }
+        return false;
+      });
 
-          // Tìm kiếm trong dữ liệu và cập nhật state
-          const filteredPosts = allPosts.filter((post: any) => {
-            if (
-              post.post_title
-                .toLowerCase()
-                .includes(searchText.trim().toLowerCase())
-            ) {
-              return true;
-            }
-            return false;
-          });
-
-          setPosts(filteredPosts);
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
+      setPosts(filteredPosts);
     }
   };
 
-  const changeColor = (status: string) => {
-    switch (status) {
-      case "Published":
-        return "success";
-      case "Draft":
-        return "secondary";
-      default:
-        return;
-    }
-  };
-
-  // // Function Add Post
-  // const handleAddPost = () => {
-  //   axios
-  //     .get(`http://localhost:7373/posts/`)
-  //     .then((response) => {
-  //       fetchPosts();
-  //       setPosts(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
+  // ------------------------------------------------
 
   // Function Delete Post
   const handleDeletePost = (postId: number) => {
@@ -107,10 +72,23 @@ function ManagePosts() {
         console.log(error);
       });
   };
+  // ------------------------------------------------
 
   // Function Update After Add Post
   const handleUpdatePost = () => {
     fetchPosts();
+  };
+  // ------------------------------------------------
+
+  const changeColor = (status: string) => {
+    switch (status) {
+      case "Published":
+        return "success";
+      case "Draft":
+        return "secondary";
+      default:
+        return;
+    }
   };
 
   return (
