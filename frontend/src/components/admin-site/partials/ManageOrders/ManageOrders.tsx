@@ -42,7 +42,7 @@ function ManageOrders() {
 
   // Handle Search
   const handleSearchOrders = () => {
-    if (searchText === "") {
+    if (!searchText) {
       fetchOrders(); // Không có searchText, fetch toàn bộ đơn hàng
       return;
     } else {

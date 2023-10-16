@@ -20,6 +20,7 @@ function ManageServices() {
   const [services, setServices] = useState<any>(null);
   const [searchText, setSearchText] = useState<string>("");
 
+  // Fetch API
   const fetchServices = () => {
     axios
       .get(`${servicesAPI}`)
@@ -34,37 +35,28 @@ function ManageServices() {
   useEffect(() => {
     fetchServices();
   }, []);
+  // ------------------------------------------------
 
+  // Handle Search
   const handleSearchServices = () => {
-    if (searchText === "") {
+    if (!searchText) {
       fetchServices();
     } else {
-      axios
-        .get(`http://localhost:7373/api/services`)
-        .then((response) => {
-          // Lấy dữ liệu từ response
-          const allServices = response.data;
+      const filterServices = services.filter((service: any) => {
+        if (
+          service.name.toLowerCase().includes(searchText.trim().toLowerCase())
+        ) {
+          return true;
+        }
+        return false;
+      });
 
-          // Tìm kiếm trong dữ liệu và cập nhật state
-          const filterServices = allServices.filter((service: Service) => {
-            if (
-              service.name
-                .toLowerCase()
-                .includes(searchText.trim().toLowerCase())
-            ) {
-              return true;
-            }
-            return false;
-          });
-
-          setServices(filterServices);
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
+      setServices(filterServices);
     }
   };
+  // ------------------------------------------------
 
+  // Handle Delete
   const handleDeleteService = (serviceId: number) => {
     axios
       .delete(`${servicesAPI}/delete/${serviceId}`)
@@ -80,10 +72,13 @@ function ManageServices() {
         });
       });
   };
+  // ------------------------------------------------
 
+  // Handle Update
   const handleUpdateService = () => {
     fetchServices();
   };
+  // ------------------------------------------------
 
   return (
     <>
