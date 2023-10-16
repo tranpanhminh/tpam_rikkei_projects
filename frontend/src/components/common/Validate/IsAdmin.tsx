@@ -10,7 +10,7 @@ function IsAdmin() {
 
   const data: any = jwtDecode(token);
   if (data?.role_id !== 1 && data?.role_id !== 2) {
-    return <Navigate to="/" />;
+    return <Navigate to="/access-denied" />;
   }
 
   return <Outlet />;
