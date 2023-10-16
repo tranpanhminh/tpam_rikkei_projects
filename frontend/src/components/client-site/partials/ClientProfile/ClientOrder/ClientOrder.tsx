@@ -25,6 +25,7 @@ function ClientOrder() {
   const [searchText, setSearchText] = useState<string>("");
   const [user, setUser] = useState<any>([]);
   const [userOrder, setUserOrder] = useState<any>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Fetch Data
   const fetchUser = () => {
@@ -53,8 +54,6 @@ function ClientOrder() {
   }, []);
   // -----------------------------------------------------------
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -67,7 +66,26 @@ function ClientOrder() {
     setIsModalOpen(false);
   };
 
-  const hanldeSearchOrder = () => {};
+  const hanldeSearchOrder = () => {
+    if (!searchText) {
+      fetchUserOrder();
+    } else {
+      const filterOrder = userOrder?.filter((item: any) => {
+        if (
+          item.order_date
+            .toLowerCase()
+            .includes(searchText.trim().toLowerCase()) ||
+          item.order_status.name
+            .toLowerCase()
+            .includes(searchText.trim().toLowerCase())
+        ) {
+          return true;
+        }
+        return false;
+      });
+      setUserOrder(filterOrder);
+    }
+  };
 
   const changeColor = (status: string) => {
     switch (status) {

@@ -43,31 +43,32 @@ function ClientBooking() {
   }, []);
 
   const handleSearchBooking = () => {
-    // if (!searchText) {
-    //   // Nếu searchText rỗng, gọi lại fetchUser để lấy tất cả người dùng
-    //   fetchUser();
-    // } else {
-    //   // Nếu có searchText, thực hiện tìm kiếm và cập nhật state
-    //   const filterBooking = listUserBooking?.filter((item: any) => {
-    //     if (
-    //       item.serviceName
-    //         .toLowerCase()
-    //         .includes(searchText.trim().toLowerCase()) ||
-    //       item.calendar
-    //         .toLowerCase()
-    //         .includes(searchText.trim().toLowerCase()) ||
-    //       item.time.toLowerCase().includes(searchText.trim().toLowerCase()) ||
-    //       item.bookingDate
-    //         .toLowerCase()
-    //         .includes(searchText.trim().toLowerCase()) ||
-    //       item?.status.toLowerCase().includes(searchText.trim().toLowerCase())
-    //     ) {
-    //       return true;
-    //     }
-    //     return false;
-    //   });
-    //   setListUserBooking(filterBooking);
-    // }
+    if (!searchText) {
+      // Nếu searchText rỗng, gọi lại fetchUserBooking để lấy tất cả người dùng
+      fetchUserBooking();
+    } else {
+      // Nếu có searchText, thực hiện tìm kiếm và cập nhật state
+      const filterBooking = userBooking?.filter((item: any) => {
+        if (
+          item.service.name
+            .toLowerCase()
+            .includes(searchText.trim().toLowerCase()) ||
+          item.calendar
+            .toLowerCase()
+            .includes(searchText.trim().toLowerCase()) ||
+          item.booking_date
+            .toLowerCase()
+            .includes(searchText.trim().toLowerCase()) ||
+          item?.booking_status?.name
+            .toLowerCase()
+            .includes(searchText.trim().toLowerCase())
+        ) {
+          return true;
+        }
+        return false;
+      });
+      setUserBooking(filterBooking);
+    }
   };
 
   const handleCancelBooking = (bookingId: number) => {
@@ -101,8 +102,6 @@ function ClientBooking() {
         return;
     }
   };
-
-  // const dataUserBooking: any[] = [];
 
   return (
     <div>
