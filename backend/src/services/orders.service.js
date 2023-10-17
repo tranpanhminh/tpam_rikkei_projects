@@ -339,6 +339,13 @@ class OrdersService {
       };
     }
 
+    if (status_id && status_id === 5) {
+      return {
+        message: "Admin can't cancel order of customer",
+        status: 406,
+      };
+    }
+
     const orderInfo = {
       status_id: !status_id ? findOrder.status_id : status_id,
       updated_at: Date.now(),

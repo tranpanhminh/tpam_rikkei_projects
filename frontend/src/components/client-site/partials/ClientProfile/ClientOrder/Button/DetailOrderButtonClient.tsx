@@ -72,8 +72,6 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
     fetchCancelReasons();
   }, []);
 
-  console.log(userOrder, "AAAA");
-
   const handleOk = () => {
     if (!reason) {
       return setIsModalOpen(false);
@@ -85,15 +83,17 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
     BaseAxios.patch(`${ordersAPI}/cancel-order/${orderId}`, orderInfo)
       .then((response) => {
         handleFunctionOk();
+        fetchUserOrder();
+        fetchOrderItems();
         navigate(`/user/my-orders/`);
         setIsModalOpen(false);
         notification.success({
-          message: `${response.data}`,
+          message: `${response.data.message}`,
         });
       })
       .catch((error) => {
         notification.error({
-          message: `${error.response.data}`,
+          message: `${error.response.data.message}`,
         });
       });
   };
@@ -185,10 +185,14 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
               </select>
             </div>
           )}
-          {userOrder?.status === "Cancel" && (
+          {userOrder?.order_status?.name === "Cancel" && (
             <div className={styles["my-profile-input-item"]}>
               <p>Cancel Reason</p>
-              <input type="text" disabled value={userOrder?.cancel_reason} />
+              <input
+                type="text"
+                disabled
+                value={userOrder?.cancellation_reason}
+              />
             </div>
           )}
         </div>

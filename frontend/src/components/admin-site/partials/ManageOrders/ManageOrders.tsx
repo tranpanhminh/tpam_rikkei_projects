@@ -140,10 +140,10 @@ function ManageOrders() {
           </thead>
           <tbody>
             {orders &&
-              orders.map((order: any) => {
+              orders.map((order: any, index: number) => {
                 return (
                   <tr key={order.id}>
-                    <td>{order.id}</td>
+                    <td>{index + 1}</td>
                     <td>{order.customer_name}</td>
                     <td>{order.user.email}</td>
                     <td>{order.phone}</td>

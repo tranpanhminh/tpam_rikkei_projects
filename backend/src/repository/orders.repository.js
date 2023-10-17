@@ -97,6 +97,7 @@ class OrdersRepo {
       ],
 
       // Nhóm theo id và tên của dịch vụ
+      // orders: [["orders.id", "DESC"]],
       group: ["orders.id"],
       // raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
     });

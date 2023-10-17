@@ -287,7 +287,12 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
                 />
               ) : (
                 <img
-                  src={getPost?.thumbnail_url}
+                  src={
+                    !getPost?.thumbnail_url ||
+                    getPost?.thumbnail_url === "http://localhost:7373/uploads/"
+                      ? "https://media.istockphoto.com/id/1147544810/vector/no-thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=2-ScbybM7bUYw-nptQXyKKjwRHKQZ9fEIwoWmZG9Zyg="
+                      : getPost?.thumbnail_url
+                  }
                   alt=""
                   className={styles["post-editor-thumbnail"]}
                 />

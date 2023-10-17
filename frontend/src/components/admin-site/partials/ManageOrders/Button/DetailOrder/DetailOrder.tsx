@@ -88,8 +88,8 @@ const DetailOrders: React.FC<DetailModalProps> = ({
   const showModal = () => {
     setIsModalOpen(true);
   };
+  console.log(shippingStatus, "FISDA");
   const handleOk = () => {
-    console.log(shippingStatus, "---");
     const orderInfo = {
       status_id: shippingStatus,
       // updated_at: Date.now(),
@@ -98,7 +98,7 @@ const DetailOrders: React.FC<DetailModalProps> = ({
       .patch(`${ordersAPI}/update/${getOrderId}`, orderInfo)
       .then((response) => {
         notification.success({
-          message: "Shipping Status Updated Successfully",
+          message: `${response.data.message}`,
         });
         handleFunctionOk();
         setShippingStatus("");
@@ -107,7 +107,7 @@ const DetailOrders: React.FC<DetailModalProps> = ({
       .catch((error) => {
         console.log(error, "--");
         notification.warning({
-          message: `${error.response.data}`,
+          message: `${error.response.data.message}`,
         });
       });
     // Cập nhật trạng thái đơn hàng trong cơ sở dữ liệu của người dùng
@@ -231,10 +231,14 @@ const DetailOrders: React.FC<DetailModalProps> = ({
               </option>
             </select>
           </div>
-          {orders?.status === "Cancel" && (
+          {orderById?.order_status.name === "Cancel" && (
             <div className={styles["admin-order-input-item"]}>
               <p>Cancel Reason</p>
-              <input type="text" disabled value={orders?.cancel_reason} />
+              <input
+                type="text"
+                disabled
+                value={orderById?.cancellation_reason}
+              />
             </div>
           )}
         </div>
@@ -256,12 +260,12 @@ const DetailOrders: React.FC<DetailModalProps> = ({
                 <tr>
                   <td>{index + 1}</td>
                   <td>
-                    <img src={item.product_thumbnail} alt="" />
+                    <img src={item?.product_thumbnail} alt="" />
                   </td>
-                  <td>{item.product_name}</td>
-                  <td>{item.quantity}</td>
-                  <td>${Number(item.price)}</td>
-                  <td>${(item.price * item.quantity).toLocaleString()}</td>
+                  <td>{item?.product_name}</td>
+                  <td>{item?.quantity}</td>
+                  <td>${Number(item?.price)}</td>
+                  <td>${(item?.price * item?.quantity).toLocaleString()}</td>
                 </tr>
               );
             })}
