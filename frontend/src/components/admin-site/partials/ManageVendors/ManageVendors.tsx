@@ -4,6 +4,7 @@ import styles from "../../AdminPage.module.css";
 import axios from "axios";
 import { Button, notification } from "antd";
 import AddButtonVendor from "./Button/AddVendor/AddButtonVendor";
+import DetailVendorButton from "./Button/DetailVendor/DetailVendorButton";
 
 // Import API
 // 1. Vendors API
@@ -123,10 +124,16 @@ function ManageVendors() {
           <tbody>
             {vendors?.map((vendor: any) => {
               return (
-                <tr key={vendor.id}>
-                  <td>{vendor.id}</td>
-                  <td>{vendor.name}</td>
+                <tr key={vendor?.id}>
+                  <td>{vendor?.id}</td>
+                  <td>{vendor?.name}</td>
                   <td className={styles["group-btn-admin"]}>
+                    <DetailVendorButton
+                      value="Detail"
+                      title="Detail"
+                      handleFunctionOk={handleAddVendor}
+                      getVendorId={vendor?.id}
+                    ></DetailVendorButton>
                     <Button
                       type="primary"
                       className={styles["delete-product-btn"]}

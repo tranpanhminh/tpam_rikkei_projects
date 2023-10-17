@@ -1,146 +1,155 @@
 import React, { useEffect, useState } from "react";
-import { Button, Modal } from "antd";
-import { Product, Service } from "../../../../../../database";
-import { Editor } from "@tinymce/tinymce-react";
+import { Button, Modal, notification } from "antd";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import styles from "../DetailService/DetailModalService.module.css";
+import styles from "../DetailCoupon/DetailModalCoupon.module.css";
+
+// Import API
+// 1. Coupons API
+const couponsAPI = process.env.REACT_APP_API_COUPONS;
+
+// ------------------------------------------------
 
 interface DetailModalProps {
-  className?: string; // Thêm khai báo cho thuộc tính className
-  value?: string; // Thêm khai báo cho thuộc tính className
+  className?: string;
+  value?: string;
   title?: string;
   handleFunctionOk?: any;
-  handleFunctionBtn?: any;
-  getServiceId: number;
+  getCouponId?: any;
 }
-const DetailButtonService: React.FC<DetailModalProps> = ({
+
+const DetailCouponButton: React.FC<DetailModalProps> = ({
   className,
   value,
   title,
   handleFunctionOk,
-  handleFunctionBtn,
-  getServiceId,
+  getCouponId,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [coupon, setCoupon] = useState<any>({});
+  const [name, setName] = useState("");
+  const [couponInfo, setCouponInfo] = useState({
+    name: "",
+    code: "",
+    discount_rate: "",
+    min_bill: "",
+  });
+  const navigate = useNavigate();
 
-  const [initName, setName] = useState("");
-  const [initDescription, setDescription] = useState("");
-  const [initPrice, setPrice] = useState("");
-  const [initImage, setImage] = useState("");
-
-  const [services, setServices] = useState<null | Service>(null);
-
-  useEffect(() => {
-    const fetchServices = () => {
-      axios
-        .get(`http://localhost:7373/api/services/detail/${getServiceId}`)
-        .then((response) => {
-          setServices(response.data);
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
-    };
-
-    fetchServices();
-  }, [getServiceId]);
-
-  console.log(services);
-
-  const handleChange = (content: string, editor: any) => {
-    setDescription(content);
-  };
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleOk = () => {
-    console.log("handleSubmit is called");
-    const updateService = {
-      name: initName !== "" ? initName : services?.name,
-    };
-
+  const fetchCoupon = () => {
     axios
-      .put(`http://localhost:7373/services/${getServiceId}`, updateService)
+      .get(`${couponsAPI}/detail/${getCouponId}`)
       .then((response) => {
-        console.log("Service updated successfully:", response.data);
-        setIsModalOpen(false); // Close the modal
+        setCoupon(response.data);
       })
       .catch((error) => {
-        console.error("Error updating product:", error);
+        console.log(error);
       });
-    if (handleFunctionOk) {
-      handleFunctionOk();
-    }
+  };
+  console.log(coupon, "COUIDSA");
+  useEffect(() => {
+    fetchCoupon();
+  }, []);
+
+  const showModal = () => {
+    navigate(`/admin/manage-coupons/?edit-couponID=${getCouponId}`);
+    setIsModalOpen(true);
+    setCouponInfo({
+      name: "",
+      code: "",
+      discount_rate: "",
+      min_bill: "",
+    });
   };
 
   const handleCancel = () => {
+    navigate("/admin/manage-coupons/");
     setIsModalOpen(false);
+    setCouponInfo({
+      name: "",
+      code: "",
+      discount_rate: "",
+      min_bill: "",
+    });
+  };
+
+  const handleOk = () => {
+    axios
+      .patch(`${couponsAPI}/update/${getCouponId}`, couponInfo)
+      .then((response) => {
+        notification.success({
+          message: `${response.data.message}`,
+        });
+        handleFunctionOk();
+        setCouponInfo({
+          name: "",
+          code: "",
+          discount_rate: "",
+          min_bill: "",
+        });
+        setIsModalOpen(false);
+      })
+      .catch((error) => {
+        notification.warning({
+          message: `${error.response.data.message}`,
+        });
+      });
   };
 
   return (
     <>
-      <Button
-        type="primary"
-        onClick={handleFunctionBtn || showModal}
-        className={className}
-      >
+      <Button type="primary" onClick={showModal} className={className}>
         {value}
       </Button>
-      <Modal
-        width={900}
-        title={title}
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
-        {services && (
-          <div className={styles["product-detail-information-container"]}>
-            <div className={styles["left-product-detail-item"]}>
-              <img src={services && services.service_image} alt="" />
-            </div>
-
-            <div className={styles["right-product-detail-item"]}>
-              <div className={styles["product-info-item"]}>
-                <label className={styles["label-product"]} htmlFor="">
-                  Service ID
-                </label>
-                <input
-                  type="text"
-                  name="Product ID"
-                  value={services && services.id}
-                  disabled
-                />
-              </div>
-              <div className={styles["product-info-item"]}>
-                <label className={styles["label-product"]} htmlFor="">
-                  Product Title
-                </label>
-                <input
-                  type="text"
-                  name="Product Title"
-                  defaultValue={services && services.name}
-                  onChange={(event) => setName(event.target.value)}
-                />
-              </div>
-              <div className={styles["product-info-item"]}>
-                <label className={styles["label-product"]} htmlFor="">
-                  Description
-                </label>
-                <div>
-                  <Editor
-                    initialValue={services && services.description}
-                    onEditorChange={handleChange}
-                  />
-                </div>
-              </div>
-            </div>
+      <Modal visible={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <div className={styles["list-input-add-student"]}>
+          <div className={styles["list-input-item"]}>
+            <p>Coupon Name</p>
+            <input
+              type="text"
+              defaultValue={coupon?.name}
+              onChange={(event) =>
+                setCouponInfo({ ...couponInfo, name: event.target.value })
+              }
+            />
           </div>
-        )}
+          <div className={styles["list-input-item"]}>
+            <p>Coupon Code</p>
+            <input
+              type="text"
+              defaultValue={coupon?.code}
+              onChange={(event) =>
+                setCouponInfo({ ...couponInfo, code: event.target.value })
+              }
+            />
+          </div>
+          <div className={styles["list-input-item"]}>
+            <p>Coupon Discount</p>
+            <input
+              type="text"
+              defaultValue={coupon?.discount_rate}
+              onChange={(event) =>
+                setCouponInfo({
+                  ...couponInfo,
+                  discount_rate: event.target.value,
+                })
+              }
+            />
+          </div>
+          <div className={styles["list-input-item"]}>
+            <p>Min Bill</p>
+            <input
+              type="text"
+              defaultValue={coupon?.min_bill}
+              onChange={(event) =>
+                setCouponInfo({ ...couponInfo, min_bill: event.target.value })
+              }
+            />
+          </div>
+        </div>
       </Modal>
     </>
   );
 };
 
-export default DetailButtonService;
+export default DetailCouponButton;

@@ -5,6 +5,7 @@ import { Coupon } from "../../../../database"; // Import your data fetching and 
 import axios from "axios";
 import { Button, notification } from "antd";
 import AddButtonCoupon from "./Button/AddCoupon/AddButtonCoupon";
+import DetailCouponButton from "./Button/DetailCoupon/DetailButtonCoupon";
 
 // Import API
 // 1. Coupons API
@@ -250,6 +251,12 @@ function ManageNewsletter() {
                     >
                       Send
                     </Button> */}
+                    <DetailCouponButton
+                      title="Detail"
+                      value="Detail"
+                      handleFunctionOk={handleAddCoupon}
+                      getCouponId={coupon.id}
+                    ></DetailCouponButton>
                     <Button
                       type="primary"
                       className={styles["delete-product-btn"]}
