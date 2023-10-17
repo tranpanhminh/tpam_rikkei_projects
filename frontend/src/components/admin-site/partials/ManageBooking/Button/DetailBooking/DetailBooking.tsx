@@ -42,6 +42,7 @@ const DetailBooking: React.FC<DetailModalProps> = ({
   const [bookingStatus, setBookingStatus] = useState<any>([]);
   const [status, setStatus] = useState("");
 
+  // Fetch API
   const fetchBookingByDate = async () => {
     await axios
       .get(`${bookingsAPI}/filter/date/${getBookingDate}`)
@@ -64,22 +65,11 @@ const DetailBooking: React.FC<DetailModalProps> = ({
       });
   };
 
-  // const fetchBookings = () => {
-  //   axios
-  //     .get(`http://localhost:7373/bookings/${getBookingId}`)
-  //     .then((response) => {
-  //       setBooking(response.data);
-  //       setListBooking(response.data.listBookings);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error.message);
-  //     });
-  // };
-
   useEffect(() => {
     fetchBookingStatus();
     fetchBookingByDate();
   }, []);
+  // -----------------------------------------------------
 
   const showModal = () => {
     navigate(`/admin/manage-booking/?date=${getBookingDate}`);
@@ -143,12 +133,12 @@ const DetailBooking: React.FC<DetailModalProps> = ({
     setIsModalOpenUpdateStatus(true);
   };
 
-  const updateBookingStatus = (bookingId: number, status: string) => {
-    // Gửi yêu cầu cập nhật trạng thái đặt hàng lên máy chủ
-    return axios.patch(`http://localhost:7373/bookings/${bookingId}`, {
-      status: status,
-    });
-  };
+  // const updateBookingStatus = (bookingId: number, status: string) => {
+  //   // Gửi yêu cầu cập nhật trạng thái đặt hàng lên máy chủ
+  //   return axios.patch(`http://localhost:7373/bookings/${bookingId}`, {
+  //     status: status,
+  //   });
+  // };
 
   const handleOkUpdateStatus = () => {
     const updateBooking = {
@@ -174,46 +164,28 @@ const DetailBooking: React.FC<DetailModalProps> = ({
     setIsModalOpenUpdateStatus(false);
   };
 
-  // const handleSearchBooking = () => {
-  //   // if (searchText === "") {
-  //   //   // Nếu searchText rỗng, gọi lại fetchUsers để lấy tất cả người dùng
-  //   //   fetchBookings();
-  //   // } else {
-  //   //   // Nếu có searchText, thực hiện tìm kiếm và cập nhật state
-  //   //   axios
-  //   //     .get(`http://localhost:7373/bookings/detail/${getBookingId}`)
-  //   //     .then((response) => {
-  //   //       // Lấy dữ liệu từ response
-  //   //       const allBooking = response.data;
-  //   //       // Tìm kiếm trong dữ liệu và cập nhật state
-  //   //       const filteredBooking = allBooking.listBookings.filter(
-  //   //         (booking: any) => {
-  //   //           if (
-  //   //             booking.bookingId
-  //   //               .toString()
-  //   //               .includes(searchText.trim().toLowerCase()) ||
-  //   //             booking.userName
-  //   //               .toLowerCase()
-  //   //               .includes(searchText.trim().toLowerCase()) ||
-  //   //             booking.userPhone
-  //   //               .toString()
-  //   //               .includes(searchText.trim().toLowerCase()) ||
-  //   //             booking.serviceName
-  //   //               .toLowerCase()
-  //   //               .includes(searchText.trim().toLowerCase())
-  //   //           ) {
-  //   //             return true;
-  //   //           }
-  //   //           return false;
-  //   //         }
-  //   //       );
-  //   //       setListBooking(filteredBooking);
-  //   //     })
-  //   //     .catch((error) => {
-  //   //       console.log(error.message);
-  //   //     });
-  //   // }
-  // };
+  const handleSearchBooking = () => {
+    if (!searchText) {
+      fetchBookingByDate();
+    } else {
+      const filteredBooking = groupBookingDate.filter((booking: any) => {
+        if (
+          booking.id.toString().includes(searchText.trim().toLowerCase()) ||
+          booking.name
+            .toLowerCase()
+            .includes(searchText.trim().toLowerCase()) ||
+          booking.phone.toString().includes(searchText.trim().toLowerCase()) ||
+          booking.service_name
+            .toLowerCase()
+            .includes(searchText.trim().toLowerCase())
+        ) {
+          return true;
+        }
+        return false;
+      });
+      setGroupBookingDate(filteredBooking);
+    }
+  };
 
   return (
     <>
@@ -252,7 +224,7 @@ const DetailBooking: React.FC<DetailModalProps> = ({
                   className={`btn  ${styles["btn-outline-success"]}`}
                   type="submit"
                   id={styles["search-btn"]}
-                  // onClick={handleSearchBooking}
+                  onClick={handleSearchBooking}
                 >
                   Search
                 </button>

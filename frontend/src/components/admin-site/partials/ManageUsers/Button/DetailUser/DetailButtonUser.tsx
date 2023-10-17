@@ -96,7 +96,7 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
         setIsModalOpen(false);
       })
       .catch((error) => {
-        notification.error({
+        notification.warning({
           message: `${error.response.data.message}`,
         });
       });
