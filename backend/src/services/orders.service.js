@@ -346,6 +346,8 @@ class OrdersService {
       };
     }
 
+    console.log(status_id, "STATUS ID");
+
     const orderInfo = {
       status_id: !status_id ? findOrder.status_id : status_id,
       updated_at: Date.now(),

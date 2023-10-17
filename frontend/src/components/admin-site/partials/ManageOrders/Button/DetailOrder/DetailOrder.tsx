@@ -6,6 +6,7 @@ import styles from "../../../../AdminPage.module.css";
 // Import API
 // 1. Users API
 const ordersAPI = process.env.REACT_APP_API_ORDERS;
+const orderStatusAPI = process.env.REACT_APP_API_ORDER_STATUS;
 const paymentsAPI = process.env.REACT_APP_API_PAYMENTS;
 
 // ------------------------------------------------
@@ -27,8 +28,9 @@ const DetailOrders: React.FC<DetailModalProps> = ({
   getOrderId,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [shippingStatus, setShippingStatus] = useState("");
+  const [shippingStatus, setShippingStatus] = useState<any>("");
   const [orders, setOrders] = useState<any>(null);
+  const [orderStatus, setOrderStatus] = useState<any>([]);
   const [orderCart, setOrderCart] = useState<any>(null);
   const [userId, setUserId] = useState<any>();
   const [user, setUser] = useState<any>();
@@ -85,6 +87,22 @@ const DetailOrders: React.FC<DetailModalProps> = ({
     }
   }, [userId]);
 
+  const fetchOrderStatus = () => {
+    axios
+      .get(`${orderStatusAPI}`)
+      .then((response) => {
+        setOrderStatus(response.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+  useEffect(() => {
+    fetchOrderStatus();
+  }, []);
+
+  // ------------------------------------------------
+
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -101,6 +119,7 @@ const DetailOrders: React.FC<DetailModalProps> = ({
           message: `${response.data.message}`,
         });
         handleFunctionOk();
+        fetchOrderById();
         setShippingStatus("");
         setIsModalOpen(false);
       })
@@ -186,52 +205,44 @@ const DetailOrders: React.FC<DetailModalProps> = ({
                   ? true
                   : false
               }
-              // defaultValue={shippingStatus}
-              onChange={(event) => setShippingStatus(event.target.value)}
+              onChange={(event) =>
+                setShippingStatus(Number(event.target.value))
+              }
             >
               <option
                 value={4}
-                selected={
-                  orderById?.order_status.name === "Shipped" ? true : false
-                }
+                selected={orderById?.status_id === 4 ? true : false}
               >
                 Shipped
               </option>
               <option
                 value={3}
-                selected={
-                  orderById?.order_status.name === "Shipping" ? true : false
-                }
+                selected={orderById?.status_id === 3 ? true : false}
               >
                 Shipping
               </option>
               <option
                 value={2}
-                selected={
-                  orderById?.order_status.name === "Processing" ? true : false
-                }
+                selected={orderById?.status_id === 2 ? true : false}
               >
                 Processing
               </option>
               <option
                 value={1}
-                selected={
-                  orderById?.order_status.name === "Pending" ? true : false
-                }
+                selected={orderById?.status_id === 1 ? true : false}
               >
                 Pending
               </option>
               <option
                 value={5}
-                selected={
-                  orderById?.order_status.name === "Cancel" ? true : false
-                }
+                selected={orderById?.status_id === 5 ? true : false}
+                disabled
               >
                 Cancel
               </option>
             </select>
           </div>
-          {orderById?.order_status.name === "Cancel" && (
+          {orderById?.order_status?.name === "Cancel" && (
             <div className={styles["admin-order-input-item"]}>
               <p>Cancel Reason</p>
               <input
