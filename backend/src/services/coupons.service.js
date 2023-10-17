@@ -25,11 +25,15 @@ class CouponsService {
   // 3. Add
   async addCoupon(dataBody) {
     const { name, code, discount_rate, min_bill } = dataBody;
+    const findCode = await couponsRepo.findOneByCode(code);
     if (!name) {
       return { message: "Coupon Name not be blank", status: 406 };
     }
     if (!code) {
       return { message: "Coupon Code not be blank", status: 406 };
+    }
+    if (findCode) {
+      return { message: "Coupon Code is exist", status: 406 };
     }
     if (!discount_rate) {
       return { message: "Discount rate not be blank", status: 406 };

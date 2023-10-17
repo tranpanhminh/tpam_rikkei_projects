@@ -2,6 +2,14 @@ const couponsEntity = require("../entities/coupons.entity.js");
 
 // ---------------------------------------------------------
 class CouponsRepo {
+  // Dùng chung
+  async findOneByCode(code) {
+    const findCode = await couponsEntity.findOne({
+      where: { code: code },
+    });
+    return findCode;
+  }
+
   async findCouponById(couponId) {
     const findCoupon = await couponsEntity.findOne({
       where: { id: couponId },
