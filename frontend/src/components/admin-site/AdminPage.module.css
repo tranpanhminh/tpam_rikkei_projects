@@ -34,7 +34,8 @@
   grid-template-columns: 1fr 7fr;
   gap: 20px;
   background-color: #d1d1dae7;
-  height: auto;
+  min-height: 100vh;
+  height: 100%;
 }
 
 /* html {

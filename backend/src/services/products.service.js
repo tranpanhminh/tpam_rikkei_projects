@@ -30,6 +30,19 @@ class ProductsService {
   async addProduct(data, productImages) {
     const { name, description, price, quantity_stock, vendor_id } = data;
 
+    if (!name) {
+      return { message: "Name must not be blank", status: 406 };
+    }
+    if (!description) {
+      return { message: "Product description must not be blank", status: 406 };
+    }
+    if (!price) {
+      return { message: "Product price must not be blank", status: 406 };
+    }
+    if (price < 0) {
+      return { message: "Product price must not be < 0", status: 406 };
+    }
+
     const productInfo = {
       name: name,
       description: description,
@@ -48,7 +61,7 @@ class ProductsService {
 
       await productsRepo.uploadProductImages(imagesInfo);
     }
-    return { message: newProduct, status: 200 };
+    return { message: "Product Added", status: 200 };
   }
 
   // 4. Delete Product
