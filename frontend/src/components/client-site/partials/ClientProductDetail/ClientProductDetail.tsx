@@ -171,7 +171,7 @@ function ClientProductDetail() {
         fetchProductComments();
       })
       .catch((error) => {
-        notification.warning({ message: error.data.message });
+        notification.warning({ message: error.response.data.message });
       });
   };
   const editorConfig = {

@@ -161,7 +161,7 @@ function ClientServiceDetail() {
       })
       .catch((error) => {
         console.log(error, "ERROR");
-        notification.warning({ message: error.data.message });
+        notification.warning({ message: error.response.data.message });
       });
   };
 
