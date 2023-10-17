@@ -164,7 +164,7 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
             <input
               type="text"
               disabled
-              value={maskCardNumber(userOrder?.card_number.toString())}
+              value={maskCardNumber(userOrder?.card_number?.toString())}
             />
           </div>
           {userOrder?.status_id === 1 && (
