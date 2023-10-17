@@ -30,18 +30,27 @@ class ProductsService {
   async addProduct(data, productImages) {
     const { name, description, price, quantity_stock, vendor_id } = data;
 
-    if (!name) {
-      return { message: "Name must not be blank", status: 406 };
-    }
-    if (!description) {
-      return { message: "Product description must not be blank", status: 406 };
-    }
-    if (!price) {
-      return { message: "Product price must not be blank", status: 406 };
-    }
-    if (price < 0) {
-      return { message: "Product price must not be < 0", status: 406 };
-    }
+    // if (!name) {
+    //   return { message: "Name must not be blank", status: 406 };
+    // }
+    // if (!description) {
+    //   return { message: "Product description must not be blank", status: 406 };
+    // }
+    // if (!price) {
+    //   return { message: "Product price must not be blank", status: 406 };
+    // }
+    // if (price < 0) {
+    //   return { message: "Product price must not be < 0", status: 406 };
+    // }
+    // if (!quantity_stock) {
+    //   return { message: "Product quantity must not be blank", status: 406 };
+    // }
+    // if (quantity_stock < 0) {
+    //   return { message: "Product quantity must not be < 0", status: 406 };
+    // }
+    // if (!vendor_id) {
+    //   return { message: "Please choose Vendor", status: 406 };
+    // }
 
     const productInfo = {
       name: name,

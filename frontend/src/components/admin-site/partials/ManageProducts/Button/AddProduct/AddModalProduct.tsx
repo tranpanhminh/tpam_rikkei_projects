@@ -95,6 +95,37 @@ const AddModalProduct: React.FC<AddModalProps> = ({
 
   // Handle Add Post
   const handleOk = () => {
+    if (!newProduct.name) {
+      return notification.warning({
+        message: "Name must not be blank",
+      });
+    }
+
+    if (!newProduct.price) {
+      return notification.warning({
+        message: "Product price must not be blank",
+      });
+    }
+    if (newProduct.price < 0) {
+      return notification.warning({
+        message: "Product price must not be < 0",
+      });
+    }
+    if (!newProduct.quantity_stock) {
+      return notification.warning({
+        message: "Product quantity must not be blank",
+      });
+    }
+    if (newProduct.quantity_stock < 0) {
+      return notification.warning({
+        message: "Product quantity must not be < 0",
+      });
+    }
+    if (!newProduct.vendor_id) {
+      return notification.warning({
+        message: "Vendor must not be blank",
+      });
+    }
     if (newProduct.image_url.length === 4) {
       const formData: any = new FormData();
       formData.append("name", newProduct.name);
