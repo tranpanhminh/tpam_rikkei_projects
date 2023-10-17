@@ -7,13 +7,13 @@ const checkAuthentication = (req, res, next) => {
   console.log(authHeader, "AUTH HEADER");
   // Kiểm tra xem header 'Authorization' có tồn tại không
   if (!authHeader) {
-    return res.sendStatus(401); // Unauthorized
+    return res.status(401).json({ message: "Unauthorized" }); // Unauthorized
   }
 
   // Kiểm tra xem header 'Authorization' có chứa từ khóa 'Bearer' không
   const tokenParts = authHeader.split(" ");
   if (tokenParts.length !== 2 || tokenParts[0] !== "Bearer") {
-    return res.sendStatus(401); // Unauthorized
+    return res.status(401).json({ message: "Unauthorized" }); // Unauthorized
   }
 
   const token = tokenParts[1];

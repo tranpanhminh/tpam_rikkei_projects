@@ -9,7 +9,6 @@ import {} from "antd";
 import { Rate } from "antd";
 import { Editor } from "@tinymce/tinymce-react";
 import { Badge } from "react-bootstrap";
-import { format } from "date-fns";
 import BaseAxios from "./../../../../api/apiAxiosClient";
 import tinymce from "tinymce";
 const moment = require("moment");
@@ -219,7 +218,7 @@ function ClientProductDetail() {
 
   const filterCommentsExcludeAdmin = () => {
     let filterComments = productComments.filter((item: any) => {
-      return item.user_role_id !== 1 && item.user_role_id !== 2;
+      return item?.user_role_id !== 1 && item?.user_role_id !== 2;
     });
     return filterComments?.length || 0;
   };
@@ -268,7 +267,7 @@ function ClientProductDetail() {
                   <h2 className={styles["product-title-name"]}>
                     {products && products.name}
                   </h2>
-                  {(data.role_id === 1 || data.role_id === 2) && (
+                  {(data?.role_id === 1 || data?.role_id === 2) && (
                     <div className={styles["editor-post-bar"]}>
                       <NavLink
                         to={`/admin/manage-products/?edit-productId=${products.id}`}
@@ -407,7 +406,7 @@ function ClientProductDetail() {
                         />
 
                         <span>{item.user.full_name.split(" ")[0]}</span>
-                        {item.user_role_id === 1 || item.user_role_id === 2 ? (
+                        {item?.user_role_id === 1 || item?.user_role_id === 2 ? (
                           <Badge bg="success">Admin</Badge>
                         ) : item.order_history?.length !== 0 ? (
                           <Badge bg="warning" text="dark">
@@ -417,7 +416,7 @@ function ClientProductDetail() {
                           ""
                         )}
 
-                        {item.user_role_id !== 1 && item.user_role_id !== 2 && (
+                        {item?.user_role_id !== 1 && item?.user_role_id !== 2 && (
                           <span className={styles["rating-section"]}>
                             {item.rating}
                             <i className="fa-solid fa-star"></i>
@@ -446,7 +445,7 @@ function ClientProductDetail() {
                           </div>
 
                           <i
-                            onClick={() => handleDeleteComment(item.id)}
+                            onClick={() => handleDeleteComment(item?.id)}
                             className={`fa-solid fa-trash-can ${styles["trash-comment-icon"]}`}
                             style={{
                               display:
@@ -460,7 +459,7 @@ function ClientProductDetail() {
                           className={`${styles["comment-content"]} ${styles["comment-scrollable"]}`}
                         >
                           {React.createElement("div", {
-                            dangerouslySetInnerHTML: { __html: item.comment },
+                            dangerouslySetInnerHTML: { __html: item?.comment },
                           })}
                         </div>
                       </div>

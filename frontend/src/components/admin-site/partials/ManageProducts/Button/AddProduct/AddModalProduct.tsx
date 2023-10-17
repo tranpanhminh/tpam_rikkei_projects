@@ -73,8 +73,6 @@ const AddModalProduct: React.FC<AddModalProps> = ({
   const showModal = () => {
     navigate(`/admin/manage-products/?add`);
     setIsModalOpen(true);
-    // fetchProducts();
-    // setIsModalOpen(true);
   };
 
   const handleCancel = () => {
@@ -89,7 +87,6 @@ const AddModalProduct: React.FC<AddModalProps> = ({
       image_url: [],
     });
 
-    // setEditorInitialValue("Type product description here.........");
     setIsModalOpen(false);
   };
 

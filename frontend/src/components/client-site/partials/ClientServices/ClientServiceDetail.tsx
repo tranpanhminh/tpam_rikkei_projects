@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import styles from "../ClientServices/ClientServiceDetail.module.css";
 import axios from "axios";
 import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
-import { Button, Rate, Select, notification } from "antd";
+import { Button, Modal, Rate, Select, notification } from "antd";
 import avatar from "../../../../assets/images/dogs-reviews-01.png";
 import { Badge } from "react-bootstrap";
 import { Editor } from "@tinymce/tinymce-react";
@@ -31,6 +31,7 @@ function ClientServiceDetail() {
   const [serviceComments, setServiceComments] = useState<any>(null);
   const [user, setUser] = useState<any>(null);
   const [service, setService] = useState<any>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [comments, setComments] = useState<any>([]);
   const [editorContent, setEditorContent] = useState<any>("");
   const [rateValue, setRateValue] = useState<any>(0);
@@ -138,6 +139,20 @@ function ClientServiceDetail() {
   // -----------------------------------------------------
 
   document.title = `${service ? `${service?.name} | PetShop` : "Loading..."}`;
+
+  // Ẩn hiện Modal
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
 
   // Add Comment
   const handleComment = () => {
@@ -256,7 +271,7 @@ function ClientServiceDetail() {
 
   const filterCommentsExcludeAdmin = () => {
     let filterComments = serviceComments?.filter((item: any) => {
-      return item.user_role_id !== 1 && item.user_role_id !== 2;
+      return item?.user_role_id !== 1 && item?.user_role_id !== 2;
     });
     return filterComments ? filterComments?.length : 0;
   };
@@ -286,7 +301,7 @@ function ClientServiceDetail() {
                     <h2 className={styles["service-title-name"]}>
                       {service && service.name}
                     </h2>
-                    {(data.role_id === 1 || data.role_id === 2) && (
+                    {(data?.role_id === 1 || data?.role_id === 2) && (
                       <div className={styles["editor-post-bar"]}>
                         <NavLink
                           to={`/admin/manage-service/?edit-serviceId=${service.id}`}
@@ -414,11 +429,30 @@ function ClientServiceDetail() {
                 <button
                   className={styles["booking-btn"]}
                   onClick={() => {
-                    handleBooking(getLoginData.id, service.id);
+                    getLoginData
+                      ? handleBooking(getLoginData.id, service.id)
+                      : showModal();
                   }}
+                  // onClick={() => {
+                  //   handleBooking(getLoginData.id, service.id);
+                  // }}
                 >
                   Book
                 </button>
+                <Modal
+                  title="Notification"
+                  open={isModalOpen}
+                  onOk={handleOk}
+                  onCancel={handleCancel}
+                  width={400}
+                >
+                  <p>
+                    Please <NavLink to="/login">Login</NavLink> to buy Product
+                  </p>
+                  <p>
+                    <NavLink to="/signup">Don't have an account?</NavLink>
+                  </p>
+                </Modal>
               </div>
             </div>
           </div>
@@ -486,7 +520,8 @@ function ClientServiceDetail() {
                         />
 
                         <span>{item.user.full_name.split(" ")[0]}</span>
-                        {item.user_role_id === 1 || item.user_role_id === 2 ? (
+                        {item?.user_role_id === 1 ||
+                        item?.user_role_id === 2 ? (
                           <Badge bg="success">Admin</Badge>
                         ) : item.order_history?.length !== 0 ? (
                           <Badge bg="warning" text="dark">
@@ -495,12 +530,13 @@ function ClientServiceDetail() {
                         ) : (
                           ""
                         )}
-                        {item.user_role_id !== 1 && item.user_role_id !== 2 && (
-                          <span className={styles["rating-section"]}>
-                            {item.rating}
-                            <i className="fa-solid fa-star"></i>
-                          </span>
-                        )}
+                        {item?.user_role_id !== 1 &&
+                          item?.user_role_id !== 2 && (
+                            <span className={styles["rating-section"]}>
+                              {item.rating}
+                              <i className="fa-solid fa-star"></i>
+                            </span>
+                          )}
                         {/* {user?.role === "admin" && (
                           <Button
                             type="primary"
