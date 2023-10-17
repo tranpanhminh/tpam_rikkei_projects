@@ -7,7 +7,7 @@ import AddButtonVendor from "./Button/AddVendor/AddButtonVendor";
 
 // Import API
 // 1. Vendors API
-const vendorsAPI = process.env.REACT_APP_API_COUPONS;
+const vendorsAPI = process.env.REACT_APP_API_VENDORS;
 
 // ------------------------------------------------
 

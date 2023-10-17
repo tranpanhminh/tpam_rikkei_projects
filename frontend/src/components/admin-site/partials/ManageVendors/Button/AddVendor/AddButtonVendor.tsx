@@ -55,9 +55,6 @@ const AddModalVendor: React.FC<AddModalProps> = ({
   const handleCancel = () => {
     setVendorInfo({
       name: "",
-      code: "",
-      discount_rate: "",
-      min_bill: "",
     });
     setIsModalOpen(false);
   };

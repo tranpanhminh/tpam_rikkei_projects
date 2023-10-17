@@ -169,7 +169,7 @@ const AdminHeader: React.FC = () => {
               className={styles["navlink-menu-admin"]}
             >
               <li className={styles["admin-btn"]}>
-                <i className="fa-solid fa-users"></i>
+                <i className="fa-solid fa-cubes"></i>
                 Manage Vendors
               </li>
             </NavLink>
