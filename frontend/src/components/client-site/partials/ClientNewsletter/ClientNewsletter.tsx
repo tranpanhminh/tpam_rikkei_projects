@@ -132,9 +132,10 @@ function ClientNewsletter() {
               setEmail(event?.target.value);
             }}
           />
+          &nbsp;
           <button
             className={styles["newsletter-btn"]}
-            onClick={handleNewsletter}
+            // onClick={handleNewsletter}
           >
             Receive Newsletter
           </button>
