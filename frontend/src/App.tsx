@@ -47,6 +47,7 @@ import AccessDenied from "./components/common/AccessDenied/AccessDenied";
 import IsLogin from "./components/common/Validate/IsLogin";
 import IsAdmin from "./components/common/Validate/IsAdmin";
 import IsCustomer from "./components/common/Validate/IsCustomer";
+import ManageVendors from "./components/admin-site/partials/ManageVendors/ManageVendors";
 
 export function RoleNavigation() {
   const getData: any = localStorage.getItem("userLogin");
@@ -85,6 +86,7 @@ function App() {
               <Route path="manage-orders" element={<ManageOrders />} />
               <Route path="manage-services" element={<ManageServices />} />
               <Route path="manage-booking" element={<ManageBooking />} />
+              <Route path="manage-vendors" element={<ManageVendors />} />
               {/* <Route
                 path="manage-subscribers"
                 element={<ManageSubscribers />}
