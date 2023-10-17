@@ -126,7 +126,6 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
     }
   }
 
-  console.log(reason, "REASON");
   return (
     <>
       <Button type="primary" onClick={showModal}>
@@ -165,7 +164,7 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
             <input
               type="text"
               disabled
-              value={maskCardNumber(userOrder?.card_number)}
+              value={maskCardNumber(userOrder?.card_number.toString())}
             />
           </div>
           {userOrder?.status_id === 1 && (
