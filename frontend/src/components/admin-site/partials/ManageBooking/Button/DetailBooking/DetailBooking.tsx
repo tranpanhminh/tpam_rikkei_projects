@@ -34,8 +34,6 @@ const DetailBooking: React.FC<DetailModalProps> = ({
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [booking, setBooking] = useState<any>(null);
-  const [listBooking, setListBooking] = useState<any>(null);
   const [selectedBooking, setSelectedBooking] = useState<any>(null);
   const [isModalOpenUpdateStatus, setIsModalOpenUpdateStatus] = useState(false);
   const [groupBookingDate, setGroupBookingDate] = useState<any>([]);
@@ -122,6 +120,7 @@ const DetailBooking: React.FC<DetailModalProps> = ({
     navigate(
       `/admin/manage-booking/?date=${getBookingDate}/?bookingId=${serviceId}`
     );
+    setStatus(selectedBooking?.status_id);
     axios
       .get(`${bookingsAPI}/detail/${serviceId}`)
       .then((response) => {
@@ -161,6 +160,7 @@ const DetailBooking: React.FC<DetailModalProps> = ({
   };
 
   const handleCancelUpdateStatus = () => {
+    setStatus(selectedBooking?.status_id);
     setIsModalOpenUpdateStatus(false);
   };
 
@@ -381,14 +381,12 @@ const DetailBooking: React.FC<DetailModalProps> = ({
                                     name=""
                                     id=""
                                     disabled={
-                                      selectedBooking?.booking_status.name ===
-                                        "Cancel" ||
-                                      selectedBooking?.booking_status.name ===
-                                        "Shipped"
+                                      selectedBooking?.status_id === 3 ||
+                                      selectedBooking?.status_id === 4
                                         ? true
                                         : false
                                     }
-                                    // defaultValue={shippingStatus}
+                                    value={status}
                                     onChange={(event) =>
                                       setStatus(event.target.value)
                                     }
