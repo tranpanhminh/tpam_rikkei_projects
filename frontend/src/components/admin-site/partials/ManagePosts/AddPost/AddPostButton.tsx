@@ -237,6 +237,7 @@ const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
                 />
               ) : (
                 <img
+                  src="https://www.its.ac.id/tmesin/wp-content/uploads/sites/22/2022/07/no-image.png"
                   alt=""
                   className={styles["post-editor-thumbnail"]}
                   id="thumbnail"

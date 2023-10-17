@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Modal, notification } from "antd";
 import axios from "axios";
 import styles from "../../../AdminPage.module.css";
@@ -27,11 +27,7 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
 }) => {
   const location = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [postTitle, setPostTitle] = useState<any>("");
-  // const [image, setImage] = useState<any>("");
-  // const [content, setContent] = useState<any>("");
-  // const [status, setStatus] = useState<any>("");
-  // const [author, setAuthor] = useState<any>("");
+  const [image, setImage] = useState(null);
   const [post, setPost] = useState<any>("");
   const navigate = useNavigate();
   const [postInfo, setPostInfo] = useState<any>({
@@ -98,11 +94,24 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
 
   const handleCancel = () => {
     navigate("/admin/manage-posts/");
+    resetInputImage();
     setIsModalOpen(false);
   };
 
   const editorConfig = {
     height: "600px",
+  };
+
+  const fileInputRef = useRef<any>(null);
+  const resetInputImage = () => {
+    if (image) {
+      setPostInfo({
+        ...postInfo,
+        thumbnail_url: "",
+      });
+      setImage(null);
+      fileInputRef.current.value = null; // Đặt giá trị về null
+    }
   };
 
   const handleEditContent = (content: string, editor: any) => {
@@ -113,66 +122,67 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
   };
 
   const handleFileChange = (event: any) => {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      const imageURL: any = URL.createObjectURL(selectedFile);
+      setImage(imageURL);
+    }
     setPostInfo({
       ...postInfo,
       thumbnail_url: event.target.files[0],
     });
   };
 
-  const reloadThumbnail = () => {
-    if (postInfo.thumbnail_url) {
-      const formData: any = new FormData();
-      // formData.append("title", postInfo.title);
-      // formData.append("content", postInfo.content);
-      formData.append("thumbnail_url", postInfo.thumbnail_url);
-      // formData.append("author", postInfo.author);
-      // formData.append("status_id", postInfo.status_id);
-      formData.append("_method", "PATCH");
+  // const reloadThumbnail = () => {
+  //   if (postInfo.thumbnail_url) {
+  //     const formData: any = new FormData();
+  //     formData.append("thumbnail_url", postInfo.thumbnail_url);
+  //     formData.append("_method", "PATCH");
 
-      const config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
-      axios
-        .patch(`${postsAPI}/update/${getPost.id}`, formData, config)
-        .then((response) => {
-          axios
-            .get(`${postsAPI}/detail/${getPost.id}`)
-            .then((response) => {
-              setPost(response.data);
-              const fileInput: any = document.querySelector(`#thumbnail`);
+  //     const config = {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     };
+  //     axios
+  //       .patch(`${postsAPI}/update/${getPost.id}`, formData, config)
+  //       .then((response) => {
+  //         axios
+  //           .get(`${postsAPI}/detail/${getPost.id}`)
+  //           .then((response) => {
+  //             setPost(response.data);
+  //             const fileInput: any = document.querySelector(`#thumbnail`);
 
-              fileInput.value = "";
+  //             fileInput.value = "";
 
-              setPostInfo({
-                ...postInfo,
-                thumbnail_url: "",
-              });
-              fetchPost();
-            })
-            .catch((error) => {
-              console.log(error.message);
-            });
-          handleFunctionOk();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else {
-      axios
-        .get(`${postsAPI}/detail/${getPost.id}`)
-        .then((response) => {
-          setPost(response.data);
-          console.log(response.data, "_DASDAAS");
-          fetchPost();
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
-      handleFunctionOk();
-    }
-  };
+  //             setPostInfo({
+  //               ...postInfo,
+  //               thumbnail_url: "",
+  //             });
+  //             fetchPost();
+  //           })
+  //           .catch((error) => {
+  //             console.log(error.message);
+  //           });
+  //         handleFunctionOk();
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //   } else {
+  //     axios
+  //       .get(`${postsAPI}/detail/${getPost.id}`)
+  //       .then((response) => {
+  //         setPost(response.data);
+  //         console.log(response.data, "_DASDAAS");
+  //         fetchPost();
+  //       })
+  //       .catch((error) => {
+  //         console.log(error.message);
+  //       });
+  //     handleFunctionOk();
+  //   }
+  // };
 
   const handleUpdatePost = () => {
     axios
@@ -269,17 +279,26 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
           </div>
           <div className={styles["info-editor-post"]}>
             <div className={styles["image-container"]}>
-              <img
-                src={getPost?.thumbnail_url}
-                alt=""
-                className={styles["post-editor-thumbnail"]}
-              />
-              <button
+              {image ? (
+                <img
+                  src={image}
+                  alt=""
+                  className={styles["post-editor-thumbnail"]}
+                />
+              ) : (
+                <img
+                  src={getPost?.thumbnail_url}
+                  alt=""
+                  className={styles["post-editor-thumbnail"]}
+                />
+              )}
+
+              {/* <button
                 className={styles["set-thumbnail-btn"]}
                 onClick={reloadThumbnail}
               >
                 Reload Thumbnail
-              </button>
+              </button> */}
             </div>
             <div className={styles["info-editor-post-item"]}>
               <span>Post ID</span>
@@ -292,6 +311,7 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
                 name="thumbnail"
                 onChange={handleFileChange}
                 id={`thumbnail`}
+                ref={fileInputRef}
               />
             </div>
             <div className={styles["info-editor-post-item"]}>
