@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, DatePicker, DatePickerProps, Modal, notification } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -72,6 +72,14 @@ const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
   };
 
   const handleCancel = () => {
+    setPostInfo({
+      title: "",
+      content: "",
+      thumbnail_url: "",
+      author: "",
+      status_id: 1,
+    });
+    resetInputImage();
     setIsModalOpen(false);
   };
 
@@ -98,6 +106,18 @@ const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
       ...postInfo,
       thumbnail_url: event.target.files[0],
     });
+  };
+
+  const fileInputRef = useRef<any>(null);
+  const resetInputImage = () => {
+    if (image) {
+      setPostInfo({
+        ...postInfo,
+        thumbnail_url: "",
+      });
+      setImage(null);
+      fileInputRef.current.value = null; // Đặt giá trị về null
+    }
   };
 
   const handleAddPost = () => {
@@ -225,7 +245,12 @@ const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
             </div>
             <div className={styles["info-editor-post-item"]}>
               <span>Image URL</span>
-              <input type="file" onChange={handleFileChange} accept="image/*" />
+              <input
+                type="file"
+                onChange={handleFileChange}
+                accept="image/*"
+                ref={fileInputRef}
+              />
             </div>
             <div className={styles["info-editor-post-item"]}>
               <span>Status</span>
