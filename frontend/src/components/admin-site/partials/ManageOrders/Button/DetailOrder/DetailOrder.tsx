@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Modal, notification } from "antd";
 import axios from "axios";
 import styles from "../../../../AdminPage.module.css";
+import { useNavigate } from "react-router-dom";
 
 // Import API
 // 1. Users API
@@ -27,6 +28,7 @@ const DetailOrders: React.FC<DetailModalProps> = ({
   handleFunctionBtn,
   getOrderId,
 }) => {
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [shippingStatus, setShippingStatus] = useState<any>("");
   const [orders, setOrders] = useState<any>(null);
@@ -104,9 +106,17 @@ const DetailOrders: React.FC<DetailModalProps> = ({
   // ------------------------------------------------
 
   const showModal = () => {
+    navigate(`/admin/manage-orders/?orderID=${getOrderId}`);
+    setShippingStatus(orderById?.status_id);
     setIsModalOpen(true);
   };
-  console.log(shippingStatus, "FISDA");
+
+  const handleCancel = () => {
+    navigate(`/admin/manage-orders/`);
+    setShippingStatus(orderById?.status_id);
+    setIsModalOpen(false);
+  };
+
   const handleOk = () => {
     const orderInfo = {
       status_id: shippingStatus,
@@ -130,10 +140,6 @@ const DetailOrders: React.FC<DetailModalProps> = ({
         });
       });
     // Cập nhật trạng thái đơn hàng trong cơ sở dữ liệu của người dùng
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
   };
 
   function maskCardNumber(cardNumber: string) {
@@ -205,6 +211,7 @@ const DetailOrders: React.FC<DetailModalProps> = ({
                   ? true
                   : false
               }
+              value={shippingStatus}
               onChange={(event) =>
                 setShippingStatus(Number(event.target.value))
               }
