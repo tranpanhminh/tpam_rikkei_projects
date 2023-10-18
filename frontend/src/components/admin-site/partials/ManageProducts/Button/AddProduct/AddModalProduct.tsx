@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Modal, notification } from "antd";
 import styles from "../AddProduct/AddModalProduct.module.css";
 import { Product } from "../../../../../../database";
@@ -90,7 +90,7 @@ const AddModalProduct: React.FC<AddModalProps> = ({
     setIsModalOpen(false);
   };
 
-  // Handle Add Post
+  // Handle Add Product
   const handleOk = () => {
     if (!newProduct.name) {
       return notification.warning({
