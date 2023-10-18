@@ -9,21 +9,21 @@ const Router = require("./src/routes/index.js");
 
 // ----- Session Cookie -----
 // Importing express-session module
-const session = require("express-session");
+// const session = require("express-session");
 
 // Importing file-store module
-const filestore = require("session-file-store")(session);
+// const filestore = require("session-file-store")(session);
 
 // Creating session
-app.use(
-  session({
-    name: "session-id",
-    secret: "tranpanhminhsecret", // Secret key: Đặt tên ở file .env
-    saveUninitialized: false,
-    resave: false,
-    store: new filestore(),
-  })
-);
+// app.use(
+//   session({
+//     name: "session-id",
+//     secret: "tranpanhminhsecret", // Secret key: Đặt tên ở file .env
+//     saveUninitialized: false,
+//     resave: false,
+//     store: new filestore(),
+//   })
+// );
 // Asking for the authorization
 // function auth(req, res, next) {
 //   // Checking for the session
