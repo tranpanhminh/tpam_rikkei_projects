@@ -15,7 +15,7 @@ function ClientListProducts() {
   const navigate = useNavigate();
   const [products, setProducts] = useState<Product[]>([]);
   const [posts, setPosts] = useState<any>([]);
-  const [page, setPage] = useState<any>(1); // Đặt giá trị mặc định cho page
+  const [page, setPage] = useState<any>(0); // Đặt giá trị mặc định cho page
   const [postPerPage, setPostPerPage] = useState<any>(8);
   const [total, setTotal] = useState<any>("");
 
@@ -39,15 +39,11 @@ function ClientListProducts() {
   const indexOfLastPage = page + postPerPage;
   const indexOfFirstPage = indexOfLastPage - postPerPage;
   const currentPosts = posts.slice(indexOfFirstPage, indexOfLastPage);
+  const howManyPages = Math.ceil(posts.length / postPerPage);
   const onShowSizeChange = (current: any, pageSize: any) => {
     setPostPerPage(pageSize);
   };
 
-  let listPage: any = [];
-  for (let i = 1; i < Math.ceil(total / postPerPage); i++) {
-    listPage.push(i);
-  }
-  
   const handlePageChange = (value: number) => {
     setPage(value); // Cập nhật trang hiện tại
     window.scrollTo(0, 0);
