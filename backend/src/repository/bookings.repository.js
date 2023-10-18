@@ -247,6 +247,7 @@ class BookingsRepo {
 
       // Nhóm theo id và tên của dịch vụ
       group: ["bookings.id"],
+      order: [["id", "DESC"]],
       // raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
     });
     return detailBooking;

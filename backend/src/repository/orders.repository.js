@@ -97,9 +97,8 @@ class OrdersRepo {
       ],
 
       // Nhóm theo id và tên của dịch vụ
-      // orders: [["orders.id", "DESC"]],
-      orders: [["order.id", "DESC"]],
       group: ["orders.id"],
+      order: [["id", "DESC"]],
       // raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
     });
     return listOrders;
@@ -184,6 +183,7 @@ class OrdersRepo {
       // Nhóm theo id và tên của dịch vụ
       where: { user_id: userId },
       group: ["orders.id"],
+      order: [["id", "DESC"]],
       // raw: true, // Điều này sẽ giúp "post_type" trả về như một chuỗi
     });
     return listOrders;
