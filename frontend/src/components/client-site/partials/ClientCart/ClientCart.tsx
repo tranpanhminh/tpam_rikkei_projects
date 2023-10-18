@@ -146,13 +146,13 @@ function ClientCart() {
     )
       .then((response) => {
         notification.success({
-          message: `${response.data}`,
+          message: `${response.data.message}`,
         });
         fetchUserCart();
       })
       .catch((error) => {
         notification.warning({
-          message: `${error.response.data}`,
+          message: `${error.response.data.message}`,
         });
       });
   };
@@ -173,7 +173,7 @@ function ClientCart() {
       })
       .catch((error) => {
         notification.warning({
-          message: `${error.response.data}`,
+          message: `${error.response.data.message}`,
         });
       });
 
@@ -198,13 +198,13 @@ function ClientCart() {
           cvv: "",
         });
         notification.success({
-          message: `${response.data}`,
+          message: `${response.data.message}`,
         });
         navigate("/user/my-orders");
       })
       .catch((error) => {
         notification.warning({
-          message: `${error.response.data}`,
+          message: `${error.response.data.message}`,
         });
       });
   };

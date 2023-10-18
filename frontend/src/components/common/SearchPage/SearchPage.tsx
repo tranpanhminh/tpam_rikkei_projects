@@ -73,7 +73,7 @@ function SearchPage() {
               style={{
                 marginTop: "50px",
                 textAlign: "left",
-                display: `${filterProducts.length !== 0 ? "" : "none"}`,
+                // display: `${filterProducts.length !== 0 ? "" : "none"}`,
               }}
             >
               {filterProducts.length !== 0
@@ -89,7 +89,7 @@ function SearchPage() {
                     <div className={styles["card"]}>
                       <NavLink to={`/products/${product.id}`}>
                         <img
-                          // src={product.productImage[0]}
+                          src={product.thumbnail_url}
                           className={styles["card-img-top"]}
                           alt="..."
                         />
@@ -125,7 +125,7 @@ function SearchPage() {
               textAlign: "left",
               marginTop: "50px",
               marginBottom: "50px",
-              display: `${filterServices.length !== 0 ? "" : "none"}`,
+              // display: `${filterServices.length !== 0 ? "" : "none"}`,
             }}
           >
             {filterServices.length !== 0
@@ -144,7 +144,7 @@ function SearchPage() {
                       <div className="col-12 col-sm-12 col-md-6 col-xl-4 px-3 my-2">
                         <div className={styles["collection-item"]}>
                           <img
-                            // src={service.serviceImage}
+                            src={service.service_image}
                             alt=""
                             className="collection-image"
                           />

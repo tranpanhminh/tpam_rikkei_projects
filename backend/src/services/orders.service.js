@@ -79,12 +79,19 @@ class OrdersService {
       return { message: "Please fill customer name", status: 406 };
     }
 
-    if (!address) {
-      return { message: "Please fill address", status: 406 };
+    if (!/^[a-zA-Z\s]*$/.test(customer_name)) {
+      return {
+        message: "Customer Name cannot contain special characters or numbers",
+        status: 406,
+      };
     }
 
     if (!phone) {
       return { message: "Please fill phone number", status: 406 };
+    }
+
+    if (!address) {
+      return { message: "Please fill address", status: 406 };
     }
 
     const phoneNumberPattern = /^1\d{10}$/;
