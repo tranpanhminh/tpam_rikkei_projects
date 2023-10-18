@@ -157,7 +157,7 @@ function ClientEditProfile() {
         setIsModalOpen(false);
       })
       .catch((error) => {
-        notification.error({
+        notification.warning({
           message: `${error.response.data.message}`,
         });
       });

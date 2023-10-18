@@ -333,7 +333,6 @@ class UsersService {
     const dataUser = findUser.dataValues;
     // Sau khi check User thành công sẽ check Password gửi lên đúng không
     const checkPass = await bcrypt.compare(password, dataUser.password); // 2 tham số (password gửi lên, password trong db)
-
     if (!checkPass) {
       return { message: "Password is not correct", status: 406 };
     } else {
