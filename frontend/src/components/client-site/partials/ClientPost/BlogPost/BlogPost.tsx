@@ -97,17 +97,17 @@ function BlogPost() {
                   {moment(post?.created_at).format("YYYY-MM-DD-hh:mm:ss")}
                 </Badge>
               </div>
-              {data?.role_id === 1 ||
-                (data?.role_id === 2 && (
-                  <NavLink
-                    to={`/admin/manage-posts/?edit-postId=${postId}`}
-                    target="_blank"
-                  >
-                    <Badge bg="primary" style={{ fontSize: "16px" }}>
-                      Edit Post
-                    </Badge>
-                  </NavLink>
-                ))}
+              {((data && data?.role_id == 1) ||
+                (data && data?.role_id == 2)) && (
+                <NavLink
+                  to={`/admin/manage-posts/?edit-postId=${postId}`}
+                  target="_blank"
+                >
+                  <Badge bg="primary" style={{ fontSize: "16px" }}>
+                    Edit Post
+                  </Badge>
+                </NavLink>
+              )}
             </div>
 
             <section className={styles["post-content"]}>
