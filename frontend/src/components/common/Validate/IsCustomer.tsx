@@ -6,10 +6,14 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 function IsCustomer() {
   const token: any = localStorage.getItem("token");
-  const location = useLocation();
-
-  const data: any = jwtDecode(token);
-  if (data?.role_id !== 3) {
+  // const location = useLocation();
+  let data: any;
+  if (token) {
+    data = jwtDecode(token);
+  } else {
+    data = "";
+  }
+  if (data?.role_id !== 3 || !data) {
     return <Navigate to="/" />;
   }
 

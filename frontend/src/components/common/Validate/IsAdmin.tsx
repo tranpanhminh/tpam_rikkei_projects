@@ -6,11 +6,15 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { message, notification } from "antd";
 
 function IsAdmin() {
-  const token: any = localStorage.getItem("token");
+  const token: any = localStorage.getItem("token") || "";
   // const location = useLocation();
-
-  const data: any = jwtDecode(token);
-  if (data?.role_id !== 1 && data?.role_id !== 2) {
+  let data: any;
+  if (token) {
+    data = jwtDecode(token);
+  } else {
+    data = "";
+  }
+  if ((data && data?.role_id !== 1) || (data && data?.role_id !== 2) || !data) {
     return <Navigate to="/access-denied" />;
   }
 
