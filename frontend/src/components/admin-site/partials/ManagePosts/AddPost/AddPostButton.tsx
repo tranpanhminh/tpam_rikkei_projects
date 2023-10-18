@@ -171,8 +171,9 @@ const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
           message: "Post Added",
         });
         navigate("/admin/manage-posts/");
-        const fileInput: any = document.querySelector(`#thumbnail`);
-        fileInput.value = "";
+        resetInputImage();
+        // const fileInput: any = document.querySelector(`#thumbnail`);
+        // fileInput.value = "";
         setPostInfo({
           title: "",
           content: "",
