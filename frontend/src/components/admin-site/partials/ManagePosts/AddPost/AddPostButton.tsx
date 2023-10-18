@@ -163,7 +163,7 @@ const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
       },
     };
     axios
-      .post(`${postsAPI}/add`, postInfo, config)
+      .post(`${postsAPI}/add`, formData, config)
       .then((response) => {
         fetchPosts();
         setPosts(response.data);
