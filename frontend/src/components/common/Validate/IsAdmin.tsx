@@ -14,7 +14,10 @@ function IsAdmin() {
   } else {
     data = "";
   }
-  if ((data && data?.role_id !== 1) || (data && data?.role_id !== 2) || !data) {
+  if (
+    (data && !data?.user_role?.name.toLowerCase().includes("admin")) ||
+    !data
+  ) {
     return <Navigate to="/access-denied" />;
   }
 
