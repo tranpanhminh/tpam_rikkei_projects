@@ -13,7 +13,7 @@ function IsCustomer() {
   } else {
     data = "";
   }
-  if (data?.role_id !== 3 || !data) {
+  if ((data && data?.role_id !== 3) || !data) {
     return <Navigate to="/" />;
   }
 
