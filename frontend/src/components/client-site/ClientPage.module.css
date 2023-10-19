@@ -496,6 +496,17 @@ img {
   padding-bottom: 20px;
 }
 
+.card-wrapper-bottom {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px
+}
+
+.product-title-name {
+  margin-top: 30px;
+}
+
 .card a {
   text-decoration: none;
   text-align: center;
@@ -560,7 +571,7 @@ img {
 
 img.card-img-top {
   height: 300px;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 /* CSS Group Reviews */
