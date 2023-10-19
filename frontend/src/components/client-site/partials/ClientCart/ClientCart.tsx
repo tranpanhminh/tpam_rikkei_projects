@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./ClientCart.module.css";
 import logo from "../../../../assets/images/pet-shop.png";
 import axios from "axios";
-import { notification } from "antd";
-import { format, parse } from "date-fns";
-import { Button, Modal } from "antd";
+import { notification, Button, Modal } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
 import BaseAxios from "./../../../../api/apiAxiosClient";
 
@@ -209,6 +207,20 @@ function ClientCart() {
       });
   };
   // --------------------------------------------------------
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <>
@@ -450,14 +462,52 @@ function ClientCart() {
                   <span>${subTotal().toLocaleString()}</span>
                 </div>
                 <div className={styles["card-info-item-detail"]}>
-                  <span>Discount</span>
+                  <div>
+                    <span>Discount</span>
+                    &nbsp;
+                    <Button type="primary" onClick={showModal}>
+                      View Discount Limit
+                    </Button>
+                    <Modal
+                      title="Discount Board"
+                      open={isModalOpen}
+                      onOk={handleOk}
+                      onCancel={handleCancel}
+                      width={330}
+                    >
+                      <table
+                        cellPadding={10}
+                        style={{ borderCollapse: "collapse" }}
+                        className={styles["cart-discount-detail"]}
+                      >
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Discount Rate</th>
+                            <th>Min Bill</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {coupons &&
+                            coupons?.map((coupon: any, index: number) => {
+                              return (
+                                <tr>
+                                  <td>{index + 1}</td>
+                                  <td>{coupon?.discount_rate}</td>
+                                  <td>${coupon?.min_bill.toLocaleString()}</td>
+                                </tr>
+                              );
+                            })}
+                        </tbody>
+                      </table>
+                    </Modal>
+                  </div>
                   <span>
-                    {" "}
                     {findDiscount() ? findDiscount().discount_rate : 0}%
                   </span>
                 </div>
                 <div className={styles["card-info-item-detail"]}>
-                  <span>Discount Amount:</span>
+                  <span>Discount Amount</span>
                   <span>${discountAmount().toLocaleString()} </span>
                 </div>
                 {/* <div className={styles["card-info-item-detail"]}>

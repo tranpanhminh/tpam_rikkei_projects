@@ -213,6 +213,11 @@
   align-items: center;
 }
 
+.cart-discount-detail tr td {
+  border: 1px ridge #ccc;
+  text-align: center;
+}
+
 .card-info-item-detail:first-child {
   border-top: 1px solid #ffffff40;
   padding-top: 30px;
