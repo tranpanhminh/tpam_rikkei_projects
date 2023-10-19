@@ -83,7 +83,18 @@ function ManageUsers() {
 
   // Handle Change User
   const handleChangeUser = async (userId: number) => {
-    await axios.patch(`${usersAPI}/change-status-account/${userId}`);
+    await axios
+      .patch(`${usersAPI}/change-status-account/${userId}`)
+      .then((response) => {
+        notification.success({
+          message: response.data.message,
+        });
+      })
+      .catch((error) => {
+        notification.warning({
+          message: error.response.data.message,
+        });
+      });
     fetchUsers();
   };
   // ------------------------------------------------
@@ -204,9 +215,9 @@ function ManageUsers() {
             </tr>
           </thead>
           <tbody>
-            {users?.map((user: any) => (
+            {users?.map((user: any, index: number) => (
               <tr key={user.id}>
-                <td>{user.id}</td>
+                <td>{index + 1}</td>
                 <td>{user.email}</td>
                 <td>{user.full_name}</td>
                 <td>

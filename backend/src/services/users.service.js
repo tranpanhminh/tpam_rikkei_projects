@@ -213,7 +213,7 @@ class UsersService {
           : (dataUser.status_id = 1),
     };
     const resultUpdate = await usersRepo.changeStatus(updatedUser, userId);
-    return { message: "Status Changed", message: resultUpdate, status: 200 };
+    return { message: "Status Changed", data: resultUpdate, status: 200 };
   }
 
   // 9.Edit Avatar
