@@ -116,16 +116,16 @@ function ManageVendors() {
         <table className="table table-striped" id={styles["table-order-list"]}>
           <thead>
             <tr>
-              <th>Vendor ID</th>
+              <th>#</th>
               <th>Name</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {vendors?.map((vendor: any) => {
+            {vendors?.map((vendor: any, index: number) => {
               return (
                 <tr key={vendor?.id}>
-                  <td>{vendor?.id}</td>
+                  <td>{index + 1}</td>
                   <td>{vendor?.name}</td>
                   <td className={styles["group-btn-admin"]}>
                     <DetailVendorButton

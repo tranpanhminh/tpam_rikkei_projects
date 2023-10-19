@@ -496,17 +496,6 @@ img {
   padding-bottom: 20px;
 }
 
-.card-wrapper-bottom {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 20px
-}
-
-.product-title-name {
-  margin-top: 30px;
-}
-
 .card a {
   text-decoration: none;
   text-align: center;
@@ -571,7 +560,7 @@ img {
 
 img.card-img-top {
   height: 300px;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 /* CSS Group Reviews */
@@ -1226,10 +1215,6 @@ table.table.table-cart {
   opacity: 85%;
 }
 
-.product-title-name {
-  text-align: center;
-}
-
 .product-description {
   text-align: justify;
 }
@@ -1237,6 +1222,8 @@ table.table.table-cart {
 .product-title-name {
   color: #0c337c;
   font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .product-description {

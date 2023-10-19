@@ -142,46 +142,47 @@ function ManagePosts() {
             </tr>
           </thead>
           <tbody>
-            {posts?.map((post: any, index: number) => {
-              return (
-                <tr key={1}>
-                  <td>{index + 1}</td>
-                  <td>
-                    <img src={post.thumbnail_url} alt="" />
-                  </td>
-                  <td>{post.title}</td>
-                  <td>{moment(post.created_at).format("YYYY-MM-DD")}</td>
-                  <td>{post.author}</td>
-                  <td>
-                    <Badge bg={`${changeColor(post.post_status.name)}`}>
-                      {post.post_status.name}
-                    </Badge>
-                  </td>
-                  <td className={styles["group-btn-admin-manage-posts"]}>
-                    <NavLink to={`/blogs/${post.id}`} target="_blank">
+            {posts &&
+              posts?.map((post: any, index: number) => {
+                return (
+                  <tr key={1}>
+                    <td>{index + 1}</td>
+                    <td>
+                      <img src={post.thumbnail_url} alt="" />
+                    </td>
+                    <td>{post.title}</td>
+                    <td>{moment(post.created_at).format("YYYY-MM-DD")}</td>
+                    <td>{post.author}</td>
+                    <td>
+                      <Badge bg={`${changeColor(post.post_status.name)}`}>
+                        {post.post_status.name}
+                      </Badge>
+                    </td>
+                    <td className={styles["group-btn-admin-manage-posts"]}>
+                      <NavLink to={`/blogs/${post.id}`} target="_blank">
+                        <Button
+                          type="primary"
+                          style={{ backgroundColor: "#0c337c" }}
+                        >
+                          View
+                        </Button>
+                      </NavLink>
+                      <DetailPostButton
+                        value="Detail"
+                        getPost={post}
+                        handleFunctionOk={handleUpdatePost}
+                      />
                       <Button
                         type="primary"
-                        style={{ backgroundColor: "#0c337c" }}
+                        className={styles["delete-product-btn"]}
+                        onClick={() => handleDeletePost(post.id)}
                       >
-                        View
+                        Delete
                       </Button>
-                    </NavLink>
-                    <DetailPostButton
-                      value="Detail"
-                      getPost={post}
-                      handleFunctionOk={handleUpdatePost}
-                    />
-                    <Button
-                      type="primary"
-                      className={styles["delete-product-btn"]}
-                      onClick={() => handleDeletePost(post.id)}
-                    >
-                      Delete
-                    </Button>
-                  </td>
-                </tr>
-              );
-            })}
+                    </td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
       </div>

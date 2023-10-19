@@ -128,7 +128,7 @@ function ManageOrders() {
         <table className="table table-striped" id={styles["table-order-list"]}>
           <thead>
             <tr>
-              <th>Order ID</th>
+              <th>#</th>
               <th>Name</th>
               <th>Email</th>
               <th>Phone</th>

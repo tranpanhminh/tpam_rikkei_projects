@@ -61,36 +61,32 @@ function ClientFeaturedProducts() {
                     className={`col-12 col-sm-12 col-md-6 col-xl-3 mt-5 px-2 ${styles["product-card"]}`}
                   >
                     <div className={styles["card"]}>
-                      <div className={styles["card-wrapper-top"]}>
-                        <NavLink to={`/products/${product?.product_id}`}>
-                          <img
-                            src={product?.thumbnail_url}
-                            className={styles["card-img-top"]}
-                            alt="..."
-                          />
-                        </NavLink>
-                        <NavLink to={`/products/${product?.product_id}`}>
+                      <NavLink to={`/products/${product.product_id}`}>
+                        <img
+                          src={product.thumbnail_url}
+                          className={styles["card-img-top"]}
+                          alt="..."
+                        />
+                      </NavLink>
+                      <div className={styles["card-body"]}>
+                        <NavLink to={`/products/${product.product_id}`}>
                           <h5 className={styles["product-title-name"]}>
-                            {product && product?.name}
+                            {product && product.name}
                           </h5>
                         </NavLink>
+                        <p className={styles["card-price"]}>
+                          Price: ${product && product.price.toLocaleString()}
+                        </p>
                       </div>
-                      <div className={styles["card-wrapper-bottom"]}>
-                        <div className={styles["card-body"]}>
-                          <p className={styles["card-price"]}>
-                            Price: ${product && product?.price.toLocaleString()}
-                          </p>
-                        </div>
-                        <div className={styles["card-foot"]}>
-                          <button
-                            onClick={() =>
-                              navigate(`/products/${product?.product_id}`)
-                            }
-                            className={`${styles["btn"]} ${styles["btn-primary"]} ${styles["detail-btn"]}`}
-                          >
-                            Detail
-                          </button>
-                        </div>
+                      <div className={styles["card-foot"]}>
+                        <button
+                          onClick={() =>
+                            navigate(`/products/${product.product_id}`)
+                          }
+                          className={`${styles["btn"]} ${styles["btn-primary"]} ${styles["detail-btn"]}`}
+                        >
+                          Detail
+                        </button>
                       </div>
                     </div>
                   </div>

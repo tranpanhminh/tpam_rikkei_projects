@@ -223,7 +223,7 @@ function ManageNewsletter() {
         <table className="table table-striped" id={styles["table-order-list"]}>
           <thead>
             <tr>
-              <th>Coupon ID</th>
+              <th>#</th>
               <th>Name</th>
               <th>Code</th>
               <th>Discount</th>
@@ -232,10 +232,10 @@ function ManageNewsletter() {
             </tr>
           </thead>
           <tbody>
-            {coupons?.map((coupon: any) => {
+            {coupons?.map((coupon: any, index: number) => {
               return (
                 <tr key={coupon.id}>
-                  <td>{coupon.id}</td>
+                  <td>{index + 1}</td>
                   <td>{coupon.name}</td>
                   <td>{coupon.code}</td>
                   <td>{coupon.discount_rate}%</td>

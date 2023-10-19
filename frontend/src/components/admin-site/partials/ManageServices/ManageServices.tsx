@@ -135,9 +135,9 @@ function ManageServices() {
           </thead>
           <tbody>
             {services &&
-              services.map((service: any) => (
+              services.map((service: any, index: number) => (
                 <tr key={service.id}>
-                  <td>{service.id}</td>
+                  <td>{index + 1}</td>
                   <td>
                     <img src={service.service_image} alt="" />
                   </td>

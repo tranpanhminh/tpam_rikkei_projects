@@ -140,9 +140,9 @@ function ManageProducts() {
             </tr>
           </thead>
           <tbody>
-            {products?.map((product: any) => (
+            {products?.map((product: any, index: number) => (
               <tr key={product.id}>
-                <td>{product.id}</td>
+                <td>{index + 1}</td>
                 <td>
                   <img src={product.thumbnail_url} alt="" />
                 </td>
