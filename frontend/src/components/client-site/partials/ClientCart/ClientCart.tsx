@@ -473,7 +473,7 @@ function ClientCart() {
                       open={isModalOpen}
                       onOk={handleOk}
                       onCancel={handleCancel}
-                      width={330}
+                      width={380}
                     >
                       <table
                         cellPadding={10}

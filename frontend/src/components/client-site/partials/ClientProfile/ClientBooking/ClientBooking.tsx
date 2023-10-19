@@ -50,6 +50,7 @@ function ClientBooking() {
       // Nếu có searchText, thực hiện tìm kiếm và cập nhật state
       const filterBooking = userBooking?.filter((item: any) => {
         if (
+          item.name.toLowerCase().includes(searchText.trim().toLowerCase()) ||
           item.service.name
             .toLowerCase()
             .includes(searchText.trim().toLowerCase()) ||
