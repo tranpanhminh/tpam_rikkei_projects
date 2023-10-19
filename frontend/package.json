@@ -14,7 +14,6 @@
     "@types/date-fns": "^2.6.0",
     "@types/faker": "^6.6.9",
     "@types/jest": "^27.5.2",
-    "@types/moment": "^2.13.0",
     "@types/node": "^16.18.41",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
@@ -77,6 +76,7 @@
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.3",
+    "@types/moment": "^2.13.0",
     "file-loader": "^6.2.0",
     "node-polyfill-webpack-plugin": "^2.0.1",
     "webpack": "^5.88.2",
