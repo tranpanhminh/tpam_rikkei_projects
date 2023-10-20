@@ -153,7 +153,8 @@ function ClientEditProfile() {
           newPassword: "",
         });
         fetchUser();
-        navigate("/user/my-profile/");
+        localStorage.clear();
+        navigate("/");
         setIsModalOpen(false);
       })
       .catch((error) => {

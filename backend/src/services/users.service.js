@@ -40,6 +40,9 @@ class UsersService {
     if (!full_name) {
       return { message: "Full Name must not be blank", status: 406 };
     }
+    if (full_name.toLowerCase().includes("admin")) {
+      return { message: "Full Name must not include Admin", status: 406 };
+    }
     if (!/^[a-zA-Z\s]*$/.test(full_name)) {
       return {
         message: "Full Name cannot contain special characters or numbers",

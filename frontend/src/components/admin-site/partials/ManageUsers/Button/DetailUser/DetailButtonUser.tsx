@@ -92,7 +92,8 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
           newPassword: "",
         });
         handleFunctionOk();
-        navigate("/admin/");
+        localStorage.clear();
+        navigate("/");
         setIsModalOpen(false);
       })
       .catch((error) => {
