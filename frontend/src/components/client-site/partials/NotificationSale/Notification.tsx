@@ -23,7 +23,7 @@ function NotificationSale() {
   useEffect(() => {
     fetchOrder();
   }, []);
-  console.log(listOrders, "LIST ORDER");
+  
   const showNotification = () => {
     if (listOrders.length > 0) {
       const item = listOrders[notificationIndex];

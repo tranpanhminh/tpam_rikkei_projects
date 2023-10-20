@@ -176,7 +176,6 @@ function ClientCart() {
       });
 
     setQuantity(event.target.value);
-    console.log(productId, "PRODUCT ID");
   };
   // --------------------------------------------------------
 
@@ -197,8 +196,11 @@ function ClientCart() {
         });
         notification.success({
           message: `${response.data.message}`,
+          description: `You will be navigated to Your Orders After 2 second`,
         });
-        navigate("/user/my-orders");
+        setTimeout(() => {
+          navigate("/user/my-orders");
+        }, 2000);
       })
       .catch((error) => {
         notification.warning({
