@@ -313,7 +313,7 @@ function ClientProductDetail() {
                   </div>
                   <div className={styles["product-rating"]}>
                     <span>Rating:</span>
-                    <div className={styles["rating-section"]}>
+                    <div className={styles["product-rating-section"]}>
                       {products.avg_rating}
                       <i className="fa-solid fa-star"></i>
                       <span>({filterCommentsExcludeAdmin()} reviews)</span>
@@ -406,7 +406,8 @@ function ClientProductDetail() {
                         />
 
                         <span>{item.user.full_name.split(" ")[0]}</span>
-                        {item?.user_role_id === 1 || item?.user_role_id === 2 ? (
+                        {item?.user_role_id === 1 ||
+                        item?.user_role_id === 2 ? (
                           <Badge bg="success">Admin</Badge>
                         ) : item.order_history?.length !== 0 ? (
                           <Badge bg="warning" text="dark">
@@ -416,21 +417,13 @@ function ClientProductDetail() {
                           ""
                         )}
 
-                        {item?.user_role_id !== 1 && item?.user_role_id !== 2 && (
-                          <span className={styles["rating-section"]}>
-                            {item.rating}
-                            <i className="fa-solid fa-star"></i>
-                          </span>
-                        )}
-                        {/* {item.user_role_id !== 1 && item.user_role_id !== 2 && (
-                          <Button
-                            type="primary"
-                            className={styles["delete-comment-btn"]}
-                            onClick={() => handleDeleteComment(item.commentId)}
-                          >
-                            Delete
-                          </Button>
-                        )} */}
+                        {item?.user_role_id !== 1 &&
+                          item?.user_role_id !== 2 && (
+                            <span className={styles["rating-section"]}>
+                              {item.rating}
+                              <i className="fa-solid fa-star"></i>
+                            </span>
+                          )}
                       </div>
                       <div>
                         <div className={styles["comment-content-headline"]}>

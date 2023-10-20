@@ -1446,7 +1446,7 @@ table.table.table-cart {
 }
 
 .comment-content {
-  max-height: 160px;
+  max-height: 2000px;
   /* Thay đổi chiều cao cố định tùy theo mong muốn */
   overflow-y: auto;
   /* Thanh cuộn dọc sẽ xuất hiện khi nội dung vượt quá chiều cao */
@@ -1454,14 +1454,28 @@ table.table.table-cart {
   /* Cắt chữ nếu vượt quá chiều rộng */
 }
 
-.rating-section {
+.product-rating-section {
   text-align: center;
+  /* padding-left: 15px; */
+}
+
+.product-rating-section i {
+  color: #fadb14;
+  margin: 0;
+}
+
+
+.product-rating-section {
   padding-left: 15px;
 }
 
 .rating-section i {
   color: #fadb14;
   margin: 0;
+}
+
+.comment-scrollable {
+  text-align: left;
 }
 
 /* CSS Tablet */
@@ -2035,7 +2049,7 @@ table.table.table-cart {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    width: 400px;
+    width: 100%;
   }
 
   .comment-input {
@@ -2061,6 +2075,7 @@ table.table.table-cart {
     text-align: center;
     font-size: 15px;
     font-weight: bold;
+    width: 100px;
   }
 
   .user-avatar {
@@ -2093,7 +2108,9 @@ table.table.table-cart {
     background-color: #ed5e68;
   }
 
-  .rating-section {
-    width: 60px;
+  .product-rating-section {
+    width: 200px;
+    display: flex;
+    align-items: center;
   }
 }

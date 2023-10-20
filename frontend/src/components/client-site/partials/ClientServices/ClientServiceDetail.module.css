@@ -268,6 +268,11 @@
   justify-content: space-between;
 }
 
+.comment-scrollable {
+  text-align: left;
+  line-height: 1.5;
+}
+
 @media only screen and (max-width: 1079px) {
   .service-title-name {
     margin-top: 30px;
@@ -308,14 +313,11 @@
 
   .main-content-comment {
     text-align: justify;
-  }
-
-  .main-content-comment {
     padding: 10px;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    width: 400px;
+    width: 100%;
   }
 
   .comment-input {
@@ -341,6 +343,7 @@
     text-align: center;
     font-size: 15px;
     font-weight: bold;
+    width: 100px;
   }
 
   .user-avatar {
@@ -375,7 +378,7 @@
   }
 
   .rating-section {
-    width: 60px;
+    width: 100%;
   }
 
   /* CSS Booking Form */

@@ -511,9 +511,6 @@ function ClientServiceDetail() {
                     <section className={styles["product-comment-item"]}>
                       <div className={styles["user-comment-info"]}>
                         <img
-                          // src={
-                          //   getLoginData.avatar ? getLoginData.avatar : avatar
-                          // }
                           src={item.user.image_avatar}
                           alt=""
                           className={styles["user-avatar"]}
@@ -537,15 +534,6 @@ function ClientServiceDetail() {
                               <i className="fa-solid fa-star"></i>
                             </span>
                           )}
-                        {/* {user?.role === "admin" && (
-                          <Button
-                            type="primary"
-                            className={styles["delete-comment-btn"]}
-                            onClick={() => handleDeleteComment(item.commentId)}
-                          >
-                            Delete
-                          </Button>
-                        )} */}
                       </div>
                       <div>
                         <div className={styles["comment-content-headline"]}>
@@ -577,7 +565,6 @@ function ClientServiceDetail() {
                           })}
                         </div>
                       </div>
-                      {/* <div>{item.date}</div> */}
                     </section>
                   );
                 })}
