@@ -37,8 +37,8 @@ export class VendorsController {
   @Get('/detail/:id')
   async getDetailVendor(
     @Param('id') id: number,
-  ): Promise<VendorsEntity | null> {
-    const result: VendorsEntity | null =
+  ): Promise<VendorsEntity | unknown> {
+    const result: VendorsEntity | unknown =
       await this.vendorsService.getDetailVendor(id);
     return result;
   }
