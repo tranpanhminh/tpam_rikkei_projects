@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Body,
   Controller,
@@ -7,8 +6,6 @@ import {
   Param,
   Patch,
   Post,
-  UsePipes,
-  ValidationPipe,
 } from '@nestjs/common';
 import { VendorsService } from './vendors.service';
 import { CreateVendorDTO } from './dto/create-vendor.dto';
@@ -46,7 +43,6 @@ export class VendorsController {
 
   // 3. Add
   @Post('/add')
-  @UsePipes(ValidationPipe)
   async addVendor(
     @Body() body: CreateVendorDTO,
   ): Promise<VendorsEntity | unknown> {
@@ -65,7 +61,6 @@ export class VendorsController {
 
   // 5. Update
   @Patch('update/:id')
-  @UsePipes(ValidationPipe)
   async updateVendor(
     @Param('id') id: number,
     @Body() body: UpdateVendorDTO,

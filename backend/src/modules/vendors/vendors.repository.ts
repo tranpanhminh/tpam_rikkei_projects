@@ -1,6 +1,4 @@
-/* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
-// import { VendorsDTO } from './dto/vendors.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { VendorsEntity } from './database/entity/vendors.entity';
