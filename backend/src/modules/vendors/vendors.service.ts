@@ -13,7 +13,7 @@ export class VendorsService {
     return result;
   }
 
-  // 2. Get Detail Vendor
+  // 2. Get Detail
   async getDetailVendor(id: number): Promise<VendorsEntity> {
     const result: VendorsEntity =
       await this.vendorsRepository.getDetailVendor(id);

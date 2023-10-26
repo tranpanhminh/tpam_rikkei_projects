@@ -12,10 +12,12 @@ export class VendorsRepository {
     private vendorsEntity: Repository<VendorsEntity>,
   ) {}
 
+  // Get All
   async getAllVendors() {
     return 'All';
   }
 
+  // Get Detail
   async getDetailVendor(id: number): Promise<VendorsEntity | null> {
     return this.vendorsEntity.findOneBy({ id });
   }
