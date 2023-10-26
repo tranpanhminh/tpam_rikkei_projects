@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: project_module_3
+-- Host: 127.0.0.1    Database: project_module_4
 -- ------------------------------------------------------
 -- Server version	8.0.34
 
@@ -16,30 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `user_roles`
+-- Table structure for table `user_statuses`
 --
 
-DROP TABLE IF EXISTS `user_roles`;
+DROP TABLE IF EXISTS `user_statuses`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user_roles` (
+CREATE TABLE `user_statuses` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user_roles`
+-- Dumping data for table `user_statuses`
 --
 
-LOCK TABLES `user_roles` WRITE;
-/*!40000 ALTER TABLE `user_roles` DISABLE KEYS */;
-INSERT INTO `user_roles` VALUES (1,'Super Admin','2023-10-10 07:03:43','2023-10-10 07:18:14'),(2,'Admin','2023-10-10 07:03:47','2023-10-10 07:03:47'),(3,'Customer','2023-10-10 07:03:51','2023-10-10 07:03:51');
-/*!40000 ALTER TABLE `user_roles` ENABLE KEYS */;
+LOCK TABLES `user_statuses` WRITE;
+/*!40000 ALTER TABLE `user_statuses` DISABLE KEYS */;
+INSERT INTO `user_statuses` VALUES (1,'Active','2023-10-10 07:02:54','2023-10-10 07:02:54'),(2,'Inactive','2023-10-10 07:02:59','2023-10-10 07:02:59');
+/*!40000 ALTER TABLE `user_statuses` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-23 15:27:45
+-- Dump completed on 2023-10-26 11:25:42

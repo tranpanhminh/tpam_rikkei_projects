@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: project_module_3
+-- Host: 127.0.0.1    Database: project_module_4
 -- ------------------------------------------------------
 -- Server version	8.0.34
 
@@ -16,30 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `vendors`
+-- Table structure for table `working_times`
 --
 
-DROP TABLE IF EXISTS `vendors`;
+DROP TABLE IF EXISTS `working_times`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `vendors` (
+CREATE TABLE `working_times` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
+  `morning_time` text NOT NULL,
+  `afternoon_time` text NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `vendors`
+-- Dumping data for table `working_times`
 --
 
-LOCK TABLES `vendors` WRITE;
-/*!40000 ALTER TABLE `vendors` DISABLE KEYS */;
-INSERT INTO `vendors` VALUES (1,'New Balance','2023-10-10 06:59:24','2023-10-10 06:59:24'),(2,'Nike','2023-10-10 06:59:30','2023-10-10 06:59:30'),(3,'Adidas','2023-10-10 06:59:33','2023-10-10 06:59:33'),(8,'Vip Pro','2023-10-20 03:39:40','2023-10-20 03:39:40');
-/*!40000 ALTER TABLE `vendors` ENABLE KEYS */;
+LOCK TABLES `working_times` WRITE;
+/*!40000 ALTER TABLE `working_times` DISABLE KEYS */;
+INSERT INTO `working_times` VALUES (1,'09:00 AM - 11:30 AM','14:00 PM - 16:30 PM','2023-10-10 07:13:43','2023-10-10 07:13:43');
+/*!40000 ALTER TABLE `working_times` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-23 15:27:46
+-- Dump completed on 2023-10-26 11:25:43

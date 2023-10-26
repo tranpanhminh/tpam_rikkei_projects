@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: project_module_3
+-- Host: 127.0.0.1    Database: project_module_4
 -- ------------------------------------------------------
 -- Server version	8.0.34
 
@@ -16,30 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `booking_statuses`
+-- Table structure for table `user_roles`
 --
 
-DROP TABLE IF EXISTS `booking_statuses`;
+DROP TABLE IF EXISTS `user_roles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `booking_statuses` (
+CREATE TABLE `user_roles` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `booking_statuses`
+-- Dumping data for table `user_roles`
 --
 
-LOCK TABLES `booking_statuses` WRITE;
-/*!40000 ALTER TABLE `booking_statuses` DISABLE KEYS */;
-INSERT INTO `booking_statuses` VALUES (1,'Pending','2023-10-10 07:10:46','2023-10-10 07:10:46'),(2,'Processing','2023-10-10 07:10:49','2023-10-10 07:10:49'),(3,'Done','2023-10-10 07:10:54','2023-10-10 07:10:54'),(4,'Cancel','2023-10-10 07:10:59','2023-10-10 07:10:59');
-/*!40000 ALTER TABLE `booking_statuses` ENABLE KEYS */;
+LOCK TABLES `user_roles` WRITE;
+/*!40000 ALTER TABLE `user_roles` DISABLE KEYS */;
+INSERT INTO `user_roles` VALUES (1,'Super Admin','2023-10-10 07:03:43','2023-10-10 07:18:14'),(2,'Admin','2023-10-10 07:03:47','2023-10-10 07:03:47'),(3,'Customer','2023-10-10 07:03:51','2023-10-10 07:03:51');
+/*!40000 ALTER TABLE `user_roles` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-23 15:27:46
+-- Dump completed on 2023-10-26 11:25:43

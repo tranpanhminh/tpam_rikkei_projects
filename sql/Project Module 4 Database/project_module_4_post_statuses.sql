@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: project_module_3
+-- Host: 127.0.0.1    Database: project_module_4
 -- ------------------------------------------------------
 -- Server version	8.0.34
 
@@ -16,30 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `order_statuses`
+-- Table structure for table `post_statuses`
 --
 
-DROP TABLE IF EXISTS `order_statuses`;
+DROP TABLE IF EXISTS `post_statuses`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `order_statuses` (
+CREATE TABLE `post_statuses` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `order_statuses`
+-- Dumping data for table `post_statuses`
 --
 
-LOCK TABLES `order_statuses` WRITE;
-/*!40000 ALTER TABLE `order_statuses` DISABLE KEYS */;
-INSERT INTO `order_statuses` VALUES (1,'Pending','2023-10-10 07:12:32','2023-10-10 07:12:32'),(2,'Processing','2023-10-10 07:12:37','2023-10-10 07:12:37'),(3,'Shipping','2023-10-10 07:12:41','2023-10-10 07:12:41'),(4,'Shipped','2023-10-10 07:12:52','2023-10-10 07:12:52'),(5,'Cancel','2023-10-10 07:12:56','2023-10-10 07:12:56');
-/*!40000 ALTER TABLE `order_statuses` ENABLE KEYS */;
+LOCK TABLES `post_statuses` WRITE;
+/*!40000 ALTER TABLE `post_statuses` DISABLE KEYS */;
+INSERT INTO `post_statuses` VALUES (1,'Draft','2023-10-10 07:01:38','2023-10-10 07:01:38'),(2,'Published','2023-10-10 07:01:43','2023-10-10 07:01:43');
+/*!40000 ALTER TABLE `post_statuses` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-23 15:27:45
+-- Dump completed on 2023-10-26 11:25:43
