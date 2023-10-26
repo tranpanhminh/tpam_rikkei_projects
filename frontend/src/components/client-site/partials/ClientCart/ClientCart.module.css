@@ -1,0 +1,357 @@
+.background-outside-shopping-cart {
+  padding: 30px;
+}
+
+.background-shopping-cart {
+  padding: 30px;
+  width: 1500px;
+  margin: 0 auto;
+  border-radius: 15px;
+  background-color: white;
+}
+
+.shopping-cart-grid {
+  display: grid;
+  grid-template-columns: 4fr 2fr;
+}
+
+.product-cart-quantity {
+  width: 100px;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.left-shopping-cart-item {
+  padding: 20px;
+}
+
+.shopping-cart-title {
+  border-bottom: 1px solid #ccc;
+}
+
+.shopping-cart-title h3 {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.shopping-cart-info {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+}
+
+.shopping-cart-total {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 30px 0px;
+}
+
+.shopping-cart-product-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.shopping-product-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.shopping-item {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  border-radius: 15px;
+  gap: 20px;
+}
+
+.shopping-item img {
+  width: 150px;
+  height: 100px;
+  object-fit: contain;
+}
+
+.cart-product-detail {
+  display: flex;
+  flex-direction: column;
+  width: 150px;
+}
+
+.left-shopping-item {
+  display: flex;
+  align-items: center;
+}
+
+.right-shopping-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
+}
+
+.right-shopping-cart-item {
+  padding: 30px;
+  background-color: #3b71ca;
+  border-radius: 15px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.card-type {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 16px;
+}
+
+.list-card-type {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  align-items: center;
+  justify-content: space-between;
+  width: 50px;
+}
+
+.list-card-type img {
+  height: 30px;
+  width: 30px;
+  object-fit: cover;
+}
+
+.card-detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 20px;
+}
+
+.card-detail-header img {
+  width: 50px;
+}
+
+.card-type img {
+  width: 50px;
+}
+
+.card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  font-size: 16px;
+}
+
+.card-info-item input {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  padding: 10px;
+  font-size: 15px;
+  color: white;
+}
+
+.card-info-item input::placeholder {
+  color: #ccc;
+  background-color: transparent;
+  font-size: 15px;
+}
+
+.card-info-item input[type="text"],
+.card-info-item input[type="password"] {
+  color: white;
+  background-color: transparent;
+}
+
+.card-info-item-special {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-info-item-special-detail {
+  width: 100%;
+}
+
+.card-info-item-special input::placeholder {
+  color: #ccc;
+  font-size: 15px;
+}
+
+.card-info-item-special-detail input {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #ccc;
+}
+
+.card-info-item-special-detail input::placeholder {
+  color: #ccc;
+}
+
+.card-info-item-special-detail input[type="text"],
+.card-info-item-special-detail input[type="password"] {
+  background-color: transparent;
+  color: white;
+}
+
+.card-info-item-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart-discount-detail tr td {
+  border: 1px ridge #ccc;
+  text-align: center;
+}
+
+.card-info-item-detail:first-child {
+  border-top: 1px solid #ffffff40;
+  padding-top: 30px;
+}
+
+.arrow-right-icon {
+  margin-left: 10px;
+}
+
+.card-total {
+  background-color: #54b4d3;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 20px 15px 20px;
+  border-radius: 10px;
+  font-size: 20px;
+  align-items: center;
+}
+
+.card-total button {
+  color: white;
+  background-color: #3b71ca;
+}
+
+.product-quantity {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.minus-quantity-btn,
+.plus-quantity-btn {
+  background-color: #ccc;
+  color: black;
+  padding: 10px;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.minus-quantity-btn:hover,
+.plus-quantity-btn:hover {
+  opacity: 0.8;
+}
+
+.quantity-number {
+  font-size: 20px;
+}
+
+@media screen and (max-width: 1079px) {
+  .shopping-cart-grid {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .background-outside-shopping-cart {
+    padding: 10px;
+  }
+
+  .background-shopping-cart {
+    padding: 10px;
+    width: auto;
+    margin: 0 auto;
+    border-radius: 10px;
+    background-color: white;
+  }
+
+  .left-shopping-cart-item,
+  .right-shopping-cart-item {
+    padding: 15px;
+  }
+
+  .right-shopping-cart-item .card-detail-header {
+    font-size: 18px;
+  }
+
+  .card-info-item input {
+    font-size: 14px;
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .card-info-item-detail {
+    font-size: 14px;
+  }
+
+  .card-total {
+    padding: 10px 15px 10px 15px;
+    border-radius: 8px;
+    font-size: 18px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .shopping-cart-grid {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .background-outside-shopping-cart {
+    padding: 10px;
+  }
+
+  .background-shopping-cart {
+    padding: 10px;
+    width: auto;
+    margin: 0 auto;
+    border-radius: 10px;
+    background-color: white;
+  }
+
+  .left-shopping-cart-item,
+  .right-shopping-cart-item {
+    padding: 15px;
+  }
+
+  .right-shopping-cart-item .card-detail-header {
+    font-size: 18px;
+  }
+
+  .card-info-item input {
+    font-size: 14px;
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .card-info-item-detail {
+    font-size: 14px;
+  }
+
+  .card-total {
+    padding: 10px 15px 10px 15px;
+    border-radius: 8px;
+    font-size: 18px;
+  }
+}

@@ -1,0 +1,99 @@
+/* * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+} */
+
+.product-detail-information-container {
+  display: flex;
+  flex-direction: column;
+  max-height: 700px;
+  overflow-y: auto;
+}
+
+.left-product-detail-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  gap: 20px
+}
+
+/* .left-product-detail-item img {
+  width: 200px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+} */
+
+/* Hiển thị nút "Check" khi hình ảnh được hover */
+/* Container phải có position: relative để làm điểm neo cho nút */
+.image-container {
+  position: relative;
+}
+
+.image-container:hover .set-thumbnail-btn {
+  display: block;
+}
+
+.image-container:hover img {
+  opacity: 70%;
+}
+
+.set-thumbnail-btn {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: #0c337c;
+  transform: translate(-50%, -50%);
+  font-size: 12px;
+}
+
+.right-product-detail-item {
+  display: flex;
+  margin-top: 30px;
+  flex-direction: column;
+  gap: 20px;
+  align-items: stretch;
+}
+
+.product-info-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.product-info-item input {
+  width: 605px;
+  padding: 5px;
+}
+
+.label-product {
+  width: 150px;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.select-option {
+  padding: 8px
+}
+
+.upload-image-form {
+  display: flex;
+  width: 600px;
+  justify-content: space-between;
+}
+
+.upload-image-form input {
+  width: 300px;
+}
+
+.upload-image-form button {
+  background-color: #0c337c
+}
+
+.image-container img {
+  width: 90%;
+  object-fit: cover;
+  height: 300px;
+  border-radius: 10px;
+  padding: 10px;
+}

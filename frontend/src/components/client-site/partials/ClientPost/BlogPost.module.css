@@ -1,0 +1,409 @@
+.wrap-blog {
+  max-width: 1600px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  /* padding-left: 100px;
+  padding-right: 100px; */
+  margin-bottom: 50px;
+  padding: 20px;
+}
+
+.list-blogs {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.post-item {
+  /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  padding: 10px;
+}
+
+.post-item-title {
+  text-align: justify;
+  cursor: pointer;
+  color: #0d337c;
+  font-size: 25px;
+}
+
+.post-item-title:hover {
+  color: #52bdab;
+}
+
+.post-item-description {
+  text-align: justify;
+}
+
+.post-item-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.post-item-content a {
+  text-decoration: none;
+}
+
+.post-thumbnail-item {
+  width: 100%;
+  border-radius: 20px;
+}
+
+.img-thumbnail-item {
+  border-radius: 10px;
+  width: 300px;
+  object-fit: cover;
+  height: 180px;
+}
+
+.blog-sidebar {
+  border-left: 1px ridge #f5f5f5;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.blogs-post-pagination {
+  width: 700px;
+  margin: 0 auto;
+}
+
+/* CSS Sidebar Blog */
+.sidebar-featured-product {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sidebar-featured-product-headline {
+  background-color: #51beab;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 22px;
+  color: white;
+}
+
+.sidebar-featured-product-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  max-width: 100%;
+}
+
+.sidebar-featured-product-item a {
+  text-decoration: none;
+}
+
+.sidebar-featured-product-item img {
+  width: 150px;
+  border-radius: 10px;
+}
+
+.sidebar-featured-product-name {
+  color: #0d337c;
+  font-weight: bold;
+  font-size: 17px;
+}
+
+.sidebar-featured-product-name:hover {
+  color: #52bdab;
+  cursor: pointer;
+}
+
+.sidebar-banner-image {
+  border-radius: 10px;
+}
+
+.editor-post-bar {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+/* CSS Breadcrumb */
+.breadcrumb-blogs-info {
+  max-width: 1500px;
+  margin: 0 auto;
+  text-align: left;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+}
+
+.breadcrumb-page a {
+  text-decoration: none;
+  font-size: 18px;
+}
+
+/* CSS Post Content */
+.post-content-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.main-content-section {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.post-title {
+  text-align: center;
+  font-size: 28px;
+  padding: 10px;
+  color: #0d337c;
+  font-weight: bold;
+  line-height: 1.5;
+}
+
+.post-thumbnail {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.post-thumbnail-image {
+  border-radius: 20px;
+}
+
+.post-content {
+  text-align: justify;
+  line-height: 2.2;
+  font-size: 20px;
+}
+
+.post-content h2 {
+  font-size: 24px;
+  color: #0d337c;
+  font-weight: bold;
+  line-height: 2.2;
+}
+
+.post-content h3 {
+  font-size: 22px;
+  color: #0d337c;
+  font-weight: bold;
+  line-height: 2.2;
+}
+
+.post-content h4 {
+  font-size: 20px;
+  color: #0d337c;
+  font-weight: bold;
+  line-height: 2.2;
+}
+
+.post-content h5 {
+  font-size: 18px;
+  color: #0d337c;
+  font-weight: bold;
+  line-height: 2.2;
+}
+
+/* CSS Related Post */
+.related-post-group {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.related-post-group a {
+  text-decoration: none;
+}
+
+.related-post {
+  display: flex;
+  gap: 30px;
+  flex-direction: column;
+}
+
+.related-post-headline {
+  font-size: 20px;
+  background-color: #51beab;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  color: white;
+  border-radius: 10px;
+  width: 250px;
+  font-weight: bold;
+}
+
+.related-post-item {
+  /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
+  /* max-width: 1100px;
+  margin: 0 auto; */
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.related-post-title {
+  font-size: 20px;
+}
+
+.img-thumbnail-related-post {
+  width: 200px;
+  border-radius: 10px;
+}
+
+/* CSS Fact Checked */
+.writer-moderator {
+  display: flex;
+  background-color: #f7f8f9;
+  margin-bottom: 30px;
+}
+
+.fast-checked {
+  display: flex;
+  padding: 10px 0px;
+  border-radius: 20px;
+}
+
+.fa-fc {
+  color: #12229d;
+  font-weight: 600;
+}
+
+.fact-check-text {
+  font-weight: 600;
+  color: #b2b8d3;
+}
+
+.moderator-thumbnail {
+  width: 80px;
+  margin-right: 30px;
+  border-radius: 80px;
+  margin-left: 30px;
+}
+
+.moderator-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0;
+  line-height: 1.8;
+}
+
+.moderator-check {
+  margin: 0;
+  padding: 0;
+}
+
+@media screen and (max-width: 1079px) {
+  .wrap-blog {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .post-item {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 30px;
+  }
+
+  .post-thumbnail-item {
+    width: 100%;
+  }
+
+  .img-thumbnail-item {
+    width: 330px;
+    height: 230px;
+    object-fit: cover;
+  }
+
+  .breadcrumb-blogs-info {
+    width: 100%;
+    padding: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .blogs-post-pagination {
+    width: 100%;
+  }
+
+  .blog-sidebar {
+    padding: 20px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .wrap-blog {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .post-item {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .post-thumbnail-item {
+    width: 100%;
+  }
+
+  .img-thumbnail-item {
+    width: 330px;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .breadcrumb-blogs-info {
+    width: 100%;
+    padding: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .blogs-post-pagination {
+    width: 100%;
+  }
+
+  .blog-sidebar {
+    padding: 20px;
+  }
+
+  section.writer-moderator {
+    display: block;
+  }
+
+  section.connect-with-me {
+    display: flex;
+    align-items: center;
+  }
+  p.moderator-check {
+    text-align: left;
+    font-size: 14px;
+  }
+
+  .fact-check-text,
+  .connect-with-me-text {
+    font-size: 14px;
+  }
+}
