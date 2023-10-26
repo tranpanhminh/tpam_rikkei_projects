@@ -3,7 +3,7 @@
 import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { ConfigModule } from '@nestjs/config';
-import { VendorsEntity } from './src/modules/vendors/entity/vendors.entity';
+import { VendorsEntity } from 'src/modules/vendors/database/entity/vendors.entity';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -16,7 +16,7 @@ const config: MysqlConnectionOptions = {
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  entities: [VendorsEntity],
+  entities: [__dirname + '/**/**/**/*.entity.{ts,js}'],
   synchronize: false, // Tạo bảng xong thì nhớ chuyển thành false
   namingStrategy: new SnakeNamingStrategy(),
 };

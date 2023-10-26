@@ -3,8 +3,8 @@ import { Module } from '@nestjs/common';
 import { VendorsService } from './vendors.service';
 import { VendorsController } from './vendors.controller';
 import { VendorsRepository } from './vendors.repository';
-import { VendorsEntity } from './entity/vendors.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { VendorsEntity } from './database/entity/vendors.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([VendorsEntity])],

@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { IsNotEmpty } from 'class-validator';
-export class VendorsDTO {
+export class CreateVendorDTO {
   @IsNotEmpty()
   name: string;
 }

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
+  Body,
   Controller,
   Delete,
   Get,
@@ -10,9 +11,10 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { VendorsService } from './vendors.service';
-// import { VendorsDTO } from './dto/vendors.dto';
+import { CreateVendorDTO } from './dto/create-vendor.dto';
+import { UpdateVendorDTO } from './dto/update-vendor.dto';
 import { ConfigModule } from '@nestjs/config';
-import { VendorsEntity } from './entity/vendors.entity';
+import { VendorsEntity } from './database/entity/vendors.entity';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -24,7 +26,6 @@ const path = process.env.SERVER_PATH;
 @Controller(`${path}/vendors`)
 export class VendorsController {
   constructor(private readonly vendorsService: VendorsService) {}
-  @UsePipes(new ValidationPipe({ transform: true }))
 
   // 1. Get All
   @Get()
@@ -43,28 +44,33 @@ export class VendorsController {
     return result;
   }
 
-  //   // 3. Add
-  //   @Post()
-  //   async addVendor(req, res) {
-  //     const { name } = req.body;
-  //     const result = await vendorsService.addVendor(name);
-  //     return res.status(result.status).json(result);
-  //   }
+  // 3. Add
+  @Post('/add')
+  @UsePipes(ValidationPipe)
+  async addVendor(
+    @Body() body: CreateVendorDTO,
+  ): Promise<VendorsEntity | unknown> {
+    const result: string | unknown = await this.vendorsService.addVendor(body);
+    return result;
+  }
 
-  //   // 4. Delete
-  //   @Delete()
-  //   async deleteVendor(req, res) {
-  //     const vendorId = req.params.vendorId;
-  //     const result = await vendorsService.deleteVendor(vendorId);
-  //     return res.status(result.status).json(result);
-  //   }
+  // 4. Delete
+  @Delete('/delete/:id')
+  async deleteVendor(
+    @Param('id') id: number,
+  ): Promise<VendorsEntity | unknown> {
+    const result: string | unknown = await this.vendorsService.deleteVendor(id);
+    return result;
+  }
 
-  //   // 5. Update
-  //   @Patch()
-  //   async updateVendor(req, res) {
-  //     const { name } = req.body;
-  //     const vendorId = req.params.vendorId;
-  //     const result = await vendorsService.updateVendor(name, vendorId);
-  //     return res.status(result.status).json(result);
-  //   }
+  // 5. Update
+  @Patch('update/:id')
+  @UsePipes(ValidationPipe)
+  async updateVendor(
+    @Param('id') id: number,
+    @Body() body: UpdateVendorDTO,
+  ): Promise<VendorsEntity | unknown> {
+    const result = await this.vendorsService.updateVendor(id, body);
+    return result;
+  }
 }
