@@ -3,7 +3,6 @@
 import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { ConfigModule } from '@nestjs/config';
-import { VendorsEntity } from 'src/modules/vendors/database/entity/vendors.entity';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
