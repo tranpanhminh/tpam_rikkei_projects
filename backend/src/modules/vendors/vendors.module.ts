@@ -1,7 +1,8 @@
+/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { VendorsService } from './vendors.service';
 
 @Module({
-  providers: [VendorsService]
+  providers: [VendorsService],
 })
 export class VendorsModule {}

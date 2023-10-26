@@ -1,24 +1,43 @@
-import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import {
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { VendorsService } from './vendors.service';
+// import { VendorsDTO } from './dto/vendors.dto';
+import { ConfigModule } from '@nestjs/config';
+import { VendorsEntity } from './entity/vendors.entity';
 
-@Controller('vendors')
+ConfigModule.forRoot({
+  envFilePath: '.env',
+});
+const path = process.env.PATH;
+// -------------------------------------------------------
+
+@Controller(`${path}/vendors`)
 export class VendorsController {
   constructor(private readonly vendorsService: VendorsService) {}
+  @UsePipes(new ValidationPipe({ transform: true }))
 
   // 1. Get All
   @Get()
-  async getAllVendors(req, res) {
-    const result = await vendorsService.getAllVendors();
-    return res.status(result.status).json(result.data);
+  async getAllVendors() {
+    const result = await this.vendorsService.getAllVendors();
+    return result;
   }
 
-  //   // 2. Get Detail
-  //   @Get()
-  //   async getDetailVendor(req, res) {
-  //     const vendorId = req.params.vendorId;
-  //     const result = await vendorsService.getDetailVendor(vendorId);
-  //     return res.status(result.status).json(result.data);
-  //   }
+  // 2. Get Detail
+  @Get('detail/:id')
+  async getDetailVendor(@Param('id') id: number): Promise<VendorsEntity> {
+    const result: VendorsEntity = await this.vendorsService.getDetailVendor(id);
+    return result;
+  }
 
   //   // 3. Add
   //   @Post()
