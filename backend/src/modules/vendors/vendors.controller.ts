@@ -17,7 +17,8 @@ import { VendorsEntity } from './entity/vendors.entity';
 ConfigModule.forRoot({
   envFilePath: '.env',
 });
-const path = process.env.PATH;
+const path = process.env.SERVER_PATH;
+
 // -------------------------------------------------------
 
 @Controller(`${path}/vendors`)
@@ -34,8 +35,11 @@ export class VendorsController {
 
   // 2. Get Detail
   @Get('/detail/:id')
-  async getDetailVendor(@Param('id') id: number): Promise<VendorsEntity> {
-    const result: VendorsEntity = await this.vendorsService.getDetailVendor(id);
+  async getDetailVendor(
+    @Param('id') id: number,
+  ): Promise<VendorsEntity | null> {
+    const result: VendorsEntity | null =
+      await this.vendorsService.getDetailVendor(id);
     return result;
   }
 

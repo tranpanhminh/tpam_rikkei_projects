@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import ormConfig from 'orm.config';
 import { VendorsModule } from './modules/vendors/vendors.module';
 @Module({
-  imports: [VendorsModule, TypeOrmModule.forRoot(ormConfig)],
+  imports: [TypeOrmModule.forRoot(ormConfig), VendorsModule],
   controllers: [],
   providers: [],
 })

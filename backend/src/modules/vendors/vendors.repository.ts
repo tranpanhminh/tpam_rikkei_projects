@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 // import { VendorsDTO } from './dto/vendors.dto';
 import { VendorsEntity } from './entity/vendors.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -12,13 +12,18 @@ export class VendorsRepository {
     private vendorsEntity: Repository<VendorsEntity>,
   ) {}
 
-  // Get All
+  // 1. Get All
   async getAllVendors() {
     return 'All';
   }
 
-  // Get Detail
-  async getDetailVendor(id: number): Promise<VendorsEntity | null> {
-    return this.vendorsEntity.findOneBy({ id });
+  // 2. Get Detail
+  async getDetailVendor(id: number): Promise<VendorsEntity | unknown> {
+    const detailVendor = await this.vendorsEntity.findOneById(id);
+    if (detailVendor) {
+      return detailVendor;
+    } else {
+      return new HttpException('Not Found', HttpStatus.NOT_FOUND);
+    }
   }
 }
