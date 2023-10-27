@@ -1,7 +1,8 @@
+/* eslint-disable prettier/prettier */
 import { Entity, PrimaryGeneratedColumn, Column, Timestamp } from 'typeorm';
 
-@Entity('vendors')
-export class VendorsEntity {
+@Entity('user_statuses')
+export class UsersStatusesEntity {
   @PrimaryGeneratedColumn('increment')
   id: number;
 

@@ -9,8 +9,9 @@ export class VendorsService {
   constructor(private readonly vendorsRepository: VendorsRepository) {}
 
   // 1. Get All
-  async getAllVendors() {
-    const result = await this.vendorsRepository.getAllVendors();
+  async getAllVendors(): Promise<VendorsEntity[]> {
+    const result: VendorsEntity[] =
+      await this.vendorsRepository.getAllVendors();
     return result;
   }
 
@@ -28,7 +29,6 @@ export class VendorsService {
   // 3. Add
   async addVendor(body: CreateVendorDTO): Promise<VendorsEntity | unknown> {
     const { name } = body;
-    console.log(body, 'AFAS');
     const newVendor = {
       name: name,
     };

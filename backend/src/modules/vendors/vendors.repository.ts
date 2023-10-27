@@ -13,14 +13,13 @@ export class VendorsRepository {
   ) {}
 
   // 1. Get All
-  async getAllVendors() {
+  async getAllVendors(): Promise<VendorsEntity[]> {
     return await this.vendorsEntity.find();
   }
 
   // 2. Get Detail
   async getDetailVendor(id: number): Promise<VendorsEntity> {
-    const detailVendor = await this.vendorsEntity.findOneById(id);
-    return detailVendor;
+    return await this.vendorsEntity.findOneById(id);
   }
 
   // 3. Add

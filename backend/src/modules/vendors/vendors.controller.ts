@@ -26,8 +26,8 @@ export class VendorsController {
 
   // 1. Get All
   @Get()
-  async getAllVendors() {
-    const result = await this.vendorsService.getAllVendors();
+  async getAllVendors(): Promise<VendorsEntity[]> {
+    const result: VendorsEntity[] = await this.vendorsService.getAllVendors();
     return result;
   }
 
