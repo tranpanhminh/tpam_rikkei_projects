@@ -25,7 +25,10 @@ export class PostsStatusesService {
     if (detailPostsStatus) {
       return detailPostsStatus;
     } else {
-      return new HttpException('Not Found', HttpStatus.NOT_FOUND);
+      return new HttpException(
+        'PostsStatus ID Not Found',
+        HttpStatus.NOT_FOUND,
+      );
     }
   }
 

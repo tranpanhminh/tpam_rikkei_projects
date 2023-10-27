@@ -22,7 +22,7 @@ export class VendorsService {
     if (detailVendor) {
       return detailVendor;
     } else {
-      return new HttpException('Not Found', HttpStatus.NOT_FOUND);
+      return new HttpException('Vendor ID Not Found', HttpStatus.NOT_FOUND);
     }
   }
 

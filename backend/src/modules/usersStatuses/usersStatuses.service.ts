@@ -25,7 +25,10 @@ export class UsersStatusesService {
     if (detailUsersStatus) {
       return detailUsersStatus;
     } else {
-      return new HttpException('Not Found', HttpStatus.NOT_FOUND);
+      return new HttpException(
+        'UsersStatus ID Not Found',
+        HttpStatus.NOT_FOUND,
+      );
     }
   }
 
