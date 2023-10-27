@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { IsNumber, IsPositive, IsString } from 'class-validator';
 export class UpdateCouponDTO {
   @IsString()
