@@ -19,7 +19,6 @@ ConfigModule.forRoot({
 const path = process.env.SERVER_PATH;
 
 // -------------------------------------------------------
-console.log(path, '-s');
 @Controller(`${path}/user-statuses`)
 export class UsersStatusesController {
   constructor(private readonly usersStatusesService: UsersStatusesService) {}
