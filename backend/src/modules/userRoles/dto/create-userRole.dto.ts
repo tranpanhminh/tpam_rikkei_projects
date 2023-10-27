@@ -1,5 +1,5 @@
 import { IsNotEmpty } from 'class-validator';
-export class CreateVendorDTO {
+export class CreateUserRoleDTO {
   @IsNotEmpty()
   name: string;
 }
