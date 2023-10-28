@@ -8,6 +8,7 @@ import { UserRolesModule } from './modules/userRoles/userRoles.module';
 import { CancelReasonsModule } from './modules/cancelReasons/cancelReasons.module';
 import { CouponsModule } from './modules/coupons/coupons.module';
 import { PaymentsModule } from './modules/payments/payments.module';
+
 @Module({
   imports: [
     TypeOrmModule.forRoot(ormConfig),

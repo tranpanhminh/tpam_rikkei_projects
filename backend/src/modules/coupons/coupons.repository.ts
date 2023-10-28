@@ -1,10 +1,9 @@
-import { Injectable, PipeTransform } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CouponsEntity } from './database/entity/coupons.entity';
 import { CreateCouponDTO } from './dto/create-coupon.dto';
 import { UpdateCouponDTO } from './dto/update-coupon.dto';
-import { couponIdDTO } from './dto/query-couponId.dto';
 
 @Injectable()
 export class CouponsRepository {
@@ -19,7 +18,7 @@ export class CouponsRepository {
   }
 
   // 2. Get Detail
-  async getDetailCoupon(id: couponIdDTO): Promise<CouponsEntity> {
+  async getDetailCoupon(id: number): Promise<CouponsEntity> {
     const detailCoupon = await this.couponsEntity.findOneById(id);
     return detailCoupon;
   }
@@ -38,7 +37,7 @@ export class CouponsRepository {
 
   // 5. Update
   async updateCoupon(
-    id: couponIdDTO,
+    id: number,
     updateCoupon: UpdateCouponDTO,
   ): Promise<CouponsEntity | unknown> {
     return await this.couponsEntity.update(id, updateCoupon);

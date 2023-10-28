@@ -5,15 +5,15 @@ import {
   Get,
   Param,
   Patch,
-  PipeTransform,
   Post,
+  UseInterceptors,
 } from '@nestjs/common';
 import { CouponsService } from './coupons.service';
 import { CreateCouponDTO } from './dto/create-coupon.dto';
 import { UpdateCouponDTO } from './dto/update-coupon.dto';
 import { ConfigModule } from '@nestjs/config';
 import { CouponsEntity } from './database/entity/coupons.entity';
-import { couponIdDTO } from './dto/query-couponId.dto';
+import { IsCouponExist } from 'src/interceptors/checkCouponExist';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -34,8 +34,9 @@ export class CouponsController {
 
   // 2. Get Detail
   @Get('/detail/:id')
+  @UseInterceptors(IsCouponExist)
   async getDetailCoupon(
-    @Param('id') id: couponIdDTO,
+    @Param('id') id: number,
   ): Promise<CouponsEntity | unknown> {
     const result: CouponsEntity | unknown =
       await this.couponsService.getDetailCoupon(id);
@@ -62,11 +63,12 @@ export class CouponsController {
 
   // 5. Update
   @Patch('update/:id')
+  @UseInterceptors(IsCouponExist)
   async updateCoupon(
-    @Param('id') id: couponIdDTO,
+    @Param() params: any,
     @Body() body: UpdateCouponDTO,
   ): Promise<CouponsEntity | unknown> {
-    const result = await this.couponsService.updateCoupon(id, body);
+    const result = await this.couponsService.updateCoupon(params.id, body);
     return result;
   }
 }

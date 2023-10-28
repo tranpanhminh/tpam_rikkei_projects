@@ -1,18 +1,26 @@
-import { Injectable, PipeTransform } from '@nestjs/common';
-import { ValidatorConstraint } from 'class-validator';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Injectable } from '@nestjs/common';
+import {
+  ValidationArguments,
+  ValidatorConstraint,
+  ValidatorConstraintInterface,
+} from 'class-validator';
 import { CouponsRepository } from '../../modules/coupons/coupons.repository';
 
-@ValidatorConstraint({ name: 'CouponExistRule', async: true })
+@ValidatorConstraint({ name: 'IsCouponExist', async: true })
 @Injectable()
-export class CouponExistRule implements PipeTransform {
-  constructor(private readonly couponsRepository: CouponsRepository) {}
+export class CouponExistRule implements ValidatorConstraintInterface {
+  constructor(private couponsRepository: CouponsRepository) {}
 
-  async transform(value: number) {
-    const checkCoupon = await this.couponsRepository.getDetailCoupon(value);
-    console.log(checkCoupon, 'Dasds');
-    if (!checkCoupon) {
+  async validate(value: number) {
+    const parseValue = Number(value);
+    console.log(value, 'AAAA');
+    console.log(this.couponsRepository, 'DASDSA');
+    try {
+      const test = await this.couponsRepository.getDetailCoupon(parseValue);
+      return true;
+    } catch (e) {
       return false;
     }
-    return true;
   }
 }

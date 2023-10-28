@@ -1,5 +1,4 @@
 import { registerDecorator, ValidationOptions } from 'class-validator';
-import { CouponExistRule } from './checkExist/checkExist';
 
 export function IsCVV(validationOptions?: ValidationOptions) {
   return (object: any, propertyName: string) => {
@@ -38,14 +37,14 @@ export function IsExpiryDate(validationOptions?: ValidationOptions) {
   };
 }
 
-export function IsCouponExist(validationOptions?: ValidationOptions) {
-  return function (object: any, propertyName: string) {
-    registerDecorator({
-      name: 'IsCouponExist',
-      target: object.constructor,
-      propertyName: propertyName,
-      options: validationOptions,
-      validator: CouponExistRule,
-    });
-  };
-}
+// export function IsCouponExist(validationOptions?: ValidationOptions) {
+//   return function (object: any, propertyName: string) {
+//     registerDecorator({
+//       name: 'IsCouponExist',
+//       target: object.constructor,
+//       propertyName: propertyName,
+//       options: validationOptions,
+//       validator: CouponExistRule,
+//     });
+//   };
+// }
