@@ -13,33 +13,33 @@ export class PostStatusesRepository {
   ) {}
 
   // 1. Get All
-  async getAllPostsStatuses() {
+  async getAllPostStatuses() {
     return await this.postStatusesEntity.find();
   }
 
   // 2. Get Detail
-  async getDetailPostsStatus(id: number): Promise<PostStatusesEntity> {
-    const detailPostsStatus = await this.postStatusesEntity.findOneById(id);
-    return detailPostsStatus;
+  async getDetailPostStatus(id: number): Promise<PostStatusesEntity> {
+    const detailPostStatus = await this.postStatusesEntity.findOneById(id);
+    return detailPostStatus;
   }
 
   // 3. Add
-  async addPostsStatus(
-    newPostsStatus: CreatePostStatusDTO,
+  async addPostStatus(
+    newPostStatus: CreatePostStatusDTO,
   ): Promise<PostStatusesEntity | unknown> {
-    return await this.postStatusesEntity.save(newPostsStatus);
+    return await this.postStatusesEntity.save(newPostStatus);
   }
 
   // 4. Add
-  async deletePostsStatus(id: number): Promise<PostStatusesEntity | unknown> {
+  async deletePostStatus(id: number): Promise<PostStatusesEntity | unknown> {
     return await this.postStatusesEntity.delete(id);
   }
 
   // 5. Update
-  async updatePostsStatus(
+  async updatePostStatus(
     id: number,
-    updatePostsStatus: UpdatePostStatusDTO,
+    updatePostStatus: UpdatePostStatusDTO,
   ): Promise<PostStatusesEntity | unknown> {
-    return await this.postStatusesEntity.update(id, updatePostsStatus);
+    return await this.postStatusesEntity.update(id, updatePostStatus);
   }
 }

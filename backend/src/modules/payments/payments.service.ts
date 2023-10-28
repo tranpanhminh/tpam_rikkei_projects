@@ -1,78 +1,78 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { PostStatusesRepository } from './payments.repository';
-import { PostStatusesEntity } from './database/entity/payments.entity';
-import { CreatePostStatusDTO } from './dto/create-payments.dto';
-import { UpdatePostStatusDTO } from './dto/update-payments.dto';
+import { PaymentsRepository } from './payments.repository';
+import { PaymentsEntity } from './database/entity/payments.entity';
+import { CreatePaymentDTO } from './dto/create-payment.dto';
+import { UpdatePaymentDTO } from './dto/update-payment.dto';
 
 @Injectable()
-export class PostStatusesService {
-  constructor(
-    private readonly postStatusesRepository: PostStatusesRepository,
-  ) {}
+export class PaymentsService {
+  constructor(private readonly paymentsRepository: PaymentsRepository) {}
 
   // 1. Get All
-  async getAllPostsStatuses() {
-    const result = await this.postStatusesRepository.getAllPostsStatuses();
+  async getAllPayments() {
+    const result = await this.paymentsRepository.getAllPayments();
     return result;
   }
 
   // 2. Get Detail
-  async getDetailPostsStatus(
-    id: number,
-  ): Promise<PostStatusesEntity | unknown> {
-    const detailPostsStatus: PostStatusesEntity | unknown =
-      await this.postStatusesRepository.getDetailPostsStatus(id);
-    if (detailPostsStatus) {
-      return detailPostsStatus;
+  async getDetailPayment(id: number): Promise<PaymentsEntity | unknown> {
+    const detailPayment: PaymentsEntity | unknown =
+      await this.paymentsRepository.getDetailPayment(id);
+    if (detailPayment) {
+      return detailPayment;
     } else {
-      return new HttpException('PostStatus ID Not Found', HttpStatus.NOT_FOUND);
+      return new HttpException('Payment ID Not Found', HttpStatus.NOT_FOUND);
     }
   }
 
   // 3. Add
-  async addPostsStatus(
-    body: CreatePostStatusDTO,
-  ): Promise<PostStatusesEntity | unknown> {
-    const { name } = body;
-    console.log(body, 'AFAS');
-    const newPostsStatus = {
-      name: name,
+  async addPayment(body: CreatePaymentDTO): Promise<PaymentsEntity | unknown> {
+    const { cardholder_name, card_number, expiry_date, cvv, balance } = body;
+    const newPayment = {
+      cardholder_name: cardholder_name,
+      card_number: card_number,
+      expiry_date: expiry_date,
+      cvv: cvv,
+      balance: balance,
     };
-    await this.postStatusesRepository.addPostsStatus(newPostsStatus);
-    return new HttpException('PostStatus Added', HttpStatus.OK);
+    await this.paymentsRepository.addPayment(newPayment);
+    return new HttpException('Payment Added', HttpStatus.OK);
   }
 
   // 4. Delete
-  async deletePostsStatus(id: number): Promise<PostStatusesEntity | unknown> {
-    const checkPostsStatus =
-      await this.postStatusesRepository.getDetailPostsStatus(id);
-    if (checkPostsStatus) {
-      await this.postStatusesRepository.deletePostsStatus(id);
-      return new HttpException('PostStatus Deleted', HttpStatus.OK);
+  async deletePayment(id: number): Promise<PaymentsEntity | unknown> {
+    const checkPayment = await this.paymentsRepository.getDetailPayment(id);
+    if (checkPayment) {
+      await this.paymentsRepository.deletePayment(id);
+      return new HttpException('Payment Deleted', HttpStatus.OK);
     } else {
-      return new HttpException('PostStatus ID Not Found', HttpStatus.NOT_FOUND);
+      return new HttpException('Payment ID Not Found', HttpStatus.NOT_FOUND);
     }
   }
 
   // 5. Update
-  async updatePostsStatus(
+  async updatePayment(
     id: number,
-    body: UpdatePostStatusDTO,
-  ): Promise<PostStatusesEntity | unknown> {
-    const { name } = body;
-    const checkPostsStatus: PostStatusesEntity =
-      await this.postStatusesRepository.getDetailPostsStatus(id);
-    if (checkPostsStatus) {
-      const updatePostsStatus = {
-        name: !name ? checkPostsStatus.name : name,
+    body: UpdatePaymentDTO,
+  ): Promise<PaymentsEntity | unknown> {
+    const { cardholder_name, card_number, expiry_date, cvv, balance } = body;
+
+    const checkPayment: PaymentsEntity =
+      await this.paymentsRepository.getDetailPayment(id);
+    if (checkPayment) {
+      const updatePayment = {
+        cardholder_name: !cardholder_name
+          ? checkPayment.cardholder_name
+          : cardholder_name,
+        card_number: !card_number ? checkPayment.card_number : card_number,
+        expiry_date: !expiry_date ? checkPayment.expiry_date : expiry_date,
+        cvv: !cvv ? checkPayment.cvv : cvv,
+        balance: !balance ? checkPayment.balance : balance,
       };
-      await this.postStatusesRepository.updatePostsStatus(
-        id,
-        updatePostsStatus,
-      );
-      return new HttpException('PostStatus Updated', HttpStatus.OK);
+      await this.paymentsRepository.updatePayment(id, updatePayment);
+      return new HttpException('Payment Updated', HttpStatus.OK);
     } else {
-      return new HttpException('PostStatus ID Not Found', HttpStatus.NOT_FOUND);
+      return new HttpException('Payment ID Not Found', HttpStatus.NOT_FOUND);
     }
   }
 }

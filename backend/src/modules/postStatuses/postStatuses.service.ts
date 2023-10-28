@@ -11,43 +11,40 @@ export class PostStatusesService {
   ) {}
 
   // 1. Get All
-  async getAllPostsStatuses() {
-    const result = await this.postStatusesRepository.getAllPostsStatuses();
+  async getAllPostStatuses() {
+    const result = await this.postStatusesRepository.getAllPostStatuses();
     return result;
   }
 
   // 2. Get Detail
-  async getDetailPostsStatus(
-    id: number,
-  ): Promise<PostStatusesEntity | unknown> {
-    const detailPostsStatus: PostStatusesEntity | unknown =
-      await this.postStatusesRepository.getDetailPostsStatus(id);
-    if (detailPostsStatus) {
-      return detailPostsStatus;
+  async getDetailPostStatus(id: number): Promise<PostStatusesEntity | unknown> {
+    const detailPostStatus: PostStatusesEntity | unknown =
+      await this.postStatusesRepository.getDetailPostStatus(id);
+    if (detailPostStatus) {
+      return detailPostStatus;
     } else {
       return new HttpException('PostStatus ID Not Found', HttpStatus.NOT_FOUND);
     }
   }
 
   // 3. Add
-  async addPostsStatus(
+  async addPostStatus(
     body: CreatePostStatusDTO,
   ): Promise<PostStatusesEntity | unknown> {
     const { name } = body;
-    console.log(body, 'AFAS');
-    const newPostsStatus = {
+    const newPostStatus = {
       name: name,
     };
-    await this.postStatusesRepository.addPostsStatus(newPostsStatus);
+    await this.postStatusesRepository.addPostStatus(newPostStatus);
     return new HttpException('PostStatus Added', HttpStatus.OK);
   }
 
   // 4. Delete
-  async deletePostsStatus(id: number): Promise<PostStatusesEntity | unknown> {
-    const checkPostsStatus =
-      await this.postStatusesRepository.getDetailPostsStatus(id);
-    if (checkPostsStatus) {
-      await this.postStatusesRepository.deletePostsStatus(id);
+  async deletePostStatus(id: number): Promise<PostStatusesEntity | unknown> {
+    const checkPostStatus =
+      await this.postStatusesRepository.getDetailPostStatus(id);
+    if (checkPostStatus) {
+      await this.postStatusesRepository.deletePostStatus(id);
       return new HttpException('PostStatus Deleted', HttpStatus.OK);
     } else {
       return new HttpException('PostStatus ID Not Found', HttpStatus.NOT_FOUND);
@@ -55,21 +52,18 @@ export class PostStatusesService {
   }
 
   // 5. Update
-  async updatePostsStatus(
+  async updatePostStatus(
     id: number,
     body: UpdatePostStatusDTO,
   ): Promise<PostStatusesEntity | unknown> {
     const { name } = body;
-    const checkPostsStatus: PostStatusesEntity =
-      await this.postStatusesRepository.getDetailPostsStatus(id);
-    if (checkPostsStatus) {
-      const updatePostsStatus = {
-        name: !name ? checkPostsStatus.name : name,
+    const checkPostStatus: PostStatusesEntity =
+      await this.postStatusesRepository.getDetailPostStatus(id);
+    if (checkPostStatus) {
+      const updatePostStatus = {
+        name: !name ? checkPostStatus.name : name,
       };
-      await this.postStatusesRepository.updatePostsStatus(
-        id,
-        updatePostsStatus,
-      );
+      await this.postStatusesRepository.updatePostStatus(id, updatePostStatus);
       return new HttpException('PostStatus Updated', HttpStatus.OK);
     } else {
       return new HttpException('PostStatus ID Not Found', HttpStatus.NOT_FOUND);

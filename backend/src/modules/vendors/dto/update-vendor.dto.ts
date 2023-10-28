@@ -1,5 +1,4 @@
-import { IsString } from 'class-validator';
+import {} from 'class-validator';
 export class UpdateVendorDTO {
-  @IsString({ message: 'Vendor Name should be string' })
   name: string;
 }

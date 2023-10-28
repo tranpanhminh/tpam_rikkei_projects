@@ -7,11 +7,11 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { PostStatusesService } from './payments.service';
-import { CreatePostStatusDTO } from './dto/create-payments.dto';
-import { UpdatePostStatusDTO } from './dto/update-payments.dto';
+import { PaymentsService } from './payments.service';
+import { CreatePaymentDTO } from './dto/create-payment.dto';
+import { UpdatePaymentDTO } from './dto/update-payment.dto';
 import { ConfigModule } from '@nestjs/config';
-import { PostStatusesEntity } from './database/entity/payments.entity';
+import { PaymentsEntity } from './database/entity/payments.entity';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -19,54 +19,54 @@ ConfigModule.forRoot({
 const path = process.env.SERVER_PATH;
 
 // -------------------------------------------------------
-@Controller(`${path}/post-statuses`)
-export class PostStatusesController {
-  constructor(private readonly postStatusesService: PostStatusesService) {}
+@Controller(`${path}/payments`)
+export class PaymentsController {
+  constructor(private readonly paymentsService: PaymentsService) {}
 
   // 1. Get All
   @Get()
-  async getAllPostsStatuses() {
-    const result = await this.postStatusesService.getAllPostsStatuses();
+  async getAllPayments() {
+    const result = await this.paymentsService.getAllPayments();
     return result;
   }
 
   // 2. Get Detail
   @Get('/detail/:id')
-  async getDetailPostsStatus(
+  async getDetailPayment(
     @Param('id') id: number,
-  ): Promise<PostStatusesEntity | unknown> {
-    const result: PostStatusesEntity | unknown =
-      await this.postStatusesService.getDetailPostsStatus(id);
+  ): Promise<PaymentsEntity | unknown> {
+    const result: PaymentsEntity | unknown =
+      await this.paymentsService.getDetailPayment(id);
     return result;
   }
 
   // 3. Add
   @Post('/add')
-  async addPostsStatus(
-    @Body() body: CreatePostStatusDTO,
-  ): Promise<PostStatusesEntity | unknown> {
+  async addPayment(
+    @Body() body: CreatePaymentDTO,
+  ): Promise<PaymentsEntity | unknown> {
     const result: string | unknown =
-      await this.postStatusesService.addPostsStatus(body);
+      await this.paymentsService.addPayment(body);
     return result;
   }
 
   // 4. Delete
   @Delete('/delete/:id')
-  async deletePostsStatus(
+  async deletePayment(
     @Param('id') id: number,
-  ): Promise<PostStatusesEntity | unknown> {
+  ): Promise<PaymentsEntity | unknown> {
     const result: string | unknown =
-      await this.postStatusesService.deletePostsStatus(id);
+      await this.paymentsService.deletePayment(id);
     return result;
   }
 
   // 5. Update
   @Patch('update/:id')
-  async updatePostsStatus(
+  async updatePayment(
     @Param('id') id: number,
-    @Body() body: UpdatePostStatusDTO,
-  ): Promise<PostStatusesEntity | unknown> {
-    const result = await this.postStatusesService.updatePostsStatus(id, body);
+    @Body() body: UpdatePaymentDTO,
+  ): Promise<PaymentsEntity | unknown> {
+    const result = await this.paymentsService.updatePayment(id, body);
     return result;
   }
 }

@@ -1,12 +1,24 @@
 import { Entity, PrimaryGeneratedColumn, Column, Timestamp } from 'typeorm';
 
-@Entity('post_statuses')
-export class PostStatusesEntity {
+@Entity('payments')
+export class PaymentsEntity {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
   @Column({ length: 255, nullable: false })
-  name: string;
+  cardholder_name: string;
+
+  @Column({ nullable: false })
+  card_number: string;
+
+  @Column({ nullable: false })
+  expiry_date: string;
+
+  @Column({ nullable: false })
+  cvv: number;
+
+  @Column({ nullable: false })
+  balance: number;
 
   @Column({
     nullable: false,

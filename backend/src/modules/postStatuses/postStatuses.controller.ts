@@ -25,48 +25,48 @@ export class PostStatusesController {
 
   // 1. Get All
   @Get()
-  async getAllPostsStatuses() {
-    const result = await this.postStatusesService.getAllPostsStatuses();
+  async getAllPostStatuses() {
+    const result = await this.postStatusesService.getAllPostStatuses();
     return result;
   }
 
   // 2. Get Detail
   @Get('/detail/:id')
-  async getDetailPostsStatus(
+  async getDetailPostStatus(
     @Param('id') id: number,
   ): Promise<PostStatusesEntity | unknown> {
     const result: PostStatusesEntity | unknown =
-      await this.postStatusesService.getDetailPostsStatus(id);
+      await this.postStatusesService.getDetailPostStatus(id);
     return result;
   }
 
   // 3. Add
   @Post('/add')
-  async addPostsStatus(
+  async addPostStatus(
     @Body() body: CreatePostStatusDTO,
   ): Promise<PostStatusesEntity | unknown> {
     const result: string | unknown =
-      await this.postStatusesService.addPostsStatus(body);
+      await this.postStatusesService.addPostStatus(body);
     return result;
   }
 
   // 4. Delete
   @Delete('/delete/:id')
-  async deletePostsStatus(
+  async deletePostStatus(
     @Param('id') id: number,
   ): Promise<PostStatusesEntity | unknown> {
     const result: string | unknown =
-      await this.postStatusesService.deletePostsStatus(id);
+      await this.postStatusesService.deletePostStatus(id);
     return result;
   }
 
   // 5. Update
   @Patch('update/:id')
-  async updatePostsStatus(
+  async updatePostStatus(
     @Param('id') id: number,
     @Body() body: UpdatePostStatusDTO,
   ): Promise<PostStatusesEntity | unknown> {
-    const result = await this.postStatusesService.updatePostsStatus(id, body);
+    const result = await this.postStatusesService.updatePostStatus(id, body);
     return result;
   }
 }

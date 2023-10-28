@@ -18,25 +18,25 @@ export class UserStatusesRepository {
   }
 
   // 2. Get Detail
-  async getDetailUsersStatus(id: number): Promise<UserStatusesEntity> {
+  async getDetailUserStatus(id: number): Promise<UserStatusesEntity> {
     const detailUsersStatus = await this.userStatusesEntity.findOneById(id);
     return detailUsersStatus;
   }
 
   // 3. Add
-  async addUsersStatus(
+  async addUserStatus(
     newUsersStatus: CreateUserStatusDTO,
   ): Promise<UserStatusesEntity | unknown> {
     return await this.userStatusesEntity.save(newUsersStatus);
   }
 
   // 4. Add
-  async deleteUsersStatus(id: number): Promise<UserStatusesEntity | unknown> {
+  async deleteUserStatus(id: number): Promise<UserStatusesEntity | unknown> {
     return await this.userStatusesEntity.delete(id);
   }
 
   // 5. Update
-  async updateUsersStatus(
+  async updateUserStatus(
     id: number,
     updateUsersStatus: UpdateUserStatusDTO,
   ): Promise<UserStatusesEntity | unknown> {

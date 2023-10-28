@@ -1,45 +1,45 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { PostStatusesEntity } from './database/entity/payments.entity';
-import { CreatePostStatusDTO } from './dto/create-payments.dto';
-import { UpdatePostStatusDTO } from './dto/update-payments.dto';
+import { PaymentsEntity } from './database/entity/payments.entity';
+import { CreatePaymentDTO } from './dto/create-payment.dto';
+import { UpdatePaymentDTO } from './dto/update-payment.dto';
 
 @Injectable()
-export class PostStatusesRepository {
+export class PaymentsRepository {
   constructor(
-    @InjectRepository(PostStatusesEntity)
-    private postStatusesEntity: Repository<PostStatusesEntity>,
+    @InjectRepository(PaymentsEntity)
+    private paymentsEntity: Repository<PaymentsEntity>,
   ) {}
 
   // 1. Get All
-  async getAllPostsStatuses() {
-    return await this.postStatusesEntity.find();
+  async getAllPayments() {
+    return await this.paymentsEntity.find();
   }
 
   // 2. Get Detail
-  async getDetailPostsStatus(id: number): Promise<PostStatusesEntity> {
-    const detailPostsStatus = await this.postStatusesEntity.findOneById(id);
-    return detailPostsStatus;
+  async getDetailPayment(id: number): Promise<PaymentsEntity> {
+    const detailPayment = await this.paymentsEntity.findOneById(id);
+    return detailPayment;
   }
 
   // 3. Add
-  async addPostsStatus(
-    newPostsStatus: CreatePostStatusDTO,
-  ): Promise<PostStatusesEntity | unknown> {
-    return await this.postStatusesEntity.save(newPostsStatus);
+  async addPayment(
+    newPayment: CreatePaymentDTO,
+  ): Promise<PaymentsEntity | unknown> {
+    return await this.paymentsEntity.save(newPayment);
   }
 
   // 4. Add
-  async deletePostsStatus(id: number): Promise<PostStatusesEntity | unknown> {
-    return await this.postStatusesEntity.delete(id);
+  async deletePayment(id: number): Promise<PaymentsEntity | unknown> {
+    return await this.paymentsEntity.delete(id);
   }
 
   // 5. Update
-  async updatePostsStatus(
+  async updatePayment(
     id: number,
-    updatePostsStatus: UpdatePostStatusDTO,
-  ): Promise<PostStatusesEntity | unknown> {
-    return await this.postStatusesEntity.update(id, updatePostsStatus);
+    updatePayment: UpdatePaymentDTO,
+  ): Promise<PaymentsEntity | unknown> {
+    return await this.paymentsEntity.update(id, updatePayment);
   }
 }
