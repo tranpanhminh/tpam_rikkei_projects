@@ -10,6 +10,7 @@ import { CouponsModule } from './modules/coupons/coupons.module';
 import { PaymentsModule } from './modules/payments/payments.module';
 import { BookingStatusesModule } from './modules/bookingStatuses/bookingStatuses.module';
 import { OrderStatusesModule } from './modules/orderStatuses/orderStatuses.module';
+import { PostTypesModule } from './modules/postTypes/postTypes.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { OrderStatusesModule } from './modules/orderStatuses/orderStatuses.modul
     PaymentsModule,
     BookingStatusesModule,
     OrderStatusesModule,
+    PostTypesModule,
   ],
   controllers: [],
   providers: [],
