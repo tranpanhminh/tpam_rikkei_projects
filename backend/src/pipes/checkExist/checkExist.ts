@@ -12,8 +12,6 @@ export class CouponExistRule implements ValidatorConstraintInterface {
 
   async validate(value: number) {
     const parseValue = Number(value);
-    console.log(value, 'AAAA');
-    console.log(this.couponsRepository, 'DASDSA');
     try {
       const test = await this.couponsRepository.getDetailCoupon(parseValue);
       return true;
