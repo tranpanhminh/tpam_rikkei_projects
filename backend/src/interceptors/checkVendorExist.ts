@@ -7,17 +7,17 @@ import {
 } from '@nestjs/common';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { CouponsRepository } from 'src/modules/coupons/coupons.repository';
+import { VendorsRepository } from './../modules/vendors/vendors.repository';
 
 @Injectable()
-export class checkCouponExist implements NestInterceptor {
-  constructor(private couponsRepository: CouponsRepository) {}
+export class checkVendorExist implements NestInterceptor {
+  constructor(private vendorsRepository: VendorsRepository) {}
   async intercept(context: ExecutionContext, next: CallHandler): Promise<any> {
     const getId = context.switchToHttp().getRequest().params.id;
-    const find = await this.couponsRepository.getDetailCoupon(getId);
+    const find = await this.vendorsRepository.getDetailVendor(getId);
     if (!find) {
       console.log(new NotFoundException());
-      throw new NotFoundException('Coupon ID is not found');
+      throw new NotFoundException('Vendor ID is not found');
     }
     return next.handle().pipe(
       catchError((error) => {
