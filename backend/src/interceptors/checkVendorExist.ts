@@ -10,7 +10,7 @@ import { catchError } from 'rxjs/operators';
 import { VendorsRepository } from './../modules/vendors/vendors.repository';
 
 @Injectable()
-export class checkVendorExist implements NestInterceptor {
+export class CheckVendorExist implements NestInterceptor {
   constructor(private vendorsRepository: VendorsRepository) {}
   async intercept(context: ExecutionContext, next: CallHandler): Promise<any> {
     const getId = context.switchToHttp().getRequest().params.id;

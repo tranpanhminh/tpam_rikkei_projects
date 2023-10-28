@@ -10,7 +10,7 @@ import { catchError } from 'rxjs/operators';
 import { UserRolesRepository } from 'src/modules/userRoles/userRoles.repository';
 
 @Injectable()
-export class checkUserRoleExist implements NestInterceptor {
+export class CheckUserRoleExist implements NestInterceptor {
   constructor(private userRolesRepository: UserRolesRepository) {}
   async intercept(context: ExecutionContext, next: CallHandler): Promise<any> {
     const getId = context.switchToHttp().getRequest().params.id;

@@ -10,7 +10,7 @@ import { catchError } from 'rxjs/operators';
 import { CouponsRepository } from 'src/modules/coupons/coupons.repository';
 
 @Injectable()
-export class checkCouponExist implements NestInterceptor {
+export class CheckCouponExist implements NestInterceptor {
   constructor(private couponsRepository: CouponsRepository) {}
   async intercept(context: ExecutionContext, next: CallHandler): Promise<any> {
     const getId = context.switchToHttp().getRequest().params.id;
