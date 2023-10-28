@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserStatusesEntity } from './database/entity/userStatuses.entity';
-import { CreateUserStatusDTO } from './dto/create-userStatus.dto';
-import { UpdateUserStatusDTO } from './dto/update-userStatus.dto';
+import { UserStatusesEntity } from './database/entity/bookingStatuses.entity';
+import { CreateUserStatusDTO } from './dto/create-bookingStatus.dto';
+import { UpdateUserStatusDTO } from './dto/update-bookingStatus.dto';
 
 @Injectable()
 export class UserStatusesRepository {

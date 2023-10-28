@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { PostStatusesService } from './postStatuses.service';
-import { PostStatusesController } from './postStatuses.controller';
-import { PostStatusesRepository } from './postStatuses.repository';
+import { PostStatusesService } from './workingTimes.service';
+import { PostStatusesController } from './workingTimes.controller';
+import { PostStatusesRepository } from './workingTimes.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PostStatusesEntity } from './database/entity/postStatuses.entity';
+import { PostStatusesEntity } from './database/entity/workingTimes.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([PostStatusesEntity])],

@@ -7,11 +7,11 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { UserStatusesService } from './userStatuses.service';
-import { CreateUserStatusDTO } from './dto/create-userStatus.dto';
-import { UpdateUserStatusDTO } from './dto/update-userStatus.dto';
+import { UserStatusesService } from './orderStatuses.service';
+import { CreateUserStatusDTO } from './dto/create-orderStatus.dto';
+import { UpdateUserStatusDTO } from './dto/update-orderStatus.dto';
 import { ConfigModule } from '@nestjs/config';
-import { UserStatusesEntity } from './database/entity/userStatuses.entity';
+import { UserStatusesEntity } from './database/entity/orderStatuses.entity';
 
 ConfigModule.forRoot({
   envFilePath: '.env',

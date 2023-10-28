@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { UserStatusesService } from './userStatuses.service';
-import { UserStatusesController } from './userStatuses.controller';
-import { UserStatusesRepository } from './userStatuses.repository';
+import { UserStatusesService } from './bookingStatuses.service';
+import { UserStatusesController } from './bookingStatuses.controller';
+import { UserStatusesRepository } from './bookingStatuses.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserStatusesEntity } from './database/entity/userStatuses.entity';
+import { UserStatusesEntity } from './database/entity/bookingStatuses.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserStatusesEntity])],

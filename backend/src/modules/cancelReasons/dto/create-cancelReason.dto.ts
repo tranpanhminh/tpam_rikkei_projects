@@ -1,6 +1,6 @@
-/* eslint-disable prettier/prettier */
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 export class CreateCancelReasonDTO {
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'Cancel Reason should not be empty' })
+  @IsString({ message: 'Cancel Reason should be string' })
   name: string;
 }

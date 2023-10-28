@@ -1,16 +1,16 @@
 import { IsNumber, IsPositive, IsString } from 'class-validator';
 export class UpdateCouponDTO {
-  @IsString()
+  @IsString({ message: 'Coupon Name should be string' })
   name: string;
 
-  @IsString()
+  @IsString({ message: 'Coupon Code should be string' })
   code: string;
 
-  @IsNumber()
-  @IsPositive()
+  @IsNumber({}, { message: 'Discount Rate should be a number' })
+  @IsPositive({ message: 'Discount Rate should be a positive number' })
   discount_rate: number;
 
-  @IsNumber()
-  @IsPositive()
+  @IsNumber({}, { message: 'Min Bill should be a number' })
+  @IsPositive({ message: 'Min Bill should be a positive number' })
   min_bill: number;
 }

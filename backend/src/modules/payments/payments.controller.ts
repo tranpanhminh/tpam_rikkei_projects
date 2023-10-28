@@ -7,11 +7,11 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { PostStatusesService } from './postStatuses.service';
-import { CreatePostStatusDTO } from './dto/create-postStatus.dto';
-import { UpdatePostStatusDTO } from './dto/update-postStatus.dto';
+import { PostStatusesService } from './payments.service';
+import { CreatePostStatusDTO } from './dto/create-payments.dto';
+import { UpdatePostStatusDTO } from './dto/update-payments.dto';
 import { ConfigModule } from '@nestjs/config';
-import { PostStatusesEntity } from './database/entity/postStatuses.entity';
+import { PostStatusesEntity } from './database/entity/payments.entity';
 
 ConfigModule.forRoot({
   envFilePath: '.env',

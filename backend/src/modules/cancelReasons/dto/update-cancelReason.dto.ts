@@ -1,5 +1,5 @@
-/* eslint-disable prettier/prettier */
-import {} from 'class-validator';
+import { IsString } from 'class-validator';
 export class UpdateCancelReasonDTO {
+  @IsString({ message: 'Cancel Reason should be string' })
   name: string;
 }

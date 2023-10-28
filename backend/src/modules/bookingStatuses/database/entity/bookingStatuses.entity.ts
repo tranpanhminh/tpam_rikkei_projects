@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, Timestamp } from 'typeorm';
 
-@Entity('user_statuses')
+@Entity('booking_statuses')
 export class UserStatusesEntity {
   @PrimaryGeneratedColumn('increment')
   id: number;

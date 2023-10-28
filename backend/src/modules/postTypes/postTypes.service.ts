@@ -1,8 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { PostStatusesRepository } from './postStatuses.repository';
-import { PostStatusesEntity } from './database/entity/postStatuses.entity';
-import { CreatePostStatusDTO } from './dto/create-postStatus.dto';
-import { UpdatePostStatusDTO } from './dto/update-postStatus.dto';
+import { PostStatusesRepository } from './postTypes.repository';
+import { PostStatusesEntity } from './database/entity/postTypes.entity';
+import { CreatePostStatusDTO } from './dto/create-postType.dto';
+import { UpdatePostStatusDTO } from './dto/update-postType.dto';
 
 @Injectable()
 export class PostStatusesService {

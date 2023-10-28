@@ -1,8 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { UserStatusesRepository } from './userStatuses.repository';
-import { UserStatusesEntity } from './database/entity/userStatuses.entity';
-import { CreateUserStatusDTO } from './dto/create-userStatus.dto';
-import { UpdateUserStatusDTO } from './dto/update-userStatus.dto';
+import { UserStatusesRepository } from './orderStatuses.repository';
+import { UserStatusesEntity } from './database/entity/orderStatuses.entity';
+import { CreateUserStatusDTO } from './dto/create-orderStatus.dto';
+import { UpdateUserStatusDTO } from './dto/update-orderStatus.dto';
 
 @Injectable()
 export class UserStatusesService {
