@@ -11,6 +11,7 @@ import { PaymentsModule } from './modules/payments/payments.module';
 import { BookingStatusesModule } from './modules/bookingStatuses/bookingStatuses.module';
 import { OrderStatusesModule } from './modules/orderStatuses/orderStatuses.module';
 import { PostTypesModule } from './modules/postTypes/postTypes.module';
+import { WorkingTimeModule } from './modules/workingTime/workingTime.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { PostTypesModule } from './modules/postTypes/postTypes.module';
     BookingStatusesModule,
     OrderStatusesModule,
     PostTypesModule,
+    WorkingTimeModule,
   ],
   controllers: [],
   providers: [],
