@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Patch,
+  PipeTransform,
   Post,
 } from '@nestjs/common';
 import { CouponsService } from './coupons.service';
@@ -12,6 +13,7 @@ import { CreateCouponDTO } from './dto/create-coupon.dto';
 import { UpdateCouponDTO } from './dto/update-coupon.dto';
 import { ConfigModule } from '@nestjs/config';
 import { CouponsEntity } from './database/entity/coupons.entity';
+import { couponIdDTO } from './dto/query-couponId.dto';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -33,7 +35,7 @@ export class CouponsController {
   // 2. Get Detail
   @Get('/detail/:id')
   async getDetailCoupon(
-    @Param('id') id: number,
+    @Param('id') id: couponIdDTO,
   ): Promise<CouponsEntity | unknown> {
     const result: CouponsEntity | unknown =
       await this.couponsService.getDetailCoupon(id);
@@ -61,7 +63,7 @@ export class CouponsController {
   // 5. Update
   @Patch('update/:id')
   async updateCoupon(
-    @Param('id') id: number,
+    @Param('id') id: couponIdDTO,
     @Body() body: UpdateCouponDTO,
   ): Promise<CouponsEntity | unknown> {
     const result = await this.couponsService.updateCoupon(id, body);

@@ -1,12 +1,4 @@
-import {
-  IsCreditCard,
-  IsCurrency,
-  IsDate,
-  IsNotEmpty,
-  IsNumber,
-  IsString,
-  Min,
-} from 'class-validator';
+import { IsCreditCard, IsNumber, IsString, Min } from 'class-validator';
 import { IsCVV, IsExpiryDate } from 'src/pipes/custom-validator';
 export class UpdatePaymentDTO {
   @IsString({ message: 'Card Holder Name should be string' })

@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigModule } from '@nestjs/config';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
+import { useContainer } from 'typeorm';
 ConfigModule.forRoot({
   envFilePath: '.env',
 });
@@ -24,6 +25,7 @@ async function bootstrap() {
       stopAtFirstError: true,
     }),
   );
+  useContainer(app.select(AppModule), { fallbackOnErrors: true });
   await app.listen(port);
 }
 bootstrap();

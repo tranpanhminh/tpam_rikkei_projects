@@ -1,8 +1,14 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  PipeTransform,
+} from '@nestjs/common';
 import { CouponsRepository } from './coupons.repository';
 import { CouponsEntity } from './database/entity/coupons.entity';
 import { CreateCouponDTO } from './dto/create-coupon.dto';
 import { UpdateCouponDTO } from './dto/update-coupon.dto';
+import { couponIdDTO } from './dto/query-couponId.dto';
 
 @Injectable()
 export class CouponsService {
@@ -15,13 +21,11 @@ export class CouponsService {
   }
 
   // 2. Get Detail
-  async getDetailCoupon(id: number): Promise<CouponsEntity | unknown> {
+  async getDetailCoupon(id: couponIdDTO): Promise<CouponsEntity | unknown> {
     const detailCoupon: CouponsEntity | unknown =
       await this.couponsRepository.getDetailCoupon(id);
     if (detailCoupon) {
       return detailCoupon;
-    } else {
-      return new HttpException('Coupon ID Not Found', HttpStatus.NOT_FOUND);
     }
   }
 
@@ -51,12 +55,13 @@ export class CouponsService {
 
   // 5. Update
   async updateCoupon(
-    id: number,
+    id: couponIdDTO,
     body: UpdateCouponDTO,
   ): Promise<CouponsEntity | unknown> {
     const { name, code, discount_rate, min_bill } = body;
     const checkCoupon: CouponsEntity =
       await this.couponsRepository.getDetailCoupon(id);
+    console.log(checkCoupon, '-dasd');
     if (checkCoupon) {
       const updateCoupon = {
         name: !name ? checkCoupon.name : name,
@@ -68,8 +73,6 @@ export class CouponsService {
       };
       await this.couponsRepository.updateCoupon(id, updateCoupon);
       return new HttpException('Coupon Updated', HttpStatus.OK);
-    } else {
-      return new HttpException('Coupon ID Not Found', HttpStatus.NOT_FOUND);
     }
   }
 }

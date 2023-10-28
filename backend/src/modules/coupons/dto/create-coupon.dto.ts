@@ -18,4 +18,3 @@ export class CreateCouponDTO {
   @IsNumber({}, { message: 'Min Bill should be a number' })
   min_bill: number;
 }
-('');

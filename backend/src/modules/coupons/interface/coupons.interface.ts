@@ -1,4 +1,5 @@
 export class CouponsInterface {
+  id: number;
   name: string;
   code: string;
   discount_rate: number;

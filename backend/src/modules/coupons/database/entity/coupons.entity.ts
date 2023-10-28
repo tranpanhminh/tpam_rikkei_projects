@@ -2,6 +2,9 @@ import { Entity, PrimaryGeneratedColumn, Column, Timestamp } from 'typeorm';
 
 @Entity('coupons')
 export class CouponsEntity {
+  findOneById(parseValue: number) {
+    throw new Error('Method not implemented.');
+  }
   @PrimaryGeneratedColumn('increment')
   id: number;
 
