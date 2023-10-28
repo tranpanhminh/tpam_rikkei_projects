@@ -9,6 +9,7 @@ import { CancelReasonsModule } from './modules/cancelReasons/cancelReasons.modul
 import { CouponsModule } from './modules/coupons/coupons.module';
 import { PaymentsModule } from './modules/payments/payments.module';
 import { BookingStatusesModule } from './modules/bookingStatuses/bookingStatuses.module';
+import { OrderStatusesModule } from './modules/orderStatuses/orderStatuses.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { BookingStatusesModule } from './modules/bookingStatuses/bookingStatuses
     CouponsModule,
     PaymentsModule,
     BookingStatusesModule,
+    OrderStatusesModule,
   ],
   controllers: [],
   providers: [],
