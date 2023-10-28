@@ -16,7 +16,6 @@ export class checkUserRoleExist implements NestInterceptor {
     const getId = context.switchToHttp().getRequest().params.id;
     const find = await this.userRolesRepository.getDetailUserRole(getId);
     if (!find) {
-      console.log(new NotFoundException());
       throw new NotFoundException('User Role ID is not found');
     }
     return next.handle().pipe(

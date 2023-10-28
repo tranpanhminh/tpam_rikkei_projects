@@ -16,7 +16,6 @@ export class checkVendorExist implements NestInterceptor {
     const getId = context.switchToHttp().getRequest().params.id;
     const find = await this.vendorsRepository.getDetailVendor(getId);
     if (!find) {
-      console.log(new NotFoundException());
       throw new NotFoundException('Vendor ID is not found');
     }
     return next.handle().pipe(

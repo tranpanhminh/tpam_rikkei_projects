@@ -16,7 +16,6 @@ export class checkUserStatusExist implements NestInterceptor {
     const getId = context.switchToHttp().getRequest().params.id;
     const find = await this.userStatusesRepository.getDetailUserStatus(getId);
     if (!find) {
-      console.log(new NotFoundException());
       throw new NotFoundException('User Status ID is not found');
     }
     return next.handle().pipe(
