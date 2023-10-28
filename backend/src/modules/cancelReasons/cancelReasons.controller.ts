@@ -6,12 +6,14 @@ import {
   Param,
   Patch,
   Post,
+  UseInterceptors,
 } from '@nestjs/common';
 import { CancelReasonsService } from './cancelReasons.service';
 import { CreateCancelReasonDTO } from './dto/create-cancelReason.dto';
 import { UpdateCancelReasonDTO } from './dto/update-cancelReason.dto';
 import { ConfigModule } from '@nestjs/config';
 import { CancelReasonsEntity } from './database/entity/cancelReasons.entity';
+import { CheckCancelReasonExist } from 'src/interceptors/checkCancelReasonExist';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -25,48 +27,51 @@ export class CancelReasonsController {
 
   // 1. Get All
   @Get()
-  async getAllPostsStatuses() {
-    const result = await this.cancelReasonsService.getAllPostsStatuses();
+  async getAllCancelReasons() {
+    const result = await this.cancelReasonsService.getAllCancelReasons();
     return result;
   }
 
   // 2. Get Detail
   @Get('/detail/:id')
-  async getDetailPostsStatus(
+  @UseInterceptors(CheckCancelReasonExist)
+  async getDetailCancelReason(
     @Param('id') id: number,
   ): Promise<CancelReasonsEntity | unknown> {
     const result: CancelReasonsEntity | unknown =
-      await this.cancelReasonsService.getDetailPostsStatus(id);
+      await this.cancelReasonsService.getDetailCancelReason(id);
     return result;
   }
 
   // 3. Add
   @Post('/add')
-  async addPostsStatus(
+  async addCancelReason(
     @Body() body: CreateCancelReasonDTO,
   ): Promise<CancelReasonsEntity | unknown> {
     const result: string | unknown =
-      await this.cancelReasonsService.addPostsStatus(body);
+      await this.cancelReasonsService.addCancelReason(body);
     return result;
   }
 
   // 4. Delete
   @Delete('/delete/:id')
-  async deletePostsStatus(
+  @UseInterceptors(CheckCancelReasonExist)
+  async deleteCancelReason(
     @Param('id') id: number,
   ): Promise<CancelReasonsEntity | unknown> {
     const result: string | unknown =
-      await this.cancelReasonsService.deletePostsStatus(id);
+      await this.cancelReasonsService.deleteCancelReason(id);
     return result;
   }
 
   // 5. Update
   @Patch('update/:id')
-  async updatePostsStatus(
+  @UseInterceptors(CheckCancelReasonExist)
+  async updateCancelReason(
     @Param('id') id: number,
     @Body() body: UpdateCancelReasonDTO,
   ): Promise<CancelReasonsEntity | unknown> {
-    const result = await this.cancelReasonsService.updatePostsStatus(id, body);
+    const result = await this.cancelReasonsService.updateCancelReason(id, body);
     return result;
   }
 }

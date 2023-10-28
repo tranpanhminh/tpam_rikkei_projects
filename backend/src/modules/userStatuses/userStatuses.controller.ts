@@ -13,7 +13,7 @@ import { CreateUserStatusDTO } from './dto/create-userStatus.dto';
 import { UpdateUserStatusDTO } from './dto/update-userStatus.dto';
 import { ConfigModule } from '@nestjs/config';
 import { UserStatusesEntity } from './database/entity/userStatuses.entity';
-import { checkUserStatusExist } from 'src/interceptors/checkUserStatusExist';
+import { CheckUserStatusExist } from 'src/interceptors/checkUserStatusExist';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -34,7 +34,7 @@ export class UserStatusesController {
 
   // 2. Get Detail
   @Get('/detail/:id')
-  @UseInterceptors(checkUserStatusExist)
+  @UseInterceptors(CheckUserStatusExist)
   async getDetailUserStatus(
     @Param('id') id: number,
   ): Promise<UserStatusesEntity | unknown> {
@@ -55,7 +55,7 @@ export class UserStatusesController {
 
   // 4. Delete
   @Delete('/delete/:id')
-  @UseInterceptors(checkUserStatusExist)
+  @UseInterceptors(CheckUserStatusExist)
   async deleteUserStatus(
     @Param('id') id: number,
   ): Promise<UserStatusesEntity | unknown> {
@@ -66,7 +66,7 @@ export class UserStatusesController {
 
   // 5. Update
   @Patch('update/:id')
-  @UseInterceptors(checkUserStatusExist)
+  @UseInterceptors(CheckUserStatusExist)
   async updateUserStatus(
     @Param('id') id: number,
     @Body() body: UpdateUserStatusDTO,

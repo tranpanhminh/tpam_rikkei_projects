@@ -13,33 +13,33 @@ export class CancelReasonsRepository {
   ) {}
 
   // 1. Get All
-  async getAllPostsStatuses() {
+  async getAllCancelReasons() {
     return await this.cancelReasonsEntity.find();
   }
 
   // 2. Get Detail
-  async getDetailPostsStatus(id: number): Promise<CancelReasonsEntity> {
-    const detailPostsStatus = await this.cancelReasonsEntity.findOneById(id);
-    return detailPostsStatus;
+  async getDetailCancelReason(id: number): Promise<CancelReasonsEntity> {
+    const detailCancelReason = await this.cancelReasonsEntity.findOneById(id);
+    return detailCancelReason;
   }
 
   // 3. Add
-  async addPostsStatus(
-    newPostsStatus: CreateCancelReasonDTO,
+  async addCancelReason(
+    newCancelReason: CreateCancelReasonDTO,
   ): Promise<CancelReasonsEntity | unknown> {
-    return await this.cancelReasonsEntity.save(newPostsStatus);
+    return await this.cancelReasonsEntity.save(newCancelReason);
   }
 
   // 4. Add
-  async deletePostsStatus(id: number): Promise<CancelReasonsEntity | unknown> {
+  async deleteCancelReason(id: number): Promise<CancelReasonsEntity | unknown> {
     return await this.cancelReasonsEntity.delete(id);
   }
 
   // 5. Update
-  async updatePostsStatus(
+  async updateCancelReason(
     id: number,
-    updatePostsStatus: UpdateCancelReasonDTO,
+    updateCancelReason: UpdateCancelReasonDTO,
   ): Promise<CancelReasonsEntity | unknown> {
-    return await this.cancelReasonsEntity.update(id, updatePostsStatus);
+    return await this.cancelReasonsEntity.update(id, updateCancelReason);
   }
 }

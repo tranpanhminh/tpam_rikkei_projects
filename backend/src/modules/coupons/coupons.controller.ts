@@ -13,7 +13,7 @@ import { CreateCouponDTO } from './dto/create-coupon.dto';
 import { UpdateCouponDTO } from './dto/update-coupon.dto';
 import { ConfigModule } from '@nestjs/config';
 import { CouponsEntity } from './database/entity/coupons.entity';
-import { checkCouponExist } from 'src/interceptors/checkCouponExist';
+import { CheckCouponExist } from 'src/interceptors/checkCouponExist';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -34,7 +34,7 @@ export class CouponsController {
 
   // 2. Get Detail
   @Get('/detail/:id')
-  @UseInterceptors(checkCouponExist)
+  @UseInterceptors(CheckCouponExist)
   async getDetailCoupon(
     @Param('id') id: number,
   ): Promise<CouponsEntity | unknown> {
@@ -54,7 +54,7 @@ export class CouponsController {
 
   // 4. Delete
   @Delete('/delete/:id')
-  @UseInterceptors(checkCouponExist)
+  @UseInterceptors(CheckCouponExist)
   async deleteCoupon(
     @Param('id') id: number,
   ): Promise<CouponsEntity | unknown> {
@@ -64,7 +64,7 @@ export class CouponsController {
 
   // 5. Update
   @Patch('update/:id')
-  @UseInterceptors(checkCouponExist)
+  @UseInterceptors(CheckCouponExist)
   async updateCoupon(
     @Param('id') id: number,
     @Body() body: UpdateCouponDTO,

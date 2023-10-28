@@ -13,7 +13,7 @@ import { CreateVendorDTO } from './dto/create-vendor.dto';
 import { UpdateVendorDTO } from './dto/update-vendor.dto';
 import { ConfigModule } from '@nestjs/config';
 import { VendorsEntity } from './database/entity/vendors.entity';
-import { checkVendorExist } from 'src/interceptors/checkVendorExist';
+import { CheckVendorExist } from 'src/interceptors/checkVendorExist';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -35,7 +35,7 @@ export class VendorsController {
 
   // 2. Get Detail
   @Get('/detail/:id')
-  @UseInterceptors(checkVendorExist)
+  @UseInterceptors(CheckVendorExist)
   async getDetailVendor(
     @Param('id') id: number,
   ): Promise<VendorsEntity | unknown> {
@@ -55,7 +55,7 @@ export class VendorsController {
 
   // 4. Delete
   @Delete('/delete/:id')
-  @UseInterceptors(checkVendorExist)
+  @UseInterceptors(CheckVendorExist)
   async deleteVendor(
     @Param('id') id: number,
   ): Promise<VendorsEntity | unknown> {
@@ -65,7 +65,7 @@ export class VendorsController {
 
   // 5. Update
   @Patch('update/:id')
-  @UseInterceptors(checkVendorExist)
+  @UseInterceptors(CheckVendorExist)
   async updateVendor(
     @Param('id') id: number,
     @Body() body: UpdateVendorDTO,

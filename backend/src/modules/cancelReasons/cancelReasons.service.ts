@@ -11,19 +11,19 @@ export class CancelReasonsService {
   ) {}
 
   // 1. Get All
-  async getAllPostsStatuses() {
-    const result = await this.cancelReasonsRepository.getAllPostsStatuses();
+  async getAllCancelReasons() {
+    const result = await this.cancelReasonsRepository.getAllCancelReasons();
     return result;
   }
 
   // 2. Get Detail
-  async getDetailPostsStatus(
+  async getDetailCancelReason(
     id: number,
   ): Promise<CancelReasonsEntity | unknown> {
-    const detailPostsStatus: CancelReasonsEntity | unknown =
-      await this.cancelReasonsRepository.getDetailPostsStatus(id);
-    if (detailPostsStatus) {
-      return detailPostsStatus;
+    const detailCancelReason: CancelReasonsEntity | unknown =
+      await this.cancelReasonsRepository.getDetailCancelReason(id);
+    if (detailCancelReason) {
+      return detailCancelReason;
     } else {
       return new HttpException(
         'CancelReason ID Not Found',
@@ -33,24 +33,24 @@ export class CancelReasonsService {
   }
 
   // 3. Add
-  async addPostsStatus(
+  async addCancelReason(
     body: CreateCancelReasonDTO,
   ): Promise<CancelReasonsEntity | unknown> {
     const { name } = body;
     console.log(body, 'AFAS');
-    const newPostsStatus = {
+    const newCancelReason = {
       name: name,
     };
-    await this.cancelReasonsRepository.addPostsStatus(newPostsStatus);
+    await this.cancelReasonsRepository.addCancelReason(newCancelReason);
     return new HttpException('CancelReason Added', HttpStatus.OK);
   }
 
   // 4. Delete
-  async deletePostsStatus(id: number): Promise<CancelReasonsEntity | unknown> {
-    const checkPostsStatus =
-      await this.cancelReasonsRepository.getDetailPostsStatus(id);
-    if (checkPostsStatus) {
-      await this.cancelReasonsRepository.deletePostsStatus(id);
+  async deleteCancelReason(id: number): Promise<CancelReasonsEntity | unknown> {
+    const checkCancelReason =
+      await this.cancelReasonsRepository.getDetailCancelReason(id);
+    if (checkCancelReason) {
+      await this.cancelReasonsRepository.deleteCancelReason(id);
       return new HttpException('CancelReason Deleted', HttpStatus.OK);
     } else {
       return new HttpException(
@@ -61,20 +61,20 @@ export class CancelReasonsService {
   }
 
   // 5. Update
-  async updatePostsStatus(
+  async updateCancelReason(
     id: number,
     body: UpdateCancelReasonDTO,
   ): Promise<CancelReasonsEntity | unknown> {
     const { name } = body;
-    const checkPostsStatus: CancelReasonsEntity =
-      await this.cancelReasonsRepository.getDetailPostsStatus(id);
-    if (checkPostsStatus) {
-      const updatePostsStatus = {
-        name: !name ? checkPostsStatus.name : name,
+    const checkCancelReason: CancelReasonsEntity =
+      await this.cancelReasonsRepository.getDetailCancelReason(id);
+    if (checkCancelReason) {
+      const updateCancelReason = {
+        name: !name ? checkCancelReason.name : name,
       };
-      await this.cancelReasonsRepository.updatePostsStatus(
+      await this.cancelReasonsRepository.updateCancelReason(
         id,
-        updatePostsStatus,
+        updateCancelReason,
       );
       return new HttpException('CancelReason Updated', HttpStatus.OK);
     } else {
