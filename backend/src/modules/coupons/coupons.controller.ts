@@ -54,6 +54,7 @@ export class CouponsController {
 
   // 4. Delete
   @Delete('/delete/:id')
+  @UseInterceptors(IsCouponExist)
   async deleteCoupon(
     @Param('id') id: number,
   ): Promise<CouponsEntity | unknown> {
@@ -65,10 +66,10 @@ export class CouponsController {
   @Patch('update/:id')
   @UseInterceptors(IsCouponExist)
   async updateCoupon(
-    @Param() params: any,
+    @Param('id') id: number,
     @Body() body: UpdateCouponDTO,
   ): Promise<CouponsEntity | unknown> {
-    const result = await this.couponsService.updateCoupon(params.id, body);
+    const result = await this.couponsService.updateCoupon(id, body);
     return result;
   }
 }

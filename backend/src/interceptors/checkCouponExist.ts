@@ -16,6 +16,7 @@ export class IsCouponExist implements NestInterceptor {
     const getId = context.switchToHttp().getRequest().params.id;
     const checkCoupon = await this.couponsRepository.getDetailCoupon(getId);
     if (!checkCoupon) {
+      console.log(new NotFoundException());
       throw new NotFoundException('Coupon ID is not found');
     }
     return next.handle().pipe(
