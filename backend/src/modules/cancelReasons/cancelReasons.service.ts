@@ -37,7 +37,6 @@ export class CancelReasonsService {
     body: CreateCancelReasonDTO,
   ): Promise<CancelReasonsEntity | unknown> {
     const { name } = body;
-    console.log(body, 'AFAS');
     const newCancelReason = {
       name: name,
     };

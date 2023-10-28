@@ -30,7 +30,6 @@ export class UserRolesService {
     body: CreateUserRoleDTO,
   ): Promise<UserRolesEntity | unknown> {
     const { name } = body;
-    console.log(body, 'AFAS');
     const newUserRole = {
       name: name,
     };
