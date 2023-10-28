@@ -8,6 +8,7 @@ import { UserRolesModule } from './modules/userRoles/userRoles.module';
 import { CancelReasonsModule } from './modules/cancelReasons/cancelReasons.module';
 import { CouponsModule } from './modules/coupons/coupons.module';
 import { PaymentsModule } from './modules/payments/payments.module';
+import { BookingStatusesModule } from './modules/bookingStatuses/bookingStatuses.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { PaymentsModule } from './modules/payments/payments.module';
     CancelReasonsModule,
     CouponsModule,
     PaymentsModule,
+    BookingStatusesModule,
   ],
   controllers: [],
   providers: [],
