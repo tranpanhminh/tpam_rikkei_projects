@@ -22,8 +22,6 @@ export class PostStatusesService {
       await this.postStatusesRepository.getDetailPostStatus(id);
     if (detailPostStatus) {
       return detailPostStatus;
-    } else {
-      return new HttpException('PostStatus ID Not Found', HttpStatus.NOT_FOUND);
     }
   }
 
@@ -46,8 +44,6 @@ export class PostStatusesService {
     if (checkPostStatus) {
       await this.postStatusesRepository.deletePostStatus(id);
       return new HttpException('PostStatus Deleted', HttpStatus.OK);
-    } else {
-      return new HttpException('PostStatus ID Not Found', HttpStatus.NOT_FOUND);
     }
   }
 
@@ -65,8 +61,6 @@ export class PostStatusesService {
       };
       await this.postStatusesRepository.updatePostStatus(id, updatePostStatus);
       return new HttpException('PostStatus Updated', HttpStatus.OK);
-    } else {
-      return new HttpException('PostStatus ID Not Found', HttpStatus.NOT_FOUND);
     }
   }
 }

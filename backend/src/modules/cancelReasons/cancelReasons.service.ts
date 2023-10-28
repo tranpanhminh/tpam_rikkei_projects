@@ -24,11 +24,6 @@ export class CancelReasonsService {
       await this.cancelReasonsRepository.getDetailCancelReason(id);
     if (detailCancelReason) {
       return detailCancelReason;
-    } else {
-      return new HttpException(
-        'CancelReason ID Not Found',
-        HttpStatus.NOT_FOUND,
-      );
     }
   }
 
@@ -51,11 +46,6 @@ export class CancelReasonsService {
     if (checkCancelReason) {
       await this.cancelReasonsRepository.deleteCancelReason(id);
       return new HttpException('CancelReason Deleted', HttpStatus.OK);
-    } else {
-      return new HttpException(
-        'CancelReason ID Not Found',
-        HttpStatus.NOT_FOUND,
-      );
     }
   }
 
@@ -76,11 +66,6 @@ export class CancelReasonsService {
         updateCancelReason,
       );
       return new HttpException('CancelReason Updated', HttpStatus.OK);
-    } else {
-      return new HttpException(
-        'CancelReason ID Not Found',
-        HttpStatus.NOT_FOUND,
-      );
     }
   }
 }

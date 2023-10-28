@@ -21,8 +21,6 @@ export class VendorsService {
       await this.vendorsRepository.getDetailVendor(id);
     if (detailVendor) {
       return detailVendor;
-    } else {
-      return new HttpException('Vendor ID Not Found', HttpStatus.NOT_FOUND);
     }
   }
 
@@ -42,8 +40,6 @@ export class VendorsService {
     if (checkVendor) {
       await this.vendorsRepository.deleteVendor(id);
       return new HttpException('Vendor Deleted', HttpStatus.OK);
-    } else {
-      return new HttpException('Vendor ID Not Found', HttpStatus.NOT_FOUND);
     }
   }
 
@@ -61,8 +57,6 @@ export class VendorsService {
       };
       await this.vendorsRepository.updateVendor(id, updateVendor);
       return new HttpException('Vendor Updated', HttpStatus.OK);
-    } else {
-      return new HttpException('Vendor ID Not Found', HttpStatus.NOT_FOUND);
     }
   }
 }

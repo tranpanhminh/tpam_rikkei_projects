@@ -22,8 +22,6 @@ export class UserStatusesService {
       await this.userStatusesRepository.getDetailUserStatus(id);
     if (detailUsersStatus) {
       return detailUsersStatus;
-    } else {
-      return new HttpException('UserStatus ID Not Found', HttpStatus.NOT_FOUND);
     }
   }
 
@@ -46,8 +44,6 @@ export class UserStatusesService {
     if (checkUsersStatus) {
       await this.userStatusesRepository.deleteUserStatus(id);
       return new HttpException('UserStatus Deleted', HttpStatus.OK);
-    } else {
-      return new HttpException('UserStatus ID Not Found', HttpStatus.NOT_FOUND);
     }
   }
 
@@ -65,11 +61,6 @@ export class UserStatusesService {
       };
       await this.userStatusesRepository.updateUserStatus(id, updateUsersStatus);
       return new HttpException('UsersStatus Updated', HttpStatus.OK);
-    } else {
-      return new HttpException(
-        'UsersStatus ID Not Found',
-        HttpStatus.NOT_FOUND,
-      );
     }
   }
 }

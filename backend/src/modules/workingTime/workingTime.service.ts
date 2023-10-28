@@ -20,11 +20,6 @@ export class WorkingTimeService {
       await this.workingTimeRepository.getDetailWorkingTime(id);
     if (detailWorkingTime) {
       return detailWorkingTime;
-    } else {
-      return new HttpException(
-        'WorkingTime ID Not Found',
-        HttpStatus.NOT_FOUND,
-      );
     }
   }
 
@@ -48,11 +43,6 @@ export class WorkingTimeService {
     if (checkWorkingTime) {
       await this.workingTimeRepository.deleteWorkingTime(id);
       return new HttpException('WorkingTime Deleted', HttpStatus.OK);
-    } else {
-      return new HttpException(
-        'WorkingTime ID Not Found',
-        HttpStatus.NOT_FOUND,
-      );
     }
   }
 

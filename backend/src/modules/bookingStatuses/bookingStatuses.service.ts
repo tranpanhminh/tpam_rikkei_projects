@@ -24,11 +24,6 @@ export class BookingStatusesService {
       await this.bookingStatusesRepository.getDetailBookingStatus(id);
     if (detailBookingStatus) {
       return detailBookingStatus;
-    } else {
-      return new HttpException(
-        'BookingStatus ID Not Found',
-        HttpStatus.NOT_FOUND,
-      );
     }
   }
 
@@ -53,11 +48,6 @@ export class BookingStatusesService {
     if (checkBookingStatus) {
       await this.bookingStatusesRepository.deleteBookingStatus(id);
       return new HttpException('BookingStatus Deleted', HttpStatus.OK);
-    } else {
-      return new HttpException(
-        'BookingStatus ID Not Found',
-        HttpStatus.NOT_FOUND,
-      );
     }
   }
 
@@ -78,11 +68,6 @@ export class BookingStatusesService {
         updateBookingStatus,
       );
       return new HttpException('BookingStatus Updated', HttpStatus.OK);
-    } else {
-      return new HttpException(
-        'BookingStatus ID Not Found',
-        HttpStatus.NOT_FOUND,
-      );
     }
   }
 }

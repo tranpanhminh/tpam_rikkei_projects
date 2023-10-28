@@ -20,8 +20,6 @@ export class UserRolesService {
       await this.userRolesRepository.getDetailUserRole(id);
     if (detailUserRole) {
       return detailUserRole;
-    } else {
-      return new HttpException('UserRole ID Not Found', HttpStatus.NOT_FOUND);
     }
   }
 
@@ -43,8 +41,6 @@ export class UserRolesService {
     if (checkUserRole) {
       await this.userRolesRepository.deleteUserRole(id);
       return new HttpException('UserRole Deleted', HttpStatus.OK);
-    } else {
-      return new HttpException('UserRole ID Not Found', HttpStatus.NOT_FOUND);
     }
   }
 
@@ -62,8 +58,6 @@ export class UserRolesService {
       };
       await this.userRolesRepository.updateUserRole(id, updateUserRole);
       return new HttpException('UserRole Updated', HttpStatus.OK);
-    } else {
-      return new HttpException('UserRole ID Not Found', HttpStatus.NOT_FOUND);
     }
   }
 }

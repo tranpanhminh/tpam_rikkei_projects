@@ -1,13 +1,13 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import { OrderStatusesRepository } from "./orderStatuses.repository";
-import { OrderStatusesEntity } from "./database/entity/orderStatuses.entity";
-import { CreateOrderStatusDTO } from "./dto/create-orderStatus.dto";
-import { UpdateOrderStatusDTO } from "./dto/update-orderStatus.dto";
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { OrderStatusesRepository } from './orderStatuses.repository';
+import { OrderStatusesEntity } from './database/entity/orderStatuses.entity';
+import { CreateOrderStatusDTO } from './dto/create-orderStatus.dto';
+import { UpdateOrderStatusDTO } from './dto/update-orderStatus.dto';
 
 @Injectable()
 export class OrderStatusesService {
   constructor(
-    private readonly orderStatusesRepository: OrderStatusesRepository
+    private readonly orderStatusesRepository: OrderStatusesRepository,
   ) {}
 
   // 1. Get All
@@ -18,31 +18,26 @@ export class OrderStatusesService {
 
   // 2. Get Detail
   async getDetailOrderStatus(
-    id: number
+    id: number,
   ): Promise<OrderStatusesEntity | unknown> {
     const detailOrderStatus: OrderStatusesEntity | unknown =
       await this.orderStatusesRepository.getDetailOrderStatus(id);
     if (detailOrderStatus) {
       return detailOrderStatus;
-    } else {
-      return new HttpException(
-        "OrderStatus ID Not Found",
-        HttpStatus.NOT_FOUND
-      );
     }
   }
 
   // 3. Add
   async addOrderStatus(
-    body: CreateOrderStatusDTO
+    body: CreateOrderStatusDTO,
   ): Promise<OrderStatusesEntity | unknown> {
     const { name } = body;
-    console.log(body, "AFAS");
+    console.log(body, 'AFAS');
     const newOrderStatus = {
       name: name,
     };
     await this.orderStatusesRepository.addOrderStatus(newOrderStatus);
-    return new HttpException("OrderStatus Added", HttpStatus.OK);
+    return new HttpException('OrderStatus Added', HttpStatus.OK);
   }
 
   // 4. Delete
@@ -51,19 +46,14 @@ export class OrderStatusesService {
       await this.orderStatusesRepository.getDetailOrderStatus(id);
     if (checkOrderStatus) {
       await this.orderStatusesRepository.deleteOrderStatus(id);
-      return new HttpException("OrderStatus Deleted", HttpStatus.OK);
-    } else {
-      return new HttpException(
-        "OrderStatus ID Not Found",
-        HttpStatus.NOT_FOUND
-      );
+      return new HttpException('OrderStatus Deleted', HttpStatus.OK);
     }
   }
 
   // 5. Update
   async updateOrderStatus(
     id: number,
-    body: UpdateOrderStatusDTO
+    body: UpdateOrderStatusDTO,
   ): Promise<OrderStatusesEntity | unknown> {
     const { name } = body;
     const checkOrderStatus: OrderStatusesEntity =
@@ -74,14 +64,9 @@ export class OrderStatusesService {
       };
       await this.orderStatusesRepository.updateOrderStatus(
         id,
-        updateOrderStatus
+        updateOrderStatus,
       );
-      return new HttpException("OrderStatus Updated", HttpStatus.OK);
-    } else {
-      return new HttpException(
-        "OrderStatus ID Not Found",
-        HttpStatus.NOT_FOUND
-      );
+      return new HttpException('OrderStatus Updated', HttpStatus.OK);
     }
   }
 }

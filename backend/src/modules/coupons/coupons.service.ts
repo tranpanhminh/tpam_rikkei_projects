@@ -42,8 +42,6 @@ export class CouponsService {
     if (checkCoupon) {
       await this.couponsRepository.deleteCoupon(id);
       return new HttpException('Coupon Deleted', HttpStatus.OK);
-    } else {
-      return new HttpException('Coupon ID Not Found', HttpStatus.NOT_FOUND);
     }
   }
 
@@ -55,7 +53,6 @@ export class CouponsService {
     const { name, code, discount_rate, min_bill } = body;
     const checkCoupon: CouponsEntity =
       await this.couponsRepository.getDetailCoupon(id);
-    console.log(checkCoupon, '-dasd');
     if (checkCoupon) {
       const updateCoupon = {
         name: !name ? checkCoupon.name : name,

@@ -1,8 +1,8 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import { PostTypesRepository } from "./postTypes.repository";
-import { PostTypesEntity } from "./database/entity/postTypes.entity";
-import { CreatePostStatusDTO } from "./dto/create-postType.dto";
-import { UpdatePostStatusDTO } from "./dto/update-postType.dto";
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { PostTypesRepository } from './postTypes.repository';
+import { PostTypesEntity } from './database/entity/postTypes.entity';
+import { CreatePostStatusDTO } from './dto/create-postType.dto';
+import { UpdatePostStatusDTO } from './dto/update-postType.dto';
 
 @Injectable()
 export class PostTypesService {
@@ -20,22 +20,19 @@ export class PostTypesService {
       await this.postTypesRepository.getDetailPostType(id);
     if (detailPostType) {
       return detailPostType;
-    } else {
-      return new HttpException("PostStatus ID Not Found", HttpStatus.NOT_FOUND);
     }
   }
 
   // 3. Add
   async addPostType(
-    body: CreatePostStatusDTO
+    body: CreatePostStatusDTO,
   ): Promise<PostTypesEntity | unknown> {
     const { name } = body;
-    console.log(body, "AFAS");
     const newPostType = {
       name: name,
     };
     await this.postTypesRepository.addPostType(newPostType);
-    return new HttpException("PostStatus Added", HttpStatus.OK);
+    return new HttpException('PostStatus Added', HttpStatus.OK);
   }
 
   // 4. Delete
@@ -43,16 +40,14 @@ export class PostTypesService {
     const checkPostType = await this.postTypesRepository.getDetailPostType(id);
     if (checkPostType) {
       await this.postTypesRepository.deletePostType(id);
-      return new HttpException("PostStatus Deleted", HttpStatus.OK);
-    } else {
-      return new HttpException("PostStatus ID Not Found", HttpStatus.NOT_FOUND);
+      return new HttpException('PostStatus Deleted', HttpStatus.OK);
     }
   }
 
   // 5. Update
   async updatePostType(
     id: number,
-    body: UpdatePostStatusDTO
+    body: UpdatePostStatusDTO,
   ): Promise<PostTypesEntity | unknown> {
     const { name } = body;
     const checkPostType: PostTypesEntity =
@@ -62,9 +57,7 @@ export class PostTypesService {
         name: !name ? checkPostType.name : name,
       };
       await this.postTypesRepository.updatePostType(id, updatePostType);
-      return new HttpException("PostStatus Updated", HttpStatus.OK);
-    } else {
-      return new HttpException("PostStatus ID Not Found", HttpStatus.NOT_FOUND);
+      return new HttpException('PostStatus Updated', HttpStatus.OK);
     }
   }
 }

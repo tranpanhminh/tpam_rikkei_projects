@@ -20,8 +20,6 @@ export class PaymentsService {
       await this.paymentsRepository.getDetailPayment(id);
     if (detailPayment) {
       return detailPayment;
-    } else {
-      return new HttpException('Payment ID Not Found', HttpStatus.NOT_FOUND);
     }
   }
 
@@ -45,8 +43,6 @@ export class PaymentsService {
     if (checkPayment) {
       await this.paymentsRepository.deletePayment(id);
       return new HttpException('Payment Deleted', HttpStatus.OK);
-    } else {
-      return new HttpException('Payment ID Not Found', HttpStatus.NOT_FOUND);
     }
   }
 
@@ -71,8 +67,6 @@ export class PaymentsService {
       };
       await this.paymentsRepository.updatePayment(id, updatePayment);
       return new HttpException('Payment Updated', HttpStatus.OK);
-    } else {
-      return new HttpException('Payment ID Not Found', HttpStatus.NOT_FOUND);
     }
   }
 }
