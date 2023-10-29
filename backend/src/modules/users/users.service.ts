@@ -7,12 +7,17 @@ import { UsersInterface } from './interface/users.interface';
 import { UpdateStatusUserDTO } from './dto/change-status-user.dto';
 import { UpdatePasswordDTO } from './dto/update-password.dto';
 import { ChangePasswordDTO } from './dto/change-password.dto';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
+import { UpdateAvatarDTO } from './dto/update-avatar.dto';
 const bcrypt = require('bcryptjs');
 // const jwt = require('jsonwebtoken');
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly usersRepository: UsersRepository) {}
+  constructor(
+    private readonly usersRepository: UsersRepository,
+    private readonly cloudinaryService: CloudinaryService,
+  ) {}
 
   // 1. Get All
   async getAllUsers() {
@@ -153,5 +158,24 @@ export class UsersService {
 
     await this.usersRepository.addAdmin(newUser);
     return new HttpException('Admin Added', HttpStatus.OK);
+  }
+
+  // 11. Edit Avatar
+  async editAvatar(
+    id: number,
+    body: UpdateAvatarDTO,
+  ): Promise<UsersEntity | unknown> {
+    const fileUploaded: any = body.image_avatar;
+    const checkUser: UsersEntity = await this.usersRepository.getDetailUser(id);
+    if (checkUser) {
+      const result = await this.cloudinaryService.uploadFile(fileUploaded);
+      const image_url = result.secure_url;
+      const updateAvatar: UsersInterface = {
+        ...checkUser,
+        image_avatar: image_url,
+      };
+      await this.usersRepository.editAvatar(id, updateAvatar);
+      return new HttpException('User Avatar Updated', HttpStatus.OK);
+    }
   }
 }

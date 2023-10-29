@@ -6,7 +6,6 @@ import {
   Param,
   Patch,
   Post,
-  UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
@@ -19,9 +18,6 @@ import { CheckEmailExist } from 'src/interceptors/checkEmailExist';
 import { UserRegisterDTO } from './dto/register-user.dto';
 import { CheckIsOldPassword } from 'src/interceptors/checkIsOldPassword';
 import { ChangePasswordDTO } from './dto/change-password.dto';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { CloudinaryService } from '../cloudinary/cloudinary.service';
-import { CheckFileSize } from 'src/interceptors/checkFileSize';
 import { UpdateAvatarDTO } from './dto/update-avatar.dto';
 import { FormDataRequest } from 'nestjs-form-data';
 
@@ -33,10 +29,7 @@ const path = process.env.SERVER_PATH;
 // -------------------------------------------------------
 @Controller(`${path}/users`)
 export class UsersController {
-  constructor(
-    private readonly usersService: UsersService,
-    private readonly cloudinaryService: CloudinaryService,
-  ) {}
+  constructor(private readonly usersService: UsersService) {}
 
   // 1. Get All
   @Get()
@@ -135,12 +128,11 @@ export class UsersController {
   @Patch('/edit-avatar/:id')
   @UseInterceptors(CheckUserExist)
   @FormDataRequest()
-  async editAvatar(
-    // @UploadedFile() file: Express.Multer.File,
-    @Body() body: UpdateAvatarDTO,
-  ) {
-    const fileUploaded: any = body.image_avatar;
-    const result = await this.cloudinaryService.uploadFile(fileUploaded);
-    return { imageUrl: result.secure_url };
+  async editAvatar(@Param('id') id: number, @Body() body: UpdateAvatarDTO) {
+    const result: string | unknown = await this.usersService.editAvatar(
+      id,
+      body,
+    );
+    return result;
   }
 }

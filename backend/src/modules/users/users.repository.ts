@@ -65,7 +65,7 @@ export class UsersRepository {
     return await this.usersEntity.update(id, updatedStatus);
   }
 
-  // 8. Change Status
+  // 9. Change Status
   async changePassword(
     id: number,
     updatedPassword: UpdatePasswordDTO,
@@ -73,8 +73,16 @@ export class UsersRepository {
     return await this.usersEntity.update(id, updatedPassword);
   }
 
-  // 9. Create User
+  // 10. Create User
   async createUser(newUser: UsersInterface): Promise<UsersEntity | unknown> {
     return await this.usersEntity.save(newUser);
+  }
+
+  // 11. Edit Avatar
+  async editAvatar(
+    id: number,
+    updatedAvatar: UsersInterface,
+  ): Promise<UsersEntity | unknown> {
+    return await this.usersEntity.update(id, updatedAvatar);
   }
 }

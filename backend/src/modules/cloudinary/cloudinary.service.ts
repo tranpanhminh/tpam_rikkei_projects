@@ -10,7 +10,7 @@ export class CloudinaryService {
       const uploadStream = cloudinary.uploader.upload_stream(
         {
           folder: 'project_module_4_uploads',
-          use_filename: true, // Đặt tên folder tại đây
+          use_filename: true,
         },
         (error, result) => {
           if (error) return reject(error);
