@@ -72,4 +72,9 @@ export class UsersRepository {
   ): Promise<UsersEntity | unknown> {
     return await this.usersEntity.update(id, updatedPassword);
   }
+
+  // 9. Create User
+  async createUser(newUser: UsersInterface): Promise<UsersEntity | unknown> {
+    return await this.usersEntity.save(newUser);
+  }
 }

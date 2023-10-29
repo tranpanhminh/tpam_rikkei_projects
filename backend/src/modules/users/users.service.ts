@@ -133,4 +133,25 @@ export class UsersService {
       return new HttpException('Password Changed Successfully', HttpStatus.OK);
     }
   }
+
+  // 10. Create User
+  async createUser(body: CreateAdminDTO): Promise<UsersEntity | unknown> {
+    const { email, full_name, password, role_id, status_id } = body;
+
+    const salt = 10;
+    const genSalt = await bcrypt.genSalt(salt);
+    const encryptPassword = await bcrypt.hash(password, genSalt);
+
+    const newUser: UsersInterface = {
+      email: email.trim(),
+      full_name: full_name,
+      password: encryptPassword,
+      image_avatar: 'https://i.ibb.co/3BtQdVD/pet-shop.png',
+      role_id: role_id,
+      status_id: status_id,
+    };
+
+    await this.usersRepository.addAdmin(newUser);
+    return new HttpException('Admin Added', HttpStatus.OK);
+  }
 }

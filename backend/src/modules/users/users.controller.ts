@@ -111,4 +111,14 @@ export class UsersController {
     );
     return result;
   }
+
+  // 10. Add
+  @Post('/create')
+  @UseInterceptors(CheckEmailExist)
+  async createUser(
+    @Body() body: CreateAdminDTO,
+  ): Promise<UsersEntity | unknown> {
+    const result: string | unknown = await this.usersService.createUser(body);
+    return result;
+  }
 }

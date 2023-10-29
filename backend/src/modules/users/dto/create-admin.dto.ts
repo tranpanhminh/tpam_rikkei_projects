@@ -24,11 +24,11 @@ export class CreateAdminDTO {
   password: string;
 
   @Column()
-  image_avatar: string = 'ABC';
+  image_avatar: string;
 
   @Column()
-  role_id: number = 2;
+  role_id: number;
 
   @Column()
-  status_id: number = 1;
+  status_id: number;
 }
