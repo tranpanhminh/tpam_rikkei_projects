@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
@@ -18,6 +19,9 @@ import { CheckEmailExist } from 'src/interceptors/checkEmailExist';
 import { UserRegisterDTO } from './dto/register-user.dto';
 import { CheckIsOldPassword } from 'src/interceptors/checkIsOldPassword';
 import { ChangePasswordDTO } from './dto/change-password.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
+import { CheckFileSize } from 'src/interceptors/checkFileSize';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -27,7 +31,10 @@ const path = process.env.SERVER_PATH;
 // -------------------------------------------------------
 @Controller(`${path}/users`)
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly cloudinaryService: CloudinaryService,
+  ) {}
 
   // 1. Get All
   @Get()
@@ -120,5 +127,12 @@ export class UsersController {
   ): Promise<UsersEntity | unknown> {
     const result: string | unknown = await this.usersService.createUser(body);
     return result;
+  }
+
+  // 11. Edit Avatar
+  @Patch('/edit-avatar/:id')
+  @UseInterceptors(CheckUserExist, FileInterceptor('file'), CheckFileSize)
+  async editAvatar(@UploadedFile() file: Express.Multer.File) {
+    console.log(file, 'FILE ');
   }
 }

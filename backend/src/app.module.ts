@@ -33,6 +33,5 @@ import { CloudinaryModule } from './modules/cloudinary/cloudinary.module';
     UsersModule,
   ],
   controllers: [],
-  providers: [],
 })
 export class AppModule {}

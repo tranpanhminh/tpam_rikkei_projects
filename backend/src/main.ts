@@ -26,6 +26,7 @@ async function bootstrap() {
     }),
   );
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
+  app.enableCors(); // <- enable CORS
   await app.listen(port);
 }
 bootstrap();
