@@ -12,6 +12,7 @@ import { BookingStatusesModule } from './modules/bookingStatuses/bookingStatuses
 import { OrderStatusesModule } from './modules/orderStatuses/orderStatuses.module';
 import { PostTypesModule } from './modules/postTypes/postTypes.module';
 import { WorkingTimeModule } from './modules/workingTime/workingTime.module';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { WorkingTimeModule } from './modules/workingTime/workingTime.module';
     OrderStatusesModule,
     PostTypesModule,
     WorkingTimeModule,
+    UsersModule,
   ],
   controllers: [],
   providers: [],

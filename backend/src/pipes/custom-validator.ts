@@ -1,4 +1,8 @@
-import { registerDecorator, ValidationOptions } from 'class-validator';
+import {
+  registerDecorator,
+  ValidationArguments,
+  ValidationOptions,
+} from 'class-validator';
 
 export function IsCVV(validationOptions?: ValidationOptions) {
   return (object: any, propertyName: string) => {
@@ -48,3 +52,65 @@ export function IsExpiryDate(validationOptions?: ValidationOptions) {
 //     });
 //   };
 // }
+
+export function CheckPasswordAndRepassword(
+  property: string,
+  validationOptions?: ValidationOptions,
+) {
+  return (object: Record<string, any>, propertyName: string) => {
+    registerDecorator({
+      target: object.constructor,
+      propertyName: propertyName,
+      options: validationOptions,
+      constraints: [property],
+      validator: {
+        validate(value: any, args: ValidationArguments) {
+          const [relatedPropertyName] = args.constraints;
+          const relatedValue = (args.object as any)[relatedPropertyName];
+          return value === relatedValue;
+        },
+      },
+    });
+  };
+}
+
+export function NotIncludeNumberAndSpecialCharacter(
+  validationOptions?: ValidationOptions,
+) {
+  return (object: Record<string, any>, propertyName: string) => {
+    registerDecorator({
+      target: object.constructor,
+      propertyName: propertyName,
+      options: validationOptions,
+      validator: {
+        validate(full_name: string) {
+          // Kiểm tra xem full_name không chứa số và không chứa "admin"
+          if (!/^[a-zA-Z\s]*$/.test(full_name)) {
+            return false;
+          }
+          return true;
+        },
+      },
+    });
+  };
+}
+
+export function NotIncludeAdminText(validationOptions?: ValidationOptions) {
+  return (object: any, propertyName: string) => {
+    registerDecorator({
+      target: object.constructor,
+      propertyName: propertyName,
+      options: validationOptions,
+      constraints: [],
+      validator: {
+        validate(full_name: string) {
+          if (/(admin)/i.test(full_name)) {
+            // /(admin)/i để không phân biệt hoa thường
+            return false;
+          }
+          return true;
+        },
+      },
+    });
+  };
+}
