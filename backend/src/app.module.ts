@@ -13,10 +13,12 @@ import { OrderStatusesModule } from './modules/orderStatuses/orderStatuses.modul
 import { PostTypesModule } from './modules/postTypes/postTypes.module';
 import { WorkingTimeModule } from './modules/workingTime/workingTime.module';
 import { UsersModule } from './modules/users/users.module';
+import { CloudinaryModule } from './modules/cloudinary/cloudinary.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(ormConfig),
+    CloudinaryModule,
     VendorsModule,
     UserStatusesModule,
     PostStatusesModule,
