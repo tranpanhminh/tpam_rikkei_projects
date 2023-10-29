@@ -5,9 +5,10 @@ import { UsersRepository } from './users.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersEntity } from './database/entity/users.entity';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
+import { NestjsFormDataModule } from 'nestjs-form-data';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UsersEntity])],
+  imports: [TypeOrmModule.forFeature([UsersEntity]), NestjsFormDataModule],
   controllers: [UsersController],
   providers: [UsersService, UsersRepository, CloudinaryService],
 })

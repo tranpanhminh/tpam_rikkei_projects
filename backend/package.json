@@ -31,6 +31,7 @@
     "cloudinary": "^1.41.0",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.6.2",
+    "nestjs-form-data": "^1.9.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
     "streamifier": "^0.1.1",

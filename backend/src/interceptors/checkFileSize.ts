@@ -4,7 +4,7 @@ import { PipeTransform, Injectable } from '@nestjs/common';
 export class CheckFileSize implements PipeTransform {
   transform(value: any) {
     // "value" is an object containing the file's attributes and metadata
-    const oneKb = 1000;
+    const oneKb = 10;
     return value.size < oneKb;
   }
 }

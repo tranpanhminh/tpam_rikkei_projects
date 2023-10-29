@@ -22,6 +22,8 @@ import { ChangePasswordDTO } from './dto/change-password.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { CheckFileSize } from 'src/interceptors/checkFileSize';
+import { UpdateAvatarDTO } from './dto/update-avatar.dto';
+import { FormDataRequest } from 'nestjs-form-data';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -131,8 +133,19 @@ export class UsersController {
 
   // 11. Edit Avatar
   @Patch('/edit-avatar/:id')
-  @UseInterceptors(CheckUserExist, FileInterceptor('file'), CheckFileSize)
-  async editAvatar(@UploadedFile() file: Express.Multer.File) {
-    console.log(file, 'FILE ');
+  @UseInterceptors(CheckUserExist)
+  @FormDataRequest()
+  async editAvatar(
+    // @UploadedFile() file: Express.Multer.File,
+    @Body() body: UpdateAvatarDTO,
+  ) {
+    console.log(body.image_avatar.buffer, 'DASD');
+    const file = body.image_avatar.buffer;
+    const result = await this.cloudinaryService.uploadFile(file, {
+      folder: 'uploads',
+      use_filename: true,
+    });
+
+    return { imageUrl: result.secure_url };
   }
 }
