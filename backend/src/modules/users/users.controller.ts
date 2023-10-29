@@ -139,13 +139,8 @@ export class UsersController {
     // @UploadedFile() file: Express.Multer.File,
     @Body() body: UpdateAvatarDTO,
   ) {
-    console.log(body.image_avatar.buffer, 'DASD');
-    const file = body.image_avatar.buffer;
-    const result = await this.cloudinaryService.uploadFile(file, {
-      folder: 'uploads',
-      use_filename: true,
-    });
-
+    const fileUploaded: any = body.image_avatar;
+    const result = await this.cloudinaryService.uploadFile(fileUploaded);
     return { imageUrl: result.secure_url };
   }
 }

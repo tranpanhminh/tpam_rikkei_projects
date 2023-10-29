@@ -8,6 +8,10 @@ export class CloudinaryService {
   uploadFile(file: Express.Multer.File): Promise<CloudinaryResponse> {
     return new Promise<CloudinaryResponse>((resolve, reject) => {
       const uploadStream = cloudinary.uploader.upload_stream(
+        {
+          folder: 'project_module_4_uploads',
+          use_filename: true, // Đặt tên folder tại đây
+        },
         (error, result) => {
           if (error) return reject(error);
           resolve(result);
