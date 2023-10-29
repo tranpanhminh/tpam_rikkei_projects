@@ -53,7 +53,7 @@ export function IsExpiryDate(validationOptions?: ValidationOptions) {
 //   };
 // }
 
-export function CheckPasswordAndRepassword(
+export function IsTheSame(
   property: string,
   validationOptions?: ValidationOptions,
 ) {

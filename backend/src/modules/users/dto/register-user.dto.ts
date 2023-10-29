@@ -1,19 +1,13 @@
+import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
 import {
-  IsEmail,
-  IsNotEmpty,
-  IsString,
-  MinLength,
-  Validate,
-} from 'class-validator';
-import {
-  CheckPasswordAndRepassword,
+  IsTheSame,
   NotIncludeAdminText,
   NotIncludeNumberAndSpecialCharacter,
 } from 'src/pipes/custom-validator';
 export class UserRegisterDTO {
   @IsNotEmpty({ message: 'Email should not be empty' })
   @IsString({ message: 'Email should be string' })
-  @IsEmail({}, { message: 'Email should be string' })
+  @IsEmail({}, { message: 'Invalid Email' })
   email: string;
 
   @IsNotEmpty({ message: 'Full Name should not be empty' })
@@ -29,7 +23,7 @@ export class UserRegisterDTO {
   @MinLength(8, { message: 'Password must be at least 8 characters' })
   password: string;
 
-  @Validate(CheckPasswordAndRepassword, ['password'], {
+  @IsTheSame('password', {
     message: 'Repassword must be the same Password',
   })
   re_password?: string;

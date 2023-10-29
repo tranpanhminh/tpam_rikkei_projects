@@ -87,6 +87,7 @@ export class UsersService {
       role_id: 3,
       status_id: 1,
     };
+    console.log(newUser, 'NEW USER');
     await this.usersRepository.userRegister(newUser);
     return new HttpException('Registered Successfully', HttpStatus.OK);
   }

@@ -20,7 +20,8 @@ export class CheckEmailExist implements NestInterceptor {
   async intercept(context: ExecutionContext, next: CallHandler): Promise<any> {
     const getEmail = context.switchToHttp().getRequest().body.email;
     console.log(getEmail, 'D');
-    const find = await this.usersEntity.findOneBy(getEmail);
+    const find = await this.usersEntity.findOne({ where: { email: getEmail } });
+    console.log(find, 'DADS');
     if (find) {
       throw new NotFoundException('Email is already exist');
     }

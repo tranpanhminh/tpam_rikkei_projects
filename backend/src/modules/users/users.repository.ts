@@ -21,8 +21,11 @@ export class UsersRepository {
   }
 
   // 2. Get Detail
-  async getDetailUser(id: number): Promise<UsersEntity> {
-    const detailUser = await this.usersEntity.findOneById(id);
+  async getDetailUser(id: any): Promise<UsersEntity> {
+    const detailUser = await this.usersEntity.findOne({
+      where: { id: id },
+      relations: { user_roles: true, user_statuses: true },
+    });
     return detailUser;
   }
 
