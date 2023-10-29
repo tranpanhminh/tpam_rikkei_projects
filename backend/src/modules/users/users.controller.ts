@@ -45,6 +45,7 @@ export class UsersController {
 
   // 3. Add
   @Post('/add')
+  @UseInterceptors(CheckEmailExist)
   async addAdmin(@Body() body: CreateAdminDTO): Promise<UsersEntity | unknown> {
     const result: string | unknown = await this.usersService.addAdmin(body);
     return result;

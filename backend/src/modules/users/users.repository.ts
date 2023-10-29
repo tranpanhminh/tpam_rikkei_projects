@@ -30,7 +30,7 @@ export class UsersRepository {
   }
 
   // 3. Add
-  async addAdmin(newAdmin: CreateAdminDTO): Promise<UsersEntity | unknown> {
+  async addAdmin(newAdmin: any): Promise<UsersEntity | unknown> {
     return await this.usersEntity.save(newAdmin);
   }
 

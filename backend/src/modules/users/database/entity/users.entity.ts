@@ -26,6 +26,12 @@ export class UsersEntity {
   @Column({ nullable: false })
   image_avatar: string;
 
+  @Column({ nullable: false })
+  role_id: number;
+
+  @Column({ nullable: false })
+  status_id: number;
+
   @Column({
     nullable: false,
     type: 'timestamp',

@@ -34,7 +34,7 @@ export class UsersService {
     const genSalt = await bcrypt.genSalt(salt);
     const encryptPassword = await bcrypt.hash(password, genSalt);
 
-    const newAdmin = {
+    const newAdmin: CreateAdminDTO = {
       email: email.trim(),
       full_name: full_name,
       password: encryptPassword,
@@ -42,6 +42,7 @@ export class UsersService {
       role_id: 2,
       status_id: 1,
     };
+    console.log(newAdmin, 'NEW ADMIN');
     await this.usersRepository.addAdmin(newAdmin);
     return new HttpException('Admin Added', HttpStatus.OK);
   }
