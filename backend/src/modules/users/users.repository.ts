@@ -2,9 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UsersEntity } from './database/entity/users.entity';
-import { CreateAdminDTO } from './dto/create-admin.dto';
 import { UpdateUserDTO } from './dto/update-user.dto';
-import { UserRegisterDTO } from './dto/register-user.dto';
+import { UsersInterface } from './interface/users.interface';
+import { UpdateStatusUserDTO } from './dto/change-status-user.dto';
+import { UpdatePasswordDTO } from './dto/update-password.dto';
 
 @Injectable()
 export class UsersRepository {
@@ -21,7 +22,7 @@ export class UsersRepository {
   }
 
   // 2. Get Detail
-  async getDetailUser(id: any): Promise<UsersEntity> {
+  async getDetailUser(id: number): Promise<UsersEntity> {
     const detailUser = await this.usersEntity.findOne({
       where: { id: id },
       relations: { user_roles: true, user_statuses: true },
@@ -30,7 +31,7 @@ export class UsersRepository {
   }
 
   // 3. Add
-  async addAdmin(newAdmin: any): Promise<UsersEntity | unknown> {
+  async addAdmin(newAdmin: UsersInterface): Promise<UsersEntity | unknown> {
     return await this.usersEntity.save(newAdmin);
   }
 
@@ -48,8 +49,27 @@ export class UsersRepository {
   }
 
   // 6. Register
-  async userRegister(body: UserRegisterDTO): Promise<UsersEntity | unknown> {
+  async userRegister(body: UsersInterface): Promise<UsersEntity | unknown> {
     const result = await this.usersEntity.save(body);
     return result;
+  }
+
+  // 7. Login
+  // async login() {}
+
+  // 8. Change Status
+  async changeStatus(
+    id: number,
+    updatedStatus: UpdateStatusUserDTO,
+  ): Promise<UsersEntity | unknown> {
+    return await this.usersEntity.update(id, updatedStatus);
+  }
+
+  // 8. Change Status
+  async changePassword(
+    id: number,
+    updatedPassword: UpdatePasswordDTO,
+  ): Promise<UsersEntity | unknown> {
+    return await this.usersEntity.update(id, updatedPassword);
   }
 }

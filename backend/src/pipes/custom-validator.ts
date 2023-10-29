@@ -74,6 +74,27 @@ export function IsTheSame(
   };
 }
 
+export function IsNotTheSame(
+  property: string,
+  validationOptions?: ValidationOptions,
+) {
+  return (object: Record<string, any>, propertyName: string) => {
+    registerDecorator({
+      target: object.constructor,
+      propertyName: propertyName,
+      options: validationOptions,
+      constraints: [property],
+      validator: {
+        validate(value: any, args: ValidationArguments) {
+          const [relatedPropertyName] = args.constraints;
+          const relatedValue = (args.object as any)[relatedPropertyName];
+          return value !== relatedValue;
+        },
+      },
+    });
+  };
+}
+
 export function NotIncludeNumberAndSpecialCharacter(
   validationOptions?: ValidationOptions,
 ) {

@@ -16,6 +16,8 @@ import { UsersEntity } from './database/entity/users.entity';
 import { CheckUserExist } from 'src/interceptors/checkUserExist';
 import { CheckEmailExist } from 'src/interceptors/checkEmailExist';
 import { UserRegisterDTO } from './dto/register-user.dto';
+import { CheckIsOldPassword } from 'src/interceptors/checkIsOldPassword';
+import { ChangePasswordDTO } from './dto/change-password.dto';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -77,6 +79,36 @@ export class UsersController {
     @Body() body: UserRegisterDTO,
   ): Promise<UsersEntity | unknown> {
     const result: string | unknown = await this.usersService.userRegister(body);
+    return result;
+  }
+
+  // 7. Login
+  // @Post('/login')
+  // @UseInterceptors(CheckEmailExist)
+  // async login(@Body() body: UserRegisterDTO): Promise<UsersEntity | unknown> {
+  //   const result: string | unknown = await this.usersService.userRegister(body);
+  //   return result;
+  // }
+
+  // 8. Change Status User
+  @Patch('/change-status-account/:id')
+  @UseInterceptors(CheckUserExist)
+  async changeStatus(@Param('id') id: number): Promise<UsersEntity | unknown> {
+    const result: string | unknown = await this.usersService.changeStatus(id);
+    return result;
+  }
+
+  // 9. Change Password
+  @Patch('/change-password/:id')
+  @UseInterceptors(CheckUserExist, CheckIsOldPassword)
+  async changePassword(
+    @Param('id') id: number,
+    @Body() body: ChangePasswordDTO,
+  ): Promise<UsersEntity | unknown> {
+    const result: string | unknown = await this.usersService.changePassword(
+      id,
+      body,
+    );
     return result;
   }
 }

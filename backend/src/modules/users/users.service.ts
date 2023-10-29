@@ -3,9 +3,12 @@ import { UsersRepository } from './users.repository';
 import { UsersEntity } from './database/entity/users.entity';
 import { CreateAdminDTO } from './dto/create-admin.dto';
 import { UpdateUserDTO } from './dto/update-user.dto';
-import { UserRegisterDTO } from './dto/register-user.dto';
+import { UsersInterface } from './interface/users.interface';
+import { UpdateStatusUserDTO } from './dto/change-status-user.dto';
+import { UpdatePasswordDTO } from './dto/update-password.dto';
+import { ChangePasswordDTO } from './dto/change-password.dto';
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
 
 @Injectable()
 export class UsersService {
@@ -34,7 +37,7 @@ export class UsersService {
     const genSalt = await bcrypt.genSalt(salt);
     const encryptPassword = await bcrypt.hash(password, genSalt);
 
-    const newAdmin: CreateAdminDTO = {
+    const newAdmin: UsersInterface = {
       email: email.trim(),
       full_name: full_name,
       password: encryptPassword,
@@ -42,7 +45,7 @@ export class UsersService {
       role_id: 2,
       status_id: 1,
     };
-    console.log(newAdmin, 'NEW ADMIN');
+
     await this.usersRepository.addAdmin(newAdmin);
     return new HttpException('Admin Added', HttpStatus.OK);
   }
@@ -73,14 +76,14 @@ export class UsersService {
   }
 
   // 6. Register
-  async userRegister(body: UserRegisterDTO): Promise<UsersEntity | unknown> {
+  async userRegister(body: UsersInterface): Promise<UsersEntity | unknown> {
     const { email, full_name, password } = body;
 
     const salt = 10;
     const genSalt = await bcrypt.genSalt(salt);
     const encryptPassword = await bcrypt.hash(password, genSalt);
 
-    const newUser: UserRegisterDTO = {
+    const newUser: UsersInterface = {
       email: email.trim(),
       full_name: full_name,
       password: encryptPassword,
@@ -88,8 +91,46 @@ export class UsersService {
       role_id: 3,
       status_id: 1,
     };
-    console.log(newUser, 'NEW USER');
     await this.usersRepository.userRegister(newUser);
     return new HttpException('Registered Successfully', HttpStatus.OK);
+  }
+
+  // 7. Login
+  // async login();
+
+  // 8. Change Status
+  async changeStatus(id: number): Promise<UsersEntity | unknown> {
+    const checkUser: UsersEntity = await this.usersRepository.getDetailUser(id);
+    if (checkUser) {
+      const updatedStatus: UpdateStatusUserDTO = {
+        status_id:
+          checkUser.status_id == 1
+            ? (checkUser.status_id = 2)
+            : (checkUser.status_id = 1),
+      };
+      await this.usersRepository.changeStatus(id, updatedStatus);
+      return new HttpException('User Status Updated', HttpStatus.OK);
+    }
+  }
+
+  // 9. Change Status
+  async changePassword(
+    id: number,
+    body: ChangePasswordDTO,
+  ): Promise<UsersEntity | unknown> {
+    const { new_password } = body;
+    const checkUser: UsersEntity = await this.usersRepository.getDetailUser(id);
+
+    const salt = 10;
+    const genSalt = await bcrypt.genSalt(salt);
+    const encryptPassword = await bcrypt.hash(new_password, genSalt);
+
+    if (checkUser) {
+      const updatedPassword: UpdatePasswordDTO = {
+        password: encryptPassword,
+      };
+      await this.usersRepository.changePassword(id, updatedPassword);
+      return new HttpException('Password Changed Successfully', HttpStatus.OK);
+    }
   }
 }
