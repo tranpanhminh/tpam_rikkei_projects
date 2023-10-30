@@ -102,20 +102,17 @@ export function IsImage(validationOptions?: ValidationOptions) {
       constraints: [],
       validator: {
         validate(value: any) {
-          console.log(value[0], '_DSAD');
-
-          // const checkFileType = value.map((image: any) => {
-          //   return image.fileType.mine.includes('image/');
-          // });
-          // console.log(checkFileType, 'CHECK FILE TYPE');
-          // return checkFileType;
-          console.log(value, 'VALUE');
-
-          if (!value || !value.fileType) {
+          value.forEach((item) => {
+            for (const key in item) {
+              if (value.hasOwnProperty(key) && typeof value[key] === 'string') {
+                if (value[key].fileType.mine.includes('image')) {
+                  return true;
+                }
+              }
+            }
             return false;
-          }
-          // Kiểm tra MIME type của tệp tin
-          return value.fileType.mine.includes('image/');
+          });
+          return false;
         },
       },
     });
