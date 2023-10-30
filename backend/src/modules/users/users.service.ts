@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
 import { UsersEntity } from './database/entity/users.entity';
@@ -9,8 +10,11 @@ import { UpdatePasswordDTO } from './dto/update-password.dto';
 import { ChangePasswordDTO } from './dto/change-password.dto';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { UpdateAvatarDTO } from './dto/update-avatar.dto';
+import { LoginDTO } from './dto/login.dto';
+import { DataTokenInterface } from './interface/dataToken.interface';
+import { UserInfoLoginInterface } from './interface/userInfoLogin.interface';
 const bcrypt = require('bcryptjs');
-// const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 
 @Injectable()
 export class UsersService {
@@ -101,7 +105,25 @@ export class UsersService {
   }
 
   // 7. Login
-  // async login();
+  async login(body: LoginDTO): Promise<DataTokenInterface> {
+    const { email } = body;
+    const checkUser: UserInfoLoginInterface =
+      await this.usersRepository.getDetailUserByEmail(email);
+
+    if (checkUser) {
+      const { password, created_at, updated_at, ...dataUser } = checkUser;
+      console.log(dataUser, 'DATA USER');
+      // Mã hóa thông tin
+      const jwtData = await jwt.sign(dataUser, process.env.ACCESS_TOKEN_SECRET); // Mã Token để biết ai đăng nhập
+
+      return {
+        message: 'Login successfully',
+        accessToken: jwtData,
+        data: dataUser,
+        status: 200,
+      };
+    }
+  }
 
   // 8. Change Status
   async changeStatus(id: number): Promise<UsersEntity | unknown> {

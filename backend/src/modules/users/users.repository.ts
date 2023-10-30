@@ -6,6 +6,7 @@ import { UpdateUserDTO } from './dto/update-user.dto';
 import { UsersInterface } from './interface/users.interface';
 import { UpdateStatusUserDTO } from './dto/change-status-user.dto';
 import { UpdatePasswordDTO } from './dto/update-password.dto';
+import { UserInfoLoginInterface } from './interface/userInfoLogin.interface';
 
 @Injectable()
 export class UsersRepository {
@@ -54,10 +55,7 @@ export class UsersRepository {
     return result;
   }
 
-  // 7. Login
-  // async login() {}
-
-  // 8. Change Status
+  // 7. Change Status
   async changeStatus(
     id: number,
     updatedStatus: UpdateStatusUserDTO,
@@ -65,7 +63,7 @@ export class UsersRepository {
     return await this.usersEntity.update(id, updatedStatus);
   }
 
-  // 9. Change Status
+  // 8. Change Status
   async changePassword(
     id: number,
     updatedPassword: UpdatePasswordDTO,
@@ -73,16 +71,21 @@ export class UsersRepository {
     return await this.usersEntity.update(id, updatedPassword);
   }
 
-  // 10. Create User
+  // 9. Create User
   async createUser(newUser: UsersInterface): Promise<UsersEntity | unknown> {
     return await this.usersEntity.save(newUser);
   }
 
-  // 11. Edit Avatar
+  // 10. Edit Avatar
   async editAvatar(
     id: number,
     updatedAvatar: UsersInterface,
   ): Promise<UsersEntity | unknown> {
     return await this.usersEntity.update(id, updatedAvatar);
+  }
+
+  // 11. Get Detail User By Email
+  async getDetailUserByEmail(email: string): Promise<UserInfoLoginInterface> {
+    return await this.usersEntity.findOne({ where: { email: email } });
   }
 }

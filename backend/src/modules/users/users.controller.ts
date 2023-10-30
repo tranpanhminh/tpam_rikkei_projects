@@ -20,6 +20,10 @@ import { CheckIsOldPassword } from 'src/interceptors/checkIsOldPassword';
 import { ChangePasswordDTO } from './dto/change-password.dto';
 import { UpdateAvatarDTO } from './dto/update-avatar.dto';
 import { FormDataRequest } from 'nestjs-form-data';
+import { LoginDTO } from './dto/login.dto';
+import { CheckPassword } from 'src/interceptors/checkPassword';
+import { DataTokenInterface } from './interface/dataToken.interface';
+import { CheckIfEmailIsCorrect } from 'src/interceptors/checkIfEmailIsCorrect';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -85,12 +89,13 @@ export class UsersController {
   }
 
   // 7. Login
-  // @Post('/login')
-  // @UseInterceptors(CheckEmailExist)
-  // async login(@Body() body: UserRegisterDTO): Promise<UsersEntity | unknown> {
-  //   const result: string | unknown = await this.usersService.userRegister(body);
-  //   return result;
-  // }
+  @Post('login')
+  @UseInterceptors(CheckIfEmailIsCorrect, CheckPassword)
+  async login(@Body() body: LoginDTO): Promise<DataTokenInterface | unknown> {
+    console.log(body, 'BODY');
+    const result: string | unknown = await this.usersService.login(body);
+    return result;
+  }
 
   // 8. Change Status User
   @Patch('/change-status-account/:id')
