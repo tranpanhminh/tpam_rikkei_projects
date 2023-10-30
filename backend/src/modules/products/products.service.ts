@@ -30,7 +30,6 @@ export class ProductsService {
     body: CreateProductDTO,
   ): Promise<ProductsEntity | unknown | any> {
     const { name, description, price, quantity_stock, image_url } = body;
-
     const newProduct: ProductInterface = {
       name: name,
       description: description,

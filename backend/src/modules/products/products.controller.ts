@@ -15,7 +15,6 @@ import { ConfigModule } from '@nestjs/config';
 import { ProductsEntity } from './database/entity/products.entity';
 import { CheckProductExist } from 'src/interceptors/checkProductExist';
 import { FormDataRequest } from 'nestjs-form-data';
-import { Http2ServerRequest } from 'http2';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -53,7 +52,6 @@ export class ProductsController {
   async addProduct(
     @Body() body: CreateProductDTO,
   ): Promise<ProductsEntity | unknown> {
-    console.log(body, 'BODY');
     const result: string | unknown =
       await this.productsService.addProduct(body);
     return result;
