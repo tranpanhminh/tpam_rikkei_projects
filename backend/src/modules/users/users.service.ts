@@ -112,7 +112,6 @@ export class UsersService {
 
     if (checkUser) {
       const { password, created_at, updated_at, ...dataUser } = checkUser;
-      console.log(dataUser, 'DATA USER');
       // Mã hóa thông tin
       const jwtData = await jwt.sign(dataUser, process.env.ACCESS_TOKEN_SECRET); // Mã Token để biết ai đăng nhập
 

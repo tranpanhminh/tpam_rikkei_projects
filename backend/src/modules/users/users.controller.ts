@@ -92,7 +92,6 @@ export class UsersController {
   @Post('login')
   @UseInterceptors(CheckIfEmailIsCorrect, CheckPassword)
   async login(@Body() body: LoginDTO): Promise<DataTokenInterface | unknown> {
-    console.log(body, 'BODY');
     const result: string | unknown = await this.usersService.login(body);
     return result;
   }
