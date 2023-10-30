@@ -1,3 +1,4 @@
+import { IsNotEmpty } from 'class-validator';
 import {
   HasMimeType,
   IsFile,
@@ -5,9 +6,10 @@ import {
   MemoryStoredFile,
 } from 'nestjs-form-data';
 
-export class UpdateAvatarDTO {
+export class UpdateProductImageDTO {
+  @IsNotEmpty({ message: 'Product Images should not be empty' })
   @IsFile()
   @MaxFileSize(1000000, { message: 'File size must be < 1 Mb' })
   @HasMimeType(['image/jpeg', 'image/png', 'image/jpg'])
-  image_avatar: MemoryStoredFile;
+  image_url: MemoryStoredFile;
 }

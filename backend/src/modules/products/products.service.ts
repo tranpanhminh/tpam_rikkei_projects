@@ -7,7 +7,9 @@ import { ProductInterface } from './interface/product.interface';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { AddProductImagesInterface } from './interface/addProductImages.interface';
 import { extractPublicId } from 'cloudinary-build-url';
-import { ChangeThumbnailProductInterface } from './dto/change-thumbnail-product.dto';
+import { ChangeThumbnailProductInterface } from './interface/changeThumbnail.interface';
+import { UpdateProductImageInterface } from './interface/updateProductImage.interface';
+import { UpdateProductImageDTO } from './dto/update-product-image.dto';
 const cloudinary = require('cloudinary').v2;
 
 @Injectable()
@@ -112,6 +114,37 @@ export class ProductsService {
         updatedProductInfo,
       );
       return new HttpException('Product Thumbnail Updated', HttpStatus.OK);
+    }
+  }
+
+  // 7. Update Product Image
+  async updateProductImage(
+    productId: number,
+    imageId: number,
+    body: UpdateProductImageDTO,
+  ): Promise<ProductsEntity | unknown | any> {
+    const fileImage: any = body.image_url;
+    const uploadFile = await this.cloudinaryService.uploadFile(fileImage);
+    await this.productsRepository.getDetailProduct(productId);
+
+    // Lấy lại ảnh cũ
+    let getOldImageUrl = '';
+    const findImage =
+      await this.productsRepository.getDetailProductImage(imageId);
+    if (findImage) {
+      getOldImageUrl = findImage.image_url;
+      const updatedProductImage: UpdateProductImageInterface = {
+        image_url: uploadFile.secure_url,
+      };
+      await this.productsRepository.updateProductImage(
+        imageId,
+        updatedProductImage,
+      );
+
+      // Xóa ảnh cũ
+      const publicId = extractPublicId(getOldImageUrl);
+      await cloudinary.api.delete_resources(publicId);
+      return new HttpException('Product Image Updated', HttpStatus.OK);
     }
   }
 }

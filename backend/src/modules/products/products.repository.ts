@@ -5,7 +5,8 @@ import { ProductsEntity } from './database/entity/products.entity';
 import { ProductInterface } from './interface/product.interface';
 import { AddProductImagesInterface } from './interface/addProductImages.interface';
 import { ProductImagesEntity } from '../productImages/database/entity/productImages.entity';
-import { ChangeThumbnailProductInterface } from './dto/change-thumbnail-product.dto';
+import { ChangeThumbnailProductInterface } from './interface/changeThumbnail.interface';
+import { UpdateProductImageInterface } from './interface/updateProductImage.interface';
 
 @Injectable()
 export class ProductsRepository {
@@ -38,12 +39,14 @@ export class ProductsRepository {
     return await this.productsEntity.save(newProduct);
   }
 
+  // Upload Product Image
   async uploadProductImages(
     data: AddProductImagesInterface,
   ): Promise<ProductImagesEntity> {
     return await this.productImagesEntity.save(data);
   }
 
+  // Get Detail Product Image
   async getDetailProductImage(imageId: number): Promise<ProductImagesEntity> {
     return await this.productImagesEntity.findOne({ where: { id: imageId } });
   }
@@ -67,5 +70,13 @@ export class ProductsRepository {
     updateProduct: ChangeThumbnailProductInterface,
   ): Promise<ProductsEntity | unknown> {
     return await this.productsEntity.update(productId, updateProduct);
+  }
+
+  // 7. Update Product Image
+  async updateProductImage(
+    imageId: number,
+    updatedProductImage: UpdateProductImageInterface,
+  ): Promise<ProductImagesEntity | unknown> {
+    return await this.productImagesEntity.update(imageId, updatedProductImage);
   }
 }

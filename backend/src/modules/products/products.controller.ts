@@ -16,6 +16,7 @@ import { ProductsEntity } from './database/entity/products.entity';
 import { CheckProductExist } from 'src/interceptors/checkProductExist';
 import { FormDataRequest } from 'nestjs-form-data';
 import { CheckProductImageExist } from 'src/interceptors/checkProductImageExist';
+import { UpdateProductImageDTO } from './dto/update-product-image.dto';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -90,6 +91,23 @@ export class ProductsController {
       params.id,
       params.imageId,
     );
+    return result;
+  }
+
+  // 7. Update Product Image
+  @Patch('/:id/update-image/:imageId')
+  @UseInterceptors(CheckProductExist, CheckProductImageExist)
+  @FormDataRequest()
+  async updateProductImage(
+    @Param() params,
+    @Body() body: UpdateProductImageDTO,
+  ): Promise<ProductsEntity | unknown> {
+    const result: string | unknown =
+      await this.productsService.updateProductImage(
+        params.id,
+        params.imageId,
+        body,
+      );
     return result;
   }
 }
