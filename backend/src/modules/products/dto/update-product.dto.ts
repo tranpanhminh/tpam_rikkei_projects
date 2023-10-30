@@ -1,11 +1,4 @@
-import {
-  IsNotEmpty,
-  IsNumber,
-  IsNumberString,
-  IsPositive,
-  IsString,
-  Min,
-} from 'class-validator';
+import { IsNumberString, IsString } from 'class-validator';
 import { IsStringHigherThanZero } from 'src/pipes/custom-validator';
 export class UpdateProductDTO {
   @IsString({ message: 'Product Name should be string' })
