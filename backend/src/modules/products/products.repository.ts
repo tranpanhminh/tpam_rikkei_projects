@@ -1,15 +1,15 @@
-import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { ProductsEntity } from "./database/entity/products.entity";
-import { CreateProductDTO } from "./dto/create-product.dto";
-import { UpdateProductDTO } from "./dto/update-product.dto";
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { ProductsEntity } from './database/entity/products.entity';
+import { CreateProductDTO } from './dto/create-product.dto';
+import { UpdateProductDTO } from './dto/update-product.dto';
 
 @Injectable()
 export class ProductsRepository {
   constructor(
     @InjectRepository(ProductsEntity)
-    private productsEntity: Repository<ProductsEntity>
+    private productsEntity: Repository<ProductsEntity>,
   ) {}
 
   // 1. Get All
@@ -19,14 +19,17 @@ export class ProductsRepository {
 
   // 2. Get Detail
   async getDetailProduct(id: number): Promise<ProductsEntity> {
-    return await this.productsEntity.findOneById(id);
+    return await this.productsEntity.findOne({
+      where: { id: id },
+      relations: { vendors: true, post_types: true },
+    });
   }
 
   // 3. Add
   async addProduct(
-    newProduct: CreateProductDTO
-  ): Promise<ProductsEntity | unknown> {
-    return await this.productsEntity.save(newProduct);
+    newProduct: CreateProductDTO,
+  ): Promise<ProductsEntity | unknown| any> {
+    // return await this.productsEntity.save(newProduct);
   }
 
   // 4. Add
@@ -37,7 +40,7 @@ export class ProductsRepository {
   // 5. Update
   async updateProduct(
     id: number,
-    updateProduct: UpdateProductDTO
+    updateProduct: UpdateProductDTO,
   ): Promise<ProductsEntity | unknown> {
     return await this.productsEntity.update(id, updateProduct);
   }

@@ -27,7 +27,7 @@ export class ProductsEntity {
   quantity_stock: number;
 
   @Column({ nullable: false })
-  thumbnail_url: number;
+  thumbnail_url: string;
 
   @Column({ nullable: true })
   vendor_id: number;

@@ -1,8 +1,8 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import { ProductsRepository } from "./products.repository";
-import { ProductsEntity } from "./database/entity/products.entity";
-import { CreateProductDTO } from "./dto/create-product.dto";
-import { UpdateProductDTO } from "./dto/update-product.dto";
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { ProductsRepository } from './products.repository';
+import { ProductsEntity } from './database/entity/products.entity';
+import { CreateProductDTO } from './dto/create-product.dto';
+import { UpdateProductDTO } from './dto/update-product.dto';
 
 @Injectable()
 export class ProductsService {
@@ -25,13 +25,15 @@ export class ProductsService {
   }
 
   // 3. Add
-  async addProduct(body: CreateProductDTO): Promise<ProductsEntity | unknown> {
-    const { name } = body;
-    const newProduct = {
-      name: name,
-    };
-    await this.productsRepository.addProduct(newProduct);
-    return new HttpException("Product Added", HttpStatus.OK);
+  async addProduct(
+    body: CreateProductDTO,
+  ): Promise<ProductsEntity | unknown | any> {
+    // const { name } = body;
+    // const newProduct = {
+    //   name: name,
+    // };
+    // await this.productsRepository.addProduct(newProduct);
+    // return new HttpException("Product Added", HttpStatus.OK);
   }
 
   // 4. Delete
@@ -39,14 +41,14 @@ export class ProductsService {
     const checkProduct = await this.productsRepository.getDetailProduct(id);
     if (checkProduct) {
       await this.productsRepository.deleteProduct(id);
-      return new HttpException("Product Deleted", HttpStatus.OK);
+      return new HttpException('Product Deleted', HttpStatus.OK);
     }
   }
 
   // 5. Update
   async updateProduct(
     id: number,
-    body: UpdateProductDTO
+    body: UpdateProductDTO,
   ): Promise<ProductsEntity | unknown> {
     const { name } = body;
     const checkProduct: ProductsEntity =
@@ -56,7 +58,7 @@ export class ProductsService {
         name: !name ? checkProduct.name : name,
       };
       await this.productsRepository.updateProduct(id, updateProduct);
-      return new HttpException("Product Updated", HttpStatus.OK);
+      return new HttpException('Product Updated', HttpStatus.OK);
     }
   }
 }

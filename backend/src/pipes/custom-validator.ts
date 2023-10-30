@@ -41,6 +41,108 @@ export function IsExpiryDate(validationOptions?: ValidationOptions) {
   };
 }
 
+export function IsStringHigherThanZero(validationOptions?: ValidationOptions) {
+  return (object: any, propertyName: string) => {
+    registerDecorator({
+      name: 'isExpiryDate',
+      target: object.constructor,
+      propertyName: propertyName,
+      constraints: [],
+      options: validationOptions,
+      validator: {
+        validate(value: any) {
+          const parseValue = Number(value);
+          return parseValue >= 0;
+        },
+      },
+    });
+  };
+}
+
+export function FilesLengthMustBeFour(validationOptions?: ValidationOptions) {
+  return function (object: Record<string, any>, propertyName: string) {
+    registerDecorator({
+      target: object.constructor,
+      propertyName: propertyName,
+      options: validationOptions,
+      constraints: [1000000, 4], // Đặt các ràng buộc tại đây
+      validator: {
+        validate(files: any[], args: ValidationArguments) {
+          const maxSize = args.constraints[0];
+          const maxCount = args.constraints[1];
+
+          if (!files) {
+            return false;
+          }
+
+          // Kiểm tra số lượng tệp tin
+          if (files.length !== maxCount) {
+            return false;
+          }
+
+          for (const file of files) {
+            if (file.size > maxSize) {
+              return false;
+            }
+          }
+
+          return true;
+        },
+      },
+    });
+  };
+}
+
+export function IsImage(validationOptions?: ValidationOptions) {
+  return function (object: Record<string, any>, propertyName: string) {
+    registerDecorator({
+      target: object.constructor,
+      propertyName: propertyName,
+      options: validationOptions,
+      constraints: [],
+      validator: {
+        validate(value: any) {
+          console.log(value[0], '_DSAD');
+
+          // const checkFileType = value.map((image: any) => {
+          //   return image.fileType.mine.includes('image/');
+          // });
+          // console.log(checkFileType, 'CHECK FILE TYPE');
+          // return checkFileType;
+          console.log(value, 'VALUE');
+
+          if (!value || !value.fileType) {
+            return false;
+          }
+          // Kiểm tra MIME type của tệp tin
+          return value.fileType.mine.includes('image/');
+        },
+      },
+    });
+  };
+}
+
+export function CheckEachFileSize(validationOptions?: ValidationOptions) {
+  return function (object: Record<string, any>, propertyName: string) {
+    registerDecorator({
+      target: object.constructor,
+      propertyName: propertyName,
+      options: validationOptions,
+      constraints: [],
+      validator: {
+        validate(value: any) {
+          if (!value || !value.size) {
+            return false;
+          }
+
+          // Kiểm tra kích thước tệp tin, ví dụ: giới hạn dưới 1 MB
+          return value.size <= 1000000; // 1 MB = 1,000,000 bytes
+        },
+      },
+    });
+  };
+}
+
 // export function IsCouponExist(validationOptions?: ValidationOptions) {
 //   return function (object: any, propertyName: string) {
 //     registerDecorator({
