@@ -1,4 +1,5 @@
 import { PostTypesEntity } from 'src/modules/postTypes/database/entity/postTypes.entity';
+import { ProductImagesEntity } from 'src/modules/productImages/database/entity/productImages.entity';
 import { VendorsEntity } from 'src/modules/vendors/database/entity/vendors.entity';
 import {
   Entity,
@@ -7,6 +8,7 @@ import {
   Timestamp,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity('products')
@@ -63,7 +65,7 @@ export class ProductsEntity {
   })
   vendors: VendorsEntity;
 
-  // Post Types (1) - (1) Products
+  // Post Types (N) - (1) Products
   @ManyToOne(() => PostTypesEntity, (post_types) => post_types.products, {
     cascade: true, // Tùy chọn cascade update
     onUpdate: 'RESTRICT',
@@ -74,4 +76,11 @@ export class ProductsEntity {
     foreignKeyConstraintName: 'FK.post_types.products',
   })
   post_types: PostTypesEntity;
+
+  // Products (1) - (N) Product Images
+  @OneToMany(
+    () => ProductImagesEntity,
+    (product_images) => product_images.products,
+  )
+  product_images: ProductImagesEntity[];
 }
