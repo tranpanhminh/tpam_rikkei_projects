@@ -47,6 +47,7 @@ export class UsersEntity {
   })
   updated_at: Timestamp;
 
+  // Relationship
   // User Roles (N) - (1) Users
   @ManyToOne(() => UserRolesEntity, (user_roles) => user_roles.users, {
     cascade: true, // Tùy chọn cascade update

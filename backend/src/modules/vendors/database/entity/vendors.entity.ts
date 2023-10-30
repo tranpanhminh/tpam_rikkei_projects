@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, Timestamp } from 'typeorm';
+import { ProductsEntity } from 'src/modules/products/database/entity/products.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  Timestamp,
+  OneToMany,
+} from 'typeorm';
 
 @Entity('vendors')
 export class VendorsEntity {
@@ -22,4 +29,9 @@ export class VendorsEntity {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   updated_at: Timestamp;
+
+  // Relationship
+  // Vendors (1) - (N) Products
+  @OneToMany(() => ProductsEntity, (products) => products.vendors)
+  products: ProductsEntity[];
 }

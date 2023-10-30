@@ -14,6 +14,7 @@ import { PostTypesModule } from './modules/postTypes/postTypes.module';
 import { WorkingTimeModule } from './modules/workingTime/workingTime.module';
 import { UsersModule } from './modules/users/users.module';
 import { CloudinaryModule } from './modules/cloudinary/cloudinary.module';
+import { ProductsModule } from './modules/products/products.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { CloudinaryModule } from './modules/cloudinary/cloudinary.module';
     PostTypesModule,
     WorkingTimeModule,
     UsersModule,
+    ProductsModule,
   ],
   controllers: [],
 })
