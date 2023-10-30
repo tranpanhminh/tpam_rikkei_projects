@@ -71,13 +71,17 @@ export class ProductsController {
   }
 
   // 5. Update
-  @Patch('update/:id')
+  @Patch('/update/:id')
   @UseInterceptors(CheckProductExist)
   async updateProduct(
     @Param('id') id: number,
     @Body() body: UpdateProductDTO,
   ): Promise<ProductsEntity | unknown> {
-    const result = await this.productsService.updateProduct(id, body);
+    console.log(body, 'BODY');
+    const result: string | unknown = await this.productsService.updateProduct(
+      id,
+      body,
+    );
     return result;
   }
 

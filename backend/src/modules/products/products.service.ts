@@ -10,6 +10,7 @@ import { extractPublicId } from 'cloudinary-build-url';
 import { ChangeThumbnailProductInterface } from './interface/changeThumbnail.interface';
 import { UpdateProductImageInterface } from './interface/updateProductImage.interface';
 import { UpdateProductImageDTO } from './dto/update-product-image.dto';
+import { UpdateProductInterface } from './interface/updateProduct.interface';
 const cloudinary = require('cloudinary').v2;
 
 @Injectable()
@@ -82,15 +83,23 @@ export class ProductsService {
   async updateProduct(
     id: number,
     body: UpdateProductDTO,
-  ): Promise<ProductsEntity | unknown> {
-    const { name } = body;
-    const checkProduct: ProductsEntity =
-      await this.productsRepository.getDetailProduct(id);
+  ): Promise<ProductsEntity | unknown | any> {
+    const { name, description, price, quantity_stock, vendor_id } = body;
+    const checkProduct = await this.productsRepository.getDetailProduct(id);
     if (checkProduct) {
-      const updateProduct: any = {
+      const updatedProduct: UpdateProductInterface = {
         name: !name ? checkProduct.name : name,
+        description: !description ? checkProduct.description : description,
+        price: !price ? Number(checkProduct.price) : Number(price),
+        quantity_stock: !quantity_stock
+          ? Number(checkProduct.quantity_stock)
+          : Number(quantity_stock),
+        vendor_id: !vendor_id
+          ? Number(checkProduct.vendor_id)
+          : Number(vendor_id),
       };
-      await this.productsRepository.updateProduct(id, updateProduct);
+
+      await this.productsRepository.updateProduct(id, updatedProduct);
       return new HttpException('Product Updated', HttpStatus.OK);
     }
   }

@@ -7,6 +7,7 @@ import { AddProductImagesInterface } from './interface/addProductImages.interfac
 import { ProductImagesEntity } from '../productImages/database/entity/productImages.entity';
 import { ChangeThumbnailProductInterface } from './interface/changeThumbnail.interface';
 import { UpdateProductImageInterface } from './interface/updateProductImage.interface';
+import { UpdateProductInterface } from './interface/updateProduct.interface';
 
 @Injectable()
 export class ProductsRepository {
@@ -59,7 +60,7 @@ export class ProductsRepository {
   // 5. Update
   async updateProduct(
     id: number,
-    updateProduct: ProductInterface,
+    updateProduct: UpdateProductInterface,
   ): Promise<ProductsEntity | unknown> {
     return await this.productsEntity.update(id, updateProduct);
   }

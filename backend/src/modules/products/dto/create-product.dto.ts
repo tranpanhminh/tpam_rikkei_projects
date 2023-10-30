@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumberString } from 'class-validator';
+import { IsNotEmpty, IsNumberString, IsString } from 'class-validator';
 import { IsFiles, MemoryStoredFile } from 'nestjs-form-data';
 import {
   CheckEachFileSize,
@@ -8,9 +8,11 @@ import {
 } from 'src/pipes/custom-validator';
 export class CreateProductDTO {
   @IsNotEmpty({ message: 'Product Name should not be empty' })
+  @IsString({ message: 'Product Name should be string' })
   name: string;
 
-  @IsNotEmpty({ message: 'Product Name should not be empty' })
+  @IsNotEmpty({ message: 'Product Description should not be empty' })
+  @IsString({ message: 'Product Description should be string' })
   description: string;
 
   @IsNotEmpty({ message: 'Price should not be empty' })
@@ -30,6 +32,7 @@ export class CreateProductDTO {
   @FilesLengthMustBeFour({ message: 'Product Images should have 4 Images' })
   image_url: MemoryStoredFile;
 
+  @IsNumberString({}, { message: 'Quantity Stock should be number' })
   @IsNotEmpty({ message: 'Vendor should not be empty' })
   vendor_id: number;
 
