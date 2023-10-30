@@ -3,6 +3,7 @@ import { ProductsRepository } from './products.repository';
 import { ProductsEntity } from './database/entity/products.entity';
 import { CreateProductDTO } from './dto/create-product.dto';
 import { UpdateProductDTO } from './dto/update-product.dto';
+import { ProductInterface } from './interface/product.interface';
 
 @Injectable()
 export class ProductsService {
@@ -28,12 +29,18 @@ export class ProductsService {
   async addProduct(
     body: CreateProductDTO,
   ): Promise<ProductsEntity | unknown | any> {
-    // const { name } = body;
-    // const newProduct = {
-    //   name: name,
-    // };
+    const { name, description, price, quantity_stock, image_url } = body;
+
+    const newProduct: ProductInterface = {
+      name: name,
+      description: description,
+      price: Number(price),
+      quantity_stock: Number(quantity_stock),
+      thumbnail_url: 'Test',
+    };
+    console.log(newProduct, 'NEW PRODUCT 1');
     // await this.productsRepository.addProduct(newProduct);
-    // return new HttpException("Product Added", HttpStatus.OK);
+    // return new HttpException('Product Added', HttpStatus.OK);
   }
 
   // 4. Delete

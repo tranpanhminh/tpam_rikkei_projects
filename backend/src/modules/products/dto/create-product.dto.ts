@@ -1,17 +1,5 @@
-import { ParseIntPipe } from '@nestjs/common';
-import {
-  IsNotEmpty,
-  IsNumber,
-  IsNumberString,
-  IsPositive,
-  Min,
-} from 'class-validator';
-import {
-  HasMimeType,
-  IsFiles,
-  MaxFileSize,
-  MemoryStoredFile,
-} from 'nestjs-form-data';
+import { IsNotEmpty, IsNumberString } from 'class-validator';
+import { IsFiles, MemoryStoredFile } from 'nestjs-form-data';
 import {
   CheckEachFileSize,
   FilesLengthMustBeFour,
@@ -23,7 +11,7 @@ export class CreateProductDTO {
   name: string;
 
   @IsNotEmpty({ message: 'Product Name should not be empty' })
-  description: number;
+  description: string;
 
   @IsNotEmpty({ message: 'Price should not be empty' })
   @IsNumberString({}, { message: 'Price should be number' })

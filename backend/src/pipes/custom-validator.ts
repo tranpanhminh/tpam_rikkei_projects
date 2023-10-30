@@ -102,16 +102,16 @@ export function IsImage(validationOptions?: ValidationOptions) {
       constraints: [],
       validator: {
         validate(value: any) {
-          value.forEach((item) => {
-            for (const key in item) {
-              if (value.hasOwnProperty(key) && typeof value[key] === 'string') {
-                if (value[key].fileType.mine.includes('image')) {
-                  return true;
-                }
-              }
+          if (!value || !Array.isArray(value)) {
+            return false; // Handle cases where value is not an array or is empty
+          }
+
+          for (let i = 0; i < value.length; i++) {
+            if (value[i].fileType && value[i].fileType.mime.includes('image')) {
+              return true;
             }
-            return false;
-          });
+          }
+
           return false;
         },
       },
@@ -128,12 +128,17 @@ export function CheckEachFileSize(validationOptions?: ValidationOptions) {
       constraints: [],
       validator: {
         validate(value: any) {
-          if (!value || !value.size) {
-            return false;
+          console.log(value, 'VALE');
+          if (!value || !Array.isArray(value)) {
+            return false; // Handle cases where value is not an array or is empty
           }
 
-          // Kiểm tra kích thước tệp tin, ví dụ: giới hạn dưới 1 MB
-          return value.size <= 1000000; // 1 MB = 1,000,000 bytes
+          for (let i = 0; i < value.length; i++) {
+            if (value[i] && value[i].size < 10000000) {
+              return true;
+            }
+          }
+          return false;
         },
       },
     });

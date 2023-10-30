@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { ProductsEntity } from './database/entity/products.entity';
 import { CreateProductDTO } from './dto/create-product.dto';
 import { UpdateProductDTO } from './dto/update-product.dto';
+import { ProductInterface } from './interface/product.interface';
 
 @Injectable()
 export class ProductsRepository {
@@ -27,8 +28,9 @@ export class ProductsRepository {
 
   // 3. Add
   async addProduct(
-    newProduct: CreateProductDTO,
-  ): Promise<ProductsEntity | unknown| any> {
+    newProduct: ProductInterface,
+  ): Promise<ProductsEntity | unknown | any> {
+    console.log(newProduct, 'NEW PRODUCT');
     // return await this.productsEntity.save(newProduct);
   }
 

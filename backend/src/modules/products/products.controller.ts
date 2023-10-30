@@ -52,11 +52,11 @@ export class ProductsController {
   @FormDataRequest()
   async addProduct(
     @Body() body: CreateProductDTO,
-  ): Promise<ProductsEntity | unknown | any> {
+  ): Promise<ProductsEntity | unknown> {
     console.log(body, 'BODY');
-    // const result: string | unknown =
-    //   await this.productsService.addProduct(body);
-    // return result;
+    const result: string | unknown =
+      await this.productsService.addProduct(body);
+    return result;
   }
 
   // 4. Delete
