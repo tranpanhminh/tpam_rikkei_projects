@@ -7,14 +7,19 @@ import { ProductsEntity } from './database/entity/products.entity';
 import { NestjsFormDataModule } from 'nestjs-form-data';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { ProductImagesEntity } from '../productImages/database/entity/productImages.entity';
+import { ProductImagesRepository } from '../productImages/productImages.repository';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([ProductsEntity]),
+    TypeOrmModule.forFeature([ProductsEntity, ProductImagesEntity]),
     NestjsFormDataModule,
-    TypeOrmModule.forFeature([ProductImagesEntity]),
   ],
   controllers: [ProductsController],
-  providers: [ProductsService, ProductsRepository, CloudinaryService],
+  providers: [
+    ProductsService,
+    ProductsRepository,
+    CloudinaryService,
+    ProductImagesRepository,
+  ],
 })
 export class ProductsModule {}

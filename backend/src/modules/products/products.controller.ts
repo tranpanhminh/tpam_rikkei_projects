@@ -15,6 +15,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ProductsEntity } from './database/entity/products.entity';
 import { CheckProductExist } from 'src/interceptors/checkProductExist';
 import { FormDataRequest } from 'nestjs-form-data';
+import { CheckProductImageExist } from 'src/interceptors/checkProductImageExist';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -76,6 +77,19 @@ export class ProductsController {
     @Body() body: UpdateProductDTO,
   ): Promise<ProductsEntity | unknown> {
     const result = await this.productsService.updateProduct(id, body);
+    return result;
+  }
+
+  // 6. Change Thumbnail
+  @Patch('/:id/update-thumbnail/:imageId')
+  @UseInterceptors(CheckProductExist, CheckProductImageExist)
+  async changeThumbnail(
+    @Param() params,
+  ): Promise<ProductsEntity | unknown | any> {
+    const result: string | unknown = await this.productsService.changeThumbnail(
+      params.id,
+      params.imageId,
+    );
     return result;
   }
 }

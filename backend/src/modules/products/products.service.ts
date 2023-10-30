@@ -7,6 +7,7 @@ import { ProductInterface } from './interface/product.interface';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { AddProductImagesInterface } from './interface/addProductImages.interface';
 import { extractPublicId } from 'cloudinary-build-url';
+import { ChangeThumbnailProductInterface } from './dto/change-thumbnail-product.dto';
 const cloudinary = require('cloudinary').v2;
 
 @Injectable()
@@ -63,7 +64,7 @@ export class ProductsService {
   }
 
   // 4. Delete
-  async deleteProduct(id: number): Promise<ProductsEntity | unknown | any> {
+  async deleteProduct(id: number): Promise<ProductsEntity | unknown> {
     const checkProduct = await this.productsRepository.getDetailProduct(id);
     if (checkProduct) {
       const listImages = checkProduct.product_images.map((item) => {
@@ -84,11 +85,33 @@ export class ProductsService {
     const checkProduct: ProductsEntity =
       await this.productsRepository.getDetailProduct(id);
     if (checkProduct) {
-      const updateProduct = {
+      const updateProduct: any = {
         name: !name ? checkProduct.name : name,
       };
       await this.productsRepository.updateProduct(id, updateProduct);
       return new HttpException('Product Updated', HttpStatus.OK);
+    }
+  }
+
+  // 6. Change Thumbnail
+  async changeThumbnail(
+    productId: number,
+    imageId: number,
+  ): Promise<ProductsEntity | unknown | any> {
+    const findImage =
+      await this.productsRepository.getDetailProductImage(imageId);
+    console.log(findImage.image_url);
+    const checkProduct =
+      await this.productsRepository.getDetailProduct(productId);
+    if (checkProduct) {
+      const updatedProductInfo: ChangeThumbnailProductInterface = {
+        thumbnail_url: findImage.image_url,
+      };
+      await this.productsRepository.changeThumbnail(
+        productId,
+        updatedProductInfo,
+      );
+      return new HttpException('Product Thumbnail Updated', HttpStatus.OK);
     }
   }
 }

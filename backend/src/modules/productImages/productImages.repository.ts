@@ -15,11 +15,11 @@ export class ProductImagesRepository {
     return await this.productImagesEntity.find();
   }
 
-  // // 2. Get Detail
-  // async getDetailProductImage(id: number): Promise<ProductImagesEntity> {
-  //   const detailProductImage = await this.productImagesEntity.findOneById(id);
-  //   return detailProductImage;
-  // }
+  // 2. Get Detail
+  async getDetailProductImage(id: number): Promise<ProductImagesEntity> {
+    const detailProductImage = await this.productImagesEntity.findOneById(id);
+    return detailProductImage;
+  }
 
   // // 3. Add
   // async addProductImage(

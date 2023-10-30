@@ -1,6 +1,8 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param, UseInterceptors } from '@nestjs/common';
 import { ProductImagesService } from './productImages.service';
 import { ConfigModule } from '@nestjs/config';
+import { ProductImagesEntity } from './database/entity/productImages.entity';
+import { CheckProductImageExist } from 'src/interceptors/checkProductImageExist';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -19,16 +21,16 @@ export class ProductImagesController {
     return result;
   }
 
-  // // 2. Get Detail
-  // @Get("/detail/:id")
-  // @UseInterceptors(CheckProductImageExist)
-  // async getDetailProductImage(
-  //   @Param("id") id: number
-  // ): Promise<ProductImagesEntity | unknown> {
-  //   const result: ProductImagesEntity | unknown =
-  //     await this.productImagesService.getDetailProductImage(id);
-  //   return result;
-  // }
+  // 2. Get Detail
+  @Get('/detail/:imageId')
+  @UseInterceptors(CheckProductImageExist)
+  async getDetailProductImage(
+    @Param('imageId') imageId: number,
+  ): Promise<ProductImagesEntity | unknown> {
+    const result: ProductImagesEntity | unknown =
+      await this.productImagesService.getDetailProductImage(imageId);
+    return result;
+  }
 
   // // 3. Add
   // @Post("/add")

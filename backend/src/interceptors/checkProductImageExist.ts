@@ -7,16 +7,17 @@ import {
 } from '@nestjs/common';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ProductsRepository } from './../modules/products/products.repository';
+import { ProductImagesRepository } from 'src/modules/productImages/productImages.repository';
 
 @Injectable()
-export class CheckProductExist implements NestInterceptor {
-  constructor(private productsRepository: ProductsRepository) {}
+export class CheckProductImageExist implements NestInterceptor {
+  constructor(private productImagesRepository: ProductImagesRepository) {}
   async intercept(context: ExecutionContext, next: CallHandler): Promise<any> {
-    const getId = context.switchToHttp().getRequest().params.id;
-    const find = await this.productsRepository.getDetailProduct(getId);
+    const getId = context.switchToHttp().getRequest().params.imageId;
+    const find =
+      await this.productImagesRepository.getDetailProductImage(getId);
     if (!find) {
-      throw new NotFoundException('Product ID is not found');
+      throw new NotFoundException('Image ID is not found');
     }
     return next.handle().pipe(
       catchError((error) => {

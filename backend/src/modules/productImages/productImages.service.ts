@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ProductImagesRepository } from './productImages.repository';
 import { ProductImagesEntity } from './database/entity/productImages.entity';
 
@@ -14,16 +14,16 @@ export class ProductImagesService {
     return result;
   }
 
-  // // 2. Get Detail
-  // async getDetailProductImage(
-  //   id: number,
-  // ): Promise<ProductImagesEntity | unknown> {
-  //   const detailProductImage: ProductImagesEntity | unknown =
-  //     await this.productImagesRepository.getDetailProductImage(id);
-  //   if (detailProductImage) {
-  //     return detailProductImage;
-  //   }
-  // }
+  // 2. Get Detail
+  async getDetailProductImage(
+    id: number,
+  ): Promise<ProductImagesEntity | unknown> {
+    const detailProductImage: ProductImagesEntity | unknown =
+      await this.productImagesRepository.getDetailProductImage(id);
+    if (detailProductImage) {
+      return detailProductImage;
+    }
+  }
 
   // // 3. Add
   // async addProductImage(

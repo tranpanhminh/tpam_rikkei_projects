@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ProductsEntity } from './database/entity/products.entity';
-import { UpdateProductDTO } from './dto/update-product.dto';
 import { ProductInterface } from './interface/product.interface';
 import { AddProductImagesInterface } from './interface/addProductImages.interface';
 import { ProductImagesEntity } from '../productImages/database/entity/productImages.entity';
+import { ChangeThumbnailProductInterface } from './dto/change-thumbnail-product.dto';
 
 @Injectable()
 export class ProductsRepository {
@@ -44,6 +44,10 @@ export class ProductsRepository {
     return await this.productImagesEntity.save(data);
   }
 
+  async getDetailProductImage(imageId: number): Promise<ProductImagesEntity> {
+    return await this.productImagesEntity.findOne({ where: { id: imageId } });
+  }
+
   // 4. Delete
   async deleteProduct(id: number): Promise<ProductsEntity | unknown> {
     return await this.productsEntity.delete(id);
@@ -52,8 +56,16 @@ export class ProductsRepository {
   // 5. Update
   async updateProduct(
     id: number,
-    updateProduct: UpdateProductDTO,
+    updateProduct: ProductInterface,
   ): Promise<ProductsEntity | unknown> {
     return await this.productsEntity.update(id, updateProduct);
+  }
+
+  // 6. Change Thumbnail
+  async changeThumbnail(
+    productId: number,
+    updateProduct: ChangeThumbnailProductInterface,
+  ): Promise<ProductsEntity | unknown> {
+    return await this.productsEntity.update(productId, updateProduct);
   }
 }
