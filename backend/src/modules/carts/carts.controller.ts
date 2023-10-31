@@ -9,7 +9,7 @@ import {
   UsePipes,
 } from '@nestjs/common';
 import { CartsService } from './carts.service';
-import { CreateCartDTO } from './dto/create-cart.dto';
+import { AddToCartDTO } from './dto/add-to-cart.dto';
 import { UpdateCartDTO } from './dto/update-cart.dto';
 import { ConfigModule } from '@nestjs/config';
 import { CartsEntity } from './database/entity/carts.entity';
@@ -47,13 +47,12 @@ export class CartsController {
 
   // 3. Add
   @Post('/add/products/:id/users/:userId')
-  async addCart(
+  async addProductToCart(
     @Param() param: { id: number; userId: number },
-    @Body() body: CreateCartDTO,
+    @Body() body: AddToCartDTO,
   ): Promise<CartsEntity | unknown | any> {
-    console.log(param);
-    // const result: string | unknown = await this.cartsService.addCart(body);
-    // return result;
+    const result: string | unknown = await this.cartsService.addCart(body);
+    return result;
   }
 
   // // 4. Delete

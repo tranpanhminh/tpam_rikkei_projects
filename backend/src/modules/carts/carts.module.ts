@@ -18,6 +18,7 @@ import { ProductsRepository } from '../products/products.repository';
 import { ProductImagesRepository } from '../productImages/productImages.repository';
 import { ProductImagesEntity } from '../productImages/database/entity/productImages.entity';
 import { CheckProductQuantityStock } from 'src/middlewares/checkProductQuantityStock.middleware';
+import { CheckInputQuantity } from 'src/middlewares/checkInputQuantity.middleware';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -48,7 +49,11 @@ const url = `${path}/carts`;
 export class CartsModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(CheckProductAndUserBeforeAddToCart, CheckProductQuantityStock)
+      .apply(
+        CheckProductAndUserBeforeAddToCart,
+        CheckProductQuantityStock,
+        CheckInputQuantity,
+      )
       .forRoutes({
         path: `${url}/add/products/:id/users/:userId`,
         method: RequestMethod.POST,

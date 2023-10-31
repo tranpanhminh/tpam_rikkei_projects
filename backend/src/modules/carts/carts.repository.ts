@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CartsEntity } from './database/entity/carts.entity';
-import { CreateCartDTO } from './dto/create-cart.dto';
-import { UpdateCartDTO } from './dto/update-cart.dto';
+import { CartsInterface } from './interface/carts.interface';
+import { UpdateProductCartInterface } from './interface/update-product-cart.interface';
 
 @Injectable()
 export class CartsRepository {
@@ -24,7 +24,9 @@ export class CartsRepository {
   }
 
   // 3. Add
-  async addCart(newCart: CreateCartDTO): Promise<CartsEntity | unknown> {
+  async addProductToCart(
+    newCart: CartsInterface,
+  ): Promise<CartsEntity | unknown> {
     return await this.cartsEntity.save(newCart);
   }
 
@@ -40,4 +42,22 @@ export class CartsRepository {
   // ): Promise<CartsEntity | unknown> {
   //   return await this.cartsEntity.update(id, updateCart);
   // }
+
+  // 6. FindUserAndProductInCart
+  async findUserAndProductInCart(
+    userId: number,
+    productId: number,
+  ): Promise<CartsEntity | unknown> {
+    return await this.cartsEntity.findOne({
+      where: { user_id: userId, product_id: productId },
+    });
+  }
+
+  // 7. Update Product In Cart
+  async updateQuantityInCart(
+    cartId: number,
+    updatedCart: UpdateProductCartInterface,
+  ): Promise<CartsEntity | unknown> {
+    return await this.cartsEntity.update(cartId, updatedCart);
+  }
 }

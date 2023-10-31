@@ -1,7 +1,7 @@
 export class CartsInterface {
-  id: number;
-  name: string;
-  code: string;
-  discount_rate: number;
-  min_bill: number;
+  id?: number;
+  user_id: number;
+  product_id: number;
+  quantity: number;
+  price: number;
 }
