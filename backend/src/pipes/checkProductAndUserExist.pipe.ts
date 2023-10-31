@@ -1,9 +1,9 @@
 import { PipeTransform, Injectable, NotFoundException } from '@nestjs/common';
-import { ProductsRepository } from './../modules/products/products.repository';
+import { ProductsRepository } from '../modules/products/products.repository';
 import { UsersRepository } from 'src/modules/users/users.repository';
 
 @Injectable()
-export class CheckBeforeAddProductComment implements PipeTransform {
+export class CheckProductAndUserExist implements PipeTransform {
   constructor(
     private readonly productsRepository: ProductsRepository,
     private readonly usersRepository: UsersRepository,

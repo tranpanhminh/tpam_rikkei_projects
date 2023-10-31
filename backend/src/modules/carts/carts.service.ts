@@ -23,18 +23,18 @@ export class CartsService {
     }
   }
 
-  // // 3. Add
-  // async addCart(body: CreateCartDTO): Promise<CartsEntity | unknown> {
-  //   const { name, code, discount_rate, min_bill } = body;
-  //   const newCart = {
-  //     name: name,
-  //     code: code,
-  //     discount_rate: discount_rate,
-  //     min_bill: min_bill,
-  //   };
-  //   await this.cartsRepository.addCart(newCart);
-  //   return new HttpException("Cart Added", HttpStatus.OK);
-  // }
+  // 3. Add
+  async addCart(body: any): Promise<CartsEntity | unknown | any> {
+    // const { name, code, discount_rate, min_bill } = body;
+    // const newCart = {
+    //   name: name,
+    //   code: code,
+    //   discount_rate: discount_rate,
+    //   min_bill: min_bill,
+    // };
+    // await this.cartsRepository.addCart(newCart);
+    // return new HttpException("Cart Added", HttpStatus.OK);
+  }
 
   // // 4. Delete
   // async deleteCart(id: number): Promise<CartsEntity | unknown> {

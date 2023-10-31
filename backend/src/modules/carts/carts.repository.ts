@@ -23,10 +23,10 @@ export class CartsRepository {
     return detailCart;
   }
 
-  // // 3. Add
-  // async addCart(newCart: CreateCartDTO): Promise<CartsEntity | unknown> {
-  //   return await this.cartsEntity.save(newCart);
-  // }
+  // 3. Add
+  async addCart(newCart: CreateCartDTO): Promise<CartsEntity | unknown> {
+    return await this.cartsEntity.save(newCart);
+  }
 
   // // 4. Delete
   // async deleteCart(id: number): Promise<CartsEntity | unknown> {

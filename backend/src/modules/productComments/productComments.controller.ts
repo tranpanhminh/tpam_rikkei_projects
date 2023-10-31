@@ -12,7 +12,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ProductCommentsEntity } from './database/entity/productComments.entity';
 import { CheckProductCommentExist } from 'src/pipes/checkProductCommentExist.pipe';
 import { CreateProductCommentDTO } from './dto/create-product-comment.dto';
-import { CheckBeforeAddProductComment } from 'src/pipes/checkBeforeAddProductComment.pipe';
+import { CheckProductAndUserExist } from 'src/pipes/checkProductAndUserExist.pipe';
 import { CheckProductExist } from 'src/pipes/checkProductExist.pipe';
 
 ConfigModule.forRoot({
@@ -48,7 +48,7 @@ export class ProductCommentsController {
   // // 3. Add
   @Post('/add/:id/users/:userId')
   async addProductComment(
-    @Param(CheckBeforeAddProductComment) param: { id: number; userId: number },
+    @Param(CheckProductAndUserExist) param: { id: number; userId: number },
     @Body() body: CreateProductCommentDTO,
   ): Promise<ProductCommentsEntity | unknown> {
     const result: string | unknown =
