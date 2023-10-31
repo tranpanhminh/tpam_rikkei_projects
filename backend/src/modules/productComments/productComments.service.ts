@@ -42,7 +42,7 @@ export class ProductCommentsService {
       post_type_id: 1,
     };
     await this.productCommentsRepository.addProductComment(newProductComment);
-    return new HttpException('ProductComment Added', HttpStatus.OK);
+    return new HttpException('Product Comment Added', HttpStatus.OK);
   }
 
   // // 4. Delete

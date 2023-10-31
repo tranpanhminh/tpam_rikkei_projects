@@ -13,6 +13,7 @@ export class CheckBeforeAddProductComment implements PipeTransform {
     const { id, userId } = value;
     const getId = Number(id);
     const getUserId = Number(userId);
+
     const findProduct = await this.productsRepository.getDetailProduct(getId);
     const findUser = await this.usersRepository.getDetailUser(getUserId);
     if (!findProduct) {

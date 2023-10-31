@@ -38,19 +38,17 @@ export class ProductCommentsController {
 
   // // 3. Add
   @Post('/add/:id/users/:userId')
-  @UsePipes(CheckBeforeAddProductComment)
   async addProductComment(
-    @Param() param,
+    @Param(CheckBeforeAddProductComment) param: { id: number; userId: number },
     @Body() body: CreateProductCommentDTO,
-  ): Promise<ProductCommentsEntity | unknown | any> {
-    console.log(param, body);
-    // const result: string | unknown =
-    //   await this.productCommentsService.addProductComment(
-    //     param.id,
-    //     param.userId,
-    //     body,
-    //   );
-    // return result;
+  ): Promise<ProductCommentsEntity | unknown> {
+    const result: string | unknown =
+      await this.productCommentsService.addProductComment(
+        param.id,
+        param.userId,
+        body,
+      );
+    return result;
   }
 
   // // 4. Delete
