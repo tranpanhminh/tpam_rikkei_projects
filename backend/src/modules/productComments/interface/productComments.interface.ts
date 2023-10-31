@@ -1,7 +1,7 @@
 export class ProductCommentsInterface {
-  id: number;
-  name: string;
-  code: string;
-  discount_rate: number;
-  min_bill: number;
+  comment: string;
+  rating: number;
+  user_id: number;
+  post_id: number;
+  post_type_id: number;
 }

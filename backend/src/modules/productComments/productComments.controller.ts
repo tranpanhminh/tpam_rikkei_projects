@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ProductCommentsEntity } from './database/entity/productComments.entity';
 import { CheckProductCommentExist } from 'src/pipes/checkProductCommentExist.pipe';
 import { CreateProductCommentDTO } from './dto/create-product-comment.dto';
+import { CheckBeforeAddProductComment } from 'src/pipes/checkBeforeAddProductComment.pipe';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -36,14 +37,20 @@ export class ProductCommentsController {
   }
 
   // // 3. Add
-  @Post("/add/2/users/9")
+  @Post('/add/:id/users/:userId')
+  @UsePipes(CheckBeforeAddProductComment)
   async addProductComment(
-    @Param() Param,
-    @Body() body: CreateProductCommentDTO
-  ): Promise<ProductCommentsEntity | unknown> {
-    const result: string | unknown =
-      await this.productCommentsService.addProductComment(body);
-    return result;
+    @Param() param,
+    @Body() body: CreateProductCommentDTO,
+  ): Promise<ProductCommentsEntity | unknown | any> {
+    console.log(param, body);
+    // const result: string | unknown =
+    //   await this.productCommentsService.addProductComment(
+    //     param.id,
+    //     param.userId,
+    //     body,
+    //   );
+    // return result;
   }
 
   // // 4. Delete

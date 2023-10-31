@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ProductCommentsEntity } from './database/entity/productComments.entity';
+import { ProductCommentsInterface } from './interface/productComments.interface';
 
 @Injectable()
 export class ProductCommentsRepository {
@@ -24,7 +25,7 @@ export class ProductCommentsRepository {
 
   // 3. Add
   async addProductComment(
-    newProductComment: CreateProductCommentDTO,
+    newProductComment: ProductCommentsInterface,
   ): Promise<ProductCommentsEntity | unknown> {
     return await this.productCommentsEntity.save(newProductComment);
   }

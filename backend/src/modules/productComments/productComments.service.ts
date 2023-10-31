@@ -1,8 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { ProductCommentsRepository } from './productComments.repository';
 import { ProductCommentsEntity } from './database/entity/productComments.entity';
 import { CreateProductCommentDTO } from './dto/create-product-comment.dto';
 import { ProductCommentsRepository } from 'src/modules/productComments/productComments.repository';
+import { ProductCommentsInterface } from './interface/productComments.interface';
 
 @Injectable()
 export class ProductCommentsService {
@@ -29,14 +29,17 @@ export class ProductCommentsService {
 
   // // 3. Add
   async addProductComment(
+    id: number,
+    userId: number,
     body: CreateProductCommentDTO,
   ): Promise<ProductCommentsEntity | unknown> {
     const { comment, rating } = body;
-    const newProductComment = {
+    const newProductComment: ProductCommentsInterface = {
       comment: comment,
       rating: rating,
-      discount_rate: discount_rate,
-      min_bill: min_bill,
+      user_id: userId,
+      post_id: id,
+      post_type_id: 1,
     };
     await this.productCommentsRepository.addProductComment(newProductComment);
     return new HttpException('ProductComment Added', HttpStatus.OK);
