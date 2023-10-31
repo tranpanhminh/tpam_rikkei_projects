@@ -21,7 +21,12 @@ export class ProductsRepository {
   // 1. Get All
   async getAllProducts(): Promise<ProductsEntity[]> {
     return await this.productsEntity.find({
-      relations: { vendors: true, post_types: true, product_images: true },
+      relations: {
+        vendors: true,
+        post_types: true,
+        product_images: true,
+        product_comments: true,
+      },
     });
   }
 
@@ -29,7 +34,12 @@ export class ProductsRepository {
   async getDetailProduct(id: number): Promise<ProductsEntity> {
     return await this.productsEntity.findOne({
       where: { id: id },
-      relations: { vendors: true, post_types: true, product_images: true },
+      relations: {
+        vendors: true,
+        post_types: true,
+        product_images: true,
+        product_comments: true,
+      },
     });
   }
 

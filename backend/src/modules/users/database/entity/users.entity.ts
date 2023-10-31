@@ -23,16 +23,16 @@ export class UsersEntity {
   @Column({ nullable: false })
   full_name: string;
 
-  @Column({ nullable: false })
+  @Column({ type: 'text', nullable: false })
   password: string;
 
-  @Column({ nullable: false })
+  @Column({ type: 'longtext', nullable: false })
   image_avatar: string;
 
-  @Column({ nullable: false })
+  @Column({ type: 'int', nullable: false })
   role_id: number;
 
-  @Column({ nullable: false })
+  @Column({ type: 'int', nullable: false })
   status_id: number;
 
   @Column({

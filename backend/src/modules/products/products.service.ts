@@ -54,7 +54,6 @@ export class ProductsService {
     };
     const addProduct: any =
       await this.productsRepository.addProduct(newProduct);
-
     for (let i = 0; i < result.length; i++) {
       const imagesInfo: AddProductImagesInterface = {
         product_id: addProduct.id,

@@ -8,16 +8,16 @@ export class PaymentsEntity {
   @Column({ length: 255, nullable: false })
   cardholder_name: string;
 
-  @Column({ nullable: false })
+  @Column({ length: 255, nullable: false })
   card_number: string;
 
-  @Column({ nullable: false })
+  @Column({ length: 255, nullable: false })
   expiry_date: string;
 
-  @Column({ nullable: false })
+  @Column({ type: 'bigint', nullable: false })
   cvv: number;
 
-  @Column({ nullable: false })
+  @Column({ type: 'decimal', nullable: false })
   balance: number;
 
   @Column({

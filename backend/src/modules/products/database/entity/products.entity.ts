@@ -18,25 +18,25 @@ export class ProductsEntity {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
-  @Column({ nullable: false })
+  @Column({ length: 255, nullable: false })
   name: string;
 
-  @Column({ nullable: false })
+  @Column({ type: 'longtext', nullable: false })
   description: string;
 
-  @Column({ nullable: false })
+  @Column({ type: 'decimal', nullable: false })
   price: number;
 
-  @Column({ nullable: false })
+  @Column({ type: 'int', nullable: false })
   quantity_stock: number;
 
-  @Column({ nullable: false })
+  @Column({ type: 'longtext', nullable: false })
   thumbnail_url: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'int', nullable: true })
   vendor_id: number;
 
-  @Column({ nullable: false })
+  @Column({ type: 'int', nullable: false })
   post_type_id: number;
 
   @Column({
