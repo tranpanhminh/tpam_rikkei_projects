@@ -30,16 +30,17 @@ export class ProductCommentsRepository {
     return await this.productCommentsEntity.save(newProductComment);
   }
 
-  // // 4. Add
-  // async deleteProductComment(id: number): Promise<ProductCommentsEntity | unknown> {
-  //   return await this.productCommentsEntity.delete(id);
-  // }
+  // 4. Delete
+  async deleteProductComment(
+    id: number,
+  ): Promise<ProductCommentsEntity | unknown> {
+    return await this.productCommentsEntity.delete(id);
+  }
 
-  // // 5. Update
-  // async updateProductComment(
-  //   id: number,
-  //   updateProductComment: UpdateProductCommentDTO,
-  // ): Promise<ProductCommentsEntity | unknown> {
-  //   return await this.productCommentsEntity.update(id, updateProductComment);
-  // }
+  // 5. Get All Comments By Product
+  async getAllCommentsByProduct(
+    id: number,
+  ): Promise<ProductCommentsEntity | unknown> {
+    return await this.productCommentsEntity.find({ where: { post_id: id } });
+  }
 }

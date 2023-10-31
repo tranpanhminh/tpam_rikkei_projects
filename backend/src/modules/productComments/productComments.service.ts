@@ -46,38 +46,24 @@ export class ProductCommentsService {
     return new HttpException('Product Comment Added', HttpStatus.OK);
   }
 
-  // // 4. Delete
-  // async deleteProductComment(id: number): Promise<ProductCommentsEntity | unknown> {
-  //   const checkProductComment =
-  //     await this.productCommentsRepository.getDetailProductComment(id);
-  //   if (checkProductComment) {
-  //     await this.productCommentsRepository.deleteProductComment(id);
-  //     return new HttpException('ProductComment Deleted', HttpStatus.OK);
-  //   }
-  // }
+  // 4. Delete
+  async deleteProductComment(
+    id: number,
+  ): Promise<ProductCommentsEntity | unknown> {
+    const checkProductComment =
+      await this.productCommentsRepository.getDetailProductComment(id);
+    if (checkProductComment) {
+      await this.productCommentsRepository.deleteProductComment(id);
+      return new HttpException('Product Comment Deleted', HttpStatus.OK);
+    }
+  }
 
-  // // 5. Update
-  // async updateProductComment(
-  //   id: number,
-  //   body: UpdateProductCommentDTO,
-  // ): Promise<ProductCommentsEntity | unknown> {
-  //   const { name, code, discount_rate, min_bill } = body;
-  //   const checkProductComment: ProductCommentsEntity =
-  //     await this.productCommentsRepository.getDetailProductComment(id);
-  //   if (checkProductComment) {
-  //     const updateProductComment = {
-  //       name: !name ? checkProductComment.name : name,
-  //       code: !code ? checkProductComment.code : code,
-  //       discount_rate: !discount_rate
-  //         ? checkProductComment.discount_rate
-  //         : discount_rate,
-  //       min_bill: !min_bill ? checkProductComment.min_bill : min_bill,
-  //     };
-  //     await this.productCommentsRepository.updateProductComment(
-  //       id,
-  //       updateProductComment,
-  //     );
-  //     return new HttpException('ProductComment Updated', HttpStatus.OK);
-  //   }
-  // }
+  // 5. Get All Comments By Product
+  async getAllCommentsByProduct(
+    id: number,
+  ): Promise<ProductCommentsEntity | unknown> {
+    const result =
+      await this.productCommentsRepository.getAllCommentsByProduct(id);
+    return result;
+  }
 }

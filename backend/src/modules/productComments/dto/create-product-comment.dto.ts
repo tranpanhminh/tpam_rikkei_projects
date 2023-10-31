@@ -1,13 +1,4 @@
-import {
-  IsEmpty,
-  IsNotEmpty,
-  IsNumber,
-  IsNumberString,
-  IsPositive,
-  IsString,
-  Max,
-  Min,
-} from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { CheckRatingMinMax } from 'src/pipes/custom-validator';
 export class CreateProductCommentDTO {
   @IsNotEmpty({ message: 'Product Comment Name should not be empty' })
