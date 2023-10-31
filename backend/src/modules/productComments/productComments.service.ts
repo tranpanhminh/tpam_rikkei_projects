@@ -34,6 +34,7 @@ export class ProductCommentsService {
     body: CreateProductCommentDTO,
   ): Promise<ProductCommentsEntity | unknown> {
     const { comment, rating } = body;
+    console.log(rating, 'RATING');
     const newProductComment: ProductCommentsInterface = {
       comment: comment,
       rating: rating,

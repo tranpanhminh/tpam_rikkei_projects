@@ -239,3 +239,22 @@ export function NotIncludeAdminText(validationOptions?: ValidationOptions) {
     });
   };
 }
+
+export function CheckRatingMinMax(validationOptions?: ValidationOptions) {
+  return (object: any, propertyName: string) => {
+    registerDecorator({
+      target: object.constructor,
+      propertyName: propertyName,
+      options: validationOptions,
+      constraints: [],
+      validator: {
+        validate(rating: string) {
+          if (Number(rating) < 0 || Number(rating) > 5) {
+            return false;
+          }
+          return true;
+        },
+      },
+    });
+  };
+}

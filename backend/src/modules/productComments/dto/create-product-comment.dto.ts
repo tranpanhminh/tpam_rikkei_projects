@@ -1,20 +1,20 @@
 import {
+  IsEmpty,
   IsNotEmpty,
   IsNumber,
+  IsNumberString,
   IsPositive,
   IsString,
   Max,
   Min,
 } from 'class-validator';
+import { CheckRatingMinMax } from 'src/pipes/custom-validator';
 export class CreateProductCommentDTO {
-  @IsNotEmpty({ message: 'ProductComment Name should not be empty' })
-  @IsString({ message: 'ProductComment Name should be string' })
+  @IsNotEmpty({ message: 'Product Comment Name should not be empty' })
+  @IsString({ message: 'Product Comment Name should be string' })
   comment: string;
 
-  @IsNotEmpty({ message: 'Rating should not be empty' })
-  @IsPositive({ message: 'Rating should be a positive number' })
-  @IsNumber({}, { message: 'Rating should be a number' })
-  @Min(0)
-  @Max(5)
+  @CheckRatingMinMax({ message: 'Rating should be between 0 and 5' })
+  @IsNumber({}, { message: 'Rating should be number' })
   rating: number;
 }
