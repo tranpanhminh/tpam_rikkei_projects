@@ -4,14 +4,12 @@ import { Repository } from 'typeorm';
 import { CartsEntity } from './database/entity/carts.entity';
 import { CartInterface } from './interface/cart.interface';
 import { UpdateProductCartInterface } from './interface/update-product-cart.interface';
-import { ProductsEntity } from '../products/database/entity/products.entity';
 
 @Injectable()
 export class CartsRepository {
   constructor(
     @InjectRepository(CartsEntity)
     public cartsEntity: Repository<CartsEntity>,
-    public productsEntity: Repository<ProductsEntity>,
   ) {}
 
   // 1. Get All
