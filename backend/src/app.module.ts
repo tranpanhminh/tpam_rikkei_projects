@@ -23,6 +23,7 @@ import { OrderItemsModule } from './modules/orderItems/orderItems.module';
 import { PaypalModule } from './modules/paypal/paypal.module';
 import { PaypalController } from './modules/paypal/paypal.controller';
 import { PaypalService } from './modules/paypal/paypal.service';
+import { PaypalProvider } from './modules/paypal/paypal.provider';
 
 @Module({
   imports: [
@@ -48,7 +49,7 @@ import { PaypalService } from './modules/paypal/paypal.service';
     OrdersModule,
     OrderItemsModule,
   ],
-  controllers: [],
-  providers: [],
+  controllers: [PaypalController],
+  providers: [PaypalProvider, PaypalService],
 })
 export class AppModule {}
