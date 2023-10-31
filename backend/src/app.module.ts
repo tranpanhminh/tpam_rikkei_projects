@@ -16,23 +16,19 @@ import { UsersModule } from './modules/users/users.module';
 import { CloudinaryModule } from './modules/cloudinary/cloudinary.module';
 import { ProductsModule } from './modules/products/products.module';
 import { ProductImagesModule } from './modules/productImages/productImages.module';
-import { CheckProductCommentExist } from './middlewares/checkProductCommentExist.middleware';
-import { ConfigModule } from '@nestjs/config';
 import { ProductCommentsModule } from './modules/productComments/productComments.module';
 import { CartsModule } from './modules/carts/carts.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { OrderItemsModule } from './modules/orderItems/orderItems.module';
-
-// ConfigModule.forRoot({
-//   envFilePath: '.env',
-// });
-// const path = process.env.SERVER_PATH;
-//  -----------------------
+import { PaypalModule } from './modules/paypal/paypal.module';
+import { PaypalController } from './modules/paypal/paypal.controller';
+import { PaypalService } from './modules/paypal/paypal.service';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(ormConfig),
     CloudinaryModule,
+    PaypalModule,
     VendorsModule,
     UserStatusesModule,
     PostStatusesModule,
@@ -53,5 +49,6 @@ import { OrderItemsModule } from './modules/orderItems/orderItems.module';
     OrderItemsModule,
   ],
   controllers: [],
+  providers: [],
 })
 export class AppModule {}

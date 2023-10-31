@@ -5,7 +5,6 @@ import {
   PrimaryGeneratedColumn,
   Column,
   Timestamp,
-  OneToMany,
   JoinColumn,
   ManyToOne,
 } from 'typeorm';
