@@ -18,8 +18,8 @@ export class CartsRepository {
   }
 
   // 2. Get Detail
-  async getDetailCart(id: number): Promise<CartsEntity> {
-    const detailCart = await this.cartsEntity.findOneById(id);
+  async getDetailCartByUser(id: number): Promise<CartsEntity> {
+    const detailCart = await this.cartsEntity.find({ where: { user_id: id } });
     return detailCart;
   }
 

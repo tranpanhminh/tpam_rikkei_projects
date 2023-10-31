@@ -15,9 +15,9 @@ export class CartsService {
   }
 
   // 2. Get Detail
-  async getDetailCart(id: number): Promise<CartsEntity | unknown> {
+  async getDetailCartByUser(id: number): Promise<CartsEntity | unknown> {
     const detailCart: CartsEntity | unknown =
-      await this.cartsRepository.getDetailCart(id);
+      await this.cartsRepository.getDetailCartByUser(id);
     if (detailCart) {
       return detailCart;
     }

@@ -34,8 +34,8 @@ export class CartsController {
   // 2. Get Detail
   @Get("/detail/:id")
   // @UseInterceptors(CheckCartExist)
-  async getDetailCart(@Param("id") id: number): Promise<CartsEntity | unknown> {
-    const result: CartsEntity | unknown = await this.cartsService.getDetailCart(
+  async getDetailCartByUser(@Param("id") id: number): Promise<CartsEntity | unknown> {
+    const result: CartsEntity | unknown = await this.cartsService.getDetailCartByUser(
       id
     );
     return result;
