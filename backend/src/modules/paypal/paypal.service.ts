@@ -11,7 +11,7 @@ export class PaypalService {
       } else {
         console.log(payment);
         for (let i = 0; i < payment.links.length; i++) {
-          if (payment.links[i].rel === 'approval_url') {
+          if (payment.links[i].rel == 'approval_url') {
             response.redirect(payment.links[i].href);
           }
         }
@@ -35,7 +35,7 @@ export class PaypalService {
       ],
     };
 
-    await paypal.payment.execute(
+    paypal.payment.execute(
       paymentId,
       executePayment,
       function (error, payment) {
