@@ -23,7 +23,7 @@ export class CartsEntity {
   @Column({ type: 'int', nullable: false })
   quantity: number;
 
-  @Column({ type: 'decimal', nullable: false })
+  @Column({ type: 'float', nullable: false })
   price: number;
 
   @Column({

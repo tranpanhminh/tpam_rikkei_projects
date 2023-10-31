@@ -17,7 +17,7 @@ export class PaymentsEntity {
   @Column({ type: 'bigint', nullable: false })
   cvv: number;
 
-  @Column({ type: 'decimal', nullable: false })
+  @Column({ type: 'float', nullable: false })
   balance: number;
 
   @Column({

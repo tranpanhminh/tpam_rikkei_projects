@@ -8,7 +8,7 @@ import { CartInterface } from './interface/cart.interface';
 export class CartsRepository {
   constructor(
     @InjectRepository(CartsEntity)
-    public cartsEntity: Repository<CartsEntity>,
+    private readonly cartsEntity: Repository<CartsEntity>,
   ) {}
 
   // 1. Get All
@@ -18,7 +18,19 @@ export class CartsRepository {
 
   // 2. Get Detail
   async getDetailCartByUser(id: number): Promise<CartsEntity | any> {
-    const detailCart = await this.cartsEntity.find({ where: { user_id: id } });
+    const detailCart = await this.cartsEntity.findOne({
+      where: { user_id: id },
+    });
+    return detailCart;
+  }
+
+  async getDetailCartItemByUserAndProduct(
+    productId: number,
+    userId: number,
+  ): Promise<CartsEntity | any> {
+    const detailCart = await this.cartsEntity.findOne({
+      where: { product_id: productId, user_id: userId },
+    });
     return detailCart;
   }
 
@@ -29,10 +41,10 @@ export class CartsRepository {
     return await this.cartsEntity.save(newCart);
   }
 
-  // // 4. Delete
-  // async deleteCart(id: number): Promise<CartsEntity | unknown> {
-  //   return await this.cartsEntity.delete(id);
-  // }
+  // 4. Delete
+  async deleteCart(cartItemId: number): Promise<CartsEntity | unknown> {
+    return await this.cartsEntity.delete(cartItemId);
+  }
 
   // // 5. Update
   // async updateCart(
@@ -42,7 +54,7 @@ export class CartsRepository {
   //   return await this.cartsEntity.update(id, updateCart);
   // }
 
-  // 6. FindUserAndProductInCart
+  // 6. Find User And Product In Cart
   async findUserAndProductInCart(
     userId: number,
     productId: number,

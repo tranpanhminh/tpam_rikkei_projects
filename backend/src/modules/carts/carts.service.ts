@@ -74,14 +74,21 @@ export class CartsService {
     }
   }
 
-  // // 4. Delete
-  // async deleteCart(id: number): Promise<CartsEntity | unknown> {
-  //   const checkCart = await this.cartsRepository.getDetailCart(id);
-  //   if (checkCart) {
-  //     await this.cartsRepository.deleteCart(id);
-  //     return new HttpException("Cart Deleted", HttpStatus.OK);
-  //   }
-  // }
+  // 4. Delete
+  async deleteProductFromUserCart(
+    productId: number,
+    userId: number,
+  ): Promise<CartsEntity | unknown> {
+    const checkCart =
+      await this.cartsRepository.getDetailCartItemByUserAndProduct(
+        productId,
+        userId,
+      );
+    if (checkCart) {
+      await this.cartsRepository.deleteCart(checkCart.id);
+      return new HttpException('Product Deleted', HttpStatus.OK);
+    }
+  }
 
   // // 5. Update
   // async updateCart(

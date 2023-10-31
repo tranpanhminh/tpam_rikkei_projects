@@ -18,7 +18,7 @@ export class ProductCommentsEntity {
   @Column({ type: 'longtext', nullable: false })
   comment: string;
 
-  @Column({ type: 'decimal', nullable: false })
+  @Column({ type: 'float', nullable: false })
   rating: number;
 
   @Column({ type: 'int', nullable: false })

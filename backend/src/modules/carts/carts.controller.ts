@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, UsePipes } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  UsePipes,
+} from '@nestjs/common';
 import { CartsService } from './carts.service';
 import { AddToCartDTO } from './dto/add-to-cart.dto';
 import { ConfigModule } from '@nestjs/config';
@@ -47,13 +55,15 @@ export class CartsController {
     return result;
   }
 
-  // // 4. Delete
-  // @Delete("/delete/:id")
-  // @UseInterceptors(CheckCartExist)
-  // async deleteCart(@Param("id") id: number): Promise<CartsEntity | unknown> {
-  //   const result: string | unknown = await this.cartsService.deleteCart(id);
-  //   return result;
-  // }
+  // 4. Delete
+  @Delete('/delete/products/:id/users/:userId')
+  async deleteProductFromUserCart(
+    @Param() param: { id: number; userId: number },
+  ): Promise<CartsEntity | unknown> {
+    const result: string | unknown =
+      await this.cartsService.deleteProductFromUserCart(param.id, param.userId);
+    return result;
+  }
 
   // // 5. Update
   // @Patch("update/:id")

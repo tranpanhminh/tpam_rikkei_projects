@@ -24,7 +24,7 @@ export class ProductsEntity {
   @Column({ type: 'longtext', nullable: false })
   description: string;
 
-  @Column({ type: 'decimal', nullable: false })
+  @Column({ type: 'float', nullable: false })
   price: number;
 
   @Column({ type: 'int', nullable: false })

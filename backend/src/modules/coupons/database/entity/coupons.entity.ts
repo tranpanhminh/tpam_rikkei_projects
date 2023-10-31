@@ -11,10 +11,10 @@ export class CouponsEntity {
   @Column({ length: 255, nullable: false })
   code: string;
 
-  @Column({ type: 'decimal', nullable: false })
+  @Column({ type: 'float', nullable: false })
   discount_rate: number;
 
-  @Column({ type: 'decimal', nullable: false })
+  @Column({ type: 'float', nullable: false })
   min_bill: number;
 
   @Column({
