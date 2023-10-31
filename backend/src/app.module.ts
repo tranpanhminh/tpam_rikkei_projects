@@ -19,6 +19,7 @@ import { ProductImagesModule } from './modules/productImages/productImages.modul
 import { CheckProductCommentExist } from './middlewares/checkProductCommentExist.middleware';
 import { ConfigModule } from '@nestjs/config';
 import { ProductCommentsModule } from './modules/productComments/productComments.module';
+import { CartsModule } from './modules/carts/carts.module';
 
 // ConfigModule.forRoot({
 //   envFilePath: '.env',
@@ -45,6 +46,7 @@ import { ProductCommentsModule } from './modules/productComments/productComments
     ProductsModule,
     ProductImagesModule,
     ProductCommentsModule,
+    CartsModule,
   ],
   controllers: [],
 })

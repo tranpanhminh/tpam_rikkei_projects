@@ -1,3 +1,4 @@
+import { CartsEntity } from 'src/modules/carts/database/entity/carts.entity';
 import { PostTypesEntity } from 'src/modules/postTypes/database/entity/postTypes.entity';
 import { ProductCommentsEntity } from 'src/modules/productComments/database/entity/productComments.entity';
 import { ProductImagesEntity } from 'src/modules/productImages/database/entity/productImages.entity';
@@ -91,4 +92,8 @@ export class ProductsEntity {
     (product_comments) => product_comments.products,
   )
   product_comments: ProductCommentsEntity[];
+
+  // Products (1) - (N) Carts
+  @OneToMany(() => CartsEntity, (carts) => carts.products)
+  carts: CartsEntity[];
 }
