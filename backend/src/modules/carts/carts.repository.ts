@@ -2,14 +2,16 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CartsEntity } from './database/entity/carts.entity';
-import { CartsInterface } from './interface/carts.interface';
+import { CartInterface } from './interface/cart.interface';
 import { UpdateProductCartInterface } from './interface/update-product-cart.interface';
+import { ProductsEntity } from '../products/database/entity/products.entity';
 
 @Injectable()
 export class CartsRepository {
   constructor(
     @InjectRepository(CartsEntity)
     public cartsEntity: Repository<CartsEntity>,
+    public productsEntity: Repository<ProductsEntity>,
   ) {}
 
   // 1. Get All
@@ -25,7 +27,7 @@ export class CartsRepository {
 
   // 3. Add
   async addProductToCart(
-    newCart: CartsInterface,
+    newCart: CartInterface,
   ): Promise<CartsEntity | unknown> {
     return await this.cartsEntity.save(newCart);
   }

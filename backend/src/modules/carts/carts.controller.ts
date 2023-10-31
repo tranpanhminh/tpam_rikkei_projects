@@ -1,21 +1,9 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-  UsePipes,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UsePipes } from '@nestjs/common';
 import { CartsService } from './carts.service';
 import { AddToCartDTO } from './dto/add-to-cart.dto';
-import { UpdateCartDTO } from './dto/update-cart.dto';
 import { ConfigModule } from '@nestjs/config';
 import { CartsEntity } from './database/entity/carts.entity';
-import { CheckUserCartExist } from 'src/pipes/checkUserCartExist.pipe';
 import { CheckUserExist } from 'src/pipes/checkUserExist.pipe';
-import { CheckProductAndUserExist } from 'src/pipes/checkProductAndUserExist.pipe';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -50,8 +38,12 @@ export class CartsController {
   async addProductToCart(
     @Param() param: { id: number; userId: number },
     @Body() body: AddToCartDTO,
-  ): Promise<CartsEntity | unknown | any> {
-    const result: string | unknown = await this.cartsService.addCart(body);
+  ): Promise<CartsEntity | unknown> {
+    const result: string | unknown = await this.cartsService.addProductToCart(
+      param.id,
+      param.userId,
+      body,
+    );
     return result;
   }
 

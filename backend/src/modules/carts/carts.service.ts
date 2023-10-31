@@ -2,10 +2,9 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CartsRepository } from './carts.repository';
 import { CartsEntity } from './database/entity/carts.entity';
 import { AddToCartDTO } from './dto/add-to-cart.dto';
-import { UpdateCartDTO } from './dto/update-cart.dto';
 import { ProductsRepository } from '../products/products.repository';
-import { CartsInterface } from './interface/carts.interface';
-import { UpdateProductCartInterface } from './interface/update-product-cart.interface';
+import { CartInterface } from './interface/cart.interface';
+import { ProductInterface } from '../products/interface/product.interface';
 
 @Injectable()
 export class CartsService {
@@ -34,33 +33,43 @@ export class CartsService {
     productId: number,
     userId: number,
     body: AddToCartDTO,
-  ): Promise<CartsEntity | unknown | any> {
+  ): Promise<CartsEntity | unknown> {
     const { quantity } = body;
-    const findProduct =
+    const findProduct: ProductInterface =
       await this.productsRepository.getDetailProduct(productId);
     if (findProduct) {
-      const findProductInCart: CartsInterface =
-        await this.cartsRepository.findUserAndProductInCart(userId, productId);
-      if (findProductInCart) {
-        const updateCart: CartsInterface = {
-          ...findProductInCart,
-          quantity: Number(findProductInCart.quantity) + Number(quantity),
-        };
-        await this.cartsRepository.updateQuantityInCart(
-          findProductInCart.id,
-          updateCart,
-        );
-        return new HttpException('Product Added To Cart', HttpStatus.OK);
-      } else {
-        const newCart: CartsInterface = {
-          user_id: userId,
-          product_id: productId,
-          quantity: Number(quantity),
-          price: Number(findProduct.price),
-        };
-        await this.cartsRepository.addProductToCart(newCart);
-        return new HttpException('Product Added To Cart', HttpStatus.OK);
-      }
+      // const findProductInCart: CartsInterface =
+      //   await this.cartsRepository.findUserAndProductInCart(userId, productId);
+      // if (findProductInCart) {
+      //   const updateCart: CartsInterface = {
+      //     ...findProductInCart,
+      //     quantity: Number(findProductInCart.quantity) + Number(quantity),
+      //   };
+      //   await this.cartsRepository.updateQuantityInCart(
+      //     findProductInCart.id,
+      //     updateCart,
+      //   );
+      //   return new HttpException('Product Added To Cart', HttpStatus.OK);
+      // } else {
+      const newCart: CartInterface = {
+        user_id: userId,
+        product_id: productId,
+        quantity: Number(quantity),
+        price: Number(findProduct.price),
+      };
+      await this.cartsRepository.addProductToCart(newCart);
+
+      // Giảm số lượng hàng tồn kho
+      const updatedProductQuantityStock: ProductInterface = {
+        ...findProduct,
+        quantity_stock: Number(findProduct.quantity_stock) - Number(quantity),
+      };
+      await this.productsRepository.updateProduct(
+        productId,
+        updatedProductQuantityStock,
+      );
+
+      return new HttpException('Product Added To Cart', HttpStatus.OK);
     }
   }
 
