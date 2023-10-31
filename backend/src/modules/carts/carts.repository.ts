@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CartsEntity } from './database/entity/carts.entity';
 import { CartInterface } from './interface/cart.interface';
-import { UpdateProductCartInterface } from './interface/update-product-cart.interface';
 
 @Injectable()
 export class CartsRepository {
@@ -56,7 +55,7 @@ export class CartsRepository {
   // 7. Update Product In Cart
   async updateQuantityInCart(
     cartId: number,
-    updatedCart: UpdateProductCartInterface,
+    updatedCart: CartInterface,
   ): Promise<CartsEntity | unknown> {
     return await this.cartsEntity.update(cartId, updatedCart);
   }

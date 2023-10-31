@@ -36,40 +36,41 @@ export class CartsService {
   ): Promise<CartsEntity | unknown> {
     const { quantity } = body;
     const findProduct: ProductInterface =
-      await this.productsRepository.getDetailProduct(productId);
+      await this.productsRepository.getDetail(productId);
     if (findProduct) {
-      // const findProductInCart: CartsInterface =
-      //   await this.cartsRepository.findUserAndProductInCart(userId, productId);
-      // if (findProductInCart) {
-      //   const updateCart: CartsInterface = {
-      //     ...findProductInCart,
-      //     quantity: Number(findProductInCart.quantity) + Number(quantity),
-      //   };
-      //   await this.cartsRepository.updateQuantityInCart(
-      //     findProductInCart.id,
-      //     updateCart,
-      //   );
-      //   return new HttpException('Product Added To Cart', HttpStatus.OK);
-      // } else {
-      const newCart: CartInterface = {
-        user_id: userId,
-        product_id: productId,
-        quantity: Number(quantity),
-        price: Number(findProduct.price),
-      };
-      await this.cartsRepository.addProductToCart(newCart);
+      const findProductInCart: CartInterface =
+        await this.cartsRepository.findUserAndProductInCart(userId, productId);
+      if (findProductInCart) {
+        const updateCart: CartInterface = {
+          ...findProductInCart,
+          quantity: Number(findProductInCart.quantity) + Number(quantity),
+        };
+        await this.cartsRepository.updateQuantityInCart(
+          findProductInCart.id,
+          updateCart,
+        );
+        return new HttpException('Product Added To Cart', HttpStatus.OK);
+      } else {
+        const newCart: CartInterface = {
+          user_id: userId,
+          product_id: productId,
+          quantity: Number(quantity),
+          price: Number(findProduct.price),
+        };
+        await this.cartsRepository.addProductToCart(newCart);
 
-      // Giảm số lượng hàng tồn kho
-      const updatedProductQuantityStock: ProductInterface = {
-        ...findProduct,
-        quantity_stock: Number(findProduct.quantity_stock) - Number(quantity),
-      };
-      await this.productsRepository.updateProduct(
-        productId,
-        updatedProductQuantityStock,
-      );
+        // Giảm số lượng hàng tồn kho
+        const updatedProductQuantityStock: ProductInterface = {
+          ...findProduct,
+          quantity_stock: Number(findProduct.quantity_stock) - Number(quantity),
+        };
+        await this.productsRepository.updateProduct(
+          productId,
+          updatedProductQuantityStock,
+        );
 
-      return new HttpException('Product Added To Cart', HttpStatus.OK);
+        return new HttpException('Product Added To Cart', HttpStatus.OK);
+      }
     }
   }
 

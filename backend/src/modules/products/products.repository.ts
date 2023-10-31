@@ -43,6 +43,13 @@ export class ProductsRepository {
     });
   }
 
+  // 2. Get Detail Original
+  async getDetail(id: number): Promise<ProductsEntity> {
+    return await this.productsEntity.findOne({
+      where: { id: id },
+    });
+  }
+
   // 3. Add
   async addProduct(
     newProduct: ProductInterface,
