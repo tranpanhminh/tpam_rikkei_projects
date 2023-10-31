@@ -1,4 +1,5 @@
 import { CartsEntity } from 'src/modules/carts/database/entity/carts.entity';
+import { OrderItemsEntity } from 'src/modules/orderItems/database/entity/orderItems.entity';
 import { PostTypesEntity } from 'src/modules/postTypes/database/entity/postTypes.entity';
 import { ProductCommentsEntity } from 'src/modules/productComments/database/entity/productComments.entity';
 import { ProductImagesEntity } from 'src/modules/productImages/database/entity/productImages.entity';
@@ -96,4 +97,8 @@ export class ProductsEntity {
   // Products (1) - (N) Carts
   @OneToMany(() => CartsEntity, (carts) => carts.products)
   carts: CartsEntity[];
+
+  // Orders (1) - (N) Order Items
+  @OneToMany(() => OrderItemsEntity, (order_items) => order_items.products)
+  order_items: OrderItemsEntity[];
 }

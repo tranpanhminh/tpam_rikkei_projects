@@ -1,12 +1,8 @@
-import {
-  Controller,
-  Get,
-  Param,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { ConfigModule } from '@nestjs/config';
 import { OrdersEntity } from './database/entity/orders.entity';
+import { CheckOutOrderDTO } from './dto/check-out-order.dto';
 // import { CheckOrderExist } from 'src/interceptors/checkOrderExist';
 
 ConfigModule.forRoot({
@@ -37,14 +33,16 @@ export class OrdersController {
     return result;
   }
 
-  // 3. Add
-  // @Post("/add")
-  // async addOrder(
-  //   @Body() body: CreateOrderDTO
-  // ): Promise<OrdersEntity | unknown> {
-  //   const result: string | unknown = await this.ordersService.addOrder(body);
-  //   return result;
-  // }
+  // 3. Check Out
+  @Post('/checkout/users/:userId')
+  async checkOutOrder(
+    @Body() body: CheckOutOrderDTO,
+  ): Promise<OrdersEntity | unknown | any> {
+    console.log(body);
+    // const result: string | unknown =
+    //   await this.ordersService.checkOutOrder(body);
+    // return result;
+  }
 
   // 4. Delete
   // @Delete("/delete/:id")

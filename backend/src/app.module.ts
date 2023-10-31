@@ -21,6 +21,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ProductCommentsModule } from './modules/productComments/productComments.module';
 import { CartsModule } from './modules/carts/carts.module';
 import { OrdersModule } from './modules/orders/orders.module';
+import { OrderItemsModule } from './modules/orderItems/orderItems.module';
 
 // ConfigModule.forRoot({
 //   envFilePath: '.env',
@@ -49,6 +50,7 @@ import { OrdersModule } from './modules/orders/orders.module';
     ProductCommentsModule,
     CartsModule,
     OrdersModule,
+    OrderItemsModule,
   ],
   controllers: [],
 })

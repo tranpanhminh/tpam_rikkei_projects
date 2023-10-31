@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { OrdersRepository } from './orders.repository';
 import { OrdersEntity } from './database/entity/orders.entity';
+import { CheckOutOrderDTO } from './dto/check-out-order.dto';
 
 @Injectable()
 export class OrdersService {
@@ -22,17 +23,20 @@ export class OrdersService {
   }
 
   // 3. Add
-  // async addOrder(body: CreateOrderDTO): Promise<OrdersEntity | unknown> {
-  //   const { name, code, discount_rate, min_bill } = body;
-  //   const newOrder = {
-  //     name: name,
-  //     code: code,
-  //     discount_rate: discount_rate,
-  //     min_bill: min_bill,
-  //   };
-  //   await this.ordersRepository.addOrder(newOrder);
-  //   return new HttpException("Order Added", HttpStatus.OK);
-  // }
+  async checkOutOrder(
+    body: CheckOutOrderDTO,
+  ): Promise<OrdersEntity | unknown | any> {
+    console.log(body, 'SERVICE');
+    // const { customer_name, address, phone } = body;
+    // const newOrder = {
+    //   name: name,
+    //   code: code,
+    //   discount_rate: discount_rate,
+    //   min_bill: min_bill,
+    // };
+    // await this.ordersRepository.checkOutOrder(newOrder);
+    // return new HttpException('Order Added', HttpStatus.OK);
+  }
 
   // 4. Delete
   // async deleteOrder(id: number): Promise<OrdersEntity | unknown> {

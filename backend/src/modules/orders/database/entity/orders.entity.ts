@@ -1,5 +1,6 @@
 import { CancelReasonsEntity } from 'src/modules/cancelReasons/database/entity/cancelReasons.entity';
 import { CouponsEntity } from 'src/modules/coupons/database/entity/coupons.entity';
+import { OrderItemsEntity } from 'src/modules/orderItems/database/entity/orderItems.entity';
 import { OrderStatusesEntity } from 'src/modules/orderStatuses/database/entity/orderStatuses.entity';
 import { UsersEntity } from 'src/modules/users/database/entity/users.entity';
 import {
@@ -9,6 +10,7 @@ import {
   Timestamp,
   JoinColumn,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
 
 @Entity('orders')
@@ -132,4 +134,8 @@ export class OrdersEntity {
     foreignKeyConstraintName: 'FK.coupons.orders',
   })
   coupons: CouponsEntity;
+
+  // Orders (1) - (N) Order Items
+  @OneToMany(() => OrderItemsEntity, (order_items) => order_items.orders)
+  order_items: OrderItemsEntity[];
 }
