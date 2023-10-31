@@ -47,6 +47,7 @@ export class CartsController {
     @Param() param: { id: number; userId: number },
     @Body() body: AddToCartDTO,
   ): Promise<CartsEntity | unknown> {
+    console.log('AAA');
     const result: string | unknown = await this.cartsService.addProductToCart(
       param.id,
       param.userId,
@@ -62,6 +63,16 @@ export class CartsController {
   ): Promise<CartsEntity | unknown> {
     const result: string | unknown =
       await this.cartsService.deleteProductFromUserCart(param.id, param.userId);
+    return result;
+  }
+
+  // 5. Delete All Products From User Cart
+  @Delete('/delete/users/:userId')
+  async deleteAllProductsFromUserCart(
+    @Param() param: { userId: number },
+  ): Promise<CartsEntity | unknown> {
+    const result: string | unknown =
+      await this.cartsService.deleteAllProductsFromUserCart(param.userId);
     return result;
   }
 

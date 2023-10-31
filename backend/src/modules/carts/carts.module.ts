@@ -20,6 +20,8 @@ import { ProductImagesEntity } from '../productImages/database/entity/productIma
 import { CheckProductQuantityStock } from 'src/middlewares/checkProductQuantityStock.middleware';
 import { CheckInputQuantity } from 'src/middlewares/checkInputQuantity.middleware';
 import { CheckProductExistInUserCart } from 'src/middlewares/checkProductExistInUserCart.middleware';
+import { CheckUserExist } from 'src/middlewares/checkUserExist.middleware';
+import { CheckUserCartExist } from 'src/middlewares/checkUserCartExist.middleware';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -65,5 +67,9 @@ export class CartsModule implements NestModule {
         path: `${url}/delete/products/:id/users/:userId`,
         method: RequestMethod.DELETE,
       });
+    consumer.apply(CheckUserExist, CheckUserCartExist).forRoutes({
+      path: `${url}/delete/users/:userId`,
+      method: RequestMethod.DELETE,
+    });
   }
 }

@@ -18,7 +18,7 @@ export class CartsRepository {
 
   // 2. Get Detail
   async getDetailCartByUser(id: number): Promise<CartsEntity | any> {
-    const detailCart = await this.cartsEntity.findOne({
+    const detailCart = await this.cartsEntity.find({
       where: { user_id: id },
     });
     return detailCart;
@@ -42,8 +42,22 @@ export class CartsRepository {
   }
 
   // 4. Delete
-  async deleteCart(cartItemId: number): Promise<CartsEntity | unknown> {
+  async deleteProductFromUserCart(
+    cartItemId: number,
+  ): Promise<CartsEntity | unknown> {
     return await this.cartsEntity.delete(cartItemId);
+  }
+
+  // 5. Delete All Products From Cart
+  async deleteAllProductsFromUserCart(
+    userId: number,
+  ): Promise<CartsEntity | unknown | any> {
+    return await this.cartsEntity
+      .createQueryBuilder()
+      .delete()
+      .from(CartsEntity)
+      .where({ user_id: userId })
+      .execute();
   }
 
   // // 5. Update

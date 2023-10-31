@@ -41,6 +41,8 @@ export class CartsService {
       const findProductInCart: CartInterface =
         await this.cartsRepository.findUserAndProductInCart(userId, productId);
       if (findProductInCart) {
+        console.log(findProductInCart);
+
         const updateCart: CartInterface = {
           ...findProductInCart,
           quantity: Number(findProductInCart.quantity) + Number(quantity),
@@ -49,7 +51,6 @@ export class CartsService {
           findProductInCart.id,
           updateCart,
         );
-        return new HttpException('Product Added To Cart', HttpStatus.OK);
       } else {
         const newCart: CartInterface = {
           user_id: userId,
@@ -57,20 +58,21 @@ export class CartsService {
           quantity: Number(quantity),
           price: Number(findProduct.price),
         };
+        console.log(newCart, '22');
+
         await this.cartsRepository.addProductToCart(newCart);
-
-        // Giảm số lượng hàng tồn kho
-        const updatedProductQuantityStock: ProductInterface = {
-          ...findProduct,
-          quantity_stock: Number(findProduct.quantity_stock) - Number(quantity),
-        };
-        await this.productsRepository.updateProduct(
-          productId,
-          updatedProductQuantityStock,
-        );
-
-        return new HttpException('Product Added To Cart', HttpStatus.OK);
       }
+      // Giảm số lượng hàng tồn kho
+      const updatedProductQuantityStock: ProductInterface = {
+        ...findProduct,
+        quantity_stock: Number(findProduct.quantity_stock) - Number(quantity),
+      };
+      await this.productsRepository.updateProduct(
+        productId,
+        updatedProductQuantityStock,
+      );
+
+      return new HttpException('Product Added To Cart', HttpStatus.OK);
     }
   }
 
@@ -85,8 +87,20 @@ export class CartsService {
         userId,
       );
     if (checkCart) {
-      await this.cartsRepository.deleteCart(checkCart.id);
+      await this.cartsRepository.deleteProductFromUserCart(checkCart.id);
       return new HttpException('Product Deleted', HttpStatus.OK);
+    }
+  }
+
+  // 5. Delete All Products From User Cart
+  async deleteAllProductsFromUserCart(
+    userId: number,
+  ): Promise<CartsEntity | unknown> {
+    const checkCart = await this.cartsRepository.getDetailCartByUser(userId);
+    console.log(checkCart, 'CHECKCART');
+    if (checkCart) {
+      await this.cartsRepository.deleteAllProductsFromUserCart(userId);
+      return new HttpException('All Products Deleted', HttpStatus.OK);
     }
   }
 
