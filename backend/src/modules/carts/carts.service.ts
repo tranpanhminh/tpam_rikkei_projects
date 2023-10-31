@@ -41,8 +41,6 @@ export class CartsService {
       const findProductInCart: CartInterface =
         await this.cartsRepository.findUserAndProductInCart(userId, productId);
       if (findProductInCart) {
-        console.log(findProductInCart);
-
         const updateCart: CartInterface = {
           ...findProductInCart,
           quantity: Number(findProductInCart.quantity) + Number(quantity),
@@ -58,8 +56,6 @@ export class CartsService {
           quantity: Number(quantity),
           price: Number(findProduct.price),
         };
-        console.log(newCart, '22');
-
         await this.cartsRepository.addProductToCart(newCart);
       }
       // Giảm số lượng hàng tồn kho
@@ -97,7 +93,6 @@ export class CartsService {
     userId: number,
   ): Promise<CartsEntity | unknown> {
     const checkCart = await this.cartsRepository.getDetailCartByUser(userId);
-    console.log(checkCart, 'CHECKCART');
     if (checkCart) {
       await this.cartsRepository.deleteAllProductsFromUserCart(userId);
       return new HttpException('All Products Deleted', HttpStatus.OK);
