@@ -6,16 +6,18 @@ import {
   Param,
   Patch,
   Post,
-  UseInterceptors,
-} from "@nestjs/common";
-import { CartsService } from "./carts.service";
-import { CreateCartDTO } from "./dto/create-cart.dto";
-import { UpdateCartDTO } from "./dto/update-cart.dto";
-import { ConfigModule } from "@nestjs/config";
-import { CartsEntity } from "./database/entity/carts.entity";
+  UsePipes,
+} from '@nestjs/common';
+import { CartsService } from './carts.service';
+import { CreateCartDTO } from './dto/create-cart.dto';
+import { UpdateCartDTO } from './dto/update-cart.dto';
+import { ConfigModule } from '@nestjs/config';
+import { CartsEntity } from './database/entity/carts.entity';
+import { CheckUserCartExist } from 'src/pipes/checkUserCartExist.pipe';
+import { CheckUserExist } from 'src/pipes/checkUserExist.pipe';
 
 ConfigModule.forRoot({
-  envFilePath: ".env",
+  envFilePath: '.env',
 });
 const path = process.env.SERVER_PATH;
 
@@ -32,12 +34,13 @@ export class CartsController {
   }
 
   // 2. Get Detail
-  @Get("/detail/:id")
-  // @UseInterceptors(CheckCartExist)
-  async getDetailCartByUser(@Param("id") id: number): Promise<CartsEntity | unknown> {
-    const result: CartsEntity | unknown = await this.cartsService.getDetailCartByUser(
-      id
-    );
+  @Get('/detail/users/:id')
+  @UsePipes(CheckUserExist)
+  async getDetailCartByUser(
+    @Param('id') id: number,
+  ): Promise<CartsEntity | unknown> {
+    const result: CartsEntity | unknown =
+      await this.cartsService.getDetailCartByUser(id);
     return result;
   }
 
