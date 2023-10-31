@@ -5,9 +5,9 @@ import * as paypal from 'paypal-rest-sdk';
 export class PaypalService {
   async createPayment(paymentData: any, request, response) {
     // Thực hiện tạo thanh toán
-    await paypal.payment.create(paymentData, function (error, payment) {
+    paypal.payment.create(paymentData, function (error, payment) {
       if (error) {
-        console.log(error, 'ERROR Create');
+        throw error;
       } else {
         console.log(payment);
         for (let i = 0; i < payment.links.length; i++) {
@@ -21,8 +21,8 @@ export class PaypalService {
 
   async executePayment(paymentData: any, request, response) {
     // Thực hiện thanh toán
-    const payerId = paymentData.payerId;
-    const paymentId = paymentData.paymentId;
+    const payerId = request.query.PayerId;
+    const paymentId = request.query.paymentId;
     const executePayment = {
       payer_id: payerId,
       transactions: [

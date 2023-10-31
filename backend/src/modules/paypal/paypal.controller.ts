@@ -56,7 +56,7 @@ export class PaypalController {
     return payment;
   }
 
-  @Get('execute-payment')
+  @Get('/execute-payment')
   async executePayment(
     @Body() paymentData: any,
     @Res() request: any,
