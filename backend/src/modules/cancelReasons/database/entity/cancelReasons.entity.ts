@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, Timestamp } from 'typeorm';
+import { OrdersEntity } from 'src/modules/orders/database/entity/orders.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  Timestamp,
+  OneToMany,
+} from 'typeorm';
 
 @Entity('cancel_reasons')
 export class CancelReasonsEntity {
@@ -22,4 +29,8 @@ export class CancelReasonsEntity {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   updated_at: Timestamp;
+
+  // Cancel Reasons (1) - (N) Orders
+  @OneToMany(() => OrdersEntity, (orders) => orders.cancel_reasons)
+  orders: OrdersEntity[];
 }

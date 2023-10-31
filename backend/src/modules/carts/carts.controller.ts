@@ -47,7 +47,6 @@ export class CartsController {
     @Param() param: { id: number; userId: number },
     @Body() body: AddToCartDTO,
   ): Promise<CartsEntity | unknown> {
-    console.log('AAA');
     const result: string | unknown = await this.cartsService.addProductToCart(
       param.id,
       param.userId,

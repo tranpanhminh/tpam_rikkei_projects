@@ -1,4 +1,5 @@
 import { CartsEntity } from 'src/modules/carts/database/entity/carts.entity';
+import { OrdersEntity } from 'src/modules/orders/database/entity/orders.entity';
 import { ProductCommentsEntity } from 'src/modules/productComments/database/entity/productComments.entity';
 import { UserRolesEntity } from 'src/modules/userRoles/database/entity/userRoles.entity';
 import { UserStatusesEntity } from 'src/modules/userStatuses/database/entity/userStatuses.entity';
@@ -79,4 +80,8 @@ export class UsersEntity {
   // Users (1) - (N) Carts
   @OneToMany(() => CartsEntity, (carts) => carts.users)
   carts: CartsEntity[];
+
+  // Users (1) - (N) Orders
+  @OneToMany(() => OrdersEntity, (orders) => orders.users)
+  orders: OrdersEntity[];
 }
