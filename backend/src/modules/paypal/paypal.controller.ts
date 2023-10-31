@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { PaypalService } from './paypal.service';
 // import { ConfigModule } from '@nestjs/config';
 
@@ -13,15 +13,19 @@ const path = process.env.SERVER_PATH;
 export class PaypalController {
   constructor(private readonly paypalService: PaypalService) {}
   @Post('/create-payment')
-  async createPayment(@Body() paymentData: any) {
+  async createPayment(
+    @Body() paymentData: any,
+    @Req() request: any,
+    @Res() response: any,
+  ) {
     paymentData = {
       intent: 'sale',
       payer: {
         payment_method: 'paypal',
       },
       redirect_urls: {
-        return_url: 'http://return.url',
-        cancel_url: 'http://cancel.url',
+        return_url: 'https://www.sandbox.paypal.com/',
+        cancel_url: 'https://www.sandbox.paypal.com/',
       },
       transactions: [
         {
@@ -44,13 +48,25 @@ export class PaypalController {
         },
       ],
     };
-    const payment = await this.paypalService.createPayment(paymentData);
+    const payment = await this.paypalService.createPayment(
+      paymentData,
+      request,
+      response,
+    );
     return payment;
   }
 
-  @Post('execute-payment')
-  async executePayment(@Body() paymentData: any) {
-    const executePayment = await this.paypalService.executePayment(paymentData);
+  @Get('execute-payment')
+  async executePayment(
+    @Body() paymentData: any,
+    @Res() request: any,
+    @Res() response: any,
+  ) {
+    const executePayment = await this.paypalService.executePayment(
+      paymentData,
+      request,
+      response,
+    );
     return executePayment;
   }
 }
