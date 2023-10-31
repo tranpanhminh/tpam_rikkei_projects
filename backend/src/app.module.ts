@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import ormConfig from 'orm.config';
 import { VendorsModule } from './modules/vendors/vendors.module';
@@ -16,6 +16,15 @@ import { UsersModule } from './modules/users/users.module';
 import { CloudinaryModule } from './modules/cloudinary/cloudinary.module';
 import { ProductsModule } from './modules/products/products.module';
 import { ProductImagesModule } from './modules/productImages/productImages.module';
+import { CheckProductCommentExist } from './middlewares/checkProductCommentExist.middleware';
+import { ConfigModule } from '@nestjs/config';
+import { ProductCommentsModule } from './modules/productComments/productComments.module';
+
+// ConfigModule.forRoot({
+//   envFilePath: '.env',
+// });
+// const path = process.env.SERVER_PATH;
+//  -----------------------
 
 @Module({
   imports: [
@@ -35,6 +44,7 @@ import { ProductImagesModule } from './modules/productImages/productImages.modul
     UsersModule,
     ProductsModule,
     ProductImagesModule,
+    ProductCommentsModule,
   ],
   controllers: [],
 })

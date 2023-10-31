@@ -1,3 +1,4 @@
+import { ProductCommentsEntity } from 'src/modules/productComments/database/entity/productComments.entity';
 import { UserRolesEntity } from 'src/modules/userRoles/database/entity/userRoles.entity';
 import { UserStatusesEntity } from 'src/modules/userStatuses/database/entity/userStatuses.entity';
 import {
@@ -7,6 +8,7 @@ import {
   Timestamp,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity('users')
@@ -65,4 +67,11 @@ export class UsersEntity {
   })
   @JoinColumn({ name: 'status_id' })
   user_statuses: UserStatusesEntity;
+
+  // Users (1) - (N) Product Comments
+  @OneToMany(
+    () => ProductCommentsEntity,
+    (product_comments) => product_comments.users,
+  )
+  product_comments: ProductCommentsEntity[];
 }

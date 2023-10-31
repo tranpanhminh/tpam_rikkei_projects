@@ -258,7 +258,7 @@ img {
 
 .banner {
   position: relative;
-  background-image: url("D:\Anh Minh\DEV\Rikkei Academy\Project\Project Module 2\Project 2 - Anh Minh\project-02-petshop\src\assets\images\pet-shop-banner.jpg");
+  background-image: url("https://i.ibb.co/d2ytNyV/pet-shop-banner.jpg");
   height: 600px;
   background-size: cover;
 }
@@ -1286,7 +1286,7 @@ table.table.table-cart {
 }
 
 .contact-us-banner {
-  background-image: url("D:\Anh Minh\DEV\Rikkei Academy\Project\Project Module 2\Project 2 - Anh Minh\project-02-petshop\src\assets\images\contact-us-banner.jpg");
+  background-image: url("https://i.ibb.co/7k4p4HD/contact-us-banner.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;

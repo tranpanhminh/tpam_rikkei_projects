@@ -1,3 +1,4 @@
+import { ProductCommentsEntity } from 'src/modules/productComments/database/entity/productComments.entity';
 import { ProductsEntity } from 'src/modules/products/database/entity/products.entity';
 import {
   Entity,
@@ -31,7 +32,14 @@ export class PostTypesEntity {
   updated_at: Timestamp;
 
   // Relationship
-  // Post Types (1) - (1) Products
+  // Post Types (1) - (N) Products
   @OneToMany(() => ProductsEntity, (products) => products.post_types)
   products: ProductsEntity[];
+
+  // Post Types (1) - (N) Product Comments
+  @OneToMany(
+    () => ProductCommentsEntity,
+    (product_comments) => product_comments.users,
+  )
+  product_comments: ProductCommentsEntity[];
 }

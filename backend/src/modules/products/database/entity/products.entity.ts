@@ -1,4 +1,5 @@
 import { PostTypesEntity } from 'src/modules/postTypes/database/entity/postTypes.entity';
+import { ProductCommentsEntity } from 'src/modules/productComments/database/entity/productComments.entity';
 import { ProductImagesEntity } from 'src/modules/productImages/database/entity/productImages.entity';
 import { VendorsEntity } from 'src/modules/vendors/database/entity/vendors.entity';
 import {
@@ -83,4 +84,11 @@ export class ProductsEntity {
     (product_images) => product_images.products,
   )
   product_images: ProductImagesEntity[];
+
+  // Products (1) - (N) Product Comments
+  @OneToMany(
+    () => ProductCommentsEntity,
+    (product_comments) => product_comments.products,
+  )
+  product_comments: ProductCommentsEntity[];
 }
