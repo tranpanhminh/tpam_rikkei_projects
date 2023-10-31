@@ -3,7 +3,6 @@ import { OrdersService } from './orders.service';
 import { ConfigModule } from '@nestjs/config';
 import { OrdersEntity } from './database/entity/orders.entity';
 import { CheckOutOrderDTO } from './dto/check-out-order.dto';
-// import { CheckOrderExist } from 'src/interceptors/checkOrderExist';
 
 ConfigModule.forRoot({
   envFilePath: '.env',

@@ -55,7 +55,7 @@ export class OrderItemsEntity {
   @ManyToOne(() => OrdersEntity, (orders) => orders.order_items, {
     cascade: true, // Tùy chọn cascade update
     onUpdate: 'CASCADE',
-    onDelete: 'SET NULL', // Tùy chọn ondelete
+    onDelete: 'CASCADE', // Tùy chọn ondelete
   })
   @JoinColumn({
     name: 'order_id',

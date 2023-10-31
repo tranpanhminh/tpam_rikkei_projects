@@ -14,7 +14,7 @@ const config: MysqlConnectionOptions = {
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   entities: [__dirname + '/**/**/**/*.entity.{ts,js}'],
-  synchronize: true, // Tạo bảng xong thì nhớ chuyển thành false
+  synchronize: false, // Tạo bảng xong thì nhớ chuyển thành false
   namingStrategy: new SnakeNamingStrategy(),
 };
 

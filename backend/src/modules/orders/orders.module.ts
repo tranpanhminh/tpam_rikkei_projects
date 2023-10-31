@@ -12,12 +12,13 @@ import { UsersRepository } from '../users/users.repository';
 import { CheckUserCartExist } from 'src/middlewares/checkUserCartExist.middleware';
 import { CartsEntity } from '../carts/database/entity/carts.entity';
 import { CartsRepository } from '../carts/carts.repository';
+import { CheckIsAdmin } from 'src/middlewares/checkIsAdmin.middleware';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
 });
 const path = process.env.SERVER_PATH;
-const url = `${path}/carts`;
+const url = `${path}/orders`;
 
 // -------------------------------------------------------
 
@@ -40,7 +41,7 @@ const url = `${path}/carts`;
 })
 export class OrdersModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(CheckUserExist, CheckUserCartExist).forRoutes({
+    consumer.apply(CheckUserExist, CheckIsAdmin, CheckUserCartExist).forRoutes({
       path: `${url}/checkout/users/:userId`,
       method: RequestMethod.POST,
     });
