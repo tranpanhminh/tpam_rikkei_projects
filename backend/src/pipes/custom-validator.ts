@@ -145,18 +145,6 @@ export function CheckEachFileSize(validationOptions?: ValidationOptions) {
   };
 }
 
-// export function IsCouponExist(validationOptions?: ValidationOptions) {
-//   return function (object: any, propertyName: string) {
-//     registerDecorator({
-//       name: 'IsCouponExist',
-//       target: object.constructor,
-//       propertyName: propertyName,
-//       options: validationOptions,
-//       validator: CouponExistRule,
-//     });
-//   };
-// }
-
 export function IsTheSame(
   property: string,
   validationOptions?: ValidationOptions,
