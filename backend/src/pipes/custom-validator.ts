@@ -128,7 +128,6 @@ export function CheckEachFileSize(validationOptions?: ValidationOptions) {
       constraints: [],
       validator: {
         validate(value: any) {
-          console.log(value, 'VALE');
           if (!value || !Array.isArray(value)) {
             return false; // Handle cases where value is not an array or is empty
           }
