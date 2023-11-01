@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { PaypalService } from './paypal.service';
-// import { ConfigModule } from '@nestjs/config';
+import axios from 'axios';
 
-// ConfigModule.forRoot({
-//   envFilePath: '.env',
-// });
 const path = process.env.SERVER_PATH;
+const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
+const PAYPAL_SECRET_KEY = process.env.PAYPAL_SECRET_KEY;
+const PAYPAL_API = process.env.PAYPAL_API;
 
 // -------------------------------------------------------
 
@@ -13,7 +13,7 @@ const path = process.env.SERVER_PATH;
 export class PaypalController {
   constructor(private readonly paypalService: PaypalService) {}
   @Post('/create-payment')
-  async createPayment(
+  async createOrder(
     @Body() paymentData: any,
     @Req() request: any,
     @Res() response: any,
@@ -24,8 +24,8 @@ export class PaypalController {
         payment_method: 'paypal',
       },
       redirect_urls: {
-        return_url: 'https://www.sandbox.paypal.com/',
-        cancel_url: 'https://www.sandbox.paypal.com/',
+        return_url: 'http://localhost:3000/success',
+        cancel_url: 'http://localhost:3000/cancel',
       },
       transactions: [
         {
@@ -48,21 +48,51 @@ export class PaypalController {
         },
       ],
     };
-    const payment = await this.paypalService.createPayment(
+    // const payment = await this.paypalService.createOrder(
+    //   paymentData,
+    //   request,
+    //   response,
+    // );
+    const responseData = await axios.post(
+      `${PAYPAL_API}/v2/checkout/orders`,
       paymentData,
-      request,
-      response,
+      {
+        auth: {
+          username: PAYPAL_CLIENT_ID,
+          password: PAYPAL_SECRET_KEY,
+        },
+      },
     );
-    return payment;
+    console.log(responseData);
+    response.send(responseData);
   }
 
   @Get('/execute-payment')
-  async executePayment(
+  async captureOrder(
     @Body() paymentData: any,
     @Res() request: any,
     @Res() response: any,
   ) {
-    const executePayment = await this.paypalService.executePayment(
+    // Thực hiện thanh toán
+    const payerId = request.query.PayerID;
+    const paymentId = request.query.paymentId;
+    paymentData = {
+      payer_id: 1,
+      transactions: [
+        {
+          amount: {
+            currency: 'USD',
+            total: '1.00',
+          },
+        },
+      ],
+    };
+    console.log(request.query);
+    console.log(paymentData, 'AAA');
+
+    const executePayment = await this.paypalService.captureOrder(
+      payerId,
+      paymentId,
       paymentData,
       request,
       response,

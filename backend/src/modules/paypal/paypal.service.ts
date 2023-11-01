@@ -3,7 +3,7 @@ import * as paypal from 'paypal-rest-sdk';
 
 @Injectable()
 export class PaypalService {
-  async createPayment(paymentData: any, request, response) {
+  async createOrder(paymentData: any, request, response) {
     // Thực hiện tạo thanh toán
     paypal.payment.create(paymentData, function (error, payment) {
       if (error) {
@@ -19,34 +19,15 @@ export class PaypalService {
     });
   }
 
-  async executePayment(paymentData: any, request, response) {
-    // Thực hiện thanh toán
-    const payerId = request.query.PayerId;
-    const paymentId = request.query.paymentId;
-    const executePayment = {
-      payer_id: payerId,
-      transactions: [
-        {
-          amount: {
-            currency: 'USD',
-            total: '1.00',
-          },
-        },
-      ],
-    };
-
-    paypal.payment.execute(
-      paymentId,
-      executePayment,
-      function (error, payment) {
-        if (error) {
-          console.log(error, 'ERROR Excute');
-          throw error;
-        } else {
-          console.log(JSON.stringify(payment));
-          response.send('Success');
-        }
-      },
-    );
+  async captureOrder(payerId, paymentId, paymentData: any, request, response) {
+    paypal.payment.execute(paymentId, paymentData, function (error, payment) {
+      if (error) {
+        console.log(error, 'ERROR Excute');
+        throw error;
+      } else {
+        console.log(JSON.stringify(payment));
+        response.send('Success');
+      }
+    });
   }
 }
