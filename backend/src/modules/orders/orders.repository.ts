@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { OrdersEntity } from './database/entity/orders.entity';
+import { OrdersInterface } from './interface/orders.interface';
 
 @Injectable()
 export class OrdersRepository {
@@ -21,15 +22,15 @@ export class OrdersRepository {
     return detailOrder;
   }
 
-  // 3. Add
+  // 3. Checkout
   async checkOutOrder(newOrder: any): Promise<OrdersEntity | unknown> {
     return await this.ordersEntity.save(newOrder);
   }
 
   // 4. Add
-  // async deleteOrder(id: number): Promise<OrdersEntity | unknown> {
-  //   return await this.ordersEntity.delete(id);
-  // }
+  async addOrder(orderInfo: OrdersInterface): Promise<OrdersEntity | unknown> {
+    return await this.ordersEntity.save(orderInfo);
+  }
 
   // 5. Update
   // async updateOrder(

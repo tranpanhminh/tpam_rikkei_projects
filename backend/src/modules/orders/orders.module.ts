@@ -16,6 +16,10 @@ import { CheckIsAdmin } from 'src/middlewares/checkIsAdmin.middleware';
 import { PaypalService } from '../paypal/paypal.service';
 import { CouponsEntity } from '../coupons/database/entity/coupons.entity';
 import { CouponsRepository } from '../coupons/coupons.repository';
+import { OrderItemsRepository } from '../orderItems/orderItems.repository';
+import { ProductsEntity } from '../products/database/entity/products.entity';
+import { ProductsRepository } from '../products/products.repository';
+import { ProductImagesEntity } from '../productImages/database/entity/productImages.entity';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -33,6 +37,9 @@ const url = `${path}/orders`;
       UsersEntity,
       CartsEntity,
       CouponsEntity,
+      OrderItemsEntity,
+      ProductsEntity,
+      ProductImagesEntity,
     ]),
   ],
   controllers: [OrdersController],
@@ -43,6 +50,8 @@ const url = `${path}/orders`;
     CartsRepository,
     PaypalService,
     CouponsRepository,
+    OrderItemsRepository,
+    ProductsRepository,
   ],
 })
 export class OrdersModule {

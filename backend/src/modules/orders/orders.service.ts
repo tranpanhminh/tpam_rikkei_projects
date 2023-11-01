@@ -15,6 +15,8 @@ import { CouponsInterface } from '../coupons/interface/coupons.interface';
 import { CouponsRepository } from '../coupons/coupons.repository';
 import { PaypalService } from '../paypal/paypal.service';
 import axios from 'axios';
+import { OrderItemsRepository } from '../orderItems/orderItems.repository';
+import { ProductsRepository } from '../products/products.repository';
 
 const path = process.env.SERVER_PATH;
 const BACKEND_PATH = process.env.BACKEND_PATH;
@@ -32,6 +34,8 @@ export class OrdersService {
     private readonly cartsRepository: CartsRepository,
     private readonly couponsRepository: CouponsRepository,
     private readonly paypalService: PaypalService,
+    private readonly orderItemsRepository: OrderItemsRepository,
+    private readonly productsRepository: ProductsRepository,
   ) {}
 
   // 1. Get All
@@ -124,34 +128,58 @@ export class OrdersService {
     const params = new URLSearchParams();
     params.append('grant_type', 'client_credentials');
 
-    const getOrderPaypal = await this.paypalService.createOrderGetInformation(
-      paymentData,
+    await this.paypalService.createOrder(paymentData, params, req, res);
+
+    const createOrder = await this.paypalService.captureOrder(
+      newOrder,
       params,
       req,
       res,
     );
 
-    const getOrderPaypalId = getOrderPaypal.id;
+    // Tạo Order vào bảng Order
+    const orderInfo: OrdersInterface =
+      await this.ordersRepository.addOrder(createOrder);
+    const orderId = orderInfo.id;
 
-    const getEmail: any = await this.paypalService.createOrderDetailInformation(
-      params,
-      getOrderPaypalId,
-      req,
-      res,
-    );
+    // Push tất cả sản phẩm trong Cart của User vào Order item
 
-    newOrder.email_paypal = getEmail;
+    // ----------- Xử lý giảm hàng tồn kho -------------
+    const userCart = await this.cartsRepository.getDetailCartByUser(userId);
+    for (const cartProduct of userCart) {
+      const findProduct = await this.productsRepository.getDetail(
+        cartProduct.product_id,
+      );
+      const updatedQuantityStock =
+        findProduct.quantity_stock - cartProduct.quantity;
 
-    const createPaypalOrder = await this.paypalService.createOrder(
-      paymentData,
-      params,
-      req,
-      res,
-    );
+      // Cập nhật số lượng tồn kho trong bảng products
+      await this.productsRepository.updateQuantityStock(
+        updatedQuantityStock,
+        cartProduct.product_id,
+      );
 
-    console.log('hehe');
+      const copyProduct = {
+        ...findProduct,
+      };
 
-    // await this.ordersRepository.checkOutOrder(newOrder);
+      const orderItemInfo = {
+        order_id: orderId, // Sử dụng orderId đã gán ở trên
+        product_id: cartProduct.product_id,
+        product_name: copyProduct.name,
+        product_description: copyProduct.description,
+        product_thumbnail: copyProduct.thumbnail_url,
+        quantity: cartProduct.quantity,
+        price: cartProduct.price,
+      };
+
+      // Đẩy Cart vào Order Item
+      await this.orderItemsRepository.addOrderItem(orderItemInfo);
+    }
+
+    // // Xoá tất cả sản phẩm của User trong Cart đi
+    // await this.cartsRepository.deleteAllProductsFromUserCart(userId);
+
     // return new HttpException('Checkout Completed', HttpStatus.OK);
   }
 

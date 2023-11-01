@@ -78,7 +78,7 @@ export class PaypalController {
   @Get('/capture-order')
   async captureOrder(@Req() req: any, @Res() res: any) {
     const { token } = req.query;
-
+    let paymentData;
     // await axios
     //   .post(
     //     `${PAYPAL_API}/v2/checkout/orders/${token}/capture`,
@@ -98,7 +98,12 @@ export class PaypalController {
     //     res.send(error);
     //   });
 
-    const result = await this.paypalService.captureOrder(token, req, res);
+    const result = await this.paypalService.captureOrder(
+      paymentData,
+      token,
+      req,
+      res,
+    );
     return result;
   }
 
@@ -152,6 +157,15 @@ export class PaypalController {
   async checkWalletBalance(@Req() req, @Res() res) {
     const params = new URLSearchParams();
     params.append('grant_type', 'client_credentials');
+    params.append(
+      'scope',
+      'https://uri.paypal.com/services/reporting/balances/read',
+    );
+    // params.append(
+    //   'scope',
+    //   'https://uri.paypal.com/services/reporting/search/read',
+    // );
+    console.log(params);
     const result = await this.paypalService.checkWalletBalance(
       params,
       req,

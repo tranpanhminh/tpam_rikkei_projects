@@ -42,24 +42,38 @@ export class PaypalService {
   }
 
   // 2. Capture Order
-  async captureOrder(token, req, res) {
-    await axios
-      .post(
-        `${PAYPAL_API}/v2/checkout/orders/${token}/capture`,
-        {},
-        {
-          auth: {
-            username: PAYPAL_CLIENT_ID,
-            password: PAYPAL_SECRET_KEY,
-          },
+  async captureOrder(newOrder, token, req, res): Promise<any> {
+    // const captureOrder = await axios
+    //   .post(
+    //     `${PAYPAL_API}/v2/checkout/orders/${token}/capture`,
+    //     {},
+    //     {
+    //       auth: {
+    //         username: PAYPAL_CLIENT_ID,
+    //         password: PAYPAL_SECRET_KEY,
+    //       },
+    //     },
+    //   )
+    //   .then((response) => {
+    //     return res.send(response.data);
+    //   })
+    //   .catch((error) => {
+    //     return res.send(error);
+    //   });
+
+    const captureOrder = await axios.post(
+      `${PAYPAL_API}/v2/checkout/orders/${token}/capture`,
+      {},
+      {
+        auth: {
+          username: PAYPAL_CLIENT_ID,
+          password: PAYPAL_SECRET_KEY,
         },
-      )
-      .then((response) => {
-        return res.send(response.data);
-      })
-      .catch((error) => {
-        return res.send(error);
-      });
+      },
+    );
+
+    newOrder.email_paypal = captureOrder.data.payer.email_address;
+    return newOrder;
   }
 
   // 4. createOrderGetInformation
@@ -125,29 +139,21 @@ export class PaypalService {
         password: PAYPAL_SECRET_KEY,
       },
     });
+
     await axios
-      .get(`https://api-m.paypal.com/v1/reporting/balances`, {
+      .get(`${PAYPAL_API}/v1/reporting/balances`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${access_token}`,
         },
       })
       .then((response) => {
+        res.json(response.data);
         console.log(response);
       })
       .catch((error) => {
+        res.json(error);
         console.log(error);
       });
-
-    const result = await axios.get(
-      `https://api-m.paypal.com/v1/reporting/balances`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${access_token}`,
-        },
-      },
-    );
-    console.log(result);
   }
 }

@@ -97,4 +97,9 @@ export class ProductsRepository {
   ): Promise<ProductImagesEntity | unknown> {
     return await this.productImagesEntity.update(imageId, updatedProductImage);
   }
+
+  // 8. Update số lượng hàng tồn kho
+  async updateQuantityStock(updatedQuantityStock, productId) {
+    return await this.productsEntity.update(productId, updatedQuantityStock);
+  }
 }

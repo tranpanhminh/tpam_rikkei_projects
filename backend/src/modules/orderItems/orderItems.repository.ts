@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { OrderItemsEntity } from './database/entity/orderItems.entity';
+import { OrderItemInterface } from './interface/orderItem.interface';
 
 @Injectable()
 export class OrderItemsRepository {
@@ -21,12 +22,12 @@ export class OrderItemsRepository {
     return detailOrderItem;
   }
 
-  // // 3. Add
-  // async addOrderItem(
-  //   newOrderItem: CreateOrderItemDTO
-  // ): Promise<OrderItemsEntity | unknown> {
-  //   return await this.orderItemsEntity.save(newOrderItem);
-  // }
+  // 3. Add
+  async addOrderItem(
+    newOrderItem: OrderItemInterface,
+  ): Promise<OrderItemsEntity | unknown> {
+    return await this.orderItemsEntity.save(newOrderItem);
+  }
 
   // // 4. Add
   // async deleteOrderItem(id: number): Promise<OrderItemsEntity | unknown> {
