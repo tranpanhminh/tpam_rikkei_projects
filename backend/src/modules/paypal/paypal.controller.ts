@@ -6,14 +6,15 @@ const path = process.env.SERVER_PATH;
 const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
 const PAYPAL_SECRET_KEY = process.env.PAYPAL_SECRET_KEY;
 const PAYPAL_API = process.env.PAYPAL_API;
-const PAYPAL_ACCESS_TOKEN = process.env.PAYPAL_ACCESS_TOKEN;
+const BACKEND_PATH = process.env.BACKEND_PATH;
+const FRONTEND_PATH = process.env.FRONTEND_PATH;
 
 // -------------------------------------------------------
 
 @Controller(`${path}/paypal`)
 export class PaypalController {
   constructor(private readonly paypalService: PaypalService) {}
-  @Post('/create-payment')
+  @Post('/create-order')
   async createOrder(
     @Body() paymentData: any,
     @Req() req: any,
@@ -21,60 +22,43 @@ export class PaypalController {
   ) {
     try {
       paymentData = {
-        intent: 'sale',
-        payer: {
-          payment_method: 'paypal',
-        },
-        redirect_urls: {
-          return_url: 'http://localhost:3000/success',
-          cancel_url: 'http://localhost:3000/cancel',
-        },
-        transactions: [
+        intent: 'CAPTURE',
+        purchase_units: [
           {
-            item_list: {
-              items: [
-                {
-                  name: 'item',
-                  sku: 'item',
-                  price: '1.00',
-                  currency: 'USD',
-                  quantity: 1,
-                },
-              ],
-            },
             amount: {
-              currency: 'USD',
-              total: '1.00',
+              currency_code: 'USD',
+              value: '5.00',
             },
-            description: 'This is the payment description.',
           },
         ],
+        application_context: {
+          brand_name: 'mycompany.com',
+          landing_page: 'NO_PREFERENCE',
+          user_action: 'PAY_NOW',
+          return_url: `${BACKEND_PATH}/${path}/paypal/capture-order`,
+          cancel_url: `${BACKEND_PATH}/${path}/paypal/cancel-order`,
+        },
       };
 
       const params = new URLSearchParams();
-      params.append('grand_type', 'client_credentials');
+      params.append('grant_type', 'client_credentials');
       console.log(params);
       const {
-        data: { token },
-      } = await axios.post(
-        'https://api-m.sandbox.paypal.com/v1/oauth2/token',
-        params,
-        {
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          auth: {
-            username: PAYPAL_CLIENT_ID,
-            password: PAYPAL_SECRET_KEY,
-          },
+        data: { access_token },
+      } = await axios.post(`${PAYPAL_API}/v1/oauth2/token`, params, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
-      );
-      console.log(token);
+        auth: {
+          username: PAYPAL_CLIENT_ID,
+          password: PAYPAL_SECRET_KEY,
+        },
+      });
 
       await axios
         .post(`${PAYPAL_API}/v2/checkout/orders`, paymentData, {
           headers: {
-            Authorization: `Bearer ${PAYPAL_ACCESS_TOKEN}`,
+            Authorization: `Bearer ${access_token}`,
           },
         })
         .then((response) => {
@@ -89,36 +73,33 @@ export class PaypalController {
     }
   }
 
-  @Get('/execute-payment')
-  async captureOrder(
-    @Body() paymentData: any,
-    @Res() request: any,
-    @Res() response: any,
-  ) {
-    // Thực hiện thanh toán
-    const payerId = request.query.PayerID;
-    const paymentId = request.query.paymentId;
-    paymentData = {
-      payer_id: 1,
-      transactions: [
+  @Get('/capture-order')
+  async captureOrder(@Req() req: any, @Res() res: any) {
+    const { token } = req.query;
+    console.log(token);
+
+    await axios
+      .post(
+        `${PAYPAL_API}/v2/checkout/orders/${token}/capture`,
+        {},
         {
-          amount: {
-            currency: 'USD',
-            total: '1.00',
+          auth: {
+            username: PAYPAL_CLIENT_ID,
+            password: PAYPAL_SECRET_KEY,
           },
         },
-      ],
-    };
-    console.log(request.query);
-    console.log(paymentData, 'AAA');
+      )
+      .then((response) => {
+        console.log(response.data);
+        res.send(response.data);
+      })
+      .catch((error) => {
+        res.send(error);
+      });
+  }
 
-    const executePayment = await this.paypalService.captureOrder(
-      payerId,
-      paymentId,
-      paymentData,
-      request,
-      response,
-    );
-    return executePayment;
+  @Get('/cancel-order')
+  async cancelOrder(@Req() req: any, @Res() res: any) {
+    res.redirect(`${FRONTEND_PATH}/cart`);
   }
 }
