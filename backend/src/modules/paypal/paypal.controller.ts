@@ -109,41 +109,54 @@ export class PaypalController {
   }
 
   // 4. Create Order With Detail Information
-  // @Get('/create-order-detail')
-  // async createOrderDetail(
-  //   @Body() paymentData: any,
-  //   @Req() req: any,
-  //   @Res() res: any,
-  // ) {
-  //   // Data này chỉ Test
-  //   paymentData = {
-  //     intent: 'CAPTURE',
-  //     purchase_units: [
-  //       {
-  //         amount: {
-  //           currency_code: 'USD',
-  //           value: '5.00',
-  //         },
-  //       },
-  //     ],
-  //     application_context: {
-  //       brand_name: 'mycompany.com',
-  //       landing_page: 'NO_PREFERENCE',
-  //       user_action: 'PAY_NOW',
-  //       return_url: `${BACKEND_PATH}/${path}/paypal/capture-order`,
-  //       cancel_url: `${BACKEND_PATH}/${path}/paypal/cancel-order`,
-  //     },
-  //   };
+  @Get('/create-order-detail')
+  async createOrderDetail(
+    @Body() paymentData: any,
+    @Req() req: any,
+    @Res() res: any,
+  ) {
+    // Data này chỉ Test
+    paymentData = {
+      intent: 'CAPTURE',
+      purchase_units: [
+        {
+          amount: {
+            currency_code: 'USD',
+            value: '5.00',
+          },
+        },
+      ],
+      application_context: {
+        brand_name: 'mycompany.com',
+        landing_page: 'NO_PREFERENCE',
+        user_action: 'PAY_NOW',
+        return_url: `${BACKEND_PATH}/${path}/paypal/capture-order`,
+        cancel_url: `${BACKEND_PATH}/${path}/paypal/cancel-order`,
+      },
+    };
 
-  //   const params = new URLSearchParams();
-  //   params.append('grant_type', 'client_credentials');
+    const params = new URLSearchParams();
+    params.append('grant_type', 'client_credentials');
 
-  //   const result = await this.paypalService.createOrder(
-  //     paymentData,
-  //     params,
-  //     req,
-  //     res,
-  //   );
-  //   return result;
-  // }
+    const result = await this.paypalService.createOrder(
+      paymentData,
+      params,
+      req,
+      res,
+    );
+    return result;
+  }
+
+  // 5. Check Wallet Balance
+  @Get('/check-wallet-balance')
+  async checkWalletBalance(@Req() req, @Res() res) {
+    const params = new URLSearchParams();
+    params.append('grant_type', 'client_credentials');
+    const result = await this.paypalService.checkWalletBalance(
+      params,
+      req,
+      res,
+    );
+    return result;
+  }
 }

@@ -111,4 +111,43 @@ export class PaypalService {
     );
     return result.data.purchase_units[0].payee.email_address;
   }
+
+  // 6. Check Wallet Balance
+  async checkWalletBalance(params, req, res) {
+    const {
+      data: { access_token },
+    } = await axios.post(`${PAYPAL_API}/v1/oauth2/token`, params, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      auth: {
+        username: PAYPAL_CLIENT_ID,
+        password: PAYPAL_SECRET_KEY,
+      },
+    });
+    await axios
+      .get(`https://api-m.paypal.com/v1/reporting/balances`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    const result = await axios.get(
+      `https://api-m.paypal.com/v1/reporting/balances`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${access_token}`,
+        },
+      },
+    );
+    console.log(result);
+  }
 }
