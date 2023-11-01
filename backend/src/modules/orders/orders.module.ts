@@ -13,6 +13,9 @@ import { CheckUserCartExist } from 'src/middlewares/checkUserCartExist.middlewar
 import { CartsEntity } from '../carts/database/entity/carts.entity';
 import { CartsRepository } from '../carts/carts.repository';
 import { CheckIsAdmin } from 'src/middlewares/checkIsAdmin.middleware';
+import { PaypalService } from '../paypal/paypal.service';
+import { CouponsEntity } from '../coupons/database/entity/coupons.entity';
+import { CouponsRepository } from '../coupons/coupons.repository';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -29,6 +32,7 @@ const url = `${path}/orders`;
       OrderItemsEntity,
       UsersEntity,
       CartsEntity,
+      CouponsEntity,
     ]),
   ],
   controllers: [OrdersController],
@@ -37,6 +41,8 @@ const url = `${path}/orders`;
     OrdersRepository,
     UsersRepository,
     CartsRepository,
+    PaypalService,
+    CouponsRepository,
   ],
 })
 export class OrdersModule {

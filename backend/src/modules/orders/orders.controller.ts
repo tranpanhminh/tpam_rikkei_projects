@@ -35,12 +35,14 @@ export class OrdersController {
   // 3. Check Out
   @Post('/checkout/users/:userId')
   async checkOutOrder(
+    @Param('userId') userId: number,
     @Body() body: CheckOutOrderDTO,
   ): Promise<OrdersEntity | unknown | any> {
-    console.log(body);
-    // const result: string | unknown =
-    //   await this.ordersService.checkOutOrder(body);
-    // return result;
+    const result: string | unknown = await this.ordersService.checkOutOrder(
+      userId,
+      body,
+    );
+    return result;
   }
 
   // 4. Delete

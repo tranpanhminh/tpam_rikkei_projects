@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CartsEntity } from './database/entity/carts.entity';
 import { CartInterface } from './interface/cart.interface';
+import { BillInterface } from './interface/bill.interface';
 
 @Injectable()
 export class CartsRepository {
@@ -84,5 +85,16 @@ export class CartsRepository {
     updatedCart: CartInterface,
   ): Promise<CartsEntity | unknown> {
     return await this.cartsEntity.update(cartId, updatedCart);
+  }
+
+  // 8. Caculate Bill
+  async caculateBill(userId: number): Promise<BillInterface> {
+    const bill = this.cartsEntity
+      .createQueryBuilder('cart')
+      .select(['user_id', 'ROUND(SUM(quantity * price), 1) AS bill'])
+      .where('cart.user_id = :userId', { userId })
+      .groupBy('user_id');
+    const result = await bill.getRawOne();
+    return result;
   }
 }

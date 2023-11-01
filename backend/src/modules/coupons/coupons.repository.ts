@@ -42,4 +42,16 @@ export class CouponsRepository {
   ): Promise<CouponsEntity | unknown> {
     return await this.couponsEntity.update(id, updateCoupon);
   }
+
+  // 6. Check Bill To Apply Coupon
+  async checkBillToApplyCoupon(bill: number): Promise<unknown> {
+    const listCounpons = this.couponsEntity
+      .createQueryBuilder('coupon')
+      .select(['*'])
+      .where('coupon.min_bill <= :bill', { bill })
+      .orderBy('coupon.min_bill', 'DESC')
+      .limit(1);
+    const result = await listCounpons.getRawOne();
+    return result;
+  }
 }

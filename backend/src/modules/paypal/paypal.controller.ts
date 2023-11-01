@@ -1,11 +1,7 @@
 import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { PaypalService } from './paypal.service';
-import axios from 'axios';
 
 const path = process.env.SERVER_PATH;
-const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
-const PAYPAL_SECRET_KEY = process.env.PAYPAL_SECRET_KEY;
-const PAYPAL_API = process.env.PAYPAL_API;
 const BACKEND_PATH = process.env.BACKEND_PATH;
 const FRONTEND_PATH = process.env.FRONTEND_PATH;
 

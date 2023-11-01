@@ -22,6 +22,8 @@ import { CheckInputQuantity } from 'src/middlewares/checkInputQuantity.middlewar
 import { CheckProductExistInUserCart } from 'src/middlewares/checkProductExistInUserCart.middleware';
 import { CheckUserExist } from 'src/middlewares/checkUserExist.middleware';
 import { CheckUserCartExist } from 'src/middlewares/checkUserCartExist.middleware';
+import { CouponsEntity } from '../coupons/database/entity/coupons.entity';
+import { CouponsRepository } from '../coupons/coupons.repository';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -38,6 +40,7 @@ const url = `${path}/carts`;
       UsersEntity,
       ProductsEntity,
       ProductImagesEntity,
+      CouponsEntity,
     ]),
   ],
   controllers: [CartsController],
@@ -47,6 +50,7 @@ const url = `${path}/carts`;
     UsersRepository,
     ProductsRepository,
     ProductImagesRepository,
+    CouponsRepository,
   ],
 })
 export class CartsModule implements NestModule {

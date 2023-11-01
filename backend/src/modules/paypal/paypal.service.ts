@@ -1,13 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
-import * as paypal from 'paypal-rest-sdk';
 
-const path = process.env.SERVER_PATH;
 const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
 const PAYPAL_SECRET_KEY = process.env.PAYPAL_SECRET_KEY;
 const PAYPAL_API = process.env.PAYPAL_API;
-const BACKEND_PATH = process.env.BACKEND_PATH;
-const FRONTEND_PATH = process.env.FRONTEND_PATH;
 
 // -------------------------------------------------------
 
