@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Req, Res } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { ConfigModule } from '@nestjs/config';
 import { OrdersEntity } from './database/entity/orders.entity';
@@ -37,10 +37,14 @@ export class OrdersController {
   async checkOutOrder(
     @Param('userId') userId: number,
     @Body() body: CheckOutOrderDTO,
+    @Req() req,
+    @Res() res,
   ): Promise<OrdersEntity | unknown | any> {
     const result: string | unknown = await this.ordersService.checkOutOrder(
       userId,
       body,
+      req,
+      res,
     );
     return result;
   }

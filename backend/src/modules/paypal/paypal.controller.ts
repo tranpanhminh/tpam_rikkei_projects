@@ -10,6 +10,7 @@ const FRONTEND_PATH = process.env.FRONTEND_PATH;
 @Controller(`${path}/paypal`)
 export class PaypalController {
   constructor(private readonly paypalService: PaypalService) {}
+  // 1. Create Order
   @Post('/create-order')
   async createOrder(
     @Body() paymentData: any,
@@ -73,6 +74,7 @@ export class PaypalController {
     return result;
   }
 
+  // 2. Capture Order
   @Get('/capture-order')
   async captureOrder(@Req() req: any, @Res() res: any) {
     const { token } = req.query;
@@ -100,8 +102,48 @@ export class PaypalController {
     return result;
   }
 
+  // 3. Cancel Order
   @Get('/cancel-order')
   async cancelOrder(@Req() req: any, @Res() res: any) {
     res.redirect(`${FRONTEND_PATH}/cart`);
   }
+
+  // 4. Create Order With Detail Information
+  // @Get('/create-order-detail')
+  // async createOrderDetail(
+  //   @Body() paymentData: any,
+  //   @Req() req: any,
+  //   @Res() res: any,
+  // ) {
+  //   // Data này chỉ Test
+  //   paymentData = {
+  //     intent: 'CAPTURE',
+  //     purchase_units: [
+  //       {
+  //         amount: {
+  //           currency_code: 'USD',
+  //           value: '5.00',
+  //         },
+  //       },
+  //     ],
+  //     application_context: {
+  //       brand_name: 'mycompany.com',
+  //       landing_page: 'NO_PREFERENCE',
+  //       user_action: 'PAY_NOW',
+  //       return_url: `${BACKEND_PATH}/${path}/paypal/capture-order`,
+  //       cancel_url: `${BACKEND_PATH}/${path}/paypal/cancel-order`,
+  //     },
+  //   };
+
+  //   const params = new URLSearchParams();
+  //   params.append('grant_type', 'client_credentials');
+
+  //   const result = await this.paypalService.createOrder(
+  //     paymentData,
+  //     params,
+  //     req,
+  //     res,
+  //   );
+  //   return result;
+  // }
 }

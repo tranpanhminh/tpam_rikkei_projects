@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  Req,
+  Res,
+} from '@nestjs/common';
 import { OrdersRepository } from './orders.repository';
 import { OrdersEntity } from './database/entity/orders.entity';
 import { CheckOutOrderDTO } from './dto/check-out-order.dto';
@@ -7,6 +13,17 @@ import { CartsRepository } from '../carts/carts.repository';
 import { BillInterface } from '../carts/interface/bill.interface';
 import { CouponsInterface } from '../coupons/interface/coupons.interface';
 import { CouponsRepository } from '../coupons/coupons.repository';
+import { PaypalService } from '../paypal/paypal.service';
+import axios from 'axios';
+
+const path = process.env.SERVER_PATH;
+const BACKEND_PATH = process.env.BACKEND_PATH;
+const FRONTEND_PATH = process.env.FRONTEND_PATH;
+const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
+const PAYPAL_SECRET_KEY = process.env.PAYPAL_SECRET_KEY;
+const PAYPAL_API = process.env.PAYPAL_API;
+
+// -------------------------------------------------------
 
 @Injectable()
 export class OrdersService {
@@ -14,6 +31,7 @@ export class OrdersService {
     private readonly ordersRepository: OrdersRepository,
     private readonly cartsRepository: CartsRepository,
     private readonly couponsRepository: CouponsRepository,
+    private readonly paypalService: PaypalService,
   ) {}
 
   // 1. Get All
@@ -35,6 +53,8 @@ export class OrdersService {
   async checkOutOrder(
     userId: number,
     body: CheckOutOrderDTO,
+    @Req() req,
+    @Res() res,
   ): Promise<OrdersEntity | unknown | any> {
     const { customer_name, address, phone } = body;
     // Tính tổng hóa đơn
@@ -65,6 +85,26 @@ export class OrdersService {
     console.log(discountedAmount, 'Tiến chiết khấu');
     console.log(totalBillDiscounted, 'Tổng bill đã chiết khấu');
 
+    // Data này chỉ Test
+    const paymentData = {
+      intent: 'CAPTURE',
+      purchase_units: [
+        {
+          amount: {
+            currency_code: 'USD',
+            value: totalBillDiscounted,
+          },
+        },
+      ],
+      application_context: {
+        brand_name: 'petshop.com',
+        landing_page: 'NO_PREFERENCE',
+        user_action: 'PAY_NOW',
+        return_url: `${BACKEND_PATH}/${path}/paypal/capture-order`,
+        cancel_url: `${BACKEND_PATH}/${path}/paypal/cancel-order`,
+      },
+    };
+
     const newOrder: OrdersInterface = {
       user_id: userId,
       customer_name: customer_name,
@@ -78,9 +118,38 @@ export class OrdersService {
       cancel_reason_id: null,
       coupon_id: copyCoupon.id,
       status_id: 1,
-      email_paypal: 'ab',
+      email_paypal: '',
     };
-    console.log(newOrder, 'NEW ORDER');
+
+    const params = new URLSearchParams();
+    params.append('grant_type', 'client_credentials');
+
+    const getOrderPaypal = await this.paypalService.createOrderGetInformation(
+      paymentData,
+      params,
+      req,
+      res,
+    );
+
+    const getOrderPaypalId = getOrderPaypal.id;
+
+    const getEmail: any = await this.paypalService.createOrderDetailInformation(
+      params,
+      getOrderPaypalId,
+      req,
+      res,
+    );
+
+    newOrder.email_paypal = getEmail;
+
+    const createPaypalOrder = await this.paypalService.createOrder(
+      paymentData,
+      params,
+      req,
+      res,
+    );
+
+    console.log('hehe');
 
     // await this.ordersRepository.checkOutOrder(newOrder);
     // return new HttpException('Checkout Completed', HttpStatus.OK);
