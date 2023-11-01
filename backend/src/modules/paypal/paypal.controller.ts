@@ -6,6 +6,7 @@ const path = process.env.SERVER_PATH;
 const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
 const PAYPAL_SECRET_KEY = process.env.PAYPAL_SECRET_KEY;
 const PAYPAL_API = process.env.PAYPAL_API;
+const PAYPAL_ACCESS_TOKEN = process.env.PAYPAL_ACCESS_TOKEN;
 
 // -------------------------------------------------------
 
@@ -15,56 +16,77 @@ export class PaypalController {
   @Post('/create-payment')
   async createOrder(
     @Body() paymentData: any,
-    @Req() request: any,
-    @Res() response: any,
+    @Req() req: any,
+    @Res() res: any,
   ) {
-    paymentData = {
-      intent: 'sale',
-      payer: {
-        payment_method: 'paypal',
-      },
-      redirect_urls: {
-        return_url: 'http://localhost:3000/success',
-        cancel_url: 'http://localhost:3000/cancel',
-      },
-      transactions: [
+    try {
+      paymentData = {
+        intent: 'sale',
+        payer: {
+          payment_method: 'paypal',
+        },
+        redirect_urls: {
+          return_url: 'http://localhost:3000/success',
+          cancel_url: 'http://localhost:3000/cancel',
+        },
+        transactions: [
+          {
+            item_list: {
+              items: [
+                {
+                  name: 'item',
+                  sku: 'item',
+                  price: '1.00',
+                  currency: 'USD',
+                  quantity: 1,
+                },
+              ],
+            },
+            amount: {
+              currency: 'USD',
+              total: '1.00',
+            },
+            description: 'This is the payment description.',
+          },
+        ],
+      };
+
+      const params = new URLSearchParams();
+      params.append('grand_type', 'client_credentials');
+      console.log(params);
+      const {
+        data: { token },
+      } = await axios.post(
+        'https://api-m.sandbox.paypal.com/v1/oauth2/token',
+        params,
         {
-          item_list: {
-            items: [
-              {
-                name: 'item',
-                sku: 'item',
-                price: '1.00',
-                currency: 'USD',
-                quantity: 1,
-              },
-            ],
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
           },
-          amount: {
-            currency: 'USD',
-            total: '1.00',
+          auth: {
+            username: PAYPAL_CLIENT_ID,
+            password: PAYPAL_SECRET_KEY,
           },
-          description: 'This is the payment description.',
         },
-      ],
-    };
-    // const payment = await this.paypalService.createOrder(
-    //   paymentData,
-    //   request,
-    //   response,
-    // );
-    const responseData = await axios.post(
-      `${PAYPAL_API}/v2/checkout/orders`,
-      paymentData,
-      {
-        auth: {
-          username: PAYPAL_CLIENT_ID,
-          password: PAYPAL_SECRET_KEY,
-        },
-      },
-    );
-    console.log(responseData);
-    response.send(responseData);
+      );
+      console.log(token);
+
+      await axios
+        .post(`${PAYPAL_API}/v2/checkout/orders`, paymentData, {
+          headers: {
+            Authorization: `Bearer ${PAYPAL_ACCESS_TOKEN}`,
+          },
+        })
+        .then((response) => {
+          return res.json(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send('ERROR');
+    }
   }
 
   @Get('/execute-payment')
