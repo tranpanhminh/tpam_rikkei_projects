@@ -139,7 +139,6 @@ export class PaypalService {
         password: PAYPAL_SECRET_KEY,
       },
     });
-
     await axios
       .get(`${PAYPAL_API}/v1/reporting/balances`, {
         headers: {
@@ -153,7 +152,28 @@ export class PaypalService {
       })
       .catch((error) => {
         res.json(error);
-        console.log(error);
+        console.log(error, 'ERRPR');
+      });
+  }
+
+  // 2. Capture Order
+  async captureCompleteOrder(token, req, res): Promise<any> {
+    await axios
+      .post(
+        `${PAYPAL_API}/v2/checkout/orders/${token}/capture`,
+        {},
+        {
+          auth: {
+            username: PAYPAL_CLIENT_ID,
+            password: PAYPAL_SECRET_KEY,
+          },
+        },
+      )
+      .then((response) => {
+        return res.send(response.data);
+      })
+      .catch((error) => {
+        return res.send(error);
       });
   }
 }

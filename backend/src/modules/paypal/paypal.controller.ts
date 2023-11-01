@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { PaypalService } from './paypal.service';
+import axios from 'axios';
 
 const path = process.env.SERVER_PATH;
 const BACKEND_PATH = process.env.BACKEND_PATH;
@@ -168,6 +169,18 @@ export class PaypalController {
     console.log(params);
     const result = await this.paypalService.checkWalletBalance(
       params,
+      req,
+      res,
+    );
+    return result;
+  }
+
+  // 6. Capture Complete Order
+  @Get('/capture-complete-order')
+  async captureCompleteOrder(@Req() req: any, @Res() res: any) {
+    const { token } = req.query;
+    const result = await this.paypalService.captureCompleteOrder(
+      token,
       req,
       res,
     );

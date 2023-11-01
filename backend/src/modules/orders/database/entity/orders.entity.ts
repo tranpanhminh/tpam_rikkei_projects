@@ -42,7 +42,7 @@ export class OrdersEntity {
   @Column({ type: 'float', nullable: false })
   total_bill: number;
 
-  @Column({ length: 255, nullable: false })
+  @Column({ length: 255, nullable: true })
   cancellation_reason: string;
 
   @Column({ type: 'int', nullable: true })
