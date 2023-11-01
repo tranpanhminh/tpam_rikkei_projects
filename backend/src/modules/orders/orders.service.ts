@@ -17,6 +17,7 @@ import { PaypalService } from '../paypal/paypal.service';
 import { OrderItemsRepository } from '../orderItems/orderItems.repository';
 import { ProductsRepository } from '../products/products.repository';
 import { OrderItemInterface } from '../orderItems/interface/orderItem.interface';
+import axios from 'axios';
 
 const path = process.env.SERVER_PATH;
 const BACKEND_PATH = process.env.BACKEND_PATH;
@@ -100,7 +101,7 @@ export class OrdersService {
         brand_name: 'petshop.com',
         landing_page: 'NO_PREFERENCE',
         user_action: 'PAY_NOW',
-        return_url: `${BACKEND_PATH}/${path}/capture-complete-order`,
+        return_url: `${BACKEND_PATH}/${path}/capture-order`,
         cancel_url: `${BACKEND_PATH}/${path}/paypal/cancel-order`,
       },
     };
@@ -124,14 +125,30 @@ export class OrdersService {
     const params = new URLSearchParams();
     params.append('grant_type', 'client_credentials');
 
-    const checkOutPaypal = await this.paypalService.createOrder(
+    const checkOutPaypal: any = await this.paypalService.createOrder(
       paymentData,
       params,
       req,
       res,
     );
-    console.log(checkOutPaypal);
-    console.log('nexxt');
+    const getCheckOutId = checkOutPaypal.id;
+    let getCheckOutLink: any = '';
+    for (let i = 0; i < checkOutPaypal.links.length; i++) {
+      if (checkOutPaypal.links[i].rel === 'approve') {
+        getCheckOutLink = checkOutPaypal.links[i].href;
+      }
+    }
+
+    const checkOrder = await this.paypalService.getOrderStatus(
+      getCheckOutId,
+      params,
+    );
+
+    if (checkOrder.status === 'CREATED') {
+      return console.log(checkOrder);
+    } else if (checkOrder.status === 'COMPLETED') {
+      console.log('next');
+    }
 
     // // Tạo Order vào bảng Order
     // const orderInfo: OrdersInterface =
