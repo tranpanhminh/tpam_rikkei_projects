@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Req, Res } from '@nestjs/common';
 import { PaypalService } from './paypal.service';
 import axios from 'axios';
 
@@ -178,6 +178,37 @@ export class PaypalController {
       req,
       res,
     );
+    return result;
+  }
+
+  // 6. Create Webhook
+  @Post('/add-webhook')
+  async addWebhook(@Req() req: any, @Res() res: any) {
+    const { token } = req.query;
+    console.log(req.body);
+    const result = await this.paypalService.addWebhook(req.body, token, req);
+    return result;
+  }
+
+  // 6. Get Webhook
+  @Get('/list-webhooks')
+  async getWebhooks(@Req() req: any, @Res() res: any) {
+    const params = new URLSearchParams();
+    params.append('grant_type', 'client_credentials');
+    const result = await this.paypalService.getWebhooks(params, req, res);
+    return result;
+  }
+
+  // 6. Get Webhook
+  @Get('/list-webhooks/detail/:id')
+  async detailWebhook(
+    @Param('id') id: number,
+    @Req() req: any,
+    @Res() res: any,
+  ) {
+    const params = new URLSearchParams();
+    params.append('grant_type', 'client_credentials');
+    const result = await this.paypalService.detailWebhook(id, params, req, res);
     return result;
   }
 }

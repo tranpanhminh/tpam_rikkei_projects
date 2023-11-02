@@ -18,6 +18,7 @@ import { OrderItemsRepository } from '../orderItems/orderItems.repository';
 import { ProductsRepository } from '../products/products.repository';
 import { OrderItemInterface } from '../orderItems/interface/orderItem.interface';
 import axios from 'axios';
+import { UsersRepository } from '../users/users.repository';
 
 const path = process.env.SERVER_PATH;
 const BACKEND_PATH = process.env.BACKEND_PATH;
@@ -33,6 +34,7 @@ export class OrdersService {
     private readonly paypalService: PaypalService,
     private readonly orderItemsRepository: OrderItemsRepository,
     private readonly productsRepository: ProductsRepository,
+    private readonly usersRepository: UsersRepository,
   ) {}
 
   // 1. Get All
@@ -57,6 +59,21 @@ export class OrdersService {
     @Req() req,
     @Res() res,
   ): Promise<OrdersEntity | unknown | any> {
+    const userCart = await this.cartsRepository.getDetailCartByUser(userId);
+    const listItems = userCart.map((item) => {
+      return {
+        name: item.products.name,
+        quantity: item.quantity.toString(),
+        price: item.price.toString(),
+        currency: 'USD',
+        url: item.products.thumbnail_url,
+      };
+    });
+
+    console.log(listItems);
+
+    const findUser = await this.usersRepository.getDetailUser(userId);
+
     const { customer_name, address, phone } = body;
     // Tính tổng hóa đơn
     const caculateBill: BillInterface =
@@ -86,6 +103,22 @@ export class OrdersService {
     console.log(discountedAmount, 'Tiến chiết khấu');
     console.log(totalBillDiscounted, 'Tổng bill đã chiết khấu');
 
+    // const newOrder: OrdersInterface = {
+    //   user_id: userId,
+    //   customer_name: customer_name,
+    //   address: address,
+    //   phone: phone,
+    //   discount_rate: copyCoupon.discount_rate,
+    //   discounted: discountedAmount,
+    //   bill: bill,
+    //   total_bill: totalBillDiscounted,
+    //   cancellation_reason: null,
+    //   cancel_reason_id: null,
+    //   coupon_id: copyCoupon.id,
+    //   status_id: 1,
+    //   email_paypal: '',
+    // };
+
     // Data này chỉ Test
     const paymentData = {
       intent: 'CAPTURE',
@@ -95,8 +128,16 @@ export class OrdersService {
             currency_code: 'USD',
             value: totalBillDiscounted,
           },
+
+          item_list: { items: listItems },
+          shipping_address: {
+            recipient_name: customer_name,
+            primary_address: address,
+            phone: phone,
+          },
         },
       ],
+
       application_context: {
         brand_name: 'petshop.com',
         landing_page: 'NO_PREFERENCE',
@@ -106,33 +147,11 @@ export class OrdersService {
       },
     };
 
-    const newOrder: OrdersInterface = {
-      user_id: userId,
-      customer_name: customer_name,
-      address: address,
-      phone: phone,
-      discount_rate: copyCoupon.discount_rate,
-      discounted: discountedAmount,
-      bill: bill,
-      total_bill: totalBillDiscounted,
-      cancellation_reason: null,
-      cancel_reason_id: null,
-      coupon_id: copyCoupon.id,
-      status_id: 1,
-      email_paypal: '',
-    };
-
     const params = new URLSearchParams();
     params.append('grant_type', 'client_credentials');
 
-    const checkOutPaypal: Promise<any> = await this.paypalService.createOrder(
-      paymentData,
-      params,
-      req,
-      res,
-    );
-    console.log(checkOutPaypal);
-    console.log('text');
+    await this.paypalService.createOrder(paymentData, params, req, res);
+    // await res.json(checkOutPaypal);
 
     // const getCheckOutId = checkOutPaypal.id;
     // let getCheckOutLink: any = '';
@@ -161,7 +180,7 @@ export class OrdersService {
     // // Push tất cả sản phẩm trong Cart của User vào Order item
 
     // // ----------- Xử lý giảm hàng tồn kho -------------
-    // const userCart = await this.cartsRepository.getDetailCartByUser(userId);
+
     // for (const cartProduct of userCart) {
     //   const findProduct = await this.productsRepository.getDetail(
     //     cartProduct.product_id,

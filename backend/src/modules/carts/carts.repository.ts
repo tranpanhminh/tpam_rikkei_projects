@@ -21,6 +21,7 @@ export class CartsRepository {
   async getDetailCartByUser(id: number): Promise<CartsEntity | any> {
     const detailCart = await this.cartsEntity.find({
       where: { user_id: id },
+      relations: { products: true },
     });
     return detailCart;
   }

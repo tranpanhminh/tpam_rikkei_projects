@@ -4,6 +4,8 @@ import axios from 'axios';
 const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
 const PAYPAL_SECRET_KEY = process.env.PAYPAL_SECRET_KEY;
 const PAYPAL_API = process.env.PAYPAL_API;
+const path = process.env.SERVER_PATH;
+const BACKEND_PATH = process.env.BACKEND_PATH;
 
 // -------------------------------------------------------
 
@@ -34,10 +36,10 @@ export class PaypalService {
         //     return res.redirect(response.data.links[i].href);
         //   }
         // }
-        throw response.data;
+        return res.json(response.data);
       })
       .catch((error) => {
-        throw error;
+        return res.json(error);
       });
 
     // const result = await axios.post(
@@ -234,5 +236,91 @@ export class PaypalService {
       },
     );
     return result.data;
+  }
+
+  // 2. Capture Order
+  async addWebhook(params, req, res): Promise<any> {
+    const {
+      data: { access_token },
+    } = await axios.post(`${PAYPAL_API}/v1/oauth2/token`, params, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      auth: {
+        username: PAYPAL_CLIENT_ID,
+        password: PAYPAL_SECRET_KEY,
+      },
+    });
+    await axios
+      .post(`${PAYPAL_API}/v1/notifications/webhooks`, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+        url: `${BACKEND_PATH}/${path}/paypal/list-webhooks`,
+        event_types: [{ name: 'CHECKOUT.ORDER.COMPLETED' }],
+      })
+      .then((response) => {
+        return res.json(response.data);
+      })
+      .catch((error) => {
+        return res.json(error);
+      });
+    console.log('AAAAA');
+  }
+
+  // 2. Capture Order
+  async getWebhooks(params, req, res): Promise<any> {
+    const {
+      data: { access_token },
+    } = await axios.post(`${PAYPAL_API}/v1/oauth2/token`, params, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      auth: {
+        username: PAYPAL_CLIENT_ID,
+        password: PAYPAL_SECRET_KEY,
+      },
+    });
+    await axios
+      .get(`${PAYPAL_API}/v1/notifications/webhooks`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
+      .then((response) => {
+        return res.json(response.data);
+      })
+      .catch((error) => {
+        return res.json(error);
+      });
+  }
+
+  // 2. Capture Order
+  async detailWebhook(id, params, req, res): Promise<any> {
+    const {
+      data: { access_token },
+    } = await axios.post(`${PAYPAL_API}/v1/oauth2/token`, params, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      auth: {
+        username: PAYPAL_CLIENT_ID,
+        password: PAYPAL_SECRET_KEY,
+      },
+    });
+    await axios
+      .get(`${PAYPAL_API}/v1/notifications/webhooks/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
+      .then((response) => {
+        return res.json(response.data);
+      })
+      .catch((error) => {
+        return res.json(error);
+      });
   }
 }
