@@ -6,11 +6,13 @@ import {
   Param,
   Patch,
   Post,
-  UseInterceptors,
 } from '@nestjs/common';
 import { ServicesService } from './services.service';
 import { ConfigModule } from '@nestjs/config';
 import { ServicesEntity } from './database/entity/services.entity';
+import { CreateServiceDTO } from './dto/createService.dto';
+import { FormDataRequest } from 'nestjs-form-data';
+import { UpdateServiceDTO } from './dto/updateService.dto';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -40,36 +42,34 @@ export class ServicesController {
   }
 
   // 3. Add
-  // @Post("/add")
-  // async addService(
-  //   @Body() body: CreateServiceDTO
-  // ): Promise<ServicesEntity | unknown> {
-  //   const result: string | unknown = await this.servicesService.addService(
-  //     body
-  //   );
-  //   return result;
-  // }
+  @Post('/add')
+  @FormDataRequest()
+  async addService(
+    @Body() body: CreateServiceDTO,
+  ): Promise<ServicesEntity | unknown> {
+    const result: string | unknown =
+      await this.servicesService.addService(body);
+    return result;
+  }
 
   // 4. Delete
-  // @Delete("/delete/:id")
-  // @UseInterceptors(CheckServiceExist)
-  // async deleteService(
-  //   @Param("id") id: number
-  // ): Promise<ServicesEntity | unknown> {
-  //   const result: string | unknown = await this.servicesService.deleteService(
-  //     id
-  //   );
-  //   return result;
-  // }
+  @Delete('/delete/:id')
+  async deleteService(
+    @Param('id') id: number,
+  ): Promise<ServicesEntity | unknown> {
+    const result: string | unknown =
+      await this.servicesService.deleteService(id);
+    return result;
+  }
 
   // 5. Update
-  // @Patch("update/:id")
-  // @UseInterceptors(CheckServiceExist)
-  // async updateService(
-  //   @Param("id") id: number,
-  //   @Body() body: UpdateServiceDTO
-  // ): Promise<ServicesEntity | unknown> {
-  //   const result = await this.servicesService.updateService(id, body);
-  //   return result;
-  // }
+  @Patch('update/:id')
+  @FormDataRequest()
+  async updateService(
+    @Param('id') id: number,
+    @Body() body: UpdateServiceDTO,
+  ): Promise<ServicesEntity | unknown> {
+    const result = await this.servicesService.updateService(id, body);
+    return result;
+  }
 }

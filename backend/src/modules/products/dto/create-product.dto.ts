@@ -32,7 +32,7 @@ export class CreateProductDTO {
   @FilesLengthMustBeFour({ message: 'Product Images should have 4 Images' })
   image_url: MemoryStoredFile;
 
-  @IsNumberString({}, { message: 'Quantity Stock should be number' })
+  @IsNumberString({}, { message: 'Vendor should be number' })
   @IsNotEmpty({ message: 'Vendor should not be empty' })
   vendor_id: number;
 
