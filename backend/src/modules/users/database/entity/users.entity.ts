@@ -1,6 +1,7 @@
 import { CartsEntity } from 'src/modules/carts/database/entity/carts.entity';
 import { OrdersEntity } from 'src/modules/orders/database/entity/orders.entity';
 import { ProductCommentsEntity } from 'src/modules/productComments/database/entity/productComments.entity';
+import { ServiceCommentsEntity } from 'src/modules/serviceComments/database/entity/serviceComments.entity';
 import { UserRolesEntity } from 'src/modules/userRoles/database/entity/userRoles.entity';
 import { UserStatusesEntity } from 'src/modules/userStatuses/database/entity/userStatuses.entity';
 import {
@@ -76,6 +77,13 @@ export class UsersEntity {
     (product_comments) => product_comments.users,
   )
   product_comments: ProductCommentsEntity[];
+
+  // Users (1) - (N) Service Comments
+  @OneToMany(
+    () => ServiceCommentsEntity,
+    (service_comments) => service_comments.users,
+  )
+  service_comments: ServiceCommentsEntity[];
 
   // Users (1) - (N) Carts
   @OneToMany(() => CartsEntity, (carts) => carts.users)

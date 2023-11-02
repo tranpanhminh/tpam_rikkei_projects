@@ -1,5 +1,7 @@
 import { ProductCommentsEntity } from 'src/modules/productComments/database/entity/productComments.entity';
 import { ProductsEntity } from 'src/modules/products/database/entity/products.entity';
+import { ServiceCommentsEntity } from 'src/modules/serviceComments/database/entity/serviceComments.entity';
+import { ServicesEntity } from 'src/modules/services/database/entity/services.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -39,7 +41,18 @@ export class PostTypesEntity {
   // Post Types (1) - (N) Product Comments
   @OneToMany(
     () => ProductCommentsEntity,
-    (product_comments) => product_comments.users,
+    (product_comments) => product_comments.post_types,
   )
   product_comments: ProductCommentsEntity[];
+
+  // Post Types (1) - (N) Service Comments
+  @OneToMany(
+    () => ServiceCommentsEntity,
+    (service_comments) => service_comments.post_types,
+  )
+  service_comments: ServiceCommentsEntity[];
+
+  // Post Types (1) - (N) Services
+  @OneToMany(() => ServicesEntity, (services) => services.post_types)
+  services: ServicesEntity[];
 }

@@ -3,11 +3,13 @@ import { ProductCommentsEntity } from './database/entity/productComments.entity'
 import { CreateProductCommentDTO } from './dto/create-product-comment.dto';
 import { ProductCommentsRepository } from 'src/modules/productComments/productComments.repository';
 import { ProductCommentsInterface } from './interface/productComments.interface';
+import { UsersRepository } from '../users/users.repository';
 
 @Injectable()
 export class ProductCommentsService {
   constructor(
     private readonly productCommentsRepository: ProductCommentsRepository,
+    private readonly usersRepository: UsersRepository,
   ) {}
 
   // 1. Get All
@@ -34,9 +36,11 @@ export class ProductCommentsService {
     body: CreateProductCommentDTO,
   ): Promise<ProductCommentsEntity | unknown> {
     const { comment, rating } = body;
+    const findUser = await this.usersRepository.getDetailUser(userId);
+
     const newProductComment: ProductCommentsInterface = {
       comment: comment,
-      rating: rating,
+      rating: findUser.role_id == 1 || findUser.role_id == 2 ? 5 : rating,
       user_id: userId,
       post_id: id,
       post_type_id: 1,

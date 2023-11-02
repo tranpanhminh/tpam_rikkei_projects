@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, Timestamp } from 'typeorm';
+import { ServicesEntity } from 'src/modules/services/database/entity/services.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  Timestamp,
+  OneToMany,
+} from 'typeorm';
 
 @Entity('working_time')
 export class WorkingTimeEntity {
@@ -25,4 +32,8 @@ export class WorkingTimeEntity {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   updated_at: Timestamp;
+
+  // Working Time (1) - (N) Services
+  @OneToMany(() => ServicesEntity, (services) => services.post_types)
+  services: ServicesEntity[];
 }

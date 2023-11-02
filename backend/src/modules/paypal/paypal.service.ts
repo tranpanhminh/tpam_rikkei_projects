@@ -12,6 +12,7 @@ const BACKEND_PATH = process.env.BACKEND_PATH;
 
 @Injectable()
 export class PaypalService {
+  // Chưa Get được Order Detail và không push được đầy đủ thông tin lên trang Paypal
   // 1. Create Order
   async createOrder(paymentData, req, res): Promise<any> {
     // const {
@@ -92,7 +93,7 @@ export class PaypalService {
         },
       },
     );
-    console.log(`${PAYPAL_API}/v2/checkout/orders/${captureOrder.data.id}`);
+
     await axios
       .get(`${PAYPAL_API}/v2/checkout/orders/${captureOrder.data.id}`, {
         headers: {
