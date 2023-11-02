@@ -1,4 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, Timestamp } from 'typeorm';
+import { PagesEntity } from 'src/modules/pages/database/entity/pages.entity';
+import { PostsEntity } from 'src/modules/posts/database/entity/posts.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  Timestamp,
+  OneToMany,
+} from 'typeorm';
 
 @Entity('post_statuses')
 export class PostStatusesEntity {
@@ -22,4 +30,12 @@ export class PostStatusesEntity {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   updated_at: Timestamp;
+
+  // Post Types (1) - (N) Posts
+  @OneToMany(() => PostsEntity, (posts) => posts.post_types)
+  posts: PostsEntity[];
+
+  // Post Types (1) - (N) Pages
+  @OneToMany(() => PagesEntity, (pages) => pages.post_types)
+  pages: PagesEntity[];
 }

@@ -1,3 +1,5 @@
+import { PagesEntity } from 'src/modules/pages/database/entity/pages.entity';
+import { PostsEntity } from 'src/modules/posts/database/entity/posts.entity';
 import { ProductCommentsEntity } from 'src/modules/productComments/database/entity/productComments.entity';
 import { ProductsEntity } from 'src/modules/products/database/entity/products.entity';
 import { ServiceCommentsEntity } from 'src/modules/serviceComments/database/entity/serviceComments.entity';
@@ -55,4 +57,12 @@ export class PostTypesEntity {
   // Post Types (1) - (N) Services
   @OneToMany(() => ServicesEntity, (services) => services.post_types)
   services: ServicesEntity[];
+
+  // Post Types (1) - (N) Posts
+  @OneToMany(() => PostsEntity, (posts) => posts.post_types)
+  posts: PostsEntity[];
+
+  // Post Types (1) - (N) Pages
+  @OneToMany(() => PagesEntity, (pages) => pages.post_types)
+  pages: PagesEntity[];
 }
