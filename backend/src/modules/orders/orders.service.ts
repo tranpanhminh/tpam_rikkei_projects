@@ -56,8 +56,8 @@ export class OrdersService {
   async checkOutOrder(
     userId: number,
     body: CheckOutOrderDTO,
-    @Req() req,
-    @Res() res,
+    req,
+    res,
   ): Promise<OrdersEntity | unknown | any> {
     const userCart = await this.cartsRepository.getDetailCartByUser(userId);
     const listItems = userCart.map((item) => {
@@ -70,8 +70,6 @@ export class OrdersService {
       };
     });
 
-    console.log(listItems);
-
     const findUser = await this.usersRepository.getDetailUser(userId);
 
     const { customer_name, address, phone } = body;
@@ -79,7 +77,6 @@ export class OrdersService {
     const caculateBill: BillInterface =
       await this.cartsRepository.caculateBill(userId);
     const bill: number = caculateBill.bill;
-    console.log(bill, 'BILL');
 
     // Kiểm tra điều kiện của hóa đơn để áp mã Coupon
     let copyCoupon: CouponsInterface;
@@ -88,7 +85,6 @@ export class OrdersService {
     if (getCoupon) {
       copyCoupon = { ...getCoupon };
     }
-    console.log(copyCoupon, 'COUPON Copy');
 
     // Tổng tiền được giảm
     const discountedAmount: number = copyCoupon
@@ -99,9 +95,6 @@ export class OrdersService {
     const totalBillDiscounted: number = Number(
       (bill - discountedAmount).toFixed(2),
     );
-
-    console.log(discountedAmount, 'Tiến chiết khấu');
-    console.log(totalBillDiscounted, 'Tổng bill đã chiết khấu');
 
     // const newOrder: OrdersInterface = {
     //   user_id: userId,
@@ -151,6 +144,7 @@ export class OrdersService {
     params.append('grant_type', 'client_credentials');
 
     await this.paypalService.createOrder(paymentData, params, req, res);
+
     // await res.json(checkOutPaypal);
 
     // const getCheckOutId = checkOutPaypal.id;

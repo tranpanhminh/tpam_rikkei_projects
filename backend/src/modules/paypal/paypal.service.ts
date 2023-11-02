@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
+const fs = require('fs');
 
 const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
 const PAYPAL_SECRET_KEY = process.env.PAYPAL_SECRET_KEY;
@@ -36,6 +37,8 @@ export class PaypalService {
         //     return res.redirect(response.data.links[i].href);
         //   }
         // }
+
+        req.body.paymentData = paymentData;
         return res.json(response.data);
       })
       .catch((error) => {
@@ -256,7 +259,7 @@ export class PaypalService {
         headers: {
           Authorization: `Bearer ${access_token}`,
         },
-        url: `${BACKEND_PATH}/${path}/paypal/list-webhooks`,
+        url: `${BACKEND_PATH}/${path}/paypal/webhook-checkout`,
         event_types: [{ name: 'CHECKOUT.ORDER.COMPLETED' }],
       })
       .then((response) => {

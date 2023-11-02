@@ -69,7 +69,6 @@ function ClientCart() {
         console.log(error);
       });
   };
-  console.log(userCart, "p---");
 
   // Get Coupons
   const fetchCoupons = () => {
@@ -208,6 +207,7 @@ function ClientCart() {
         });
       });
   };
+
   // --------------------------------------------------------
 
   const [isModalOpen, setIsModalOpen] = useState(false);
