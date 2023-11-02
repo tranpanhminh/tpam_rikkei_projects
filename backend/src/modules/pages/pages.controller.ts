@@ -1,13 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Page,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch } from '@nestjs/common';
 import { PagesService } from './pages.service';
 import { ConfigModule } from '@nestjs/config';
 import { PagesEntity } from './database/entity/pages.entity';

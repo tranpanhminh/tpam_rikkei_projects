@@ -1,15 +1,13 @@
-import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { PagesEntity } from "./database/entity/pages.entity";
-import { CreatePageDTO } from "./dto/create-page.dto";
-import { UpdatePageDTO } from "./dto/update-page.dto";
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { PagesEntity } from './database/entity/pages.entity';
 
 @Injectable()
 export class PagesRepository {
   constructor(
     @InjectRepository(PagesEntity)
-    public pagesEntity: Repository<PagesEntity>
+    public pagesEntity: Repository<PagesEntity>,
   ) {}
 
   // 1. Get All

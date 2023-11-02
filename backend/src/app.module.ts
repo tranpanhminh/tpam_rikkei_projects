@@ -24,6 +24,11 @@ import { PaypalModule } from './modules/paypal/paypal.module';
 import { PaypalController } from './modules/paypal/paypal.controller';
 import { PaypalService } from './modules/paypal/paypal.service';
 import { PaypalProvider } from './modules/paypal/paypal.provider';
+import { ServicesModule } from './modules/services/services.module';
+import { ServiceCommentsModule } from './modules/serviceComments/serviceComments.module';
+import { BookingsModule } from './modules/bookings/bookings.module';
+import { PostsModule } from './modules/posts/posts.module';
+import { PagesModule } from './modules/pages/pages.module';
 
 @Module({
   imports: [
@@ -48,6 +53,11 @@ import { PaypalProvider } from './modules/paypal/paypal.provider';
     CartsModule,
     OrdersModule,
     OrderItemsModule,
+    ServicesModule,
+    ServiceCommentsModule,
+    BookingsModule,
+    PostsModule,
+    PagesModule,
   ],
   controllers: [PaypalController],
   providers: [PaypalProvider, PaypalService],

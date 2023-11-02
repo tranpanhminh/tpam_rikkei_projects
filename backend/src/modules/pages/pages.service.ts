@@ -1,8 +1,6 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import { PagesRepository } from "./pages.repository";
-import { PagesEntity } from "./database/entity/pages.entity";
-import { CreatePageDTO } from "./dto/create-page.dto";
-import { UpdatePageDTO } from "./dto/update-page.dto";
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { PagesRepository } from './pages.repository';
+import { PagesEntity } from './database/entity/pages.entity';
 
 @Injectable()
 export class PagesService {
