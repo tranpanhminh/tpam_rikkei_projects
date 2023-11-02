@@ -12,7 +12,6 @@ import { CartsService } from './carts.service';
 import { AddToCartDTO } from './dto/add-to-cart.dto';
 import { ConfigModule } from '@nestjs/config';
 import { CartsEntity } from './database/entity/carts.entity';
-import { CheckUserExist } from 'src/pipes/checkUserExist.pipe';
 import { UpdateQuantityProductInCartDTO } from './interface/update-quantity-product.interface';
 
 ConfigModule.forRoot({
@@ -33,13 +32,12 @@ export class CartsController {
   }
 
   // 2. Get Detail
-  @Get('/detail/users/:id')
-  @UsePipes(CheckUserExist)
+  @Get('/detail/users/:userId')
   async getDetailCartByUser(
-    @Param('id') id: number,
+    @Param('userId') userId: number,
   ): Promise<CartsEntity | unknown> {
     const result: CartsEntity | unknown =
-      await this.cartsService.getDetailCartByUser(id);
+      await this.cartsService.getDetailCartByUser(userId);
     return result;
   }
 

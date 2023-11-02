@@ -65,6 +65,10 @@ export class CartsModule implements NestModule {
         path: `${url}/add/products/:id/users/:userId`,
         method: RequestMethod.POST,
       });
+    consumer.apply(CheckUserExist).forRoutes({
+      path: `${url}/detail/users/:userId`,
+      method: RequestMethod.GET,
+    });
     consumer
       .apply(CheckProductAndUserBeforeAddToCart, CheckProductExistInUserCart)
       .forRoutes({

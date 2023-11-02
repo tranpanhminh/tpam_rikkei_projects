@@ -1,19 +1,8 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  UsePipes,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { ProductCommentsService } from './productComments.service';
 import { ConfigModule } from '@nestjs/config';
 import { ProductCommentsEntity } from './database/entity/productComments.entity';
-import { CheckProductCommentExist } from 'src/pipes/checkProductCommentExist.pipe';
 import { CreateProductCommentDTO } from './dto/create-product-comment.dto';
-import { CheckProductAndUserExist } from 'src/pipes/checkProductAndUserExist.pipe';
-import { CheckProductExist } from 'src/pipes/checkProductExist.pipe';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -35,10 +24,9 @@ export class ProductCommentsController {
   }
 
   // 2. Get Detail
-  @Get('/detail/:commentId/')
-  @UsePipes(CheckProductCommentExist)
+  @Get('/detail/:id/')
   async getDetailProductComment(
-    @Param('commentId') commentId: number,
+    @Param('id') commentId: number,
   ): Promise<ProductCommentsEntity | unknown | any> {
     const result: ProductCommentsEntity | unknown =
       await this.productCommentsService.getDetailProductComment(commentId);
@@ -48,7 +36,7 @@ export class ProductCommentsController {
   // // 3. Add
   @Post('/add/:id/users/:userId')
   async addProductComment(
-    @Param(CheckProductAndUserExist) param: { id: number; userId: number },
+    @Param() param: { id: number; userId: number },
     @Body() body: CreateProductCommentDTO,
   ): Promise<ProductCommentsEntity | unknown> {
     const result: string | unknown =
@@ -62,7 +50,6 @@ export class ProductCommentsController {
 
   // 4. Delete
   @Delete('/delete/:id')
-  @UsePipes(CheckProductCommentExist)
   async deleteProductComment(
     @Param('id') id: number,
     // @Param('id', CheckProductCommentExist) id: number,
@@ -74,7 +61,6 @@ export class ProductCommentsController {
 
   // // 5. Get All Comments By Product
   @Get('/:id')
-  @UsePipes(CheckProductExist)
   async getAllCommentsByProduct(
     @Param('id') id: number,
   ): Promise<ProductCommentsEntity | unknown> {

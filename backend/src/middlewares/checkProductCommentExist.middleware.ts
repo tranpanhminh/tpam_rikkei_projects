@@ -9,7 +9,7 @@ export class CheckProductCommentExist implements NestMiddleware {
   ) {}
 
   async use(req: any, res: Response, next: NextFunction) {
-    const getId = req.params.commentId;
+    const getId = req.params.id;
     const find =
       await this.productCommentsRepository.getDetailProductComment(getId);
 
