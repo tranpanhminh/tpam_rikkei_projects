@@ -24,6 +24,7 @@ import { CheckUserExist } from 'src/middlewares/checkUserExist.middleware';
 import { CheckUserCartExist } from 'src/middlewares/checkUserCartExist.middleware';
 import { CouponsEntity } from '../coupons/database/entity/coupons.entity';
 import { CouponsRepository } from '../coupons/coupons.repository';
+import { CheckProductExist } from 'src/middlewares/checkProductExist.middleware';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -57,7 +58,8 @@ export class CartsModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(
-        CheckProductAndUserBeforeAddToCart,
+        CheckProductExist,
+        CheckUserExist,
         CheckProductQuantityStock,
         CheckInputQuantity,
       )
@@ -70,7 +72,7 @@ export class CartsModule implements NestModule {
       method: RequestMethod.GET,
     });
     consumer
-      .apply(CheckProductAndUserBeforeAddToCart, CheckProductExistInUserCart)
+      .apply(CheckProductExist, CheckUserExist, CheckProductExistInUserCart)
       .forRoutes({
         path: `${url}/delete/products/:id/users/:userId`,
         method: RequestMethod.DELETE,
@@ -80,7 +82,7 @@ export class CartsModule implements NestModule {
       method: RequestMethod.DELETE,
     });
     consumer
-      .apply(CheckProductAndUserBeforeAddToCart, CheckInputQuantity)
+      .apply(CheckProductExist, CheckUserExist, CheckInputQuantity)
       .forRoutes({
         path: `${url}/update/products/:id/users/:userId`,
         method: RequestMethod.PATCH,
