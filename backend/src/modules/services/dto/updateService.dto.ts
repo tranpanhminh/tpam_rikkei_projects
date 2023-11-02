@@ -1,8 +1,8 @@
-import { IsEmpty, IsNumberString, IsOptional, IsString } from 'class-validator';
+import { IsNumberString, IsOptional, IsString } from 'class-validator';
 import {
-  HasMimeType,
-  IsFile,
-  MaxFileSize,
+  // HasMimeType,
+  // IsFile,
+  // MaxFileSize,
   MemoryStoredFile,
 } from 'nestjs-form-data';
 import { IsStringHigherThanZero } from 'src/pipes/custom-validator';
