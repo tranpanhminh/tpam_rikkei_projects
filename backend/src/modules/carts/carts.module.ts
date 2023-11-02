@@ -75,5 +75,11 @@ export class CartsModule implements NestModule {
       path: `${url}/delete/users/:userId`,
       method: RequestMethod.DELETE,
     });
+    consumer
+      .apply(CheckProductAndUserBeforeAddToCart, CheckInputQuantity)
+      .forRoutes({
+        path: `${url}/update/products/:id/users/:userId`,
+        method: RequestMethod.PATCH,
+      });
   }
 }

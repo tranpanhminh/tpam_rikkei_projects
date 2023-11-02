@@ -37,39 +37,39 @@ export class CartsService {
     const { quantity } = body;
     const findProduct: ProductInterface =
       await this.productsRepository.getDetail(productId);
-    if (findProduct) {
-      const findProductInCart: CartInterface =
-        await this.cartsRepository.findUserAndProductInCart(userId, productId);
-      if (findProductInCart) {
-        const updateCart: CartInterface = {
-          ...findProductInCart,
-          quantity: Number(findProductInCart.quantity) + Number(quantity),
-        };
-        await this.cartsRepository.updateQuantityInCart(
-          findProductInCart.id,
-          updateCart,
-        );
-      } else {
-        const newCart: CartInterface = {
-          user_id: userId,
-          product_id: productId,
-          quantity: Number(quantity),
-          price: Number(findProduct.price),
-        };
-        await this.cartsRepository.addProductToCart(newCart);
-      }
-      // Giảm số lượng hàng tồn kho
-      const updatedProductQuantityStock: ProductInterface = {
-        ...findProduct,
-        quantity_stock: Number(findProduct.quantity_stock) - Number(quantity),
-      };
-      await this.productsRepository.updateProduct(
-        productId,
-        updatedProductQuantityStock,
-      );
 
-      return new HttpException('Product Added To Cart', HttpStatus.OK);
+    const findProductInCart: CartInterface =
+      await this.cartsRepository.findUserAndProductInCart(userId, productId);
+    console.log(findProductInCart);
+    if (findProductInCart) {
+      const updateCart: CartInterface = {
+        ...findProductInCart,
+        quantity: Number(findProductInCart.quantity) + Number(quantity),
+      };
+      await this.cartsRepository.updateQuantityInCart(
+        findProductInCart.id,
+        updateCart,
+      );
+    } else {
+      const newCart: CartInterface = {
+        user_id: userId,
+        product_id: productId,
+        quantity: Number(quantity),
+        price: Number(findProduct.price),
+      };
+      await this.cartsRepository.addProductToCart(newCart);
     }
+    // // Giảm số lượng hàng tồn kho
+    // const updatedProductQuantityStock: ProductInterface = {
+    //   ...findProduct,
+    //   quantity_stock: Number(findProduct.quantity_stock) - Number(quantity),
+    // };
+    // await this.productsRepository.updateProduct(
+    //   productId,
+    //   updatedProductQuantityStock,
+    // );
+
+    return new HttpException('Product Added To Cart', HttpStatus.OK);
   }
 
   // 4. Delete
@@ -99,22 +99,36 @@ export class CartsService {
     }
   }
 
-  // // 5. Update
-  // async updateCart(
-  //   id: number,
-  //   body: UpdateCartDTO
-  // ): Promise<CartsEntity | unknown> {
-  //   const { name, code, discount_rate, min_bill } = body;
-  //   const checkCart: CartsEntity = await this.cartsRepository.getDetailCart(id);
-  //   if (checkCart) {
-  //     const updateCart = {
-  //       name: !name ? checkCart.name : name,
-  //       code: !code ? checkCart.code : code,
-  //       discount_rate: !discount_rate ? checkCart.discount_rate : discount_rate,
-  //       min_bill: !min_bill ? checkCart.min_bill : min_bill,
-  //     };
-  //     await this.cartsRepository.updateCart(id, updateCart);
-  //     return new HttpException("Cart Updated", HttpStatus.OK);
-  //   }
-  // }
+  // 5. Update
+  async updateQuantityProductInCart(
+    id,
+    userId,
+    body,
+  ): Promise<CartsEntity | unknown> {
+    const { quantity } = body;
+    const findProduct: ProductInterface =
+      await this.productsRepository.getDetail(id);
+    if (findProduct) {
+      const findProductInCart: CartInterface =
+        await this.cartsRepository.findUserAndProductInCart(userId, id);
+      if (findProductInCart) {
+        const updateCart: CartInterface = {
+          ...findProductInCart,
+          quantity: Number(quantity),
+        };
+        await this.cartsRepository.updateQuantityInCart(
+          findProductInCart.id,
+          updateCart,
+        );
+        console.log(
+          await this.cartsRepository.updateQuantityInCart(
+            findProductInCart.id,
+            updateCart,
+          ),
+        );
+      }
+    }
+
+    return new HttpException('Product Added To Cart', HttpStatus.OK);
+  }
 }

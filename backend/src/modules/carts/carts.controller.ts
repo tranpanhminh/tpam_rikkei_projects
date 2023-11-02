@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   UsePipes,
 } from '@nestjs/common';
@@ -12,6 +13,7 @@ import { AddToCartDTO } from './dto/add-to-cart.dto';
 import { ConfigModule } from '@nestjs/config';
 import { CartsEntity } from './database/entity/carts.entity';
 import { CheckUserExist } from 'src/pipes/checkUserExist.pipe';
+import { UpdateQuantityProductInCartDTO } from './interface/update-quantity-product.interface';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -75,14 +77,18 @@ export class CartsController {
     return result;
   }
 
-  // // 5. Update
-  // @Patch("update/:id")
-  // @UseInterceptors(CheckCartExist)
-  // async updateCart(
-  //   @Param("id") id: number,
-  //   @Body() body: UpdateCartDTO
-  // ): Promise<CartsEntity | unknown> {
-  //   const result = await this.cartsService.updateCart(id, body);
-  //   return result;
-  // }
+  // 5. Update Quantity In Cart Page
+  @Patch('/update/products/:id/users/:userId')
+  async updateQuantityProductInCart(
+    @Param() param: { id: number; userId: number },
+    @Body() body: UpdateQuantityProductInCartDTO,
+  ): Promise<CartsEntity | unknown> {
+    console.log(param.id, param.userId);
+    const result = await this.cartsService.updateQuantityProductInCart(
+      param.id,
+      param.userId,
+      body,
+    );
+    return result;
+  }
 }
