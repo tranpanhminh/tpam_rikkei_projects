@@ -13,8 +13,6 @@ import { CreateAdminDTO } from './dto/create-admin.dto';
 import { UpdateUserDTO } from './dto/update-user.dto';
 import { ConfigModule } from '@nestjs/config';
 import { UsersEntity } from './database/entity/users.entity';
-import { CheckUserExist } from 'src/interceptors/checkUserExist';
-import { CheckEmailExist } from 'src/interceptors/checkEmailExist';
 import { UserRegisterDTO } from './dto/register-user.dto';
 import { CheckIsOldPassword } from 'src/interceptors/checkIsOldPassword';
 import { ChangePasswordDTO } from './dto/change-password.dto';
@@ -43,44 +41,43 @@ export class UsersController {
   }
 
   // 2. Get Detail
-  @Get('/detail/:id')
-  @UseInterceptors(CheckUserExist)
-  async getDetailUser(@Param('id') id: number): Promise<UsersEntity | unknown> {
+  @Get('/detail/:userId')
+  async getDetailUser(
+    @Param('userId') userId: number,
+  ): Promise<UsersEntity | unknown> {
     const result: UsersEntity | unknown =
-      await this.usersService.getDetailUser(id);
+      await this.usersService.getDetailUser(userId);
     return result;
   }
 
-  // 3. Add
+  // 3. Add Admin
   @Post('/add')
-  @UseInterceptors(CheckEmailExist)
   async addAdmin(@Body() body: CreateAdminDTO): Promise<UsersEntity | unknown> {
     const result: string | unknown = await this.usersService.addAdmin(body);
     return result;
   }
 
   // 4. Delete
-  @Delete('/delete/:id')
-  @UseInterceptors(CheckUserExist)
-  async deleteUser(@Param('id') id: number): Promise<UsersEntity | unknown> {
-    const result: string | unknown = await this.usersService.deleteUser(id);
+  @Delete('/delete/:userId')
+  async deleteUser(
+    @Param('userId') userId: number,
+  ): Promise<UsersEntity | unknown> {
+    const result: string | unknown = await this.usersService.deleteUser(userId);
     return result;
   }
 
   // 5. Update
-  @Patch('update/:id')
-  @UseInterceptors(CheckUserExist)
+  @Patch('update/:userId')
   async updateUser(
-    @Param('id') id: number,
+    @Param('userId') userId: number,
     @Body() body: UpdateUserDTO,
   ): Promise<UsersEntity | unknown> {
-    const result = await this.usersService.updateUser(id, body);
+    const result = await this.usersService.updateUser(userId, body);
     return result;
   }
 
   // 6. Signup
   @Post('/register')
-  @UseInterceptors(CheckEmailExist)
   async userRegister(
     @Body() body: UserRegisterDTO,
   ): Promise<UsersEntity | unknown> {
@@ -97,22 +94,24 @@ export class UsersController {
   }
 
   // 8. Change Status User
-  @Patch('/change-status-account/:id')
-  @UseInterceptors(CheckUserExist)
-  async changeStatus(@Param('id') id: number): Promise<UsersEntity | unknown> {
-    const result: string | unknown = await this.usersService.changeStatus(id);
+  @Patch('/change-status-account/:userId')
+  async changeStatus(
+    @Param('userId') userId: number,
+  ): Promise<UsersEntity | unknown> {
+    const result: string | unknown =
+      await this.usersService.changeStatus(userId);
     return result;
   }
 
   // 9. Change Password
-  @Patch('/change-password/:id')
-  @UseInterceptors(CheckUserExist, CheckIsOldPassword)
+  @Patch('/change-password/:userId')
+  @UseInterceptors(CheckIsOldPassword)
   async changePassword(
-    @Param('id') id: number,
+    @Param('userId') userId: number,
     @Body() body: ChangePasswordDTO,
   ): Promise<UsersEntity | unknown> {
     const result: string | unknown = await this.usersService.changePassword(
-      id,
+      userId,
       body,
     );
     return result;
@@ -120,7 +119,6 @@ export class UsersController {
 
   // 10. Add
   @Post('/create')
-  @UseInterceptors(CheckEmailExist)
   async createUser(
     @Body() body: CreateAdminDTO,
   ): Promise<UsersEntity | unknown> {
@@ -129,12 +127,14 @@ export class UsersController {
   }
 
   // 11. Edit Avatar
-  @Patch('/edit-avatar/:id')
-  @UseInterceptors(CheckUserExist)
+  @Patch('/edit-avatar/:userId')
   @FormDataRequest()
-  async editAvatar(@Param('id') id: number, @Body() body: UpdateAvatarDTO) {
+  async editAvatar(
+    @Param('userId') userId: number,
+    @Body() body: UpdateAvatarDTO,
+  ) {
     const result: string | unknown = await this.usersService.editAvatar(
-      id,
+      userId,
       body,
     );
     return result;
