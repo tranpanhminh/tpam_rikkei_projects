@@ -6,7 +6,6 @@ import {
   Param,
   Patch,
   Post,
-  UseInterceptors,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateAdminDTO } from './dto/create-admin.dto';
@@ -14,14 +13,11 @@ import { UpdateUserDTO } from './dto/update-user.dto';
 import { ConfigModule } from '@nestjs/config';
 import { UsersEntity } from './database/entity/users.entity';
 import { UserRegisterDTO } from './dto/register-user.dto';
-import { CheckIsOldPassword } from 'src/interceptors/checkIsOldPassword';
 import { ChangePasswordDTO } from './dto/change-password.dto';
 import { UpdateAvatarDTO } from './dto/update-avatar.dto';
 import { FormDataRequest } from 'nestjs-form-data';
 import { LoginDTO } from './dto/login.dto';
-import { CheckPassword } from 'src/interceptors/checkPassword';
 import { DataTokenInterface } from './interface/dataToken.interface';
-import { CheckIfEmailIsCorrect } from 'src/interceptors/checkIfEmailIsCorrect';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -87,7 +83,6 @@ export class UsersController {
 
   // 7. Login
   @Post('login')
-  @UseInterceptors(CheckIfEmailIsCorrect, CheckPassword)
   async login(@Body() body: LoginDTO): Promise<DataTokenInterface | unknown> {
     const result: string | unknown = await this.usersService.login(body);
     return result;
@@ -105,7 +100,6 @@ export class UsersController {
 
   // 9. Change Password
   @Patch('/change-password/:userId')
-  @UseInterceptors(CheckIsOldPassword)
   async changePassword(
     @Param('userId') userId: number,
     @Body() body: ChangePasswordDTO,

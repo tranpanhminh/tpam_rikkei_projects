@@ -8,6 +8,9 @@ import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { NestjsFormDataModule } from 'nestjs-form-data';
 import { CheckUserExist } from 'src/middlewares/checkUserExist.middleware';
 import { CheckEmailExist } from 'src/middlewares/checkEmailExist.middleware';
+import { CheckEmailCorrect } from 'src/middlewares/checkEmailCorrect.middleware';
+import { CheckPasswordCorrect } from 'src/middlewares/checkPasswordCorrect.middleware';
+import { CheckIsOldPassword } from 'src/middlewares/checkIsOldPassword.middleware';
 
 const path = process.env.SERVER_PATH;
 const url = `${path}/users`;
@@ -37,6 +40,10 @@ export class UsersModule {
       path: `${url}/register`,
       method: RequestMethod.POST,
     });
+    consumer.apply(CheckEmailCorrect, CheckPasswordCorrect).forRoutes({
+      path: `${url}/login`,
+      method: RequestMethod.POST,
+    });
     consumer.apply(CheckEmailExist).forRoutes({
       path: `${url}/add`,
       method: RequestMethod.POST,
@@ -49,7 +56,7 @@ export class UsersModule {
       path: `${url}/change-status-account/:userId`,
       method: RequestMethod.PATCH,
     });
-    consumer.apply(CheckUserExist).forRoutes({
+    consumer.apply(CheckUserExist, CheckIsOldPassword).forRoutes({
       path: `${url}/change-password/:userId`,
       method: RequestMethod.PATCH,
     });
