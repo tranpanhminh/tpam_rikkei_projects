@@ -1,13 +1,24 @@
-import { Body, Controller, Get, Param, Post, Req, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Req,
+  Res,
+  Session,
+  UseInterceptors,
+} from '@nestjs/common';
 import { PaypalService } from './paypal.service';
 import axios from 'axios';
+import { PaypalAccessTokenInterceptor } from 'src/interceptors/paypalAccessToken.interceptor';
 
 const path = process.env.SERVER_PATH;
 const BACKEND_PATH = process.env.BACKEND_PATH;
 const FRONTEND_PATH = process.env.FRONTEND_PATH;
 
 // -------------------------------------------------------
-
+@UseInterceptors(PaypalAccessTokenInterceptor)
 @Controller(`${path}/paypal`)
 export class PaypalController {
   constructor(private readonly paypalService: PaypalService) {}
@@ -22,12 +33,7 @@ export class PaypalController {
     const params = new URLSearchParams();
     params.append('grant_type', 'client_credentials');
 
-    const result = await this.paypalService.createOrder(
-      paymentData,
-      params,
-      req,
-      res,
-    );
+    const result = await this.paypalService.createOrder(paymentData, req, res);
     return result;
   }
 
@@ -55,6 +61,7 @@ export class PaypalController {
     //   });
 
     const result = await this.paypalService.captureOrder(token, req, res);
+
     return result;
   }
 
@@ -94,12 +101,7 @@ export class PaypalController {
     const params = new URLSearchParams();
     params.append('grant_type', 'client_credentials');
 
-    const result = await this.paypalService.createOrder(
-      paymentData,
-      params,
-      req,
-      res,
-    );
+    const result = await this.paypalService.createOrder(paymentData, req, res);
     return result;
   }
 

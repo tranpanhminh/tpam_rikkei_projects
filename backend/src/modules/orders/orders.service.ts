@@ -140,10 +140,7 @@ export class OrdersService {
       },
     };
 
-    const params = new URLSearchParams();
-    params.append('grant_type', 'client_credentials');
-
-    await this.paypalService.createOrder(paymentData, params, req, res);
+    await this.paypalService.createOrder(paymentData, req, res);
 
     // await res.json(checkOutPaypal);
 

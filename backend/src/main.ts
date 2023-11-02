@@ -3,6 +3,9 @@ import { AppModule } from './app.module';
 import { ConfigModule } from '@nestjs/config';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import { useContainer } from 'typeorm';
+import * as session from 'express-session';
+import * as FileStore from 'session-file-store';
+
 ConfigModule.forRoot({
   envFilePath: '.env',
 });
@@ -27,6 +30,13 @@ async function bootstrap() {
   );
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
   app.enableCors(); // <- enable CORS
+  // somewhere in your initialization file
+  app.use(
+    session({
+      secret: process.env.SESSION_SECRET,
+      saveUninitialized: false,
+    }),
+  );
   await app.listen(port);
 }
 bootstrap();

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
-const fs = require('fs');
+import { Request, Response } from 'express';
 
 const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
 const PAYPAL_SECRET_KEY = process.env.PAYPAL_SECRET_KEY;
@@ -13,22 +13,24 @@ const BACKEND_PATH = process.env.BACKEND_PATH;
 @Injectable()
 export class PaypalService {
   // 1. Create Order
-  async createOrder(paymentData, params, req, res): Promise<any> {
-    const {
-      data: { access_token },
-    } = await axios.post(`${PAYPAL_API}/v1/oauth2/token`, params, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      auth: {
-        username: PAYPAL_CLIENT_ID,
-        password: PAYPAL_SECRET_KEY,
-      },
-    });
+  async createOrder(paymentData, req, res): Promise<any> {
+    // const {
+    //   data: { access_token },
+    // } = await axios.post(`${PAYPAL_API}/v1/oauth2/token`, params, {
+    //   headers: {
+    //     'Content-Type': 'application/x-www-form-urlencoded',
+    //   },
+    //   auth: {
+    //     username: PAYPAL_CLIENT_ID,
+    //     password: PAYPAL_SECRET_KEY,
+    //   },
+    // });
+    const accessToken = await this.getAccessToken();
+    console.log(accessToken);
     await axios
       .post(`${PAYPAL_API}/v2/checkout/orders`, paymentData, {
         headers: {
-          Authorization: `Bearer ${access_token}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       })
       .then((response) => {
@@ -38,7 +40,7 @@ export class PaypalService {
         //   }
         // }
 
-        req.body.paymentData = paymentData;
+        // Lưu paymentData vào phiên
         return res.json(response.data);
       })
       .catch((error) => {
@@ -54,42 +56,56 @@ export class PaypalService {
     //     },
     //   },
     // );
-    // return result.data;
+
+    // return res.send(result.data);
   }
 
   // 2. Capture Order
   async captureOrder(token, req, res): Promise<any> {
-    await axios
-      .post(
-        `${PAYPAL_API}/v2/checkout/orders/${token}/capture`,
-        {},
-        {
-          auth: {
-            username: PAYPAL_CLIENT_ID,
-            password: PAYPAL_SECRET_KEY,
-          },
+    const accessToken = await this.getAccessToken();
+    console.log(accessToken);
+    // const result = await axios
+    //   .post(
+    //     `${PAYPAL_API}/v2/checkout/orders/${token}/capture`,
+    //     {},
+    //     {
+    //       auth: {
+    //         username: PAYPAL_CLIENT_ID,
+    //         password: PAYPAL_SECRET_KEY,
+    //       },
+    //     },
+    //   )
+    //   .then((response) => {
+    //     return res.send(data);
+    //   })
+    //   .catch((error) => {
+    //     return res.send(error);
+    //   });
+
+    const captureOrder = await axios.post(
+      `${PAYPAL_API}/v2/checkout/orders/${accessToken}/capture`,
+      {},
+      {
+        auth: {
+          username: PAYPAL_CLIENT_ID,
+          password: PAYPAL_SECRET_KEY,
         },
-      )
+      },
+    );
+    console.log(`${PAYPAL_API}/v2/checkout/orders/${captureOrder.data.id}`);
+    await axios
+      .get(`${PAYPAL_API}/v2/checkout/orders/${captureOrder.data.id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
       .then((response) => {
-        return res.send(response.data);
+        return res.json(response.data);
       })
       .catch((error) => {
-        return res.send(error);
+        console.log(error);
       });
-
-    // const captureOrder = await axios.post(
-    //   `${PAYPAL_API}/v2/checkout/orders/${token}/capture`,
-    //   {},
-    //   {
-    //     auth: {
-    //       username: PAYPAL_CLIENT_ID,
-    //       password: PAYPAL_SECRET_KEY,
-    //     },
-    //   },
-    // );
-
-    // newOrder.email_paypal = captureOrder.data.payer.email_address;
-    // return newOrder;
   }
 
   // 4. createOrderGetInformation
@@ -115,7 +131,16 @@ export class PaypalService {
       },
     );
 
-    return result.data;
+    const resultData = await axios.get(
+      `${PAYPAL_API}/v2/checkout/orders/${result.data.id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      },
+    );
+
+    return resultData.data;
   }
 
   // 5. Get Create Order Detail
@@ -139,7 +164,7 @@ export class PaypalService {
         },
       },
     );
-    return result.data.purchase_units[0].payee.email_address;
+    return result.data;
   }
 
   // 6. Check Wallet Balance
@@ -325,5 +350,20 @@ export class PaypalService {
       .catch((error) => {
         return res.json(error);
       });
+  }
+
+  // Get Access Token
+  async getAccessToken() {
+    const params = new URLSearchParams();
+    params.append('grant_type', 'client_credentials');
+
+    const response = await axios.post(`${PAYPAL_API}/v1/oauth2/token`, params, {
+      auth: {
+        username: PAYPAL_CLIENT_ID,
+        password: PAYPAL_SECRET_KEY,
+      },
+    });
+
+    return response.data.access_token;
   }
 }
