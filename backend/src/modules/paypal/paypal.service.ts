@@ -10,7 +10,7 @@ const PAYPAL_API = process.env.PAYPAL_API;
 @Injectable()
 export class PaypalService {
   // 1. Create Order
-  async createOrder(paymentData, params, req, res) {
+  async createOrder(paymentData, params, req, res): Promise<any> {
     const {
       data: { access_token },
     } = await axios.post(`${PAYPAL_API}/v1/oauth2/token`, params, {
@@ -22,39 +22,39 @@ export class PaypalService {
         password: PAYPAL_SECRET_KEY,
       },
     });
-    // await axios
-    //   .post(`${PAYPAL_API}/v2/checkout/orders`, paymentData, {
-    //     headers: {
-    //       Authorization: `Bearer ${access_token}`,
-    //     },
-    //   })
-    //   .then((response) => {
-    //     // for (let i = 0; i < response.data.links; i++) {
-    //     //   if (response.data.links[i].rel === 'approve') {
-    //     //     return res.redirect(response.data.links[i].href);
-    //     //   }
-    //     // }
-    //     throw response.data;
-    //   })
-    //   .catch((error) => {
-    //     throw error;
-    //   });
-
-    const result = await axios.post(
-      `${PAYPAL_API}/v2/checkout/orders`,
-      paymentData,
-      {
+    await axios
+      .post(`${PAYPAL_API}/v2/checkout/orders`, paymentData, {
         headers: {
           Authorization: `Bearer ${access_token}`,
         },
-      },
-    );
-    return result.data;
+      })
+      .then((response) => {
+        // for (let i = 0; i < response.data.links; i++) {
+        //   if (response.data.links[i].rel === 'approve') {
+        //     return res.redirect(response.data.links[i].href);
+        //   }
+        // }
+        throw response.data;
+      })
+      .catch((error) => {
+        throw error;
+      });
+
+    // const result = await axios.post(
+    //   `${PAYPAL_API}/v2/checkout/orders`,
+    //   paymentData,
+    //   {
+    //     headers: {
+    //       Authorization: `Bearer ${access_token}`,
+    //     },
+    //   },
+    // );
+    // return result.data;
   }
 
   // 2. Capture Order
-  async captureOrder(newOrder, token, req, res): Promise<any> {
-    const captureOrder = await axios
+  async captureOrder(token, req, res): Promise<any> {
+    await axios
       .post(
         `${PAYPAL_API}/v2/checkout/orders/${token}/capture`,
         {},
@@ -66,10 +66,10 @@ export class PaypalService {
         },
       )
       .then((response) => {
-        throw response.data;
+        return res.send(response.data);
       })
       .catch((error) => {
-        throw error;
+        return res.send(error);
       });
 
     // const captureOrder = await axios.post(
@@ -190,6 +190,30 @@ export class PaypalService {
 
   // 5. Get Order Status
   async getOrderStatus(orderId, params) {
+    const {
+      data: { access_token },
+    } = await axios.post(`${PAYPAL_API}/v1/oauth2/token`, params, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      auth: {
+        username: PAYPAL_CLIENT_ID,
+        password: PAYPAL_SECRET_KEY,
+      },
+    });
+    const result = await axios.get(
+      `https://api.sandbox.paypal.com/v2/checkout/orders/${orderId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      },
+    );
+    return result.data;
+  }
+
+  // 6. Get Order Status
+  async getOrderAfterCheckoutStatus(orderId, params) {
     const {
       data: { access_token },
     } = await axios.post(`${PAYPAL_API}/v1/oauth2/token`, params, {
