@@ -12,7 +12,6 @@ import { CartsEntity } from './database/entity/carts.entity';
 import { UsersEntity } from '../users/database/entity/users.entity';
 import { UsersRepository } from '../users/users.repository';
 import { ConfigModule } from '@nestjs/config';
-import { CheckProductAndUserBeforeAddToCart } from 'src/middlewares/checkProductAndUserBeforeAddToCart.middleware';
 import { ProductsEntity } from '../products/database/entity/products.entity';
 import { ProductsRepository } from '../products/products.repository';
 import { ProductImagesRepository } from '../productImages/productImages.repository';

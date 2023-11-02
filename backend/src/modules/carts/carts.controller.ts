@@ -6,7 +6,6 @@ import {
   Param,
   Patch,
   Post,
-  UsePipes,
 } from '@nestjs/common';
 import { CartsService } from './carts.service';
 import { AddToCartDTO } from './dto/add-to-cart.dto';
