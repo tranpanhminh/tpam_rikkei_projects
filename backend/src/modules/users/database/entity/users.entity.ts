@@ -1,3 +1,4 @@
+import { BookingsEntity } from 'src/modules/bookings/database/entity/bookings.entity';
 import { CartsEntity } from 'src/modules/carts/database/entity/carts.entity';
 import { OrdersEntity } from 'src/modules/orders/database/entity/orders.entity';
 import { ProductCommentsEntity } from 'src/modules/productComments/database/entity/productComments.entity';
@@ -92,4 +93,8 @@ export class UsersEntity {
   // Users (1) - (N) Orders
   @OneToMany(() => OrdersEntity, (orders) => orders.users)
   orders: OrdersEntity[];
+
+  // Users (1) - (N) Bookings
+  @OneToMany(() => BookingsEntity, (bookings) => bookings.users)
+  bookings: BookingsEntity[];
 }

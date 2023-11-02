@@ -1,3 +1,4 @@
+import { BookingsEntity } from 'src/modules/bookings/database/entity/bookings.entity';
 import { PostTypesEntity } from 'src/modules/postTypes/database/entity/postTypes.entity';
 import { ServiceCommentsEntity } from 'src/modules/serviceComments/database/entity/serviceComments.entity';
 import { WorkingTimeEntity } from 'src/modules/workingTime/database/entity/workingTime.entity';
@@ -80,4 +81,8 @@ export class ServicesEntity {
     foreignKeyConstraintName: 'FK.post_types.services',
   })
   post_types: PostTypesEntity;
+
+  // Services (1) - (N) Bookings
+  @OneToMany(() => BookingsEntity, (bookings) => bookings.services)
+  bookings: BookingsEntity[];
 }
