@@ -33,6 +33,21 @@ export class OrderItemsRepository {
 
   // 4. Report Order Items
   async reportOrderItems(): Promise<OrderItemsEntity | unknown> {
-    return await this.orderItemsEntity.find();
+    const report = await this.orderItemsEntity
+      .createQueryBuilder('order_items')
+      .select([
+        'product.id',
+        'product.name',
+        'product.thumbnail_url',
+        'product.price',
+      ])
+      .addSelect('COUNT(product.id)', 'sold_count')
+      .addSelect('SUM(order_items.quantity)', 'total_quantity_sold')
+      .innerJoin('order_items.product', 'product')
+      .groupBy('product.id')
+      .orderBy('sold_count', 'DESC')
+      .getRawMany();
+
+    return report;
   }
 }

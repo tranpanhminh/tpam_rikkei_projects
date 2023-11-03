@@ -18,7 +18,7 @@ export class BookingsEntity {
   @Column({ type: 'int', nullable: false })
   user_id: number;
 
-  @Column({ type: 'int', nullable: false })
+  @Column({ type: 'int', nullable: true })
   service_id: number;
 
   @Column({ length: 255, nullable: false })

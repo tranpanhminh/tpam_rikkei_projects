@@ -98,7 +98,7 @@ export class ProductsEntity {
   @OneToMany(() => CartsEntity, (carts) => carts.products)
   carts: CartsEntity[];
 
-  // Orders (1) - (N) Order Items
+  // Products (1) - (N) Order Items
   @OneToMany(() => OrderItemsEntity, (order_items) => order_items.products)
   order_items: OrderItemsEntity[];
 }

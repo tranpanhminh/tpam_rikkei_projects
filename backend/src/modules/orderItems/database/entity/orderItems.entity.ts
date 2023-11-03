@@ -62,7 +62,7 @@ export class OrderItemsEntity {
   })
   orders: OrdersEntity;
 
-  // Products (N) - (1) - Orders
+  // Products (N) - (1) - Order Items
   @ManyToOne(() => ProductsEntity, (products) => products.order_items, {
     cascade: true, // Tùy chọn cascade update
     onUpdate: 'CASCADE',
