@@ -57,9 +57,9 @@ export class PaypalService {
           },
         );
       });
-
       const copyOrderInfo = {
         order_code: orderInfo.id,
+        sale_id: orderInfo.transactions[0].related_resources[0].sale.id,
         user_id: orderInfo.transactions[0].custom,
         customer_info: orderInfo.payer.payer_info,
         phone: orderInfo.transactions[0].item_list.shipping_phone_number,
@@ -68,6 +68,7 @@ export class PaypalService {
       };
       const newOrder = {
         order_code: copyOrderInfo.order_code,
+        sale_id: copyOrderInfo.sale_id,
         user_id: Number(copyOrderInfo.user_id),
         customer_name: `${copyOrderInfo.customer_info.first_name} ${copyOrderInfo.customer_info.last_name}`,
         address: `${copyOrderInfo.customer_info.shipping_address.line1}, ${copyOrderInfo.customer_info.shipping_address.city}, ${copyOrderInfo.customer_info.shipping_address.state}, ${copyOrderInfo.customer_info.shipping_address.postal_code}, ${copyOrderInfo.customer_info.shipping_address.country_code}`,
@@ -94,10 +95,8 @@ export class PaypalService {
         const findProduct = await this.productsRepository.getDetail(
           cartProduct.product_id,
         );
-        console.log(findProduct, 'FIND PRODUCT');
         const updatedQuantityStock =
           Number(findProduct.quantity_stock) - Number(cartProduct.quantity);
-        console.log(updatedQuantityStock, 'AA');
 
         const newQuantity = {
           quantity_stock: updatedQuantityStock,
@@ -130,303 +129,16 @@ export class PaypalService {
       await this.cartsRepository.deleteAllProductsFromUserCart(
         newOrder.user_id,
       );
-      return res.redirect('http://localhost:3000/');
+      // return res.redirect('http://localhost:3000/');
     } catch (error) {
       console.log(error);
     }
   }
 
-  //   await new Promise((resolve, reject) => {
-  //     paypal.payment.execute(
-  //       paymentId,
-  //       execute_payment_json,
-  //       function (error, payment) {
-  //         if (error) {
-  //           reject(error);
-  //         } else {
-  //           orderInfo = payment; // Lưu giá trị vào orderInfo
-  //           resolve(payment);
-  //         }
-  //       },
-  //     );
-  //   })
-  //     .then(() => {
-  //       const copyOrderInfo = {
-  //         order_code: orderInfo.id,
-  //         user_id: orderInfo.transactions[0].custom,
-  //         customer_info: orderInfo.payer.payer_info,
-  //         phone: orderInfo.transactions[0].item_list.shipping_phone_number,
-  //         item_lists: orderInfo.transactions[0].item_list.items,
-  //         amounts: orderInfo.transactions[0].amount,
-  //       };
-  //       const newOrder = {
-  //         order_code: copyOrderInfo.order_code,
-  //         user_id: Number(copyOrderInfo.user_id),
-  //         customer_name: `${copyOrderInfo.customer_info.first_name} ${copyOrderInfo.customer_info.last_name}`,
-  //         address: `${copyOrderInfo.customer_info.shipping_address.line1}, ${copyOrderInfo.customer_info.shipping_address.city}, ${copyOrderInfo.customer_info.shipping_address.state}, ${copyOrderInfo.customer_info.shipping_address.postal_code}, ${copyOrderInfo.customer_info.shipping_address.country_code}`,
-  //         phone: copyOrderInfo.phone,
-  //         discounted: Number(copyOrderInfo.amounts.discount),
-  //         bill: Number(copyOrderInfo.amounts.subtotal),
-  //         total_bill: Number(copyOrderInfo.amounts.total),
-  //         cancellation_reason: null,
-  //         cancel_reason_id: null,
-  //         status_id: 1,
-  //         email_paypal: copyOrderInfo.customer_info.email,
-  //       };
-  //       console.log(newOrder);
-  //       const addNewOrder = this.ordersRepository.addOrder(newOrder);
-  //       return addNewOrder;
-  //     })
-  //     .catch((error) => {
-  //       // Xử lý lỗi ở đây
-  //       console.log(error);
-  //       return res.status(500).json({ error: 'Internal server error' });
-  //     });
-  // }
-
-  // // 4. createOrderGetInformation
-  // async createOrderGetInformation(paymentData, params, req, res) {
-  //   const {
-  //     data: { access_token },
-  //   } = await axios.post(`${PAYPAL_API}/v1/oauth2/token`, params, {
-  //     headers: {
-  //       'Content-Type': 'application/x-www-form-urlencoded',
-  //     },
-  //     auth: {
-  //       username: PAYPAL_CLIENT_ID,
-  //       password: PAYPAL_SECRET_KEY,
-  //     },
-  //   });
-  //   const result = await axios.post(
-  //     `${PAYPAL_API}/v2/checkout/orders`,
-  //     paymentData,
-  //     {
-  //       headers: {
-  //         Authorization: `Bearer ${access_token}`,
-  //       },
-  //     },
-  //   );
-
-  //   const resultData = await axios.get(
-  //     `${PAYPAL_API}/v2/checkout/orders/${result.data.id}`,
-  //     {
-  //       headers: {
-  //         Authorization: `Bearer ${access_token}`,
-  //       },
-  //     },
-  //   );
-
-  //   return resultData.data;
-  // }
-
-  // // 5. Get Create Order Detail
-  // async createOrderDetailInformation(params, getOrderPaypalId, req, res) {
-  //   const {
-  //     data: { access_token },
-  //   } = await axios.post(`${PAYPAL_API}/v1/oauth2/token`, params, {
-  //     headers: {
-  //       'Content-Type': 'application/x-www-form-urlencoded',
-  //     },
-  //     auth: {
-  //       username: PAYPAL_CLIENT_ID,
-  //       password: PAYPAL_SECRET_KEY,
-  //     },
-  //   });
-  //   const result = await axios.get(
-  //     `${PAYPAL_API}/v2/checkout/orders/${getOrderPaypalId}`,
-  //     {
-  //       headers: {
-  //         Authorization: `Bearer ${access_token}`,
-  //       },
-  //     },
-  //   );
-  //   return result.data;
-  // }
-
-  // // 6. Check Wallet Balance
-  // async checkWalletBalance(params, req, res) {
-  //   const {
-  //     data: { access_token },
-  //   } = await axios.post(`${PAYPAL_API}/v1/oauth2/token`, params, {
-  //     headers: {
-  //       'Content-Type': 'application/x-www-form-urlencoded',
-  //     },
-  //     auth: {
-  //       username: PAYPAL_CLIENT_ID,
-  //       password: PAYPAL_SECRET_KEY,
-  //     },
-  //   });
-  //   await axios
-  //     .get(`${PAYPAL_API}/v1/reporting/balances`, {
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         Authorization: `Bearer ${access_token}`,
-  //       },
-  //     })
-  //     .then((response) => {
-  //       res.json(response.data);
-  //       console.log(response);
-  //     })
-  //     .catch((error) => {
-  //       res.json(error);
-  //       console.log(error, 'ERRPR');
-  //     });
-  // }
-
-  // // 2. Capture Order
-  // async captureCompleteOrder(token, req, res): Promise<any> {
-  //   await axios
-  //     .post(
-  //       `${PAYPAL_API}/v2/checkout/orders/${token}/capture`,
-  //       {},
-  //       {
-  //         auth: {
-  //           username: PAYPAL_CLIENT_ID,
-  //           password: PAYPAL_SECRET_KEY,
-  //         },
-  //       },
-  //     )
-  //     .then((response) => {
-  //       return res.send(response.data);
-  //     })
-  //     .catch((error) => {
-  //       return res.send(error);
-  //     });
-  // }
-
-  // // 5. Get Order Status
-  // async getOrderStatus(orderId, params) {
-  //   const {
-  //     data: { access_token },
-  //   } = await axios.post(`${PAYPAL_API}/v1/oauth2/token`, params, {
-  //     headers: {
-  //       'Content-Type': 'application/x-www-form-urlencoded',
-  //     },
-  //     auth: {
-  //       username: PAYPAL_CLIENT_ID,
-  //       password: PAYPAL_SECRET_KEY,
-  //     },
-  //   });
-  //   const result = await axios.get(
-  //     `https://api.sandbox.paypal.com/v2/checkout/orders/${orderId}`,
-  //     {
-  //       headers: {
-  //         Authorization: `Bearer ${access_token}`,
-  //       },
-  //     },
-  //   );
-  //   return result.data;
-  // }
-
-  // // 6. Get Order Status
-  // async getOrderAfterCheckoutStatus(orderId, params) {
-  //   const {
-  //     data: { access_token },
-  //   } = await axios.post(`${PAYPAL_API}/v1/oauth2/token`, params, {
-  //     headers: {
-  //       'Content-Type': 'application/x-www-form-urlencoded',
-  //     },
-  //     auth: {
-  //       username: PAYPAL_CLIENT_ID,
-  //       password: PAYPAL_SECRET_KEY,
-  //     },
-  //   });
-  //   const result = await axios.get(
-  //     `https://api.sandbox.paypal.com/v2/checkout/orders/${orderId}`,
-  //     {
-  //       headers: {
-  //         Authorization: `Bearer ${access_token}`,
-  //       },
-  //     },
-  //   );
-  //   return result.data;
-  // }
-
-  // // 2. Capture Order
-  // async addWebhook(params, req, res): Promise<any> {
-  //   const {
-  //     data: { access_token },
-  //   } = await axios.post(`${PAYPAL_API}/v1/oauth2/token`, params, {
-  //     headers: {
-  //       'Content-Type': 'application/x-www-form-urlencoded',
-  //     },
-  //     auth: {
-  //       username: PAYPAL_CLIENT_ID,
-  //       password: PAYPAL_SECRET_KEY,
-  //     },
-  //   });
-  //   await axios
-  //     .post(`${PAYPAL_API}/v1/notifications/webhooks`, {
-  //       headers: {
-  //         Authorization: `Bearer ${access_token}`,
-  //       },
-  //       url: `${BACKEND_PATH}/${path}/paypal/webhook-checkout`,
-  //       event_types: [{ name: 'CHECKOUT.ORDER.COMPLETED' }],
-  //     })
-  //     .then((response) => {
-  //       return res.json(response.data);
-  //     })
-  //     .catch((error) => {
-  //       return res.json(error);
-  //     });
-  //   console.log('AAAAA');
-  // }
-
-  // // 2. Capture Order
-  // async getWebhooks(params, req, res): Promise<any> {
-  //   const {
-  //     data: { access_token },
-  //   } = await axios.post(`${PAYPAL_API}/v1/oauth2/token`, params, {
-  //     headers: {
-  //       'Content-Type': 'application/x-www-form-urlencoded',
-  //     },
-  //     auth: {
-  //       username: PAYPAL_CLIENT_ID,
-  //       password: PAYPAL_SECRET_KEY,
-  //     },
-  //   });
-  //   await axios
-  //     .get(`${PAYPAL_API}/v1/notifications/webhooks`, {
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         Authorization: `Bearer ${access_token}`,
-  //       },
-  //     })
-  //     .then((response) => {
-  //       return res.json(response.data);
-  //     })
-  //     .catch((error) => {
-  //       return res.json(error);
-  //     });
-  // }
-
-  // // 2. Capture Order
-  // async detailWebhook(id, params, req, res): Promise<any> {
-  //   const {
-  //     data: { access_token },
-  //   } = await axios.post(`${PAYPAL_API}/v1/oauth2/token`, params, {
-  //     headers: {
-  //       'Content-Type': 'application/x-www-form-urlencoded',
-  //     },
-  //     auth: {
-  //       username: PAYPAL_CLIENT_ID,
-  //       password: PAYPAL_SECRET_KEY,
-  //     },
-  //   });
-  //   await axios
-  //     .get(`${PAYPAL_API}/v1/notifications/webhooks/${id}`, {
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         Authorization: `Bearer ${access_token}`,
-  //       },
-  //     })
-  //     .then((response) => {
-  //       return res.json(response.data);
-  //     })
-  //     .catch((error) => {
-  //       return res.json(error);
-  //     });
-  // }
+  // 3. Refund Paypal
+  async orderRefund(orderId, req, res): Promise<any> {
+    console.log(orderId);
+  }
 
   // // Get Access Token
   // async getAccessToken() {

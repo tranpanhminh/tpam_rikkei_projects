@@ -25,6 +25,10 @@ import { CheckOrderStatusExist } from 'src/middlewares/checkOrderStatusExist.mid
 import { OrderStatusesEntity } from '../orderStatuses/database/entity/orderStatuses.entity';
 import { OrderStatusesRepository } from '../orderStatuses/orderStatuses.repository';
 import { CheckOrderStatusAcceptForAdmin } from 'src/middlewares/checkOrderStatusAcceptForAdmin.middleware';
+import { CheckCancelReasonExist } from 'src/middlewares/checkCancelReasonExist.middleware';
+import { CancelReasonsEntity } from '../cancelReasons/database/entity/cancelReasons.entity';
+import { CancelReasonsRepository } from '../cancelReasons/cancelReasons.repository';
+import { CheckOrderStatus } from 'src/middlewares/checkOrderStatus.middleware';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -46,6 +50,7 @@ const url = `${path}/orders`;
       ProductsEntity,
       ProductImagesEntity,
       OrderStatusesEntity,
+      CancelReasonsEntity,
     ]),
   ],
   controllers: [OrdersController],
@@ -59,6 +64,7 @@ const url = `${path}/orders`;
     OrderItemsRepository,
     ProductsRepository,
     OrderStatusesRepository,
+    CancelReasonsRepository,
   ],
   exports: [OrdersService, OrdersRepository],
 })
@@ -86,6 +92,10 @@ export class OrdersModule {
         path: `${url}/update/:id`,
         method: RequestMethod.PATCH,
       });
+    consumer.apply(CheckCancelReasonExist, CheckOrderStatus).forRoutes({
+      path: `${url}/cancel-order/:id`,
+      method: RequestMethod.PATCH,
+    });
     consumer.apply(CheckUserExist, CheckIsAdmin, CheckUserCartExist).forRoutes({
       path: `${url}/checkout/users/:userId`,
       method: RequestMethod.POST,

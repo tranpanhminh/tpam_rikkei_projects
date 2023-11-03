@@ -26,6 +26,7 @@
     "@nestjs/passport": "^10.0.2",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/typeorm": "^10.0.0",
+    "@paypal/checkout-server-sdk": "^1.0.3",
     "@types/paypal-rest-sdk": "^1.7.8",
     "@types/session-file-store": "^1.2.4",
     "axios": "^1.6.0",

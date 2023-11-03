@@ -1,6 +1,7 @@
 export class OrdersInterface {
   id?: number;
   order_code?: string;
+  sale_id?: string;
   user_id?: number;
   customer_name?: string;
   address?: string;

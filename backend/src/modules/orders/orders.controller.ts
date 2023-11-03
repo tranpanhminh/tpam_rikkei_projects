@@ -14,6 +14,7 @@ import { OrdersEntity } from './database/entity/orders.entity';
 import { CheckOutOrderDTO } from './dto/checkOutOrder.dto';
 import { OrderItemsEntity } from '../orderItems/database/entity/orderItems.entity';
 import { UpdateOrderDTO } from './dto/updateOrder.dto';
+import { OrdersInterface } from './interface/orders.interface';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -88,6 +89,16 @@ export class OrdersController {
     @Body() body: UpdateOrderDTO,
   ): Promise<OrdersEntity | unknown> {
     const result = await this.ordersService.updateOrder(id, body);
+    return result;
+  }
+
+  // 6. Cancel Order By Customer
+  @Patch('/cancel-order/:id')
+  async cancelOrder(
+    @Param('id') id: number,
+    @Body() body: OrdersInterface,
+  ): Promise<OrdersEntity | unknown> {
+    const result = await this.ordersService.cancelOrder(id, body);
     return result;
   }
 }

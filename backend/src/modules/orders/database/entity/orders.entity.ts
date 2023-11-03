@@ -20,6 +20,9 @@ export class OrdersEntity {
   @Column({ type: 'text', nullable: false })
   order_code: string;
 
+  @Column({ type: 'text', nullable: false })
+  sale_id: string;
+
   @Column({ type: 'int', nullable: false })
   user_id: number;
 

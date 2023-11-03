@@ -37,7 +37,7 @@ export class CheckOrderStatusAcceptForUser implements NestMiddleware {
       );
     }
 
-    if (findOrder.status_id == 4) {
+    if (findOrder.status_id == 5) {
       throw new BadRequestException(
         "Order can't be cancelled because it was canceled",
       );

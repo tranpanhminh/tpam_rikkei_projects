@@ -18,6 +18,9 @@ import { ProductsRepository } from '../products/products.repository';
 import { UsersRepository } from '../users/users.repository';
 import { OrderItemsEntity } from '../orderItems/database/entity/orderItems.entity';
 import { UpdateOrderDTO } from './dto/updateOrder.dto';
+import * as paypal from 'paypal-rest-sdk';
+import { OrdersInterface } from './interface/orders.interface';
+import { CancelReasonsRepository } from '../cancelReasons/cancelReasons.repository';
 
 const path = process.env.SERVER_PATH;
 const BACKEND_PATH = process.env.BACKEND_PATH;
@@ -34,6 +37,7 @@ export class OrdersService {
     private readonly orderItemsRepository: OrderItemsRepository,
     private readonly productsRepository: ProductsRepository,
     private readonly usersRepository: UsersRepository,
+    private readonly cancelReasonsRepository: CancelReasonsRepository,
   ) {}
 
   // 1. Get All
@@ -176,7 +180,7 @@ export class OrdersService {
   //   }
   // }
 
-  // 5. Update
+  // 5. Update Order By Admin
   async updateOrder(
     id: number,
     body: UpdateOrderDTO,
@@ -190,6 +194,80 @@ export class OrdersService {
       };
       await this.ordersRepository.updateOrder(id, updateOrder);
       return new HttpException('Order Updated', HttpStatus.OK);
+    }
+  }
+
+  // 6. Cancel Order By User
+  async cancelOrder(
+    id: number,
+    body: OrdersInterface,
+  ): Promise<OrdersEntity | unknown | any> {
+    const { cancel_reason_id } = body;
+
+    try {
+      const checkOrder: OrdersEntity =
+        await this.ordersRepository.getDetailOrder(id);
+      console.log(checkOrder);
+
+      await new Promise((resolve, reject) => {
+        const refundRequest = {
+          amount: {
+            total: checkOrder.total_bill.toString(),
+            currency: 'USD',
+          },
+        };
+
+        paypal.sale.refund(
+          checkOrder.sale_id,
+          refundRequest,
+          (error, refund) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(refund);
+            }
+          },
+        );
+      });
+
+      // Get Order Detail của Order
+      const getAllOrderItems: any =
+        await this.orderItemsRepository.getDetailOrderItem(checkOrder.id);
+      console.log(getAllOrderItems);
+
+      for (const cartProduct of getAllOrderItems) {
+        const findProduct = await this.productsRepository.getDetail(
+          cartProduct.product_id,
+        );
+        const updatedQuantityStock =
+          Number(findProduct.quantity_stock) + Number(cartProduct.quantity);
+
+        const newQuantity = {
+          quantity_stock: updatedQuantityStock,
+        };
+        // Cập nhật số lượng tồn kho trong bảng products
+        await this.productsRepository.updateQuantityStock(
+          newQuantity,
+          cartProduct.product_id,
+        );
+      }
+      // Hoàn lại sản phẩm
+      const findCancelReason =
+        await this.cancelReasonsRepository.getDetailCancelReason(
+          cancel_reason_id,
+        );
+
+      if (checkOrder) {
+        const updateOrder = {
+          cancel_reason_id: cancel_reason_id,
+          cancellation_reason: findCancelReason.name,
+          status_id: 5,
+        };
+        await this.ordersRepository.updateOrder(id, updateOrder);
+        return new HttpException('Order Cancelled Completed', HttpStatus.OK);
+      }
+    } catch (error) {
+      throw error;
     }
   }
 }
