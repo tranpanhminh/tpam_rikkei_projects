@@ -39,7 +39,7 @@ export class CouponsEntity {
   })
   updated_at: Timestamp;
 
-  // Cancel Reasons (1) - (N) Orders
-  @OneToMany(() => OrdersEntity, (orders) => orders.coupons)
-  orders: OrdersEntity[];
+  // // Cancel Reasons (1) - (N) Orders
+  // @OneToMany(() => OrdersEntity, (orders) => orders.coupons)
+  // orders: OrdersEntity[];
 }

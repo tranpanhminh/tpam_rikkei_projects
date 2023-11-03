@@ -1,5 +1,5 @@
-import { PostStatusesEntity } from "src/modules/postStatuses/database/entity/postStatuses.entity";
-import { PostTypesEntity } from "src/modules/postTypes/database/entity/postTypes.entity";
+import { PostStatusesEntity } from 'src/modules/postStatuses/database/entity/postStatuses.entity';
+import { PostTypesEntity } from 'src/modules/postTypes/database/entity/postTypes.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -7,67 +7,67 @@ import {
   Timestamp,
   JoinColumn,
   ManyToOne,
-} from "typeorm";
+} from 'typeorm';
 
-@Entity("posts")
+@Entity('posts')
 export class PostsEntity {
-  @PrimaryGeneratedColumn("increment")
+  @PrimaryGeneratedColumn('increment')
   id: number;
 
   @Column({ length: 255, nullable: false })
   title: string;
 
-  @Column({ type: "longtext", nullable: false })
+  @Column({ type: 'longtext', nullable: false })
   content: string;
 
-  @Column({ type: "text", nullable: false })
+  @Column({ type: 'text', nullable: false })
   thumbnail_url: string;
 
   @Column({ length: 255, nullable: false })
   author: string;
 
-  @Column({ type: "int", nullable: false })
+  @Column({ type: 'int', nullable: false })
   status_id: number;
 
-  @Column({ type: "int", nullable: false })
+  @Column({ type: 'int', nullable: false })
   post_type_id: number;
 
   @Column({
     nullable: false,
-    type: "timestamp",
-    default: () => "CURRENT_TIMESTAMP",
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
   })
   created_at: Timestamp;
 
   @Column({
     nullable: false,
-    type: "timestamp",
-    default: () => "CURRENT_TIMESTAMP",
-    onUpdate: "CURRENT_TIMESTAMP",
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
   })
   updated_at: Timestamp;
 
   // Post Types (N) - (1) Posts
   @ManyToOne(() => PostTypesEntity, (post_types) => post_types.posts, {
     cascade: true, // Tùy chọn cascade update
-    onUpdate: "RESTRICT",
-    onDelete: "RESTRICT", // Tùy chọn ondelete
+    onUpdate: 'RESTRICT',
+    onDelete: 'RESTRICT', // Tùy chọn ondelete
   })
   @JoinColumn({
-    name: "post_type_id",
-    foreignKeyConstraintName: "FK.post_types.services",
+    name: 'post_type_id',
+    foreignKeyConstraintName: 'FK.post_types.posts',
   })
   post_types: PostTypesEntity;
 
   // Post Statuses (N) - (1) Posts
   @ManyToOne(() => PostStatusesEntity, (post_statuses) => post_statuses.posts, {
     cascade: true, // Tùy chọn cascade update
-    onUpdate: "RESTRICT",
-    onDelete: "RESTRICT", // Tùy chọn ondelete
+    onUpdate: 'RESTRICT',
+    onDelete: 'RESTRICT', // Tùy chọn ondelete
   })
   @JoinColumn({
-    name: "status_id",
-    foreignKeyConstraintName: "FK.post_statuses.posts",
+    name: 'status_id',
+    foreignKeyConstraintName: 'FK.post_statuses.posts',
   })
   post_statuses: PostStatusesEntity;
 }

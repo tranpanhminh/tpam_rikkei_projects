@@ -28,7 +28,9 @@ export class OrdersRepository {
   }
 
   // 4. Add
-  async addOrder(orderInfo: OrdersInterface): Promise<OrdersEntity | unknown> {
+  async addOrder(
+    orderInfo: OrdersInterface,
+  ): Promise<OrdersEntity | OrdersInterface> {
     return await this.ordersEntity.save(orderInfo);
   }
 

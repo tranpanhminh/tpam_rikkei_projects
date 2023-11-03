@@ -21,5 +21,6 @@ import { ProductImagesRepository } from '../productImages/productImages.reposito
     CloudinaryService,
     ProductImagesRepository,
   ],
+  exports: [ProductsRepository],
 })
 export class ProductsModule {}

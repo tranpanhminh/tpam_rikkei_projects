@@ -29,7 +29,7 @@ export class ServicesEntity {
   @Column({ type: 'text', nullable: false })
   service_image: string;
 
-  @Column({ type: 'int', nullable: false })
+  @Column({ type: 'int', nullable: true })
   working_time_id: number;
 
   @Column({ type: 'int', nullable: false })

@@ -126,17 +126,17 @@ export class OrdersEntity {
   })
   cancel_reasons: CancelReasonsEntity;
 
-  // Orders (N) - (1) - Coupons
-  @ManyToOne(() => CouponsEntity, (coupons) => coupons.orders, {
-    cascade: true, // Tùy chọn cascade update
-    onUpdate: 'CASCADE',
-    onDelete: 'SET NULL', // Tùy chọn ondelete
-  })
-  @JoinColumn({
-    name: 'coupon_id',
-    foreignKeyConstraintName: 'FK.coupons.orders',
-  })
-  coupons: CouponsEntity;
+  // // Orders (N) - (1) - Coupons
+  // @ManyToOne(() => CouponsEntity, (coupons) => coupons.orders, {
+  //   cascade: true, // Tùy chọn cascade update
+  //   onUpdate: 'CASCADE',
+  //   onDelete: 'SET NULL', // Tùy chọn ondelete
+  // })
+  // @JoinColumn({
+  //   name: 'coupon_id',
+  //   foreignKeyConstraintName: 'FK.coupons.orders',
+  // })
+  // coupons: CouponsEntity;
 
   // Orders (1) - (N) Order Items
   @OneToMany(() => OrderItemsEntity, (order_items) => order_items.orders)

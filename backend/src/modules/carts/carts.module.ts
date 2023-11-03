@@ -52,6 +52,7 @@ const url = `${path}/carts`;
     ProductImagesRepository,
     CouponsRepository,
   ],
+  exports: [CartsRepository],
 })
 export class CartsModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
