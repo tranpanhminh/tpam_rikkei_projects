@@ -168,6 +168,7 @@ export class OrdersService {
           reference_id: userId.toString(),
           note_to_payee: address,
           description: phone,
+          custom: customer_name,
         },
       ],
     };
