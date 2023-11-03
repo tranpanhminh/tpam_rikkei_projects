@@ -62,6 +62,14 @@ export class OrdersModule {
       path: `${url}/detail/:id`,
       method: RequestMethod.GET,
     });
+    consumer.apply(CheckOrderExist).forRoutes({
+      path: `${url}/:id/detail`,
+      method: RequestMethod.GET,
+    });
+    consumer.apply(CheckUserExist).forRoutes({
+      path: `${url}/users/:userId`,
+      method: RequestMethod.GET,
+    });
     consumer.apply(CheckUserExist, CheckIsAdmin, CheckUserCartExist).forRoutes({
       path: `${url}/checkout/users/:userId`,
       method: RequestMethod.POST,

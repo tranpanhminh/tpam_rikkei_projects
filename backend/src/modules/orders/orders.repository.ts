@@ -34,6 +34,16 @@ export class OrdersRepository {
     return await this.ordersEntity.save(orderInfo);
   }
 
+  // 5. Get All Orders By User ID
+  async getAllOrdersByUserId(
+    userId: number,
+  ): Promise<OrdersEntity | OrdersInterface | unknown> {
+    const getAllOrders = await this.ordersEntity.find({
+      where: { user_id: userId },
+    });
+    return getAllOrders;
+  }
+
   // 5. Update
   // async updateOrder(
   //   id: number,

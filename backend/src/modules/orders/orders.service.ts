@@ -157,6 +157,15 @@ export class OrdersService {
     }
   }
 
+  // 5. Get All Orders By User ID
+  async getAllOrdersByUserId(userId: number): Promise<OrdersEntity | unknown> {
+    const getAllOrders: OrderItemsEntity | unknown =
+      await this.ordersRepository.getAllOrdersByUserId(userId);
+    if (getAllOrders) {
+      return getAllOrders;
+    }
+  }
+
   // 4. Delete
   // async deleteOrder(id: number): Promise<OrdersEntity | unknown> {
   //   const checkOrder = await this.ordersRepository.getDetailOrder(id);

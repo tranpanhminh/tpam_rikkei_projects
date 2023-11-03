@@ -69,6 +69,17 @@ export class OrdersController {
     return result;
   }
 
+  // 5. Get All Orders By User ID
+  @Get('/users/:userId')
+  async getAllOrdersByUserId(
+    @Param('userId')
+    userId: number,
+  ): Promise<OrdersEntity | unknown> {
+    const result: OrdersEntity | unknown =
+      await this.ordersService.getAllOrdersByUserId(userId);
+    return result;
+  }
+
   // 4. Delete
   // @Delete("/delete/:id")
   // @UseInterceptors(CheckOrderExist)
