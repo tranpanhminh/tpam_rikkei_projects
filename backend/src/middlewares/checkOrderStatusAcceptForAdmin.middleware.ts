@@ -4,15 +4,11 @@ import {
   NotAcceptableException,
 } from '@nestjs/common';
 import { NextFunction } from 'express';
-import { OrderStatusesRepository } from 'src/modules/orderStatuses/orderStatuses.repository';
 import { OrdersRepository } from 'src/modules/orders/orders.repository';
 
 @Injectable()
 export class CheckOrderStatusAcceptForAdmin implements NestMiddleware {
-  constructor(
-    private readonly ordersRepository: OrdersRepository,
-    private readonly orderStatusesRepository: OrderStatusesRepository,
-  ) {}
+  constructor(private readonly ordersRepository: OrdersRepository) {}
 
   async use(req: any, res: Response, next: NextFunction) {
     const getOrderId = req.params.id;
@@ -22,6 +18,12 @@ export class CheckOrderStatusAcceptForAdmin implements NestMiddleware {
     if (findOrder.status_id > getStatus) {
       throw new NotAcceptableException(
         "You can't change previous order status",
+      );
+    }
+
+    if (findOrder.status_id == 5) {
+      throw new NotAcceptableException(
+        "You can't change status because this order has cancelled",
       );
     }
 
