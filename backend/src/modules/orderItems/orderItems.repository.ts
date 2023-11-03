@@ -17,8 +17,10 @@ export class OrderItemsRepository {
   }
 
   // 2. Get Detail
-  async getDetailOrderItem(id: number): Promise<OrderItemsEntity> {
-    const detailOrderItem = await this.orderItemsEntity.findOneById(id);
+  async getDetailOrderItem(id: number): Promise<OrderItemsEntity | unknown> {
+    const detailOrderItem = await this.orderItemsEntity.find({
+      where: { order_id: id },
+    });
     return detailOrderItem;
   }
 

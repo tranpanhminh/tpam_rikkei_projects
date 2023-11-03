@@ -1,8 +1,18 @@
-import { Body, Controller, Get, Param, Post, Req, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Req,
+  Res,
+} from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { ConfigModule } from '@nestjs/config';
 import { OrdersEntity } from './database/entity/orders.entity';
 import { CheckOutOrderDTO } from './dto/checkOutOrder.dto';
+import { OrderItemsEntity } from '../orderItems/database/entity/orderItems.entity';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -23,7 +33,6 @@ export class OrdersController {
 
   // 2. Get Detail
   @Get('/detail/:id')
-  // @UseInterceptors(CheckOrderExist)
   async getDetailOrder(
     @Param('id') id: number,
   ): Promise<OrdersEntity | unknown> {
@@ -46,6 +55,17 @@ export class OrdersController {
       req,
       res,
     );
+    return result;
+  }
+
+  // 4. Get Detail Order Items By Order ID
+  @Get('/:id/detail')
+  async getDetailOrderItemsByOrderId(
+    @Param('id')
+    id: number,
+  ): Promise<OrderItemsEntity | unknown> {
+    const result: OrderItemsEntity | unknown =
+      await this.ordersService.getDetailOrderItemsByOrderId(id);
     return result;
   }
 

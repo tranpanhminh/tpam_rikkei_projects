@@ -8,7 +8,6 @@ import {
 import { OrdersRepository } from './orders.repository';
 import { OrdersEntity } from './database/entity/orders.entity';
 import { CheckOutOrderDTO } from './dto/checkOutOrder.dto';
-import { OrdersInterface } from './interface/orders.interface';
 import { CartsRepository } from '../carts/carts.repository';
 import { BillInterface } from '../carts/interface/bill.interface';
 import { CouponsInterface } from '../coupons/interface/coupons.interface';
@@ -16,9 +15,8 @@ import { CouponsRepository } from '../coupons/coupons.repository';
 import { PaypalService } from '../paypal/paypal.service';
 import { OrderItemsRepository } from '../orderItems/orderItems.repository';
 import { ProductsRepository } from '../products/products.repository';
-import { OrderItemInterface } from '../orderItems/interface/orderItem.interface';
-import axios from 'axios';
 import { UsersRepository } from '../users/users.repository';
+import { OrderItemsEntity } from '../orderItems/database/entity/orderItems.entity';
 
 const path = process.env.SERVER_PATH;
 const BACKEND_PATH = process.env.BACKEND_PATH;
@@ -146,6 +144,17 @@ export class OrdersService {
     };
 
     await this.paypalService.createOrder(create_payment_json, req, res);
+  }
+
+  // 4. Get Detail Order Items By Order ID
+  async getDetailOrderItemsByOrderId(
+    id: number,
+  ): Promise<OrderItemsEntity | unknown> {
+    const detailOrderItems: OrderItemsEntity | unknown =
+      await this.orderItemsRepository.getDetailOrderItem(id);
+    if (detailOrderItems) {
+      return detailOrderItems;
+    }
   }
 
   // 4. Delete

@@ -20,6 +20,7 @@ import { OrderItemsRepository } from '../orderItems/orderItems.repository';
 import { ProductsEntity } from '../products/database/entity/products.entity';
 import { ProductsRepository } from '../products/products.repository';
 import { ProductImagesEntity } from '../productImages/database/entity/productImages.entity';
+import { CheckOrderExist } from 'src/middlewares/checkOrderExist.middleware';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -57,6 +58,10 @@ const url = `${path}/orders`;
 })
 export class OrdersModule {
   configure(consumer: MiddlewareConsumer) {
+    consumer.apply(CheckOrderExist).forRoutes({
+      path: `${url}/detail/:id`,
+      method: RequestMethod.GET,
+    });
     consumer.apply(CheckUserExist, CheckIsAdmin, CheckUserCartExist).forRoutes({
       path: `${url}/checkout/users/:userId`,
       method: RequestMethod.POST,

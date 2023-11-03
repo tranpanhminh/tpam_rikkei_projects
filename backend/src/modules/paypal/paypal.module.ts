@@ -11,10 +11,16 @@ import { CartsRepository } from '../carts/carts.repository';
 import { ProductsRepository } from '../products/products.repository';
 import { ProductsEntity } from '../products/database/entity/products.entity';
 import { ProductImagesEntity } from '../productImages/database/entity/productImages.entity';
+import { ProductImagesRepository } from '../productImages/productImages.repository';
+import { UsersRepository } from '../users/users.repository';
+import { OrdersModule } from '../orders/orders.module';
+import { OrderItemsModule } from '../orderItems/orderItems.module';
+import { UsersEntity } from '../users/database/entity/users.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
+      UsersEntity,
       OrdersEntity,
       OrderItemsEntity,
       CartsEntity,
@@ -25,10 +31,12 @@ import { ProductImagesEntity } from '../productImages/database/entity/productIma
   providers: [
     PaypalProvider,
     PaypalService,
+    UsersRepository,
     OrdersRepository,
     OrderItemsRepository,
     CartsRepository,
     ProductsRepository,
+    ProductImagesRepository,
   ],
   exports: [PaypalProvider, PaypalService],
 })

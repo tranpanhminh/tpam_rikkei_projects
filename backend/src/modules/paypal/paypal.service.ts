@@ -4,16 +4,15 @@ import { Request, Response } from 'express';
 import * as paypal from 'paypal-rest-sdk';
 import { OrderItemsRepository } from '../orderItems/orderItems.repository';
 import { OrdersRepository } from '../orders/orders.repository';
-import { OrdersInterface } from '../orders/interface/orders.interface';
 import { CartsRepository } from '../carts/carts.repository';
 import { ProductsRepository } from '../products/products.repository';
 import { OrderItemInterface } from '../orderItems/interface/orderItem.interface';
 
-const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
-const PAYPAL_SECRET_KEY = process.env.PAYPAL_SECRET_KEY;
-const PAYPAL_API = process.env.PAYPAL_API;
-const path = process.env.SERVER_PATH;
-const BACKEND_PATH = process.env.BACKEND_PATH;
+// const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
+// const PAYPAL_SECRET_KEY = process.env.PAYPAL_SECRET_KEY;
+// const PAYPAL_API = process.env.PAYPAL_API;
+// const path = process.env.SERVER_PATH;
+// const BACKEND_PATH = process.env.BACKEND_PATH;
 
 // -------------------------------------------------------
 
