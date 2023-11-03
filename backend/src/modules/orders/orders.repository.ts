@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { OrdersEntity } from './database/entity/orders.entity';
 import { OrdersInterface } from './interface/orders.interface';
+import { UpdateOrderDTO } from './dto/updateOrder.dto';
 
 @Injectable()
 export class OrdersRepository {
@@ -18,7 +19,9 @@ export class OrdersRepository {
 
   // 2. Get Detail
   async getDetailOrder(id: number): Promise<OrdersEntity> {
-    const detailOrder = await this.ordersEntity.findOneById(id);
+    const detailOrder = await this.ordersEntity.findOne({
+      where: { id: id },
+    });
     return detailOrder;
   }
 
@@ -45,10 +48,10 @@ export class OrdersRepository {
   }
 
   // 5. Update
-  // async updateOrder(
-  //   id: number,
-  //   updateOrder: UpdateOrderDTO
-  // ): Promise<OrdersEntity | unknown> {
-  //   return await this.ordersEntity.update(id, updateOrder);
-  // }
+  async updateOrder(
+    id: number,
+    updateOrder: UpdateOrderDTO,
+  ): Promise<OrdersEntity | unknown> {
+    return await this.ordersEntity.update(id, updateOrder);
+  }
 }

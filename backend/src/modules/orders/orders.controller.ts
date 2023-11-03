@@ -13,6 +13,7 @@ import { ConfigModule } from '@nestjs/config';
 import { OrdersEntity } from './database/entity/orders.entity';
 import { CheckOutOrderDTO } from './dto/checkOutOrder.dto';
 import { OrderItemsEntity } from '../orderItems/database/entity/orderItems.entity';
+import { UpdateOrderDTO } from './dto/updateOrder.dto';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -80,22 +81,13 @@ export class OrdersController {
     return result;
   }
 
-  // 4. Delete
-  // @Delete("/delete/:id")
-  // @UseInterceptors(CheckOrderExist)
-  // async deleteOrder(@Param("id") id: number): Promise<OrdersEntity | unknown> {
-  //   const result: string | unknown = await this.ordersService.deleteOrder(id);
-  //   return result;
-  // }
-
-  // 5. Update
-  // @Patch("update/:id")
-  // @UseInterceptors(CheckOrderExist)
-  // async updateOrder(
-  //   @Param("id") id: number,
-  //   @Body() body: UpdateOrderDTO
-  // ): Promise<OrdersEntity | unknown> {
-  //   const result = await this.ordersService.updateOrder(id, body);
-  //   return result;
-  // }
+  // 5. Update Order By Admin
+  @Patch('update/:id')
+  async updateOrder(
+    @Param('id') id: number,
+    @Body() body: UpdateOrderDTO,
+  ): Promise<OrdersEntity | unknown> {
+    const result = await this.ordersService.updateOrder(id, body);
+    return result;
+  }
 }

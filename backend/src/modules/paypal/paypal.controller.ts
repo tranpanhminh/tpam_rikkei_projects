@@ -3,7 +3,7 @@ import { PaypalService } from './paypal.service';
 // import axios from 'axios';
 const path = process.env.SERVER_PATH;
 // const BACKEND_PATH = process.env.BACKEND_PATH;
-// const FRONTEND_PATH = process.env.FRONTEND_PATH;
+const FRONTEND_PATH = process.env.FRONTEND_PATH;
 
 // -------------------------------------------------------
 
@@ -44,11 +44,11 @@ export class PaypalController {
     return result;
   }
 
-  // // 3. Cancel Order
-  // @Get('/cancel-order')
-  // async cancelOrder(@Req() req: any, @Res() res: any) {
-  //   res.redirect(`${FRONTEND_PATH}/cart`);
-  // }
+  // 3. Cancel Order
+  @Get('/cancel-order')
+  async cancelOrder(@Req() req: any, @Res() res: any) {
+    res.redirect(`${FRONTEND_PATH}/cart`);
+  }
 
   // // 4. Create Order With Detail Information
   // @Get('/create-order-detail')

@@ -17,6 +17,7 @@ import { OrderItemsRepository } from '../orderItems/orderItems.repository';
 import { ProductsRepository } from '../products/products.repository';
 import { UsersRepository } from '../users/users.repository';
 import { OrderItemsEntity } from '../orderItems/database/entity/orderItems.entity';
+import { UpdateOrderDTO } from './dto/updateOrder.dto';
 
 const path = process.env.SERVER_PATH;
 const BACKEND_PATH = process.env.BACKEND_PATH;
@@ -176,25 +177,19 @@ export class OrdersService {
   // }
 
   // 5. Update
-  // async updateOrder(
-  //   id: number,
-  //   body: UpdateOrderDTO
-  // ): Promise<OrdersEntity | unknown> {
-  //   const { name, code, discount_rate, min_bill } = body;
-  //   const checkOrder: OrdersEntity = await this.ordersRepository.getDetailOrder(
-  //     id
-  //   );
-  //   if (checkOrder) {
-  //     const updateOrder = {
-  //       name: !name ? checkOrder.name : name,
-  //       code: !code ? checkOrder.code : code,
-  //       discount_rate: !discount_rate
-  //         ? checkOrder.discount_rate
-  //         : discount_rate,
-  //       min_bill: !min_bill ? checkOrder.min_bill : min_bill,
-  //     };
-  //     await this.ordersRepository.updateOrder(id, updateOrder);
-  //     return new HttpException("Order Updated", HttpStatus.OK);
-  //   }
-  // }
+  async updateOrder(
+    id: number,
+    body: UpdateOrderDTO,
+  ): Promise<OrdersEntity | unknown> {
+    const { status_id } = body;
+    const checkOrder: OrdersEntity =
+      await this.ordersRepository.getDetailOrder(id);
+    if (checkOrder) {
+      const updateOrder = {
+        status_id: !status_id ? checkOrder.status_id : status_id,
+      };
+      await this.ordersRepository.updateOrder(id, updateOrder);
+      return new HttpException('Order Updated', HttpStatus.OK);
+    }
+  }
 }

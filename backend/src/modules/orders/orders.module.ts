@@ -21,6 +21,10 @@ import { ProductsEntity } from '../products/database/entity/products.entity';
 import { ProductsRepository } from '../products/products.repository';
 import { ProductImagesEntity } from '../productImages/database/entity/productImages.entity';
 import { CheckOrderExist } from 'src/middlewares/checkOrderExist.middleware';
+import { CheckOrderStatusExist } from 'src/middlewares/checkOrderStatusExist.middleware';
+import { OrderStatusesEntity } from '../orderStatuses/database/entity/orderStatuses.entity';
+import { OrderStatusesRepository } from '../orderStatuses/orderStatuses.repository';
+import { CheckOrderStatusAcceptForAdmin } from 'src/middlewares/checkOrderStatusAcceptForAdmin.middleware';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -41,6 +45,7 @@ const url = `${path}/orders`;
       OrderItemsEntity,
       ProductsEntity,
       ProductImagesEntity,
+      OrderStatusesEntity,
     ]),
   ],
   controllers: [OrdersController],
@@ -53,6 +58,7 @@ const url = `${path}/orders`;
     CouponsRepository,
     OrderItemsRepository,
     ProductsRepository,
+    OrderStatusesRepository,
   ],
   exports: [OrdersService, OrdersRepository],
 })
@@ -70,6 +76,16 @@ export class OrdersModule {
       path: `${url}/users/:userId`,
       method: RequestMethod.GET,
     });
+    consumer
+      .apply(
+        CheckOrderExist,
+        CheckOrderStatusExist,
+        CheckOrderStatusAcceptForAdmin,
+      )
+      .forRoutes({
+        path: `${url}/update/:id`,
+        method: RequestMethod.PATCH,
+      });
     consumer.apply(CheckUserExist, CheckIsAdmin, CheckUserCartExist).forRoutes({
       path: `${url}/checkout/users/:userId`,
       method: RequestMethod.POST,
