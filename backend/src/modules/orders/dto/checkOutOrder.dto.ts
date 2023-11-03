@@ -1,10 +1,10 @@
 import { IsNotEmpty, IsPhoneNumber, IsString } from 'class-validator';
 export class CheckOutOrderDTO {
-  @IsNotEmpty({ message: 'Customer Name should not be empty' })
-  @IsString({ message: 'Customer Name should be string' })
-  customer_name: string;
+  // @IsNotEmpty({ message: 'Customer Name should not be empty' })
+  // @IsString({ message: 'Customer Name should be string' })
+  // customer_name: string;
 
-  address?: any;
+  // address?: any;
 
   @IsPhoneNumber('US', {
     message: 'Invalid US Phone Number (Example: 112345678900)',

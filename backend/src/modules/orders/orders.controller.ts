@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Post, Req, Res } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { ConfigModule } from '@nestjs/config';
 import { OrdersEntity } from './database/entity/orders.entity';
-import { CheckOutOrderDTO } from './dto/check-out-order.dto';
+import { CheckOutOrderDTO } from './dto/checkOutOrder.dto';
 
 ConfigModule.forRoot({
   envFilePath: '.env',

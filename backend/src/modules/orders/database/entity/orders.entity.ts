@@ -18,6 +18,9 @@ export class OrdersEntity {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
+  @Column({ type: 'text', nullable: false })
+  order_code: string;
+
   @Column({ type: 'int', nullable: false })
   user_id: number;
 
@@ -30,8 +33,8 @@ export class OrdersEntity {
   @Column({ length: 255, nullable: false })
   phone: string;
 
-  @Column({ type: 'float', nullable: false })
-  discount_rate: number;
+  // @Column({ type: 'float', nullable: false })
+  // discount_rate: number;
 
   @Column({ type: 'float', nullable: false })
   discounted: number;
@@ -48,8 +51,8 @@ export class OrdersEntity {
   @Column({ type: 'int', nullable: true })
   cancel_reason_id: number;
 
-  @Column({ type: 'int', nullable: true })
-  coupon_id: number;
+  // @Column({ type: 'int', nullable: true })
+  // coupon_id: number;
 
   @Column({ type: 'int', nullable: false })
   status_id: number;

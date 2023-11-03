@@ -1,14 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Post,
-  Req,
-  Res,
-  Session,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { PaypalService } from './paypal.service';
 import axios from 'axios';
 const path = process.env.SERVER_PATH;
@@ -40,7 +30,6 @@ export class PaypalController {
     // const { token } = req.query;
     const payerId = req.query.PayerID;
     const paymentId = req.query.paymentId;
-    console.log(paymentId);
     const execute_payment_json = {
       payer_id: payerId,
     };

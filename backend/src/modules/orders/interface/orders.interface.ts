@@ -1,5 +1,6 @@
 export class OrdersInterface {
   id?: number;
+  order_code?: string;
   user_id?: number;
   customer_name?: string;
   address?: string;

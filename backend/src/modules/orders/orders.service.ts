@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { OrdersRepository } from './orders.repository';
 import { OrdersEntity } from './database/entity/orders.entity';
-import { CheckOutOrderDTO } from './dto/check-out-order.dto';
+import { CheckOutOrderDTO } from './dto/checkOutOrder.dto';
 import { OrdersInterface } from './interface/orders.interface';
 import { CartsRepository } from '../carts/carts.repository';
 import { BillInterface } from '../carts/interface/bill.interface';
@@ -67,13 +67,13 @@ export class OrdersService {
         price: item.price.toString(),
         currency: 'USD',
         quantity: item.quantity,
+        image_url: item.products.thumbnail_url,
       };
     });
-    console.log(listItems, 'LAA');
 
     const findUser = await this.usersRepository.getDetailUser(userId);
 
-    const { customer_name, address, phone } = body;
+    const { phone } = body;
     // Tính tổng hóa đơn
     const caculateBill: BillInterface =
       await this.cartsRepository.caculateBill(userId);
@@ -165,10 +165,9 @@ export class OrdersService {
             //   shipping_discout: '1.00',
             // },
           },
-          reference_id: userId.toString(),
-          note_to_payee: address,
-          description: phone,
-          custom: customer_name,
+          // note_to_payee: address,
+          // description: phone,
+          custom: userId,
         },
       ],
     };

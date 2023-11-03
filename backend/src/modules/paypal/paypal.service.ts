@@ -4,6 +4,7 @@ import { Request, Response } from 'express';
 import * as paypal from 'paypal-rest-sdk';
 import { OrderItemsRepository } from '../orderItems/orderItems.repository';
 import { OrdersRepository } from '../orders/orders.repository';
+import { OrdersInterface } from '../orders/interface/orders.interface';
 
 const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
 const PAYPAL_SECRET_KEY = process.env.PAYPAL_SECRET_KEY;
@@ -32,20 +33,63 @@ export class PaypalService {
   }
 
   // 2. Capture Order
-  async captureOrder(paymentId, execute_payment_json, req, res): Promise<any> {
-    console.log(execute_payment_json);
-    paypal.payment.execute(
-      paymentId,
-      execute_payment_json,
-      function (error, payment) {
-        if (error) {
-          console.log(error.response);
-          throw error;
-        } else {
-          return res.json(payment);
-        }
-      },
-    );
+  async captureOrder(
+    paymentId,
+    execute_payment_json,
+    req,
+    res,
+  ): Promise<any | unknown> {
+    let orderInfo: any;
+
+    await new Promise((resolve, reject) => {
+      paypal.payment.execute(
+        paymentId,
+        execute_payment_json,
+        function (error, payment) {
+          if (error) {
+            reject(error);
+          } else {
+            orderInfo = payment; // Lưu giá trị vào orderInfo
+            resolve(payment);
+          }
+        },
+      );
+    })
+      .then(() => {
+        const copyOrderInfo = {
+          order_code: orderInfo.id,
+          user_id: orderInfo.transactions[0].custom,
+          customer_info: orderInfo.payer.payer_info,
+          phone: orderInfo.transactions[0].item_list.shipping_phone_number,
+          item_lists: orderInfo.transactions[0].item_list.items,
+          amounts: orderInfo.transactions[0].amount,
+        };
+        const newOrder = {
+          order_code: copyOrderInfo.order_code,
+          user_id: copyOrderInfo.user_id,
+          customer_name: `${copyOrderInfo.customer_info.first_name} ${copyOrderInfo.customer_info.last_name}`,
+          address: `${copyOrderInfo.customer_info.shipping_address.line1}, ${copyOrderInfo.customer_info.shipping_address.city}, ${copyOrderInfo.customer_info.shipping_address.state}, ${copyOrderInfo.customer_info.shipping_address.postal_code}, ${copyOrderInfo.customer_info.shipping_address.country_code}`,
+          phone: copyOrderInfo.phone,
+          discounted: copyOrderInfo.amounts.discount,
+          bill: copyOrderInfo.amounts.subtotal,
+          total_bill: copyOrderInfo.amounts.total,
+          cancellation_reason: null,
+          cancel_reason_id: null,
+          status_id: 1,
+          email_paypal: copyOrderInfo.customer_info.email,
+        };
+        console.log(newOrder);
+        const addNewOrder = this.ordersRepository.addOrder(newOrder);
+        return addNewOrder;
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        // Xử lý lỗi ở đây
+        console.log(error);
+        return res.status(500).json({ error: 'Internal server error' });
+      });
   }
 
   // // 4. createOrderGetInformation
