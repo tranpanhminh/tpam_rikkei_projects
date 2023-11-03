@@ -31,16 +31,8 @@ export class OrderItemsRepository {
     return await this.orderItemsEntity.save(newOrderItem);
   }
 
-  // // 4. Add
-  // async deleteOrderItem(id: number): Promise<OrderItemsEntity | unknown> {
-  //   return await this.orderItemsEntity.delete(id);
-  // }
-
-  // // 5. Update
-  // async updateOrderItem(
-  //   id: number,
-  //   updateOrderItem: UpdateOrderItemDTO
-  // ): Promise<OrderItemsEntity | unknown> {
-  //   return await this.orderItemsEntity.update(id, updateOrderItem);
-  // }
+  // 4. Report Order Items
+  async reportOrderItems(): Promise<OrderItemsEntity | unknown> {
+    return await this.orderItemsEntity.find();
+  }
 }

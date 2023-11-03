@@ -1,10 +1,4 @@
-import {
-  HttpException,
-  HttpStatus,
-  Injectable,
-  Req,
-  Res,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { OrdersRepository } from './orders.repository';
 import { OrdersEntity } from './database/entity/orders.entity';
 import { CheckOutOrderDTO } from './dto/checkOutOrder.dto';
@@ -171,16 +165,7 @@ export class OrdersService {
     }
   }
 
-  // 4. Delete
-  // async deleteOrder(id: number): Promise<OrdersEntity | unknown> {
-  //   const checkOrder = await this.ordersRepository.getDetailOrder(id);
-  //   if (checkOrder) {
-  //     await this.ordersRepository.deleteOrder(id);
-  //     return new HttpException("Order Deleted", HttpStatus.OK);
-  //   }
-  // }
-
-  // 5. Update Order By Admin
+  // 6. Update Order By Admin
   async updateOrder(
     id: number,
     body: UpdateOrderDTO,
@@ -197,7 +182,7 @@ export class OrdersService {
     }
   }
 
-  // 6. Cancel Order By User
+  // 7. Cancel Order By User
   async cancelOrder(
     id: number,
     body: OrdersInterface,
@@ -233,7 +218,6 @@ export class OrdersService {
       // Get Order Detail của Order
       const getAllOrderItems: any =
         await this.orderItemsRepository.getDetailOrderItem(checkOrder.id);
-      console.log(getAllOrderItems);
 
       for (const cartProduct of getAllOrderItems) {
         const findProduct = await this.productsRepository.getDetail(

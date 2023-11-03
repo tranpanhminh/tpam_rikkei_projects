@@ -30,36 +30,11 @@ export class OrderItemsController {
     return result;
   }
 
-  // // 3. Add
-  // @Post("/add")
-  // async addOrderItem(
-  //   @Body() body: CreateOrderItemDTO
-  // ): Promise<OrderItemsEntity | unknown> {
-  //   const result: string | unknown = await this.orderItemsService.addOrderItem(
-  //     body
-  //   );
-  //   return result;
-  // }
-
-  // // 4. Delete
-  // @Delete("/delete/:id")
-  // @UseInterceptors(CheckOrderItemExist)
-  // async deleteOrderItem(
-  //   @Param("id") id: number
-  // ): Promise<OrderItemsEntity | unknown> {
-  //   const result: string | unknown =
-  //     await this.orderItemsService.deleteOrderItem(id);
-  //   return result;
-  // }
-
-  // // 5. Update
-  // @Patch("update/:id")
-  // @UseInterceptors(CheckOrderItemExist)
-  // async updateOrderItem(
-  //   @Param("id") id: number,
-  //   @Body() body: UpdateOrderItemDTO
-  // ): Promise<OrderItemsEntity | unknown> {
-  //   const result = await this.orderItemsService.updateOrderItem(id, body);
-  //   return result;
-  // }
+  // 3. Report Order Items
+  @Get('/reports')
+  async reportOrderItems(): Promise<OrderItemsEntity | unknown> {
+    const result: OrderItemsEntity | unknown =
+      await this.orderItemsService.reportOrderItems();
+    return result;
+  }
 }

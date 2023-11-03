@@ -1,6 +1,5 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import axios from 'axios';
-import { Request, Response } from 'express';
+import { Injectable } from '@nestjs/common';
+
 import * as paypal from 'paypal-rest-sdk';
 import { OrderItemsRepository } from '../orderItems/orderItems.repository';
 import { OrdersRepository } from '../orders/orders.repository';
@@ -131,13 +130,8 @@ export class PaypalService {
       );
       // return res.redirect('http://localhost:3000/');
     } catch (error) {
-      console.log(error);
+      throw error;
     }
-  }
-
-  // 3. Refund Paypal
-  async orderRefund(orderId, req, res): Promise<any> {
-    console.log(orderId);
   }
 
   // // Get Access Token
