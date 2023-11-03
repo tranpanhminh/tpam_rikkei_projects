@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import { Request, Response } from 'express';
 import * as paypal from 'paypal-rest-sdk';
+import { OrderItemsRepository } from '../orderItems/orderItems.repository';
+import { OrdersRepository } from '../orders/orders.repository';
 
 const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
 const PAYPAL_SECRET_KEY = process.env.PAYPAL_SECRET_KEY;
@@ -13,7 +15,10 @@ const BACKEND_PATH = process.env.BACKEND_PATH;
 
 @Injectable()
 export class PaypalService {
-  // Chưa Get được Order Detail và không push được đầy đủ thông tin lên trang Paypal
+  constructor(
+    private readonly ordersRepository: OrdersRepository,
+    private readonly orderItemsRepository: OrderItemsRepository,
+  ) {}
   // 1. Create Order
   async createOrder(paymentData, req, res): Promise<any> {
     paypal.payment.create(paymentData, function (error, payment) {

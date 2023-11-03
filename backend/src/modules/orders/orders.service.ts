@@ -67,7 +67,6 @@ export class OrdersService {
         price: item.price.toString(),
         currency: 'USD',
         quantity: item.quantity,
-        description: item.products.thumbnail_url,
       };
     });
     console.log(listItems, 'LAA');

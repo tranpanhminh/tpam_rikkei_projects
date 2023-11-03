@@ -29,6 +29,8 @@ import { ServiceCommentsModule } from './modules/serviceComments/serviceComments
 import { BookingsModule } from './modules/bookings/bookings.module';
 import { PostsModule } from './modules/posts/posts.module';
 import { PagesModule } from './modules/pages/pages.module';
+import { OrdersRepository } from './modules/orders/orders.repository';
+import { OrderItemsRepository } from './modules/orderItems/orderItems.repository';
 
 @Module({
   imports: [

@@ -53,6 +53,7 @@ const url = `${path}/orders`;
     OrderItemsRepository,
     ProductsRepository,
   ],
+  exports: [OrdersService, OrdersRepository],
 })
 export class OrdersModule {
   configure(consumer: MiddlewareConsumer) {
