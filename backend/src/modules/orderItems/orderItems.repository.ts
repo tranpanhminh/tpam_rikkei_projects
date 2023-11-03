@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, getRepository } from 'typeorm';
 import { OrderItemsEntity } from './database/entity/orderItems.entity';
 import { OrderItemInterface } from './interface/orderItem.interface';
 
@@ -32,20 +32,20 @@ export class OrderItemsRepository {
   }
 
   // 4. Report Order Items
-  async reportOrderItems(): Promise<OrderItemsEntity | unknown> {
+  async reportOrderItems(): Promise<OrderItemsEntity[] | unknown> {
     const report = await this.orderItemsEntity
       .createQueryBuilder('order_items')
       .select([
-        'product.id',
-        'product.name',
-        'product.thumbnail_url',
-        'product.price',
+        'products.id AS product_id',
+        'products.name',
+        'products.thumbnail_url',
+        'products.price',
       ])
-      .addSelect('COUNT(product.id)', 'sold_count')
+      .addSelect('COUNT(products.id)', 'total_sold')
       .addSelect('SUM(order_items.quantity)', 'total_quantity_sold')
-      .innerJoin('order_items.product', 'product')
-      .groupBy('product.id')
-      .orderBy('sold_count', 'DESC')
+      .innerJoin('order_items.products', 'products') // Thay đổi tại đây
+      .groupBy('products.id')
+      .orderBy('total_sold', 'DESC')
       .getRawMany();
 
     return report;

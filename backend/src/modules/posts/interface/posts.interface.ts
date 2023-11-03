@@ -1,7 +1,9 @@
 export class PostsInterface {
   id?: number;
-  name?: string;
-  code?: string;
-  discount_rate?: number;
-  min_bill?: number;
+  title?: string;
+  content?: string;
+  thumbnail_url?: string;
+  author?: string;
+  status_id?: number;
+  post_type_id?: number;
 }
