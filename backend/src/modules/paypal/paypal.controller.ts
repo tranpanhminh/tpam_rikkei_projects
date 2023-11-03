@@ -1,9 +1,9 @@
 import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { PaypalService } from './paypal.service';
-import axios from 'axios';
+// import axios from 'axios';
 const path = process.env.SERVER_PATH;
-const BACKEND_PATH = process.env.BACKEND_PATH;
-const FRONTEND_PATH = process.env.FRONTEND_PATH;
+// const BACKEND_PATH = process.env.BACKEND_PATH;
+// const FRONTEND_PATH = process.env.FRONTEND_PATH;
 
 // -------------------------------------------------------
 
@@ -33,24 +33,6 @@ export class PaypalController {
     const execute_payment_json = {
       payer_id: payerId,
     };
-    // await axios
-    //   .post(
-    //     `${PAYPAL_API}/v2/checkout/orders/${token}/capture`,
-    //     {},
-    //     {
-    //       auth: {
-    //         username: PAYPAL_CLIENT_ID,
-    //         password: PAYPAL_SECRET_KEY,
-    //       },
-    //     },
-    //   )
-    //   .then((response) => {
-    //     console.log(response.data);
-    //     res.send(response.data);
-    //   })
-    //   .catch((error) => {
-    //     res.send(error);
-    //   });
 
     const result = await this.paypalService.captureOrder(
       paymentId,

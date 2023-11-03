@@ -71,8 +71,6 @@ export class OrdersService {
       };
     });
 
-    const findUser = await this.usersRepository.getDetailUser(userId);
-
     const { phone } = body;
     // Tính tổng hóa đơn
     const caculateBill: BillInterface =
@@ -92,28 +90,7 @@ export class OrdersService {
       ? (Number(copyCoupon.discount_rate) / 100) * Number(bill.toFixed(2))
       : 0;
 
-    // Tính tổng Bill đã áp mã giảm giá
-    const totalBillDiscounted: number = Number(
-      (bill - discountedAmount).toFixed(2),
-    );
-
-    // const newOrder: OrdersInterface = {
-    //   user_id: userId,
-    //   customer_name: customer_name,
-    //   address: address,
-    //   phone: phone,
-    //   discount_rate: copyCoupon.discount_rate,
-    //   discounted: discountedAmount,
-    //   bill: bill,
-    //   total_bill: totalBillDiscounted,
-    //   cancellation_reason: null,
-    //   cancel_reason_id: null,
-    //   coupon_id: copyCoupon.id,
-    //   status_id: 1,
-    //   email_paypal: '',
-    // };
-
-    // Data này chỉ Test
+    // Data
     const create_payment_json = {
       intent: 'sale',
       payer: {
@@ -160,10 +137,6 @@ export class OrdersService {
               shipping_discount: '0.00',
               discount: discountedAmount.toString(),
             },
-            // detail: {
-            //   subtotal: '3.00',
-            //   shipping_discout: '1.00',
-            // },
           },
           // note_to_payee: address,
           // description: phone,
@@ -173,72 +146,6 @@ export class OrdersService {
     };
 
     await this.paypalService.createOrder(create_payment_json, req, res);
-
-    // await res.json(checkOutPaypal);
-
-    // const getCheckOutId = checkOutPaypal.id;
-    // let getCheckOutLink: any = '';
-    // for (let i = 0; i < checkOutPaypal.links.length; i++) {
-    //   if (checkOutPaypal.links[i].rel === 'approve') {
-    //     getCheckOutLink = checkOutPaypal.links[i].href;
-    //   }
-    // }
-
-    // const checkOrder = await this.paypalService.getOrderStatus(
-    //   getCheckOutId,
-    //   params,
-    // );
-
-    // if (checkOrder.status === 'CREATED') {
-    //   return console.log(checkOrder);
-    // } else if (checkOrder.status === 'COMPLETED') {
-    //   console.log('next');
-    // }
-
-    // // Tạo Order vào bảng Order
-    // const orderInfo: OrdersInterface =
-    //   await this.ordersRepository.addOrder(newOrder);
-    // const orderId = orderInfo.id;
-
-    // // Push tất cả sản phẩm trong Cart của User vào Order item
-
-    // // ----------- Xử lý giảm hàng tồn kho -------------
-
-    // for (const cartProduct of userCart) {
-    //   const findProduct = await this.productsRepository.getDetail(
-    //     cartProduct.product_id,
-    //   );
-    //   const updatedQuantityStock =
-    //     findProduct.quantity_stock - cartProduct.quantity;
-
-    //   // Cập nhật số lượng tồn kho trong bảng products
-    //   await this.productsRepository.updateQuantityStock(
-    //     updatedQuantityStock,
-    //     cartProduct.product_id,
-    //   );
-
-    //   const copyProduct = {
-    //     ...findProduct,
-    //   };
-
-    //   const orderItemInfo: OrderItemInterface = {
-    //     order_id: orderId, // Sử dụng orderId đã gán ở trên
-    //     product_id: cartProduct.product_id,
-    //     product_name: copyProduct.name,
-    //     product_description: copyProduct.description,
-    //     product_thumbnail: copyProduct.thumbnail_url,
-    //     quantity: cartProduct.quantity,
-    //     price: cartProduct.price,
-    //   };
-
-    //   // Đẩy Cart vào Order Item
-    //   await this.orderItemsRepository.addOrderItem(orderItemInfo);
-    // }
-
-    // // Xoá tất cả sản phẩm của User trong Cart đi
-    // await this.cartsRepository.deleteAllProductsFromUserCart(userId);
-
-    // return new HttpException('Checkout Completed', HttpStatus.OK);
   }
 
   // 4. Delete

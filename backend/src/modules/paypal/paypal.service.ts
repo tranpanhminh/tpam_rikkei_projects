@@ -31,7 +31,12 @@ export class PaypalService {
       if (error) {
         throw error;
       } else {
-        console.log('Create Payment Response');
+        // Mở lệnh này lên khi ghép với FrontEnd
+        // for (let i = 0; i < payment.links.length; i++) {
+        //   if (payment.links[i].rel == 'approval_url') {
+        //     res.redirect(payment.links[i].href);
+        //   }
+        // }
         return res.send(payment);
       }
     });
@@ -76,7 +81,6 @@ export class PaypalService {
         status_id: 1,
         email_paypal: copyOrderInfo.customer_info.email,
       };
-      console.log(newOrder);
 
       // Tạo 1 Order mới
       const addNewOrder = await this.ordersRepository.addOrder(newOrder);
@@ -109,8 +113,6 @@ export class PaypalService {
           ...findProduct,
         };
 
-        console.log(copyProduct);
-
         const orderItemInfo: OrderItemInterface = {
           order_id: orderId, // Sử dụng orderId đã gán ở trên
           product_id: cartProduct.product_id,
@@ -121,8 +123,6 @@ export class PaypalService {
           price: cartProduct.price,
         };
 
-        console.log(orderItemInfo);
-
         // Đẩy Cart vào Order Item
         await this.orderItemsRepository.addOrderItem(orderItemInfo);
       }
@@ -131,7 +131,7 @@ export class PaypalService {
       await this.cartsRepository.deleteAllProductsFromUserCart(
         newOrder.user_id,
       );
-      return res.redirect()
+      return res.redirect('http://localhost:3000/');
     } catch (error) {
       console.log(error);
     }

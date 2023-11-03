@@ -1,5 +1,4 @@
 import { CancelReasonsEntity } from 'src/modules/cancelReasons/database/entity/cancelReasons.entity';
-import { CouponsEntity } from 'src/modules/coupons/database/entity/coupons.entity';
 import { OrderItemsEntity } from 'src/modules/orderItems/database/entity/orderItems.entity';
 import { OrderStatusesEntity } from 'src/modules/orderStatuses/database/entity/orderStatuses.entity';
 import { UsersEntity } from 'src/modules/users/database/entity/users.entity';
