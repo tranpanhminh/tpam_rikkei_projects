@@ -6,14 +6,15 @@ import {
   Param,
   Patch,
   Post,
-  UseInterceptors,
-} from "@nestjs/common";
-import { PostsService } from "./posts.service";
-import { ConfigModule } from "@nestjs/config";
-import { PostsEntity } from "./database/entity/posts.entity";
+} from '@nestjs/common';
+import { PostsService } from './posts.service';
+import { ConfigModule } from '@nestjs/config';
+import { PostsEntity } from './database/entity/posts.entity';
+import { FormDataRequest } from 'nestjs-form-data';
+import { CreatePostDTO } from './dto/createPost.dto';
 
 ConfigModule.forRoot({
-  envFilePath: ".env",
+  envFilePath: '.env',
 });
 const path = process.env.SERVER_PATH;
 
@@ -30,37 +31,31 @@ export class PostsController {
   }
 
   // 2. Get Detail
-  @Get("/detail/:id")
+  @Get('/detail/:id')
   // @UseInterceptors(CheckPostExist)
-  async getDetailPost(@Param("id") id: number): Promise<PostsEntity | unknown> {
-    const result: PostsEntity | unknown = await this.postsService.getDetailPost(
-      id
-    );
+  async getDetailPost(@Param('id') id: number): Promise<PostsEntity | unknown> {
+    const result: PostsEntity | unknown =
+      await this.postsService.getDetailPost(id);
     return result;
   }
 
   // // 3. Add
-  // @Post('/add')
-  // async addPost(
-  //   @Body() body: CreatePostDTO,
-  // ): Promise<PostsEntity | unknown> {
-  //   const result: string | unknown = await this.postsService.addPost(body);
-  //   return result;
-  // }
+  @Post('/add')
+  @FormDataRequest()
+  async addPost(@Body() body: CreatePostDTO): Promise<PostsEntity | unknown> {
+    const result: string | unknown = await this.postsService.addPost(body);
+    return result;
+  }
 
-  // // 4. Delete
-  // @Delete('/delete/:id')
-  // @UseInterceptors(CheckPostExist)
-  // async deletePost(
-  //   @Param('id') id: number,
-  // ): Promise<PostsEntity | unknown> {
-  //   const result: string | unknown = await this.postsService.deletePost(id);
-  //   return result;
-  // }
+  // 4. Delete
+  @Delete('/delete/:id')
+  async deletePost(@Param('id') id: number): Promise<PostsEntity | unknown> {
+    const result: string | unknown = await this.postsService.deletePost(id);
+    return result;
+  }
 
-  // // 5. Update
+  // 5. Update
   // @Patch('update/:id')
-  // @UseInterceptors(CheckPostExist)
   // async updatePost(
   //   @Param('id') id: number,
   //   @Body() body: UpdatePostDTO,
