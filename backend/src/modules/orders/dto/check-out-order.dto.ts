@@ -4,9 +4,7 @@ export class CheckOutOrderDTO {
   @IsString({ message: 'Customer Name should be string' })
   customer_name: string;
 
-  @IsNotEmpty({ message: 'Addres should not be empty' })
-  @IsString({ message: 'Addres should be string' })
-  address: string;
+  address?: any;
 
   @IsPhoneNumber('US', {
     message: 'Invalid US Phone Number (Example: 112345678900)',

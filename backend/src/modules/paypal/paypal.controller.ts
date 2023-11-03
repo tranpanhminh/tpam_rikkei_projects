@@ -40,7 +40,13 @@ export class PaypalController {
   // 2. Capture Order
   @Get('/capture-order')
   async captureOrder(@Req() req: any, @Res() res: any) {
-    const { token } = req.query;
+    // const { token } = req.query;
+    const payerId = req.query.PayerID;
+    const paymentId = req.query.paymentId;
+    console.log(paymentId);
+    const execute_payment_json = {
+      payer_id: payerId,
+    };
     // await axios
     //   .post(
     //     `${PAYPAL_API}/v2/checkout/orders/${token}/capture`,
@@ -60,7 +66,12 @@ export class PaypalController {
     //     res.send(error);
     //   });
 
-    const result = await this.paypalService.captureOrder(token, req, res);
+    const result = await this.paypalService.captureOrder(
+      paymentId,
+      execute_payment_json,
+      req,
+      res,
+    );
 
     return result;
   }

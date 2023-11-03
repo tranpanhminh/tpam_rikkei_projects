@@ -62,13 +62,15 @@ export class OrdersService {
     const userCart = await this.cartsRepository.getDetailCartByUser(userId);
     const listItems = userCart.map((item) => {
       return {
+        sku: item.products.id,
         name: item.products.name,
-        quantity: item.quantity.toString(),
         price: item.price.toString(),
         currency: 'USD',
-        url: item.products.thumbnail_url,
+        quantity: item.quantity,
+        description: item.products.thumbnail_url,
       };
     });
+    console.log(listItems, 'LAA');
 
     const findUser = await this.usersRepository.getDetailUser(userId);
 
@@ -113,34 +115,65 @@ export class OrdersService {
     // };
 
     // Data này chỉ Test
-    const paymentData = {
-      intent: 'CAPTURE',
-      purchase_units: [
-        {
-          amount: {
-            currency_code: 'USD',
-            value: totalBillDiscounted,
-          },
-
-          item_list: { items: listItems },
-          shipping_address: {
-            recipient_name: customer_name,
-            primary_address: address,
-            phone: phone,
-          },
-        },
-      ],
-
-      application_context: {
-        brand_name: 'petshop.com',
-        landing_page: 'NO_PREFERENCE',
-        user_action: 'PAY_NOW',
+    const create_payment_json = {
+      intent: 'sale',
+      payer: {
+        payment_method: 'paypal',
+      },
+      redirect_urls: {
         return_url: `${BACKEND_PATH}/${path}/paypal/capture-order`,
         cancel_url: `${BACKEND_PATH}/${path}/paypal/cancel-order`,
       },
+      transactions: [
+        {
+          item_list: {
+            // items: [
+            //   {
+            //     name: 'Test',
+            //     price: '1.00',
+            //     currency: 'USD',
+            //     quantity: 1,
+            //     sku: '1',
+            //     description:
+            //       'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/ABC-2021-LOGO.svg/1200px-ABC-2021-LOGO.svg.png',
+            //   },
+            //   {
+            //     name: 'Bla',
+            //     price: '1.00',
+            //     currency: 'USD',
+            //     quantity: 4,
+            //     sku: '2',
+            //     description:
+            //       'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/ABC-2021-LOGO.svg/1200px-ABC-2021-LOGO.svg.png',
+            //   },
+            // ],
+            shipping_phone_number: phone,
+            items: listItems,
+          },
+          amount: {
+            currency: 'USD',
+            total: (bill - discountedAmount).toString(),
+            details: {
+              subtotal: bill.toString(),
+              shipping: '0.00',
+              insurance: '0.00',
+              handling_fee: '0.00',
+              shipping_discount: '0.00',
+              discount: discountedAmount.toString(),
+            },
+            // detail: {
+            //   subtotal: '3.00',
+            //   shipping_discout: '1.00',
+            // },
+          },
+          reference_id: userId.toString(),
+          note_to_payee: address,
+          description: phone,
+        },
+      ],
     };
 
-    await this.paypalService.createOrder(paymentData, req, res);
+    await this.paypalService.createOrder(create_payment_json, req, res);
 
     // await res.json(checkOutPaypal);
 
