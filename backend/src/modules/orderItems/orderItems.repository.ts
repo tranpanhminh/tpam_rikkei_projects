@@ -47,7 +47,6 @@ export class OrderItemsRepository {
       .groupBy('products.id')
       .orderBy('total_sold', 'DESC')
       .getRawMany();
-
     return report;
   }
 }

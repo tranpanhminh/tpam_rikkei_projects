@@ -317,3 +317,23 @@ export function IsPageType(validationOptions?: ValidationOptions) {
     });
   };
 }
+
+export function IsFirstStatus(validationOptions?: ValidationOptions) {
+  return (object: any, propertyName: string) => {
+    registerDecorator({
+      target: object.constructor,
+      propertyName: propertyName,
+      options: validationOptions,
+      constraints: [],
+      validator: {
+        validate(id: number) {
+          if (id == 1) {
+            return true;
+          }
+
+          return false;
+        },
+      },
+    });
+  };
+}

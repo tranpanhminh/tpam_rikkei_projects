@@ -10,6 +10,8 @@ import {
 import { BookingsService } from './bookings.service';
 import { ConfigModule } from '@nestjs/config';
 import { BookingsEntity } from './database/entity/bookings.entity';
+import { CreateBookingDTO } from './dto/createBooking.dto';
+import { UpdateBookingDTO } from './dto/updateBooking.dto';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -38,37 +40,58 @@ export class BookingsController {
     return result;
   }
 
-  // // 3. Add
-  // @Post("/add")
-  // async addBooking(
-  //   @Body() body: CreateBookingDTO
-  // ): Promise<BookingsEntity | unknown> {
-  //   const result: string | unknown = await this.bookingsService.addBooking(
-  //     body
-  //   );
-  //   return result;
-  // }
+  // 3. Add
+  @Post('/add/users/:userId/services/:id')
+  async addBooking(
+    @Param() params: { userId: number; id: number },
+    @Body() body: CreateBookingDTO,
+  ): Promise<BookingsEntity | unknown> {
+    const result: string | unknown = await this.bookingsService.addBooking(
+      params.userId,
+      params.id,
+      body,
+    );
+    return result;
+  }
 
-  // // 4. Delete
-  // @Delete("/delete/:id")
-  // @UseInterceptors(CheckBookingExist)
-  // async deleteBooking(
-  //   @Param("id") id: number
-  // ): Promise<BookingsEntity | unknown> {
-  //   const result: string | unknown = await this.bookingsService.deleteBooking(
-  //     id
-  //   );
-  //   return result;
-  // }
+  // 4. Filter Booking By User ID
+  @Get('/filter/:userId')
+  async filterBookingByUserId(@Param('userId') userId: number) {
+    const result = await this.bookingsService.filterBookingByUserId(userId);
+    return result;
+  }
 
-  // // 5. Update
-  // @Patch("update/:id")
-  // @UseInterceptors(CheckBookingExist)
-  // async updateBooking(
-  //   @Param("id") id: number,
-  //   @Body() body: UpdateBookingDTO
-  // ): Promise<BookingsEntity | unknown> {
-  //   const result = await this.bookingsService.updateBooking(id, body);
-  //   return result;
-  // }
+  // 5. Cancel Booking
+  @Patch('/cancel-booking/:id')
+  async cancelBooking(
+    @Param('id') id: number,
+  ): Promise<BookingsEntity | unknown> {
+    const result: string | unknown =
+      await this.bookingsService.cancelBooking(id);
+    return result;
+  }
+
+  // 6. Update Booknig For Admin
+  @Patch('update/:id')
+  async updateBooking(
+    @Param('id') id: number,
+    @Body() body: UpdateBookingDTO,
+  ): Promise<BookingsEntity | unknown> {
+    const result = await this.bookingsService.updateBooking(id, body);
+    return result;
+  }
+
+  // 7. Group Booking Date
+  @Get('/group')
+  async groupBookingDate() {
+    const result = await this.bookingsService.groupBookingDate();
+    return result;
+  }
+
+  // 8. Report Booking
+  @Get('/report')
+  async reportBooking() {
+    const result = await this.bookingsService.reportBooking();
+    return result;
+  }
 }
