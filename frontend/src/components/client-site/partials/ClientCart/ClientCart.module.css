@@ -231,7 +231,7 @@
   background-color: #54b4d3;
   display: flex;
   justify-content: space-between;
-  padding: 15px 20px 15px 20px;
+  padding: 5px 20px 5px 20px;
   border-radius: 10px;
   font-size: 20px;
   align-items: center;
@@ -240,6 +240,16 @@
 .card-total button {
   color: white;
   background-color: #3b71ca;
+}
+
+.paypal-icon {
+  width: 50%;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.paypal-icon:hover {
+  opacity: 80%;
 }
 
 .product-quantity {

@@ -32,7 +32,7 @@ export class PaypalService {
         // Mở lệnh này lên khi ghép với FrontEnd
         for (let i = 0; i < payment.links.length; i++) {
           if (payment.links[i].rel == 'approval_url') {
-            res.redirect(payment.links[i].href);
+            return res.json({ url: payment.links[i].href });
           }
         }
         // return res.send(payment);
@@ -128,7 +128,7 @@ export class PaypalService {
       await this.cartsRepository.deleteAllProductsFromUserCart(
         newOrder.user_id,
       );
-      // return res.redirect('http://localhost:3000/');
+      return res.redirect('http://localhost:3000/');
     } catch (error) {
       throw error;
     }

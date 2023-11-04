@@ -34,14 +34,14 @@ function ClientCart() {
   const [coupons, setCoupons] = useState<any>([]);
   const [quantity, setQuantity] = useState<any>("");
   const [userInfo, setUserInfo] = useState({
-    user_id: "",
-    customer_name: "",
-    address: "",
+    // user_id: "",
+    // customer_name: "",
+    // address: "",
     phone: "",
-    cardholder_name: "",
-    card_number: "",
-    expiry_date: "",
-    cvv: "",
+    // cardholder_name: "",
+    // card_number: "",
+    // expiry_date: "",
+    // cvv: "",
   });
 
   // -----------------------------------------------------------
@@ -182,24 +182,29 @@ function ClientCart() {
   const handleCheckout = async () => {
     BaseAxios.post(`${ordersAPI}/checkout/users/${getLoginData.id}`, userInfo)
       .then((response) => {
-        fetchUserCart();
+        // fetchUserCart();
         setUserInfo({
-          user_id: "",
-          customer_name: "",
-          address: "",
+          // user_id: "",
+          // customer_name: "",
+          // address: "",
           phone: "",
-          cardholder_name: "",
-          card_number: "",
-          expiry_date: "",
-          cvv: "",
+          // cardholder_name: "",
+          // card_number: "",
+          // expiry_date: "",
+          // cvv: "",
         });
-        notification.success({
-          message: `${response.data.message}`,
-          description: `You will be navigated to Your Orders After 2 second`,
-        });
-        setTimeout(() => {
-          navigate("/user/my-orders");
-        }, 2000);
+        // Lấy URL từ response
+        const url = response.data.url;
+
+        // Redirect tại frontend
+        window.location.href = url;
+        // notification.success({
+        //   message: `${response.data.message}`,
+        //   description: `You will be navigated to Your Orders After 2 second`,
+        // });
+        // setTimeout(() => {
+        //   navigate("/user/my-orders");
+        // }, 2000);
       })
       .catch((error) => {
         notification.warning({
@@ -528,7 +533,13 @@ function ClientCart() {
 
               <div className={styles["card-total"]}>
                 <span>${total().toLocaleString()}</span>
-                <button onClick={handleCheckout}>Checkout</button>
+                <img
+                  className={styles["paypal-icon"]}
+                  src="https://i.ibb.co/vP8crxX/CITYPNG-COMDownload-Pay-Pal-Yellow-Payment-Button-PNG-2100x770-2.png"
+                  alt=""
+                  onClick={handleCheckout}
+                />
+                {/* <button onClick={handleCheckout}>Checkout</button> */}
               </div>
             </div>
           </div>

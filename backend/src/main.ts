@@ -10,6 +10,7 @@ ConfigModule.forRoot({
 });
 const port = process.env.SERVER_PORT;
 const frontEndPath = process.env.FRONTEND_PATH;
+const PAYPAL_API = process.env.PAYPAL_API;
 // -----------------------------------------------
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,6 +19,8 @@ async function bootstrap() {
     credentials: true,
     origin: `${frontEndPath}`,
     methods: 'GET,HEAD,PUT,PATCH,DELETE,POST',
+    allowedHeaders: ['Authorization', 'Content-Type'],
+    optionsSuccessStatus: 200,
   }); // <- enable CORS
   app.useGlobalPipes(
     new ValidationPipe({
