@@ -14,13 +14,16 @@ export class OrdersRepository {
 
   // 1. Get All
   async getAllOrders() {
-    return await this.ordersEntity.find();
+    return await this.ordersEntity.find({
+      relations: { users: true, order_statuses: true, order_items: true },
+    });
   }
 
   // 2. Get Detail
   async getDetailOrder(id: number): Promise<OrdersEntity> {
     const detailOrder = await this.ordersEntity.findOne({
       where: { id: id },
+      relations: { users: true, order_statuses: true },
     });
     return detailOrder;
   }

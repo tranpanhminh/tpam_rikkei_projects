@@ -32,17 +32,13 @@ const DetailOrders: React.FC<DetailModalProps> = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [shippingStatus, setShippingStatus] = useState<any>("");
   const [orders, setOrders] = useState<any>(null);
-  const [orderStatus, setOrderStatus] = useState<any>([]);
-  const [orderCart, setOrderCart] = useState<any>(null);
-  const [userId, setUserId] = useState<any>();
-  const [user, setUser] = useState<any>();
   const [orderById, setOrderById] = useState<any>(null);
 
   // Fetch All Orders
   // 1. Get Order By ID
   const fetchOrderById = () => {
     axios
-      .get(`${ordersAPI}/${getOrderId}`)
+      .get(`${ordersAPI}/detail/${getOrderId}`)
       .then((response) => {
         setOrderById(response.data);
       })
@@ -50,7 +46,6 @@ const DetailOrders: React.FC<DetailModalProps> = ({
         console.log(error);
       });
   };
-
   useEffect(() => {
     fetchOrderById();
   }, []);
@@ -58,12 +53,9 @@ const DetailOrders: React.FC<DetailModalProps> = ({
   useEffect(() => {
     const fetchOrders = () => {
       axios
-        .get(`${ordersAPI}/detail/${getOrderId}`)
+        .get(`${ordersAPI}/${getOrderId}/detail`)
         .then((response) => {
           setOrders(response.data);
-          // setOrderCart(response.data.cart);
-          // setUserId(response.data.user_id);
-          // fetchUser();
         })
         .catch((error) => {
           console.log(error.message);
@@ -72,36 +64,6 @@ const DetailOrders: React.FC<DetailModalProps> = ({
 
     fetchOrders();
   }, [getOrderId]);
-
-  const fetchUser = () => {
-    axios
-      .get(`http://localhost:7373/accounts/${userId}`)
-      .then((response) => {
-        setUser(response.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  };
-  useEffect(() => {
-    if (userId) {
-      fetchUser();
-    }
-  }, [userId]);
-
-  const fetchOrderStatus = () => {
-    axios
-      .get(`${orderStatusAPI}`)
-      .then((response) => {
-        setOrderStatus(response.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  };
-  useEffect(() => {
-    fetchOrderStatus();
-  }, []);
 
   // ------------------------------------------------
 
@@ -134,7 +96,7 @@ const DetailOrders: React.FC<DetailModalProps> = ({
         setIsModalOpen(false);
       })
       .catch((error) => {
-        console.log(error, "--");
+        console.log(error);
         notification.warning({
           message: `${error.response.data.message}`,
         });
@@ -193,12 +155,8 @@ const DetailOrders: React.FC<DetailModalProps> = ({
             <input type="text" disabled value={orderById?.address} />
           </div>
           <div className={styles["admin-order-input-item"]}>
-            <p>Card Number</p>
-            <input
-              type="text"
-              disabled
-              value={maskCardNumber(orderById?.card_number.toString())}
-            />
+            <p>Email Paypal</p>
+            <input type="text" disabled value={orderById?.email_paypal} />
           </div>
           <div className={styles["admin-order-input-item"]}>
             <p>Status</p>
@@ -206,8 +164,8 @@ const DetailOrders: React.FC<DetailModalProps> = ({
               name=""
               id=""
               disabled={
-                orderById?.order_status.name === "Cancel" ||
-                orderById?.order_status.name === "Shipped"
+                orderById?.order_statuses.name === "Cancel" ||
+                orderById?.order_statuses.name === "Shipped"
                   ? true
                   : false
               }
@@ -273,20 +231,21 @@ const DetailOrders: React.FC<DetailModalProps> = ({
             </tr>
           </thead>
           <tbody>
-            {orders?.map((item: any, index: number) => {
-              return (
-                <tr>
-                  <td>{index + 1}</td>
-                  <td>
-                    <img src={item?.product_thumbnail} alt="" />
-                  </td>
-                  <td>{item?.product_name}</td>
-                  <td>{item?.quantity}</td>
-                  <td>${Number(item?.price)}</td>
-                  <td>${(item?.price * item?.quantity).toLocaleString()}</td>
-                </tr>
-              );
-            })}
+            {orders &&
+              orders?.map((item: any, index: number) => {
+                return (
+                  <tr>
+                    <td>{index + 1}</td>
+                    <td>
+                      <img src={item?.product_thumbnail} alt="" />
+                    </td>
+                    <td>{item?.product_name}</td>
+                    <td>{item?.quantity}</td>
+                    <td>${Number(item?.price)}</td>
+                    <td>${(item?.price * item?.quantity).toLocaleString()}</td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
         <div className={styles["admin-order-my-order-card"]}>
@@ -297,7 +256,7 @@ const DetailOrders: React.FC<DetailModalProps> = ({
             Shipping Fee: $5
           </span> */}
           <span className={styles["my-order-card-total-quantity"]}>
-            Discount: {orderById?.discount_rate ? orderById?.discount_rate : 0}%
+            Discount: ${orderById?.discounted}
           </span>
           <span className={styles["my-order-card-total-quantity"]}>
             Total: ${orderById?.total_bill}

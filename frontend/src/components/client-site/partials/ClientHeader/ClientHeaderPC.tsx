@@ -31,7 +31,7 @@ function ClientHeaderPC() {
   const navigate = useNavigate();
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
-
+  console.log(getLoginData);
   const [user, setUser] = useState<any>({});
   const fetchUser = () => {
     axios
@@ -165,10 +165,10 @@ function ClientHeaderPC() {
                 to="/cart"
                 style={{
                   display:
-                    (getLoginData && user?.user_role?.name === "Super Admin") ||
-                    (getLoginData && user?.user_role?.name === "Admin")
+                    (getLoginData && user?.user_roles?.id === 1) ||
+                    (getLoginData && user?.user_roles?.id === 2)
                       ? "none"
-                      : getLoginData && user?.user_role?.name === "Customer"
+                      : getLoginData && user?.user_roles?.id === 3
                       ? ""
                       : "none",
                 }}
@@ -182,10 +182,9 @@ function ClientHeaderPC() {
               </NavLink>
               <NavLink
                 to={
-                  user?.user_role?.name === "Super Admin" ||
-                  user.user_role?.name === "Admin"
+                  user?.user_roles?.id === 1 || user?.user_roles?.id === 2
                     ? "/admin"
-                    : user?.user_role?.name === "Customer"
+                    : user?.user_roles?.id === 3
                     ? "/user"
                     : "/"
                 }

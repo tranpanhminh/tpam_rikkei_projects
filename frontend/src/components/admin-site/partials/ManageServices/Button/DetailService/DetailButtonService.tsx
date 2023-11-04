@@ -150,7 +150,6 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
         "Content-Type": "multipart/form-data",
       },
     };
-    console.log(getServiceId, "FORMD");
     axios
       .patch(`${servicesAPI}/update/${getServiceId}`, formData, config)
       .then((response) => {

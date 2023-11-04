@@ -145,14 +145,14 @@ function ManageOrders() {
                   <tr key={order.id}>
                     <td>{index + 1}</td>
                     <td>{order.customer_name}</td>
-                    <td>{order.user.email}</td>
+                    <td>{order.users.email}</td>
                     <td>{order.phone}</td>
                     <td>
                       {moment(order.order_date).format("YYYY-MM-DD-hh:mm:ss")}
                     </td>
                     <td>
-                      <Badge bg={`${changeColor(order.order_status.name)}`}>
-                        {order.order_status.name}
+                      <Badge bg={`${changeColor(order.order_statuses.name)}`}>
+                        {order.order_statuses.name}
                       </Badge>
                     </td>
                     <td>${order.total_bill.toLocaleString()}</td>

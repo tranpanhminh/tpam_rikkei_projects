@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import DetailButtonProduct from "./Button/DetailProduct/DetailButtonProduct";
-import { Button, notification } from "antd";
+import { Button, Spin, message, notification } from "antd";
 import { Product } from "../../../../database";
 import axios from "axios";
 import AddModalProduct from "../ManageProducts/Button/AddProduct/AddModalProduct";
@@ -16,8 +16,10 @@ const productsAPI = process.env.REACT_APP_API_PRODUCTS;
 function ManageProducts() {
   document.title = "Manage Products | PetShop";
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState<any>([]);
   const [searchText, setSearchText] = useState<string>("");
+  const [messageApi, contextHolder] = message.useMessage();
 
   // Fetch API
   const fetchProducts = () => {
@@ -65,10 +67,16 @@ function ManageProducts() {
 
   // Handle Delete Product
   const handleDeleteProduct = (productId: number) => {
+    messageApi.open({
+      type: "loading",
+      content: "Deleting...",
+      duration: 0,
+    });
     axios
       .delete(`${productsAPI}/delete/${productId}`)
       .then(() => {
         fetchProducts(); // Cập nhật lại dữ liệu products sau khi xóa
+        messageApi.destroy();
         notification.success({
           message: "Product Deleted",
           // placement: "bottomLeft",
@@ -78,6 +86,7 @@ function ManageProducts() {
         console.log(error.message);
       });
   };
+
   // ------------------------------------------------
 
   // Handle Update Product
@@ -90,11 +99,11 @@ function ManageProducts() {
 
   return (
     <div>
+      {contextHolder}
       <div className={styles["breadcrumb"]}>
         <h2 className={styles["page-title"]}>Manage Products</h2>
         <p className={styles["page-description"]}>PetShop Admin Panel</p>
       </div>
-
       <div className={styles["product-panel"]}>
         <div className="d-flex" role="search">
           <input

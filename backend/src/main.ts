@@ -4,18 +4,23 @@ import { ConfigModule } from '@nestjs/config';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import { useContainer } from 'typeorm';
 import * as session from 'express-session';
-import * as cors from 'cors';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
 });
 const port = process.env.SERVER_PORT;
+const frontEndPath = process.env.FRONTEND_PATH;
 // -----------------------------------------------
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
-    cors: true,
-  });
-  // app.enableCors(); // <- enable CORS
+  const app = await NestFactory.create(AppModule);
+
+  app.enableCors({
+    origin: `${frontEndPath}`,
+    allowedHeaders: 'Content-Type, Accept',
+    credentials: true,
+    methods: 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+    optionsSuccessStatus: 200,
+  }); // <- enable CORS
   app.useGlobalPipes(
     new ValidationPipe({
       // exceptionFactory: (errors) => {

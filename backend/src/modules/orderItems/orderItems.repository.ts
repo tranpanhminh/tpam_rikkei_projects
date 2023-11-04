@@ -17,10 +17,11 @@ export class OrderItemsRepository {
   }
 
   // 2. Get Detail
-  async getDetailOrderItem(id: number): Promise<OrderItemsEntity | unknown> {
+  async getDetailOrderItem(id: number): Promise<OrderItemsEntity[] | unknown> {
     const detailOrderItem = await this.orderItemsEntity.find({
       where: { order_id: id },
     });
+    console.log(detailOrderItem);
     return detailOrderItem;
   }
 

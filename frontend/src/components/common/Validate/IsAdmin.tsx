@@ -14,8 +14,9 @@ function IsAdmin() {
   } else {
     data = "";
   }
+  console.log(data, "DATA");
   if (
-    (data && !data?.user_role?.name.toLowerCase().includes("admin")) ||
+    (data && !data?.user_roles?.name.toLowerCase().includes("admin")) ||
     !data
   ) {
     return <Navigate to="/access-denied" />;

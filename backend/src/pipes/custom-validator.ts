@@ -66,26 +66,23 @@ export function FilesLengthMustBeFour(validationOptions?: ValidationOptions) {
       target: object.constructor,
       propertyName: propertyName,
       options: validationOptions,
-      constraints: [1000000, 4], // Đặt các ràng buộc tại đây
+      constraints: [], // Đặt các ràng buộc tại đây
       validator: {
-        validate(files: any[], args: ValidationArguments) {
-          const maxSize = args.constraints[0];
-          const maxCount = args.constraints[1];
-
+        validate(files: any[]) {
           if (!files) {
             return false;
           }
 
           // Kiểm tra số lượng tệp tin
-          if (files.length !== maxCount) {
+          if (files.length !== 4) {
             return false;
           }
 
-          for (const file of files) {
-            if (file.size > maxSize) {
-              return false;
-            }
-          }
+          // for (const file of files) {
+          //   if (file.size > maxSize) {
+          //     return false;
+          //   }
+          // }
 
           return true;
         },

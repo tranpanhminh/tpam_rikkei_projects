@@ -1,15 +1,15 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ProductsRepository } from './products.repository';
 import { ProductsEntity } from './database/entity/products.entity';
-import { CreateProductDTO } from './dto/create-product.dto';
-import { UpdateProductDTO } from './dto/update-product.dto';
+import { CreateProductDTO } from './dto/createProduct.dto';
+import { UpdateProductDTO } from './dto/updateProduct.dto';
 import { ProductInterface } from './interface/product.interface';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { AddProductImagesInterface } from './interface/addProductImages.interface';
 import { extractPublicId } from 'cloudinary-build-url';
 import { ChangeThumbnailProductInterface } from './interface/changeThumbnail.interface';
 import { UpdateProductImageInterface } from './interface/updateProductImage.interface';
-import { UpdateProductImageDTO } from './dto/update-product-image.dto';
+import { UpdateProductImageDTO } from './dto/updateProductImage.dto';
 import { UpdateProductInterface } from './interface/updateProduct.interface';
 const cloudinary = require('cloudinary').v2;
 

@@ -65,7 +65,7 @@ function ManageUsers() {
           user?.full_name
             .toLowerCase()
             .includes(searchText.trim().toLowerCase()) ||
-          user?.user_role?.name
+          user?.user_roles?.name
             .toLowerCase()
             .includes(searchText.trim().toLowerCase()) ||
           user?.user_status?.name
@@ -221,13 +221,13 @@ function ManageUsers() {
                 <td>{user.email}</td>
                 <td>{user.full_name}</td>
                 <td>
-                  <Badge bg={changeColorUser(user.user_role.name)}>
-                    {user.user_role.name}
+                  <Badge bg={changeColorUser(user?.user_roles?.name)}>
+                    {user?.user_roles?.name}
                   </Badge>
                 </td>
                 <td>
-                  <Badge bg={changeColor(user.user_status.name)}>
-                    {user.user_status.name}
+                  <Badge bg={changeColor(user?.user_statuses?.name)}>
+                    {user?.user_statuses?.name}
                   </Badge>
                 </td>
                 <td className={styles["group-btn-admin"]}>

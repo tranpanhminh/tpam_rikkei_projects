@@ -13,6 +13,5 @@ export class UpdateProductDTO {
   @IsStringHigherThanZero({ message: 'Quantity Stock should not be < 0' })
   quantity_stock: number;
 
-  @IsNumberString({}, { message: 'Vendor should be number' })
-  vendor_id: number;
+  vendor_id?: number;
 }

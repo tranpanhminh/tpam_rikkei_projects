@@ -8,12 +8,12 @@ import {
   Post,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { CreateProductDTO } from './dto/create-product.dto';
-import { UpdateProductDTO } from './dto/update-product.dto';
+import { CreateProductDTO } from './dto/createProduct.dto';
+import { UpdateProductDTO } from './dto/updateProduct.dto';
 import { ConfigModule } from '@nestjs/config';
 import { ProductsEntity } from './database/entity/products.entity';
 import { FormDataRequest } from 'nestjs-form-data';
-import { UpdateProductImageDTO } from './dto/update-product-image.dto';
+import { UpdateProductImageDTO } from './dto/updateProductImage.dto';
 
 ConfigModule.forRoot({
   envFilePath: '.env',

@@ -78,25 +78,25 @@ function App() {
           <Route path="/about" element={<ClientAboutPage />}></Route>
 
           {/* Route của Admin */}
-          <Route element={<IsAdmin />}>
-            <Route path="/admin" element={<AdminMainPage />}>
-              <Route index element={<ManageUsers />} />
-              <Route path="manage-users" element={<ManageUsers />} />
-              <Route path="manage-products" element={<ManageProducts />} />
-              <Route path="manage-orders" element={<ManageOrders />} />
-              <Route path="manage-services" element={<ManageServices />} />
-              <Route path="manage-booking" element={<ManageBooking />} />
-              <Route path="manage-vendors" element={<ManageVendors />} />
-              {/* <Route
+          {/* <Route element={<IsAdmin />}> */}
+          <Route path="/admin" element={<AdminMainPage />}>
+            <Route index element={<ManageUsers />} />
+            <Route path="manage-users" element={<ManageUsers />} />
+            <Route path="manage-products" element={<ManageProducts />} />
+            <Route path="manage-orders" element={<ManageOrders />} />
+            <Route path="manage-services" element={<ManageServices />} />
+            <Route path="manage-booking" element={<ManageBooking />} />
+            <Route path="manage-vendors" element={<ManageVendors />} />
+            {/* <Route
                 path="manage-subscribers"
                 element={<ManageSubscribers />}
               /> */}
-              <Route path="manage-coupons" element={<ManageCoupons />} />
-              <Route path="manage-posts" element={<ManagePosts />} />
-              <Route path="manage-comments" element={<ManageComments />} />
-              <Route path="report" element={<Report />} />
-            </Route>
+            <Route path="manage-coupons" element={<ManageCoupons />} />
+            <Route path="manage-posts" element={<ManagePosts />} />
+            <Route path="manage-comments" element={<ManageComments />} />
+            <Route path="report" element={<Report />} />
           </Route>
+          {/* </Route> */}
 
           {/* Route của User */}
           <Route element={<IsCustomer />}>

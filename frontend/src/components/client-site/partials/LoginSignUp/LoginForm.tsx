@@ -17,14 +17,13 @@ function LoginForm() {
     password: "",
   });
   const navigate = useNavigate();
-  console.log(dataLogin, "AA");
   const handleLogin = async () => {
     await BaseAxios.post(`${usersAPI}/login`, dataLogin)
       .then((response) => {
         console.log(response);
         const dataResponse = response.data;
         const dataUser = {
-          id: dataResponse.id,
+          id: dataResponse.data.id,
         };
 
         localStorage.setItem("token", response.data.accessToken);

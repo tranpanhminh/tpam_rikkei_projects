@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Button, Modal, notification } from "antd";
+import { Alert, Button, Modal, notification, Spin, message } from "antd";
 import styles from "../AddProduct/AddModalProduct.module.css";
 import { Product } from "../../../../../../database";
 import axios from "axios";
 import { Editor } from "@tinymce/tinymce-react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { LoadingOutlined } from "@ant-design/icons";
 
 // Import API
 // 1. Products API
@@ -31,6 +32,7 @@ const AddModalProduct: React.FC<AddModalProps> = ({
   // const [files, setFiles] = useState<any>([]);
   const [vendors, setVendors] = useState<any>(null);
   const [editorInitialValue, setEditorInitialValue] = useState("");
+  const [messageApi, contextHolder] = message.useMessage();
 
   const [newProduct, setNewProduct] = useState<any>({
     name: "",
@@ -124,6 +126,12 @@ const AddModalProduct: React.FC<AddModalProps> = ({
       });
     }
     if (newProduct.image_url.length === 4) {
+      messageApi.open({
+        type: "loading",
+        content: "Adding...",
+        duration: 0,
+      });
+
       const formData: any = new FormData();
       formData.append("name", newProduct.name);
       formData.append("description", newProduct.description);
@@ -141,10 +149,10 @@ const AddModalProduct: React.FC<AddModalProps> = ({
           "Content-Type": "multipart/form-data",
         },
       };
-
       axios
         .post(`${productsAPI}/add`, formData, config)
         .then((response) => {
+          messageApi.destroy();
           notification.success({
             message: `Product Added`,
           });
@@ -180,6 +188,7 @@ const AddModalProduct: React.FC<AddModalProps> = ({
 
   return (
     <>
+      {contextHolder}
       <Button
         type="primary"
         onClick={showModal}

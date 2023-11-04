@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Button, Modal, notification } from "antd";
+import React, { useEffect, useRef, useState } from "react";
+import { Button, Modal, notification, message } from "antd";
 import { Product } from "../../../../../../database";
 import { Editor } from "@tinymce/tinymce-react";
 import axios from "axios";
@@ -38,10 +38,16 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
   const [image2, setImage2] = useState<any>(null);
   const [image3, setImage3] = useState<any>(null);
   const [image4, setImage4] = useState<any>(null);
+  const [image, setImage] = useState<any>("");
   const [showUpdateImage1, setShowUpdateImage1] = useState<boolean>(false);
   const [showUpdateImage2, setShowUpdateImage2] = useState<boolean>(false);
   const [showUpdateImage3, setShowUpdateImage3] = useState<boolean>(false);
   const [showUpdateImage4, setShowUpdateImage4] = useState<boolean>(false);
+  const [messageApi, contextHolder] = message.useMessage();
+  const fileInputRef1 = useRef<any>(null);
+  const fileInputRef2 = useRef<any>(null);
+  const fileInputRef3 = useRef<any>(null);
+  const fileInputRef4 = useRef<any>(null);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -127,13 +133,20 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
   let fileUploaded1 = false;
   const handleFileChange1 = (event: any) => {
     if (fileUploaded1 === true) {
-      console.log(event.target.value, "222");
       setShowUpdateImage1(false);
       return event.target.value === "";
     } else {
       if (event.target.files.length > 0) {
         setImage1(event.target.files[0]);
         setShowUpdateImage1(true);
+      }
+    }
+  };
+  const resetInputImage1 = () => {
+    if (image1) {
+      setImage1(null);
+      if (fileInputRef1.current) {
+        fileInputRef1.current.value = "";
       }
     }
   };
@@ -144,13 +157,18 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
       formData.append("image_url", image1);
       formData.append("_method", "PATCH");
       const productId = products.id;
-      const imageId = products.image_url[0].id;
+      const imageId = products.product_images[0].id;
       // console.log(formData, "FORM DATA");
       const config = {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       };
+      messageApi.open({
+        type: "loading",
+        content: "Updating...",
+        duration: 0,
+      });
       axios
         .patch(
           `${productsAPI}/${productId}/update-image/${imageId}`,
@@ -158,11 +176,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
           config
         )
         .then((response) => {
-          // Đặt giá trị của input type file về rỗng
-          const fileInput: any = document.querySelector(`#image-${imageId}`);
-          if (fileInput) {
-            fileInput.value = ""; // Xóa giá trị đã chọn
-          }
+          messageApi.destroy();
           notification.success({
             message: `Image Updated`,
           });
@@ -175,6 +189,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
               console.log(error.message);
             });
           setImage1("");
+          resetInputImage1();
           setShowUpdateImage1(false);
           navigate("/admin/manage-products/");
           handleFunctionOk();
@@ -189,6 +204,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
       });
     }
   };
+  // --------------------------------------
 
   // Ảnh 2:
   let fileUploaded2 = false;
@@ -204,18 +220,32 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
     }
   };
 
+  const resetInputImage2 = () => {
+    if (image2) {
+      setImage2(null);
+      if (fileInputRef2.current) {
+        fileInputRef2.current.value = "";
+      }
+    }
+  };
+
   const handleUpdateImage2 = () => {
     if (image2) {
       const formData: any = new FormData();
       formData.append("image_url", image2);
       formData.append("_method", "PATCH");
       const productId = products.id;
-      const imageId = products.image_url[1].id;
+      const imageId = products.product_images[1].id;
       const config = {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       };
+      messageApi.open({
+        type: "loading",
+        content: "Updating...",
+        duration: 0,
+      });
       axios
         .patch(
           `${productsAPI}/${productId}/update-image/${imageId}`,
@@ -223,11 +253,8 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
           config
         )
         .then((response) => {
+          messageApi.destroy();
           // Đặt giá trị của input type file về rỗng
-          const fileInput: any = document.querySelector(`#image-${imageId}`);
-          if (fileInput) {
-            fileInput.value = ""; // Xóa giá trị đã chọn
-          }
           notification.success({
             message: `Image Updated`,
           });
@@ -240,6 +267,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
               console.log(error.message);
             });
           setImage2("");
+          resetInputImage2();
           setShowUpdateImage2(false);
           navigate("/admin/manage-products/");
           handleFunctionOk();
@@ -254,6 +282,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
       });
     }
   };
+  // --------------------------------------
 
   // Ảnh 3:
   let fileUploaded3 = false;
@@ -269,18 +298,32 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
     }
   };
 
+  const resetInputImage3 = () => {
+    if (image3) {
+      setImage3(null);
+      if (fileInputRef3.current) {
+        fileInputRef3.current.value = "";
+      }
+    }
+  };
+
   const handleUpdateImage3 = () => {
     if (image3) {
       const formData: any = new FormData();
       formData.append("image_url", image3);
       formData.append("_method", "PATCH");
       const productId = products.id;
-      const imageId = products.image_url[2].id;
+      const imageId = products.product_images[2].id;
       const config = {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       };
+      messageApi.open({
+        type: "loading",
+        content: "Updating...",
+        duration: 0,
+      });
       axios
         .patch(
           `${productsAPI}/${productId}/update-image/${imageId}`,
@@ -288,11 +331,8 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
           config
         )
         .then((response) => {
+          messageApi.destroy();
           // Đặt giá trị của input type file về rỗng
-          const fileInput: any = document.querySelector(`#image-${imageId}`);
-          if (fileInput) {
-            fileInput.value = ""; // Xóa giá trị đã chọn
-          }
           notification.success({
             message: `Image Updated`,
           });
@@ -305,6 +345,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
               console.log(error.message);
             });
           setImage3("");
+          resetInputImage3();
           setShowUpdateImage3(false);
           navigate("/admin/manage-products/");
           handleFunctionOk();
@@ -334,18 +375,32 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
     }
   };
 
+  const resetInputImage4 = () => {
+    if (image4) {
+      setImage4(null);
+      if (fileInputRef4.current) {
+        fileInputRef4.current.value = "";
+      }
+    }
+  };
+
   const handleUpdateImage4 = () => {
     if (image4) {
       const formData: any = new FormData();
       formData.append("image_url", image4);
       formData.append("_method", "PATCH");
       const productId = products.id;
-      const imageId = products.image_url[3].id;
+      const imageId = products.product_images[3].id;
       const config = {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       };
+      messageApi.open({
+        type: "loading",
+        content: "Updating...",
+        duration: 0,
+      });
       axios
         .patch(
           `${productsAPI}/${productId}/update-image/${imageId}`,
@@ -353,11 +408,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
           config
         )
         .then((response) => {
-          // Đặt giá trị của input type file về rỗng
-          const fileInput: any = document.querySelector(`#image-${imageId}`);
-          if (fileInput) {
-            fileInput.value = ""; // Xóa giá trị đã chọn
-          }
+          messageApi.destroy();
           notification.success({
             message: `Image Updated`,
           });
@@ -370,6 +421,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
               console.log(error.message);
             });
           setImage4("");
+          resetInputImage4();
           setShowUpdateImage4(false);
           navigate("/admin/manage-products/");
           handleFunctionOk();
@@ -387,9 +439,15 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
 
   // Set Thumbnail
   const changeThumbnail = (productId: any, imageId: any) => {
+    messageApi.open({
+      type: "loading",
+      content: "Loading...",
+      duration: 0,
+    });
     axios
       .patch(`${productsAPI}/${productId}/update-thumbnail/${imageId}}`)
       .then((response) => {
+        messageApi.destroy();
         notification.success({
           message: `Thumbnail Updated`,
         });
@@ -410,10 +468,12 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
 
   const editorConfig = {
     height: "600px",
+    width: "600px",
   };
 
   return (
     <>
+      {contextHolder}
       <Button
         type="primary"
         onClick={handleFunctionBtn || showModal}
@@ -432,47 +492,59 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
           <div className={styles["product-detail-information-container"]}>
             <div className={styles["left-product-detail-item"]}>
               <div className={styles["image-container"]}>
-                <img src={products && products.image_url[0].image_url} alt="" />
+                <img
+                  src={products && products.product_images[0].image_url}
+                  alt=""
+                />
                 <button
                   className={styles["set-thumbnail-btn"]}
                   onClick={() =>
-                    changeThumbnail(products.id, products.image_url[0]?.id)
+                    changeThumbnail(products.id, products.product_images[0]?.id)
                   }
                 >
-                  Set Thumbnail
+                  Set Thumbnail (1)
                 </button>
               </div>
               <div className={styles["image-container"]}>
-                <img src={products && products.image_url[1].image_url} alt="" />
+                <img
+                  src={products && products.product_images[1]?.image_url}
+                  alt=""
+                />
                 <button
                   className={styles["set-thumbnail-btn"]}
                   onClick={() =>
-                    changeThumbnail(products.id, products.image_url[1]?.id)
+                    changeThumbnail(products.id, products.product_images[1]?.id)
                   }
                 >
-                  Set Thumbnail
+                  Set Thumbnail (2)
                 </button>
               </div>
               <div className={styles["image-container"]}>
-                <img src={products && products.image_url[2].image_url} alt="" />
+                <img
+                  src={products && products.product_images[2]?.image_url}
+                  alt=""
+                />
                 <button
                   className={styles["set-thumbnail-btn"]}
                   onClick={() =>
-                    changeThumbnail(products.id, products.image_url[2]?.id)
+                    changeThumbnail(products.id, products.product_images[2]?.id)
                   }
                 >
-                  Set Thumbnail
+                  Set Thumbnail (3)
                 </button>
               </div>
               <div className={styles["image-container"]}>
-                <img src={products && products.image_url[3].image_url} alt="" />
+                <img
+                  src={products && products.product_images[3]?.image_url}
+                  alt=""
+                />
                 <button
                   className={styles["set-thumbnail-btn"]}
                   onClick={() =>
-                    changeThumbnail(products.id, products.image_url[3]?.id)
+                    changeThumbnail(products.id, products.product_images[3]?.id)
                   }
                 >
-                  Set Thumbnail
+                  Set Thumbnail (4)
                 </button>
               </div>
             </div>
@@ -588,7 +660,8 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
                     type="file"
                     name="image-01"
                     onChange={handleFileChange1}
-                    id={`image-${products.image_url[0].id}`}
+                    id={`image-${products.product_images[0].id}`}
+                    ref={fileInputRef1}
                   />
                   <button
                     onClick={handleUpdateImage1}
@@ -609,7 +682,8 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
                     type="file"
                     name="image-02"
                     onChange={handleFileChange2}
-                    id={`image-${products.image_url[1].id}`}
+                    id={`image-${products.product_images[1].id}`}
+                    ref={fileInputRef2}
                   />
                   <button
                     onClick={handleUpdateImage2}
@@ -630,7 +704,8 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
                     type="file"
                     name="image-03"
                     onChange={handleFileChange3}
-                    id={`image-${products.image_url[2].id}`}
+                    id={`image-${products.product_images[2].id}`}
+                    ref={fileInputRef3}
                   />
                   <button
                     onClick={handleUpdateImage3}
@@ -651,7 +726,8 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
                     type="file"
                     name="image-04"
                     onChange={handleFileChange4}
-                    id={`image-${products.image_url[3].id}`}
+                    id={`image-${products.product_images[3].id}`}
+                    ref={fileInputRef4}
                   />
                   <button
                     onClick={handleUpdateImage4}
