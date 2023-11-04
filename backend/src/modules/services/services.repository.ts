@@ -18,7 +18,10 @@ export class ServicesRepository {
 
   // 2. Get Detail
   async getDetailService(id: number): Promise<ServicesEntity> {
-    const detailService = await this.servicesEntity.findOneById(id);
+    const detailService = await this.servicesEntity.findOne({
+      where: { id: id },
+      relations: { working_time: true },
+    });
     return detailService;
   }
 
