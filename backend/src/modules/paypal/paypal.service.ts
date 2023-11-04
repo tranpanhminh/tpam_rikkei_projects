@@ -128,7 +128,7 @@ export class PaypalService {
       await this.cartsRepository.deleteAllProductsFromUserCart(
         newOrder.user_id,
       );
-      return res.redirect('http://localhost:3000/');
+      return res.redirect('http://localhost:3000/user/my-orders');
     } catch (error) {
       throw error;
     }

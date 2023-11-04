@@ -35,7 +35,7 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
 
   // Fetch API
   const fetchUserOrder = async () => {
-    await BaseAxios.get(`${ordersAPI}/${orderId}`)
+    await BaseAxios.get(`${ordersAPI}/detail/${orderId}`)
       .then((response) => {
         setUserOrder(response.data);
       })
@@ -45,7 +45,7 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
   };
 
   const fetchOrderItems = async () => {
-    await BaseAxios.get(`${ordersAPI}/detail/${orderId}`)
+    await BaseAxios.get(`${ordersAPI}/${orderId}/detail`)
       .then((response) => {
         setOrderItem(response.data);
       })
@@ -157,15 +157,15 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
           </div>
           <div className={styles["my-profile-input-item"]}>
             <p>Status</p>
-            <input type="text" disabled value={userOrder?.order_status?.name} />
-          </div>
-          <div className={styles["my-profile-input-item"]}>
-            <p>Card Number</p>
             <input
               type="text"
               disabled
-              value={maskCardNumber(userOrder?.card_number?.toString())}
+              value={userOrder?.order_statuses?.name}
             />
+          </div>
+          <div className={styles["my-profile-input-item"]}>
+            <p>Email Paypal</p>
+            <input type="text" disabled value={userOrder?.email_paypal} />
           </div>
           {userOrder?.status_id === 1 && (
             <div className={styles["my-profile-input-item"]}>
@@ -233,11 +233,11 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
           <span className={styles["my-order-card-item"]}>
             Item: {orderItem.length}
           </span>
-          <span className={styles["my-order-card-total-quantity"]}>
+          {/* <span className={styles["my-order-card-total-quantity"]}>
             SubTotal: ${userOrder?.bill}
-          </span>
+          </span> */}
           <span className={styles["my-order-card-total-quantity"]}>
-            Discount: {userOrder?.discount_rate}%
+            Discount: ${userOrder?.discounted}
           </span>
           <span className={styles["my-order-card-total-quantity"]}>
             Total: ${userOrder?.total_bill}

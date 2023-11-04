@@ -160,8 +160,8 @@ function ClientOrder() {
                     </td>
                     <td>${order.total_bill}</td>
                     <td>
-                      <Badge bg={changeColor(order.order_status.name)}>
-                        {order.order_status.name}
+                      <Badge bg={changeColor(order.order_statuses.name)}>
+                        {order.order_statuses.name}
                       </Badge>
                     </td>
                     <td>

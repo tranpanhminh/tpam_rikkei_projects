@@ -46,6 +46,7 @@ export class OrdersRepository {
   ): Promise<OrdersEntity | OrdersInterface | unknown> {
     const getAllOrders = await this.ordersEntity.find({
       where: { user_id: userId },
+      relations: { order_statuses: true, users: true },
     });
     return getAllOrders;
   }

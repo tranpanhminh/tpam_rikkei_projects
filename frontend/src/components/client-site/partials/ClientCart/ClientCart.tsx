@@ -182,29 +182,13 @@ function ClientCart() {
   const handleCheckout = async () => {
     BaseAxios.post(`${ordersAPI}/checkout/users/${getLoginData.id}`, userInfo)
       .then((response) => {
-        // fetchUserCart();
         setUserInfo({
-          // user_id: "",
-          // customer_name: "",
-          // address: "",
           phone: "",
-          // cardholder_name: "",
-          // card_number: "",
-          // expiry_date: "",
-          // cvv: "",
         });
         // Lấy URL từ response
         const url = response.data.url;
-
         // Redirect tại frontend
         window.location.href = url;
-        // notification.success({
-        //   message: `${response.data.message}`,
-        //   description: `You will be navigated to Your Orders After 2 second`,
-        // });
-        // setTimeout(() => {
-        //   navigate("/user/my-orders");
-        // }, 2000);
       })
       .catch((error) => {
         notification.warning({
