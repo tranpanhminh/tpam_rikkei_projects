@@ -110,7 +110,6 @@ export class ProductsService {
   ): Promise<ProductsEntity | unknown | any> {
     const findImage =
       await this.productsRepository.getDetailProductImage(imageId);
-    console.log(findImage.image_url);
     const checkProduct =
       await this.productsRepository.getDetailProduct(productId);
     if (checkProduct) {

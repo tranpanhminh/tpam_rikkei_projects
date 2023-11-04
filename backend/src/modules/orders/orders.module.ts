@@ -21,11 +21,11 @@ import { ProductsEntity } from '../products/database/entity/products.entity';
 import { ProductsRepository } from '../products/products.repository';
 import { ProductImagesEntity } from '../productImages/database/entity/productImages.entity';
 import { CheckOrderExist } from 'src/middlewares/checkOrderExist.middleware';
-import { CheckOrderStatusExist } from 'src/middlewares/checkOrderStatusExist.middleware';
+import { CheckOrderStatusExistBeforeUpdate } from 'src/middlewares/checkOrderStatusExistBeforeUpdate.middleware';
 import { OrderStatusesEntity } from '../orderStatuses/database/entity/orderStatuses.entity';
 import { OrderStatusesRepository } from '../orderStatuses/orderStatuses.repository';
 import { CheckOrderStatusAcceptForAdmin } from 'src/middlewares/checkOrderStatusAcceptForAdmin.middleware';
-import { CheckCancelReasonExist } from 'src/middlewares/checkCancelReasonExist.middleware';
+import { CheckCancelReasonBeforeCancel } from 'src/middlewares/checkCancelReasonExistBeforeCancel.middleware';
 import { CancelReasonsEntity } from '../cancelReasons/database/entity/cancelReasons.entity';
 import { CancelReasonsRepository } from '../cancelReasons/cancelReasons.repository';
 import { CheckOrderStatus } from 'src/middlewares/checkOrderStatus.middleware';
@@ -85,14 +85,14 @@ export class OrdersModule {
     consumer
       .apply(
         CheckOrderExist,
-        CheckOrderStatusExist,
+        CheckOrderStatusExistBeforeUpdate,
         CheckOrderStatusAcceptForAdmin,
       )
       .forRoutes({
         path: `${url}/update/:id`,
         method: RequestMethod.PATCH,
       });
-    consumer.apply(CheckCancelReasonExist, CheckOrderStatus).forRoutes({
+    consumer.apply(CheckCancelReasonBeforeCancel, CheckOrderStatus).forRoutes({
       path: `${url}/cancel-order/:id`,
       method: RequestMethod.PATCH,
     });

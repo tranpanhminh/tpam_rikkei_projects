@@ -6,14 +6,12 @@ import {
   Param,
   Patch,
   Post,
-  UseInterceptors,
 } from '@nestjs/common';
 import { CancelReasonsService } from './cancelReasons.service';
 import { CreateCancelReasonDTO } from './dto/create-cancelReason.dto';
 import { UpdateCancelReasonDTO } from './dto/update-cancelReason.dto';
 import { ConfigModule } from '@nestjs/config';
 import { CancelReasonsEntity } from './database/entity/cancelReasons.entity';
-import { CheckCancelReasonExist } from 'src/interceptors/checkCancelReasonExist';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -34,7 +32,6 @@ export class CancelReasonsController {
 
   // 2. Get Detail
   @Get('/detail/:id')
-  @UseInterceptors(CheckCancelReasonExist)
   async getDetailCancelReason(
     @Param('id') id: number,
   ): Promise<CancelReasonsEntity | unknown> {
@@ -55,7 +52,6 @@ export class CancelReasonsController {
 
   // 4. Delete
   @Delete('/delete/:id')
-  @UseInterceptors(CheckCancelReasonExist)
   async deleteCancelReason(
     @Param('id') id: number,
   ): Promise<CancelReasonsEntity | unknown> {
@@ -66,7 +62,6 @@ export class CancelReasonsController {
 
   // 5. Update
   @Patch('update/:id')
-  @UseInterceptors(CheckCancelReasonExist)
   async updateCancelReason(
     @Param('id') id: number,
     @Body() body: UpdateCancelReasonDTO,

@@ -6,14 +6,12 @@ import {
   Param,
   Patch,
   Post,
-  UseInterceptors,
 } from '@nestjs/common';
 import { OrderStatusesService } from './orderStatuses.service';
 import { CreateOrderStatusDTO } from './dto/create-orderStatus.dto';
 import { UpdateOrderStatusDTO } from './dto/update-orderStatus.dto';
 import { ConfigModule } from '@nestjs/config';
 import { OrderStatusesEntity } from './database/entity/orderStatuses.entity';
-import { CheckOrderStatusExist } from 'src/interceptors/checkOrderStatusExist';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -34,7 +32,6 @@ export class OrderStatusesController {
 
   // 2. Get Detail
   @Get('/detail/:id')
-  @UseInterceptors(CheckOrderStatusExist)
   async getDetailOrderStatus(
     @Param('id') id: number,
   ): Promise<OrderStatusesEntity | unknown> {
@@ -55,7 +52,6 @@ export class OrderStatusesController {
 
   // 4. Delete
   @Delete('/delete/:id')
-  @UseInterceptors(CheckOrderStatusExist)
   async deleteOrderStatus(
     @Param('id') id: number,
   ): Promise<OrderStatusesEntity | unknown> {
@@ -66,7 +62,6 @@ export class OrderStatusesController {
 
   // 5. Update
   @Patch('update/:id')
-  @UseInterceptors(CheckOrderStatusExist)
   async updateOrderStatus(
     @Param('id') id: number,
     @Body() body: UpdateOrderStatusDTO,

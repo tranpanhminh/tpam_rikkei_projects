@@ -6,14 +6,12 @@ import {
   Param,
   Patch,
   Post,
-  UseInterceptors,
 } from '@nestjs/common';
 import { WorkingTimeService } from './workingTime.service';
 import { CreateWorkingTimeDTO } from './dto/create-workingTime.dto';
 import { UpdateWorkingTimeDTO } from './dto/update-workingTime.dto';
 import { ConfigModule } from '@nestjs/config';
 import { WorkingTimeEntity } from './database/entity/workingTime.entity';
-import { CheckWorkingTimeExist } from 'src/interceptors/checkWorkingTimeExist';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -34,7 +32,6 @@ export class WorkingTimeController {
 
   // 2. Get Detail
   @Get('/detail/:id')
-  @UseInterceptors(CheckWorkingTimeExist)
   async getDetailWorkingTime(
     @Param('id') id: number,
   ): Promise<WorkingTimeEntity | unknown> {
@@ -55,7 +52,6 @@ export class WorkingTimeController {
 
   // 4. Delete
   @Delete('/delete/:id')
-  @UseInterceptors(CheckWorkingTimeExist)
   async deleteWorkingTime(
     @Param('id') id: number,
   ): Promise<WorkingTimeEntity | unknown> {
@@ -66,7 +62,6 @@ export class WorkingTimeController {
 
   // 5. Update
   @Patch('update/:id')
-  @UseInterceptors(CheckWorkingTimeExist)
   async updateWorkingTime(
     @Param('id') id: number,
     @Body() body: UpdateWorkingTimeDTO,

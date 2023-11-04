@@ -6,14 +6,12 @@ import {
   Param,
   Patch,
   Post,
-  UseInterceptors,
 } from '@nestjs/common';
 import { PostStatusesService } from './postStatuses.service';
 import { CreatePostStatusDTO } from './dto/create-postStatus.dto';
 import { UpdatePostStatusDTO } from './dto/update-postStatus.dto';
 import { ConfigModule } from '@nestjs/config';
 import { PostStatusesEntity } from './database/entity/postStatuses.entity';
-import { CheckPostStatusExist } from 'src/interceptors/checkPostStatusExist';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -34,7 +32,6 @@ export class PostStatusesController {
 
   // 2. Get Detail
   @Get('/detail/:id')
-  @UseInterceptors(CheckPostStatusExist)
   async getDetailPostStatus(
     @Param('id') id: number,
   ): Promise<PostStatusesEntity | unknown> {
@@ -55,7 +52,6 @@ export class PostStatusesController {
 
   // 4. Delete
   @Delete('/delete/:id')
-  @UseInterceptors(CheckPostStatusExist)
   async deletePostStatus(
     @Param('id') id: number,
   ): Promise<PostStatusesEntity | unknown> {
@@ -66,7 +62,6 @@ export class PostStatusesController {
 
   // 5. Update
   @Patch('update/:id')
-  @UseInterceptors(CheckPostStatusExist)
   async updatePostStatus(
     @Param('id') id: number,
     @Body() body: UpdatePostStatusDTO,

@@ -6,14 +6,12 @@ import {
   Param,
   Patch,
   Post,
-  UseInterceptors,
 } from '@nestjs/common';
 import { BookingStatusesService } from './bookingStatuses.service';
 import { CreateBookingStatusDTO } from './dto/create-bookingStatus.dto';
 import { UpdateBookingStatusDTO } from './dto/update-bookingStatus.dto';
 import { ConfigModule } from '@nestjs/config';
 import { BookingStatusesEntity } from './database/entity/bookingStatuses.entity';
-import { CheckBookingStatusExist } from 'src/interceptors/checkBookingStatusExist';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -36,7 +34,6 @@ export class BookingStatusesController {
 
   // 2. Get Detail
   @Get('/detail/:id')
-  @UseInterceptors(CheckBookingStatusExist)
   async getDetailBookingStatus(
     @Param('id') id: number,
   ): Promise<BookingStatusesEntity | unknown> {
@@ -57,7 +54,6 @@ export class BookingStatusesController {
 
   // 4. Delete
   @Delete('/delete/:id')
-  @UseInterceptors(CheckBookingStatusExist)
   async deleteBookingStatus(
     @Param('id') id: number,
   ): Promise<BookingStatusesEntity | unknown> {
@@ -68,7 +64,6 @@ export class BookingStatusesController {
 
   // 5. Update
   @Patch('update/:id')
-  @UseInterceptors(CheckBookingStatusExist)
   async updateBookingStatus(
     @Param('id') id: number,
     @Body() body: UpdateBookingStatusDTO,

@@ -6,20 +6,17 @@ import {
   Param,
   Patch,
   Post,
-  UseInterceptors,
 } from '@nestjs/common';
 import { VendorsService } from './vendors.service';
 import { CreateVendorDTO } from './dto/create-vendor.dto';
 import { UpdateVendorDTO } from './dto/update-vendor.dto';
 import { ConfigModule } from '@nestjs/config';
 import { VendorsEntity } from './database/entity/vendors.entity';
-import { CheckVendorExist } from 'src/interceptors/checkVendorExist';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
 });
 const path = process.env.SERVER_PATH;
-
 // -------------------------------------------------------
 
 @Controller(`${path}/vendors`)
@@ -35,7 +32,6 @@ export class VendorsController {
 
   // 2. Get Detail
   @Get('/detail/:id')
-  @UseInterceptors(CheckVendorExist)
   async getDetailVendor(
     @Param('id') id: number,
   ): Promise<VendorsEntity | unknown> {
@@ -55,7 +51,6 @@ export class VendorsController {
 
   // 4. Delete
   @Delete('/delete/:id')
-  @UseInterceptors(CheckVendorExist)
   async deleteVendor(
     @Param('id') id: number,
   ): Promise<VendorsEntity | unknown> {
@@ -65,7 +60,6 @@ export class VendorsController {
 
   // 5. Update
   @Patch('update/:id')
-  @UseInterceptors(CheckVendorExist)
   async updateVendor(
     @Param('id') id: number,
     @Body() body: UpdateVendorDTO,

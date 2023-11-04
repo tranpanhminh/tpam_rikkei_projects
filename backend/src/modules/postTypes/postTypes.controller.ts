@@ -6,14 +6,12 @@ import {
   Param,
   Patch,
   Post,
-  UseInterceptors,
 } from '@nestjs/common';
 import { PostTypesService } from './postTypes.service';
 import { CreatePostStatusDTO } from './dto/create-postType.dto';
 import { UpdatePostStatusDTO } from './dto/update-postType.dto';
 import { ConfigModule } from '@nestjs/config';
 import { PostTypesEntity } from './database/entity/postTypes.entity';
-import { CheckPostTypeExist } from 'src/interceptors/checkPostTypeExist';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -34,7 +32,6 @@ export class PostTypesController {
 
   // 2. Get Detail
   @Get('/detail/:id')
-  @UseInterceptors(CheckPostTypeExist)
   async getDetailPostType(
     @Param('id') id: number,
   ): Promise<PostTypesEntity | unknown> {
@@ -55,7 +52,6 @@ export class PostTypesController {
 
   // 4. Delete
   @Delete('/delete/:id')
-  @UseInterceptors(CheckPostTypeExist)
   async deletePostType(
     @Param('id') id: number,
   ): Promise<PostTypesEntity | unknown> {
@@ -66,7 +62,6 @@ export class PostTypesController {
 
   // 5. Update
   @Patch('update/:id')
-  @UseInterceptors(CheckPostTypeExist)
   async updatePostType(
     @Param('id') id: number,
     @Body() body: UpdatePostStatusDTO,

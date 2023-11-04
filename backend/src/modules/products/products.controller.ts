@@ -6,16 +6,13 @@ import {
   Param,
   Patch,
   Post,
-  UseInterceptors,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDTO } from './dto/create-product.dto';
 import { UpdateProductDTO } from './dto/update-product.dto';
 import { ConfigModule } from '@nestjs/config';
 import { ProductsEntity } from './database/entity/products.entity';
-import { CheckProductExist } from 'src/interceptors/checkProductExist';
 import { FormDataRequest } from 'nestjs-form-data';
-import { CheckProductImageExist } from 'src/interceptors/checkProductImageExist';
 import { UpdateProductImageDTO } from './dto/update-product-image.dto';
 
 ConfigModule.forRoot({
@@ -39,7 +36,6 @@ export class ProductsController {
 
   // 2. Get Detail
   @Get('/detail/:id')
-  @UseInterceptors(CheckProductExist)
   async getDetailProduct(
     @Param('id') id: number,
   ): Promise<ProductsEntity | unknown> {
@@ -61,7 +57,6 @@ export class ProductsController {
 
   // 4. Delete
   @Delete('/delete/:id')
-  @UseInterceptors(CheckProductExist)
   async deleteProduct(
     @Param('id') id: number,
   ): Promise<ProductsEntity | unknown> {
@@ -72,7 +67,6 @@ export class ProductsController {
 
   // 5. Update
   @Patch('/update/:id')
-  @UseInterceptors(CheckProductExist)
   async updateProduct(
     @Param('id') id: number,
     @Body() body: UpdateProductDTO,
@@ -87,7 +81,6 @@ export class ProductsController {
 
   // 6. Change Thumbnail
   @Patch('/:id/update-thumbnail/:imageId')
-  @UseInterceptors(CheckProductExist, CheckProductImageExist)
   async changeThumbnail(
     @Param() params,
   ): Promise<ProductsEntity | unknown | any> {
@@ -100,7 +93,6 @@ export class ProductsController {
 
   // 7. Update Product Image
   @Patch('/:id/update-image/:imageId')
-  @UseInterceptors(CheckProductExist, CheckProductImageExist)
   @FormDataRequest()
   async updateProductImage(
     @Param() params,

@@ -1,13 +1,34 @@
-import { Module } from "@nestjs/common";
-import { PostTypesService } from "./postTypes.service";
-import { PostTypesController } from "./postTypes.controller";
-import { PostTypesRepository } from "./postTypes.repository";
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { PostTypesEntity } from "./database/entity/postTypes.entity";
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
+import { PostTypesService } from './postTypes.service';
+import { PostTypesController } from './postTypes.controller';
+import { PostTypesRepository } from './postTypes.repository';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { PostTypesEntity } from './database/entity/postTypes.entity';
+import { CheckPostTypeExist } from 'src/middlewares/checkPostTypeExist.middleware';
+
+const path = process.env.SERVER_PATH;
+const url = `${path}/post-types`;
+
+// -------------------------------------------------------
 
 @Module({
   imports: [TypeOrmModule.forFeature([PostTypesEntity])],
   controllers: [PostTypesController],
   providers: [PostTypesService, PostTypesRepository],
 })
-export class PostTypesModule {}
+export class PostTypesModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(CheckPostTypeExist).forRoutes({
+      path: `${url}/detail/:id`,
+      method: RequestMethod.GET,
+    });
+    consumer.apply(CheckPostTypeExist).forRoutes({
+      path: `${url}/delete/:id`,
+      method: RequestMethod.DELETE,
+    });
+    consumer.apply(CheckPostTypeExist).forRoutes({
+      path: `${url}/update/:id`,
+      method: RequestMethod.PATCH,
+    });
+  }
+}
