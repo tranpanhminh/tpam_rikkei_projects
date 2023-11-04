@@ -4,7 +4,6 @@ import { ConfigModule } from '@nestjs/config';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import { useContainer } from 'typeorm';
 import * as session from 'express-session';
-import * as FileStore from 'session-file-store';
 
 ConfigModule.forRoot({
   envFilePath: '.env',

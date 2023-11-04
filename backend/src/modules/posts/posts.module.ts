@@ -8,7 +8,6 @@ import { PostStatusesEntity } from '../postStatuses/database/entity/postStatuses
 import { CheckPostExist } from 'src/middlewares/checkPostExist.middleware';
 import { NestjsFormDataModule } from 'nestjs-form-data';
 import { PostStatusesRepository } from '../postStatuses/postStatuses.repository';
-import { CheckPostStatusExist } from 'src/middlewares/checkPostStatusExist.middleware';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 const path = process.env.SERVER_PATH;
@@ -29,10 +28,6 @@ const url = `${path}/posts`;
 })
 export class PostsModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(CheckPostStatusExist).forRoutes({
-      path: `${url}/add`,
-      method: RequestMethod.POST,
-    });
     consumer.apply(CheckPostExist).forRoutes({
       path: `${url}/detail/:id`,
       method: RequestMethod.GET,

@@ -4,6 +4,9 @@ import { PostsEntity } from './database/entity/posts.entity';
 import { PostsInterface } from './interface/posts.interface';
 import { CloudinaryService } from './../cloudinary/cloudinary.service';
 import { CreatePostDTO } from './dto/createPost.dto';
+import { UpdatePostDTO } from './dto/updatePost.dto';
+import { extractPublicId } from 'cloudinary-build-url';
+const cloudinary = require('cloudinary').v2;
 
 @Injectable()
 export class PostsService {
@@ -48,30 +51,38 @@ export class PostsService {
   async deletePost(id: number): Promise<PostsEntity | unknown> {
     const checkPost = await this.postsRepository.getDetailPost(id);
     if (checkPost) {
+      const publicId = extractPublicId(checkPost.thumbnail_url);
+      await cloudinary.api.delete_resources(publicId);
       await this.postsRepository.deletePost(id);
       return new HttpException('Post Deleted', HttpStatus.OK);
     }
   }
 
-  // // 5. Update
-  // async updatePost(
-  //   id: number,
-  //   body: UpdatePostDTO,
-  // ): Promise<PostsEntity | unknown> {
-  //   const { name, code, discount_rate, min_bill } = body;
-  //   const checkPost: PostsEntity =
-  //     await this.postsRepository.getDetailPost(id);
-  //   if (checkPost) {
-  //     const updatePost = {
-  //       name: !name ? checkPost.name : name,
-  //       code: !code ? checkPost.code : code,
-  //       discount_rate: !discount_rate
-  //         ? checkPost.discount_rate
-  //         : discount_rate,
-  //       min_bill: !min_bill ? checkPost.min_bill : min_bill,
-  //     };
-  //     await this.postsRepository.updatePost(id, updatePost);
-  //     return new HttpException('Post Updated', HttpStatus.OK);
-  //   }
-  // }
+  // 5. Update
+  async updatePost(
+    id: number,
+    body: UpdatePostDTO,
+  ): Promise<PostsEntity | unknown> {
+    const { title, content, author, status_id } = body;
+    const checkPost: PostsEntity = await this.postsRepository.getDetailPost(id);
+    const fileUpload: any = body.thumbnail_url;
+    const file = await this.cloudinaryService.uploadFile(fileUpload);
+    console.log(checkPost);
+    if (checkPost) {
+      const updatePost = {
+        title: title,
+        content: content,
+        thumbnail_url: file.secure_url,
+        author: author,
+        status_id: status_id,
+        post_type_id: 3,
+      };
+
+      // Xóa ảnh cũ
+      const publicId = extractPublicId(checkPost.thumbnail_url);
+      await cloudinary.api.delete_resources(publicId);
+      await this.postsRepository.updatePost(id, updatePost);
+      return new HttpException('Post Updated', HttpStatus.OK);
+    }
+  }
 }

@@ -12,6 +12,8 @@ import { ConfigModule } from '@nestjs/config';
 import { PostsEntity } from './database/entity/posts.entity';
 import { FormDataRequest } from 'nestjs-form-data';
 import { CreatePostDTO } from './dto/createPost.dto';
+import { PostsInterface } from './interface/posts.interface';
+import { UpdatePostDTO } from './dto/updatePost.dto';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -32,17 +34,18 @@ export class PostsController {
 
   // 2. Get Detail
   @Get('/detail/:id')
-  // @UseInterceptors(CheckPostExist)
   async getDetailPost(@Param('id') id: number): Promise<PostsEntity | unknown> {
     const result: PostsEntity | unknown =
       await this.postsService.getDetailPost(id);
     return result;
   }
 
-  // // 3. Add
+  // 3. Add
   @Post('/add')
   @FormDataRequest()
-  async addPost(@Body() body: CreatePostDTO): Promise<PostsEntity | unknown> {
+  async addPost(
+    @Body() body: CreatePostDTO,
+  ): Promise<PostsEntity | unknown | any> {
     const result: string | unknown = await this.postsService.addPost(body);
     return result;
   }
@@ -55,12 +58,13 @@ export class PostsController {
   }
 
   // 5. Update
-  // @Patch('update/:id')
-  // async updatePost(
-  //   @Param('id') id: number,
-  //   @Body() body: UpdatePostDTO,
-  // ): Promise<PostsEntity | unknown> {
-  //   const result = await this.postsService.updatePost(id, body);
-  //   return result;
-  // }
+  @Patch('update/:id')
+  @FormDataRequest()
+  async updatePost(
+    @Param('id') id: number,
+    @Body() body: UpdatePostDTO,
+  ): Promise<PostsEntity | unknown> {
+    const result = await this.postsService.updatePost(id, body);
+    return result;
+  }
 }

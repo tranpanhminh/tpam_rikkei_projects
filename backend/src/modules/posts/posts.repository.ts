@@ -32,23 +32,11 @@ export class PostsRepository {
     return await this.postsEntity.delete(id);
   }
 
-  // // 5. Update
-  // async updatePost(
-  //   id: number,
-  //   updatePost: UpdatePostDTO,
-  // ): Promise<PostsEntity | unknown> {
-  //   return await this.postsEntity.update(id, updatePost);
-  // }
-
-  // // 6. Check Bill To Apply Post
-  // async checkBillToApplyPost(bill: number): Promise<unknown> {
-  //   const listCounpons = this.postsEntity
-  //     .createQueryBuilder('post')
-  //     .select(['*'])
-  //     .where('post.min_bill <= :bill', { bill })
-  //     .orderBy('post.min_bill', 'DESC')
-  //     .limit(1);
-  //   const result = await listCounpons.getRawOne();
-  //   return result;
-  // }
+  // 5. Update
+  async updatePost(
+    id: number,
+    updatePost: PostsInterface,
+  ): Promise<PostsEntity | unknown> {
+    return await this.postsEntity.update(id, updatePost);
+  }
 }

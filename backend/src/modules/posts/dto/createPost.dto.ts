@@ -1,10 +1,11 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsOptional } from 'class-validator';
 import {
   IsFile,
   MaxFileSize,
   HasMimeType,
   MemoryStoredFile,
 } from 'nestjs-form-data';
+import { IsPostType } from 'src/pipes/custom-validator';
 export class CreatePostDTO {
   @IsNotEmpty({ message: 'Title should not be empty' })
   title: string;
@@ -20,6 +21,9 @@ export class CreatePostDTO {
   @IsNotEmpty({ message: 'Author Name should not be empty' })
   author: string;
 
-  @IsNotEmpty({ message: 'Content should not be empty' })
+  @IsNotEmpty({ message: 'Status should not be empty' })
   status_id: number;
+
+  @IsPostType({ message: 'Post Type should be 3' })
+  post_type_id: number;
 }

@@ -3,6 +3,7 @@ import {
   ValidationArguments,
   ValidationOptions,
 } from 'class-validator';
+import { MemoryStoredFile } from 'nestjs-form-data';
 
 export function IsCVV(validationOptions?: ValidationOptions) {
   return (object: any, propertyName: string) => {
@@ -240,6 +241,51 @@ export function CheckRatingMinMax(validationOptions?: ValidationOptions) {
             return false;
           }
           return true;
+        },
+      },
+    });
+  };
+}
+
+export function IsStringOrImageFile(validationOptions?: ValidationOptions) {
+  return (object: any, propertyName: string) => {
+    registerDecorator({
+      target: object.constructor,
+      propertyName: propertyName,
+      options: validationOptions,
+      constraints: [],
+      validator: {
+        validate(thumbnailUrl: string | MemoryStoredFile) {
+          if (typeof thumbnailUrl == 'string') {
+            return true;
+          }
+
+          if (thumbnailUrl instanceof MemoryStoredFile) {
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+            return allowedTypes.includes(thumbnailUrl.mimetype);
+          }
+
+          return false;
+        },
+      },
+    });
+  };
+}
+
+export function IsPostType(validationOptions?: ValidationOptions) {
+  return (object: any, propertyName: string) => {
+    registerDecorator({
+      target: object.constructor,
+      propertyName: propertyName,
+      options: validationOptions,
+      constraints: [],
+      validator: {
+        validate(post_type_id: number) {
+          if (post_type_id == 3) {
+            return true;
+          }
+
+          return false;
         },
       },
     });
