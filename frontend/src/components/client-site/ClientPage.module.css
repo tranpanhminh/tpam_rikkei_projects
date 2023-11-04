@@ -1164,6 +1164,12 @@ table.table.table-cart {
   text-align: left;
 }
 
+.product-detail img {
+  width: 98%;
+  height: 98%;
+  object-fit: cover;
+}
+
 .product-add-quantity,
 .product-price,
 .product-vendor,
