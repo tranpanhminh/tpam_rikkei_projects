@@ -13,13 +13,17 @@ export class ServiceCommentsRepository {
 
   // 1. Get All
   async getAllServiceComments() {
-    return await this.serviceCommentsEntity.find();
+    return await this.serviceCommentsEntity.find({
+      relations: { users: true, post_types: true, services: true },
+    });
   }
 
   // 2. Get Detail
   async getDetailServiceComment(id: number): Promise<ServiceCommentsEntity> {
-    const detailServiceComment =
-      await this.serviceCommentsEntity.findOneById(id);
+    const detailServiceComment = await this.serviceCommentsEntity.findOne({
+      where: { id: id },
+      relations: { users: true, post_types: true, services: true },
+    });
     return detailServiceComment;
   }
 

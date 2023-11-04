@@ -237,25 +237,25 @@ function ClientProductDetail() {
                   <div className="row row-cols-2">
                     <div className="col">
                       <img
-                        src={products && products.image_url[0].image_url}
+                        src={products && products.product_images[0].image_url}
                         alt=""
                       />
                     </div>
                     <div className="col">
                       <img
-                        src={products && products.image_url[1].image_url}
+                        src={products && products.product_images[1].image_url}
                         alt=""
                       />
                     </div>
                     <div className="col">
                       <img
-                        src={products && products.image_url[2].image_url}
+                        src={products && products.product_images[2].image_url}
                         alt=""
                       />
                     </div>
                     <div className="col">
                       <img
-                        src={products && products.image_url[3].image_url}
+                        src={products && products.product_images[3].image_url}
                         alt=""
                       />
                     </div>
@@ -290,7 +290,7 @@ function ClientProductDetail() {
                   </div>
                   <div className={styles["product-vendor"]}>
                     <span>Vendor:</span>
-                    <span>{products && products.vendor.name}</span>
+                    <span>{products && products.vendors.name}</span>
                   </div>
                   {/* <div className={styles["product-sku"]}>
                     <span>SKU:</span>
@@ -400,12 +400,12 @@ function ClientProductDetail() {
                     <section className={styles["product-comment-item"]}>
                       <div className={styles["user-comment-info"]}>
                         <img
-                          src={item.user.image_avatar}
+                          src={item.users?.image_avatar}
                           alt=""
                           className={styles["user-avatar"]}
                         />
 
-                        <span>{item.user.full_name.split(" ")[0]}</span>
+                        <span>{item.users?.full_name.split(" ")[0]}</span>
                         {item?.user_role_id === 1 ||
                         item?.user_role_id === 2 ? (
                           <Badge bg="success">Admin</Badge>

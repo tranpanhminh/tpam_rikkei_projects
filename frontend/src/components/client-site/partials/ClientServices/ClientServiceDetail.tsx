@@ -335,10 +335,10 @@ function ClientServiceDetail() {
                       <tbody>
                         <tr>
                           <td rowSpan={2}>Monday - Saturday</td>
-                          <td>{service?.working_time.morning_time}</td>
+                          <td>{service?.working_time?.morning_time}</td>
                         </tr>
                         <tr>
-                          <td>{service?.working_time.afternoon_time}</td>
+                          <td>{service?.working_time?.afternoon_time}</td>
                         </tr>
                       </tbody>
                     </table>

@@ -16,7 +16,7 @@ function SignupForm() {
     email: "",
     full_name: "",
     password: "",
-    rePassword: "",
+    re_password: "",
   });
 
   const handleSignUp = () => {
@@ -27,7 +27,6 @@ function SignupForm() {
         navigate("/login");
       })
       .catch((error) => {
-        console.log(error, "EROR");
         notification.warning({ message: error.response.data.message });
       });
   };
@@ -74,9 +73,9 @@ function SignupForm() {
           type="password"
           placeholder="Confirm Password"
           className={styles["input-repassword"]}
-          value={userInfo.rePassword}
+          value={userInfo.re_password}
           onChange={(event) =>
-            setUserInfo({ ...userInfo, rePassword: event.target.value })
+            setUserInfo({ ...userInfo, re_password: event.target.value })
           }
         />
         <div className={styles["repassword-notify"]}></div>

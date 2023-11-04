@@ -110,18 +110,16 @@ export class UsersService {
     const checkUser: UserInfoLoginInterface =
       await this.usersRepository.getDetailUserByEmail(email);
 
-    if (checkUser) {
-      const { password, created_at, updated_at, ...dataUser } = checkUser;
-      // Mã hóa thông tin
-      const jwtData = await jwt.sign(dataUser, process.env.ACCESS_TOKEN_SECRET); // Mã Token để biết ai đăng nhập
+    const { password, created_at, updated_at, ...dataUser } = checkUser;
+    // Mã hóa thông tin
+    const jwtData = await jwt.sign(dataUser, process.env.ACCESS_TOKEN_SECRET); // Mã Token để biết ai đăng nhập
 
-      return {
-        message: 'Login successfully',
-        accessToken: jwtData,
-        data: dataUser,
-        status: 200,
-      };
-    }
+    return {
+      message: 'Login successfully',
+      accessToken: jwtData,
+      data: dataUser,
+      status: 200,
+    };
   }
 
   // 8. Change Status

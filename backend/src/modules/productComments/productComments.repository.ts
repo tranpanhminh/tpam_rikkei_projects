@@ -13,13 +13,17 @@ export class ProductCommentsRepository {
 
   // 1. Get All
   async getAllProductComments() {
-    return await this.productCommentsEntity.find();
+    return await this.productCommentsEntity.find({
+      relations: { users: true, post_types: true, products: true },
+    });
   }
 
   // 2. Get Detail
   async getDetailProductComment(id: number): Promise<ProductCommentsEntity> {
-    const detailProductComment =
-      await this.productCommentsEntity.findOneById(id);
+    const detailProductComment = await this.productCommentsEntity.findOne({
+      where: { id: id },
+      relations: { users: true, post_types: true, products: true },
+    });
     return detailProductComment;
   }
 

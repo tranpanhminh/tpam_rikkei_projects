@@ -12,18 +12,17 @@ const usersAPI = process.env.REACT_APP_API_USERS;
 // ----------------------------------------------
 
 function LoginForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [dataLogin, setDataLogin] = useState({
     email: "",
     password: "",
   });
   const navigate = useNavigate();
-
+  console.log(dataLogin, "AA");
   const handleLogin = async () => {
     await BaseAxios.post(`${usersAPI}/login`, dataLogin)
       .then((response) => {
-        const dataResponse = response.data.data;
+        console.log(response);
+        const dataResponse = response.data;
         const dataUser = {
           id: dataResponse.id,
         };

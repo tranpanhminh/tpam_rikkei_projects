@@ -82,9 +82,10 @@ export class UsersController {
   }
 
   // 7. Login
-  @Post('login')
+  @Post('/login')
   async login(@Body() body: LoginDTO): Promise<DataTokenInterface | unknown> {
-    const result: string | unknown = await this.usersService.login(body);
+    const result: DataTokenInterface | unknown =
+      await this.usersService.login(body);
     return result;
   }
 
