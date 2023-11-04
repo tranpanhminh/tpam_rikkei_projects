@@ -124,8 +124,8 @@
 
 .list-card-type img {
   height: 30px;
-  width: 30px;
-  object-fit: cover;
+  width: 100%;
+  object-fit: contain;
 }
 
 .card-detail-header {

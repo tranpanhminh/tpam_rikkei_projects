@@ -125,23 +125,21 @@ function ClientProductDetail() {
   // --------------------------------------------------------
 
   // Add To Cart
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     const dataCart = {
       quantity: quantity,
     };
-    console.log(dataCart, "DAS");
-    BaseAxios.post(
+    await BaseAxios.post(
       `${cartsAPI}/add/products/${productId}/users/${getLoginData.id}`,
       dataCart
     )
       .then((response) => {
-        console.log(response, "RESPONSE");
         notification.success({
           message: `${response.data.message}`,
         });
       })
       .catch((error) => {
-        console.log(error, "ERRR");
+        console.log(error);
         notification.warning({
           message: `${error.response.data.message}`,
         });

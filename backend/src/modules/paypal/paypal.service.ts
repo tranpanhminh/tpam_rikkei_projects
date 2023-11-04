@@ -30,12 +30,12 @@ export class PaypalService {
         throw error;
       } else {
         // Mở lệnh này lên khi ghép với FrontEnd
-        // for (let i = 0; i < payment.links.length; i++) {
-        //   if (payment.links[i].rel == 'approval_url') {
-        //     res.redirect(payment.links[i].href);
-        //   }
-        // }
-        return res.send(payment);
+        for (let i = 0; i < payment.links.length; i++) {
+          if (payment.links[i].rel == 'approval_url') {
+            res.redirect(payment.links[i].href);
+          }
+        }
+        // return res.send(payment);
       }
     });
   }

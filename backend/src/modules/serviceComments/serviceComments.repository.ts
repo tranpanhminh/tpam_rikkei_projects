@@ -45,6 +45,9 @@ export class ServiceCommentsRepository {
   async getAllCommentsByService(
     id: number,
   ): Promise<ServiceCommentsEntity | unknown> {
-    return await this.serviceCommentsEntity.find({ where: { post_id: id } });
+    return await this.serviceCommentsEntity.find({
+      where: { post_id: id },
+      relations: { users: true, post_types: true },
+    });
   }
 }

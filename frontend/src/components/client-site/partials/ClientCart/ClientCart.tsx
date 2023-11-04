@@ -260,9 +260,9 @@ function ClientCart() {
                         <tr>
                           <td>{index + 1}</td>
                           <td>
-                            <img src={item.product.thumbnail_url} alt="" />
+                            <img src={item.products.thumbnail_url} alt="" />
                           </td>
-                          <td>{item.product.name}</td>
+                          <td>{item.products.name}</td>
                           <td>
                             <input
                               type="number"
@@ -300,20 +300,24 @@ function ClientCart() {
             </div>
             <div className={styles["right-shopping-cart-item"]}>
               <div className={styles["card-detail-header"]}>
-                <span>Card Details</span>
+                <span>Cart Information</span>
                 <img src={logo} alt="" />
               </div>
 
               <div className={styles["card-type"]}>
-                <span>Card Type</span>
+                <span>Payment Method</span>
                 <div className={styles["list-card-type"]}>
                   {/* <img
                     src="https://i.pcmag.com/imagery/reviews/068BjcjwBw0snwHIq0KNo5m-15..v1602794215.png"
                     alt=""
                   /> */}
-                  <img
+                  {/* <img
                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Old_Visa_Logo.svg/2560px-Old_Visa_Logo.svg.png"
                     alt=""
+                  /> */}
+                  <img
+                    src="https://www.chrisvanburen.com/wp-content/uploads/2016/12/paypal-logo.png"
+                    alt="paypal"
                   />
                   {/* <img
                     src="https://www.pngall.com/wp-content/uploads/2016/07/Mastercard-Download-PNG.png"
@@ -323,7 +327,7 @@ function ClientCart() {
               </div>
 
               <div className={styles["card-info"]}>
-                <div className={styles["card-info-item"]}>
+                {/* <div className={styles["card-info-item"]}>
                   <input
                     type="text"
                     className="form-control form-control-lg"
@@ -408,7 +412,7 @@ function ClientCart() {
                       });
                     }}
                   />
-                </div>
+                </div> */}
                 <div className={styles["card-info-item"]}>
                   <input
                     type="text"
@@ -427,7 +431,7 @@ function ClientCart() {
                     }}
                   />
                 </div>
-                <div className={styles["card-info-item"]}>
+                {/* <div className={styles["card-info-item"]}>
                   <input
                     type="text"
                     id="typeText"
@@ -444,7 +448,7 @@ function ClientCart() {
                       });
                     }}
                   />
-                </div>
+                </div> */}
               </div>
 
               <div className={styles["card-info-item"]}>

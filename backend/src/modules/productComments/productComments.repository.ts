@@ -45,6 +45,9 @@ export class ProductCommentsRepository {
   async getAllCommentsByProduct(
     id: number,
   ): Promise<ProductCommentsEntity | unknown> {
-    return await this.productCommentsEntity.find({ where: { post_id: id } });
+    return await this.productCommentsEntity.find({
+      where: { post_id: id },
+      relations: { users: true, post_types: true },
+    });
   }
 }

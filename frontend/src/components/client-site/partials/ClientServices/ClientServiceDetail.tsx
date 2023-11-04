@@ -511,12 +511,12 @@ function ClientServiceDetail() {
                     <section className={styles["product-comment-item"]}>
                       <div className={styles["user-comment-info"]}>
                         <img
-                          src={item.user.image_avatar}
+                          src={item?.users?.image_avatar}
                           alt=""
                           className={styles["user-avatar"]}
                         />
 
-                        <span>{item.user.full_name.split(" ")[0]}</span>
+                        <span>{item?.users?.full_name.split(" ")[0]}</span>
                         {item?.user_role_id === 1 ||
                         item?.user_role_id === 2 ? (
                           <Badge bg="success">Admin</Badge>

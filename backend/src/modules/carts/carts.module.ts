@@ -24,6 +24,7 @@ import { CheckUserCartExist } from 'src/middlewares/checkUserCartExist.middlewar
 import { CouponsEntity } from '../coupons/database/entity/coupons.entity';
 import { CouponsRepository } from '../coupons/coupons.repository';
 import { CheckProductExist } from 'src/middlewares/checkProductExist.middleware';
+import { CheckIsAdmin } from 'src/middlewares/checkIsAdmin.middleware';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -60,6 +61,7 @@ export class CartsModule implements NestModule {
       .apply(
         CheckProductExist,
         CheckUserExist,
+        CheckIsAdmin,
         CheckProductQuantityStock,
         CheckInputQuantity,
       )
