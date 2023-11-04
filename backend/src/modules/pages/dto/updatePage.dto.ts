@@ -1,16 +1,26 @@
-import { IsNumber, IsPositive, IsString } from "class-validator";
+import {
+  IsNotEmpty,
+  IsNumberString,
+  IsOptional,
+  IsString,
+} from 'class-validator';
+import { MemoryStoredFile } from 'nestjs-form-data';
 export class UpdatePageDTO {
-  @IsString({ message: "Page Name should be string" })
-  name: string;
+  @IsString({ message: 'Title should be string' })
+  title: string;
 
-  @IsString({ message: "Page Code should be string" })
-  code: string;
+  @IsString({ message: 'Content should be string' })
+  content: string;
 
-  @IsNumber({}, { message: "Discount Rate should be a number" })
-  @IsPositive({ message: "Discount Rate should be a positive number" })
-  discount_rate: number;
+  @IsOptional()
+  // @IsFile()
+  // @MaxFileSize(1000000, { message: 'File size must be < 1 Mb' })
+  // @HasMimeType(['image/jpeg', 'image/png', 'image/jpg'])
+  thumbnail_url?: MemoryStoredFile;
 
-  @IsNumber({}, { message: "Min Bill should be a number" })
-  @IsPositive({ message: "Min Bill should be a positive number" })
-  min_bill: number;
+  @IsNotEmpty({ message: 'Author Name should not be empty' })
+  author: string;
+
+  @IsNumberString({}, { message: 'Status should be number' })
+  status_id: number;
 }

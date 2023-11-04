@@ -255,7 +255,8 @@ export function IsStringOrImageFile(validationOptions?: ValidationOptions) {
       options: validationOptions,
       constraints: [],
       validator: {
-        validate(thumbnailUrl: string | MemoryStoredFile) {
+        validate(thumbnailUrl: any | MemoryStoredFile) {
+          const maxSize = 1000000; // 1MB
           if (typeof thumbnailUrl == 'string') {
             return true;
           }
@@ -263,6 +264,11 @@ export function IsStringOrImageFile(validationOptions?: ValidationOptions) {
           if (thumbnailUrl instanceof MemoryStoredFile) {
             const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
             return allowedTypes.includes(thumbnailUrl.mimetype);
+          }
+
+          // Kiểm tra kích thước
+          if (thumbnailUrl.size > maxSize) {
+            return false;
           }
 
           return false;
@@ -282,6 +288,26 @@ export function IsPostType(validationOptions?: ValidationOptions) {
       validator: {
         validate(post_type_id: number) {
           if (post_type_id == 3) {
+            return true;
+          }
+
+          return false;
+        },
+      },
+    });
+  };
+}
+
+export function IsPageType(validationOptions?: ValidationOptions) {
+  return (object: any, propertyName: string) => {
+    registerDecorator({
+      target: object.constructor,
+      propertyName: propertyName,
+      options: validationOptions,
+      constraints: [],
+      validator: {
+        validate(post_type_id: number) {
+          if (post_type_id == 4) {
             return true;
           }
 

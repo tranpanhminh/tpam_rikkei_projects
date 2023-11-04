@@ -70,9 +70,7 @@ export class ServicesService {
         name: !name ? findService.name : name,
         description: !description ? findService.description : description,
         price: !price ? findService.price : price,
-        service_image: !fileUploaded
-          ? findService.service_image
-          : result.secure_url,
+        service_image: result.secure_url,
         working_time_id: !working_time_id
           ? Number(findService.working_time_id)
           : Number(working_time_id),

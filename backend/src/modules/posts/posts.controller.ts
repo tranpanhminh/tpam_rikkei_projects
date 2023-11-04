@@ -12,7 +12,6 @@ import { ConfigModule } from '@nestjs/config';
 import { PostsEntity } from './database/entity/posts.entity';
 import { FormDataRequest } from 'nestjs-form-data';
 import { CreatePostDTO } from './dto/createPost.dto';
-import { PostsInterface } from './interface/posts.interface';
 import { UpdatePostDTO } from './dto/updatePost.dto';
 
 ConfigModule.forRoot({

@@ -1,25 +1,26 @@
-import { IsNotEmpty } from 'class-validator';
 import {
-  IsFile,
-  MaxFileSize,
-  HasMimeType,
-  MemoryStoredFile,
-} from 'nestjs-form-data';
+  IsNotEmpty,
+  IsNumberString,
+  IsOptional,
+  IsString,
+} from 'class-validator';
+import { MemoryStoredFile } from 'nestjs-form-data';
 export class UpdatePostDTO {
-  @IsNotEmpty({ message: 'Title should not be empty' })
+  @IsString({ message: 'Title should be string' })
   title: string;
 
-  @IsNotEmpty({ message: 'Content should not be empty' })
+  @IsString({ message: 'Content should be string' })
   content: string;
 
-  @IsFile()
-  @MaxFileSize(1000000, { message: 'File size must be < 1 Mb' })
-  @HasMimeType(['image/jpeg', 'image/png', 'image/jpg'])
-  thumbnail_url: MemoryStoredFile;
+  @IsOptional()
+  // @IsFile()
+  // @MaxFileSize(1000000, { message: 'File size must be < 1 Mb' })
+  // @HasMimeType(['image/jpeg', 'image/png', 'image/jpg'])
+  thumbnail_url?: MemoryStoredFile;
 
   @IsNotEmpty({ message: 'Author Name should not be empty' })
   author: string;
 
-  @IsNotEmpty({ message: 'Status should not be empty' })
+  @IsNumberString({}, { message: 'Status should be number' })
   status_id: number;
 }

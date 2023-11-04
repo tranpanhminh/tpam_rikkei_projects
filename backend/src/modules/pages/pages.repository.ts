@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PagesEntity } from './database/entity/pages.entity';
+import { PagesInterface } from './interface/pages.interface';
 
 @Injectable()
 export class PagesRepository {
@@ -21,35 +22,21 @@ export class PagesRepository {
     return detailPage;
   }
 
-  // // 3. Add
-  // async addPage(
-  //   newPage: CreatePageDTO,
-  // ): Promise<PagesEntity | unknown> {
-  //   return await this.pagesEntity.save(newPage);
-  // }
+  // 3. Add
+  async addPage(newPage: PagesInterface): Promise<PagesEntity | unknown> {
+    return await this.pagesEntity.save(newPage);
+  }
 
-  // // 4. Delete
-  // async deletePage(id: number): Promise<PagesEntity | unknown> {
-  //   return await this.pagesEntity.delete(id);
-  // }
+  // 4. Delete
+  async deletePage(id: number): Promise<PagesEntity | unknown> {
+    return await this.pagesEntity.delete(id);
+  }
 
-  // // 5. Update
-  // async updatePage(
-  //   id: number,
-  //   updatePage: UpdatePageDTO,
-  // ): Promise<PagesEntity | unknown> {
-  //   return await this.pagesEntity.update(id, updatePage);
-  // }
-
-  // // 6. Check Bill To Apply Page
-  // async checkBillToApplyPage(bill: number): Promise<unknown> {
-  //   const listCounpons = this.pagesEntity
-  //     .createQueryBuilder('page')
-  //     .select(['*'])
-  //     .where('page.min_bill <= :bill', { bill })
-  //     .orderBy('page.min_bill', 'DESC')
-  //     .limit(1);
-  //   const result = await listCounpons.getRawOne();
-  //   return result;
-  // }
+  // 5. Update
+  async updatePage(
+    id: number,
+    updatePage: PagesInterface,
+  ): Promise<PagesEntity | unknown> {
+    return await this.pagesEntity.update(id, updatePage);
+  }
 }

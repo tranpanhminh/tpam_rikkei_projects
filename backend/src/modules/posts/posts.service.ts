@@ -64,17 +64,33 @@ export class PostsService {
     body: UpdatePostDTO,
   ): Promise<PostsEntity | unknown> {
     const { title, content, author, status_id } = body;
-    const checkPost: PostsEntity = await this.postsRepository.getDetailPost(id);
-    const fileUpload: any = body.thumbnail_url;
-    const file = await this.cloudinaryService.uploadFile(fileUpload);
+    const checkPost = await this.postsRepository.getDetailPost(id);
+
     console.log(checkPost);
-    if (checkPost) {
-      const updatePost = {
-        title: title,
-        content: content,
+    if (body.thumbnail_url) {
+      const fileUpload: any = body.thumbnail_url;
+      const file = await this.cloudinaryService.uploadFile(fileUpload);
+      const updatePost: PostsInterface = {
+        title: !title ? checkPost.title : title,
+        content: !content ? checkPost.content : content,
         thumbnail_url: file.secure_url,
-        author: author,
-        status_id: status_id,
+        author: !author ? checkPost.author : author,
+        status_id: !status_id ? checkPost.status_id : status_id,
+        post_type_id: 3,
+      };
+
+      // Xóa ảnh cũ
+      const publicId = extractPublicId(checkPost.thumbnail_url);
+      await cloudinary.api.delete_resources(publicId);
+      await this.postsRepository.updatePost(id, updatePost);
+      return new HttpException('Post Updated', HttpStatus.OK);
+    } else {
+      const updatePost: PostsInterface = {
+        title: !title ? checkPost.title : title,
+        content: !content ? checkPost.content : content,
+        thumbnail_url: checkPost.thumbnail_url,
+        author: !author ? checkPost.author : author,
+        status_id: !status_id ? checkPost.status_id : status_id,
         post_type_id: 3,
       };
 
