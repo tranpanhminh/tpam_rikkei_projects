@@ -208,7 +208,7 @@ function ClientEditProfile() {
         </div>
         <div className={styles["my-profile-input-item"]}>
           <p>Status</p>
-          <input type="text" disabled value={user?.user_status?.name} />
+          <input type="text" disabled value={user?.user_statuses?.name} />
         </div>
       </div>
       <br />

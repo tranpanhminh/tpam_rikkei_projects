@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UsersEntity } from './database/entity/users.entity';
-import { UpdateUserDTO } from './dto/update-user.dto';
+import { UpdateUserDTO } from './dto/updateUser.dto';
 import { UsersInterface } from './interface/users.interface';
 import { UpdateStatusUserDTO } from './dto/change-status-user.dto';
 import { UpdatePasswordDTO } from './dto/update-password.dto';

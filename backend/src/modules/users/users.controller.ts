@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateAdminDTO } from './dto/create-admin.dto';
-import { UpdateUserDTO } from './dto/update-user.dto';
+import { UpdateUserDTO } from './dto/updateUser.dto';
 import { ConfigModule } from '@nestjs/config';
 import { UsersEntity } from './database/entity/users.entity';
 import { UserRegisterDTO } from './dto/register-user.dto';

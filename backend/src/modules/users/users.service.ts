@@ -3,7 +3,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
 import { UsersEntity } from './database/entity/users.entity';
 import { CreateAdminDTO } from './dto/create-admin.dto';
-import { UpdateUserDTO } from './dto/update-user.dto';
+import { UpdateUserDTO } from './dto/updateUser.dto';
 import { UsersInterface } from './interface/users.interface';
 import { UpdateStatusUserDTO } from './dto/change-status-user.dto';
 import { UpdatePasswordDTO } from './dto/update-password.dto';
