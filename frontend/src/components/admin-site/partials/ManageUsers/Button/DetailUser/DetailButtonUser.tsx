@@ -1,11 +1,14 @@
 import React, { useState, ReactNode, useEffect, useRef } from "react";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
-import { Button, Modal, notification } from "antd";
+import { Button, Modal, message, notification } from "antd";
 import styles from "../DetailUser/DetailUserProfile.module.css";
 import axios from "axios";
-
-// Import API
-const usersAPI = process.env.REACT_APP_API_USERS;
+import {
+  changePassword,
+  getDataLogin,
+  changeUserAvatar,
+  changeUserName,
+} from "../../../../../../api/users.api";
 
 // -----------------------------------------------------------
 
@@ -30,34 +33,27 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
   // States
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [messageApi, contextHolder] = message.useMessage();
   const [avatar, setAvatar] = useState<any>("");
   const [name, setName] = useState("");
   const [user, setUser] = useState<any>({});
   const [image, setImage] = useState<any>("");
   const [showBtn, setShowBtn] = useState<boolean>(false);
   const [userPassword, setUserPassword] = useState<any>({
-    oldPassword: "",
-    newPassword: "",
+    old_password: "",
+    new_password: "",
   });
 
   // -----------------------------------------------------------
   // Fetch API
-  const fetchUser = () => {
-    axios
-      .get(`${usersAPI}/detail/${getUserId}`)
-      .then((response) => {
-        console.log(response, "DDAA");
-        setUser(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const fetchUser = async () => {
+    const user = await getDataLogin();
+    setUser(user);
   };
 
   useEffect(() => {
     fetchUser();
-  }, []);
+  }, [user]);
   // -----------------------------------------------------------
 
   // Ẩn hiện Modal
@@ -79,17 +75,15 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
   // -----------------------------------------------------------
 
   // Handle Update Password
-
-  const handleOk = () => {
-    axios
-      .patch(`${usersAPI}/change-password/${getUserId}`, userPassword)
+  const handleOk = async () => {
+    await changePassword(user.id, userPassword)
       .then((response) => {
         notification.success({
           message: `${response.data.message}`,
         });
         setUserPassword({
-          oldPassword: "",
-          newPassword: "",
+          old_password: "",
+          new_password: "",
         });
         handleFunctionOk();
         localStorage.clear();
@@ -107,12 +101,11 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
 
   // Handle Update Name
 
-  const handleChangeName = () => {
+  const handleChangeName = async () => {
     const userInfo = {
       full_name: name,
     };
-    axios
-      .patch(`${usersAPI}/update/${getUserId}`, userInfo)
+    await changeUserName(user.id, userInfo)
       .then((response) => {
         notification.success({
           message: `${response.data.message}`,
@@ -153,7 +146,7 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
     setAvatar(event.target.files[0]);
   };
 
-  const changeAvatar = () => {
+  const changeAvatar = async () => {
     const formData: any = new FormData();
     formData.append("image_avatar", avatar);
     formData.append("_method", "PATCH");
@@ -162,9 +155,16 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
         "Content-Type": "multipart/form-data",
       },
     };
-    axios
-      .patch(`${usersAPI}/edit-avatar/${getUserId}`, formData, config)
+    if (avatar) {
+      messageApi.open({
+        type: "loading",
+        content: "Updating...",
+        duration: 0,
+      });
+    }
+    await changeUserAvatar(user.id, formData, config)
       .then((response) => {
+        messageApi.destroy();
         notification.success({
           message: `${response.data.message}`,
         });
@@ -200,6 +200,7 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
 
   return (
     <>
+      {contextHolder}
       <Button type="primary" onClick={showModal} className={className}>
         {value}
       </Button>
@@ -277,11 +278,11 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
             <p>Old Password</p>
             <input
               type="password"
-              value={userPassword.oldPassword}
+              value={userPassword.old_password}
               onChange={(event) => {
                 setUserPassword({
                   ...userPassword,
-                  oldPassword: event.target.value,
+                  old_password: event.target.value,
                 });
               }}
             />
@@ -294,11 +295,11 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
             <p>New Password</p>
             <input
               type="password"
-              value={userPassword.newPassword}
+              value={userPassword.new_password}
               onChange={(event) => {
                 setUserPassword({
                   ...userPassword,
-                  newPassword: event.target.value,
+                  new_password: event.target.value,
                 });
               }}
             />

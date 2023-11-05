@@ -41,10 +41,10 @@
 }
 
 .user-avatar {
-  width: 100%;
+  width: 410px;
   border-radius: 10px;
   height: 300px;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 .fa-btn {

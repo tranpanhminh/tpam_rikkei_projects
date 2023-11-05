@@ -1,50 +1,32 @@
-import jwtDecode from "jwt-decode";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import AddModalUser from "../ManageUsers/Button/AddUser/AddModalUser";
 import DetailButtonUser from "./Button/DetailUser/DetailButtonUser";
-import { Button, Modal, notification } from "antd";
+import { Button } from "antd";
 import styles from "../../AdminPage.module.css";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { Account } from "../../../../database";
 import { Badge } from "react-bootstrap";
-import BaseAxios from "../../../../api/apiAxiosClient";
-
-// Import API
-// 1. Users API
-const usersAPI = process.env.REACT_APP_API_USERS;
+import {
+  changeStatusUser,
+  deleteUser,
+  getAllUsers,
+  getDataLogin,
+} from "../../../../api/users.api";
 
 // ------------------------------------------------
 function ManageUsers() {
   document.title = "Manage Users | PetShop";
-  const navigate = useNavigate();
-  const getData: any = localStorage.getItem("auth");
-  const getLoginData = JSON.parse(getData) || "";
   const [users, setUsers] = useState<any>([]);
   const [user, setUser] = useState<any>({});
   const [searchText, setSearchText] = useState<string>("");
 
   // Fetch API
-  const fetchUsers = () => {
-    axios
-      .get(`${usersAPI}`)
-      .then((response) => {
-        setUsers(response.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+  const fetchUsers = async () => {
+    const users = await getAllUsers();
+    setUsers(users);
   };
 
-  const fetchUser = () => {
-    axios
-      .get(`${usersAPI}/detail/${getLoginData.id}`)
-      .then((response) => {
-        setUser(response.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+  const fetchUser = async () => {
+    const user = await getDataLogin();
+    setUser(user);
   };
 
   useEffect(() => {
@@ -83,59 +65,24 @@ function ManageUsers() {
 
   // Handle Change User
   const handleChangeUser = async (userId: number) => {
-    await BaseAxios.patch(`${usersAPI}/change-status-account/${userId}`)
-      .then((response) => {
-        notification.success({
-          message: response.data.message,
-        });
-      })
-      .catch((error) => {
-        notification.warning({
-          message: error.response.data.message,
-        });
-      });
+    const result = await changeStatusUser(userId);
     fetchUsers();
+    return result;
   };
   // ------------------------------------------------
 
   // Handle Add User
-  const handleAddUser = (newUser: Account) => {
+  const handleAddUser = () => {
     fetchUsers();
   };
-  // ------------------------------------------------
 
   // Handle Delete User
   const handleDeleteUser = async (userId: number) => {
-    await BaseAxios.delete(`${usersAPI}/delete/${userId}`);
-    notification.success({
-      message: `Deleted Completed`,
-    });
+    const result = await deleteUser(userId);
     fetchUsers();
+    return result;
   };
   // ------------------------------------------------
-
-  // Check Token
-  const token: any = localStorage.getItem("token") || "";
-  let userLogin: any;
-  if (token) {
-    try {
-      userLogin = jwtDecode(token);
-
-      // Đây là một đối tượng được giải mã từ token
-
-      // Kiểm tra thời hạn của token
-      const currentTimestamp = Math.floor(Date.now() / 1000);
-      if (userLogin.exp < currentTimestamp) {
-        console.log("Token is expired.");
-      } else {
-        console.log("Token is valid.");
-      }
-    } catch (error) {
-      navigate("/");
-    }
-  } else {
-    console.log("Token Not Found.");
-  }
 
   const changeColor = (status: string) => {
     switch (status) {
@@ -160,6 +107,7 @@ function ManageUsers() {
         return;
     }
   };
+
   return (
     <>
       <div className={styles["breadcrumb"]}>
@@ -229,8 +177,8 @@ function ManageUsers() {
                   </Badge>
                 </td>
                 <td className={styles["group-btn-admin"]}>
-                  {userLogin?.role_id === 2 ? (
-                    userLogin?.role_id === 1 ? (
+                  {user?.role_id === 2 ? (
+                    user?.role_id === 1 ? (
                       <div>
                         <Button
                           type="primary"

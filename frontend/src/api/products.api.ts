@@ -2,7 +2,6 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 import BaseAxios from "./apiAxiosClient";
 import { notification } from "antd";
-import { UserInterface } from "../interface/users.interface";
 
 const usersAPI = process.env.REACT_APP_API_USERS;
 
@@ -69,6 +68,7 @@ export const changeStatusUser = async (id: number) => {
 export const deleteUser = async (id: number) => {
   await BaseAxios.delete(`${usersAPI}/delete/${id}`)
     .then((response) => {
+      console.log(response, "RRR");
       notification.success({
         message: response.data.message,
       });
@@ -78,35 +78,4 @@ export const deleteUser = async (id: number) => {
         message: error.data.message,
       });
     });
-};
-
-// 5. Add Admin
-export const addUser = async (data: any) => {
-  const result = await BaseAxios.post(`${usersAPI}/add/`, data);
-  return result;
-};
-
-// 6. Change Password
-export const changePassword = async (id: number, data: any) => {
-  const result = await BaseAxios.patch(
-    `${usersAPI}/change-password/${id}`,
-    data
-  );
-  return result;
-};
-
-// 6. Change Avatar
-export const changeUserAvatar = async (id: number, data: any, config: any) => {
-  const result = await BaseAxios.patch(
-    `${usersAPI}/edit-avatar/${id}`,
-    data,
-    config
-  );
-  return result;
-};
-
-// 6. Change Avatar
-export const changeUserName = async (id: number, data: any) => {
-  const result = await BaseAxios.patch(`${usersAPI}/update/${id}`, data);
-  return result;
 };

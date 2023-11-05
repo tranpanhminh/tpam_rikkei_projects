@@ -1,13 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button, Modal, notification } from "antd";
 import styles from "../AddUser/AddModalUser.module.css";
 
-import { Account } from "../../../../../../database";
-import axios from "axios";
-
-// Import API
-// 1. Users API
-const usersAPI = process.env.REACT_APP_API_USERS;
+import { addUser } from "../../../../../../api/users.api";
 
 // ----------------------------------------------------
 
@@ -26,8 +21,7 @@ const AddModalUser: React.FC<AddModalProps> = ({
   width,
   handleClickOk,
 }) => {
-  const [users, setUsers] = useState<null | Account[]>(null);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [newUser, setNewUser] = useState<any>({
     email: "",
     full_name: "",
@@ -35,35 +29,15 @@ const AddModalUser: React.FC<AddModalProps> = ({
     // rePassword: "",
   });
 
-  const fetchUsers = () => {
-    axios
-      .get(`${usersAPI}`)
-      .then((response) => {
-        setUsers(response.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  };
-
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-
-  // const maxId = users ? Math.max(...users.map((user) => user.id)) : 0;
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const showModal = () => {
     setIsModalOpen(true);
   };
 
-  const handleOk = () => {
-    axios
-      .post(`${usersAPI}/add`, newUser)
+  const handleOk = async () => {
+    await addUser(newUser)
       .then((response) => {
         notification.success({
-          message: `Added Completed`,
+          message: `${response.data.message}`,
         });
         setIsModalOpen(false);
         setNewUser({ email: "", full_name: "", password: "" });
