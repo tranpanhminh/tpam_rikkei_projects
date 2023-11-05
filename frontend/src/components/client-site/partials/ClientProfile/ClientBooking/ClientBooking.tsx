@@ -51,7 +51,7 @@ function ClientBooking() {
       const filterBooking = userBooking?.filter((item: any) => {
         if (
           item.name.toLowerCase().includes(searchText.trim().toLowerCase()) ||
-          item.service.name
+          item.service_name
             .toLowerCase()
             .includes(searchText.trim().toLowerCase()) ||
           item.calendar
@@ -60,7 +60,7 @@ function ClientBooking() {
           item.booking_date
             .toLowerCase()
             .includes(searchText.trim().toLowerCase()) ||
-          item?.booking_status?.name
+          item?.booking_statuses?.name
             .toLowerCase()
             .includes(searchText.trim().toLowerCase())
         ) {

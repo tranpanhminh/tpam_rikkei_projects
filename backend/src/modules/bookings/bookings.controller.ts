@@ -94,4 +94,11 @@ export class BookingsController {
     const result = await this.bookingsService.reportBooking();
     return result;
   }
+
+  // 9. Filter Booking By Date
+  @Get('/filter/date/:date')
+  async filterDetailBookingDate(@Param('date') date: string) {
+    const result = await this.bookingsService.filterDetailBookingDate(date);
+    return result;
+  }
 }

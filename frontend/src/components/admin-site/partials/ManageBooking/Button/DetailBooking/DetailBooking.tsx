@@ -116,28 +116,21 @@ const DetailBooking: React.FC<DetailModalProps> = ({
     }
   };
 
-  const handleDetailClick = (serviceId: any) => {
+  const handleDetailClick = async (serviceId: any) => {
     navigate(
       `/admin/manage-booking/?date=${getBookingDate}/?bookingId=${serviceId}`
     );
     setStatus(selectedBooking?.status_id);
-    axios
+    await axios
       .get(`${bookingsAPI}/detail/${serviceId}`)
       .then((response) => {
         setSelectedBooking(response.data);
+        setIsModalOpenUpdateStatus(true);
       })
       .catch((error) => {
         console.log(error);
       });
-    setIsModalOpenUpdateStatus(true);
   };
-
-  // const updateBookingStatus = (bookingId: number, status: string) => {
-  //   // Gửi yêu cầu cập nhật trạng thái đặt hàng lên máy chủ
-  //   return axios.patch(`http://localhost:7373/bookings/${bookingId}`, {
-  //     status: status,
-  //   });
-  // };
 
   const handleOkUpdateStatus = () => {
     const updateBooking = {
@@ -268,9 +261,9 @@ const DetailBooking: React.FC<DetailModalProps> = ({
                           <td>{item.service_name}</td>
                           <td>
                             <Badge
-                              bg={`${changeColor(item?.booking_status.name)}`}
+                              bg={`${changeColor(item?.booking_statuses.name)}`}
                             >
-                              {item.booking_status.name}
+                              {item.booking_statuses.name}
                             </Badge>
                           </td>
                           <td>
@@ -394,8 +387,8 @@ const DetailBooking: React.FC<DetailModalProps> = ({
                                     <option
                                       value={4}
                                       selected={
-                                        selectedBooking?.booking_status.name ===
-                                        "Cancel"
+                                        selectedBooking?.booking_statuses
+                                          .name === "Cancel"
                                           ? true
                                           : false
                                       }
@@ -405,8 +398,8 @@ const DetailBooking: React.FC<DetailModalProps> = ({
                                     <option
                                       value={3}
                                       selected={
-                                        selectedBooking?.booking_status.name ===
-                                        "Done"
+                                        selectedBooking?.booking_statuses
+                                          .name === "Done"
                                           ? true
                                           : false
                                       }
@@ -416,8 +409,8 @@ const DetailBooking: React.FC<DetailModalProps> = ({
                                     <option
                                       value={2}
                                       selected={
-                                        selectedBooking?.booking_status.name ===
-                                        "Processing"
+                                        selectedBooking?.booking_statuses
+                                          .name === "Processing"
                                           ? true
                                           : false
                                       }
@@ -427,8 +420,8 @@ const DetailBooking: React.FC<DetailModalProps> = ({
                                     <option
                                       value={1}
                                       selected={
-                                        selectedBooking?.booking_status.name ===
-                                        "Pending"
+                                        selectedBooking?.booking_statuses
+                                          .name === "Pending"
                                           ? true
                                           : false
                                       }

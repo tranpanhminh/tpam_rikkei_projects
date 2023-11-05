@@ -31,7 +31,7 @@ export class OrderItemsController {
   }
 
   // 3. Report Order Items
-  @Get('/reports')
+  @Get('/report')
   async reportOrderItems(): Promise<OrderItemsEntity | unknown> {
     const result: OrderItemsEntity | unknown =
       await this.orderItemsService.reportOrderItems();

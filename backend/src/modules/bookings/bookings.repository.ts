@@ -114,4 +114,12 @@ export class BookingsRepository {
       .getRawMany();
     return reportBooking;
   }
+
+  // 10. Filter Booking By Date
+  async filterDetailBookingDate(date) {
+    return await this.bookingsEntity.find({
+      where: { booking_date: date },
+      relations: { booking_statuses: true },
+    });
+  }
 }

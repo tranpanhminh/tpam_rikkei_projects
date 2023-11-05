@@ -75,7 +75,7 @@ function ClientOrder() {
           item.order_date
             .toLowerCase()
             .includes(searchText.trim().toLowerCase()) ||
-          item.order_status.name
+          item.order_statuses.name
             .toLowerCase()
             .includes(searchText.trim().toLowerCase())
         ) {

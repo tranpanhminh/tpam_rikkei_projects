@@ -1,8 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CouponsRepository } from './coupons.repository';
 import { CouponsEntity } from './database/entity/coupons.entity';
-import { CreateCouponDTO } from './dto/create-coupon.dto';
-import { UpdateCouponDTO } from './dto/update-coupon.dto';
+import { CreateCouponDTO } from './dto/createCoupon.dto';
+import { UpdateCouponDTO } from './dto/updateCoupon.dto';
 
 @Injectable()
 export class CouponsService {

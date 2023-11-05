@@ -76,5 +76,9 @@ export class BookingsModule {
         path: `${url}/update/:id`,
         method: RequestMethod.PATCH,
       });
+    consumer.apply().forRoutes({
+      path: `${url}/filter/date/:date`,
+      method: RequestMethod.GET,
+    });
   }
 }

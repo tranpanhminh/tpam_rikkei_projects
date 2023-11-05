@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CouponsEntity } from './database/entity/coupons.entity';
-import { CreateCouponDTO } from './dto/create-coupon.dto';
-import { UpdateCouponDTO } from './dto/update-coupon.dto';
+import { CreateCouponDTO } from './dto/createCoupon.dto';
+import { UpdateCouponDTO } from './dto/updateCoupon.dto';
 
 @Injectable()
 export class CouponsRepository {
@@ -14,7 +14,9 @@ export class CouponsRepository {
 
   // 1. Get All
   async getAllCoupons() {
-    return await this.couponsEntity.find();
+    return await this.couponsEntity.find({
+      order: { discount_rate: 'ASC' },
+    });
   }
 
   // 2. Get Detail

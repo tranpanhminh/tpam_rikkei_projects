@@ -69,8 +69,14 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
 
   // Handle Add Coupon
   const handleOk = () => {
+    const data = {
+      name: couponInfo.name,
+      code: couponInfo.code,
+      discount_rate: Number(couponInfo.discount_rate),
+      min_bill: Number(couponInfo.min_bill),
+    };
     axios
-      .post(`${couponsAPI}/add`, couponInfo)
+      .post(`${couponsAPI}/add`, data)
       .then((response) => {
         notification.success({ message: response.data.message });
         handleClickOk();

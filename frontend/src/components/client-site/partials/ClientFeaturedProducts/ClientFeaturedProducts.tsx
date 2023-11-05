@@ -63,7 +63,7 @@ function ClientFeaturedProducts() {
                     <div className={styles["card"]}>
                       <NavLink to={`/products/${product.product_id}`}>
                         <img
-                          src={product.thumbnail_url}
+                          src={product.products_thumbnail_url}
                           className={styles["card-img-top"]}
                           alt="..."
                         />
@@ -71,11 +71,12 @@ function ClientFeaturedProducts() {
                       <div className={styles["card-body"]}>
                         <NavLink to={`/products/${product.product_id}`}>
                           <h5 className={styles["product-title-name"]}>
-                            {product && product.name}
+                            {product && product.products_name}
                           </h5>
                         </NavLink>
                         <p className={styles["card-price"]}>
-                          Price: ${product && product.price.toLocaleString()}
+                          Price: $
+                          {product && product?.products_price?.toLocaleString()}
                         </p>
                       </div>
                       <div className={styles["card-foot"]}>

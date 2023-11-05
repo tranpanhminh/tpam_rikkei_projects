@@ -10,7 +10,7 @@ ConfigModule.forRoot({
 const path = process.env.SERVER_PATH;
 
 // -------------------------------------------------------
-@Controller(`${path}/comments/products/`)
+@Controller(`${path}/comments/products`)
 export class ProductCommentsController {
   constructor(
     private readonly productCommentsService: ProductCommentsService,
@@ -59,7 +59,7 @@ export class ProductCommentsController {
     return result;
   }
 
-  // // 5. Get All Comments By Product
+  // 5. Get All Comments By Product
   @Get('/:id')
   async getAllCommentsByProduct(
     @Param('id') id: number,
@@ -68,4 +68,11 @@ export class ProductCommentsController {
       await this.productCommentsService.getAllCommentsByProduct(id);
     return result;
   }
+
+  // 6. Report
+  // @Get('/report')
+  // async reportProductComment(): Promise<ProductCommentsEntity | unknown> {
+  //   const result = await this.productCommentsService.reportProductComment();
+  //   return result;
+  // }
 }

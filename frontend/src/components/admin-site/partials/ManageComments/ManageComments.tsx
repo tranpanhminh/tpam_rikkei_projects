@@ -145,14 +145,14 @@ function ManageComments() {
                       {stripHTMLTags(comment.comment).slice(0, 60) + "..."}
                     </td>
                     <td>
-                      <Badge bg={changeColor(comment.post_type.name)}>
-                        {comment.post_type.name}
+                      <Badge bg={changeColor(comment.post_types?.name)}>
+                        {comment.post_types?.name}
                       </Badge>
                     </td>
                     <td>
                       <NavLink
                         to={
-                          comment.post_type.name === "Product"
+                          comment.post_types.name === "Product"
                             ? `/products/${comment.post_id}`
                             : `/services/${comment.post_id}`
                         }

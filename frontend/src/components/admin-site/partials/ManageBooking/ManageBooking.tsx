@@ -142,15 +142,15 @@ function ManageBooking() {
               groupBookingDate?.map((item: any) => {
                 return (
                   <tr key={1}>
-                    <td>{item?.booking_date}</td>
-                    <td>{item?.total_booking} / 20</td>
+                    <td>{item?.date}</td>
+                    <td>{item?.total_bookings} / 20</td>
                     <td className={styles["group-btn-admin"]}>
                       <DetailBooking
                         value="Detail"
                         title="Detail Product"
                         className={styles["detail-product-btn"]}
                         getBookingId={item.id}
-                        getBookingDate={item?.booking_date}
+                        getBookingDate={item?.date}
                         // getBooking={booking.listBookings}
                       ></DetailBooking>
                     </td>

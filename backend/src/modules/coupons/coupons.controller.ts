@@ -8,8 +8,8 @@ import {
   Post,
 } from '@nestjs/common';
 import { CouponsService } from './coupons.service';
-import { CreateCouponDTO } from './dto/create-coupon.dto';
-import { UpdateCouponDTO } from './dto/update-coupon.dto';
+import { CreateCouponDTO } from './dto/createCoupon.dto';
+import { UpdateCouponDTO } from './dto/updateCoupon.dto';
 import { ConfigModule } from '@nestjs/config';
 import { CouponsEntity } from './database/entity/coupons.entity';
 

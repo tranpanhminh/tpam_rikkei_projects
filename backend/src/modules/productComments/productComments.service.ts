@@ -69,4 +69,10 @@ export class ProductCommentsService {
       await this.productCommentsRepository.getAllCommentsByProduct(id);
     return result;
   }
+
+  // 6. Report
+  async reportProductComment() {
+    const result = await this.productCommentsRepository.reportProductComment();
+    return result;
+  }
 }

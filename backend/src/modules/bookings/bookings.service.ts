@@ -96,9 +96,15 @@ export class BookingsService {
     return result;
   }
 
-  // 7. Group Booking Date
+  // 8. Group Booking Date
   async reportBooking() {
     const result = await this.bookingsRepository.reportBooking();
+    return result;
+  }
+
+  // 9. Filter Booking By Date
+  async filterDetailBookingDate(date) {
+    const result = await this.bookingsRepository.filterDetailBookingDate(date);
     return result;
   }
 }

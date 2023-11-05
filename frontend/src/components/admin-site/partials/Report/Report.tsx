@@ -312,7 +312,7 @@ function Report() {
             target="_blank"
           >
             <img
-              src={bestSellingProduct[0]?.thumbnail_url}
+              src={bestSellingProduct[0]?.products_thumbnail_url}
               alt=""
               className={styles["best-report-image"]}
             />
@@ -322,7 +322,7 @@ function Report() {
             target="_blank"
           >
             <p className={styles["best-report-overview-name"]}>
-              {bestSellingProduct[0]?.name || 0}
+              {bestSellingProduct[0]?.products_name || 0}
             </p>
           </NavLink>
           <div className={styles["best-report-overview-statistic"]}>
@@ -340,7 +340,7 @@ function Report() {
                 text="dark"
                 className={styles["best-report-overview-badge"]}
               >
-                Price: ${bestSellingProduct[0]?.price || 0}
+                Price: ${bestSellingProduct[0]?.products_price || 0}
               </Badge>
             </div>
           </div>
@@ -389,7 +389,7 @@ function Report() {
             target="_blank"
           >
             <img
-              src={bestBookingService[0]?.service_image || 0}
+              src={bestBookingService[0]?.services_service_image || 0}
               alt=""
               className={styles["best-report-image"]}
             />
@@ -399,7 +399,7 @@ function Report() {
             target="_blank"
           >
             <p className={styles["best-report-overview-name"]}>
-              {bestBookingService[0]?.name || 0}
+              {bestBookingService[0]?.services_name || 0}
             </p>
           </NavLink>
           <div className={styles["best-report-overview-statistic"]}>
@@ -417,7 +417,7 @@ function Report() {
                 text="dark"
                 className={styles["best-report-overview-badge"]}
               >
-                Price: ${bestBookingService[0]?.price || 0}
+                Price: ${bestBookingService[0]?.services_price || 0}
               </Badge>
             </div>
           </div>
