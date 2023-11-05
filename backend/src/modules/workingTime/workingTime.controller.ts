@@ -8,8 +8,8 @@ import {
   Post,
 } from '@nestjs/common';
 import { WorkingTimeService } from './workingTime.service';
-import { CreateWorkingTimeDTO } from './dto/create-workingTime.dto';
-import { UpdateWorkingTimeDTO } from './dto/update-workingTime.dto';
+import { CreateWorkingTimeDTO } from './dto/createWorkingTime';
+import { UpdateWorkingTimeDTO } from './dto/updateWorkingTime';
 import { ConfigModule } from '@nestjs/config';
 import { WorkingTimeEntity } from './database/entity/workingTime.entity';
 

@@ -95,20 +95,6 @@ function ManageBooking() {
     }
   };
 
-  // const handleDeleteBooking = (bookingId: number) => {
-  //   axios
-  //     .delete(`http://localhost:7373/bookings/${bookingId}`)
-  //     .then(() => {
-  //       notification.success({
-  //         message: "Booking Deleted",
-  //       });
-  //       fetchBooking(); // Cập nhật lại dữ liệu products sau khi xóa
-  //     })
-  //     .catch((error) => {
-  //       console.log(error.message);
-  //     });
-  // };
-
   return (
     <>
       <div className={styles["breadcrumb"]}>

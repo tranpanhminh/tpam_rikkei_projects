@@ -32,7 +32,7 @@ const AddModalUser: React.FC<AddModalProps> = ({
     email: "",
     full_name: "",
     password: "",
-    rePassword: "",
+    // rePassword: "",
   });
 
   const fetchUsers = () => {
@@ -66,7 +66,7 @@ const AddModalUser: React.FC<AddModalProps> = ({
           message: `Added Completed`,
         });
         setIsModalOpen(false);
-        setNewUser({ email: "", full_name: "", password: "", rePassword: "" });
+        setNewUser({ email: "", full_name: "", password: "" });
         handleClickOk();
       })
       .catch((error) => {
@@ -126,8 +126,8 @@ const AddModalUser: React.FC<AddModalProps> = ({
                 setNewUser({ ...newUser, password: e.target.value })
               }
             />
-          </div>{" "}
-          <div className={styles["list-input-item"]}>
+          </div>
+          {/* <div className={styles["list-input-item"]}>
             <p>Repassword</p>
             <input
               type="text"
@@ -136,7 +136,7 @@ const AddModalUser: React.FC<AddModalProps> = ({
                 setNewUser({ ...newUser, rePassword: e.target.value })
               }
             />
-          </div>
+          </div> */}
           {/* <div className={styles["list-input-item"]}>
             <p>Role</p>
             <select

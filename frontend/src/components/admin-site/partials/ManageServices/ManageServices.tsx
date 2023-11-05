@@ -4,7 +4,7 @@ import styles from "../../AdminPage.module.css";
 import { Service } from "../../../../database"; // Import your data fetching and setting functions
 import axios from "axios";
 import AddButtonService from "./Button/AddService/AddButtonService";
-import { Button, notification } from "antd";
+import { Button, notification, message } from "antd";
 import DetailButtonService from "./Button/DetailService/DetailButtonService";
 import { NavLink } from "react-router-dom";
 
@@ -18,6 +18,7 @@ function ManageServices() {
   document.title = "Manage Services | PetShop";
 
   const [services, setServices] = useState<any>(null);
+  const [messageApi, contextHolder] = message.useMessage();
   const [searchText, setSearchText] = useState<string>("");
 
   // Fetch API
@@ -57,11 +58,17 @@ function ManageServices() {
   // ------------------------------------------------
 
   // Handle Delete
-  const handleDeleteService = (serviceId: number) => {
-    axios
+  const handleDeleteService = async (serviceId: number) => {
+    messageApi.open({
+      type: "loading",
+      content: "Deleting...",
+      duration: 0,
+    });
+    await axios
       .delete(`${servicesAPI}/delete/${serviceId}`)
       .then(() => {
         fetchServices(); // Cập nhật lại dữ liệu products sau khi xóa
+        messageApi.destroy();
         notification.success({
           message: "Service Deleted",
         });
@@ -82,6 +89,7 @@ function ManageServices() {
 
   return (
     <>
+      {contextHolder}
       <div className={styles["breadcrumb"]}>
         <h2 className={styles["page-title"]}>Manage Services</h2>
         <p className={styles["page-description"]}>PetShop Admin Panel</p>
@@ -145,7 +153,7 @@ function ManageServices() {
                   <td>{service.price}</td>
                   <td>
                     <p>{service.working_time.morning_time}</p>
-                    <p>{service.working_time.morning_time}</p>
+                    <p>{service.working_time.afternoon_time}</p>
                   </td>
                   <td className={styles["group-btn-admin-manage-product"]}>
                     <NavLink to={`/services/${service.id}`} target="_blank">

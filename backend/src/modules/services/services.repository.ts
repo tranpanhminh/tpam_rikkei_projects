@@ -13,7 +13,9 @@ export class ServicesRepository {
 
   // 1. Get All
   async getAllServices() {
-    return await this.servicesEntity.find();
+    return await this.servicesEntity.find({
+      relations: { working_time: true },
+    });
   }
 
   // 2. Get Detail

@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import styles from "../UserProfile.module.css";
 import { Account } from "../../../../../database";
 import { useState } from "react";
-import { Button, Modal, notification } from "antd";
+import { Button, Modal, message, notification } from "antd";
 import axios from "axios";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 
@@ -14,6 +14,7 @@ const usersAPI = process.env.REACT_APP_API_USERS;
 function ClientEditProfile() {
   document.title = "My Profile | PetShop";
   const navigate = useNavigate();
+  const [messageApi, contextHolder] = message.useMessage();
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
   const [userFullName, setUserFullName] = useState("");
@@ -23,8 +24,8 @@ function ClientEditProfile() {
   const [avatar, setAvatar] = useState("");
   const [display, setDisplay] = useState("none");
   const [userPassword, setUserPassword] = useState<any>({
-    oldPassword: "",
-    newPassword: "",
+    old_password: "",
+    new_password: "",
   });
 
   const fetchUser = () => {
@@ -54,8 +55,8 @@ function ClientEditProfile() {
     setImage("");
     resetInputImage();
     setUserPassword({
-      oldPassword: "",
-      newPassword: "",
+      old_password: "",
+      new_password: "",
     });
     setIsModalOpen(false);
   };
@@ -112,7 +113,7 @@ function ClientEditProfile() {
     setAvatar(event?.target.files[0]);
   };
 
-  const updateAvatar = () => {
+  const updateAvatar = async () => {
     const formData: any = new FormData();
     formData.append("image_avatar", avatar);
     formData.append("_method", "PATCH");
@@ -121,9 +122,16 @@ function ClientEditProfile() {
         "Content-Type": "multipart/form-data",
       },
     };
-    axios
+    messageApi.open({
+      type: "loading",
+      content: "Loading...",
+      duration: 0,
+    });
+
+    await axios
       .patch(`${usersAPI}/edit-avatar/${getLoginData.id}`, formData, config)
       .then((response) => {
+        messageApi.destroy();
         notification.success({
           message: `${response.data.message}`,
         });
@@ -141,16 +149,16 @@ function ClientEditProfile() {
   // ------------------------------------------
 
   // Change Password
-  const changePassword = () => {
-    axios
+  const changePassword = async () => {
+    await axios
       .patch(`${usersAPI}/change-password/${getLoginData.id}`, userPassword)
       .then((response) => {
         notification.success({
           message: `${response.data.message}`,
         });
         setUserPassword({
-          oldPassword: "",
-          newPassword: "",
+          old_password: "",
+          new_password: "",
         });
         fetchUser();
         localStorage.clear();
@@ -167,6 +175,7 @@ function ClientEditProfile() {
   // ------------------------------------------
   return (
     <>
+      {contextHolder}
       <div className={styles["breadcrumb"]}>
         <h2 className={styles["page-title"]}>My Profile</h2>
         <p className={styles["page-description"]}>PetShop User Panel</p>
@@ -264,11 +273,11 @@ function ClientEditProfile() {
               <p>Old Password</p>
               <input
                 type="password"
-                value={userPassword.oldPassword}
+                value={userPassword.old_password}
                 onChange={(event) => {
                   setUserPassword({
                     ...userPassword,
-                    oldPassword: event?.target.value,
+                    old_password: event?.target.value,
                   });
                 }}
               />
@@ -277,11 +286,11 @@ function ClientEditProfile() {
               <p>New Password</p>
               <input
                 type="password"
-                value={userPassword.newPassword}
+                value={userPassword.new_password}
                 onChange={(event) => {
                   setUserPassword({
                     ...userPassword,
-                    newPassword: event?.target.value,
+                    new_password: event?.target.value,
                   });
                 }}
               />

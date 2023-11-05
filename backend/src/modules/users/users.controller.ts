@@ -8,13 +8,13 @@ import {
   Post,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateAdminDTO } from './dto/create-admin.dto';
+import { CreateAdminDTO } from './dto/createAdmin.dto';
 import { UpdateUserDTO } from './dto/updateUser.dto';
 import { ConfigModule } from '@nestjs/config';
 import { UsersEntity } from './database/entity/users.entity';
-import { UserRegisterDTO } from './dto/register-user.dto';
-import { ChangePasswordDTO } from './dto/change-password.dto';
-import { UpdateAvatarDTO } from './dto/update-avatar.dto';
+import { UserRegisterDTO } from './dto/registerUser.dto';
+import { ChangePasswordDTO } from './dto/changePassword.dto';
+import { UpdateAvatarDTO } from './dto/updateAvatar.dto';
 import { FormDataRequest } from 'nestjs-form-data';
 import { LoginDTO } from './dto/login.dto';
 import { DataTokenInterface } from './interface/dataToken.interface';

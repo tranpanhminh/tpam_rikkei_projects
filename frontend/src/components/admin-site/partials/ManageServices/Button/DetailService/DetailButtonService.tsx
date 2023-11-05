@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Button, Modal, notification } from "antd";
+import { Button, Modal, notification, message } from "antd";
 import { Product, Service } from "../../../../../../database";
 import { Editor } from "@tinymce/tinymce-react";
 import axios from "axios";
@@ -9,6 +9,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 // Import API
 // 1. Services API
 const servicesAPI = process.env.REACT_APP_API_SERVICES;
+const workingTimeAPI = process.env.REACT_APP_API_WORKING_TIME;
 
 // ------------------------------------------------
 
@@ -30,15 +31,17 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
 }) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [messageApi, contextHolder] = message.useMessage();
   const [image, setImage] = useState<any>("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [thumbnail, setThumbnail] = useState<any>(null);
   const [services, setServices] = useState<null | Service>(null);
+  const [workingTime, setWorkingTime] = useState<any>(null);
   const [serviceInfo, setServiceInfo] = useState<any>({
     name: "",
     description: "",
     price: 0,
-    working_time_id: 1,
+    working_time_id: "",
     service_image: "",
   });
 
@@ -65,7 +68,20 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
     fetchServices();
   }, [getServiceId]);
 
-  console.log(services);
+  useEffect(() => {
+    const fetchWorkingTime = () => {
+      axios
+        .get(`${workingTimeAPI}`)
+        .then((response) => {
+          setWorkingTime(response.data);
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    };
+
+    fetchWorkingTime();
+  }, []);
 
   const handleChange = (content: string, editor: any) => {
     setServiceInfo({
@@ -133,24 +149,29 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
 
     setServiceInfo({
       ...serviceInfo,
-      service_thumbnail: event.target.files[0],
+      service_image: event.target.files[0],
     });
   };
 
-  const handleUpdate = () => {
+  const handleUpdate = async () => {
     const formData: any = new FormData();
     formData.append("name", serviceInfo.name);
     formData.append("description", serviceInfo.description);
     formData.append("price", serviceInfo.price);
     formData.append("working_time_id", serviceInfo.working_time_id);
-    formData.append("service_image", serviceInfo.service_thumbnail);
+    formData.append("service_image", serviceInfo.service_image);
     formData.append("_method", "PATCH");
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     };
-    axios
+    messageApi.open({
+      type: "loading",
+      content: "Updating...",
+      duration: 0,
+    });
+    await axios
       .patch(`${servicesAPI}/update/${getServiceId}`, formData, config)
       .then((response) => {
         // Đặt giá trị của input type file về rỗng
@@ -166,6 +187,7 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
             //   message: `${error.response.data}`,
             // });
           });
+        messageApi.destroy();
         notification.success({
           message: `Service Updated`,
         });
@@ -173,7 +195,7 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
           name: "",
           description: "",
           price: 0,
-          working_time_id: 1,
+          working_time_id: "",
           service_image: "",
         });
         resetInputImage();
@@ -192,6 +214,7 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
 
   return (
     <>
+      {contextHolder}
       <Button
         type="primary"
         onClick={handleFunctionBtn || showModal}
@@ -276,6 +299,54 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
                     })
                   }
                 />
+              </div>{" "}
+              <div className={styles["product-info-item"]}>
+                <label className={styles["label-product"]} htmlFor="">
+                  Working Time
+                </label>
+                <select
+                  style={{ padding: 5 }}
+                  name=""
+                  id=""
+                  defaultValue={services && Number(services.working_time_id)}
+                  onChange={(event) =>
+                    setServiceInfo({
+                      ...serviceInfo,
+                      working_time_id: event.target.value,
+                    })
+                  }
+                >
+                  <option value="none" disabled>
+                    -- Select Working Time --
+                  </option>
+
+                  {workingTime &&
+                    workingTime.map((item: any) => {
+                      return (
+                        <option
+                          value={item.id}
+                          selected={
+                            services?.working_time_id === item.id ? true : false
+                          }
+                        >
+                          {item.morning_time} | {item.afternoon_time}
+                        </option>
+                      );
+                    })}
+                </select>
+
+                {/* <input
+                  type="number"
+                  min={0}
+                  name="Product Title"
+                  defaultValue={services && services.price}
+                  onChange={(event) =>
+                    setServiceInfo({
+                      ...serviceInfo,
+                      working_time_id: event.target.value,
+                    })
+                  }
+                /> */}
               </div>
               <div className={styles["product-info-item"]}>
                 <label className={styles["label-product"]} htmlFor="">

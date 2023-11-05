@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Modal, notification } from "antd";
+import { Button, Modal, notification, message } from "antd";
 import styles from "../../UserProfile.module.css";
 import axios from "axios";
 import Decimal from "decimal.js";
@@ -32,6 +32,7 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
   const [userOrder, setUserOrder] = useState<any>([]);
   const [orderItem, setOrderItem] = useState<any>([]);
   const [orderStatus, setOrderStatus] = useState("");
+  const [messageApi, contextHolder] = message.useMessage();
 
   // Fetch API
   const fetchUserOrder = async () => {
@@ -78,10 +79,16 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
     }
 
     const orderInfo = {
-      cancel_reason_id: reason,
+      cancel_reason_id: Number(reason),
     };
+    messageApi.open({
+      type: "loading",
+      content: "Loading...",
+      duration: 0,
+    });
     BaseAxios.patch(`${ordersAPI}/cancel-order/${orderId}`, orderInfo)
       .then((response) => {
+        messageApi.destroy();
         handleFunctionOk();
         fetchUserOrder();
         fetchOrderItems();
@@ -125,9 +132,9 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
       return cardNumber;
     }
   }
-
   return (
     <>
+      {contextHolder}
       <Button type="primary" onClick={showModal}>
         Detail
       </Button>

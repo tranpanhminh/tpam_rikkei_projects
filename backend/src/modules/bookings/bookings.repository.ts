@@ -68,6 +68,7 @@ export class BookingsRepository {
   async filterBookingByUserId(userId) {
     const bookings = await this.bookingsEntity.find({
       where: { user_id: userId },
+      relations: { users: true, booking_statuses: true },
     });
     return bookings;
   }

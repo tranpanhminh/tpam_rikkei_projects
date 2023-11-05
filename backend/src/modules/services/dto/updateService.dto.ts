@@ -23,6 +23,6 @@ export class UpdateServiceDTO {
   // @HasMimeType(['image/jpeg', 'image/png', 'image/jpg'])
   service_image?: MemoryStoredFile;
 
-  @IsNumberString({}, { message: 'Working Time should be number' })
+  @IsOptional({ message: 'Invalid Working Time' })
   working_time_id: number;
 }

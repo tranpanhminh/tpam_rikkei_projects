@@ -61,7 +61,7 @@ export class BookingsModule {
         method: RequestMethod.POST,
       });
     consumer.apply(CheckUserExist).forRoutes({
-      path: `${url}/filter/:userId`,
+      path: `${url}/filter/users/:userId`,
       method: RequestMethod.GET,
     });
     consumer

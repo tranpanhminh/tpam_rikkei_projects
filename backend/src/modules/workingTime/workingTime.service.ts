@@ -1,8 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { WorkingTimeRepository } from './workingTime.repository';
 import { WorkingTimeEntity } from './database/entity/workingTime.entity';
-import { CreateWorkingTimeDTO } from './dto/create-workingTime.dto';
-import { UpdateWorkingTimeDTO } from './dto/update-workingTime.dto';
+import { CreateWorkingTimeDTO } from './dto/createWorkingTime';
+import { UpdateWorkingTimeDTO } from './dto/updateWorkingTime';
 
 @Injectable()
 export class WorkingTimeService {

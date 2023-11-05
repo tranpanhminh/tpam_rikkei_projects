@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { Button, Modal, notification } from "antd";
+import { Button, Modal, message, notification } from "antd";
 // Import CSS
 import styles from "../UserProfile.module.css";
 import "../../../../../assets/bootstrap-5.3.0-dist/css/bootstrap.min.css";
@@ -19,7 +19,7 @@ const bookingStatusAPI = process.env.REACT_APP_API_BOOKING_STATUS;
 
 function ClientBooking() {
   document.title = "My Booking | PetShop";
-
+  const [messageApi, contextHolder] = message.useMessage();
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
   const [searchText, setSearchText] = useState<string>("");
@@ -73,10 +73,14 @@ function ClientBooking() {
   };
 
   const handleCancelBooking = (bookingId: number) => {
-    BaseAxios.patch(
-      `${bookingsAPI}/cancel-booking/${bookingId}/users/${getLoginData.id}`
-    )
+    messageApi.open({
+      type: "loading",
+      content: "Loading...",
+      duration: 0,
+    });
+    BaseAxios.patch(`${bookingsAPI}/cancel-booking/${bookingId}/`)
       .then((response) => {
+        messageApi.destroy();
         notification.success({
           message: `${response.data}`,
         });
@@ -106,6 +110,7 @@ function ClientBooking() {
 
   return (
     <div>
+      {contextHolder}
       <div className={styles.breadcrumb}>
         <h2 className={styles["page-title"]}>My Booking</h2>
         <p className={styles["page-description"]}>PetShop User Panel</p>
@@ -155,24 +160,24 @@ function ClientBooking() {
                   <td>{item.id}</td>
                   <td>{item.name}</td>
                   <td>{item.phone}</td>
-                  <td>{item.service.name}</td>
+                  <td>{item.service_name}</td>
                   <td>{moment(item.date).format("YYYY-MM-DD-hh:mm:ss")}</td>
                   <td>{`${item.booking_date} | ${item.calendar}`}</td>
                   {/* <td>${item.price}</td> */}
                   <td>
-                    <Badge bg={changeColor(item.booking_status.name)}>
-                      {item.booking_status.name}
+                    <Badge bg={changeColor(item.booking_statuses.name)}>
+                      {item.booking_statuses.name}
                     </Badge>
                   </td>
                   <td>
-                    {item.booking_status.name === "Pending" ? (
+                    {item.booking_statuses.name === "Pending" ? (
                       <Button
                         type="primary"
                         danger
                         disabled={
-                          item.booking_status.name === "Done" ||
-                          item.booking_status.name === "Processing" ||
-                          item.booking_status.name === "Cancel"
+                          item.booking_statuses.name === "Done" ||
+                          item.booking_statuses.name === "Processing" ||
+                          item.booking_statuses.name === "Cancel"
                             ? true
                             : false
                         }

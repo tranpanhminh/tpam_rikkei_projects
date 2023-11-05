@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Button, Modal, notification } from "antd";
+import { Button, Modal, notification, message } from "antd";
 import styles from "../AddService/AddButtonService.module.css";
 import { Service } from "../../../../../../database";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -27,6 +27,7 @@ const AddModalService: React.FC<AddModalProps> = ({
   handleClickOk,
 }) => {
   const navigate = useNavigate();
+  const [messageApi, contextHolder] = message.useMessage();
   const [services, setServices] = useState<any>(null);
   const [workingTime, setWorkingTime] = useState<any>(null);
   const [editorInitialValue, setEditorInitialValue] = useState("");
@@ -135,7 +136,40 @@ const AddModalService: React.FC<AddModalProps> = ({
     }
   };
 
-  const handleAddService = () => {
+  const handleAddService = async () => {
+    if (!serviceInfo.name) {
+      return notification.warning({
+        message: "Name must not be blank",
+      });
+    }
+
+    if (!serviceInfo.description) {
+      return notification.warning({
+        message: "Description must not be blank",
+      });
+    }
+    if (!serviceInfo.price) {
+      return notification.warning({
+        message: "Price must not be blank",
+      });
+    }
+    if (Number(serviceInfo.price) < 0) {
+      return notification.warning({
+        message: "Price must not be < 0",
+      });
+    }
+    if (!serviceInfo.working_time_id) {
+      return notification.warning({
+        message: "Working Time must not be blank",
+      });
+    }
+
+    if (!serviceInfo.service_image) {
+      return notification.warning({
+        message: "Service Image must not be blank",
+      });
+    }
+
     const formData = new FormData();
     formData.append("name", serviceInfo.name);
     formData.append("description", serviceInfo.description);
@@ -148,9 +182,17 @@ const AddModalService: React.FC<AddModalProps> = ({
         "Content-Type": "multipart/form-data",
       },
     };
-    axios
+
+    messageApi.open({
+      type: "loading",
+      content: "Adding...",
+      duration: 0,
+    });
+
+    await axios
       .post(`${servicesAPI}/add`, formData, config)
       .then((response) => {
+        messageApi.destroy();
         notification.success({
           message: `Service Added`,
         });
@@ -179,6 +221,7 @@ const AddModalService: React.FC<AddModalProps> = ({
 
   return (
     <>
+      {contextHolder}
       <Button
         type="primary"
         onClick={showModal}

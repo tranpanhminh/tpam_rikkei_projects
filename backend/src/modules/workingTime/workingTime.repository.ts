@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { WorkingTimeEntity } from './database/entity/workingTime.entity';
-import { CreateWorkingTimeDTO } from './dto/create-workingTime.dto';
-import { UpdateWorkingTimeDTO } from './dto/update-workingTime.dto';
+import { CreateWorkingTimeDTO } from './dto/createWorkingTime';
+import { UpdateWorkingTimeDTO } from './dto/updateWorkingTime';
 
 @Injectable()
 export class WorkingTimeRepository {

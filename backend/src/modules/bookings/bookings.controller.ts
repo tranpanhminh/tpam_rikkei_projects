@@ -55,7 +55,7 @@ export class BookingsController {
   }
 
   // 4. Filter Booking By User ID
-  @Get('/filter/:userId')
+  @Get('/filter/users/:userId')
   async filterBookingByUserId(@Param('userId') userId: number) {
     const result = await this.bookingsService.filterBookingByUserId(userId);
     return result;

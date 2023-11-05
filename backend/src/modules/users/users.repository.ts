@@ -4,8 +4,8 @@ import { Repository } from 'typeorm';
 import { UsersEntity } from './database/entity/users.entity';
 import { UpdateUserDTO } from './dto/updateUser.dto';
 import { UsersInterface } from './interface/users.interface';
-import { UpdateStatusUserDTO } from './dto/change-status-user.dto';
-import { UpdatePasswordDTO } from './dto/update-password.dto';
+import { UpdateStatusUserDTO } from './dto/changeStatusUser.dto';
+import { UpdatePasswordDTO } from './dto/updatePassword.dto';
 import { UserInfoLoginInterface } from './interface/userInfoLogin.interface';
 
 @Injectable()
