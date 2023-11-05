@@ -1,8 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CancelReasonsRepository } from './cancelReasons.repository';
 import { CancelReasonsEntity } from './database/entity/cancelReasons.entity';
-import { CreateCancelReasonDTO } from './dto/create-cancelReason.dto';
-import { UpdateCancelReasonDTO } from './dto/update-cancelReason.dto';
+import { CreateCancelReasonDTO } from './dto/createCancelReason.dto';
+import { UpdateCancelReasonDTO } from './dto/updateCancelReason.dto';
 
 @Injectable()
 export class CancelReasonsService {

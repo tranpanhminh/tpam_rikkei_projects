@@ -6,12 +6,15 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { OrderStatusesService } from './orderStatuses.service';
 import { CreateOrderStatusDTO } from './dto/create-orderStatus.dto';
 import { UpdateOrderStatusDTO } from './dto/update-orderStatus.dto';
 import { ConfigModule } from '@nestjs/config';
 import { OrderStatusesEntity } from './database/entity/orderStatuses.entity';
+import { AuthenticationGuard } from 'src/guards/authentication.guard';
+import { AuthorizationAdminGuard } from 'src/guards/authorizationAdmin.guard';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -42,6 +45,7 @@ export class OrderStatusesController {
 
   // 3. Add
   @Post('/add')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async addOrderStatus(
     @Body() body: CreateOrderStatusDTO,
   ): Promise<OrderStatusesEntity | unknown> {
@@ -52,6 +56,7 @@ export class OrderStatusesController {
 
   // 4. Delete
   @Delete('/delete/:id')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async deleteOrderStatus(
     @Param('id') id: number,
   ): Promise<OrderStatusesEntity | unknown> {
@@ -62,6 +67,7 @@ export class OrderStatusesController {
 
   // 5. Update
   @Patch('update/:id')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async updateOrderStatus(
     @Param('id') id: number,
     @Body() body: UpdateOrderStatusDTO,

@@ -14,6 +14,7 @@ import { CreateBookingDTO } from './dto/createBooking.dto';
 import { UpdateBookingDTO } from './dto/updateBooking.dto';
 import { AuthenticationGuard } from 'src/guards/authentication.guard';
 import { AuthorizationAdminGuard } from 'src/guards/authorizationAdmin.guard';
+import { AuthorizationCustomerGuard } from 'src/guards/authorizationCustomer.guard';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -22,7 +23,6 @@ const path = process.env.SERVER_PATH;
 
 // -------------------------------------------------------
 @Controller(`${path}/bookings`)
-@UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
 export class BookingsController {
   constructor(private readonly bookingsService: BookingsService) {}
 
@@ -45,6 +45,7 @@ export class BookingsController {
 
   // 3. Add
   @Post('/add/users/:userId/services/:id')
+  @UseGuards(AuthenticationGuard, AuthorizationCustomerGuard)
   async addBooking(
     @Param() params: { userId: number; id: number },
     @Body() body: CreateBookingDTO,
@@ -59,6 +60,7 @@ export class BookingsController {
 
   // 4. Filter Booking By User ID
   @Get('/filter/users/:userId')
+  @UseGuards(AuthenticationGuard)
   async filterBookingByUserId(@Param('userId') userId: number) {
     const result = await this.bookingsService.filterBookingByUserId(userId);
     return result;
@@ -66,6 +68,7 @@ export class BookingsController {
 
   // 5. Cancel Booking
   @Patch('/cancel-booking/:id')
+  @UseGuards(AuthenticationGuard, AuthorizationCustomerGuard)
   async cancelBooking(
     @Param('id') id: number,
   ): Promise<BookingsEntity | unknown> {
@@ -74,8 +77,9 @@ export class BookingsController {
     return result;
   }
 
-  // 6. Update Booknig For Admin
+  // 6. Update Booking For Admin
   @Patch('update/:id')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async updateBooking(
     @Param('id') id: number,
     @Body() body: UpdateBookingDTO,

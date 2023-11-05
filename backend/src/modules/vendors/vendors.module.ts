@@ -5,6 +5,11 @@ import { VendorsRepository } from './vendors.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { VendorsEntity } from './database/entity/vendors.entity';
 import { CheckVendorExist } from 'src/middlewares/checkVendorExist.middleware';
+import { UsersEntity } from '../users/database/entity/users.entity';
+import { JwtModule } from '@nestjs/jwt';
+import { UsersService } from '../users/users.service';
+import { UsersRepository } from '../users/users.repository';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 const path = process.env.SERVER_PATH;
 const url = `${path}/vendors`;
@@ -12,9 +17,15 @@ const url = `${path}/vendors`;
 // ----------------------------------------------------
 
 @Module({
-  imports: [TypeOrmModule.forFeature([VendorsEntity])],
+  imports: [TypeOrmModule.forFeature([VendorsEntity, UsersEntity]), JwtModule],
   controllers: [VendorsController],
-  providers: [VendorsService, VendorsRepository],
+  providers: [
+    VendorsService,
+    VendorsRepository,
+    UsersService,
+    UsersRepository,
+    CloudinaryService,
+  ],
 })
 export class VendorsModule {
   configure(consumer: MiddlewareConsumer) {

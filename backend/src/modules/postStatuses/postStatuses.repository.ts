@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PostStatusesEntity } from './database/entity/postStatuses.entity';
-import { CreatePostStatusDTO } from './dto/create-postStatus.dto';
-import { UpdatePostStatusDTO } from './dto/update-postStatus.dto';
+import { CreatePostStatusDTO } from './dto/createPostStatus.dto';
+import { UpdatePostStatusDTO } from './dto/updatePostStatus.dto';
 
 @Injectable()
 export class PostStatusesRepository {

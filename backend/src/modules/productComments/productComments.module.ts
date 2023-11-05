@@ -15,6 +15,8 @@ import { UsersRepository } from '../users/users.repository';
 import { CheckProductCommentExist } from 'src/middlewares/checkProductCommentExist.middleware';
 import { CheckUserExist } from 'src/middlewares/checkUserExist.middleware';
 import { CheckProductExist } from 'src/middlewares/checkProductExist.middleware';
+import { UsersService } from '../users/users.service';
+import { JwtModule } from '@nestjs/jwt';
 
 const path = process.env.SERVER_PATH;
 const url = `${path}/comments/products`;
@@ -28,6 +30,7 @@ const url = `${path}/comments/products`;
       ProductImagesEntity,
       UsersEntity,
     ]),
+    JwtModule,
     NestjsFormDataModule,
   ],
   controllers: [ProductCommentsController],
@@ -38,6 +41,7 @@ const url = `${path}/comments/products`;
     ProductsRepository,
     ProductImagesRepository,
     UsersRepository,
+    UsersService,
   ],
 })
 export class ProductCommentsModule {

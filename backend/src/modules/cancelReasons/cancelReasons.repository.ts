@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CancelReasonsEntity } from './database/entity/cancelReasons.entity';
-import { CreateCancelReasonDTO } from './dto/create-cancelReason.dto';
-import { UpdateCancelReasonDTO } from './dto/update-cancelReason.dto';
+import { CreateCancelReasonDTO } from './dto/createCancelReason.dto';
+import { UpdateCancelReasonDTO } from './dto/updateCancelReason.dto';
 
 @Injectable()
 export class CancelReasonsRepository {

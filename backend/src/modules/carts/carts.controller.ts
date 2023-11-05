@@ -9,12 +9,13 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CartsService } from './carts.service';
-import { AddToCartDTO } from './dto/add-to-cart.dto';
+import { AddToCartDTO } from './dto/addToCart.dto';
 import { ConfigModule } from '@nestjs/config';
 import { CartsEntity } from './database/entity/carts.entity';
 import { UpdateQuantityProductInCartDTO } from './interface/update-quantity-product.interface';
 import { AuthenticationGuard } from 'src/guards/authentication.guard';
 import { AuthorizationCustomerGuard } from 'src/guards/authorizationCustomer.guard';
+import { AuthorizationAdminGuard } from 'src/guards/authorizationAdmin.guard';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -28,7 +29,7 @@ export class CartsController {
 
   // 1. Get All
   @Get()
-  @UseGuards(AuthenticationGuard)
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async getAllCarts() {
     const result = await this.cartsService.getAllCarts();
     return result;
@@ -36,7 +37,7 @@ export class CartsController {
 
   // 2. Get Detail
   @Get('/detail/users/:userId')
-  @UseGuards(AuthenticationGuard)
+  @UseGuards(AuthenticationGuard, AuthorizationCustomerGuard)
   async getDetailCartByUser(
     @Param('userId') userId: number,
   ): Promise<CartsEntity | unknown> {

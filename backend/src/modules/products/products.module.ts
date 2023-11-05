@@ -10,6 +10,10 @@ import { ProductImagesEntity } from '../productImages/database/entity/productIma
 import { ProductImagesRepository } from '../productImages/productImages.repository';
 import { CheckProductExist } from 'src/middlewares/checkProductExist.middleware';
 import { CheckProductImageExist } from 'src/middlewares/checkProductImageExist.middleware';
+import { UsersEntity } from '../users/database/entity/users.entity';
+import { JwtModule } from '@nestjs/jwt';
+import { UsersRepository } from '../users/users.repository';
+import { UsersService } from '../users/users.service';
 
 const path = process.env.SERVER_PATH;
 const url = `${path}/products`;
@@ -18,7 +22,12 @@ const url = `${path}/products`;
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([ProductsEntity, ProductImagesEntity]),
+    TypeOrmModule.forFeature([
+      ProductsEntity,
+      ProductImagesEntity,
+      UsersEntity,
+    ]),
+    JwtModule,
     NestjsFormDataModule,
   ],
   controllers: [ProductsController],
@@ -27,6 +36,8 @@ const url = `${path}/products`;
     ProductsRepository,
     CloudinaryService,
     ProductImagesRepository,
+    UsersRepository,
+    UsersService,
   ],
   exports: [ProductsRepository],
 })

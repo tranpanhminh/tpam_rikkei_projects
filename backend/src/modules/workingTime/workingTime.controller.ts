@@ -6,12 +6,15 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { WorkingTimeService } from './workingTime.service';
 import { CreateWorkingTimeDTO } from './dto/createWorkingTime';
 import { UpdateWorkingTimeDTO } from './dto/updateWorkingTime';
 import { ConfigModule } from '@nestjs/config';
 import { WorkingTimeEntity } from './database/entity/workingTime.entity';
+import { AuthenticationGuard } from 'src/guards/authentication.guard';
+import { AuthorizationAdminGuard } from 'src/guards/authorizationAdmin.guard';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -42,6 +45,7 @@ export class WorkingTimeController {
 
   // 3. Add
   @Post('/add')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async addWorkingTime(
     @Body() body: CreateWorkingTimeDTO,
   ): Promise<WorkingTimeEntity | unknown> {
@@ -52,6 +56,7 @@ export class WorkingTimeController {
 
   // 4. Delete
   @Delete('/delete/:id')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async deleteWorkingTime(
     @Param('id') id: number,
   ): Promise<WorkingTimeEntity | unknown> {
@@ -62,6 +67,7 @@ export class WorkingTimeController {
 
   // 5. Update
   @Patch('update/:id')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async updateWorkingTime(
     @Param('id') id: number,
     @Body() body: UpdateWorkingTimeDTO,

@@ -17,7 +17,7 @@ export class OrderItemsController {
 
   // 1. Get All
   @Get()
-  @UseGuards(AuthenticationGuard)
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async getAllOrderItems() {
     const result = await this.orderItemsService.getAllOrderItems();
     return result;

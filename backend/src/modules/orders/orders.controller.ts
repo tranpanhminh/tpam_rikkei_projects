@@ -32,7 +32,7 @@ export class OrdersController {
 
   // 1. Get All
   @Get()
-  @UseGuards(AuthenticationGuard)
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async getAllOrders() {
     const result = await this.ordersService.getAllOrders();
     return result;

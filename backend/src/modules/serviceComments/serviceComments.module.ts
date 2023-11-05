@@ -17,6 +17,8 @@ import { CheckServiceExist } from 'src/middlewares/checkServiceExist.middleware.
 import { CheckUserExist } from 'src/middlewares/checkUserExist.middleware';
 import { ServicesEntity } from '../services/database/entity/services.entity';
 import { ServicesRepository } from '../services/services.repository';
+import { JwtModule } from '@nestjs/jwt';
+import { UsersService } from '../users/users.service';
 
 const path = process.env.SERVER_PATH;
 const url = `${path}/comments/services`;
@@ -31,6 +33,7 @@ const url = `${path}/comments/services`;
       UsersEntity,
       ServicesEntity,
     ]),
+    JwtModule,
     NestjsFormDataModule,
   ],
   controllers: [ServiceCommentsController],
@@ -42,6 +45,7 @@ const url = `${path}/comments/services`;
     ProductImagesRepository,
     UsersRepository,
     ServicesRepository,
+    UsersService,
   ],
 })
 export class ServiceCommentsModule {

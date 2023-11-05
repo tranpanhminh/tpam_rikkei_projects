@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { ConfigModule } from '@nestjs/config';
@@ -13,6 +14,8 @@ import { PostsEntity } from './database/entity/posts.entity';
 import { FormDataRequest } from 'nestjs-form-data';
 import { CreatePostDTO } from './dto/createPost.dto';
 import { UpdatePostDTO } from './dto/updatePost.dto';
+import { AuthenticationGuard } from 'src/guards/authentication.guard';
+import { AuthorizationAdminGuard } from 'src/guards/authorizationAdmin.guard';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -41,6 +44,7 @@ export class PostsController {
 
   // 3. Add
   @Post('/add')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   @FormDataRequest()
   async addPost(
     @Body() body: CreatePostDTO,
@@ -51,6 +55,7 @@ export class PostsController {
 
   // 4. Delete
   @Delete('/delete/:id')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async deletePost(@Param('id') id: number): Promise<PostsEntity | unknown> {
     const result: string | unknown = await this.postsService.deletePost(id);
     return result;
@@ -58,6 +63,7 @@ export class PostsController {
 
   // 5. Update
   @Patch('update/:id')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   @FormDataRequest()
   async updatePost(
     @Param('id') id: number,

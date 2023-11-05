@@ -1,8 +1,18 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { ServiceCommentsService } from './serviceComments.service';
 import { ConfigModule } from '@nestjs/config';
 import { ServiceCommentsEntity } from './database/entity/serviceComments.entity';
 import { CreateServiceCommentDTO } from './dto/createServiceComment.dto';
+import { AuthenticationGuard } from 'src/guards/authentication.guard';
+import { AuthorizationAdminGuard } from 'src/guards/authorizationAdmin.guard';
 // import { CheckServiceCommentExist } from "src/pipes/checkServiceCommentExist.pipe";
 // import { CheckProductAndUserExist } from "src/pipes/checkProductAndUserExist.pipe";
 // import { CheckProductExist } from "src/pipes/checkProductExist.pipe";
@@ -38,6 +48,7 @@ export class ServiceCommentsController {
 
   // // 3. Add
   @Post('/add/:id/users/:userId')
+  @UseGuards(AuthenticationGuard)
   async addServiceComment(
     @Param() param: { id: number; userId: number },
     @Body() body: CreateServiceCommentDTO,
@@ -53,6 +64,7 @@ export class ServiceCommentsController {
 
   // 4. Delete
   @Delete('/delete/:id')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async deleteServiceComment(
     @Param('id') id: number,
     // @Param('id', CheckServiceCommentExist) id: number,

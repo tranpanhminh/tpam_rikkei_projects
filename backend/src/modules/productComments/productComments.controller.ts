@@ -1,8 +1,18 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { ProductCommentsService } from './productComments.service';
 import { ConfigModule } from '@nestjs/config';
 import { ProductCommentsEntity } from './database/entity/productComments.entity';
 import { CreateProductCommentDTO } from './dto/create-product-comment.dto';
+import { AuthenticationGuard } from 'src/guards/authentication.guard';
+import { AuthorizationAdminGuard } from 'src/guards/authorizationAdmin.guard';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -33,8 +43,9 @@ export class ProductCommentsController {
     return result;
   }
 
-  // // 3. Add
+  // 3. Add
   @Post('/add/:id/users/:userId')
+  @UseGuards(AuthenticationGuard)
   async addProductComment(
     @Param() param: { id: number; userId: number },
     @Body() body: CreateProductCommentDTO,
@@ -50,6 +61,7 @@ export class ProductCommentsController {
 
   // 4. Delete
   @Delete('/delete/:id')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async deleteProductComment(
     @Param('id') id: number,
     // @Param('id', CheckProductCommentExist) id: number,

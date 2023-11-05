@@ -6,12 +6,15 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { VendorsService } from './vendors.service';
 import { CreateVendorDTO } from './dto/create-vendor.dto';
 import { UpdateVendorDTO } from './dto/update-vendor.dto';
 import { ConfigModule } from '@nestjs/config';
 import { VendorsEntity } from './database/entity/vendors.entity';
+import { AuthenticationGuard } from 'src/guards/authentication.guard';
+import { AuthorizationAdminGuard } from 'src/guards/authorizationAdmin.guard';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -42,6 +45,7 @@ export class VendorsController {
 
   // 3. Add
   @Post('/add')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async addVendor(
     @Body() body: CreateVendorDTO,
   ): Promise<VendorsEntity | unknown> {
@@ -51,6 +55,7 @@ export class VendorsController {
 
   // 4. Delete
   @Delete('/delete/:id')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async deleteVendor(
     @Param('id') id: number,
   ): Promise<VendorsEntity | unknown> {
@@ -60,6 +65,7 @@ export class VendorsController {
 
   // 5. Update
   @Patch('update/:id')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async updateVendor(
     @Param('id') id: number,
     @Body() body: UpdateVendorDTO,

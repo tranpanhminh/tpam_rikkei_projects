@@ -23,7 +23,6 @@ const path = process.env.SERVER_PATH;
 
 // -------------------------------------------------------
 @Controller(`${path}/coupons`)
-@UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
 export class CouponsController {
   constructor(private readonly couponsService: CouponsService) {}
 
@@ -46,6 +45,7 @@ export class CouponsController {
 
   // 3. Add
   @Post('/add')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async addCoupon(
     @Body() body: CreateCouponDTO,
   ): Promise<CouponsEntity | unknown> {
@@ -55,6 +55,7 @@ export class CouponsController {
 
   // 4. Delete
   @Delete('/delete/:id')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async deleteCoupon(
     @Param('id') id: number,
   ): Promise<CouponsEntity | unknown> {
@@ -64,6 +65,7 @@ export class CouponsController {
 
   // 5. Update
   @Patch('update/:id')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async updateCoupon(
     @Param('id') id: number,
     @Body() body: UpdateCouponDTO,

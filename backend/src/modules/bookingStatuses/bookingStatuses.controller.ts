@@ -9,8 +9,8 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { BookingStatusesService } from './bookingStatuses.service';
-import { CreateBookingStatusDTO } from './dto/create-bookingStatus.dto';
-import { UpdateBookingStatusDTO } from './dto/update-bookingStatus.dto';
+import { CreateBookingStatusDTO } from './dto/createBookingStatus.dto';
+import { UpdateBookingStatusDTO } from './dto/updateBookingStatus.dto';
 import { ConfigModule } from '@nestjs/config';
 import { BookingStatusesEntity } from './database/entity/bookingStatuses.entity';
 import { AuthenticationGuard } from 'src/guards/authentication.guard';
@@ -23,7 +23,6 @@ const path = process.env.SERVER_PATH;
 
 // -------------------------------------------------------
 @Controller(`${path}/booking-statuses`)
-@UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
 export class BookingStatusesController {
   constructor(
     private readonly bookingStatusesService: BookingStatusesService,
@@ -48,6 +47,7 @@ export class BookingStatusesController {
 
   // 3. Add
   @Post('/add')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async addBookingStatus(
     @Body() body: CreateBookingStatusDTO,
   ): Promise<BookingStatusesEntity | unknown> {
@@ -58,6 +58,7 @@ export class BookingStatusesController {
 
   // 4. Delete
   @Delete('/delete/:id')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async deleteBookingStatus(
     @Param('id') id: number,
   ): Promise<BookingStatusesEntity | unknown> {
@@ -68,6 +69,7 @@ export class BookingStatusesController {
 
   // 5. Update
   @Patch('update/:id')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async updateBookingStatus(
     @Param('id') id: number,
     @Body() body: UpdateBookingStatusDTO,

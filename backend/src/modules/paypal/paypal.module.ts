@@ -13,8 +13,6 @@ import { ProductsEntity } from '../products/database/entity/products.entity';
 import { ProductImagesEntity } from '../productImages/database/entity/productImages.entity';
 import { ProductImagesRepository } from '../productImages/productImages.repository';
 import { UsersRepository } from '../users/users.repository';
-import { OrdersModule } from '../orders/orders.module';
-import { OrderItemsModule } from '../orderItems/orderItems.module';
 import { UsersEntity } from '../users/database/entity/users.entity';
 
 @Module({

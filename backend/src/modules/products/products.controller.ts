@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDTO } from './dto/createProduct.dto';
@@ -14,6 +15,8 @@ import { ConfigModule } from '@nestjs/config';
 import { ProductsEntity } from './database/entity/products.entity';
 import { FormDataRequest } from 'nestjs-form-data';
 import { UpdateProductImageDTO } from './dto/updateProductImage.dto';
+import { AuthenticationGuard } from 'src/guards/authentication.guard';
+import { AuthorizationAdminGuard } from 'src/guards/authorizationAdmin.guard';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -46,6 +49,7 @@ export class ProductsController {
 
   // 3. Add
   @Post('/add')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   @FormDataRequest()
   async addProduct(
     @Body() body: CreateProductDTO,
@@ -57,6 +61,7 @@ export class ProductsController {
 
   // 4. Delete
   @Delete('/delete/:id')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async deleteProduct(
     @Param('id') id: number,
   ): Promise<ProductsEntity | unknown> {
@@ -67,6 +72,7 @@ export class ProductsController {
 
   // 5. Update
   @Patch('/update/:id')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async updateProduct(
     @Param('id') id: number,
     @Body() body: UpdateProductDTO,
@@ -81,6 +87,7 @@ export class ProductsController {
 
   // 6. Change Thumbnail
   @Patch('/:id/update-thumbnail/:imageId')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async changeThumbnail(
     @Param() params,
   ): Promise<ProductsEntity | unknown | any> {
@@ -93,6 +100,7 @@ export class ProductsController {
 
   // 7. Update Product Image
   @Patch('/:id/update-image/:imageId')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   @FormDataRequest()
   async updateProductImage(
     @Param() params,

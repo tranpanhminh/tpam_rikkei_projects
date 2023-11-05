@@ -30,9 +30,6 @@ import { BookingsModule } from './modules/bookings/bookings.module';
 import { PostsModule } from './modules/posts/posts.module';
 import { PagesModule } from './modules/pages/pages.module';
 import { JwtModule, JwtService } from '@nestjs/jwt';
-import { UsersService } from './modules/users/users.service';
-import { UsersRepository } from './modules/users/users.repository';
-import { UsersEntity } from './modules/users/database/entity/users.entity';
 
 @Module({
   imports: [

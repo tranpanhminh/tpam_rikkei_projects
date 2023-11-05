@@ -43,7 +43,7 @@ export class UsersController {
 
   // 2. Get Detail
   @Get('/detail/:userId')
-  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
+  @UseGuards(AuthenticationGuard)
   async getDetailUser(
     @Param('userId') userId: number,
   ): Promise<UsersEntity | unknown> {

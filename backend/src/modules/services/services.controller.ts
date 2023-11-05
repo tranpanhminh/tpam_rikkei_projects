@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { ServicesService } from './services.service';
 import { ConfigModule } from '@nestjs/config';
@@ -13,6 +14,8 @@ import { ServicesEntity } from './database/entity/services.entity';
 import { CreateServiceDTO } from './dto/createService.dto';
 import { FormDataRequest } from 'nestjs-form-data';
 import { UpdateServiceDTO } from './dto/updateService.dto';
+import { AuthenticationGuard } from 'src/guards/authentication.guard';
+import { AuthorizationAdminGuard } from 'src/guards/authorizationAdmin.guard';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -43,6 +46,7 @@ export class ServicesController {
 
   // 3. Add
   @Post('/add')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   @FormDataRequest()
   async addService(
     @Body() body: CreateServiceDTO,
@@ -54,6 +58,7 @@ export class ServicesController {
 
   // 4. Delete
   @Delete('/delete/:id')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async deleteService(
     @Param('id') id: number,
   ): Promise<ServicesEntity | unknown> {
@@ -64,6 +69,7 @@ export class ServicesController {
 
   // 5. Update
   @Patch('update/:id')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   @FormDataRequest()
   async updateService(
     @Param('id') id: number,

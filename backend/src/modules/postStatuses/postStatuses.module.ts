@@ -5,6 +5,11 @@ import { PostStatusesRepository } from './postStatuses.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostStatusesEntity } from './database/entity/postStatuses.entity';
 import { CheckPostStatusExist } from 'src/middlewares/checkPostStatusExist.middleware';
+import { UsersEntity } from '../users/database/entity/users.entity';
+import { JwtModule } from '@nestjs/jwt';
+import { UsersService } from '../users/users.service';
+import { UsersRepository } from '../users/users.repository';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 const path = process.env.SERVER_PATH;
 const url = `${path}/post-statuses`;
@@ -12,9 +17,18 @@ const url = `${path}/post-statuses`;
 // -------------------------------------------------------
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PostStatusesEntity])],
+  imports: [
+    TypeOrmModule.forFeature([PostStatusesEntity, UsersEntity]),
+    JwtModule,
+  ],
   controllers: [PostStatusesController],
-  providers: [PostStatusesService, PostStatusesRepository],
+  providers: [
+    PostStatusesService,
+    PostStatusesRepository,
+    UsersService,
+    UsersRepository,
+    CloudinaryService,
+  ],
 })
 export class PostStatusesModule {
   configure(consumer: MiddlewareConsumer) {

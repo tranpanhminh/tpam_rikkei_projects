@@ -9,13 +9,18 @@ import { CheckPostExist } from 'src/middlewares/checkPostExist.middleware';
 import { NestjsFormDataModule } from 'nestjs-form-data';
 import { PostStatusesRepository } from '../postStatuses/postStatuses.repository';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
+import { UsersEntity } from '../users/database/entity/users.entity';
+import { JwtModule } from '@nestjs/jwt';
+import { UsersRepository } from '../users/users.repository';
+import { UsersService } from '../users/users.service';
 
 const path = process.env.SERVER_PATH;
 const url = `${path}/posts`;
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([PostsEntity, PostStatusesEntity]),
+    TypeOrmModule.forFeature([PostsEntity, PostStatusesEntity, UsersEntity]),
+    JwtModule,
     NestjsFormDataModule,
   ],
   controllers: [PostsController],
@@ -24,6 +29,8 @@ const url = `${path}/posts`;
     PostsRepository,
     PostStatusesRepository,
     CloudinaryService,
+    UsersRepository,
+    UsersService,
   ],
 })
 export class PostsModule {

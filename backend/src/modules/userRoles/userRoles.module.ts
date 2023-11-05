@@ -5,6 +5,11 @@ import { UserRolesRepository } from './userRoles.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserRolesEntity } from './database/entity/userRoles.entity';
 import { CheckUserRoleExist } from 'src/middlewares/checkUserRoleExist.middleware';
+import { UsersEntity } from '../users/database/entity/users.entity';
+import { UsersRepository } from '../users/users.repository';
+import { UsersService } from '../users/users.service';
+import { JwtModule } from '@nestjs/jwt';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 const path = process.env.SERVER_PATH;
 const url = `${path}/user-roles`;
@@ -12,9 +17,18 @@ const url = `${path}/user-roles`;
 // -------------------------------------------------------
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserRolesEntity])],
+  imports: [
+    TypeOrmModule.forFeature([UserRolesEntity, UsersEntity]),
+    JwtModule,
+  ],
   controllers: [UserRolesController],
-  providers: [UserRolesService, UserRolesRepository],
+  providers: [
+    UserRolesService,
+    UserRolesRepository,
+    UsersRepository,
+    UsersService,
+    CloudinaryService,
+  ],
 })
 export class UserRolesModule {
   configure(consumer: MiddlewareConsumer) {

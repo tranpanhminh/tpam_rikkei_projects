@@ -6,12 +6,15 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { UserRolesService } from './userRoles.service';
 import { CreateUserRoleDTO } from './dto/create-userRole.dto';
 import { UpdateUserRoleDTO } from './dto/update-userRole.dto';
 import { ConfigModule } from '@nestjs/config';
 import { UserRolesEntity } from './database/entity/userRoles.entity';
+import { AuthenticationGuard } from 'src/guards/authentication.guard';
+import { AuthorizationAdminGuard } from 'src/guards/authorizationAdmin.guard';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -42,6 +45,7 @@ export class UserRolesController {
 
   // 3. Add
   @Post('/add')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async addUserRole(
     @Body() body: CreateUserRoleDTO,
   ): Promise<UserRolesEntity | unknown> {
@@ -52,6 +56,7 @@ export class UserRolesController {
 
   // 4. Delete
   @Delete('/delete/:id')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async deleteUserRole(
     @Param('id') id: number,
   ): Promise<UserRolesEntity | unknown> {
@@ -62,6 +67,7 @@ export class UserRolesController {
 
   // 5. Update
   @Patch('update/:id')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async updateUserRole(
     @Param('id') id: number,
     @Body() body: UpdateUserRoleDTO,

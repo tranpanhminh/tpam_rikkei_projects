@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CartsRepository } from './carts.repository';
 import { CartsEntity } from './database/entity/carts.entity';
-import { AddToCartDTO } from './dto/add-to-cart.dto';
+import { AddToCartDTO } from './dto/addToCart.dto';
 import { ProductsRepository } from '../products/products.repository';
 import { CartInterface } from './interface/cart.interface';
 import { ProductInterface } from '../products/interface/product.interface';

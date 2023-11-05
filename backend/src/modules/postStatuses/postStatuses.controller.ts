@@ -6,12 +6,15 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { PostStatusesService } from './postStatuses.service';
-import { CreatePostStatusDTO } from './dto/create-postStatus.dto';
-import { UpdatePostStatusDTO } from './dto/update-postStatus.dto';
+import { CreatePostStatusDTO } from './dto/createPostStatus.dto';
+import { UpdatePostStatusDTO } from './dto/updatePostStatus.dto';
 import { ConfigModule } from '@nestjs/config';
 import { PostStatusesEntity } from './database/entity/postStatuses.entity';
+import { AuthenticationGuard } from 'src/guards/authentication.guard';
+import { AuthorizationAdminGuard } from 'src/guards/authorizationAdmin.guard';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -42,6 +45,7 @@ export class PostStatusesController {
 
   // 3. Add
   @Post('/add')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async addPostStatus(
     @Body() body: CreatePostStatusDTO,
   ): Promise<PostStatusesEntity | unknown> {
@@ -52,6 +56,7 @@ export class PostStatusesController {
 
   // 4. Delete
   @Delete('/delete/:id')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async deletePostStatus(
     @Param('id') id: number,
   ): Promise<PostStatusesEntity | unknown> {
@@ -62,6 +67,7 @@ export class PostStatusesController {
 
   // 5. Update
   @Patch('update/:id')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async updatePostStatus(
     @Param('id') id: number,
     @Body() body: UpdatePostStatusDTO,
