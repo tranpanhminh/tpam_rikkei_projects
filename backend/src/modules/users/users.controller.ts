@@ -35,7 +35,7 @@ export class UsersController {
 
   // 1. Get All
   @Get()
-  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
+  // @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async getAllUsers() {
     const result = await this.usersService.getAllUsers();
     return result;
@@ -43,7 +43,7 @@ export class UsersController {
 
   // 2. Get Detail
   @Get('/detail/:userId')
-  @UseGuards(AuthenticationGuard)
+  // @UseGuards(AuthenticationGuard)
   async getDetailUser(
     @Param('userId') userId: number,
   ): Promise<UsersEntity | unknown> {

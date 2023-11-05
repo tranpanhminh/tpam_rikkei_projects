@@ -32,7 +32,7 @@ export class OrdersController {
 
   // 1. Get All
   @Get()
-  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
+  // @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async getAllOrders() {
     const result = await this.ordersService.getAllOrders();
     return result;
@@ -40,7 +40,7 @@ export class OrdersController {
 
   // 2. Get Detail
   @Get('/detail/:id')
-  @UseGuards(AuthenticationGuard)
+  // @UseGuards(AuthenticationGuard)
   async getDetailOrder(
     @Param('id') id: number,
   ): Promise<OrdersEntity | unknown> {
