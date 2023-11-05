@@ -7,6 +7,7 @@ import AddModalProduct from "../ManageProducts/Button/AddProduct/AddModalProduct
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "../../AdminPage.module.css";
 import { NavLink } from "react-router-dom";
+import BaseAxios from "../../../../api/apiAxiosClient";
 
 // Import API
 // 1. Products API
@@ -72,8 +73,7 @@ function ManageProducts() {
       content: "Deleting...",
       duration: 0,
     });
-    axios
-      .delete(`${productsAPI}/delete/${productId}`)
+    BaseAxios.delete(`${productsAPI}/delete/${productId}`)
       .then(() => {
         fetchProducts(); // Cập nhật lại dữ liệu products sau khi xóa
         messageApi.destroy();

@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Account } from "../../../../database";
 import { Badge } from "react-bootstrap";
+import BaseAxios from "../../../../api/apiAxiosClient";
 
 // Import API
 // 1. Users API
@@ -54,7 +55,6 @@ function ManageUsers() {
 
   // Handle Search
   const handleSearchUser = () => {
-    console.log(searchText, "SADDA");
     if (!searchText) {
       // Nếu searchText rỗng, gọi lại fetchUsers để lấy tất cả người dùng
       fetchUsers();
@@ -83,8 +83,7 @@ function ManageUsers() {
 
   // Handle Change User
   const handleChangeUser = async (userId: number) => {
-    await axios
-      .patch(`${usersAPI}/change-status-account/${userId}`)
+    await BaseAxios.patch(`${usersAPI}/change-status-account/${userId}`)
       .then((response) => {
         notification.success({
           message: response.data.message,
@@ -107,7 +106,7 @@ function ManageUsers() {
 
   // Handle Delete User
   const handleDeleteUser = async (userId: number) => {
-    await axios.delete(`${usersAPI}/delete/${userId}`);
+    await BaseAxios.delete(`${usersAPI}/delete/${userId}`);
     notification.success({
       message: `Deleted Completed`,
     });
@@ -123,7 +122,6 @@ function ManageUsers() {
       userLogin = jwtDecode(token);
 
       // Đây là một đối tượng được giải mã từ token
-      console.log(userLogin);
 
       // Kiểm tra thời hạn của token
       const currentTimestamp = Math.floor(Date.now() / 1000);

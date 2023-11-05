@@ -62,6 +62,7 @@ function ManagePosts() {
 
   // Function Delete Post
   const handleDeletePost = (postId: number) => {
+    console.log(postId);
     messageApi.open({
       type: "loading",
       content: "Deleting...",
