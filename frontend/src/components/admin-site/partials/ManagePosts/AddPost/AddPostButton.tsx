@@ -1,5 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Button, DatePicker, DatePickerProps, Modal, notification } from "antd";
+import {
+  Button,
+  DatePicker,
+  DatePickerProps,
+  Modal,
+  notification,
+  message,
+} from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "../../../AdminPage.module.css";
@@ -19,6 +26,7 @@ const postStatusAPI = process.env.REACT_APP_API_POST_STATUS;
 
 const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
   const navigate = useNavigate();
+  const [messageApi, contextHolder] = message.useMessage();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [image, setImage] = useState(null);
   const [initText, setInitText] = useState("");
@@ -55,7 +63,6 @@ const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
         console.log(error);
       });
   };
-  console.log(postStatus, "SDAd");
   useEffect(() => {
     fetchPosts();
     fetchPostStatus();
@@ -82,10 +89,6 @@ const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
     resetInputImage();
     setIsModalOpen(false);
   };
-
-  // const onChange: DatePickerProps["onChange"] = (date, dateString) => {
-  //   console.log(date, dateString);
-  // };
 
   const handleEditorChange = (content: string) => {
     setPostInfo({
@@ -142,11 +145,16 @@ const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
       });
     }
 
+    if (!postInfo.thumbnail_url) {
+      return notification.warning({
+        message: "Please set thumbnail",
+      });
+    }
+
     if (!postInfo.thumbnail_url && postInfo.status_id === 2) {
-      return {
-        data: "You can't set to Published until you set thumbnail",
-        status: 406,
-      };
+      return notification.warning({
+        message: "You can't set to Published until you set thumbnail",
+      });
     }
 
     const formData: any = new FormData();
@@ -162,11 +170,23 @@ const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
         "Content-Type": "multipart/form-data",
       },
     };
+
+    if (
+      (postInfo.thumbnail_url && postInfo.status_id === 1) ||
+      (postInfo.thumbnail_url && postInfo.status_id === 2)
+    ) {
+      messageApi.open({
+        type: "loading",
+        content: "Adding...",
+        duration: 0,
+      });
+    }
     axios
       .post(`${postsAPI}/add`, formData, config)
       .then((response) => {
         fetchPosts();
         setPosts(response.data);
+        messageApi.destroy();
         notification.success({
           message: "Post Added",
         });
@@ -198,6 +218,7 @@ const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
 
   return (
     <>
+      {contextHolder}
       <Button type="primary" onClick={showModal}>
         Add Post
       </Button>

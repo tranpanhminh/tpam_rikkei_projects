@@ -17,7 +17,7 @@ export class ProductCommentsController {
   ) {}
 
   // 1. Get All
-  @Get()
+  @Get('')
   async getAllProductComments() {
     const result = await this.productCommentsService.getAllProductComments();
     return result;
@@ -68,11 +68,4 @@ export class ProductCommentsController {
       await this.productCommentsService.getAllCommentsByProduct(id);
     return result;
   }
-
-  // 6. Report
-  // @Get('/report')
-  // async reportProductComment(): Promise<ProductCommentsEntity | unknown> {
-  //   const result = await this.productCommentsService.reportProductComment();
-  //   return result;
-  // }
 }

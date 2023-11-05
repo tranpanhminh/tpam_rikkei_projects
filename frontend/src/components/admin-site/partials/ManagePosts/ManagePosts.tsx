@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "../../AdminPage.module.css";
 import axios from "axios";
-import { Button, notification } from "antd";
+import { Button, notification, message } from "antd";
 import { Badge } from "react-bootstrap";
 import DetailPostButton from "./DetailPost/DetailPostButton";
 import AddPostButton from "./AddPost/AddPostButton";
@@ -17,6 +17,7 @@ const postsAPI = process.env.REACT_APP_API_POSTS;
 function ManagePosts() {
   document.title = "Manage Posts | PetShop";
   const [searchText, setSearchText] = useState<string>("");
+  const [messageApi, contextHolder] = message.useMessage();
   const [posts, setPosts] = useState<any>([]);
   const navigate = useNavigate();
 
@@ -60,10 +61,16 @@ function ManagePosts() {
 
   // Function Delete Post
   const handleDeletePost = (postId: number) => {
+    messageApi.open({
+      type: "loading",
+      content: "Adding...",
+      duration: 0,
+    });
     axios
       .delete(`${postsAPI}/delete/${postId}`)
       .then((response) => {
         fetchPosts();
+        messageApi.destroy();
         notification.success({
           message: "Post Deleted",
         });
@@ -93,6 +100,7 @@ function ManagePosts() {
 
   return (
     <>
+      {contextHolder}
       <div className={styles["breadcrumb"]}>
         <h2 className={styles["page-title"]}>Manage Posts</h2>
         <p className={styles["page-description"]}>PetShop Admin Panel</p>
@@ -154,8 +162,8 @@ function ManagePosts() {
                     <td>{moment(post.created_at).format("YYYY-MM-DD")}</td>
                     <td>{post.author}</td>
                     <td>
-                      <Badge bg={`${changeColor(post.post_status.name)}`}>
-                        {post.post_status.name}
+                      <Badge bg={`${changeColor(post?.post_statuses?.name)}`}>
+                        {post?.post_statuses?.name}
                       </Badge>
                     </td>
                     <td className={styles["group-btn-admin-manage-posts"]}>

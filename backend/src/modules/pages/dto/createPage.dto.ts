@@ -23,7 +23,4 @@ export class CreatePageDTO {
 
   @IsNotEmpty({ message: 'Status should not be empty' })
   status_id: number;
-
-  @IsPageType({ message: 'Post Type should be 4' })
-  post_type_id: number;
 }

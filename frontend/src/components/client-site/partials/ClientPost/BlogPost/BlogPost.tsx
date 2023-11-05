@@ -74,7 +74,7 @@ function BlogPost() {
 
   return (
     <>
-      {post && post.status_id === 1 && data?.user_role.name === "Customer" ? (
+      {post && post.status_id === 1 && data?.user_roles?.name === "Customer" ? (
         <Page404 />
       ) : (
         <div className={styles["post-content-section"]}>
@@ -148,7 +148,7 @@ function BlogPost() {
             </span>
             <div className={styles["related-post-group"]}>
               {allPosts?.slice(0, 3).map((post: any) => {
-                if (post.post_status.name === "Published") {
+                if (post?.post_statuses?.name === "Published") {
                   return (
                     <div className={styles["related-post-item"]} key={post.id}>
                       <div className={styles["related-post-thumbnail-item"]}>

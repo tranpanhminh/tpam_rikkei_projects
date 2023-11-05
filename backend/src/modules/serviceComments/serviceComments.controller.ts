@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  UsePipes,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { ServiceCommentsService } from './serviceComments.service';
 import { ConfigModule } from '@nestjs/config';
 import { ServiceCommentsEntity } from './database/entity/serviceComments.entity';
@@ -70,7 +62,7 @@ export class ServiceCommentsController {
     return result;
   }
 
-  // // 5. Get All Comments By Service
+  // 5. Get All Comments By Service
   @Get('/:id')
   async getAllCommentsByService(
     @Param('id') id: number,

@@ -5,7 +5,6 @@ import {
   HasMimeType,
   MemoryStoredFile,
 } from 'nestjs-form-data';
-import { IsPostType } from 'src/pipes/custom-validator';
 export class CreatePostDTO {
   @IsNotEmpty({ message: 'Title should not be empty' })
   title: string;
@@ -23,7 +22,4 @@ export class CreatePostDTO {
 
   @IsNotEmpty({ message: 'Status should not be empty' })
   status_id: number;
-
-  @IsPostType({ message: 'Post Type should be 3' })
-  post_type_id: number;
 }

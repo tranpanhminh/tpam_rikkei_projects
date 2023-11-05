@@ -335,7 +335,7 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
                 <option
                   value={2}
                   selected={
-                    getPost?.post_status.name === "Published" ? true : false
+                    getPost?.post_statuses.name === "Published" ? true : false
                   }
                 >
                   Published
@@ -343,7 +343,7 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
                 <option
                   value={1}
                   selected={
-                    getPost?.post_status.name === "Draft" ? true : false
+                    getPost?.post_statuses.name === "Draft" ? true : false
                   }
                 >
                   Draft

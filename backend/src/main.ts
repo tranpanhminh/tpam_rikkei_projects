@@ -2,15 +2,14 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigModule } from '@nestjs/config';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
-import { useContainer } from 'typeorm';
-import * as session from 'express-session';
+// import { useContainer } from 'typeorm';
+// import * as session from 'express-session';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
 });
 const port = process.env.SERVER_PORT;
 const frontEndPath = process.env.FRONTEND_PATH;
-const PAYPAL_API = process.env.PAYPAL_API;
 // -----------------------------------------------
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -49,14 +48,14 @@ async function bootstrap() {
       stopAtFirstError: true,
     }),
   );
-  useContainer(app.select(AppModule), { fallbackOnErrors: true });
+  // useContainer(app.select(AppModule), { fallbackOnErrors: true });
   // somewhere in your initialization file
-  app.use(
-    session({
-      secret: process.env.SESSION_SECRET,
-      saveUninitialized: false,
-    }),
-  );
+  // app.use(
+  //   session({
+  //     secret: process.env.SESSION_SECRET,
+  //     saveUninitialized: false,
+  //   }),
+  // );
   await app.listen(port);
 }
 bootstrap();

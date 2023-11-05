@@ -13,12 +13,15 @@ export class PostsRepository {
 
   // 1. Get All
   async getAllPosts() {
-    return await this.postsEntity.find();
+    return await this.postsEntity.find({ relations: { post_statuses: true } });
   }
 
   // 2. Get Detail
   async getDetailPost(id: number): Promise<PostsEntity> {
-    const detailPost = await this.postsEntity.findOneById(id);
+    const detailPost = await this.postsEntity.findOne({
+      where: { id: id },
+      relations: { post_statuses: true },
+    });
     return detailPost;
   }
 

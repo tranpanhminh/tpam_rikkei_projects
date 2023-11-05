@@ -29,6 +29,8 @@ function Report() {
   const [users, setUsers] = useState<any>([]);
   const [products, setProducts] = useState<any>([]);
   const [services, setServices] = useState<any>([]);
+  const [productComments, setProductComments] = useState<any>([]);
+  const [serviceComments, setServiceComments] = useState<any>([]);
   const [orders, setOrders] = useState<any>([]);
   const [bookings, setBookings] = useState<any>([]);
   const [bestSellingProduct, setBestSellingProduct] = useState<any>([]);
@@ -58,11 +60,33 @@ function Report() {
       });
   };
 
+  const fetchProductComments = () => {
+    axios
+      .get(`${productsAPI}`)
+      .then((response) => {
+        setProductComments(response.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
   const fetchServices = () => {
     axios
       .get(`${servicesAPI}`)
       .then((response) => {
         setServices(response.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+  const fetchServiceComments = () => {
+    axios
+      .get(`${productsAPI}`)
+      .then((response) => {
+        setServiceComments(response.data);
       })
       .catch((error) => {
         console.log(error.message);
@@ -121,6 +145,8 @@ function Report() {
     fetchBookings();
     fetchSellingProduct();
     fetchBookingService();
+    fetchProductComments();
+    fetchServiceComments();
   }, []);
 
   // --------------------------------------------------
@@ -138,6 +164,7 @@ function Report() {
   // --------------------------------------------------
   let bestProductRating: any = [];
   let bestServiceRating: any = [];
+
   const listProductRating = () => {
     const sortProducts = products.sort((a: any, b: any) => {
       return b.avg_rating - a.avg_rating;

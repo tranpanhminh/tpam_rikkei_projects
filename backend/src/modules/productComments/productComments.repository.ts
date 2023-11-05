@@ -50,20 +50,4 @@ export class ProductCommentsRepository {
       relations: { users: true, post_types: true },
     });
   }
-
-  // 5. Get All Comments By Product
-  async reportProductComment(): Promise<ProductCommentsEntity[] | unknown> {
-    const result = await this.productCommentsEntity
-      .createQueryBuilder('product')
-      .leftJoinAndSelect('product.postType', 'postType')
-      .leftJoinAndSelect('product.vendor', 'vendor')
-      .leftJoinAndSelect('product.images', 'images')
-      .addSelect('AVG(product.comments.rating)', 'avgRating')
-      .addSelect('COUNT(product.comments.id)', 'totalReviews')
-      .leftJoin('product.comments', 'comments')
-      .where('comments.userRole NOT IN (:ids)', { ids: [1, 2] })
-      .groupBy('product.id')
-      .getRawMany();
-    return result;
-  }
 }
