@@ -7,6 +7,7 @@ import {
   Post,
   Req,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { ConfigModule } from '@nestjs/config';
@@ -15,6 +16,9 @@ import { CheckOutOrderDTO } from './dto/checkOutOrder.dto';
 import { OrderItemsEntity } from '../orderItems/database/entity/orderItems.entity';
 import { UpdateOrderDTO } from './dto/updateOrder.dto';
 import { OrdersInterface } from './interface/orders.interface';
+import { AuthenticationGuard } from 'src/guards/authentication.guard';
+import { AuthorizationCustomerGuard } from 'src/guards/authorizationCustomer.guard';
+import { AuthorizationAdminGuard } from 'src/guards/authorizationAdmin.guard';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -28,6 +32,7 @@ export class OrdersController {
 
   // 1. Get All
   @Get()
+  @UseGuards(AuthenticationGuard)
   async getAllOrders() {
     const result = await this.ordersService.getAllOrders();
     return result;
@@ -35,6 +40,7 @@ export class OrdersController {
 
   // 2. Get Detail
   @Get('/detail/:id')
+  @UseGuards(AuthenticationGuard)
   async getDetailOrder(
     @Param('id') id: number,
   ): Promise<OrdersEntity | unknown> {
@@ -45,6 +51,7 @@ export class OrdersController {
 
   // 3. Check Out
   @Post('/checkout/users/:userId')
+  @UseGuards(AuthenticationGuard, AuthorizationCustomerGuard)
   async checkOutOrder(
     @Param('userId') userId: number,
     @Body() body: CheckOutOrderDTO,
@@ -62,6 +69,7 @@ export class OrdersController {
 
   // 4. Get Detail Order Items By Order ID
   @Get('/:id/detail')
+  @UseGuards(AuthenticationGuard)
   async getDetailOrderItemsByOrderId(
     @Param('id')
     id: number,
@@ -73,6 +81,7 @@ export class OrdersController {
 
   // 5. Get All Orders By User ID
   @Get('/users/:userId')
+  @UseGuards(AuthenticationGuard)
   async getAllOrdersByUserId(
     @Param('userId')
     userId: number,
@@ -84,6 +93,7 @@ export class OrdersController {
 
   // 5. Update Order By Admin
   @Patch('update/:id')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async updateOrder(
     @Param('id') id: number,
     @Body() body: UpdateOrderDTO,
@@ -94,6 +104,7 @@ export class OrdersController {
 
   // 6. Cancel Order By Customer
   @Patch('/cancel-order/:id')
+  @UseGuards(AuthenticationGuard, AuthorizationCustomerGuard)
   async cancelOrder(
     @Param('id') id: number,
     @Body() body: OrdersInterface,

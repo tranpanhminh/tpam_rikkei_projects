@@ -19,6 +19,9 @@ import { CheckBookingBooked } from 'src/middlewares/checkBookingBooked.middlewar
 import { CheckkBookingAvailable } from 'src/middlewares/checkBookingAvailable.middleware';
 import { CheckBookingStatusBeforeCancel } from 'src/middlewares/checkBookingStatusBeforeCancel.middleware';
 import { CheckBookingStatusAcceptForAdmin } from 'src/middlewares/checkBookingStatusAcceptForAdmin.middleware';
+import { JwtModule, JwtService } from '@nestjs/jwt';
+import { UsersService } from '../users/users.service';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 const path = process.env.SERVER_PATH;
 const url = `${path}/bookings`;
@@ -26,6 +29,7 @@ const url = `${path}/bookings`;
 @Module({
   imports: [
     TypeOrmModule.forFeature([
+      JwtModule,
       BookingsEntity,
       CartsEntity,
       ServicesEntity,
@@ -38,6 +42,9 @@ const url = `${path}/bookings`;
     BookingsRepository,
     ServicesRepository,
     UsersRepository,
+    UsersService,
+    JwtService,
+    CloudinaryService,
   ],
 })
 export class BookingsModule {

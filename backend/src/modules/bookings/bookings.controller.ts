@@ -1,17 +1,19 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { BookingsService } from './bookings.service';
 import { ConfigModule } from '@nestjs/config';
 import { BookingsEntity } from './database/entity/bookings.entity';
 import { CreateBookingDTO } from './dto/createBooking.dto';
 import { UpdateBookingDTO } from './dto/updateBooking.dto';
+import { AuthenticationGuard } from 'src/guards/authentication.guard';
+import { AuthorizationAdminGuard } from 'src/guards/authorizationAdmin.guard';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -20,6 +22,7 @@ const path = process.env.SERVER_PATH;
 
 // -------------------------------------------------------
 @Controller(`${path}/bookings`)
+@UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
 export class BookingsController {
   constructor(private readonly bookingsService: BookingsService) {}
 

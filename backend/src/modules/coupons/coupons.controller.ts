@@ -6,12 +6,15 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { CouponsService } from './coupons.service';
 import { CreateCouponDTO } from './dto/createCoupon.dto';
 import { UpdateCouponDTO } from './dto/updateCoupon.dto';
 import { ConfigModule } from '@nestjs/config';
 import { CouponsEntity } from './database/entity/coupons.entity';
+import { AuthenticationGuard } from 'src/guards/authentication.guard';
+import { AuthorizationAdminGuard } from 'src/guards/authorizationAdmin.guard';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -20,6 +23,7 @@ const path = process.env.SERVER_PATH;
 
 // -------------------------------------------------------
 @Controller(`${path}/coupons`)
+@UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
 export class CouponsController {
   constructor(private readonly couponsService: CouponsService) {}
 

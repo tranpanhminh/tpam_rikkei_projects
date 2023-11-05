@@ -29,6 +29,9 @@ import { CheckCancelReasonBeforeCancel } from 'src/middlewares/checkCancelReason
 import { CancelReasonsEntity } from '../cancelReasons/database/entity/cancelReasons.entity';
 import { CancelReasonsRepository } from '../cancelReasons/cancelReasons.repository';
 import { CheckOrderStatus } from 'src/middlewares/checkOrderStatus.middleware';
+import { JwtModule } from '@nestjs/jwt';
+import { UsersService } from '../users/users.service';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -52,6 +55,7 @@ const url = `${path}/orders`;
       OrderStatusesEntity,
       CancelReasonsEntity,
     ]),
+    JwtModule,
   ],
   controllers: [OrdersController],
   providers: [
@@ -65,6 +69,9 @@ const url = `${path}/orders`;
     ProductsRepository,
     OrderStatusesRepository,
     CancelReasonsRepository,
+    UsersRepository,
+    UsersService,
+    CloudinaryService,
   ],
   exports: [OrdersService, OrdersRepository],
 })

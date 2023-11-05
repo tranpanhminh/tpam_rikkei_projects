@@ -6,12 +6,15 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { CancelReasonsService } from './cancelReasons.service';
 import { CreateCancelReasonDTO } from './dto/create-cancelReason.dto';
 import { UpdateCancelReasonDTO } from './dto/update-cancelReason.dto';
 import { ConfigModule } from '@nestjs/config';
 import { CancelReasonsEntity } from './database/entity/cancelReasons.entity';
+import { AuthenticationGuard } from 'src/guards/authentication.guard';
+import { AuthorizationAdminGuard } from 'src/guards/authorizationAdmin.guard';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -20,6 +23,7 @@ const path = process.env.SERVER_PATH;
 
 // -------------------------------------------------------
 @Controller(`${path}/cancel-reasons`)
+@UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
 export class CancelReasonsController {
   constructor(private readonly cancelReasonsService: CancelReasonsService) {}
 

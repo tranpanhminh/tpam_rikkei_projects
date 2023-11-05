@@ -1,5 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  UseGuards,
+} from '@nestjs/common';
 import { UsersRepository } from './users.repository';
 import { UsersEntity } from './database/entity/users.entity';
 import { CreateAdminDTO } from './dto/createAdmin.dto';
@@ -13,12 +18,15 @@ import { UpdateAvatarDTO } from './dto/updateAvatar.dto';
 import { LoginDTO } from './dto/login.dto';
 import { DataTokenInterface } from './interface/dataToken.interface';
 import { UserInfoLoginInterface } from './interface/userInfoLogin.interface';
-const bcrypt = require('bcryptjs');
+import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
+// const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 @Injectable()
 export class UsersService {
   constructor(
+    private jwtService: JwtService,
     private readonly usersRepository: UsersRepository,
     private readonly cloudinaryService: CloudinaryService,
   ) {}

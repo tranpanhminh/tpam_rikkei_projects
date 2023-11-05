@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateAdminDTO } from './dto/createAdmin.dto';
@@ -18,6 +19,8 @@ import { UpdateAvatarDTO } from './dto/updateAvatar.dto';
 import { FormDataRequest } from 'nestjs-form-data';
 import { LoginDTO } from './dto/login.dto';
 import { DataTokenInterface } from './interface/dataToken.interface';
+import { AuthorizationAdminGuard } from 'src/guards/authorizationAdmin.guard';
+import { AuthenticationGuard } from 'src/guards/authentication.guard';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -25,12 +28,14 @@ ConfigModule.forRoot({
 const path = process.env.SERVER_PATH;
 
 // -------------------------------------------------------
+
 @Controller(`${path}/users`)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   // 1. Get All
   @Get()
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async getAllUsers() {
     const result = await this.usersService.getAllUsers();
     return result;
@@ -38,6 +43,7 @@ export class UsersController {
 
   // 2. Get Detail
   @Get('/detail/:userId')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async getDetailUser(
     @Param('userId') userId: number,
   ): Promise<UsersEntity | unknown> {
@@ -48,6 +54,7 @@ export class UsersController {
 
   // 3. Add Admin
   @Post('/add')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async addAdmin(@Body() body: CreateAdminDTO): Promise<UsersEntity | unknown> {
     const result: string | unknown = await this.usersService.addAdmin(body);
     return result;
@@ -55,6 +62,7 @@ export class UsersController {
 
   // 4. Delete
   @Delete('/delete/:userId')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async deleteUser(
     @Param('userId') userId: number,
   ): Promise<UsersEntity | unknown> {
@@ -64,6 +72,7 @@ export class UsersController {
 
   // 5. Update
   @Patch('update/:userId')
+  @UseGuards(AuthenticationGuard)
   async updateUser(
     @Param('userId') userId: number,
     @Body() body: UpdateUserDTO,
@@ -91,6 +100,7 @@ export class UsersController {
 
   // 8. Change Status User
   @Patch('/change-status-account/:userId')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async changeStatus(
     @Param('userId') userId: number,
   ): Promise<UsersEntity | unknown> {
@@ -123,6 +133,7 @@ export class UsersController {
 
   // 11. Edit Avatar
   @Patch('/edit-avatar/:userId')
+  @UseGuards(AuthenticationGuard)
   @FormDataRequest()
   async editAvatar(
     @Param('userId') userId: number,

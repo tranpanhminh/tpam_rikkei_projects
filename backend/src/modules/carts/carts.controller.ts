@@ -6,12 +6,15 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { CartsService } from './carts.service';
 import { AddToCartDTO } from './dto/add-to-cart.dto';
 import { ConfigModule } from '@nestjs/config';
 import { CartsEntity } from './database/entity/carts.entity';
 import { UpdateQuantityProductInCartDTO } from './interface/update-quantity-product.interface';
+import { AuthenticationGuard } from 'src/guards/authentication.guard';
+import { AuthorizationCustomerGuard } from 'src/guards/authorizationCustomer.guard';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -25,6 +28,7 @@ export class CartsController {
 
   // 1. Get All
   @Get()
+  @UseGuards(AuthenticationGuard)
   async getAllCarts() {
     const result = await this.cartsService.getAllCarts();
     return result;
@@ -32,6 +36,7 @@ export class CartsController {
 
   // 2. Get Detail
   @Get('/detail/users/:userId')
+  @UseGuards(AuthenticationGuard)
   async getDetailCartByUser(
     @Param('userId') userId: number,
   ): Promise<CartsEntity | unknown> {
@@ -42,6 +47,7 @@ export class CartsController {
 
   // 3. Add
   @Post('/add/products/:id/users/:userId')
+  @UseGuards(AuthenticationGuard, AuthorizationCustomerGuard)
   async addProductToCart(
     @Param() param: { id: number; userId: number },
     @Body() body: AddToCartDTO,
@@ -56,6 +62,7 @@ export class CartsController {
 
   // 4. Delete
   @Delete('/delete/products/:id/users/:userId')
+  @UseGuards(AuthenticationGuard, AuthorizationCustomerGuard)
   async deleteProductFromUserCart(
     @Param() param: { id: number; userId: number },
   ): Promise<CartsEntity | unknown> {
@@ -66,6 +73,7 @@ export class CartsController {
 
   // 5. Delete All Products From User Cart
   @Delete('/delete/users/:userId')
+  @UseGuards(AuthenticationGuard, AuthorizationCustomerGuard)
   async deleteAllProductsFromUserCart(
     @Param() param: { userId: number },
   ): Promise<CartsEntity | unknown> {
@@ -76,6 +84,7 @@ export class CartsController {
 
   // 5. Update Quantity In Cart Page
   @Patch('/update/products/:id/users/:userId')
+  @UseGuards(AuthenticationGuard, AuthorizationCustomerGuard)
   async updateQuantityProductInCart(
     @Param() param: { id: number; userId: number },
     @Body() body: UpdateQuantityProductInCartDTO,

@@ -11,6 +11,7 @@ import { CheckEmailExist } from 'src/middlewares/checkEmailExist.middleware';
 import { CheckEmailCorrect } from 'src/middlewares/checkEmailCorrect.middleware';
 import { CheckPasswordCorrect } from 'src/middlewares/checkPasswordCorrect.middleware';
 import { CheckIsOldPassword } from 'src/middlewares/checkIsOldPassword.middleware';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 
 const path = process.env.SERVER_PATH;
 const url = `${path}/users`;
@@ -18,9 +19,17 @@ const url = `${path}/users`;
 // -------------------------------------------------------
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UsersEntity]), NestjsFormDataModule],
+  imports: [
+    TypeOrmModule.forFeature([UsersEntity]),
+    NestjsFormDataModule,
+    JwtModule,
+    // JwtModule.register({
+    //   global: true,
+    //   signOptions: { expiresIn: '1d' },
+    // }),
+  ],
   controllers: [UsersController],
-  providers: [UsersService, UsersRepository, CloudinaryService],
+  providers: [UsersService, UsersRepository, CloudinaryService, JwtService],
 })
 export class UsersModule {
   configure(consumer: MiddlewareConsumer) {

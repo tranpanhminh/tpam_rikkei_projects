@@ -6,6 +6,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CouponsEntity } from './database/entity/coupons.entity';
 import { CartsEntity } from '../carts/database/entity/carts.entity';
 import { CheckCouponExist } from 'src/middlewares/checkCouponExist.middleware';
+import { UsersEntity } from '../users/database/entity/users.entity';
+import { JwtModule } from '@nestjs/jwt';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
+import { UsersService } from './../users/users.service';
+import { UsersRepository } from '../users/users.repository';
 
 const path = process.env.SERVER_PATH;
 const url = `${path}/coupons`;
@@ -13,9 +18,18 @@ const url = `${path}/coupons`;
 // -------------------------------------------------------
 
 @Module({
-  imports: [TypeOrmModule.forFeature([CouponsEntity, CartsEntity])],
+  imports: [
+    TypeOrmModule.forFeature([CouponsEntity, CartsEntity, UsersEntity]),
+    JwtModule,
+  ],
   controllers: [CouponsController],
-  providers: [CouponsService, CouponsRepository],
+  providers: [
+    CouponsService,
+    CouponsRepository,
+    UsersService,
+    UsersRepository,
+    CloudinaryService,
+  ],
 })
 export class CouponsModule {
   configure(consumer: MiddlewareConsumer) {

@@ -6,12 +6,15 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { BookingStatusesService } from './bookingStatuses.service';
 import { CreateBookingStatusDTO } from './dto/create-bookingStatus.dto';
 import { UpdateBookingStatusDTO } from './dto/update-bookingStatus.dto';
 import { ConfigModule } from '@nestjs/config';
 import { BookingStatusesEntity } from './database/entity/bookingStatuses.entity';
+import { AuthenticationGuard } from 'src/guards/authentication.guard';
+import { AuthorizationAdminGuard } from 'src/guards/authorizationAdmin.guard';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -20,6 +23,7 @@ const path = process.env.SERVER_PATH;
 
 // -------------------------------------------------------
 @Controller(`${path}/booking-statuses`)
+@UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
 export class BookingStatusesController {
   constructor(
     private readonly bookingStatusesService: BookingStatusesService,

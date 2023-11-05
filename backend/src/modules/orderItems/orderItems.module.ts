@@ -7,7 +7,11 @@ import { OrderItemsEntity } from './database/entity/orderItems.entity';
 import { OrdersEntity } from '../orders/database/entity/orders.entity';
 import { ProductsEntity } from '../products/database/entity/products.entity';
 import { OrdersRepository } from '../orders/orders.repository';
-import { PaypalProvider } from '../paypal/paypal.provider';
+import { UsersEntity } from '../users/database/entity/users.entity';
+import { JwtModule } from '@nestjs/jwt';
+import { UsersRepository } from '../users/users.repository';
+import { UsersService } from '../users/users.service';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 @Module({
   imports: [
@@ -16,10 +20,19 @@ import { PaypalProvider } from '../paypal/paypal.provider';
       OrdersEntity,
       ProductsEntity,
       OrdersEntity,
+      UsersEntity,
     ]),
+    JwtModule,
   ],
   controllers: [OrderItemsController],
-  providers: [OrderItemsService, OrderItemsRepository, OrdersRepository],
+  providers: [
+    OrderItemsService,
+    OrderItemsRepository,
+    OrdersRepository,
+    UsersRepository,
+    UsersService,
+    CloudinaryService,
+  ],
   exports: [OrderItemsService, OrderItemsRepository],
 })
 export class OrderItemsModule {}

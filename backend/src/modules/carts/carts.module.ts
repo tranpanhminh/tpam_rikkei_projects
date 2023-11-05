@@ -25,6 +25,9 @@ import { CouponsEntity } from '../coupons/database/entity/coupons.entity';
 import { CouponsRepository } from '../coupons/coupons.repository';
 import { CheckProductExist } from 'src/middlewares/checkProductExist.middleware';
 import { CheckIsAdmin } from 'src/middlewares/checkIsAdmin.middleware';
+import { JwtModule } from '@nestjs/jwt';
+import { UsersService } from '../users/users.service';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -43,6 +46,7 @@ const url = `${path}/carts`;
       ProductImagesEntity,
       CouponsEntity,
     ]),
+    JwtModule,
   ],
   controllers: [CartsController],
   providers: [
@@ -52,6 +56,8 @@ const url = `${path}/carts`;
     ProductsRepository,
     ProductImagesRepository,
     CouponsRepository,
+    UsersService,
+    CloudinaryService,
   ],
   exports: [CartsRepository],
 })
