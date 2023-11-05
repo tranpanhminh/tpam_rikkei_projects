@@ -43,7 +43,7 @@ export class ServiceCommentsService {
       rating: findUser.role_id == 1 || findUser.role_id == 2 ? 5 : rating,
       user_id: userId,
       post_id: id,
-      post_type_id: 1,
+      post_type_id: 2,
     };
     await this.serviceCommentsRepository.addServiceComment(newServiceComment);
     return new HttpException('Service Comment Added', HttpStatus.OK);

@@ -6,6 +6,7 @@ import { Badge } from "react-bootstrap";
 import DetailPostButton from "./DetailPost/DetailPostButton";
 import AddPostButton from "./AddPost/AddPostButton";
 import { NavLink, useNavigate } from "react-router-dom";
+import BaseAxios from "../../../../api/apiAxiosClient";
 const moment = require("moment");
 
 // Import API
@@ -63,11 +64,10 @@ function ManagePosts() {
   const handleDeletePost = (postId: number) => {
     messageApi.open({
       type: "loading",
-      content: "Adding...",
+      content: "Deleting...",
       duration: 0,
     });
-    axios
-      .delete(`${postsAPI}/delete/${postId}`)
+    BaseAxios.delete(`${postsAPI}/delete/${postId}`)
       .then((response) => {
         fetchPosts();
         messageApi.destroy();

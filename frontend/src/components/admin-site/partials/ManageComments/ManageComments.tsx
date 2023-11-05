@@ -6,11 +6,12 @@ import axios from "axios";
 import { Button, notification } from "antd";
 import { NavLink } from "react-router-dom";
 import { Badge } from "react-bootstrap";
+import BaseAxios from "../../../../api/apiAxiosClient";
 const moment = require("moment");
 
 // Import API
 // 1. Product Comments API
-const postCommentsAPI = process.env.REACT_APP_API_PRODUCT_COMMENTS;
+const productCommentsAPI = process.env.REACT_APP_API_PRODUCT_COMMENTS;
 
 // 2. Service Comments API
 const serviceCommentsAPI = process.env.REACT_APP_API_SERVICE_COMMENTS;
@@ -27,8 +28,8 @@ function ManageComments() {
   // Fetch API
   // Fecth Product Comments
   const fetchProductComments = async () => {
-    axios
-      .get(`${postCommentsAPI}`)
+    await axios
+      .get(`${productCommentsAPI}`)
       .then((response) => {
         setProductComments(response.data);
       })
@@ -39,7 +40,7 @@ function ManageComments() {
 
   // Fecth Service Comments
   const fetchServiceComments = async () => {
-    axios
+    await axios
       .get(`${serviceCommentsAPI}`)
       .then((response) => {
         setServiceComments(response.data);
@@ -54,9 +55,9 @@ function ManageComments() {
     fetchServiceComments();
   }, []);
   // ------------------------------------------------
-
+  console.log(productComments, "AA");
+  console.log(serviceComments, "BB");
   allComments = productComments.concat(serviceComments);
-
   // Function Search Comment
   const handleSearchComment = () => {
     // Tìm kiếm dựa trên searchText và cập nhật filteredComments
@@ -72,11 +73,32 @@ function ManageComments() {
   };
 
   // Function Delete Comment
-  const handleDeleteComment = (
-    id: number,
-    commentId: number,
-    commentType: string
-  ) => {};
+  const handleDeleteComment = (id: number, commentType: string) => {
+    if (commentType === "product") {
+      return BaseAxios.delete(`${productCommentsAPI}/delete/${id}`)
+        .then((response) => {
+          notification.success({
+            message: "Comment Deleted",
+          });
+          fetchProductComments();
+        })
+        .catch((error) => {
+          throw error;
+        });
+    }
+    if (commentType === "service") {
+      return BaseAxios.delete(`${serviceCommentsAPI}/delete/${id}`)
+        .then((response) => {
+          notification.success({
+            message: "Comment Deleted",
+          });
+          fetchServiceComments();
+        })
+        .catch((error) => {
+          throw error;
+        });
+    }
+  };
 
   function stripHTMLTags(html: any) {
     return html.replace(/<\/?[^>]+(>|$)/g, "");
@@ -152,7 +174,7 @@ function ManageComments() {
                     <td>
                       <NavLink
                         to={
-                          comment.post_types.name === "Product"
+                          comment?.post_types?.name === "Product"
                             ? `/products/${comment.post_id}`
                             : `/services/${comment.post_id}`
                         }
@@ -171,19 +193,9 @@ function ManageComments() {
                         type="primary"
                         className={styles["delete-product-btn"]}
                         onClick={
-                          comment.type === "product"
-                            ? () =>
-                                handleDeleteComment(
-                                  comment.productId,
-                                  comment.commentId,
-                                  comment.type
-                                )
-                            : () =>
-                                handleDeleteComment(
-                                  comment.serviceId,
-                                  comment.commentId,
-                                  comment.type
-                                )
+                          comment?.post_types?.name === "Product"
+                            ? () => handleDeleteComment(comment.id, "product")
+                            : () => handleDeleteComment(comment.id, "service")
                         }
                       >
                         Delete
