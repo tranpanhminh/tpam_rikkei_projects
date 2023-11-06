@@ -4,7 +4,7 @@ import { Button, Modal, message, notification } from "antd";
 import styles from "../DetailUser/DetailUserProfile.module.css";
 import axios from "axios";
 import {
-  changePassword,
+  changeUserPassword,
   getDataLogin,
   changeUserAvatar,
   changeUserName,
@@ -76,7 +76,7 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
 
   // Handle Update Password
   const handleOk = async () => {
-    await changePassword(user.id, userPassword)
+    await changeUserPassword(user.id, userPassword)
       .then((response) => {
         notification.success({
           message: `${response.data.message}`,

@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ProductCommentsEntity } from './database/entity/productComments.entity';
-import { CreateProductCommentDTO } from './dto/create-product-comment.dto';
+import { CreateProductCommentDTO } from './dto/createProductComment.dto';
 import { ProductCommentsRepository } from 'src/modules/productComments/productComments.repository';
 import { ProductCommentsInterface } from './interface/productComments.interface';
 import { UsersRepository } from '../users/users.repository';

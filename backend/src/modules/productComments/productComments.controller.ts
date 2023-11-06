@@ -10,7 +10,7 @@ import {
 import { ProductCommentsService } from './productComments.service';
 import { ConfigModule } from '@nestjs/config';
 import { ProductCommentsEntity } from './database/entity/productComments.entity';
-import { CreateProductCommentDTO } from './dto/create-product-comment.dto';
+import { CreateProductCommentDTO } from './dto/createProductComment.dto';
 import { AuthenticationGuard } from 'src/guards/authentication.guard';
 import { AuthorizationAdminGuard } from 'src/guards/authorizationAdmin.guard';
 

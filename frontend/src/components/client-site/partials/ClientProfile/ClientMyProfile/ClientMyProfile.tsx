@@ -5,6 +5,13 @@ import { useState } from "react";
 import { Button, Modal, message, notification } from "antd";
 import axios from "axios";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
+import {
+  changeUserAvatar,
+  changeUserName,
+  changeUserPassword,
+  getDataLogin,
+  getDetailUser,
+} from "../../../../../api/users.api";
 
 //  API
 const usersAPI = process.env.REACT_APP_API_USERS;
@@ -14,6 +21,7 @@ const usersAPI = process.env.REACT_APP_API_USERS;
 function ClientEditProfile() {
   document.title = "My Profile | PetShop";
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
@@ -27,25 +35,15 @@ function ClientEditProfile() {
     old_password: "",
     new_password: "",
   });
+  // -------------------------------------------------
 
-  const fetchUser = () => {
-    axios
-      .get(`${usersAPI}/detail/${getLoginData.id}`)
-      .then((response) => {
-        setUser(response.data);
-        setUserFullName(response.data.fullName);
-        setAvatar(response.data.image_avatar);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const fetchUser = async () => {
+    const result = await getDataLogin();
+    return setUser(result);
   };
   useEffect(() => {
     fetchUser();
   }, []);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const showModal = () => {
     navigate("/user/my-profile/?edit");
     setIsModalOpen(true);
@@ -70,12 +68,12 @@ function ClientEditProfile() {
     navigate("/user/my-profile/?edit-full-name");
     setShow(true);
   };
-  const changeFullName = () => {
+
+  const changeFullName = async () => {
     const userInfo = {
       full_name: userFullName,
     };
-    axios
-      .patch(`${usersAPI}/update/${getLoginData.id}`, userInfo)
+    await changeUserName(user.id, userInfo)
       .then((response) => {
         notification.success({
           message: `${response.data.message}`,
@@ -85,7 +83,7 @@ function ClientEditProfile() {
         navigate("/user/my-profile/");
       })
       .catch((error) => {
-        notification.error({
+        notification.warning({
           message: `${error.response.data.message}`,
         });
       });
@@ -122,36 +120,40 @@ function ClientEditProfile() {
         "Content-Type": "multipart/form-data",
       },
     };
-    messageApi.open({
-      type: "loading",
-      content: "Loading...",
-      duration: 0,
-    });
-
-    await axios
-      .patch(`${usersAPI}/edit-avatar/${getLoginData.id}`, formData, config)
-      .then((response) => {
-        messageApi.destroy();
-        notification.success({
-          message: `${response.data.message}`,
-        });
-        setShow(false);
-        resetInputImage();
-        fetchUser();
-        navigate("/user/my-profile/");
-      })
-      .catch((error) => {
-        notification.error({
-          message: `${error.response.data.message}`,
-        });
+    if (avatar) {
+      messageApi.open({
+        type: "loading",
+        content: "Loading...",
+        duration: 0,
       });
+
+      await changeUserAvatar(user.id, formData, config)
+        .then((response) => {
+          messageApi.destroy();
+          notification.success({
+            message: `${response.data.message}`,
+          });
+          setShow(false);
+          resetInputImage();
+          fetchUser();
+          navigate("/user/my-profile/");
+        })
+        .catch((error) => {
+          notification.error({
+            message: `${error.response.data.message}`,
+          });
+        });
+    } else {
+      notification.error({
+        message: `Please upload image`,
+      });
+    }
   };
   // ------------------------------------------
 
   // Change Password
   const changePassword = async () => {
-    await axios
-      .patch(`${usersAPI}/change-password/${getLoginData.id}`, userPassword)
+    await changeUserPassword(user.id, userPassword)
       .then((response) => {
         notification.success({
           message: `${response.data.message}`,

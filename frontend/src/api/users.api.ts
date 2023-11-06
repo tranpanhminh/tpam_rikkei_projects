@@ -27,9 +27,18 @@ export const getDataLogin = async () => {
       return error;
     }
   } else {
-    console.log("Token Not Found.");
+    throw new Error("Invalid Token");
   }
-  return data;
+  const result = await axios
+    .get(`${usersAPI}/detail/${data.id}`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error;
+    });
+  const { password, ...dataUser } = result;
+  return dataUser;
 };
 
 // 2. Get All Users
@@ -87,7 +96,7 @@ export const addUser = async (data: any) => {
 };
 
 // 6. Change Password
-export const changePassword = async (id: number, data: any) => {
+export const changeUserPassword = async (id: number, data: any) => {
   const result = await BaseAxios.patch(
     `${usersAPI}/change-password/${id}`,
     data
