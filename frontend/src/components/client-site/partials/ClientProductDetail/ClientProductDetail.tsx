@@ -92,6 +92,7 @@ function ClientProductDetail() {
         console.log(error.message);
       });
   };
+
   const fetchUsers = async () => {
     await axios
       .get(`${usersAPI}/detail/${getLoginData.id}`)
@@ -287,7 +288,7 @@ function ClientProductDetail() {
                   </div>
                   <div className={styles["product-vendor"]}>
                     <span>Vendor:</span>
-                    <span>{products && products.vendor_name}</span>
+                    <span>{products && products.vendors?.name}</span>
                   </div>
                   {/* <div className={styles["product-sku"]}>
                     <span>SKU:</span>

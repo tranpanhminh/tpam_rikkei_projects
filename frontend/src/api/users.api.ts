@@ -59,7 +59,7 @@ export const changeStatusUser = async (id: number) => {
       });
     })
     .catch((error) => {
-      notification.success({
+      notification.warning({
         message: error.data.message,
       });
     });

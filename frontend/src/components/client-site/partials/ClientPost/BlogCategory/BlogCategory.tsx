@@ -100,7 +100,7 @@ function BlogCategory() {
     <div className={styles["list-blogs"]}>
       {currentPosts &&
         currentPosts?.map((post: any) => {
-          if (post.post_status.name === "Published") {
+          if (post.post_statuses.name === "Published") {
             return (
               <>
                 <div className={styles["post-item"]}>

@@ -271,7 +271,7 @@ function ClientServiceDetail() {
 
   const filterCommentsExcludeAdmin = () => {
     let filterComments = serviceComments?.filter((item: any) => {
-      return item?.user_role_id !== 1 && item?.user_role_id !== 2;
+      return item?.users?.role_id !== 1 && item?.users?.role_id !== 2;
     });
     return filterComments ? filterComments?.length : 0;
   };
@@ -517,8 +517,8 @@ function ClientServiceDetail() {
                         />
 
                         <span>{item?.users?.full_name.split(" ")[0]}</span>
-                        {item?.user_role_id === 1 ||
-                        item?.user_role_id === 2 ? (
+                        {item?.users?.role_id === 1 ||
+                        item?.users?.role_id === 2 ? (
                           <Badge bg="success">Admin</Badge>
                         ) : item.order_history?.length !== 0 ? (
                           <Badge bg="warning" text="dark">
@@ -527,8 +527,8 @@ function ClientServiceDetail() {
                         ) : (
                           ""
                         )}
-                        {item?.user_role_id !== 1 &&
-                          item?.user_role_id !== 2 && (
+                        {item?.users?.role_id !== 1 &&
+                          item?.users?.role_id !== 2 && (
                             <span className={styles["rating-section"]}>
                               {item.rating}
                               <i className="fa-solid fa-star"></i>
