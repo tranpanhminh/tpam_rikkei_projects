@@ -12,6 +12,7 @@ import { CheckEmailCorrect } from 'src/middlewares/checkEmailCorrect.middleware'
 import { CheckPasswordCorrect } from 'src/middlewares/checkPasswordCorrect.middleware';
 import { CheckIsOldPassword } from 'src/middlewares/checkIsOldPassword.middleware';
 import { JwtModule, JwtService } from '@nestjs/jwt';
+import { GoogleStrategy } from 'src/modules/google/GoogleStrategy';
 
 const path = process.env.SERVER_PATH;
 const url = `${path}/users`;
@@ -29,7 +30,13 @@ const url = `${path}/users`;
     // }),
   ],
   controllers: [UsersController],
-  providers: [UsersService, UsersRepository, CloudinaryService, JwtService],
+  providers: [
+    UsersService,
+    UsersRepository,
+    CloudinaryService,
+    JwtService,
+    GoogleStrategy,
+  ],
 })
 export class UsersModule {
   configure(consumer: MiddlewareConsumer) {

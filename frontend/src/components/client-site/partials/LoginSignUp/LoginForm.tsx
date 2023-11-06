@@ -41,6 +41,31 @@ function LoginForm() {
       });
   };
 
+  const handleLoginGoogle = async () => {
+    await axios
+      .get(`${usersAPI}/google/login`)
+      .then((response) => {
+        console.log(response);
+        const dataResponse = response.data;
+        // const dataUser = {
+        //   id: dataResponse.data.id,
+        // };
+
+        // localStorage.setItem("token", response.data.accessToken);
+        // localStorage.setItem("auth", JSON.stringify(dataUser));
+        message.open({
+          type: "success",
+          content: "Login Successfully",
+        });
+        navigate("/");
+      })
+      .catch((error) => {
+        notification.warning({
+          message: `${error.response.data.message}`,
+        });
+      });
+  };
+
   return (
     <div className={styles["outside-form-login"]}>
       <section className={styles["form-login"]}>
@@ -73,6 +98,12 @@ function LoginForm() {
         <button className={styles["login-button"]} onClick={handleLogin}>
           Login
         </button>
+        <img
+          onClick={handleLoginGoogle}
+          className={styles["login-with-gmail-icon"]}
+          src="https://i.ibb.co/Fn5TJW6/google-signin-button.png"
+          alt=""
+        />
         <p className={styles["signup-sentence"]}>
           Don't have an account?{" "}
           <NavLink to="/signup" className={styles["signup-text"]}>

@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
@@ -21,6 +22,7 @@ import { LoginDTO } from './dto/login.dto';
 import { DataTokenInterface } from './interface/dataToken.interface';
 import { AuthorizationAdminGuard } from 'src/guards/authorizationAdmin.guard';
 import { AuthenticationGuard } from 'src/guards/authentication.guard';
+import { AuthGuard } from '@nestjs/passport';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -138,11 +140,23 @@ export class UsersController {
   async editAvatar(
     @Param('userId') userId: number,
     @Body() body: UpdateAvatarDTO,
-  ) {
+  ): Promise<UsersEntity | unknown> {
     const result: string | unknown = await this.usersService.editAvatar(
       userId,
       body,
     );
     return result;
+  }
+
+  // 12. Google Login
+  @Get('/google/login')
+  @UseGuards(AuthGuard('google'))
+  async googleLogin(@Req() req): Promise<UsersEntity | unknown | any> {}
+
+  // 12. Google Login
+  @Get('/google/redirect')
+  @UseGuards(AuthGuard('google'))
+  async googleRedirect(@Req() req): Promise<UsersEntity | unknown | any> {
+    return this.usersService.googleLogin(req);
   }
 }

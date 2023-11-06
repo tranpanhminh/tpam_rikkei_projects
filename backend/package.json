@@ -38,6 +38,7 @@
     "cloudinary": "^1.41.0",
     "cloudinary-build-url": "^0.2.4",
     "express-session": "^1.17.3",
+    "generate-password": "^1.7.1",
     "imagekit": "^4.1.3",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.6.2",

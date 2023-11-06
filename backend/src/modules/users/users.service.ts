@@ -20,7 +20,8 @@ import { DataTokenInterface } from './interface/dataToken.interface';
 import { UserInfoLoginInterface } from './interface/userInfoLogin.interface';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-// const bcrypt = require('bcryptjs');
+import * as generator from 'generate-password';
+
 const jwt = require('jsonwebtoken');
 
 @Injectable()
@@ -204,5 +205,43 @@ export class UsersService {
       await this.usersRepository.editAvatar(id, updateAvatar);
       return new HttpException('User Avatar Updated', HttpStatus.OK);
     }
+  }
+
+  // 12. Google Login
+  async googleLogin(req) {
+    if (!req.user) {
+      return 'No user from google';
+    }
+    // return {
+    //   message: 'User information from google',
+    //   user: req.user
+    // }
+    const dataUserGoogleLogin = req.user;
+    const password = generator.generate({
+      length: 10,
+      numbers: true,
+      symbols: true,
+    });
+
+    const salt = 10;
+    const genSalt = await bcrypt.genSalt(salt);
+    const encryptPassword = await bcrypt.hash(password, genSalt);
+
+    // const newUser: UsersInterface = {
+    //   email: dataUserGoogleLogin.email,
+    //   full_name: `${dataUserGoogleLogin.firstName} ${dataUserGoogleLogin.lastName}`,
+    //   password: encryptPassword,
+    //   image_avatar: `${dataUserGoogleLogin.picture}`,
+    //   role_id: 3,
+    //   status_id: 1,
+    // };
+    // await this.usersRepository.userRegister(newUser);
+    return {
+      message: 'Login successfully',
+      accessToken: dataUserGoogleLogin.accessToken,
+      data: dataUserGoogleLogin,
+      encryptPassword: encryptPassword,
+      status: 200,
+    };
   }
 }

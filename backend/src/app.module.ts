@@ -30,6 +30,7 @@ import { BookingsModule } from './modules/bookings/bookings.module';
 import { PostsModule } from './modules/posts/posts.module';
 import { PagesModule } from './modules/pages/pages.module';
 import { JwtModule, JwtService } from '@nestjs/jwt';
+import { GoogleStrategy } from './modules/google/GoogleStrategy';
 
 @Module({
   imports: [
@@ -62,6 +63,6 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
     PagesModule,
   ],
   controllers: [PaypalController],
-  providers: [PaypalProvider, PaypalService, JwtService],
+  providers: [PaypalProvider, PaypalService, JwtService, GoogleStrategy],
 })
 export class AppModule {}

@@ -933,6 +933,14 @@ footer {
   display: none;
 }
 
+.login-with-gmail-icon {
+  cursor: pointer;
+}
+
+.login-with-gmail-icon:hover {
+  opacity: 85%;
+}
+
 /* CSS My Cart Page */
 .my-cart {
   margin-top: 50px;
