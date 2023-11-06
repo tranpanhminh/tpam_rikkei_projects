@@ -208,7 +208,7 @@ export class UsersService {
   }
 
   // 12. Google Login
-  async googleLogin(req) {
+  async googleLogin(req, res) {
     if (!req.user) {
       return 'No user from google';
     }
@@ -217,31 +217,74 @@ export class UsersService {
     //   user: req.user
     // }
     const dataUserGoogleLogin = req.user;
-    const password = generator.generate({
-      length: 10,
-      numbers: true,
-      symbols: true,
-    });
+    // Kiểm tra xem email đã có trong hệ thống hay chưa
+    const checkEmail = await this.usersRepository.getDetailUserByEmail(
+      dataUserGoogleLogin.email,
+    );
 
-    const salt = 10;
-    const genSalt = await bcrypt.genSalt(salt);
-    const encryptPassword = await bcrypt.hash(password, genSalt);
+    try {
+      // TH1: Nếu đã có trong hệ thống
+      if (checkEmail) {
+        const { password, created_at, updated_at, ...dataUser } = checkEmail;
+        const jwtData = await jwt.sign(
+          dataUser,
+          process.env.ACCESS_TOKEN_SECRET,
+        ); // Mã Token để biết ai đăng nhập
+        return {
+          message: 'Login successfully',
+          accessToken: jwtData,
+          data: dataUser,
+          status: 200,
+        };
+        // res.dataLogin = {
+        //   message: 'Login successfully',
+        //   accessToken: jwtData,
+        //   data: dataUser,
+        //   status: 200,
+        // };
+      } else {
+        // Nếu chưa có thì tạo tài khoản mới và push vào DB
+        const newPassword = generator.generate({
+          length: 10,
+          numbers: true,
+          symbols: true,
+        });
 
-    // const newUser: UsersInterface = {
-    //   email: dataUserGoogleLogin.email,
-    //   full_name: `${dataUserGoogleLogin.firstName} ${dataUserGoogleLogin.lastName}`,
-    //   password: encryptPassword,
-    //   image_avatar: `${dataUserGoogleLogin.picture}`,
-    //   role_id: 3,
-    //   status_id: 1,
-    // };
-    // await this.usersRepository.userRegister(newUser);
-    return {
-      message: 'Login successfully',
-      accessToken: dataUserGoogleLogin.accessToken,
-      data: dataUserGoogleLogin,
-      encryptPassword: encryptPassword,
-      status: 200,
-    };
+        const salt = 10;
+        const genSalt = await bcrypt.genSalt(salt);
+        const encryptPassword = await bcrypt.hash(newPassword, genSalt);
+
+        const newUser: UsersInterface = {
+          email: dataUserGoogleLogin.email,
+          full_name: `${dataUserGoogleLogin.firstName} ${dataUserGoogleLogin.lastName}`,
+          password: encryptPassword,
+          image_avatar: `${dataUserGoogleLogin.picture}`,
+          role_id: 3,
+          status_id: 1,
+        };
+
+        await this.usersRepository.userRegister(newUser);
+        const { password, ...dataUser } = newUser;
+        const jwtData = await jwt.sign(
+          dataUser,
+          process.env.ACCESS_TOKEN_SECRET,
+        ); // Mã Token để biết ai đăng nhập
+        // res.dataLogin = {
+        //   message: 'Login successfully',
+        //   accessToken: jwtData,
+        //   data: dataUser,
+        //   status: 200,
+        // };
+        return {
+          message: 'Login successfully',
+          accessToken: jwtData,
+          data: dataUser,
+          status: 200,
+        };
+        // return res.redirect('http://localhost:3000/');
+      }
+    } catch (error) {
+      throw error;
+    }
   }
 }

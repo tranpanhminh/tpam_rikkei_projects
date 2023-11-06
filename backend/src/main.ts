@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigModule } from '@nestjs/config';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
+import passport from 'passport';
 // import { useContainer } from 'typeorm';
 // import * as session from 'express-session';
 
@@ -21,6 +22,8 @@ async function bootstrap() {
     allowedHeaders: ['Authorization', 'Content-Type'],
     optionsSuccessStatus: 200,
   }); // <- enable CORS
+  // app.use(passport.initialize());
+  // app.use(passport.session());
   app.useGlobalPipes(
     new ValidationPipe({
       // exceptionFactory: (errors) => {

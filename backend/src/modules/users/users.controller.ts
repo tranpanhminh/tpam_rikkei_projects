@@ -7,6 +7,7 @@ import {
   Patch,
   Post,
   Req,
+  Res,
   UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
@@ -23,6 +24,7 @@ import { DataTokenInterface } from './interface/dataToken.interface';
 import { AuthorizationAdminGuard } from 'src/guards/authorizationAdmin.guard';
 import { AuthenticationGuard } from 'src/guards/authentication.guard';
 import { AuthGuard } from '@nestjs/passport';
+import passport from 'passport';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -156,7 +158,10 @@ export class UsersController {
   // 12. Google Login
   @Get('/google/redirect')
   @UseGuards(AuthGuard('google'))
-  async googleRedirect(@Req() req): Promise<UsersEntity | unknown | any> {
-    return this.usersService.googleLogin(req);
+  async googleRedirect(
+    @Req() req,
+    @Res() res,
+  ): Promise<UsersEntity | unknown | any> {
+    return this.usersService.googleLogin(req, res);
   }
 }

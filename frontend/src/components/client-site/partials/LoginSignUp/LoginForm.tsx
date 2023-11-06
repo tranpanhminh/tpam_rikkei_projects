@@ -42,22 +42,11 @@ function LoginForm() {
   };
 
   const handleLoginGoogle = async () => {
+    // window.location.href = `${usersAPI}/google/login`;
     await axios
       .get(`${usersAPI}/google/login`)
       .then((response) => {
-        console.log(response);
-        const dataResponse = response.data;
-        // const dataUser = {
-        //   id: dataResponse.data.id,
-        // };
-
-        // localStorage.setItem("token", response.data.accessToken);
-        // localStorage.setItem("auth", JSON.stringify(dataUser));
-        message.open({
-          type: "success",
-          content: "Login Successfully",
-        });
-        navigate("/");
+        console.log(response.data);
       })
       .catch((error) => {
         notification.warning({
