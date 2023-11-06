@@ -3,6 +3,7 @@ import { Button, Modal, notification } from "antd";
 import axios from "axios";
 import styles from "../../../../AdminPage.module.css";
 import { useNavigate } from "react-router-dom";
+import BaseAxios from "../../../../../../api/apiAxiosClient";
 
 // Import API
 // 1. Users API
@@ -37,8 +38,7 @@ const DetailOrders: React.FC<DetailModalProps> = ({
   // Fetch All Orders
   // 1. Get Order By ID
   const fetchOrderById = () => {
-    axios
-      .get(`${ordersAPI}/detail/${getOrderId}`)
+    BaseAxios.get(`${ordersAPI}/detail/${getOrderId}`)
       .then((response) => {
         setOrderById(response.data);
       })
@@ -52,8 +52,7 @@ const DetailOrders: React.FC<DetailModalProps> = ({
 
   useEffect(() => {
     const fetchOrders = () => {
-      axios
-        .get(`${ordersAPI}/${getOrderId}/detail`)
+      BaseAxios.get(`${ordersAPI}/${getOrderId}/detail`)
         .then((response) => {
           setOrders(response.data);
         })
@@ -82,10 +81,8 @@ const DetailOrders: React.FC<DetailModalProps> = ({
   const handleOk = () => {
     const orderInfo = {
       status_id: shippingStatus,
-      // updated_at: Date.now(),
     };
-    axios
-      .patch(`${ordersAPI}/update/${getOrderId}`, orderInfo)
+    BaseAxios.patch(`${ordersAPI}/update/${getOrderId}`, orderInfo)
       .then((response) => {
         notification.success({
           message: `${response.data.message}`,

@@ -153,13 +153,15 @@ function Report() {
   // 1. Total Orders
   const totalSales = () => {
     const totalSales = orders.reduce((accumulator: number, order: any) => {
-      if (order.status_id === 5) {
+      if (order.status_id === 4) {
         return accumulator + order.total_bill;
       }
       return accumulator; // Thêm dòng này để trả về accumulator khi điều kiện không thỏa mãn
     }, 0); // 0 là giá trị khởi tạo cho accumulator
     return totalSales;
   };
+
+  console.log(totalSales(), "AAA");
 
   // --------------------------------------------------
   let bestProductRating: any = [];

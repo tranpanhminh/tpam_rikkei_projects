@@ -36,7 +36,7 @@ export class OrderItemsController {
 
   // 3. Report Order Items
   @Get('/report')
-  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
+  // @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async reportOrderItems(): Promise<OrderItemsEntity | unknown> {
     const result: OrderItemsEntity | unknown =
       await this.orderItemsService.reportOrderItems();

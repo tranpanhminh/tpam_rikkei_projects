@@ -25,10 +25,9 @@ DROP TABLE IF EXISTS `booking_statuses`;
 CREATE TABLE `booking_statuses` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`)
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -38,7 +37,7 @@ CREATE TABLE `booking_statuses` (
 
 LOCK TABLES `booking_statuses` WRITE;
 /*!40000 ALTER TABLE `booking_statuses` DISABLE KEYS */;
-INSERT INTO `booking_statuses` VALUES (1,'Pending','2023-10-10 07:10:46','2023-10-10 07:10:46'),(2,'Processing','2023-10-10 07:10:49','2023-10-10 07:10:49'),(3,'Done','2023-10-10 07:10:54','2023-10-10 07:10:54'),(4,'Cancel','2023-10-10 07:10:59','2023-10-10 07:10:59');
+INSERT INTO `booking_statuses` VALUES (1,'Pending','2023-10-28 15:19:00','2023-10-28 15:19:00'),(2,'Processing','2023-10-28 15:19:03','2023-10-28 15:19:03'),(3,'Done','2023-10-28 15:19:07','2023-10-28 15:19:07'),(4,'Cancel','2023-10-28 15:19:11','2023-10-28 15:19:11'),(5,'Test 2','2023-10-28 15:19:15','2023-11-04 09:21:44');
 /*!40000 ALTER TABLE `booking_statuses` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-26 11:25:42
+-- Dump completed on 2023-11-06 11:46:16

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./ClientCart.module.css";
 import logo from "../../../../assets/images/pet-shop.png";
 import axios from "axios";
-import { notification, Button, Modal } from "antd";
+import { notification, Button, Modal, message } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
 import BaseAxios from "./../../../../api/apiAxiosClient";
 
@@ -30,6 +30,7 @@ function ClientCart() {
 
   // List State
   const [cart, setCart] = useState([]);
+  const [messageApi, contextHolder] = message.useMessage();
   const [userCart, setUserCart] = useState<any>([]);
   const [coupons, setCoupons] = useState<any>([]);
   const [quantity, setQuantity] = useState<any>("");
@@ -160,11 +161,10 @@ function ClientCart() {
     const cartInfo = {
       quantity: event.target.value,
     };
-    axios
-      .patch(
-        `${cartsAPI}/update/products/${productId}/users/${getLoginData.id}`,
-        cartInfo
-      )
+    BaseAxios.patch(
+      `${cartsAPI}/update/products/${productId}/users/${getLoginData.id}`,
+      cartInfo
+    )
       .then((response) => {
         fetchUserCart();
       })
@@ -180,11 +180,20 @@ function ClientCart() {
 
   // CheckOut
   const handleCheckout = async () => {
-    BaseAxios.post(`${ordersAPI}/checkout/users/${getLoginData.id}`, userInfo)
+    // messageApi.open({
+    //   type: "loading",
+    //   content: "Loading...",
+    //   duration: 0,
+    // });
+    await BaseAxios.post(
+      `${ordersAPI}/checkout/users/${getLoginData.id}`,
+      userInfo
+    )
       .then((response) => {
         setUserInfo({
           phone: "",
         });
+        // messageApi.destroy();
         // Lấy URL từ response
         const url = response.data.url;
         // Redirect tại frontend
@@ -215,6 +224,7 @@ function ClientCart() {
 
   return (
     <>
+      {contextHolder}
       <div className={styles["background-outside-shopping-cart"]}>
         <div className={styles["background-shopping-cart"]}>
           <div className={styles["shopping-cart-grid"]}>

@@ -25,11 +25,10 @@ DROP TABLE IF EXISTS `user_statuses`;
 CREATE TABLE `user_statuses` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +37,7 @@ CREATE TABLE `user_statuses` (
 
 LOCK TABLES `user_statuses` WRITE;
 /*!40000 ALTER TABLE `user_statuses` DISABLE KEYS */;
-INSERT INTO `user_statuses` VALUES (1,'Active','2023-10-10 07:02:54','2023-10-10 07:02:54'),(2,'Inactive','2023-10-10 07:02:59','2023-10-10 07:02:59');
+INSERT INTO `user_statuses` VALUES (1,'Active','2023-10-27 15:16:47','2023-10-27 15:16:47'),(2,'Inactive','2023-10-27 15:16:51','2023-10-27 15:16:51'),(4,'Test','2023-10-28 14:04:57','2023-10-28 14:04:57');
 /*!40000 ALTER TABLE `user_statuses` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-26 11:25:42
+-- Dump completed on 2023-11-06 11:46:16

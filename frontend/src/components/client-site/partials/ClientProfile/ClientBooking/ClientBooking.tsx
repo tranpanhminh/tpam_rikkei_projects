@@ -28,7 +28,7 @@ function ClientBooking() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const fetchUserBooking = () => {
-    axios
+    BaseAxios
       .get(`${bookingsAPI}/filter/users/${getLoginData.id}`)
       .then((response) => {
         setUserBooking(response.data);

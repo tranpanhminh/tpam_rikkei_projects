@@ -16,30 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `working_times`
+-- Table structure for table `working_time`
 --
 
-DROP TABLE IF EXISTS `working_times`;
+DROP TABLE IF EXISTS `working_time`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `working_times` (
+CREATE TABLE `working_time` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `morning_time` text NOT NULL,
-  `afternoon_time` text NOT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
+  `morning_time` varchar(255) NOT NULL,
+  `afternoon_time` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `working_times`
+-- Dumping data for table `working_time`
 --
 
-LOCK TABLES `working_times` WRITE;
-/*!40000 ALTER TABLE `working_times` DISABLE KEYS */;
-INSERT INTO `working_times` VALUES (1,'09:00 AM - 11:30 AM','14:00 PM - 16:30 PM','2023-10-10 07:13:43','2023-10-10 07:13:43');
-/*!40000 ALTER TABLE `working_times` ENABLE KEYS */;
+LOCK TABLES `working_time` WRITE;
+/*!40000 ALTER TABLE `working_time` DISABLE KEYS */;
+INSERT INTO `working_time` VALUES (1,'09:00 AM - 11:30 AM','14:00 PM - 16:30 PM','2023-10-28 15:49:04','2023-10-28 15:49:04');
+/*!40000 ALTER TABLE `working_time` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-26 11:25:43
+-- Dump completed on 2023-11-06 11:46:17

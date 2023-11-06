@@ -26,19 +26,18 @@ CREATE TABLE `services` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `description` text NOT NULL,
-  `price` int NOT NULL,
+  `price` float NOT NULL,
   `service_image` text NOT NULL,
-  `working_time_id` int NOT NULL,
-  `post_type_id` int NOT NULL DEFAULT '2',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
+  `working_time_id` int DEFAULT NULL,
+  `post_type_id` int NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`),
-  KEY `working_time_id` (`working_time_id`),
-  KEY `post_type_id` (`post_type_id`),
-  CONSTRAINT `services_ibfk_1` FOREIGN KEY (`working_time_id`) REFERENCES `working_times` (`id`) ON UPDATE CASCADE,
-  CONSTRAINT `services_ibfk_2` FOREIGN KEY (`post_type_id`) REFERENCES `post_types` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `FK.working_time.services` (`working_time_id`),
+  KEY `FK.post_types.services` (`post_type_id`),
+  CONSTRAINT `FK.post_types.services` FOREIGN KEY (`post_type_id`) REFERENCES `post_types` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `FK.working_time.services` FOREIGN KEY (`working_time_id`) REFERENCES `working_time` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,7 +46,7 @@ CREATE TABLE `services` (
 
 LOCK TABLES `services` WRITE;
 /*!40000 ALTER TABLE `services` DISABLE KEYS */;
-INSERT INTO `services` VALUES (1,'Veterinarian','<p>The health of your pets is our utmost priority. Our Veterinarian service provides health check-ups, vaccinations, diagnoses, and treatments as needed. Our experienced veterinary team ensures your pets are in prime condition, offering peace of mind for their well-being.</p>',300,'http://localhost:7373/uploads/1696923364216-veterinary-service.jpg',1,2,'2023-10-10 07:36:04','2023-10-14 04:54:37'),(2,'Pet Grooming','<p>Our Pet Grooming service offers your furry companions a professional pampering experience. Our pet care team will clean their coat, trim their nails, and style their fur, ensuring they look and feel their best, radiating a fresh and delightful appearance.</p>',300,'http://localhost:7373/uploads/1696923407529-dog-grooming-service.jpg',1,2,'2023-10-10 07:36:47','2023-10-12 16:57:40'),(3,'Pet Sitting','When you require personal time away from your pet, our Pet Sitting service ensures they receive attentive care. Our dedicated team will visit your home to tend to your pets, providing feeding, walks, and all the love and attention they need, bridging the gap in your absence.',200,'http://localhost:7373/uploads/1696923422191-pet-sitting-service.png',1,2,'2023-10-10 07:37:02','2023-10-10 07:37:02');
+INSERT INTO `services` VALUES (1,'Veterinarian','<p>The health of your pets is our utmost priority. Our Veterinarian service provides health check-ups, vaccinations, diagnoses, and treatments as needed. Our experienced veterinary team ensures your pets are in prime condition, offering peace of mind for their well-being.</p>',300,'https://i.ibb.co/3YZ8rbD/veterinary-service.jpg',1,2,'2023-10-10 00:36:04','2023-10-13 21:54:37'),(2,'Pet Grooming','<p>Our Pet Grooming service offers your furry companions a professional pampering experience. Our pet care team will clean their coat, trim their nails, and style their fur, ensuring they look and feel their best, radiating a fresh and delightful appearance.</p>',300,'https://i.ibb.co/wS3TF7j/dog-grooming-service.jpg',1,2,'2023-10-10 00:36:47','2023-10-12 09:57:40'),(3,'Pet Sitting','When you require personal time away from your pet, our Pet Sitting service ensures they receive attentive care. Our dedicated team will visit your home to tend to your pets, providing feeding, walks, and all the love and attention they need, bridging the gap in your absence.',200,'https://i.ibb.co/PjQbR00/pet-sitting-service.png',1,2,'2023-10-10 00:37:02','2023-10-10 00:37:02');
 /*!40000 ALTER TABLE `services` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -60,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-26 11:25:43
+-- Dump completed on 2023-11-06 11:46:16

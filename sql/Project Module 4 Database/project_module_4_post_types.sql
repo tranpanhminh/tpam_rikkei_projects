@@ -25,10 +25,9 @@ DROP TABLE IF EXISTS `post_types`;
 CREATE TABLE `post_types` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`)
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -38,7 +37,7 @@ CREATE TABLE `post_types` (
 
 LOCK TABLES `post_types` WRITE;
 /*!40000 ALTER TABLE `post_types` DISABLE KEYS */;
-INSERT INTO `post_types` VALUES (1,'Product','2023-10-10 07:09:44','2023-10-10 07:09:44'),(2,'Service','2023-10-10 07:09:47','2023-10-10 07:09:47'),(3,'Post','2023-10-10 07:09:51','2023-10-10 07:09:51'),(4,'Page','2023-10-10 07:09:56','2023-10-10 07:09:56');
+INSERT INTO `post_types` VALUES (1,'Product','2023-10-28 15:35:28','2023-10-28 15:35:28'),(2,'Service','2023-10-28 15:35:31','2023-10-28 15:35:31'),(3,'Post','2023-10-28 15:35:35','2023-10-28 15:35:35'),(4,'Page','2023-10-28 15:35:39','2023-10-28 15:35:39');
 /*!40000 ALTER TABLE `post_types` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-26 11:25:43
+-- Dump completed on 2023-11-06 11:46:17

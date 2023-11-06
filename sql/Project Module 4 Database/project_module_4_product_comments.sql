@@ -24,23 +24,21 @@ DROP TABLE IF EXISTS `product_comments`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `product_comments` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `comment` text NOT NULL,
-  `rating` decimal(2,1) NOT NULL DEFAULT '5.0',
-  `post_type_id` int NOT NULL DEFAULT '1',
+  `comment` longtext NOT NULL,
+  `rating` float NOT NULL,
+  `post_type_id` int NOT NULL,
   `post_id` int NOT NULL,
   `user_id` int NOT NULL,
-  `user_role_id` int NOT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`),
-  KEY `post_type_id` (`post_type_id`),
-  KEY `post_id` (`post_id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `product_comments_ibfk_1` FOREIGN KEY (`post_type_id`) REFERENCES `post_types` (`id`) ON UPDATE CASCADE,
-  CONSTRAINT `product_comments_ibfk_2` FOREIGN KEY (`post_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `product_comments_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `FK.products.product_comments` (`post_id`),
+  KEY `FK.users.product_comments` (`user_id`),
+  KEY `FK.post_types.product_comments` (`post_type_id`),
+  CONSTRAINT `FK.post_types.product_comments` FOREIGN KEY (`post_type_id`) REFERENCES `post_types` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `FK.products.product_comments` FOREIGN KEY (`post_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK.users.product_comments` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -49,7 +47,7 @@ CREATE TABLE `product_comments` (
 
 LOCK TABLES `product_comments` WRITE;
 /*!40000 ALTER TABLE `product_comments` DISABLE KEYS */;
-INSERT INTO `product_comments` VALUES (1,'I\'m really impressed with this product. It\'s well-made and exceeded my expectations.',5.0,1,1,4,3,'2023-10-12 02:23:28','2023-10-12 02:23:28'),(2,'The quality of this product is outstanding. I couldn\'t be happier with my purchase.',5.0,1,1,1,1,'2023-10-12 02:23:41','2023-10-12 02:23:41'),(4,'I\'ve been using this product for a while now, and it\'s still in perfect condition. Great durability!',3.0,1,1,5,3,'2023-10-12 02:23:49','2023-10-12 02:23:49'),(39,'<p>Good</p>',5.0,1,3,1,1,'2023-10-17 06:44:11','2023-10-17 06:44:11'),(40,'<p>This product is so good</p>',5.0,1,3,4,3,'2023-10-18 15:08:59','2023-10-18 15:08:59'),(41,'<p>I very love it</p>',5.0,1,3,9,3,'2023-10-18 15:09:35','2023-10-18 15:09:35'),(42,'<p>Dịch vụ tốt</p>',5.0,1,1,1,1,'2023-10-20 03:40:51','2023-10-20 03:40:51'),(43,'<p>Sản phẩm chất lượng&nbsp;</p>\n<p><img src=\"http://localhost:7373/uploads/1697349434280-shiba%20-%20Copy.jpg\"></p>',5.0,1,1,4,3,'2023-10-20 03:41:13','2023-10-20 03:41:13'),(44,'<p>Tesst</p>',4.0,1,1,4,3,'2023-10-20 03:41:25','2023-10-20 03:41:25'),(45,'<p>&lt;h1&gt;Heading&lt;/h1&gt;</p>',5.0,1,1,4,3,'2023-10-20 03:51:21','2023-10-20 03:51:21'),(46,'<p><em><strong>Heading&nbsp;</strong></em></p>',5.0,1,1,4,3,'2023-10-20 03:52:08','2023-10-20 03:52:08'),(47,'<p>Test</p>',5.0,1,1,4,3,'2023-10-20 03:53:47','2023-10-20 03:53:47'),(48,'<p>Good Game</p>',3.5,1,1,6,3,'2023-10-20 03:54:17','2023-10-20 03:54:17');
+INSERT INTO `product_comments` VALUES (1,'I\'m really impressed with this product. It\'s well-made and exceeded my expectations.',5,1,2,1,'2023-10-12 00:10:58','2023-10-12 00:10:58'),(2,'The quality of this product is outstanding. I couldn\'t be happier with my purchase.',5,1,2,2,'2023-10-12 00:11:06','2023-10-12 00:11:06'),(3,'This product is a game-changer. It\'s made my life so much easier and more convenient.',4,1,2,4,'2023-10-12 00:11:13','2023-10-12 00:11:13'),(4,'I\'ve been using this product for a while now, and it\'s still in perfect condition. Great durability!',3,1,2,5,'2023-10-12 00:11:19','2023-10-12 00:11:19'),(5,'What a fantastic product! It\'s worth every penny and has improved my daily routine.',4,1,2,6,'2023-10-12 00:11:24','2023-10-12 00:11:24'),(6,'I love the design of this product. It\'s sleek and stylish, adding a touch of elegance to my space.',5,1,1,5,'2023-10-12 00:11:37','2023-10-12 00:11:37'),(7,'This product has become an essential part of my daily life. I can\'t imagine living without it.',5,1,1,4,'2023-10-12 00:11:42','2023-10-12 00:11:42'),(8,'I purchased this product as a gift, and the recipient absolutely loved it. Great choice!',4,1,1,7,'2023-10-12 00:11:47','2023-10-12 00:11:47'),(9,'The performance of this product is top-notch. It delivers on its promises and then some.',4,1,1,4,'2023-10-12 00:11:58','2023-11-06 04:40:09'),(10,'I\'m so glad I found this product. It\'s made a noticeable difference in my overall well-being.',4,1,1,4,'2023-10-15 07:22:54','2023-11-06 04:43:30'),(11,'This product is user-friendly and easy to set up. No complicated instructions to worry about.',4,1,1,4,'2023-10-18 00:24:06','2023-11-06 04:43:30');
 /*!40000 ALTER TABLE `product_comments` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -62,4 +60,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-26 11:25:43
+-- Dump completed on 2023-11-06 11:46:18

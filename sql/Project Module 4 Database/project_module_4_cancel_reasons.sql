@@ -25,11 +25,10 @@ DROP TABLE IF EXISTS `cancel_reasons`;
 CREATE TABLE `cancel_reasons` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +37,7 @@ CREATE TABLE `cancel_reasons` (
 
 LOCK TABLES `cancel_reasons` WRITE;
 /*!40000 ALTER TABLE `cancel_reasons` DISABLE KEYS */;
-INSERT INTO `cancel_reasons` VALUES (1,'Ordered the wrong product','2023-10-10 07:04:36','2023-10-10 07:04:36'),(2,'Duplicated order','2023-10-10 07:04:40','2023-10-10 07:04:40'),(3,'I don\'t want to buy anymore','2023-10-10 07:04:44','2023-10-10 07:04:44'),(4,'Another reason...','2023-10-10 07:04:47','2023-10-10 07:04:47');
+INSERT INTO `cancel_reasons` VALUES (1,'Ordered the wrong product','2023-10-27 15:48:13','2023-10-27 15:48:13'),(2,'Duplicated order','2023-10-27 15:48:16','2023-10-27 15:48:16'),(3,'I don\'t want to buy anymore','2023-10-27 15:48:19','2023-10-27 15:48:19'),(4,'Another reason...','2023-10-27 15:48:22','2023-10-27 15:48:22');
 /*!40000 ALTER TABLE `cancel_reasons` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-26 11:25:43
+-- Dump completed on 2023-11-06 11:46:17

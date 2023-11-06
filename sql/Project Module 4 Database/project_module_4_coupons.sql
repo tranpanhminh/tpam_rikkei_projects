@@ -26,13 +26,12 @@ CREATE TABLE `coupons` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `code` varchar(255) NOT NULL,
-  `discount_rate` int NOT NULL,
-  `min_bill` bigint NOT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `discount_rate` float NOT NULL,
+  `min_bill` float NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +40,7 @@ CREATE TABLE `coupons` (
 
 LOCK TABLES `coupons` WRITE;
 /*!40000 ALTER TABLE `coupons` DISABLE KEYS */;
-INSERT INTO `coupons` VALUES (1,'Sale Off 2%','saleoff2',2,200,'2023-10-10 07:05:45','2023-10-10 07:05:45'),(2,'Sale Off 5%','saleoff5',5,500,'2023-10-10 07:05:52','2023-10-10 07:05:52'),(3,'Sale Off 10%','saleoff10',10,1500,'2023-10-10 07:05:58','2023-10-10 07:05:58'),(4,'Sale Off 15%','saleoff15',15,2500,'2023-10-10 07:06:03','2023-10-10 07:06:03'),(5,'Sale Off 20%','saleoff20',20,4000,'2023-10-10 07:06:08','2023-10-10 07:06:08'),(6,'Sale Off 25%','saleoff25',25,6000,'2023-10-10 07:06:14','2023-10-10 07:06:14'),(7,'Sale Off 30%','saleoff30',30,7500,'2023-10-10 07:06:18','2023-10-10 07:06:18'),(8,'Sale Off 40%','saleoff40',40,8000,'2023-10-10 07:06:25','2023-10-10 07:06:25'),(12,'Sale Off 50%','saleoff50',50,10000,'2023-10-16 15:02:49','2023-10-16 15:02:49');
+INSERT INTO `coupons` VALUES (1,'Sale Off 2%','saleoff2','2023-10-27 16:10:44','2023-11-01 07:10:31',2,200),(2,'Sale Off 5%','saleoff5','2023-10-27 16:10:52','2023-11-01 07:10:31',5,500),(3,'Sale Off 10%','saleoff10','2023-10-27 16:11:07','2023-11-01 07:10:31',10,1500),(4,'Sale Off 15%','saleoff15','2023-10-27 16:11:15','2023-11-01 07:10:31',15,2500),(5,'Sale Off 20%','saleoff20','2023-10-27 16:11:31','2023-11-01 07:10:31',20,4000),(6,'Sale Off 25%','saleoff25','2023-10-27 16:11:44','2023-11-01 07:10:31',25,6000),(7,'Sale Off 30%','saleoff30','2023-10-27 16:11:56','2023-11-01 07:10:31',30,7500),(8,'Sale Off 40%','saleoff40','2023-10-27 16:12:06','2023-11-01 07:10:31',40,8000),(9,'Sale Off 50%','saleoff50','2023-10-27 16:12:19','2023-11-01 07:10:31',50,10000);
 /*!40000 ALTER TABLE `coupons` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-26 11:25:42
+-- Dump completed on 2023-11-06 11:46:16
