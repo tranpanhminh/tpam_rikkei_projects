@@ -154,4 +154,10 @@ export class ProductsService {
       return new HttpException('Product Image Updated', HttpStatus.OK);
     }
   }
+
+  // // 8. Report Comments
+  // async reportProductComments(): Promise<ProductsEntity | unknown> {
+  //   const result = await this.productsRepository.reportProductComments();
+  //   return result;
+  // }
 }

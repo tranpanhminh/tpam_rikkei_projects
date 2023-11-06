@@ -114,4 +114,11 @@ export class ProductsController {
       );
     return result;
   }
+
+  // // 8. Report Comments
+  // @Get('/report/product-rating')
+  // async reportBestRatingProduct(): Promise<ProductsEntity | unknown> {
+  //   const result = await this.productsService.reportBestRatingProduct();
+  //   return result;
+  // }
 }

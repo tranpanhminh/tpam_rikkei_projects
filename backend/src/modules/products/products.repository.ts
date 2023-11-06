@@ -20,27 +20,90 @@ export class ProductsRepository {
 
   // 1. Get All
   async getAllProducts(): Promise<ProductsEntity[]> {
-    return await this.productsEntity.find({
-      relations: {
-        vendors: true,
-        post_types: true,
-        product_images: true,
-        product_comments: true,
-      },
-    });
+    // return await this.productsEntity.find({
+    //   relations: {
+    //     vendors: true,
+    //     post_types: true,
+    //     product_images: true,
+    //     product_comments: true,
+    //   },
+    // });
+
+    const query = `
+    SELECT
+      products.id,
+      products.name,
+      products.description,
+      products.price,
+      products.quantity_stock,
+      products.thumbnail_url,
+      products.vendor_id,
+      products.post_type_id,
+      (
+        SELECT JSON_ARRAYAGG(
+          JSON_OBJECT("id", product_images.id, "image_url", product_images.image_url)
+        )
+        FROM product_images
+        WHERE product_images.product_id = products.id
+      ) AS product_images,
+      ROUND(AVG(product_comments.rating), 1) AS "avg_rating",
+      COUNT(product_comments.rating) AS "total_reviews",
+      vendors.name AS vendor_name,
+      post_types.name AS post_type_name
+    FROM products
+    LEFT JOIN product_comments ON product_comments.post_id = products.id
+    LEFT JOIN users ON product_comments.user_id = users.id
+    LEFT JOIN vendors ON vendors.id = products.vendor_id
+    LEFT JOIN post_types ON post_types.id = products.post_type_id
+    
+    WHERE users.role_id NOT IN (1, 2)
+    GROUP BY products.id, products.name, products.description, products.price, products.quantity_stock, products.thumbnail_url, products.vendor_id, products.post_type_id
+  `;
+
+    return await this.productsEntity.query(query);
   }
 
   // 2. Get Detail
   async getDetailProduct(id: number): Promise<ProductsEntity> {
-    return await this.productsEntity.findOne({
-      where: { id: id },
-      relations: {
-        vendors: true,
-        post_types: true,
-        product_images: true,
-        product_comments: true,
-      },
-    });
+    // return await this.productsEntity.findOne({
+    //   where: { id: id },
+    //   relations: {
+    //     vendors: true,
+    //     post_types: true,
+    //     product_images: true,
+    //     product_comments: true,
+    //   },
+    // });
+    const query = `
+    SELECT
+      products.id,
+      products.name,
+      products.description,
+      products.price,
+      products.quantity_stock,
+      products.thumbnail_url,
+      products.vendor_id,
+      products.post_type_id,
+      (
+        SELECT JSON_ARRAYAGG(
+          JSON_OBJECT("id", product_images.id, "image_url", product_images.image_url)
+        )
+        FROM product_images
+        WHERE product_images.product_id = products.id
+      ) AS product_images,
+      ROUND(AVG(product_comments.rating), 1) AS "avg_rating",
+      COUNT(product_comments.rating) AS "total_reviews",
+      vendors.name AS vendor_name,
+      post_types.name AS post_type_name
+    FROM products
+    LEFT JOIN product_comments ON product_comments.post_id = products.id
+    LEFT JOIN users ON product_comments.user_id = users.id
+    LEFT JOIN vendors ON vendors.id = products.vendor_id
+    LEFT JOIN post_types ON post_types.id = products.post_type_id
+    WHERE users.role_id NOT IN (1, 2) AND products.id = ${id} 
+    GROUP BY products.id, products.name, products.description, products.price, products.quantity_stock, products.thumbnail_url, products.vendor_id, products.post_type_id
+  `;
+    return await this.productsEntity.query(query);
   }
 
   // 2. Get Detail Original
@@ -102,4 +165,13 @@ export class ProductsRepository {
   async updateQuantityStock(updatedQuantityStock, productId) {
     return await this.productsEntity.update(productId, updatedQuantityStock);
   }
+
+  // // 9. Report Product Comment
+  // async reportProductComments(): Promise<ProductsEntity | unknown> {
+  //   const query = `
+  //   SELECT * FROM product_comments
+  //   ORDER BY
+  //   `;
+  //   return await this.productsEntity.query(query);
+  // }
 }

@@ -50,4 +50,13 @@ export class ProductCommentsRepository {
       relations: { users: true, post_types: true },
     });
   }
+
+  // // 6. Report Product Comment
+  // async reportProductComments(): Promise<ProductCommentsEntity | unknown> {
+  //   const query = `
+  //   SELECT * FROM product_comments
+  //   ORDER BY 
+  //   `;
+  //   return await this.productCommentsEntity.query(query);
+  // }
 }
