@@ -92,7 +92,6 @@ function ClientProductDetail() {
         console.log(error.message);
       });
   };
-
   const fetchUsers = async () => {
     await axios
       .get(`${usersAPI}/detail/${getLoginData.id}`)
@@ -235,25 +234,25 @@ function ClientProductDetail() {
                   <div className="row row-cols-2">
                     <div className="col">
                       <img
-                        src={products && products.product_images[0]?.image_url}
+                        src={products && products?.product_images[0]?.image_url}
                         alt=""
                       />
                     </div>
                     <div className="col">
                       <img
-                        src={products && products.product_images[1]?.image_url}
+                        src={products && products?.product_images[1]?.image_url}
                         alt=""
                       />
                     </div>
                     <div className="col">
                       <img
-                        src={products && products.product_images[2]?.image_url}
+                        src={products && products?.product_images[2]?.image_url}
                         alt=""
                       />
                     </div>
                     <div className="col">
                       <img
-                        src={products && products.product_images[3]?.image_url}
+                        src={products && products?.product_images[3]?.image_url}
                         alt=""
                       />
                     </div>
@@ -288,7 +287,7 @@ function ClientProductDetail() {
                   </div>
                   <div className={styles["product-vendor"]}>
                     <span>Vendor:</span>
-                    <span>{products && products.vendors.name}</span>
+                    <span>{products && products.vendor_name}</span>
                   </div>
                   {/* <div className={styles["product-sku"]}>
                     <span>SKU:</span>

@@ -46,7 +46,7 @@ export class ServicesController {
 
   // 3. Add
   @Post('/add')
-  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
+  // @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   @FormDataRequest()
   async addService(
     @Body() body: CreateServiceDTO,
