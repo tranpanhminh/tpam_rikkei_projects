@@ -153,15 +153,18 @@ export class UsersController {
   // 12. Google Login
   @Get('/google/login')
   @UseGuards(AuthGuard('google'))
-  async googleLogin(@Req() req): Promise<UsersEntity | unknown | any> {}
+  async googleLogin(
+    @Req() req,
+    @Res() res,
+  ): Promise<UsersEntity | unknown | any> {
+    const result = await this.usersService.googleAuth(req, res);
+    return result;
+  }
 
   // 12. Google Login
   @Get('/google/redirect')
   @UseGuards(AuthGuard('google'))
-  async googleRedirect(
-    @Req() req,
-    @Res() res,
-  ): Promise<UsersEntity | unknown | any> {
+  googleRedirect(@Req() req, @Res() res): Promise<UsersEntity | unknown | any> {
     return this.usersService.googleLogin(req, res);
   }
 }

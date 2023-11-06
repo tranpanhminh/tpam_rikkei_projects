@@ -4,6 +4,9 @@ import logo from "../../../../assets/images/pet-shop-remove-bg.png";
 import styles from "../../ClientPage.module.css";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Cookies from "js-cookie";
+import io from "socket.io-client";
+
 import {
   Button,
   Container,
@@ -18,6 +21,7 @@ import ClientSearch from "../ClientSearch/ClientSearch";
 // Import API
 
 const usersAPI = process.env.REACT_APP_API_USERS;
+const BACKEND_API = process.env.REACT_APP_API_URL;
 
 // -----------------------------------------------------
 
@@ -29,6 +33,7 @@ function ClientHeaderPC() {
     backgroundColor: isActive ? "#33d6bb" : "",
   });
   const navigate = useNavigate();
+  const socket = io(`${BACKEND_API}`); //
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
   console.log(getLoginData);
@@ -64,6 +69,13 @@ function ClientHeaderPC() {
   // const handleSearch = () => {
   //   navigate(`/search/${searchTerm}`);
   // };
+
+  useEffect(() => {
+    socket.on("loginSuccess", (data: any) => {
+      // Xử lý dữ liệu đăng nhập thành công ở đây
+      console.log(data);
+    });
+  }, []);
 
   return (
     <header className={styles["header"]}>

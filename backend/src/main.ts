@@ -2,7 +2,8 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigModule } from '@nestjs/config';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
-import passport from 'passport';
+import * as cookieParser from 'cookie-parser';
+// import passport from 'passport';
 // import { useContainer } from 'typeorm';
 // import * as session from 'express-session';
 
@@ -14,7 +15,7 @@ const frontEndPath = process.env.FRONTEND_PATH;
 // -----------------------------------------------
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
+  app.use(cookieParser());
   app.enableCors({
     credentials: true,
     origin: `${frontEndPath}`,

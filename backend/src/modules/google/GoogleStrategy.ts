@@ -8,7 +8,7 @@ const BACKEND_PATH_API = process.env.BACKEND_PATH_API;
 // ----------------------------------------
 
 @Injectable()
-export class GoogleStrategy extends PassportStrategy(Strategy) {
+export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   constructor() {
     super({
       clientID: GOOGLE_CLIENT_IP,

@@ -21,6 +21,7 @@ import { UserInfoLoginInterface } from './interface/userInfoLogin.interface';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import * as generator from 'generate-password';
+import { MyGateway } from './../../gateway/gateway';
 
 const jwt = require('jsonwebtoken');
 
@@ -30,6 +31,7 @@ export class UsersService {
     private jwtService: JwtService,
     private readonly usersRepository: UsersRepository,
     private readonly cloudinaryService: CloudinaryService,
+    private myGateway: MyGateway,
   ) {}
 
   // 1. Get All
@@ -207,84 +209,70 @@ export class UsersService {
     }
   }
 
+  // Google Auth
+  async googleAuth(req, res): Promise<any> {
+    return res.json({ url: 'http://localhost:7373/api/users/google/redirect' });
+  }
+
   // 12. Google Login
-  async googleLogin(req, res) {
+  async googleLogin(req, res): Promise<any> {
     if (!req.user) {
       return 'No user from google';
     }
-    // return {
-    //   message: 'User information from google',
-    //   user: req.user
-    // }
+
     const dataUserGoogleLogin = req.user;
     // Kiểm tra xem email đã có trong hệ thống hay chưa
     const checkEmail = await this.usersRepository.getDetailUserByEmail(
       dataUserGoogleLogin.email,
     );
 
-    try {
-      // TH1: Nếu đã có trong hệ thống
-      if (checkEmail) {
-        const { password, created_at, updated_at, ...dataUser } = checkEmail;
-        const jwtData = await jwt.sign(
-          dataUser,
-          process.env.ACCESS_TOKEN_SECRET,
-        ); // Mã Token để biết ai đăng nhập
-        return {
-          message: 'Login successfully',
-          accessToken: jwtData,
-          data: dataUser,
-          status: 200,
-        };
-        // res.dataLogin = {
-        //   message: 'Login successfully',
-        //   accessToken: jwtData,
-        //   data: dataUser,
-        //   status: 200,
-        // };
-      } else {
-        // Nếu chưa có thì tạo tài khoản mới và push vào DB
-        const newPassword = generator.generate({
-          length: 10,
-          numbers: true,
-          symbols: true,
-        });
+    if (checkEmail) {
+      const { password, created_at, updated_at, ...dataUser } = checkEmail;
+      const jwtData = await jwt.sign(dataUser, process.env.ACCESS_TOKEN_SECRET); // Mã Token để biết ai đăng nhập
+      const data = {
+        message: 'Login successfully',
+        accessToken: jwtData,
+        data: dataUser,
+        status: 200,
+      };
+      // Gửi dữ liệu tới máy khách thông qua WebSocket
+      this.myGateway.server.emit('googleLoginSuccess', data);
 
-        const salt = 10;
-        const genSalt = await bcrypt.genSalt(salt);
-        const encryptPassword = await bcrypt.hash(newPassword, genSalt);
+      return res.redirect('http://localhost:3000/');
+    } else {
+      // Nếu chưa có thì tạo tài khoản mới và push vào DB
+      const newPassword = generator.generate({
+        length: 10,
+        numbers: true,
+        symbols: true,
+      });
 
-        const newUser: UsersInterface = {
-          email: dataUserGoogleLogin.email,
-          full_name: `${dataUserGoogleLogin.firstName} ${dataUserGoogleLogin.lastName}`,
-          password: encryptPassword,
-          image_avatar: `${dataUserGoogleLogin.picture}`,
-          role_id: 3,
-          status_id: 1,
-        };
+      const salt = 10;
+      const genSalt = await bcrypt.genSalt(salt);
+      const encryptPassword = await bcrypt.hash(newPassword, genSalt);
 
-        await this.usersRepository.userRegister(newUser);
-        const { password, ...dataUser } = newUser;
-        const jwtData = await jwt.sign(
-          dataUser,
-          process.env.ACCESS_TOKEN_SECRET,
-        ); // Mã Token để biết ai đăng nhập
-        // res.dataLogin = {
-        //   message: 'Login successfully',
-        //   accessToken: jwtData,
-        //   data: dataUser,
-        //   status: 200,
-        // };
-        return {
-          message: 'Login successfully',
-          accessToken: jwtData,
-          data: dataUser,
-          status: 200,
-        };
-        // return res.redirect('http://localhost:3000/');
-      }
-    } catch (error) {
-      throw error;
+      const newUser: UsersInterface = {
+        email: dataUserGoogleLogin.email,
+        full_name: `${dataUserGoogleLogin.firstName} ${dataUserGoogleLogin.lastName}`,
+        password: encryptPassword,
+        image_avatar: `${dataUserGoogleLogin.picture}`,
+        role_id: 3,
+        status_id: 1,
+      };
+
+      await this.usersRepository.userRegister(newUser);
+      const { password, ...dataUser } = newUser;
+      const jwtData = await jwt.sign(dataUser, process.env.ACCESS_TOKEN_SECRET); //
+      const data = {
+        message: 'Login successfully',
+        accessToken: jwtData,
+        data: dataUser,
+        status: 200,
+      };
+      // Gửi dữ liệu tới máy khách thông qua WebSocket
+      this.myGateway.server.emit('googleLoginSuccess', data);
+
+      return res.redirect('http://localhost:3000/');
     }
   }
 }

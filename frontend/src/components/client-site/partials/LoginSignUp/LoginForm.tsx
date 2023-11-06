@@ -18,14 +18,14 @@ function LoginForm() {
   });
   const navigate = useNavigate();
   const handleLogin = async () => {
-    await BaseAxios.post(`${usersAPI}/login`, dataLogin)
+    await axios
+      .post(`${usersAPI}/login`, dataLogin)
       .then((response) => {
         console.log(response);
         const dataResponse = response.data;
         const dataUser = {
           id: dataResponse.data.id,
         };
-
         localStorage.setItem("token", response.data.accessToken);
         localStorage.setItem("auth", JSON.stringify(dataUser));
         message.open({
@@ -42,17 +42,21 @@ function LoginForm() {
   };
 
   const handleLoginGoogle = async () => {
-    // window.location.href = `${usersAPI}/google/login`;
-    await axios
-      .get(`${usersAPI}/google/login`)
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        notification.warning({
-          message: `${error.response.data.message}`,
-        });
-      });
+    window.location.href = "http://localhost:7373/api/users/google/redirect";
+    // return "ABC";
+    // await axios
+    //   .get(`${usersAPI}/google/login`)
+    //   .then((response) => {
+    //     // Lấy URL từ response
+    //     const url = response.data.url;
+    //     // Redirect tại frontend
+    //     window.location.href = url;
+    //   })
+    //   .catch((error) => {
+    //     notification.warning({
+    //       message: `${error.response.data.message}`,
+    //     });
+    //   });
   };
 
   return (
