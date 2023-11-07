@@ -2,7 +2,6 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 import BaseAxios from "./apiAxiosClient";
 import { notification } from "antd";
-import { UserInterface } from "../interface/users.interface";
 
 const usersAPI = process.env.REACT_APP_API_USERS;
 

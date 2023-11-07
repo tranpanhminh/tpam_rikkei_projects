@@ -27,7 +27,7 @@ export class AuthenticationGuard implements CanActivate {
       if (!token) {
         throw new UnauthorizedException();
       }
-
+      console.log(token);
       // 2. Verify validate token
       const payload = await this.jwtService.verifyAsync(token, {
         secret: process.env.ACCESS_TOKEN_SECRET,

@@ -22,12 +22,8 @@ async function bootstrap() {
     credentials: true,
     origin: `${frontEndPath}`,
     methods: 'GET,PUT,PATCH,DELETE,POST',
-    allowedHeaders: [
-      'Authorization',
-      'Content-Type',
-      'Access-Control-Allow-Origin',
-    ],
-    optionsSuccessStatus: 200,
+    // allowedHeaders: ['Authorization', 'Content-Type'],
+    // optionsSuccessStatus: 200,
   }); // <- enable CORS
 
   // app.use(passport.initialize());
@@ -67,7 +63,7 @@ async function bootstrap() {
   //     saveUninitialized: false,
   //   }),
   // );
-  events.setMaxListeners(Infinity); // Thêm dòng này để fix lỗi Possible EventEmitter memory leak detected
+  // events.setMaxListeners(Infinity); // Thêm dòng này để fix lỗi Possible EventEmitter memory leak detected
   await app.listen(port);
 }
 bootstrap();

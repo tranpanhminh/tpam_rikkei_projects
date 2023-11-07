@@ -5,6 +5,8 @@ import axios from "axios";
 import { notification, Button, Modal, message } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
 import BaseAxios from "./../../../../api/apiAxiosClient";
+import { getAllCoupons } from "../../../../api/coupons.api";
+import { getDataLogin } from "../../../../api/users.api";
 
 // Import API
 // 1. Products API
@@ -30,59 +32,51 @@ function ClientCart() {
 
   // List State
   const [cart, setCart] = useState([]);
+  const [user, setUser] = useState<any>(null);
   const [messageApi, contextHolder] = message.useMessage();
   const [userCart, setUserCart] = useState<any>([]);
   const [coupons, setCoupons] = useState<any>([]);
   const [quantity, setQuantity] = useState<any>("");
   const [userInfo, setUserInfo] = useState({
-    // user_id: "",
-    // customer_name: "",
-    // address: "",
     phone: "",
-    // cardholder_name: "",
-    // card_number: "",
-    // expiry_date: "",
-    // cvv: "",
   });
 
   // -----------------------------------------------------------
 
   // Fetch API
 
-  // Get User Cart
-  // const fetchCart = () => {
-  //   BaseAxios.get(`${cartsAPI}/detail/users/${getLoginData.id}`)
-  //     .then((response) => {
-  //       setCart(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
-
-  // Get User Cart
-  const fetchUserCart = () => {
-    BaseAxios.get(`${cartsAPI}/detail/users/${getLoginData.id}`)
+  // Get Usre
+  const fetchUser = async () => {
+    await getDataLogin()
       .then((response) => {
-        setUserCart(response.data);
+        setUser(response);
       })
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  // Get User Cart
+  const fetchUserCart = async () => {
+    if (user) {
+      await BaseAxios.get(`${cartsAPI}/detail/users/${user.id}`)
+        .then((response) => {
+          setUserCart(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   // Get Coupons
-  const fetchCoupons = () => {
-    BaseAxios.get(`${couponsAPI}`)
-      .then((response) => {
-        setCoupons(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const fetchCoupons = async () => {
+    const result = await getAllCoupons();
+    return setCoupons(result);
   };
 
   useEffect(() => {
+    fetchUser();
     fetchUserCart();
     fetchCoupons();
   }, []);

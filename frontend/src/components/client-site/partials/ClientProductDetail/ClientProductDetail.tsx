@@ -11,6 +11,9 @@ import { Editor } from "@tinymce/tinymce-react";
 import { Badge } from "react-bootstrap";
 import BaseAxios from "./../../../../api/apiAxiosClient";
 import tinymce from "tinymce";
+import { getDataLogin } from "../../../../api/users.api";
+import { getProductDetailComment } from "../../../../api/products.api";
+import { addProductToCart } from "../../../../api/carts.api";
 const moment = require("moment");
 
 // Import API
@@ -24,10 +27,10 @@ function ClientProductDetail() {
   // List States
   const navigate = useNavigate();
   const getData: any = localStorage.getItem("auth");
+  const [user, setUser] = useState<any>(null);
   const getLoginData = JSON.parse(getData) || "";
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { productId } = useParams();
-  const [user, setUser] = useState<any>(null);
   const [productComments, setProductComments] = useState<any>([]);
   const [products, setProducts] = useState<any>(null);
   const [quantity, setQuantity] = useState<number>(1);
@@ -37,32 +40,20 @@ function ClientProductDetail() {
   });
 
   // --------------------------------------------------------
+  // Get Usre
+  const fetchUser = async () => {
+    await getDataLogin()
+      .then((response) => {
+        setUser(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-  document.title = `${products ? `${products?.name} | PetShop` : "Loading..."}`;
-  // Check Token
-  const token: any = localStorage.getItem("token") || "";
-  let data: any;
-  if (token) {
-    try {
-      data = jwtDecode(token);
-
-      // Đây là một đối tượng được giải mã từ token
-      console.log(data);
-
-      // Kiểm tra thời hạn của token
-      const currentTimestamp = Math.floor(Date.now() / 1000);
-      if (data.exp < currentTimestamp) {
-        console.log("Token is expired.");
-      } else {
-        console.log("Token is valid.");
-      }
-    } catch (error) {
-      navigate("/");
-    }
-  } else {
-    console.log("Token Not Found.");
-  }
-  // --------------------------------------------------------
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   // Ẩn hiện Modal
 
@@ -106,13 +97,12 @@ function ClientProductDetail() {
   };
 
   const fetchProductComments = async () => {
-    await axios
-      .get(`${productCommentsAPI}/${productId}`)
+    await getProductDetailComment(productId)
       .then((response) => {
-        setProductComments(response.data);
+        setProductComments(response);
       })
       .catch((error) => {
-        console.log(error.message);
+        console.log(error);
       });
   };
 
@@ -121,6 +111,7 @@ function ClientProductDetail() {
     fetchUsers();
     fetchProductComments();
   }, []);
+  document.title = `${products ? `${products?.name} | PetShop` : "Loading..."}`;
 
   // --------------------------------------------------------
 
@@ -129,28 +120,15 @@ function ClientProductDetail() {
     const dataCart = {
       quantity: quantity,
     };
-    await BaseAxios.post(
-      `${cartsAPI}/add/products/${productId}/users/${getLoginData.id}`,
-      dataCart
-    )
-      .then((response) => {
-        notification.success({
-          message: `${response.data.message}`,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        notification.warning({
-          message: `${error.response.data.message}`,
-        });
-      });
+    const result = await addProductToCart(productId, user.id, dataCart);
+    return result;
   };
   // --------------------------------------------------------
 
   // Add Comment
   const handleComment = () => {
     BaseAxios.post(
-      `${productCommentsAPI}/add/${productId}/users/${getLoginData.id}`,
+      `${productCommentsAPI}/add/${productId}/users/${user.id}`,
       userComment
     )
       .then((response) => {
@@ -203,10 +181,7 @@ function ClientProductDetail() {
   };
 
   const checkShowDeleteCommentBtn = () => {
-    if (
-      (getLoginData && user?.role_id === 1) ||
-      (getLoginData && user?.role_id === 2)
-    ) {
+    if ((user && user?.role_id === 1) || (user && user?.role_id === 2)) {
       return true;
     }
     return false;
@@ -215,7 +190,7 @@ function ClientProductDetail() {
   // --------------------------------------------------------
 
   const filterCommentsExcludeAdmin = () => {
-    let filterComments = productComments.filter((item: any) => {
+    let filterComments = productComments?.filter((item: any) => {
       return item?.users.role_id !== 1 && item?.users.role_id !== 2;
     });
     return filterComments?.length || 0;
@@ -265,7 +240,7 @@ function ClientProductDetail() {
                   <h2 className={styles["product-title-name"]}>
                     {products && products.name}
                   </h2>
-                  {(data?.role_id === 1 || data?.role_id === 2) && (
+                  {(user?.role_id === 1 || user?.role_id === 2) && (
                     <div className={styles["editor-post-bar"]}>
                       <NavLink
                         to={`/admin/manage-products/?edit-productId=${products.id}`}

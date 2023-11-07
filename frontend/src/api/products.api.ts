@@ -4,6 +4,7 @@ import BaseAxios from "./apiAxiosClient";
 import { notification } from "antd";
 
 const usersAPI = process.env.REACT_APP_API_USERS;
+const productsAPI = process.env.REACT_APP_API_PRODUCT_COMMENTS;
 
 // ---------------------------------
 
@@ -77,5 +78,19 @@ export const deleteUser = async (id: number) => {
       notification.success({
         message: error.data.message,
       });
+    });
+};
+
+// 5. Get Product Detail Comment
+export const getProductDetailComment = async (
+  id: string | number | undefined
+) => {
+  await axios
+    .get(`${productsAPI}/detail/${id}/`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
     });
 };
