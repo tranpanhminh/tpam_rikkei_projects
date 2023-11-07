@@ -57,10 +57,7 @@ function ClientHeaderPC() {
       type: "success",
       content: "Logout Successfully",
     });
-
-    // notification.success({
-    //   message: "Logout Successfully",
-    // });
+    fetchUser();
   };
 
   // const handleSearch = () => {

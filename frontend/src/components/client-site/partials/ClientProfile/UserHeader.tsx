@@ -9,6 +9,7 @@ import { message } from "antd";
 // Import CSS Admin Page
 import styles from "./UserProfile.module.css";
 import "../../../../assets/bootstrap-5.3.0-dist/css/bootstrap.min.css";
+import { getDataLogin } from "../../../../api/users.api";
 
 //  API
 const usersAPI = process.env.REACT_APP_API_USERS;
@@ -20,15 +21,9 @@ const UserHeader: React.FC = () => {
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
   const [user, setUser] = useState<any>(null);
-  const fetchUser = () => {
-    axios
-      .get(`${usersAPI}/detail/${getLoginData.id}`)
-      .then((response) => {
-        setUser(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const fetchUser = async () => {
+    const data = await getDataLogin();
+    setUser(data);
   };
 
   useEffect(() => {
@@ -63,7 +58,7 @@ const UserHeader: React.FC = () => {
           </NavLink>
           {/* <p className={styles["user-title"]}>User Panel</p> */}
           <Badge bg="success" style={{ fontSize: "16px", marginTop: "30px" }}>
-            {user?.full_name.length > 15
+            {user?.full_name?.length > 15
               ? user?.full_name.split(" ")[0]
               : user?.full_name}
           </Badge>

@@ -22,13 +22,6 @@ function LoginForm() {
     password: "",
   });
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-
-  if (searchParams.get("googleAuth")) {
-    const token: any = searchParams.get("googleAuth");
-    localStorage.setItem("token", token?.toString());
-    navigate("/");
-  }
 
   const handleLogin = async () => {
     await axios
@@ -58,21 +51,6 @@ function LoginForm() {
     const result = await googleLogin();
     console.log(result);
   };
-
-  useEffect(() => {
-    const handleGoogleRedirect = async () => {
-      try {
-        const response: any = await googleCallback();
-        localStorage.setItem("token", response);
-        console.log(response);
-        navigate("/");
-      } catch (error) {
-        console.error("Error handling Google redirect:", error);
-      }
-    };
-
-    handleGoogleRedirect();
-  }, []);
 
   return (
     <div className={styles["outside-form-login"]}>

@@ -236,7 +236,7 @@ export class UsersService {
         status: 200,
       };
       // return { accessToken: jwtData };
-      return res.redirect(`${FRONTEND_PATH}/login/?googleAuth=${jwtData}`);
+      return res.redirect(`${FRONTEND_PATH}/?googleAuth=${jwtData}`);
     } else {
       // Nếu chưa có thì tạo tài khoản mới và push vào DB
       const newPassword = generator.generate({
@@ -268,7 +268,7 @@ export class UsersService {
         status: 200,
       };
       // return { accessToken: jwtData };
-      return res.redirect(`${FRONTEND_PATH}/login/?googleAuth=${jwtData}`);
+      return res.redirect(`${FRONTEND_PATH}/?googleAuth=${jwtData}`);
     }
   }
 }

@@ -5,6 +5,7 @@ import axios from "axios";
 
 import { Account } from "../../../../database";
 import { NavLink, useNavigate } from "react-router-dom";
+import { googleLogin } from "../../../../api/users.api";
 
 // Import API
 const usersAPI = process.env.REACT_APP_API_USERS;
@@ -31,6 +32,10 @@ function SignupForm() {
       });
   };
 
+  const handleLoginGoogle = async () => {
+    const result = await googleLogin();
+    console.log(result);
+  };
   return (
     <div className={styles["outside-form-login"]}>
       <div className={styles["form-signup"]}>
@@ -82,6 +87,12 @@ function SignupForm() {
         <button className={styles["signup-button"]} onClick={handleSignUp}>
           Signup
         </button>
+        <img
+          onClick={handleLoginGoogle}
+          className={styles["login-with-gmail-icon"]}
+          src="https://i.ibb.co/Fn5TJW6/google-signin-button.png"
+          alt=""
+        />
         <p className={styles["login-sentence"]}>
           Already have an account?{" "}
           <NavLink to="/login" className={styles["login-text"]}>
