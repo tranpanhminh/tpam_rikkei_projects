@@ -7,6 +7,10 @@ import { NavLink, useNavigate } from "react-router-dom";
 import BaseAxios from "./../../../../api/apiAxiosClient";
 import { getAllCoupons } from "../../../../api/coupons.api";
 import { getDataLogin } from "../../../../api/users.api";
+import {
+  deleteProductFromCart,
+  getDetailUserCart,
+} from "../../../../api/carts.api";
 
 // Import API
 // 1. Products API
@@ -45,28 +49,16 @@ function ClientCart() {
 
   // Fetch API
 
-  // Get Usre
+  // Get User
   const fetchUser = async () => {
-    await getDataLogin()
-      .then((response) => {
-        setUser(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const result = await getDataLogin();
+    return setUser(result);
   };
 
   // Get User Cart
   const fetchUserCart = async () => {
-    if (user) {
-      await BaseAxios.get(`${cartsAPI}/detail/users/${user.id}`)
-        .then((response) => {
-          setUserCart(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
+    const result = await getDetailUserCart(user.id);
+    return setUserCart(result);
   };
 
   // Get Coupons
@@ -85,8 +77,8 @@ function ClientCart() {
 
   const subTotal = () => {
     let subTotalCart = 0;
-    if (userCart.length > 0) {
-      subTotalCart = userCart.reduce((accumulator: any, item: any) => {
+    if (userCart?.length > 0) {
+      subTotalCart = userCart?.reduce((accumulator: any, item: any) => {
         return accumulator + item.quantity * item.price;
       }, 0);
       return subTotalCart;
@@ -123,30 +115,11 @@ function ClientCart() {
     return subTotal();
   };
 
-  // const orderMessage = (
-  //   <div>
-  //     <NavLink to="/user/my-orders" style={{ textDecoration: "none" }}>
-  //       View Order History
-  //     </NavLink>
-  //   </div>
-  // );
-
   // Xoá sản phẩm
-  const handleDeleteProduct = (productId: number) => {
-    BaseAxios.delete(
-      `${cartsAPI}/delete/products/${productId}/users/${getLoginData.id}`
-    )
-      .then((response) => {
-        notification.success({
-          message: `${response.data.message}`,
-        });
-        fetchUserCart();
-      })
-      .catch((error) => {
-        notification.warning({
-          message: `${error.response.data.message}`,
-        });
-      });
+  const handleDeleteProduct = async (productId: number) => {
+    const result = await deleteProductFromCart(productId, user.id);
+    fetchUserCart();
+    return result;
   };
   // --------------------------------------------------------
 

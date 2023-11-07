@@ -48,7 +48,7 @@ export class CartsController {
 
   // 3. Add
   @Post('/add/products/:id/users/:userId')
-  @UseGuards(AuthenticationGuard, AuthorizationCustomerGuard)
+  // @UseGuards(AuthenticationGuard, AuthorizationCustomerGuard)
   async addProductToCart(
     @Param() param: { id: number; userId: number },
     @Body() body: AddToCartDTO,

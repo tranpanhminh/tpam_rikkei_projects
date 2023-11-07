@@ -9,26 +9,25 @@ import {} from "antd";
 import { Rate } from "antd";
 import { Editor } from "@tinymce/tinymce-react";
 import { Badge } from "react-bootstrap";
-import BaseAxios from "./../../../../api/apiAxiosClient";
 import tinymce from "tinymce";
 import { getDataLogin } from "../../../../api/users.api";
-import { getProductDetailComment } from "../../../../api/products.api";
+import {
+  addProductComment,
+  deleteProductComment,
+  getAllCommentsByProduct,
+} from "../../../../api/productComments.api";
 import { addProductToCart } from "../../../../api/carts.api";
+import { getDetailProduct } from "../../../../api/products.api";
 const moment = require("moment");
 
 // Import API
 const usersAPI = process.env.REACT_APP_API_USERS;
 const productsAPI = process.env.REACT_APP_API_PRODUCTS;
-const productCommentsAPI = process.env.REACT_APP_API_PRODUCT_COMMENTS;
-const cartsAPI = process.env.REACT_APP_API_CARTS;
 
 // ----------------------------------------------------------------------
 function ClientProductDetail() {
   // List States
-  const navigate = useNavigate();
-  const getData: any = localStorage.getItem("auth");
   const [user, setUser] = useState<any>(null);
-  const getLoginData = JSON.parse(getData) || "";
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { productId } = useParams();
   const [productComments, setProductComments] = useState<any>([]);
@@ -40,15 +39,10 @@ function ClientProductDetail() {
   });
 
   // --------------------------------------------------------
-  // Get Usre
+  // Get User
   const fetchUser = async () => {
-    await getDataLogin()
-      .then((response) => {
-        setUser(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const result = await getDataLogin();
+    return setUser(result);
   };
 
   useEffect(() => {
@@ -73,42 +67,18 @@ function ClientProductDetail() {
 
   // Fetch API
   const fetchProducts = async () => {
-    await axios
-      .get(`${productsAPI}/detail/${productId}`)
-      .then((response) => {
-        setProducts(response.data);
-        // setComments(response.data.comments);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  };
-
-  const fetchUsers = async () => {
-    await axios
-      .get(`${usersAPI}/detail/${getLoginData.id}`)
-      .then((response) => {
-        setUser(response.data);
-        // setUserCart(response.data.cart);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+    const result = await getDetailProduct(productId);
+    return setProducts(result);
   };
 
   const fetchProductComments = async () => {
-    await getProductDetailComment(productId)
-      .then((response) => {
-        setProductComments(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const result = await getAllCommentsByProduct(productId);
+    return setProductComments(result);
   };
 
   useEffect(() => {
     fetchProducts();
-    fetchUsers();
+    fetchUser();
     fetchProductComments();
   }, []);
   document.title = `${products ? `${products?.name} | PetShop` : "Loading..."}`;
@@ -126,11 +96,8 @@ function ClientProductDetail() {
   // --------------------------------------------------------
 
   // Add Comment
-  const handleComment = () => {
-    BaseAxios.post(
-      `${productCommentsAPI}/add/${productId}/users/${user.id}`,
-      userComment
-    )
+  const handleComment = async () => {
+    return await addProductComment(productId, user.id, userComment)
       .then((response) => {
         notification.success({ message: response.data.message });
         setUserComment({
@@ -149,6 +116,7 @@ function ClientProductDetail() {
         notification.warning({ message: error.response.data.message });
       });
   };
+
   const editorConfig = {
     height: "300px",
     // plugins: "maxlength", // Sử dụng plugin maxlength
@@ -167,17 +135,9 @@ function ClientProductDetail() {
   // --------------------------------------------------------
 
   // Function Delete Comment
-  const handleDeleteComment = (commentId: number) => {
-    BaseAxios.delete(`${productCommentsAPI}/delete/${commentId}`)
-      .then((response) => {
-        console.log(response);
-        notification.success({ message: response.data.message });
-        fetchProductComments();
-      })
-      .catch((error) => {
-        console.log(error, "EROR");
-        notification.warning({ message: error.data.message });
-      });
+  const handleDeleteComment = async (commentId: number) => {
+    const result = deleteProductComment(commentId);
+    return result;
   };
 
   const checkShowDeleteCommentBtn = () => {
@@ -188,13 +148,6 @@ function ClientProductDetail() {
   };
 
   // --------------------------------------------------------
-
-  const filterCommentsExcludeAdmin = () => {
-    let filterComments = productComments?.filter((item: any) => {
-      return item?.users.role_id !== 1 && item?.users.role_id !== 2;
-    });
-    return filterComments?.length || 0;
-  };
 
   return (
     <>
@@ -265,10 +218,6 @@ function ClientProductDetail() {
                     <span>Vendor:</span>
                     <span>{products && products.vendors?.name}</span>
                   </div>
-                  {/* <div className={styles["product-sku"]}>
-                    <span>SKU:</span>
-                    <span>{products && products.sku}</span>
-                  </div> */}
                   <div className={styles["product-sku"]}>
                     <span>Stock:</span>
                     <span>{products && products.quantity_stock}</span>
@@ -289,13 +238,13 @@ function ClientProductDetail() {
                     <div className={styles["product-rating-section"]}>
                       {products.avg_rating}
                       <i className="fa-solid fa-star"></i>
-                      <span>({filterCommentsExcludeAdmin()} reviews)</span>
+                      <span>({products.total_reviews} reviews)</span>
                     </div>
                   </div>
                   <button
                     className={styles["product-detail-page-add-to-cart-btn"]}
                     onClick={() => {
-                      getLoginData ? handleAddToCart() : showModal();
+                      user ? handleAddToCart() : showModal();
                     }}
                   >
                     Add To Cart
@@ -353,7 +302,7 @@ function ClientProductDetail() {
                 id="editorID"
               />
               <div className={styles["send-comment-btn"]}>
-                {getLoginData ? (
+                {user ? (
                   <Button type="primary" onClick={handleComment}>
                     Comment
                   </Button>

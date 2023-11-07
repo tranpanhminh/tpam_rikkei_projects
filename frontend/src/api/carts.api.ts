@@ -12,7 +12,7 @@ export const addProductToCart = async (
   userId: any,
   data: any
 ) => {
-  await BaseAxios.post(
+  const result = await BaseAxios.post(
     `${cartsAPI}/add/products/${productId}/users/${userId}`,
     data
   )
@@ -26,4 +26,38 @@ export const addProductToCart = async (
         message: `${error.response.data.message}`,
       });
     });
+  return result;
+};
+
+// 2. Get Detail User Cart
+export const getDetailUserCart = async (userId: any) => {
+  const result = await BaseAxios.get(`${cartsAPI}/detail/users/${userId}`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error.response.data.message;
+    });
+  return result;
+};
+
+// 3. Delete Product From Cart
+export const deleteProductFromCart = async (
+  productId: number | string | undefined,
+  userId: number | string | undefined
+) => {
+  const result = await BaseAxios.delete(
+    `${cartsAPI}/delete/products/${productId}/users/${userId}`
+  )
+    .then((response) => {
+      notification.success({
+        message: `${response.data.message}`,
+      });
+    })
+    .catch((error) => {
+      notification.warning({
+        message: `${error.response.data.message}`,
+      });
+    });
+  return result;
 };

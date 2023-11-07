@@ -16,14 +16,14 @@ const frontEndPath = process.env.FRONTEND_PATH;
 
 // -----------------------------------------------
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { cors: true });
+  const app = await NestFactory.create(AppModule);
   app.use(cookieParser());
   app.enableCors({
-    credentials: true,
     origin: `${frontEndPath}`,
     methods: 'GET,PUT,PATCH,DELETE,POST',
-    // allowedHeaders: ['Authorization', 'Content-Type'],
-    // optionsSuccessStatus: 200,
+    allowedHeaders: ['Authorization', 'Content-Type'],
+    credentials: true,
+    optionsSuccessStatus: 200,
   }); // <- enable CORS
 
   // app.use(passport.initialize());

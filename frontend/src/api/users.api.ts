@@ -47,7 +47,7 @@ export const getAllUsers = async () => {
 
 // 3. Get Detail User
 export const getDetailUser = async (id: number) => {
-  await axios
+  const result = await axios
     .get(`${usersAPI}/detail/${id}`)
     .then((response) => {
       return response.data;
@@ -55,6 +55,7 @@ export const getDetailUser = async (id: number) => {
     .catch((error) => {
       return error;
     });
+  return result;
 };
 
 // 4. Change User Status
