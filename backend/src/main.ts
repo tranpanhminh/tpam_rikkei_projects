@@ -3,7 +3,6 @@ import { AppModule } from './app.module';
 import { ConfigModule } from '@nestjs/config';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
-import * as events from 'events';
 // import passport from 'passport';
 // import { useContainer } from 'typeorm';
 // import * as session from 'express-session';

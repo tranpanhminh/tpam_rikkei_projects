@@ -272,7 +272,9 @@ export class UsersService {
     }
   }
 
-  async forgotPassword(email) {}
-  
-  async forgotPassword(email) {}
+  async forgotPassword(email: string) {
+    const token = Math.random().toString();
+  }
+
+  async resetPassword(data) {}
 }

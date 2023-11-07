@@ -1,37 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Button, Modal } from "antd";
 import styles from "../../AdminPage.module.css";
-import { Order } from "../../../../database"; // Import your data fetching and setting functions
-import axios from "axios";
-import DeleteOrder from "./Button/DeleteOrder/DeleteOrder";
-import { notification } from "antd";
 import DetailOrder from "./Button/DetailOrder/DetailOrder";
 import { Badge } from "react-bootstrap";
+import { getAllOrders } from "../../../../api/orders.api";
 const moment = require("moment");
-
-// Import API
-// 1. Users API
-const ordersAPI = process.env.REACT_APP_API_ORDERS;
 
 // ------------------------------------------------
 
 function ManageOrders() {
   document.title = "Manage Orders | PetShop";
-
   const [orders, setOrders] = useState<any>(null);
   const [searchText, setSearchText] = useState<string>("");
 
   // Fetch API
-  const fetchOrders = () => {
-    axios
-      .get(`${ordersAPI}`)
-      .then((response) => {
-        setOrders(response.data);
-        // setOrderCart(response.data.cart);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+  const fetchOrders = async () => {
+    const result = await getAllOrders();
+    return setOrders(result);
   };
 
   useEffect(() => {

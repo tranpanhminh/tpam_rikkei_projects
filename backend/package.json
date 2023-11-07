@@ -48,6 +48,7 @@
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.6.2",
     "nestjs-form-data": "^1.9.1",
+    "nodemailer": "^6.9.7",
     "passport": "^0.6.0",
     "passport-google-oauth20": "^2.0.0",
     "paypal-rest-sdk": "^1.8.1",

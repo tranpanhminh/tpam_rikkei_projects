@@ -12,6 +12,7 @@ export interface OrderInfo {
 export interface CancelOrderInfo {
   cancel_reason_id: number;
 }
+
 // ---------------------------------
 // 1. Get All Orders
 export const getAllOrders = async () => {
@@ -100,46 +101,25 @@ export const cancelOrder = async (
   return result;
 };
 
-// // 3. Delete Product From Cart
-// export const deleteProductFromCart = async (
-//   productId: number | string | undefined,
-//   userId: number | string | undefined
-// ) => {
-//   const result = await BaseAxios.delete(
-//     `${cartsAPI}/delete/products/${productId}/users/${userId}`
-//   )
-//     .then((response) => {
-//       notification.success({
-//         message: `${response.data.message}`,
-//       });
-//     })
-//     .catch((error) => {
-//       notification.warning({
-//         message: `${error.response.data.message}`,
-//       });
-//     });
-//   return result;
-// };
-
-// // 4. Update Product Quantity In Cart
-// export const updateProductQuantityInCart = async (
-//   productId: number | string | undefined,
-//   userId: number | string | undefined,
-//   dataCart: ProductQuantity
-// ) => {
-//   const result = await BaseAxios.patch(
-//     `${cartsAPI}/update/products/${productId}/users/${userId}`,
-//     dataCart
-//   )
-//     .then((response) => {
-//       //   notification.success({
-//       //     message: `${response.data.message}`,
-//       //   });
-//     })
-//     .catch((error) => {
-//       notification.warning({
-//         message: `${error.response.data.message}`,
-//       });
-//     });
-//   return result;
-// };
+// 4. Update Product Quantity In Cart
+export const updateOrder = async (
+  orderId: number | string | undefined,
+  orderInfo: any
+) => {
+  const result = await BaseAxios.patch(
+    `${ordersAPI}/update/${orderId}`,
+    orderInfo
+  )
+    .then((response) => {
+      notification.success({
+        message: `${response.data.message}`,
+      });
+      return true;
+    })
+    .catch((error) => {
+      notification.warning({
+        message: `${error.response.data.message}`,
+      });
+    });
+  return result;
+};

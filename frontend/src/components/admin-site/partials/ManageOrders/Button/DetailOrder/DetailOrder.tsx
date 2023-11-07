@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Button, Modal, notification } from "antd";
-import axios from "axios";
 import styles from "../../../../AdminPage.module.css";
 import { useNavigate } from "react-router-dom";
 import BaseAxios from "../../../../../../api/apiAxiosClient";
+import {
+  getOrderItems,
+  getUserOrderInfo,
+  updateOrder,
+} from "../../../../../../api/orders.api";
 
 // Import API
 // 1. Users API
 const ordersAPI = process.env.REACT_APP_API_ORDERS;
-const orderStatusAPI = process.env.REACT_APP_API_ORDER_STATUS;
-const paymentsAPI = process.env.REACT_APP_API_PAYMENTS;
 
 // ------------------------------------------------
 
@@ -37,28 +39,18 @@ const DetailOrders: React.FC<DetailModalProps> = ({
 
   // Fetch All Orders
   // 1. Get Order By ID
-  const fetchOrderById = () => {
-    BaseAxios.get(`${ordersAPI}/detail/${getOrderId}`)
-      .then((response) => {
-        setOrderById(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const fetchOrderById = async () => {
+    const result = await getUserOrderInfo(getOrderId);
+    return setOrderById(result);
   };
   useEffect(() => {
     fetchOrderById();
   }, []);
 
   useEffect(() => {
-    const fetchOrders = () => {
-      BaseAxios.get(`${ordersAPI}/${getOrderId}/detail`)
-        .then((response) => {
-          setOrders(response.data);
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
+    const fetchOrders = async () => {
+      const result = await getOrderItems(getOrderId);
+      return setOrders(result);
     };
 
     fetchOrders();
@@ -78,26 +70,19 @@ const DetailOrders: React.FC<DetailModalProps> = ({
     setIsModalOpen(false);
   };
 
-  const handleOk = () => {
+  const handleOk = async () => {
     const orderInfo = {
       status_id: shippingStatus,
     };
-    BaseAxios.patch(`${ordersAPI}/update/${getOrderId}`, orderInfo)
-      .then((response) => {
-        notification.success({
-          message: `${response.data.message}`,
-        });
-        handleFunctionOk();
-        fetchOrderById();
-        setShippingStatus("");
-        setIsModalOpen(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        notification.warning({
-          message: `${error.response.data.message}`,
-        });
-      });
+
+    const result = await updateOrder(getOrderId, orderInfo);
+    if (result) {
+      handleFunctionOk();
+      fetchOrderById();
+      setShippingStatus("");
+      setIsModalOpen(false);
+    }
+
     // Cập nhật trạng thái đơn hàng trong cơ sở dữ liệu của người dùng
   };
 
