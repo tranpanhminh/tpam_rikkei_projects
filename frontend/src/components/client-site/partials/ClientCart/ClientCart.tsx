@@ -10,6 +10,7 @@ import { getDataLogin } from "../../../../api/users.api";
 import {
   deleteProductFromCart,
   getDetailUserCart,
+  updateProductQuantityInCart,
 } from "../../../../api/carts.api";
 
 // Import API
@@ -123,25 +124,19 @@ function ClientCart() {
   };
   // --------------------------------------------------------
 
-  // Xoá sản phẩm
-  const handleQuantityInputChange = (event: any, productId: number) => {
+  // Thay đổi số lượng sản phẩm trong Cart
+  const handleQuantityInputChange = async (event: any, productId: number) => {
     const cartInfo = {
       quantity: event.target.value,
     };
-    BaseAxios.patch(
-      `${cartsAPI}/update/products/${productId}/users/${getLoginData.id}`,
+    const result = await updateProductQuantityInCart(
+      productId,
+      user.id,
       cartInfo
-    )
-      .then((response) => {
-        fetchUserCart();
-      })
-      .catch((error) => {
-        notification.warning({
-          message: `${error.response.data.message}`,
-        });
-      });
-
+    );
+    fetchUserCart();
     setQuantity(event.target.value);
+    return result;
   };
   // --------------------------------------------------------
 

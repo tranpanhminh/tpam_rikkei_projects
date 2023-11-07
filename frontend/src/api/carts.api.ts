@@ -4,6 +4,10 @@ import BaseAxios from "./apiAxiosClient";
 import { notification } from "antd";
 
 const cartsAPI = process.env.REACT_APP_API_CARTS;
+// ---------Interface-----------
+export interface ProductQuantity {
+  quantity: number;
+}
 
 // ---------------------------------
 // 1. Add Product To Cart
@@ -53,6 +57,29 @@ export const deleteProductFromCart = async (
       notification.success({
         message: `${response.data.message}`,
       });
+    })
+    .catch((error) => {
+      notification.warning({
+        message: `${error.response.data.message}`,
+      });
+    });
+  return result;
+};
+
+// 4. Update Product Quantity In Cart
+export const updateProductQuantityInCart = async (
+  productId: number | string | undefined,
+  userId: number | string | undefined,
+  dataCart: ProductQuantity
+) => {
+  const result = await BaseAxios.patch(
+    `${cartsAPI}/update/products/${productId}/users/${userId}`,
+    dataCart
+  )
+    .then((response) => {
+      //   notification.success({
+      //     message: `${response.data.message}`,
+      //   });
     })
     .catch((error) => {
       notification.warning({
