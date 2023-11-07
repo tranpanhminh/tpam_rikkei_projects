@@ -90,7 +90,6 @@ export class CartsController {
     @Param() param: { id: number; userId: number },
     @Body() body: UpdateQuantityProductInCartDTO,
   ): Promise<CartsEntity | unknown> {
-    console.log(param.id, param.userId);
     const result = await this.cartsService.updateQuantityProductInCart(
       param.id,
       param.userId,

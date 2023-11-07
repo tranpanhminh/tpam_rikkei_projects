@@ -14,29 +14,13 @@ import {
 } from "../../../../api/carts.api";
 
 // Import API
-// 1. Products API
-const productsAPI = process.env.REACT_APP_API_PRODUCTS;
+
 // 2. Orders API
 const ordersAPI = process.env.REACT_APP_API_ORDERS;
-// 3. Carts API
-const cartsAPI = process.env.REACT_APP_API_CARTS;
-// 4. Order Item API
-const orderItemsAPI = process.env.REACT_APP_API_ORDER_ITEMS;
-// 5. Payments API
-const paymentsAPI = process.env.REACT_APP_API_PAYMENTS;
-// 6. Users API
-const usersAPI = process.env.REACT_APP_API_USERS;
-// 7. Coupons API
-const couponsAPI = process.env.REACT_APP_API_COUPONS;
 
 // -----------------------------------------------------
 function ClientCart() {
-  const getData: any = localStorage.getItem("auth");
-  const getLoginData = JSON.parse(getData) || "";
-  const navigate = useNavigate();
-
   // List State
-  const [cart, setCart] = useState([]);
   const [user, setUser] = useState<any>(null);
   const [messageApi, contextHolder] = message.useMessage();
   const [userCart, setUserCart] = useState<any>([]);
@@ -51,15 +35,12 @@ function ClientCart() {
   // Fetch API
 
   // Get User
-  const fetchUser = async () => {
+  const fetchUserAndUserCart = async () => {
     const result = await getDataLogin();
-    return setUser(result);
-  };
-
-  // Get User Cart
-  const fetchUserCart = async () => {
-    const result = await getDetailUserCart(user.id);
-    return setUserCart(result);
+    const dataCart = await getDetailUserCart(result.id);
+    setUser(result);
+    setUserCart(dataCart);
+    return;
   };
 
   // Get Coupons
@@ -69,8 +50,7 @@ function ClientCart() {
   };
 
   useEffect(() => {
-    fetchUser();
-    fetchUserCart();
+    fetchUserAndUserCart();
     fetchCoupons();
   }, []);
 
@@ -119,7 +99,7 @@ function ClientCart() {
   // Xoá sản phẩm
   const handleDeleteProduct = async (productId: number) => {
     const result = await deleteProductFromCart(productId, user.id);
-    fetchUserCart();
+    fetchUserAndUserCart();
     return result;
   };
   // --------------------------------------------------------
@@ -134,7 +114,7 @@ function ClientCart() {
       user.id,
       cartInfo
     );
-    fetchUserCart();
+    fetchUserAndUserCart();
     setQuantity(event.target.value);
     return result;
   };
@@ -147,10 +127,7 @@ function ClientCart() {
     //   content: "Loading...",
     //   duration: 0,
     // });
-    await BaseAxios.post(
-      `${ordersAPI}/checkout/users/${getLoginData.id}`,
-      userInfo
-    )
+    await BaseAxios.post(`${ordersAPI}/checkout/users/${user.id}`, userInfo)
       .then((response) => {
         setUserInfo({
           phone: "",
@@ -288,92 +265,6 @@ function ClientCart() {
               </div>
 
               <div className={styles["card-info"]}>
-                {/* <div className={styles["card-info-item"]}>
-                  <input
-                    type="text"
-                    className="form-control form-control-lg"
-                    placeholder="Cardholder's Name"
-                    value={userInfo.cardholder_name.toUpperCase()}
-                    onChange={(event) => {
-                      setUserInfo({
-                        ...userInfo,
-                        cardholder_name: event.target.value,
-                      });
-                    }}
-                  />
-                </div>
-                <div className={styles["card-info-item"]}>
-                  <input
-                    type="text"
-                    id="typeText"
-                    className="form-control form-control-lg"
-                    size={17}
-                    placeholder="Card Numbers"
-                    minLength={16}
-                    maxLength={16}
-                    value={Number(userInfo.card_number)}
-                    onChange={(event) => {
-                      setUserInfo({
-                        ...userInfo,
-                        card_number: event.target.value,
-                      });
-                    }}
-                  />
-                </div>
-                <div className={styles["card-info-item-special"]}>
-                  <div className={styles["card-info-item-special-detail"]}>
-                    <label htmlFor="">Expiration</label>
-                    <input
-                      type="text"
-                      id="typeExp"
-                      className="form-control form-control-lg"
-                      placeholder="MM/YYYY"
-                      size={7}
-                      minLength={7}
-                      maxLength={7}
-                      value={userInfo.expiry_date}
-                      onChange={(event) => {
-                        setUserInfo({
-                          ...userInfo,
-                          expiry_date: event.target.value,
-                        });
-                      }}
-                    />
-                  </div>
-                  <div className={styles["card-info-item-special-detail"]}>
-                    <label htmlFor="">CVV</label>
-                    <input
-                      type="password"
-                      id="typeText"
-                      className="form-control form-control-lg"
-                      placeholder="&#9679;&#9679;&#9679;"
-                      minLength={3}
-                      maxLength={3}
-                      value={userInfo.cvv}
-                      onChange={(event) => {
-                        setUserInfo({
-                          ...userInfo,
-                          cvv: event.target.value,
-                        });
-                      }}
-                    />
-                  </div>
-                </div>
-                <div className={styles["card-info-item"]}>
-                  <input
-                    type="text"
-                    id="typeText"
-                    className="form-control form-control-lg"
-                    placeholder="Customer Name"
-                    value={userInfo.customer_name}
-                    onChange={(event) => {
-                      setUserInfo({
-                        ...userInfo,
-                        customer_name: event.target.value,
-                      });
-                    }}
-                  />
-                </div> */}
                 <div className={styles["card-info-item"]}>
                   <input
                     type="text"
@@ -392,38 +283,9 @@ function ClientCart() {
                     }}
                   />
                 </div>
-                {/* <div className={styles["card-info-item"]}>
-                  <input
-                    type="text"
-                    id="typeText"
-                    className="form-control form-control-lg"
-                    size={17}
-                    placeholder="Address"
-                    minLength={16}
-                    maxLength={16}
-                    value={userInfo.address}
-                    onChange={(event) => {
-                      setUserInfo({
-                        ...userInfo,
-                        address: event.target.value,
-                      });
-                    }}
-                  />
-                </div> */}
               </div>
 
               <div className={styles["card-info-item"]}>
-                {/* <div className={styles["card-info-item-detail"]}>
-                  <span>Coupon Code</span>
-                  <input
-                    type="text"
-                    placeholder="code"
-                    value={couponCode}
-                    onChange={(event) => {
-                      setCouponCode(event.target.value);
-                    }}
-                  />
-                </div> */}
                 <div className={styles["card-info-item-detail"]}>
                   <span>Subtotal</span>
                   <span>${subTotal().toLocaleString()}</span>
