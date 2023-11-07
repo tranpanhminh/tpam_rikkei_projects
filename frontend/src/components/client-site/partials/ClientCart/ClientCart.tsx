@@ -3,7 +3,6 @@ import styles from "./ClientCart.module.css";
 import logo from "../../../../assets/images/pet-shop.png";
 import axios from "axios";
 import { notification, Button, Modal, message } from "antd";
-import { NavLink, useNavigate } from "react-router-dom";
 import BaseAxios from "./../../../../api/apiAxiosClient";
 import { getAllCoupons } from "../../../../api/coupons.api";
 import { getDataLogin } from "../../../../api/users.api";

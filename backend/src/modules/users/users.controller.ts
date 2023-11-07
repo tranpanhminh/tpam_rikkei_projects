@@ -24,7 +24,6 @@ import { DataTokenInterface } from './interface/dataToken.interface';
 import { AuthorizationAdminGuard } from 'src/guards/authorizationAdmin.guard';
 import { AuthenticationGuard } from 'src/guards/authentication.guard';
 import { AuthGuard } from '@nestjs/passport';
-import passport from 'passport';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
