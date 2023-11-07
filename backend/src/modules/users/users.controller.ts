@@ -166,10 +166,13 @@ export class UsersController {
     return await this.usersService.googleLogin(req, res);
   }
 
-  // // 12. Google Login
-  // @Get('/google/user-data')
-  // @UseGuards(AuthGuard('jwt'))
-  // googleSuccess(@Req() req, @Res() res) {
-  //   res.json('Success');
-  // }
+  @Post('forgot-password')
+  async forgotPassword(@Body('email') email: string) {
+    await this.usersService.forgotPassword(email); 
+  }
+
+  @Post('reset-password') 
+  async resetPassword(@Body() data: any) {
+    await this.usersService.resetPassword(data);
+  }
 }

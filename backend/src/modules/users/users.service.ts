@@ -271,4 +271,8 @@ export class UsersService {
       return res.redirect(`${FRONTEND_PATH}/?googleAuth=${jwtData}`);
     }
   }
+
+  async forgotPassword(email) {}
+  
+  async forgotPassword(email) {}
 }
