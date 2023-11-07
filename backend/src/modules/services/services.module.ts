@@ -12,7 +12,6 @@ import { UsersEntity } from '../users/database/entity/users.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import { UsersRepository } from '../users/users.repository';
-
 const path = process.env.SERVER_PATH;
 const url = `${path}/services`;
 
@@ -31,6 +30,7 @@ const url = `${path}/services`;
     CloudinaryService,
     UsersService,
     UsersRepository,
+    // MyGateway,
   ],
 })
 export class ServicesModule {

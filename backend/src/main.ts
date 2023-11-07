@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { ConfigModule } from '@nestjs/config';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
+import * as events from 'events';
 // import passport from 'passport';
 // import { useContainer } from 'typeorm';
 // import * as session from 'express-session';
@@ -12,17 +13,23 @@ ConfigModule.forRoot({
 });
 const port = process.env.SERVER_PORT;
 const frontEndPath = process.env.FRONTEND_PATH;
+
 // -----------------------------------------------
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
   app.use(cookieParser());
   app.enableCors({
     credentials: true,
     origin: `${frontEndPath}`,
-    methods: 'GET,HEAD,PUT,PATCH,DELETE,POST',
-    allowedHeaders: ['Authorization', 'Content-Type'],
+    methods: 'GET,PUT,PATCH,DELETE,POST',
+    allowedHeaders: [
+      'Authorization',
+      'Content-Type',
+      'Access-Control-Allow-Origin',
+    ],
     optionsSuccessStatus: 200,
   }); // <- enable CORS
+
   // app.use(passport.initialize());
   // app.use(passport.session());
   app.useGlobalPipes(
@@ -60,6 +67,7 @@ async function bootstrap() {
   //     saveUninitialized: false,
   //   }),
   // );
+  events.setMaxListeners(Infinity); // Thêm dòng này để fix lỗi Possible EventEmitter memory leak detected
   await app.listen(port);
 }
 bootstrap();

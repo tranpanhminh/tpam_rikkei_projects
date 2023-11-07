@@ -10,7 +10,6 @@ import { UsersRepository } from '../users/users.repository';
 import { UsersService } from '../users/users.service';
 import { JwtModule } from '@nestjs/jwt';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
-
 const path = process.env.SERVER_PATH;
 const url = `${path}/user-statuses`;
 
@@ -28,6 +27,7 @@ const url = `${path}/user-statuses`;
     UsersRepository,
     UsersService,
     CloudinaryService,
+    // MyGateway,
   ],
 })
 export class UserStatusesModule {

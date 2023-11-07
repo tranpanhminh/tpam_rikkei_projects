@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../../ClientPage.module.css";
 import axios from "axios";
 import { userAccount } from "../../../../database";
 import { message, notification } from "antd";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
 import BaseAxios from "./../../../../api/apiAxiosClient";
+import {
+  getDataLogin,
+  googleCallback,
+  googleLogin,
+} from "../../../../api/users.api";
 
 // Import API
 const baseURL = process.env.REACT_APP_BASE_URL;
@@ -17,6 +22,14 @@ function LoginForm() {
     password: "",
   });
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  if (searchParams.get("googleAuth")) {
+    const token: any = searchParams.get("googleAuth");
+    localStorage.setItem("token", token?.toString());
+    navigate("/");
+  }
+
   const handleLogin = async () => {
     await axios
       .post(`${usersAPI}/login`, dataLogin)
@@ -42,22 +55,24 @@ function LoginForm() {
   };
 
   const handleLoginGoogle = async () => {
-    window.location.href = "http://localhost:7373/api/users/google/redirect";
-    // return "ABC";
-    // await axios
-    //   .get(`${usersAPI}/google/login`)
-    //   .then((response) => {
-    //     // Lấy URL từ response
-    //     const url = response.data.url;
-    //     // Redirect tại frontend
-    //     window.location.href = url;
-    //   })
-    //   .catch((error) => {
-    //     notification.warning({
-    //       message: `${error.response.data.message}`,
-    //     });
-    //   });
+    const result = await googleLogin();
+    console.log(result);
   };
+
+  useEffect(() => {
+    const handleGoogleRedirect = async () => {
+      try {
+        const response: any = await googleCallback();
+        localStorage.setItem("token", response);
+        console.log(response);
+        navigate("/");
+      } catch (error) {
+        console.error("Error handling Google redirect:", error);
+      }
+    };
+
+    handleGoogleRedirect();
+  }, []);
 
   return (
     <div className={styles["outside-form-login"]}>

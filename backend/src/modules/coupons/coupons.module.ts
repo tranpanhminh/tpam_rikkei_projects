@@ -11,7 +11,6 @@ import { JwtModule } from '@nestjs/jwt';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { UsersService } from './../users/users.service';
 import { UsersRepository } from '../users/users.repository';
-
 const path = process.env.SERVER_PATH;
 const url = `${path}/coupons`;
 
@@ -29,6 +28,7 @@ const url = `${path}/coupons`;
     UsersService,
     UsersRepository,
     CloudinaryService,
+    // MyGateway,
   ],
 })
 export class CouponsModule {

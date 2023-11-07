@@ -14,7 +14,6 @@ import { CheckIsOldPassword } from 'src/middlewares/checkIsOldPassword.middlewar
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { GoogleStrategy } from 'src/modules/google/GoogleStrategy';
 import { PassportModule } from '@nestjs/passport';
-
 const path = process.env.SERVER_PATH;
 const url = `${path}/users`;
 
@@ -25,7 +24,7 @@ const url = `${path}/users`;
     TypeOrmModule.forFeature([UsersEntity]),
     NestjsFormDataModule,
     JwtModule,
-    PassportModule,
+    PassportModule.register({ defaultStrategy: 'google' }),
     // JwtModule.register({
     //   global: true,
     //   signOptions: { expiresIn: '1d' },
@@ -38,6 +37,7 @@ const url = `${path}/users`;
     CloudinaryService,
     JwtService,
     GoogleStrategy,
+    // MyGateway,
   ],
 })
 export class UsersModule {

@@ -19,7 +19,6 @@ import { ServicesEntity } from '../services/database/entity/services.entity';
 import { ServicesRepository } from '../services/services.repository';
 import { JwtModule } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
-
 const path = process.env.SERVER_PATH;
 const url = `${path}/comments/services`;
 
@@ -46,6 +45,7 @@ const url = `${path}/comments/services`;
     UsersRepository,
     ServicesRepository,
     UsersService,
+    // MyGateway,
   ],
 })
 export class ServiceCommentsModule {

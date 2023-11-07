@@ -7,7 +7,6 @@ import { ProductImagesEntity } from './database/entity/productImages.entity';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { NestjsFormDataModule } from 'nestjs-form-data';
 import { CheckProductImageExist } from 'src/middlewares/checkProductImageExist.middleware';
-
 const path = process.env.SERVER_PATH;
 const url = `${path}/product-images`;
 
@@ -19,7 +18,12 @@ const url = `${path}/product-images`;
     NestjsFormDataModule,
   ],
   controllers: [ProductImagesController],
-  providers: [ProductImagesService, ProductImagesRepository, CloudinaryService],
+  providers: [
+    ProductImagesService,
+    ProductImagesRepository,
+    CloudinaryService,
+    // MyGateway,
+  ],
 })
 export class ProductImagesModule {
   configure(consumer: MiddlewareConsumer) {

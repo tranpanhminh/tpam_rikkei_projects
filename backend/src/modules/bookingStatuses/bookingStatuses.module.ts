@@ -13,7 +13,6 @@ import { UsersRepository } from '../users/users.repository';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { UsersModule } from '../users/users.module';
 import { UsersEntity } from '../users/database/entity/users.entity';
-
 const path = process.env.SERVER_PATH;
 const url = `${path}/booking-statuses`;
 
@@ -37,6 +36,7 @@ const url = `${path}/booking-statuses`;
     UsersService,
     UsersRepository,
     CloudinaryService,
+    // MyGateway,
   ],
 })
 export class BookingStatusesModule {

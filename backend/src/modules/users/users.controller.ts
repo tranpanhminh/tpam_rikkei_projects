@@ -151,20 +151,26 @@ export class UsersController {
   }
 
   // 12. Google Login
-  @Get('/google/login')
-  @UseGuards(AuthGuard('google'))
-  async googleLogin(
-    @Req() req,
-    @Res() res,
-  ): Promise<UsersEntity | unknown | any> {
-    const result = await this.usersService.googleAuth(req, res);
-    return result;
+  @Get('/google')
+  // @UseGuards(AuthGuard('google'))
+  async googleLogin(@Res() res): Promise<UsersEntity | unknown | any> {
+    return await this.usersService.getGoogleLoginUrl(res);
   }
 
   // 12. Google Login
-  @Get('/google/redirect')
+  @Get('/google/callback')
   @UseGuards(AuthGuard('google'))
-  googleRedirect(@Req() req, @Res() res): Promise<UsersEntity | unknown | any> {
-    return this.usersService.googleLogin(req, res);
+  async googleRedirect(
+    @Req() req,
+    @Res() res,
+  ): Promise<UsersEntity | unknown | any> {
+    return await this.usersService.googleLogin(req, res);
   }
+
+  // // 12. Google Login
+  // @Get('/google/user-data')
+  // @UseGuards(AuthGuard('jwt'))
+  // googleSuccess(@Req() req, @Res() res) {
+  //   res.json('Success');
+  // }
 }

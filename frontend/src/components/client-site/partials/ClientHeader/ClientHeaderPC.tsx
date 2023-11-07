@@ -5,7 +5,7 @@ import styles from "../../ClientPage.module.css";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
-import io from "socket.io-client";
+// import { io } from "socket.io-client";
 
 import {
   Button,
@@ -17,11 +17,12 @@ import {
 } from "react-bootstrap";
 import { message, notification } from "antd";
 import ClientSearch from "../ClientSearch/ClientSearch";
+import { getDataLogin, getUserGoogleProfile } from "../../../../api/users.api";
 
 // Import API
 
 const usersAPI = process.env.REACT_APP_API_USERS;
-const BACKEND_API = process.env.REACT_APP_API_URL;
+const BACKEND_API = process.env.REACT_APP_BASE_URL;
 
 // -----------------------------------------------------
 
@@ -33,20 +34,16 @@ function ClientHeaderPC() {
     backgroundColor: isActive ? "#33d6bb" : "",
   });
   const navigate = useNavigate();
-  const socket = io(`${BACKEND_API}`); //
   const getData: any = localStorage.getItem("auth");
   const getLoginData = JSON.parse(getData) || "";
-  console.log(getLoginData);
   const [user, setUser] = useState<any>({});
-  const fetchUser = () => {
-    axios
-      .get(`${usersAPI}/detail/${getLoginData.id}`)
-      .then((response) => {
-        setUser(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+
+  const fetchUser = async () => {
+    const result = await getDataLogin();
+    if (result === "Invalid Token") {
+      return;
+    }
+    setUser(result);
   };
 
   useEffect(() => {
@@ -69,13 +66,6 @@ function ClientHeaderPC() {
   // const handleSearch = () => {
   //   navigate(`/search/${searchTerm}`);
   // };
-
-  useEffect(() => {
-    socket.on("loginSuccess", (data: any) => {
-      // Xử lý dữ liệu đăng nhập thành công ở đây
-      console.log(data);
-    });
-  }, []);
 
   return (
     <header className={styles["header"]}>
@@ -139,7 +129,7 @@ function ClientHeaderPC() {
                     className={styles["navlink-main-menu"]}
                     style={{
                       ...NavLinkStyle,
-                      display: getLoginData ? "none" : "",
+                      display: user ? "none" : "",
                       color: "black",
                       fontWeight: "bold",
                     }}
@@ -151,7 +141,7 @@ function ClientHeaderPC() {
                     className={styles["navlink-main-menu"]}
                     style={{
                       ...NavLinkStyle,
-                      display: getLoginData ? "none" : "",
+                      display: user ? "none" : "",
                       color: "black",
                       fontWeight: "bold",
                     }}
@@ -162,7 +152,7 @@ function ClientHeaderPC() {
                     to="/"
                     className={styles["navlink-main-menu"]}
                     style={{
-                      display: getLoginData ? "" : "none",
+                      display: user ? "" : "none",
                       color: "black",
                       fontWeight: "bold",
                     }}
@@ -177,10 +167,10 @@ function ClientHeaderPC() {
                 to="/cart"
                 style={{
                   display:
-                    (getLoginData && user?.user_roles?.id === 1) ||
-                    (getLoginData && user?.user_roles?.id === 2)
+                    (user && user?.role_id === 1) ||
+                    (user && user?.role_id === 2)
                       ? "none"
-                      : getLoginData && user?.user_roles?.id === 3
+                      : user && user?.role_id === 3
                       ? ""
                       : "none",
                 }}
@@ -194,13 +184,13 @@ function ClientHeaderPC() {
               </NavLink>
               <NavLink
                 to={
-                  user?.user_roles?.id === 1 || user?.user_roles?.id === 2
+                  user?.role_id === 1 || user?.role_id === 2
                     ? "/admin"
-                    : user?.user_roles?.id === 3
+                    : user?.role_id === 3
                     ? "/user"
                     : "/"
                 }
-                style={{ display: getLoginData ? "" : "none" }}
+                style={{ display: user ? "" : "none" }}
               >
                 <Button
                   variant="primary"

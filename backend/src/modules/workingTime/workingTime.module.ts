@@ -10,7 +10,6 @@ import { JwtModule } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import { UsersRepository } from '../users/users.repository';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
-
 const path = process.env.SERVER_PATH;
 const url = `${path}/working-time`;
 
@@ -28,6 +27,7 @@ const url = `${path}/working-time`;
     UsersService,
     UsersRepository,
     CloudinaryService,
+    // MyGateway,
   ],
 })
 export class WorkingTimeModule {

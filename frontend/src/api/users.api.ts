@@ -15,30 +15,29 @@ export const getDataLogin = async () => {
   if (token) {
     try {
       data = jwtDecode(token);
-
       // Kiểm tra thời hạn của token
-      const currentTimestamp = Math.floor(Date.now() / 1000);
-      if (data.exp < currentTimestamp) {
-        console.log("Token is expired.");
-      } else {
-        console.log("Token is valid.");
-      }
+      // const currentTimestamp = Math.floor(Date.now() / 1000);
+      // if (data.exp < currentTimestamp) {
+      //   console.log("Token is expired.");
+      // } else {
+      //   console.log("Token is valid.");
+      // }
+      const result = await axios
+        .get(`${usersAPI}/detail/${data.id}`)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          return error;
+        });
+      const { password, ...dataUser } = result;
+      return dataUser;
     } catch (error) {
       return error;
     }
   } else {
-    throw new Error("Invalid Token");
+    console.log("Invalid Token");
   }
-  const result = await axios
-    .get(`${usersAPI}/detail/${data.id}`)
-    .then((response) => {
-      return response.data;
-    })
-    .catch((error) => {
-      return error;
-    });
-  const { password, ...dataUser } = result;
-  return dataUser;
 };
 
 // 2. Get All Users
@@ -104,7 +103,7 @@ export const changeUserPassword = async (id: number, data: any) => {
   return result;
 };
 
-// 6. Change Avatar
+// 7. Change Avatar
 export const changeUserAvatar = async (id: number, data: any, config: any) => {
   const result = await BaseAxios.patch(
     `${usersAPI}/edit-avatar/${id}`,
@@ -114,8 +113,34 @@ export const changeUserAvatar = async (id: number, data: any, config: any) => {
   return result;
 };
 
-// 6. Change Avatar
+// 8. Change Avatar
 export const changeUserName = async (id: number, data: any) => {
   const result = await BaseAxios.patch(`${usersAPI}/update/${id}`, data);
   return result;
+};
+
+// 9. Google Login
+export const googleLogin = async () => {
+  const result = await axios.get(`${usersAPI}/google`);
+  window.location.href = result.data.url;
+};
+
+// 10. Google Callback
+export const googleCallback = async () => {
+  const result = await axios.get(`${usersAPI}/google/callback`);
+  return result.data.accessToken;
+};
+
+// 11. Google Data
+export const getUserGoogleProfile = async (token: string) => {
+  try {
+    const response = await axios.get("/google/user-data", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 };

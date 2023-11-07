@@ -21,9 +21,10 @@ import { UserInfoLoginInterface } from './interface/userInfoLogin.interface';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import * as generator from 'generate-password';
-import { MyGateway } from './../../gateway/gateway';
 
 const jwt = require('jsonwebtoken');
+
+const FRONTEND_PATH = process.env.FRONTEND_PATH;
 
 @Injectable()
 export class UsersService {
@@ -31,7 +32,6 @@ export class UsersService {
     private jwtService: JwtService,
     private readonly usersRepository: UsersRepository,
     private readonly cloudinaryService: CloudinaryService,
-    private myGateway: MyGateway,
   ) {}
 
   // 1. Get All
@@ -210,8 +210,8 @@ export class UsersService {
   }
 
   // Google Auth
-  async googleAuth(req, res): Promise<any> {
-    return res.json({ url: 'http://localhost:7373/api/users/google/redirect' });
+  async getGoogleLoginUrl(res): Promise<any> {
+    return res.json({ url: 'http://localhost:7373/api/users/google/callback' });
   }
 
   // 12. Google Login
@@ -235,10 +235,8 @@ export class UsersService {
         data: dataUser,
         status: 200,
       };
-      // Gửi dữ liệu tới máy khách thông qua WebSocket
-      this.myGateway.server.emit('googleLoginSuccess', data);
-
-      return res.redirect('http://localhost:3000/');
+      // return { accessToken: jwtData };
+      return res.redirect(`${FRONTEND_PATH}/login/?googleAuth=${jwtData}`);
     } else {
       // Nếu chưa có thì tạo tài khoản mới và push vào DB
       const newPassword = generator.generate({
@@ -269,10 +267,8 @@ export class UsersService {
         data: dataUser,
         status: 200,
       };
-      // Gửi dữ liệu tới máy khách thông qua WebSocket
-      this.myGateway.server.emit('googleLoginSuccess', data);
-
-      return res.redirect('http://localhost:3000/');
+      // return { accessToken: jwtData };
+      return res.redirect(`${FRONTEND_PATH}/login/?googleAuth=${jwtData}`);
     }
   }
 }
