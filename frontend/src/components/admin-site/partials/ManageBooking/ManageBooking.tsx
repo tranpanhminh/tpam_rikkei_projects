@@ -1,23 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styles from "../../AdminPage.module.css";
-import { Button, Modal } from "antd";
-
-import { Booking } from "../../../../database"; // Import your data fetching and setting functions
-import axios from "axios";
 import DetailBooking from "../ManageBooking/Button/DetailBooking/DetailBooking";
-import { notification } from "antd";
-import { Badge } from "react-bootstrap";
-
-// Import API
-// 1. Booking API
-const bookingsAPI = process.env.REACT_APP_API_BOOKINGS;
+import { filterGroupBookingDate } from "../../../../api/bookings.api";
 
 // -----------------------------------------------------
 function ManageBooking() {
   document.title = "Manage Booking | PetShop";
 
   const [searchText, setSearchText] = useState<string>("");
-  const [bookings, setBookings] = useState<any>([]);
   const [groupBookingDate, setGroupBookingDate] = useState<any>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -33,31 +23,12 @@ function ManageBooking() {
     setIsModalOpen(false);
   };
 
-  // Fetch API
-  const fetchBooking = async () => {
-    await axios
-      .get(`${bookingsAPI}`)
-      .then((response) => {
-        setBookings(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
   const fetchGroupBookingDate = async () => {
-    await axios
-      .get(`${bookingsAPI}/group`)
-      .then((response) => {
-        setGroupBookingDate(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const result = await filterGroupBookingDate();
+    return setGroupBookingDate(result);
   };
 
   useEffect(() => {
-    fetchBooking();
     fetchGroupBookingDate();
   }, []);
   // -----------------------------------------------------

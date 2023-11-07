@@ -5,7 +5,6 @@ import styles from "../../AdminPage.module.css";
 
 import { NavLink, useNavigate } from "react-router-dom";
 import { message } from "antd";
-import axios from "axios";
 import { Badge } from "react-bootstrap";
 import DetailButtonUser from "../ManageUsers/Button/DetailUser/DetailButtonUser";
 import { getDataLogin, getDetailUser } from "../../../../api/users.api";
@@ -15,8 +14,6 @@ import { getDataLogin, getDetailUser } from "../../../../api/users.api";
 const AdminHeader: React.FC = () => {
   // States
   const navigate = useNavigate();
-  const getData: any = localStorage.getItem("auth");
-  const getLoginData = JSON.parse(getData) || "";
   const [user, setUser] = useState<any>(null);
   // -----------------------------------------------------------
 

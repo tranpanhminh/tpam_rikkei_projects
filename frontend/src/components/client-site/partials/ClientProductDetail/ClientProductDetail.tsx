@@ -132,8 +132,10 @@ function ClientProductDetail() {
 
   // Function Delete Comment
   const handleDeleteComment = async (commentId: number) => {
-    const result = deleteProductComment(commentId);
-    return result;
+    const result = await deleteProductComment(commentId);
+    if (result) {
+      return fetchProductComments();
+    }
   };
 
   const checkShowDeleteCommentBtn = () => {

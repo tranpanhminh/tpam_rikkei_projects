@@ -35,10 +35,11 @@ export const deleteServiceComment = async (commentId: number) => {
       notification.success({
         message: response.data.message,
       });
+      return true;
     })
     .catch((error) => {
       notification.success({
-        message: error.data.message,
+        message: error.response.data.message,
       });
     });
   return result;
@@ -54,5 +55,18 @@ export const addServiceComment = async (
     `${serviceCommentsAPI}/add/${serviceId}/users/${userId}`,
     data
   );
+  return result;
+};
+
+// 4. Get All Service Comments
+export const getAllServiceComments = async () => {
+  const result = await axios
+    .get(`${serviceCommentsAPI}`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error;
+    });
   return result;
 };

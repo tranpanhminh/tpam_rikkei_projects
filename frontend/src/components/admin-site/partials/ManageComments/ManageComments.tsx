@@ -7,6 +7,14 @@ import { Button, notification } from "antd";
 import { NavLink } from "react-router-dom";
 import { Badge } from "react-bootstrap";
 import BaseAxios from "../../../../api/apiAxiosClient";
+import {
+  deleteProductComment,
+  getAllProductComments,
+} from "../../../../api/productComments.api";
+import {
+  deleteServiceComment,
+  getAllServiceComments,
+} from "../../../../api/serviceComments.api";
 const moment = require("moment");
 
 // Import API
@@ -28,26 +36,14 @@ function ManageComments() {
   // Fetch API
   // Fecth Product Comments
   const fetchProductComments = async () => {
-    await axios
-      .get(`${productCommentsAPI}`)
-      .then((response) => {
-        setProductComments(response.data);
-      })
-      .then((error) => {
-        console.log(error);
-      });
+    const result = await getAllProductComments();
+    return setProductComments(result);
   };
 
   // Fecth Service Comments
   const fetchServiceComments = async () => {
-    await axios
-      .get(`${serviceCommentsAPI}`)
-      .then((response) => {
-        setServiceComments(response.data);
-      })
-      .then((error) => {
-        console.log(error);
-      });
+    const result = await getAllServiceComments();
+    return setServiceComments(result);
   };
 
   useEffect(() => {
@@ -55,8 +51,6 @@ function ManageComments() {
     fetchServiceComments();
   }, []);
   // ------------------------------------------------
-  console.log(productComments, "AA");
-  console.log(serviceComments, "BB");
   allComments = productComments.concat(serviceComments);
   // Function Search Comment
   const handleSearchComment = () => {
@@ -73,30 +67,18 @@ function ManageComments() {
   };
 
   // Function Delete Comment
-  const handleDeleteComment = (id: number, commentType: string) => {
+  const handleDeleteComment = async (id: number, commentType: string) => {
     if (commentType === "product") {
-      return BaseAxios.delete(`${productCommentsAPI}/delete/${id}`)
-        .then((response) => {
-          notification.success({
-            message: "Comment Deleted",
-          });
-          fetchProductComments();
-        })
-        .catch((error) => {
-          throw error;
-        });
+      const result = await deleteProductComment(id);
+      if (result) {
+        return fetchProductComments();
+      }
     }
     if (commentType === "service") {
-      return BaseAxios.delete(`${serviceCommentsAPI}/delete/${id}`)
-        .then((response) => {
-          notification.success({
-            message: "Comment Deleted",
-          });
-          fetchServiceComments();
-        })
-        .catch((error) => {
-          throw error;
-        });
+      const result = await deleteServiceComment(id);
+      if (result) {
+        return fetchServiceComments();
+      }
     }
   };
 

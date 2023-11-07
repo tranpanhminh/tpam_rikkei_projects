@@ -115,8 +115,9 @@ function ClientServiceDetail() {
   // Delete Comment
   const handleDeleteComment = async (commentId: number) => {
     const result = await deleteServiceComment(commentId);
-    fetchServiceComments();
-    return result;
+    if (result) {
+      return fetchServiceComments();
+    }
   };
 
   const checkShowDeleteCommentBtn = () => {

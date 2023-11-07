@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Button, Modal, notification } from "antd";
-import axios from "axios";
+import { Button, Modal } from "antd";
 import { useNavigate } from "react-router-dom";
 import styles from "../../../../AdminPage.module.css";
 import { Badge, Table } from "react-bootstrap";
 import {
   filterBookingByDate,
   getAllBookingStatus,
+  getDetailBooking,
+  updateBookingStatus,
 } from "../../../../../../api/bookings.api";
 const moment = require("moment");
-
-// Import API
-// 1. Booking API
-const bookingsAPI = process.env.REACT_APP_API_BOOKINGS;
-const bookingStatusAPI = process.env.REACT_APP_API_BOOKING_STATUS;
 
 // -----------------------------------------------------
 
@@ -108,40 +104,29 @@ const DetailBooking: React.FC<DetailModalProps> = ({
     }
   };
 
-  const handleDetailClick = async (serviceId: any) => {
+  const handleDetailClick = async (bookingId: any) => {
     navigate(
-      `/admin/manage-booking/?date=${getBookingDate}/?bookingId=${serviceId}`
+      `/admin/manage-booking/?date=${getBookingDate}/?bookingId=${bookingId}`
     );
     setStatus(selectedBooking?.status_id);
-    await axios
-      .get(`${bookingsAPI}/detail/${serviceId}`)
-      .then((response) => {
-        setSelectedBooking(response.data);
-        setIsModalOpenUpdateStatus(true);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const result = await getDetailBooking(bookingId);
+    setSelectedBooking(result);
+    setIsModalOpenUpdateStatus(true);
   };
 
-  const handleOkUpdateStatus = () => {
+  const handleOkUpdateStatus = async () => {
     const updateBooking = {
       status_id: status,
     };
-    axios
-      .patch(`${bookingsAPI}/update/${selectedBooking?.id}`, updateBooking)
-      .then((response) => {
-        notification.success({
-          message: `Booking Updated`,
-        });
-        fetchBookingByDate();
-        setIsModalOpenUpdateStatus(false);
-      })
-      .catch((error) => {
-        notification.warning({
-          message: `${error.response.data.message}`,
-        });
-      });
+
+    const result = await updateBookingStatus(
+      selectedBooking?.id,
+      updateBooking
+    );
+    if (result) {
+      fetchBookingByDate();
+      setIsModalOpenUpdateStatus(false);
+    }
   };
 
   const handleCancelUpdateStatus = () => {
@@ -153,7 +138,7 @@ const DetailBooking: React.FC<DetailModalProps> = ({
     if (!searchText) {
       fetchBookingByDate();
     } else {
-      const filteredBooking = groupBookingDate.filter((booking: any) => {
+      const filteredBooking = groupBookingDate?.filter((booking: any) => {
         if (
           booking.id.toString().includes(searchText.trim().toLowerCase()) ||
           booking.name

@@ -35,10 +35,11 @@ export const deleteProductComment = async (commentId: number) => {
       notification.success({
         message: response.data.message,
       });
+      return true;
     })
     .catch((error) => {
       notification.success({
-        message: error.data.message,
+        message: error.response.data.message,
       });
     });
   return result;
@@ -54,5 +55,18 @@ export const addProductComment = async (
     `${productCommentsAPI}/add/${productId}/users/${userId}`,
     data
   );
+  return result;
+};
+
+// 4. Get All Product Comments
+export const getAllProductComments = async () => {
+  const result = await axios
+    .get(`${productCommentsAPI}`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error;
+    });
   return result;
 };
