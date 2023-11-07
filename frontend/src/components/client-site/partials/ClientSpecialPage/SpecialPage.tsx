@@ -1,26 +1,16 @@
 import React, { useEffect, useState } from "react";
 import styles from "../ClientSpecialPage/SpecialPage.module.css";
 import { useParams } from "react-router-dom";
-import axios from "axios";
-// import "../../../../assets/bootstrap-5.3.0-dist/css/bootstrap.min.css";
-// Import API
-// 1, Posts API
-const pagesAPI = process.env.REACT_APP_API_PAGES;
+import { getAllPages } from "../../../../api/pages.api";
 
 // --------------------------------------------------
 
 function SpecialPage() {
   const { pageName } = useParams();
   const [pages, setPages] = useState<any>([]);
-  const fetchPages = () => {
-    axios
-      .get(`${pagesAPI}`)
-      .then((response) => {
-        setPages(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const fetchPages = async () => {
+    const result = await getAllPages();
+    return setPages(result);
   };
 
   useEffect(() => {

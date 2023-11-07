@@ -1,12 +1,12 @@
 import axios from "axios";
 
-const postsAPI = process.env.REACT_APP_API_POSTS;
+const pagesAPI = process.env.REACT_APP_API_PAGES;
 
 // ---------------------------------
-// 1. Get All Posts
-export const getAllPosts = async () => {
+// 1. Get All Pages
+export const getAllPages = async () => {
   const result = await axios
-    .get(`${postsAPI}`)
+    .get(`${pagesAPI}`)
     .then((response) => {
       return response.data;
     })
@@ -16,10 +16,10 @@ export const getAllPosts = async () => {
   return result;
 };
 
-// 2. Get Detail Post
-export const getDetailPost = async (id: number | string | undefined) => {
+// 2. Get Detail Page
+export const getDetailPage = async (id: number | string | undefined) => {
   const result = await axios
-    .get(`${postsAPI}/detail/${id}`)
+    .get(`${pagesAPI}/detail/${id}`)
     .then((response) => {
       return response.data;
     })

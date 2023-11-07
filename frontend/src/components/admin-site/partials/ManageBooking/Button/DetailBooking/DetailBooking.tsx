@@ -4,6 +4,10 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styles from "../../../../AdminPage.module.css";
 import { Badge, Table } from "react-bootstrap";
+import {
+  filterBookingByDate,
+  getAllBookingStatus,
+} from "../../../../../../api/bookings.api";
 const moment = require("moment");
 
 // Import API
@@ -42,25 +46,13 @@ const DetailBooking: React.FC<DetailModalProps> = ({
 
   // Fetch API
   const fetchBookingByDate = async () => {
-    await axios
-      .get(`${bookingsAPI}/filter/date/${getBookingDate}`)
-      .then((response) => {
-        setGroupBookingDate(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const result = await filterBookingByDate(getBookingDate);
+    return setGroupBookingDate(result);
   };
 
   const fetchBookingStatus = async () => {
-    await axios
-      .get(`${bookingStatusAPI}`)
-      .then((response) => {
-        setBookingStatus(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const result = await getAllBookingStatus();
+    return setBookingStatus(result);
   };
 
   useEffect(() => {

@@ -1,5 +1,4 @@
 import axios from "axios";
-import jwtDecode from "jwt-decode";
 import BaseAxios from "./apiAxiosClient";
 import { notification } from "antd";
 
@@ -14,7 +13,18 @@ export interface CancelOrderInfo {
   cancel_reason_id: number;
 }
 // ---------------------------------
-// 1. Get
+// 1. Get All Orders
+export const getAllOrders = async () => {
+  const result = await axios
+    .get(`${ordersAPI}`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error.response.data.message;
+    });
+  return result;
+};
 
 // 2. Get Order By User
 export const getUserOrder = async (userId: string | number | undefined) => {

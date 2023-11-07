@@ -1,29 +1,21 @@
-import { message, notification } from "antd";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { notification } from "antd";
+import { useEffect, useState } from "react";
+import { getAllOrders } from "../../../../api/orders.api";
 
-// Import API
-const ordersAPI = process.env.REACT_APP_API_ORDERS;
 // ---------------------------------------------------
 function NotificationSale() {
   const [notificationIndex, setNotificationIndex] = useState(0);
   const [listOrders, setListOrders] = useState<any>([]);
 
-  const fetchOrder = () => {
-    axios
-      .get(`${ordersAPI}`)
-      .then((response) => {
-        setListOrders(response.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+  const fetchOrder = async () => {
+    const result = await getAllOrders();
+    return setListOrders(result);
   };
 
   useEffect(() => {
     fetchOrder();
   }, []);
-  
+
   const showNotification = () => {
     if (listOrders.length > 0) {
       const item = listOrders[notificationIndex];

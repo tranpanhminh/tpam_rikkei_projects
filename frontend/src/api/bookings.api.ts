@@ -4,6 +4,7 @@ import BaseAxios from "./apiAxiosClient";
 import { notification } from "antd";
 
 const bookingsAPI = process.env.REACT_APP_API_BOOKINGS;
+const bookingStatusAPI = process.env.REACT_APP_API_BOOKING_STATUS;
 
 // -----------------Interface----------------
 export interface BookingInfo {
@@ -64,6 +65,32 @@ export const cancelBooking = async (bookingId: number | string | undefined) => {
       notification.warning({
         message: error.response.data.message,
       });
+    });
+  return result;
+};
+
+// 4. Filter Booking By Date
+export const filterBookingByDate = async (bookingDate: string) => {
+  const result = await axios
+    .get(`${bookingsAPI}/filter/date/${bookingDate}`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  return result;
+};
+
+// 5. Get All Booking Statuses
+export const getAllBookingStatus = async () => {
+  const result = await axios
+    .get(`${bookingStatusAPI}/`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error;
     });
   return result;
 };

@@ -14,7 +14,6 @@ import { getDataLogin } from "../../../../api/users.api";
 
 const UserHeader: React.FC = () => {
   const navigate = useNavigate();
-  const getData: any = localStorage.getItem("auth");
   const [user, setUser] = useState<any>(null);
   const fetchUser = async () => {
     const data = await getDataLogin();
@@ -96,18 +95,6 @@ const UserHeader: React.FC = () => {
               </li>
             </NavLink>
           </div>
-          {/* <div>
-            <NavLink
-              to="/user/my-coupons"
-              className={styles["navlink-menu-user-panel"]}
-              style={navLinkStyle}
-            >
-              <li className={styles["admin-btn"]}>
-                <i className="fa-solid fa-newspaper"></i>
-                My Coupons
-              </li>
-            </NavLink>
-          </div> */}
           <div>
             <NavLink
               to="/"

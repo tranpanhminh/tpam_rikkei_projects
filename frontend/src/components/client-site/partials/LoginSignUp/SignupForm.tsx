@@ -1,14 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "../../ClientPage.module.css";
-import { notification } from "antd";
-import axios from "axios";
 
-import { Account } from "../../../../database";
 import { NavLink, useNavigate } from "react-router-dom";
-import { googleLogin } from "../../../../api/users.api";
-
-// Import API
-const usersAPI = process.env.REACT_APP_API_USERS;
+import { googleLogin, userRegister } from "../../../../api/users.api";
 
 // ----------------------------------------------------------
 function SignupForm() {
@@ -20,22 +14,18 @@ function SignupForm() {
     re_password: "",
   });
 
-  const handleSignUp = () => {
-    axios
-      .post(`${usersAPI}/register`, userInfo)
-      .then((response) => {
-        notification.success({ message: response.data.message });
-        navigate("/login");
-      })
-      .catch((error) => {
-        notification.warning({ message: error.response.data.message });
-      });
+  const handleSignUp = async () => {
+    const result = await userRegister(userInfo);
+    if (result) {
+      navigate("/login");
+    }
   };
 
   const handleLoginGoogle = async () => {
     const result = await googleLogin();
     console.log(result);
   };
+
   return (
     <div className={styles["outside-form-login"]}>
       <div className={styles["form-signup"]}>

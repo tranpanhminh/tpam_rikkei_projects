@@ -4,13 +4,11 @@ import logo from "../../../../assets/images/pet-shop.png";
 import styles from "../../AdminPage.module.css";
 
 import { NavLink, useNavigate } from "react-router-dom";
-import { message, notification } from "antd";
+import { message } from "antd";
 import axios from "axios";
 import { Badge } from "react-bootstrap";
 import DetailButtonUser from "../ManageUsers/Button/DetailUser/DetailButtonUser";
-
-// Import API
-const usersAPI = process.env.REACT_APP_API_USERS;
+import { getDataLogin, getDetailUser } from "../../../../api/users.api";
 
 // -----------------------------------------------------------
 
@@ -23,15 +21,9 @@ const AdminHeader: React.FC = () => {
   // -----------------------------------------------------------
 
   // Fetch API
-  const fetchUser = () => {
-    axios
-      .get(`${usersAPI}/detail/${getLoginData.id}`)
-      .then((response) => {
-        setUser(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const fetchUser = async () => {
+    const result = await getDataLogin();
+    setUser(result);
   };
 
   useEffect(() => {
@@ -52,16 +44,10 @@ const AdminHeader: React.FC = () => {
     });
   };
 
-  const handleUpdateUser = () => {
-    axios
-      .get(`http://localhost:7373/accounts/${getLoginData.loginId}`)
-      .then((response) => {
-        fetchUser();
-        setUser(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const handleUpdateUser = async () => {
+    const result = await getDetailUser(user?.id);
+    fetchUser();
+    return result;
   };
 
   return (

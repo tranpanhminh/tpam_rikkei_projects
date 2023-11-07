@@ -1,19 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "../../ClientPage.module.css";
-import axios from "axios";
-import { userAccount } from "../../../../database";
 import { message, notification } from "antd";
-import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
-import BaseAxios from "./../../../../api/apiAxiosClient";
-import {
-  getDataLogin,
-  googleCallback,
-  googleLogin,
-} from "../../../../api/users.api";
+import { NavLink, useNavigate } from "react-router-dom";
+import { googleLogin, login } from "../../../../api/users.api";
 
-// Import API
-const baseURL = process.env.REACT_APP_BASE_URL;
-const usersAPI = process.env.REACT_APP_API_USERS;
 // ----------------------------------------------
 
 function LoginForm() {
@@ -24,32 +14,14 @@ function LoginForm() {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    await axios
-      .post(`${usersAPI}/login`, dataLogin)
-      .then((response) => {
-        console.log(response);
-        const dataResponse = response.data;
-        const dataUser = {
-          id: dataResponse.data.id,
-        };
-        localStorage.setItem("token", response.data.accessToken);
-        localStorage.setItem("auth", JSON.stringify(dataUser));
-        message.open({
-          type: "success",
-          content: "Login Successfully",
-        });
-        navigate("/");
-      })
-      .catch((error) => {
-        notification.warning({
-          message: `${error.response.data.message}`,
-        });
-      });
+    const result = await login(dataLogin);
+    if (result) {
+      navigate("/");
+    }
   };
 
   const handleLoginGoogle = async () => {
-    const result = await googleLogin();
-    console.log(result);
+    await googleLogin();
   };
 
   return (

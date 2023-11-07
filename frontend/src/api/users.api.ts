@@ -1,7 +1,7 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import BaseAxios from "./apiAxiosClient";
-import { notification } from "antd";
+import { message, notification } from "antd";
 
 const usersAPI = process.env.REACT_APP_API_USERS;
 
@@ -10,6 +10,18 @@ const usersAPI = process.env.REACT_APP_API_USERS;
 export interface UserPassword {
   old_password: string;
   new_password: string;
+}
+
+export interface DataLogin {
+  email: string;
+  password: string;
+}
+
+export interface UserRegister {
+  email: string;
+  full_name: string;
+  password: string;
+  re_password: string;
 }
 // -----------------------------------------
 
@@ -47,8 +59,15 @@ export const getDataLogin = async () => {
 
 // 2. Get All Users
 export const getAllUsers = async () => {
-  const result: any = await axios.get(`${usersAPI}`);
-  return result.data;
+  const result = await axios
+    .get(`${usersAPI}`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error;
+    });
+  return result;
 };
 
 // 3. Get Detail User
@@ -74,7 +93,7 @@ export const changeStatusUser = async (id: number) => {
     })
     .catch((error) => {
       notification.warning({
-        message: error.data.message,
+        message: error.response.data.message,
       });
     });
 };
@@ -88,8 +107,8 @@ export const deleteUser = async (id: number) => {
       });
     })
     .catch((error) => {
-      notification.success({
-        message: error.data.message,
+      notification.warning({
+        message: error.response.data.message,
       });
     });
   return result;
@@ -184,4 +203,42 @@ export const getUserGoogleProfile = async (token: string) => {
   } catch (error) {
     throw error;
   }
+};
+
+// 12. Login (Thường)
+export const login = async (dataLogin: DataLogin) => {
+  const result = await axios
+    .post(`${usersAPI}/login`, dataLogin)
+    .then((response) => {
+      localStorage.setItem("token", response.data.accessToken);
+      message.open({
+        type: "success",
+        content: "Login Successfully",
+      });
+      return true;
+    })
+    .catch((error) => {
+      notification.warning({
+        message: `${error.response.data.message}`,
+      });
+    });
+  return result;
+};
+
+// 13. User Register
+export const userRegister = async (userInfo: UserRegister) => {
+  const result = await axios
+    .post(`${usersAPI}/register`, userInfo)
+    .then((response) => {
+      notification.success({
+        message: response.data.message,
+      });
+      return true;
+    })
+    .catch((error) => {
+      notification.warning({
+        message: error.response.data.message,
+      });
+    });
+  return result;
 };

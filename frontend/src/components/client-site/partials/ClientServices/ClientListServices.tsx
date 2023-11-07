@@ -1,26 +1,17 @@
 import React, { useEffect, useState } from "react";
 
 import styles from "../../ClientPage.module.css";
-import axios from "axios";
 import { Service } from "../../../../database";
 import { NavLink } from "react-router-dom";
+import { getAllServices } from "../../../../api/services.api";
 
-// Import API
-const servicesAPI = process.env.REACT_APP_API_SERVICES;
-console.log(servicesAPI, "SERVICES API");
 // ------------------------------------------------------------------
 
 function ClientListServices() {
   const [services, setServices] = useState<Service[]>([]);
-  const fetchServices = () => {
-    axios
-      .get(`${servicesAPI}`)
-      .then((response) => {
-        setServices(response.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+  const fetchServices = async () => {
+    const result = await getAllServices();
+    return setServices(result);
   };
 
   useEffect(() => {
