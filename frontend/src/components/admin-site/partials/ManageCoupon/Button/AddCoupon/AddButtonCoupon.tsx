@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Button, Modal, Space, notification, DatePicker } from "antd";
+import { Button, Modal } from "antd";
 import styles from "../AddCoupon/AddButtonCoupon.module.css";
-import { Coupon } from "../../../../../../database";
-import axios from "axios";
-import dayjs, { Dayjs } from "dayjs";
-const { RangePicker } = DatePicker;
-
-// Import API
-// 1. Coupons API
-const couponsAPI = process.env.REACT_APP_API_COUPONS;
+import { addCoupon, getAllCoupons } from "../../../../../../api/coupons.api";
 
 // ------------------------------------------------
 
@@ -35,15 +28,9 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
   });
 
   // Fetch API
-  const fetchCoupons = () => {
-    axios
-      .get(`${couponsAPI}`)
-      .then((response) => {
-        setCoupons(response.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+  const fetchCoupons = async () => {
+    const result = await getAllCoupons();
+    setCoupons(result);
   };
 
   useEffect(() => {
@@ -68,23 +55,19 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
   };
 
   // Handle Add Coupon
-  const handleOk = () => {
+  const handleOk = async () => {
     const data = {
       name: couponInfo.name,
       code: couponInfo.code,
       discount_rate: Number(couponInfo.discount_rate),
       min_bill: Number(couponInfo.min_bill),
     };
-    axios
-      .post(`${couponsAPI}/add`, data)
-      .then((response) => {
-        notification.success({ message: response.data.message });
-        handleClickOk();
-        setIsModalOpen(false);
-      })
-      .catch((error) => {
-        notification.warning({ message: error.response.data.message });
-      });
+
+    const result = await addCoupon(data);
+    if (result) {
+      handleClickOk();
+      setIsModalOpen(false);
+    }
   };
   // ------------------------------------------------
 
@@ -105,10 +88,6 @@ const AddModalCoupon: React.FC<AddModalProps> = ({
         width={500}
       >
         <div className={styles["list-input-add-student"]}>
-          {/* <div className={styles["list-input-item"]}>
-            <p>Coupon ID</p>
-            <input type="text" disabled />
-          </div> */}
           <div className={styles["list-input-item"]}>
             <p>Coupon Name</p>
             <input

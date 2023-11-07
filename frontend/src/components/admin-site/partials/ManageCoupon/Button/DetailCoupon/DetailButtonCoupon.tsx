@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Button, Modal, notification } from "antd";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import styles from "../DetailCoupon/DetailModalCoupon.module.css";
-
-// Import API
-// 1. Coupons API
-const couponsAPI = process.env.REACT_APP_API_COUPONS;
+import {
+  getDetailCoupon,
+  updateCoupon,
+} from "../../../../../../api/coupons.api";
 
 // ------------------------------------------------
 
@@ -27,7 +26,6 @@ const DetailCouponButton: React.FC<DetailModalProps> = ({
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [coupon, setCoupon] = useState<any>({});
-  const [name, setName] = useState("");
   const [couponInfo, setCouponInfo] = useState({
     name: "",
     code: "",
@@ -36,17 +34,16 @@ const DetailCouponButton: React.FC<DetailModalProps> = ({
   });
   const navigate = useNavigate();
 
-  const fetchCoupon = () => {
-    axios
-      .get(`${couponsAPI}/detail/${getCouponId}`)
-      .then((response) => {
-        setCoupon(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const fetchCoupon = async () => {
+    const result = await getDetailCoupon(getCouponId);
+    setCouponInfo({
+      name: result.name,
+      code: result.code,
+      discount_rate: result.discount_rate,
+      min_bill: result.min_bill,
+    });
+    return setCoupon(result);
   };
-  console.log(coupon, "COUIDSA");
   useEffect(() => {
     fetchCoupon();
   }, []);
@@ -54,46 +51,26 @@ const DetailCouponButton: React.FC<DetailModalProps> = ({
   const showModal = () => {
     navigate(`/admin/manage-coupons/?edit-couponID=${getCouponId}`);
     setIsModalOpen(true);
-    setCouponInfo({
-      name: "",
-      code: "",
-      discount_rate: "",
-      min_bill: "",
-    });
   };
 
   const handleCancel = () => {
     navigate("/admin/manage-coupons/");
     setIsModalOpen(false);
-    setCouponInfo({
-      name: "",
-      code: "",
-      discount_rate: "",
-      min_bill: "",
-    });
   };
 
-  const handleOk = () => {
-    axios
-      .patch(`${couponsAPI}/update/${getCouponId}`, couponInfo)
-      .then((response) => {
-        notification.success({
-          message: `${response.data.message}`,
-        });
-        handleFunctionOk();
-        setCouponInfo({
-          name: "",
-          code: "",
-          discount_rate: "",
-          min_bill: "",
-        });
-        setIsModalOpen(false);
-      })
-      .catch((error) => {
-        notification.warning({
-          message: `${error.response.data.message}`,
-        });
-      });
+  const handleOk = async () => {
+    const data = {
+      name: couponInfo.name,
+      code: couponInfo.code,
+      discount_rate: Number(couponInfo.discount_rate),
+      min_bill: Number(couponInfo.min_bill),
+    };
+    const result = await updateCoupon(getCouponId, data);
+    if (result) {
+      handleFunctionOk();
+
+      setIsModalOpen(false);
+    }
   };
 
   return (
@@ -107,7 +84,7 @@ const DetailCouponButton: React.FC<DetailModalProps> = ({
             <p>Coupon Name</p>
             <input
               type="text"
-              defaultValue={coupon?.name}
+              value={couponInfo?.name}
               onChange={(event) =>
                 setCouponInfo({ ...couponInfo, name: event.target.value })
               }
@@ -117,7 +94,7 @@ const DetailCouponButton: React.FC<DetailModalProps> = ({
             <p>Coupon Code</p>
             <input
               type="text"
-              defaultValue={coupon?.code}
+              value={couponInfo?.code}
               onChange={(event) =>
                 setCouponInfo({ ...couponInfo, code: event.target.value })
               }
@@ -127,7 +104,7 @@ const DetailCouponButton: React.FC<DetailModalProps> = ({
             <p>Coupon Discount</p>
             <input
               type="text"
-              defaultValue={coupon?.discount_rate}
+              value={couponInfo?.discount_rate}
               onChange={(event) =>
                 setCouponInfo({
                   ...couponInfo,
@@ -140,7 +117,7 @@ const DetailCouponButton: React.FC<DetailModalProps> = ({
             <p>Min Bill</p>
             <input
               type="text"
-              defaultValue={coupon?.min_bill}
+              value={couponInfo?.min_bill}
               onChange={(event) =>
                 setCouponInfo({ ...couponInfo, min_bill: event.target.value })
               }

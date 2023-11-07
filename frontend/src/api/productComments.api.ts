@@ -38,7 +38,7 @@ export const deleteProductComment = async (commentId: number) => {
       return true;
     })
     .catch((error) => {
-      notification.success({
+      notification.warning({
         message: error.response.data.message,
       });
     });

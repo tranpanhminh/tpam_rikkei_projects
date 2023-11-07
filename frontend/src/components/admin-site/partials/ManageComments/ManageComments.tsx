@@ -1,12 +1,8 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { parse } from "date-fns";
+import React, { useEffect, useState } from "react";
 import styles from "../../AdminPage.module.css";
-import { Coupon } from "../../../../database"; // Import your data fetching and setting functions
-import axios from "axios";
 import { Button, notification } from "antd";
 import { NavLink } from "react-router-dom";
 import { Badge } from "react-bootstrap";
-import BaseAxios from "../../../../api/apiAxiosClient";
 import {
   deleteProductComment,
   getAllProductComments,
@@ -16,13 +12,6 @@ import {
   getAllServiceComments,
 } from "../../../../api/serviceComments.api";
 const moment = require("moment");
-
-// Import API
-// 1. Product Comments API
-const productCommentsAPI = process.env.REACT_APP_API_PRODUCT_COMMENTS;
-
-// 2. Service Comments API
-const serviceCommentsAPI = process.env.REACT_APP_API_SERVICE_COMMENTS;
 
 // ------------------------------------------------
 

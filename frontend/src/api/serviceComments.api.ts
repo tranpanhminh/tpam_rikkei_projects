@@ -38,7 +38,7 @@ export const deleteServiceComment = async (commentId: number) => {
       return true;
     })
     .catch((error) => {
-      notification.success({
+      notification.warning({
         message: error.response.data.message,
       });
     });
