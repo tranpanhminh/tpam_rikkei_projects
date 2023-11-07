@@ -2,40 +2,21 @@
 import React, { useEffect, useState } from "react";
 import logo from "../../../../assets/images/pet-shop-remove-bg.png";
 import styles from "../../ClientPage.module.css";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import axios from "axios";
-import Cookies from "js-cookie";
-// import { io } from "socket.io-client";
-
-import {
-  Button,
-  Container,
-  Form,
-  Nav,
-  NavDropdown,
-  Navbar,
-} from "react-bootstrap";
-import { message, notification } from "antd";
+import { NavLink, useNavigate } from "react-router-dom";
+import { Button, Container, Nav, Navbar } from "react-bootstrap";
+import { message } from "antd";
 import ClientSearch from "../ClientSearch/ClientSearch";
-import { getDataLogin, getUserGoogleProfile } from "../../../../api/users.api";
-
-// Import API
-
-const usersAPI = process.env.REACT_APP_API_USERS;
-const BACKEND_API = process.env.REACT_APP_BASE_URL;
+import { getDataLogin } from "../../../../api/users.api";
 
 // -----------------------------------------------------
 
 function ClientHeaderPC() {
-  // const [searchTerm, setSearchTerm] = useState("");
   const NavLinkStyle = ({ isActive }: { isActive: boolean }) => ({
     color: isActive ? "white" : "black",
     fontWeight: "bold",
     backgroundColor: isActive ? "#33d6bb" : "",
   });
   const navigate = useNavigate();
-  const getData: any = localStorage.getItem("auth");
-  const getLoginData = JSON.parse(getData) || "";
   const [user, setUser] = useState<any>({});
 
   const fetchUser = async () => {
@@ -59,10 +40,6 @@ function ClientHeaderPC() {
     });
     fetchUser();
   };
-
-  // const handleSearch = () => {
-  //   navigate(`/search/${searchTerm}`);
-  // };
 
   return (
     <header className={styles["header"]}>
@@ -197,21 +174,6 @@ function ClientHeaderPC() {
                 </Button>
               </NavLink>
             </Nav>
-            {/* <Form className="d-flex">
-              <Form.Control
-                type="search"
-                placeholder="Search"
-                className="me-2"
-                aria-label="Search"
-                value={searchTerm}
-                onChange={(event) => {
-                  setSearchTerm(event.target.value);
-                }}
-              />
-              <Button variant="outline-success" onClick={handleSearch}>
-                Search
-              </Button>
-            </Form> */}
             <ClientSearch />
           </Navbar.Collapse>
         </Container>

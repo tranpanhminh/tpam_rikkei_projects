@@ -78,9 +78,9 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
   const handleOk = async () => {
     await changeUserPassword(user.id, userPassword)
       .then((response) => {
-        notification.success({
-          message: `${response.data.message}`,
-        });
+        // notification.success({
+        //   message: `${response.data.message}`,
+        // });
         setUserPassword({
           old_password: "",
           new_password: "",
@@ -107,9 +107,9 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
     };
     await changeUserName(user.id, userInfo)
       .then((response) => {
-        notification.success({
-          message: `${response.data.message}`,
-        });
+        // notification.success({
+        //   message: `${response.data.message}`,
+        // });
         fetchUser();
         setShowBtn(false);
         navigate("/admin/");
@@ -165,9 +165,9 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
     await changeUserAvatar(user.id, formData, config)
       .then((response) => {
         messageApi.destroy();
-        notification.success({
-          message: `${response.data.message}`,
-        });
+        // notification.success({
+        //   message: `${response.data.message}`,
+        // });
         resetInputImage();
         fetchUser();
         navigate("/admin/");

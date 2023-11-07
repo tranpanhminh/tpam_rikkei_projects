@@ -3,7 +3,6 @@ import rabbitImage from "../../../../assets/images/rabbits.jpg";
 import catImage from "../../../../assets/images/cat.jpg";
 import dogImage from "../../../../assets/images/dog.jpg";
 import parrotImage from "../../../../assets/images/parrot.jpg";
-
 import styles from "../../ClientPage.module.css";
 function ClientFeaturedCategories() {
   return (

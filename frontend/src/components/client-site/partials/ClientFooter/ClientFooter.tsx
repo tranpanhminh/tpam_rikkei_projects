@@ -3,14 +3,6 @@ import logo from "../../../../assets/images/pet-shop.png";
 import styles from "../../ClientPage.module.css";
 import { NavLink, useNavigate } from "react-router-dom";
 function ClientFooter() {
-  // const [pageName, setPageName] = useState("");
-  // const navigate = useNavigate();
-  // const navigateTo = (pageTitle: string) => {
-  //   // setPageName(pageTitle);
-  //   navigate(`/special-page/${pageTitle}`);
-  //   console.log("PageTItle", pageTitle);
-  // };
-
   return (
     <>
       <footer>
@@ -37,14 +29,7 @@ function ClientFooter() {
                   <NavLink to="/about">About Us</NavLink>
                 </li>
                 <li>
-                  <NavLink
-                    to="/special-page/contact-us"
-                    // onClick={() => {
-                    //   navigateTo("contact-us");
-                    // }}
-                  >
-                    Contact Us
-                  </NavLink>
+                  <NavLink to="/special-page/contact-us">Contact Us</NavLink>
                 </li>
                 <li>
                   <NavLink to="/special-page/faqs">FAQs</NavLink>

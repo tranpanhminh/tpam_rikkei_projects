@@ -1,49 +1,24 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "../BlogPost.module.css";
-import { NavLink, useNavigate } from "react-router-dom";
-import { Button, Form } from "react-bootstrap";
-import { Pagination } from "antd";
-import axios from "axios";
-import { useParams } from "react-router-dom"; // Import useParams để lấy giá trị slug từ URL
+import { NavLink } from "react-router-dom";
 import ClientSearch from "../../ClientSearch/ClientSearch";
-
-// Import API
-// 1, Posts API
-const productsAPI = process.env.REACT_APP_API_PRODUCTS;
-const servicesAPI = process.env.REACT_APP_API_SERVICES;
+import { getAllProducts } from "../../../../../api/products.api";
+import { getAllServices } from "../../../../../api/services.api";
 
 // --------------------------------------------------
 
 function BlogSidebar() {
-  // const [searchTerm, setSearchTerm] = useState("");
   const [products, setProducts] = useState<any>([]);
   const [services, setServices] = useState<any>([]);
 
-  // const navigate = useNavigate();
-  // const handleSearch = () => {
-  //   navigate(`/search/${searchTerm}`);
-  // };
-
-  const fetchProducts = () => {
-    axios
-      .get(`${productsAPI}`)
-      .then((response) => {
-        setProducts(response.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+  const fetchProducts = async () => {
+    const result = await getAllProducts();
+    return setProducts(result);
   };
 
-  const fetchServices = () => {
-    axios
-      .get(`${servicesAPI}`)
-      .then((response) => {
-        setServices(response.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+  const fetchServices = async () => {
+    const result = await getAllServices();
+    return setServices(result);
   };
 
   useEffect(() => {
@@ -54,24 +29,6 @@ function BlogSidebar() {
   return (
     <div className={styles["blog-sidebar"]}>
       <ClientSearch />
-      {/* <div>
-        <Form className="d-flex">
-          <Form.Control
-            type="search"
-            placeholder="Search"
-            className="me-2"
-            aria-label="Search"
-            value={searchTerm}
-            onChange={(event) => {
-              setSearchTerm(event.target.value);
-            }}
-          />
-          <Button variant="outline-success" onClick={handleSearch}>
-            Search
-          </Button>
-        </Form>
-      </div> */}
-
       <div className={styles["sidebar-featured-product"]}>
         <h3 className={styles["sidebar-featured-product-headline"]}>
           Featured Products
@@ -118,7 +75,7 @@ function BlogSidebar() {
         <h3 className={styles["sidebar-featured-product-headline"]}>Banner</h3>
         <img
           className={styles["sidebar-banner-image"]}
-          src="https://cdn.create.vista.com/downloads/9843fa52-e875-4557-86e2-c92a06787e27_640.jpeg"
+          src="https://i.ibb.co/N3f5xGM/9843fa52-e875-4557-86e2-c92a06787e27-640.jpg"
           alt=""
         />
       </div>

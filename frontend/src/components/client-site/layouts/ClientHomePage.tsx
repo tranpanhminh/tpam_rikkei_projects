@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 // Import Client Partials
 import ClientHeaderPC from "../partials/ClientHeader/ClientHeaderPC";
 import ClientBanner from "../partials/ClientBanner/ClientBanner";
-import ClientServices from "../partials/ClientServices/ClientServices";
+import ClientServices from "../partials/ClientServices/ClientFeaturedServices";
 import ClientPromotionGroup from "../partials/ClientPromotionGroup/ClientPromotionGroup";
 import ClientFeaturedCategories from "../partials/ClientFeaturedCategories/ClientFeaturedCategories";
 import ClientAboutStore from "../partials/ClientAboutStore/ClientAboutStore";

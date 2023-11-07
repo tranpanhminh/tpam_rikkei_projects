@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Button, Modal, notification, message } from "antd";
+import { Button, Modal, message } from "antd";
 import styles from "../../UserProfile.module.css";
-import axios from "axios";
-import Decimal from "decimal.js";
-import BaseAxios from "../../../../../../api/apiAxiosClient";
 import { useNavigate } from "react-router-dom";
-
-// Import API
-
-const usersAPI = process.env.REACT_APP_API_USERS;
-const ordersAPI = process.env.REACT_APP_API_ORDERS;
-const cancelReasonsAPI = process.env.REACT_APP_API_CANCEL_REASONS;
+import {
+  cancelOrder,
+  getAllCancelReasons,
+  getOrderItems,
+  getUserOrderInfo,
+} from "../../../../../../api/orders.api";
 
 // -----------------------------------------------------
 
@@ -24,45 +21,27 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
   handleFunctionOk,
 }) => {
   const navigate = useNavigate();
-  const getData: any = localStorage.getItem("auth");
-  const getLoginData = JSON.parse(getData) || "";
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [reason, setReason] = useState("");
   const [cancelReasons, setCancelReasons] = useState([]);
   const [userOrder, setUserOrder] = useState<any>([]);
   const [orderItem, setOrderItem] = useState<any>([]);
-  const [orderStatus, setOrderStatus] = useState("");
   const [messageApi, contextHolder] = message.useMessage();
 
   // Fetch API
   const fetchUserOrder = async () => {
-    await BaseAxios.get(`${ordersAPI}/detail/${orderId}`)
-      .then((response) => {
-        setUserOrder(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const result = await getUserOrderInfo(orderId);
+    return setUserOrder(result);
   };
 
   const fetchOrderItems = async () => {
-    await BaseAxios.get(`${ordersAPI}/${orderId}/detail`)
-      .then((response) => {
-        setOrderItem(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const result = await getOrderItems(orderId);
+    return setOrderItem(result);
   };
 
   const fetchCancelReasons = async () => {
-    await BaseAxios.get(`${cancelReasonsAPI}`)
-      .then((response) => {
-        setCancelReasons(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const result = await getAllCancelReasons();
+    setCancelReasons(result);
   };
 
   // ----------------------------------------
@@ -73,7 +52,7 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
     fetchCancelReasons();
   }, []);
 
-  const handleOk = () => {
+  const handleOk = async () => {
     if (!reason) {
       return setIsModalOpen(false);
     }
@@ -86,23 +65,15 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
       content: "Loading...",
       duration: 0,
     });
-    BaseAxios.patch(`${ordersAPI}/cancel-order/${orderId}`, orderInfo)
-      .then((response) => {
-        messageApi.destroy();
-        handleFunctionOk();
-        fetchUserOrder();
-        fetchOrderItems();
-        navigate(`/user/my-orders/`);
-        setIsModalOpen(false);
-        notification.success({
-          message: `${response.data.message}`,
-        });
-      })
-      .catch((error) => {
-        notification.error({
-          message: `${error.response.data.message}`,
-        });
-      });
+    const result = await cancelOrder(orderId, orderInfo);
+    if (result) {
+      messageApi.destroy();
+      handleFunctionOk();
+      fetchUserOrder();
+      fetchOrderItems();
+      navigate(`/user/my-orders/`);
+      setIsModalOpen(false);
+    }
   };
 
   const showModal = () => {

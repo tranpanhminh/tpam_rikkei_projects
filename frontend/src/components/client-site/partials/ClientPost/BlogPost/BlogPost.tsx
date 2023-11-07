@@ -3,69 +3,36 @@ import React, { useEffect, useState } from "react";
 import styles from "../BlogPost.module.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Badge, Button, Form } from "react-bootstrap";
-import { Pagination } from "antd";
-import axios from "axios";
 import { useParams } from "react-router-dom"; // Import useParams để lấy giá trị slug từ URL
 import Page404 from "../../../../common/NotFoundPage/404";
+import { getAllPosts, getDetailPost } from "../../../../../api/posts.api";
+import { getDataLogin } from "../../../../../api/users.api";
 const moment = require("moment");
-
-// Import API
-// 1, Posts API
-const postsAPI = process.env.REACT_APP_API_POSTS;
 
 // --------------------------------------------------
 
 function BlogPost() {
-  const navigate = useNavigate();
-  const token: any = localStorage.getItem("token") || "";
-  let data: any;
-  if (token) {
-    try {
-      data = jwtDecode(token);
-
-      // Đây là một đối tượng được giải mã từ token
-      console.log(data);
-
-      // Kiểm tra thời hạn của token
-      const currentTimestamp = Math.floor(Date.now() / 1000);
-      if (data.exp < currentTimestamp) {
-        console.log("Token is expired.");
-      } else {
-        console.log("Token is valid.");
-      }
-    } catch (error) {
-      navigate("/");
-    }
-  } else {
-    console.log("Token Not Found.");
-  }
+  const [user, setUser] = useState<any>(null);
   const { postId } = useParams(); // Lấy giá trị slug từ URL
   const [post, setPost] = useState<any>(null);
   const [allPosts, setAllPosts] = useState<any>(null);
 
-  const fetchPost = () => {
-    axios
-      .get(`${postsAPI}/detail/${postId}`)
-      .then((response) => {
-        setPost(response.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+  const fetchUser = async () => {
+    const result = await getDataLogin();
+    setUser(result);
   };
 
-  const fetchAllPosts = () => {
-    axios
-      .get(`${postsAPI}`)
-      .then((response) => {
-        setAllPosts(response.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+  const fetchPost = async () => {
+    const result = await getDetailPost(postId);
+    return setPost(result);
   };
 
+  const fetchAllPosts = async () => {
+    const result = await getAllPosts();
+    return setAllPosts(result);
+  };
   useEffect(() => {
+    fetchUser();
     fetchPost();
     fetchAllPosts();
   }, [postId]);
@@ -74,7 +41,9 @@ function BlogPost() {
 
   return (
     <>
-      {post && post.status_id === 1 && data?.user_roles?.name === "Customer" ? (
+      {post &&
+      post?.status_id === 1 &&
+      user?.user_roles?.name === "Customer" ? (
         <Page404 />
       ) : (
         <div className={styles["post-content-section"]}>
@@ -97,8 +66,8 @@ function BlogPost() {
                   {moment(post?.created_at).format("YYYY-MM-DD-hh:mm:ss")}
                 </Badge>
               </div>
-              {((data && data?.role_id == 1) ||
-                (data && data?.role_id == 2)) && (
+              {((user && user?.role_id == 1) ||
+                (user && user?.role_id == 2)) && (
                 <NavLink
                   to={`/admin/manage-posts/?edit-postId=${postId}`}
                   target="_blank"

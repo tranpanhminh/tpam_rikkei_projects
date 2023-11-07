@@ -1,42 +1,31 @@
-import jwtDecode from "jwt-decode";
 import React, { useEffect, useState, useRef } from "react";
 import styles from "../ClientServices/ClientServiceDetail.module.css";
-import axios from "axios";
-import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
-import { Button, Modal, Rate, Select, notification } from "antd";
-import avatar from "../../../../assets/images/dogs-reviews-01.png";
+import { NavLink, useParams } from "react-router-dom";
+import { Button, Modal, Rate, Select } from "antd";
 import { Badge } from "react-bootstrap";
 import { Editor } from "@tinymce/tinymce-react";
 import type { DatePickerProps } from "antd";
 import { DatePicker } from "antd";
-import { format, parse } from "date-fns";
-import BaseAxios from "../../../../api/apiAxiosClient";
 import tinymce from "tinymce";
+import { getDataLogin } from "../../../../api/users.api";
+import { getDetailService } from "../../../../api/services.api";
+import {
+  addServiceComment,
+  deleteServiceComment,
+  getAllCommentsByService,
+} from "../../../../api/serviceComments.api";
+import { bookingService } from "../../../../api/bookings.api";
 
 const moment = require("moment");
-
-// Import API
-const usersAPI = process.env.REACT_APP_API_USERS;
-const serviceAPI = process.env.REACT_APP_API_SERVICES;
-const serviceCommentsAPI = process.env.REACT_APP_API_SERVICE_COMMENTS;
-const bookingsAPI = process.env.REACT_APP_API_BOOKINGS;
 
 // ------------------------------------------------------------------
 
 function ClientServiceDetail() {
-  const navigate = useNavigate();
-  const getData: any = localStorage.getItem("auth");
-  const getLoginData = JSON.parse(getData) || "";
   const { serviceId } = useParams();
   const [serviceComments, setServiceComments] = useState<any>(null);
   const [user, setUser] = useState<any>(null);
   const [service, setService] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [comments, setComments] = useState<any>([]);
-  const [editorContent, setEditorContent] = useState<any>("");
-  const [rateValue, setRateValue] = useState<any>(0);
-  const [listUser, setListUser] = useState<any>([]);
-
   const [userComment, setUserComment] = useState<any>({
     comment: "",
     rating: 5,
@@ -51,91 +40,30 @@ function ClientServiceDetail() {
     calendar: "",
   });
 
-  // Check Token
-  const token: any = localStorage.getItem("token") || "";
-  let data: any;
-  if (token) {
-    try {
-      data = jwtDecode(token);
-
-      // Đây là một đối tượng được giải mã từ token
-      console.log(data);
-
-      // Kiểm tra thời hạn của token
-      const currentTimestamp = Math.floor(Date.now() / 1000);
-      if (data.exp < currentTimestamp) {
-        console.log("Token is expired.");
-      } else {
-        console.log("Token is valid.");
-      }
-    } catch (error) {
-      navigate("/");
-    }
-  } else {
-    console.log("Token Not Found.");
-  }
   // ------------------------------------------------------------------
 
   // Fetch API
   const fetchUsers = async () => {
-    await axios
-      .get(`${usersAPI}/detail/${getLoginData.id}`)
-      .then((response) => {
-        setUser(response.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+    const result = await getDataLogin();
+    return setUser(result);
   };
 
   const fetchService = async () => {
-    await axios
-      .get(`${serviceAPI}/detail/${serviceId}`)
-      .then((response) => {
-        setService(response.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  };
-
-  const fetchBooking = async () => {
-    await axios
-      .get(`${bookingsAPI}`)
-      .then((response) => {})
-      .catch((error) => {
-        console.log(error.message);
-      });
+    const result = await getDetailService(serviceId);
+    return setService(result);
   };
 
   const fetchServiceComments = async () => {
-    await axios
-      .get(`${serviceCommentsAPI}/${serviceId}`)
-      .then((response) => {
-        setServiceComments(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const result = await getAllCommentsByService(serviceId);
+    return setServiceComments(result);
   };
 
   useEffect(() => {
     fetchService();
     fetchUsers();
-    fetchBooking();
     fetchServiceComments();
   }, []);
 
-  useEffect(() => {
-    axios
-      .get(`${usersAPI}`)
-      .then((response) => {
-        setListUser(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching user avatar:", error);
-      });
-  }, []); // Gọi chỉ một lần khi component được tạo
   // -----------------------------------------------------
 
   document.title = `${service ? `${service?.name} | PetShop` : "Loading..."}`;
@@ -155,29 +83,20 @@ function ClientServiceDetail() {
   };
 
   // Add Comment
-  const handleComment = () => {
-    BaseAxios.post(
-      `${serviceCommentsAPI}/add/${serviceId}/users/${getLoginData.id}`,
-      userComment
-    )
-      .then((response) => {
-        notification.success({ message: response.data.message });
-        setUserComment({
-          comment: "",
-          rating: 5,
-        });
-        const editor = tinymce.get("editorID");
-        if (editor) {
-          // Đặt nội dung của trình soạn thảo về trạng thái trống
-          editor.setContent("");
-        }
-        fetchService();
-        fetchServiceComments();
-      })
-      .catch((error) => {
-        console.log(error, "ERROR");
-        notification.warning({ message: error.response.data.message });
-      });
+  const handleComment = async () => {
+    const result = await addServiceComment(serviceId, user.id, userComment);
+    setUserComment({
+      comment: "",
+      rating: 5,
+    });
+    const editor = tinymce.get("editorID");
+    if (editor) {
+      // Đặt nội dung của trình soạn thảo về trạng thái trống
+      editor.setContent("");
+    }
+    fetchService();
+    fetchServiceComments();
+    return result;
   };
 
   const editorConfig = {
@@ -194,24 +113,14 @@ function ClientServiceDetail() {
   // -----------------------------------------------------
 
   // Delete Comment
-  const handleDeleteComment = (commentId: number) => {
-    BaseAxios.delete(`${serviceCommentsAPI}/delete/${commentId}`)
-      .then((response) => {
-        console.log(response);
-        notification.success({ message: response.data.message });
-        fetchServiceComments();
-      })
-      .catch((error) => {
-        console.log(error, "EROR");
-        notification.warning({ message: error.data.message });
-      });
+  const handleDeleteComment = async (commentId: number) => {
+    const result = await deleteServiceComment(commentId);
+    fetchServiceComments();
+    return result;
   };
 
   const checkShowDeleteCommentBtn = () => {
-    if (
-      (getLoginData && user?.role_id === 1) ||
-      (getLoginData && user?.role_id === 2)
-    ) {
+    if ((user && user?.role_id === 1) || (user && user?.role_id === 2)) {
       return true;
     }
     return false;
@@ -220,38 +129,22 @@ function ClientServiceDetail() {
   // -----------------------------------------------------
 
   // Function Booking Service
-  const handleBooking = (userId: number, serviceId: number) => {
+  const handleBooking = async (userId: number, serviceId: number) => {
     userInfo = {
       ...userInfo,
       user_id: userId,
       service_id: serviceId,
     };
-    console.log(userInfo, "USER INFO");
-
-    BaseAxios.post(
-      `${bookingsAPI}/add/users/${userId}/services/${serviceId}`,
-      userInfo
-    )
-      .then((response) => {
-        console.log(response, "RES");
-        notification.success({
-          message: `${response.data.message}`,
-        });
-        setUserInfo({
-          user_id: "",
-          service_id: "",
-          name: "",
-          phone: "",
-          booking_date: "",
-          calendar: "",
-        });
-      })
-      .catch((error) => {
-        console.log(error, "EROR");
-        notification.warning({
-          message: `${error.response.data.message}`,
-        });
-      });
+    const result = await bookingService(userId, serviceId, userInfo);
+    setUserInfo({
+      user_id: "",
+      service_id: "",
+      name: "",
+      phone: "",
+      booking_date: "",
+      calendar: "",
+    });
+    return result;
   };
 
   const bookingDate: DatePickerProps["onChange"] = (date, dateString) => {
@@ -301,7 +194,7 @@ function ClientServiceDetail() {
                     <h2 className={styles["service-title-name"]}>
                       {service && service.name}
                     </h2>
-                    {(data?.role_id === 1 || data?.role_id === 2) && (
+                    {(user?.role_id === 1 || user?.role_id === 2) && (
                       <div className={styles["editor-post-bar"]}>
                         <NavLink
                           to={`/admin/manage-service/?edit-serviceId=${service.id}`}
@@ -429,12 +322,10 @@ function ClientServiceDetail() {
                 <button
                   className={styles["booking-btn"]}
                   onClick={() => {
-                    getLoginData
-                      ? handleBooking(getLoginData.id, service.id)
-                      : showModal();
+                    user ? handleBooking(user.id, service.id) : showModal();
                   }}
                   // onClick={() => {
-                  //   handleBooking(getLoginData.id, service.id);
+                  //   handleBooking(user.id, service.id);
                   // }}
                 >
                   Book
@@ -491,7 +382,7 @@ function ClientServiceDetail() {
                 id="editorID"
               />
               <div className={styles["send-comment-btn"]}>
-                {getLoginData ? (
+                {user ? (
                   <Button type="primary" onClick={handleComment}>
                     Comment
                   </Button>

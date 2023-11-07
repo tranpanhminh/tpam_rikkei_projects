@@ -1,20 +1,14 @@
 import React, { useEffect, useRef } from "react";
 import styles from "../UserProfile.module.css";
-import { Account } from "../../../../../database";
 import { useState } from "react";
 import { Button, Modal, message, notification } from "antd";
-import axios from "axios";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   changeUserAvatar,
   changeUserName,
   changeUserPassword,
   getDataLogin,
-  getDetailUser,
 } from "../../../../../api/users.api";
-
-//  API
-const usersAPI = process.env.REACT_APP_API_USERS;
 
 // -------------------------------------------------
 
@@ -23,8 +17,6 @@ function ClientEditProfile() {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
-  const getData: any = localStorage.getItem("auth");
-  const getLoginData = JSON.parse(getData) || "";
   const [userFullName, setUserFullName] = useState("");
   const [show, setShow] = useState<boolean>(false);
   const [image, setImage] = useState<any>("");
@@ -44,6 +36,7 @@ function ClientEditProfile() {
   useEffect(() => {
     fetchUser();
   }, []);
+
   const showModal = () => {
     navigate("/user/my-profile/?edit");
     setIsModalOpen(true);
@@ -73,20 +66,11 @@ function ClientEditProfile() {
     const userInfo = {
       full_name: userFullName,
     };
-    await changeUserName(user.id, userInfo)
-      .then((response) => {
-        notification.success({
-          message: `${response.data.message}`,
-        });
-        setShow(false);
-        fetchUser();
-        navigate("/user/my-profile/");
-      })
-      .catch((error) => {
-        notification.warning({
-          message: `${error.response.data.message}`,
-        });
-      });
+    const result = await changeUserName(user.id, userInfo);
+    setShow(false);
+    fetchUser();
+    navigate("/user/my-profile/");
+    return result;
   };
   // ------------------------------------------
 
@@ -103,7 +87,6 @@ function ClientEditProfile() {
 
   const handleFileChange = (event: any) => {
     const selectedFile = event?.target.files[0];
-    console.log(selectedFile, "SELECT FILE");
     if (selectedFile) {
       const avatar = URL.createObjectURL(selectedFile);
       setImage(avatar);
@@ -126,23 +109,13 @@ function ClientEditProfile() {
         content: "Loading...",
         duration: 0,
       });
-
-      await changeUserAvatar(user.id, formData, config)
-        .then((response) => {
-          messageApi.destroy();
-          notification.success({
-            message: `${response.data.message}`,
-          });
-          setShow(false);
-          resetInputImage();
-          fetchUser();
-          navigate("/user/my-profile/");
-        })
-        .catch((error) => {
-          notification.error({
-            message: `${error.response.data.message}`,
-          });
-        });
+      const result = await changeUserAvatar(user.id, formData, config);
+      messageApi.destroy();
+      setShow(false);
+      resetInputImage();
+      fetchUser();
+      navigate("/user/my-profile/");
+      return result;
     } else {
       notification.error({
         message: `Please upload image`,
@@ -153,25 +126,18 @@ function ClientEditProfile() {
 
   // Change Password
   const changePassword = async () => {
-    await changeUserPassword(user.id, userPassword)
-      .then((response) => {
-        notification.success({
-          message: `${response.data.message}`,
-        });
-        setUserPassword({
-          old_password: "",
-          new_password: "",
-        });
-        fetchUser();
-        localStorage.clear();
-        navigate("/");
-        setIsModalOpen(false);
-      })
-      .catch((error) => {
-        notification.warning({
-          message: `${error.response.data.message}`,
-        });
+    const result = await changeUserPassword(user.id, userPassword);
+    if (result) {
+      setUserPassword({
+        old_password: "",
+        new_password: "",
       });
+      fetchUser();
+      localStorage.clear();
+      navigate("/");
+      setIsModalOpen(false);
+      return result;
+    }
   };
 
   // ------------------------------------------

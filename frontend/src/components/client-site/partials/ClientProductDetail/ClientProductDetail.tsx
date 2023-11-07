@@ -20,10 +20,6 @@ import { addProductToCart } from "../../../../api/carts.api";
 import { getDetailProduct } from "../../../../api/products.api";
 const moment = require("moment");
 
-// Import API
-const usersAPI = process.env.REACT_APP_API_USERS;
-const productsAPI = process.env.REACT_APP_API_PRODUCTS;
-
 // ----------------------------------------------------------------------
 function ClientProductDetail() {
   // List States

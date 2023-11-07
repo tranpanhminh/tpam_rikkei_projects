@@ -1,35 +1,23 @@
 import React, { useEffect, useState } from "react";
 import styles from "../../ClientPage.module.css";
-import { Product } from "../../../../database";
-import axios from "axios";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Pagination } from "antd";
+import { getAllProducts } from "../../../../api/products.api";
 
-// Import API
-const productsAPI = process.env.REACT_APP_API_PRODUCTS;
 // ------------------------------------------------------------------
 
 function ClientListProducts() {
   document.title = "Products | PetShop";
-
   const navigate = useNavigate();
-  const [products, setProducts] = useState<Product[]>([]);
   const [posts, setPosts] = useState<any>([]);
   const [page, setPage] = useState<any>(0); // Đặt giá trị mặc định cho page
   const [postPerPage, setPostPerPage] = useState<any>(8);
   const [total, setTotal] = useState<any>("");
 
-  const fetchProducts = () => {
-    axios
-      .get(`${productsAPI}`)
-      .then((response) => {
-        // setProducts(response.data);
-        setPosts(response.data);
-        setTotal(response.data.length);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+  const fetchProducts = async () => {
+    const result = await getAllProducts();
+    setPosts(result);
+    setTotal(result.length);
   };
 
   useEffect(() => {
@@ -39,7 +27,7 @@ function ClientListProducts() {
   const indexOfLastPage = page + postPerPage;
   const indexOfFirstPage = indexOfLastPage - postPerPage;
   const currentPosts = posts.slice(indexOfFirstPage, indexOfLastPage);
-  const howManyPages = Math.ceil(posts.length / postPerPage);
+  // const howManyPages = Math.ceil(posts.length / postPerPage);
   const onShowSizeChange = (current: any, pageSize: any) => {
     setPostPerPage(pageSize);
   };

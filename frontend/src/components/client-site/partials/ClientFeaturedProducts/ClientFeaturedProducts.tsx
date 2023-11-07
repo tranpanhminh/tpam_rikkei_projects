@@ -1,43 +1,20 @@
 import React, { useEffect, useState } from "react";
 import styles from "../../ClientPage.module.css";
-import { Product } from "../../../../database";
-import axios from "axios";
 import { NavLink, useNavigate } from "react-router-dom";
+import { getBestSellingProducts } from "../../../../api/orderItems.api";
 
-// Import API
-const productsAPI = process.env.REACT_APP_API_PRODUCTS;
-const orderItemsAPI = process.env.REACT_APP_API_ORDER_ITEMS;
 // --------------------------------------------------------
 
 function ClientFeaturedProducts() {
   const navigate = useNavigate();
-  const [products, setProducts] = useState<any[]>([]);
   const [bestSellingProduct, setBestSellingProduct] = useState<any>([]);
 
-  const fetchProducts = async () => {
-    await axios
-      .get(`${productsAPI}`)
-      .then((response) => {
-        setProducts(response.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  };
-
-  const fetchSellingProduct = () => {
-    axios
-      .get(`${orderItemsAPI}/report`)
-      .then((response) => {
-        setBestSellingProduct(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const fetchSellingProduct = async () => {
+    const result = await getBestSellingProducts();
+    setBestSellingProduct(result);
   };
 
   useEffect(() => {
-    fetchProducts();
     fetchSellingProduct();
   }, []);
 
@@ -55,7 +32,7 @@ function ClientFeaturedProducts() {
             id="container-product-homepage"
           >
             {bestSellingProduct &&
-              bestSellingProduct.slice(0, 4).map((product: any) => {
+              bestSellingProduct?.slice(0, 4)?.map((product: any) => {
                 return (
                   <div
                     className={`col-12 col-sm-12 col-md-6 col-xl-3 mt-5 px-2 ${styles["product-card"]}`}

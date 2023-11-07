@@ -1,41 +1,26 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { Button, Modal, message, notification } from "antd";
+import { Button, message } from "antd";
 // Import CSS
 import styles from "../UserProfile.module.css";
 import "../../../../../assets/bootstrap-5.3.0-dist/css/bootstrap.min.css";
-import axios from "axios";
 import { Badge } from "react-bootstrap";
-import BaseAxios from "../../../../../api/apiAxiosClient";
+import { cancelBooking, getUserBooking } from "../../../../../api/bookings.api";
+import { getDataLogin } from "../../../../../api/users.api";
 const moment = require("moment");
-
-// Import API
-
-const usersAPI = process.env.REACT_APP_API_USERS;
-const bookingsAPI = process.env.REACT_APP_API_BOOKINGS;
-const bookingStatusAPI = process.env.REACT_APP_API_BOOKING_STATUS;
 
 // -----------------------------------------------------
 
 function ClientBooking() {
   document.title = "My Booking | PetShop";
   const [messageApi, contextHolder] = message.useMessage();
-  const getData: any = localStorage.getItem("auth");
-  const getLoginData = JSON.parse(getData) || "";
   const [searchText, setSearchText] = useState<string>("");
-  const [user, setUser] = useState<any>({});
   const [userBooking, setUserBooking] = useState<any>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const fetchUserBooking = () => {
-    BaseAxios
-      .get(`${bookingsAPI}/filter/users/${getLoginData.id}`)
-      .then((response) => {
-        setUserBooking(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const fetchUserBooking = async () => {
+    const result = await getDataLogin();
+    const dataBooking = await getUserBooking(result.id);
+    return setUserBooking(dataBooking);
   };
 
   useEffect(() => {
@@ -72,25 +57,16 @@ function ClientBooking() {
     }
   };
 
-  const handleCancelBooking = (bookingId: number) => {
+  const handleCancelBooking = async (bookingId: number) => {
     messageApi.open({
       type: "loading",
       content: "Loading...",
       duration: 0,
     });
-    BaseAxios.patch(`${bookingsAPI}/cancel-booking/${bookingId}/`)
-      .then((response) => {
-        messageApi.destroy();
-        notification.success({
-          message: `${response.data}`,
-        });
-        fetchUserBooking();
-      })
-      .catch((error) => {
-        notification.warning({
-          message: `${error.response.data.messaage}`,
-        });
-      });
+    const result = await cancelBooking(bookingId);
+    messageApi.destroy();
+    fetchUserBooking();
+    return result;
   };
 
   const changeColor = (status: string) => {
@@ -148,7 +124,6 @@ function ClientBooking() {
               <th>Booking Service</th>
               <th>Booking Date</th>
               <th>Booking Calendar</th>
-              {/* <th>Price</th> */}
               <th>Status</th>
               <th>Action</th>
             </tr>

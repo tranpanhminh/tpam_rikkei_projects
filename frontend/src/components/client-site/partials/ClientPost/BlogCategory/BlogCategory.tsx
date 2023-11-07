@@ -3,14 +3,9 @@ import styles from "../BlogPost.module.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
 import { Pagination } from "antd";
-import axios from "axios";
 import { useParams } from "react-router-dom"; // Import useParams để lấy giá trị slug từ URL
+import { getAllPosts } from "../../../../../api/posts.api";
 
-// Import API
-// 1, Posts API
-const postsAPI = process.env.REACT_APP_API_POSTS;
-const productsAPI = process.env.REACT_APP_API_PRODUCTS;
-const servicesAPI = process.env.REACT_APP_API_SERVICES;
 // --------------------------------------------------
 
 function BlogCategory() {
@@ -21,49 +16,14 @@ function BlogCategory() {
   const [postPerPage, setPostPerPage] = useState<any>(7);
   const { pageNumber } = useParams(); // Lấy giá trị slug từ URL
 
-  // const [listProducts, setListProducts] = useState<any>([]);
-  // const [listServices, setListServices] = useState<any>([]);
-
-  // const fetchProducts = async () => {
-  //   await axios
-  //     .get(`${productsAPI}`)
-  //     .then((response) => {
-  //       setListProducts(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error.message);
-  //     });
-  // };
-
   const fetchPosts = async () => {
-    await axios
-      .get(`${postsAPI}`)
-      .then((response) => {
-        setPosts(response.data);
-        setTotal(response.data.length);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+    const result = await getAllPosts();
+    setPosts(result);
+    setTotal(result.length);
   };
-
-  console.log(posts, "PÓDASDSA");
-
-  // const fetchServices = async () => {
-  //   await axios
-  //     .get(`${servicesAPI}`)
-  //     .then((response) => {
-  //       setListServices(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error.message);
-  //     });
-  // };
 
   useEffect(() => {
     fetchPosts();
-    // fetchProducts();
-    // fetchServices();
   }, []);
 
   const navigate = useNavigate();

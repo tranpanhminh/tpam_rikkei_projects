@@ -5,7 +5,13 @@ import { notification } from "antd";
 
 const usersAPI = process.env.REACT_APP_API_USERS;
 
-// ---------------------------------
+// ----------------Interface----------------
+
+export interface UserPassword {
+  old_password: string;
+  new_password: string;
+}
+// -----------------------------------------
 
 // 1. Lấy thông tin người dùng đăng nhập
 export const getDataLogin = async () => {
@@ -75,7 +81,7 @@ export const changeStatusUser = async (id: number) => {
 
 // 4. Delete User
 export const deleteUser = async (id: number) => {
-  await BaseAxios.delete(`${usersAPI}/delete/${id}`)
+  const result = await BaseAxios.delete(`${usersAPI}/delete/${id}`)
     .then((response) => {
       notification.success({
         message: response.data.message,
@@ -86,6 +92,7 @@ export const deleteUser = async (id: number) => {
         message: error.data.message,
       });
     });
+  return result;
 };
 
 // 5. Add Admin
@@ -95,11 +102,25 @@ export const addUser = async (data: any) => {
 };
 
 // 6. Change Password
-export const changeUserPassword = async (id: number, data: any) => {
+export const changeUserPassword = async (
+  userId: number | string | undefined,
+  data: UserPassword
+) => {
   const result = await BaseAxios.patch(
-    `${usersAPI}/change-password/${id}`,
+    `${usersAPI}/change-password/${userId}`,
     data
-  );
+  )
+    .then((response) => {
+      notification.success({
+        message: response.data.message,
+      });
+      return true;
+    })
+    .catch((error) => {
+      notification.warning({
+        message: error.response.data.message,
+      });
+    });
   return result;
 };
 
@@ -109,13 +130,33 @@ export const changeUserAvatar = async (id: number, data: any, config: any) => {
     `${usersAPI}/edit-avatar/${id}`,
     data,
     config
-  );
+  )
+    .then((response) => {
+      notification.success({
+        message: response.data.message,
+      });
+    })
+    .catch((error) => {
+      notification.warning({
+        message: error.response.data.message,
+      });
+    });
   return result;
 };
 
 // 8. Change Avatar
 export const changeUserName = async (id: number, data: any) => {
-  const result = await BaseAxios.patch(`${usersAPI}/update/${id}`, data);
+  const result = await BaseAxios.patch(`${usersAPI}/update/${id}`, data)
+    .then((response) => {
+      notification.success({
+        message: response.data.message,
+      });
+    })
+    .catch((error) => {
+      notification.warning({
+        message: error.response.data.message,
+      });
+    });
   return result;
 };
 

@@ -1,8 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import logo from "../../../../assets/images/pet-shop.png";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
-import { Account } from "../../../../database";
-import axios from "axios";
+import { NavLink, useNavigate } from "react-router-dom";
+
 import { Badge } from "react-bootstrap";
 import { message } from "antd";
 
@@ -11,15 +10,11 @@ import styles from "./UserProfile.module.css";
 import "../../../../assets/bootstrap-5.3.0-dist/css/bootstrap.min.css";
 import { getDataLogin } from "../../../../api/users.api";
 
-//  API
-const usersAPI = process.env.REACT_APP_API_USERS;
-
 // -------------------------------------------------
 
 const UserHeader: React.FC = () => {
   const navigate = useNavigate();
   const getData: any = localStorage.getItem("auth");
-  const getLoginData = JSON.parse(getData) || "";
   const [user, setUser] = useState<any>(null);
   const fetchUser = async () => {
     const data = await getDataLogin();
