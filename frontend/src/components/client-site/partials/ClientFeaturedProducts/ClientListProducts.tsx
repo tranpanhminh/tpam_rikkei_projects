@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "../../ClientPage.module.css";
 import { NavLink, useNavigate } from "react-router-dom";
-import { Pagination } from "antd";
+import { Pagination, Rate } from "antd";
 import { getAllProducts } from "../../../../api/products.api";
 
 // ------------------------------------------------------------------
@@ -81,6 +81,9 @@ function ClientListProducts() {
                         </NavLink>
                         <p className={styles["card-price"]}>
                           Price: ${product && product.price.toLocaleString()}
+                        </p>
+                        <p className={styles["card-price"]}>
+                          <Rate disabled defaultValue={product?.avg_rating} />
                         </p>
                       </div>
                       <div className={styles["card-foot"]}>

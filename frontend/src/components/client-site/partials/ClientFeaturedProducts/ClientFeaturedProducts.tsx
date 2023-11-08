@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import styles from "../../ClientPage.module.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import { getBestSellingProducts } from "../../../../api/orderItems.api";
+import { Rate } from "antd";
+import { Badge } from "react-bootstrap";
 
 // --------------------------------------------------------
 
@@ -54,6 +56,12 @@ function ClientFeaturedProducts() {
                         <p className={styles["card-price"]}>
                           Price: $
                           {product && product?.products_price?.toLocaleString()}
+                        </p>
+                        <p className={styles["card-price"]}>
+                          <Badge>
+                            {" "}
+                            Total Sold: {product?.total_quantity_sold}
+                          </Badge>
                         </p>
                       </div>
                       <div className={styles["card-foot"]}>
