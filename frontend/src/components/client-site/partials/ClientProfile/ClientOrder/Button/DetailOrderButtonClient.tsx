@@ -77,7 +77,7 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
   };
 
   const showModal = () => {
-    navigate(`/user/my-orders/?detail-oder=${orderId}`);
+    navigate(`/user/my-orders/?detail-order=${orderId}`);
     setIsModalOpen(true);
   };
 

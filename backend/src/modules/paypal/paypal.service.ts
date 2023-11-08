@@ -7,6 +7,7 @@ import { CartsRepository } from '../carts/carts.repository';
 import { ProductsRepository } from '../products/products.repository';
 import { OrderItemInterface } from '../orderItems/interface/orderItem.interface';
 import { EmailService } from '../email/email.service';
+import { UsersRepository } from 'src/modules/users/users.repository';
 
 const FRONTEND_PATH = process.env.FRONTEND_PATH;
 
@@ -19,6 +20,7 @@ export class PaypalService {
     private readonly orderItemsRepository: OrderItemsRepository,
     private readonly cartsRepository: CartsRepository,
     private readonly productsRepository: ProductsRepository,
+    private readonly usersRepository: UsersRepository,
     private readonly emailService: EmailService,
   ) {}
   // 1. Create Order
@@ -88,6 +90,9 @@ export class PaypalService {
       const userCart = await this.cartsRepository.getDetailCartByUser(
         newOrder.user_id,
       );
+      const findUser = await this.usersRepository.getDetailUser(
+        newOrder.user_id,
+      );
       let statusEmail = false;
       for (const cartProduct of userCart) {
         const findProduct = await this.productsRepository.getDetail(
@@ -122,15 +127,31 @@ export class PaypalService {
         // Đẩy Cart vào Order Item
         await this.orderItemsRepository.addOrderItem(orderItemInfo);
         if (!statusEmail) {
-          console.log(statusEmail, '----');
           // Gửi Mail có order mới tới Admin
-          const emailAdmin = 'yangshihtran73@gmail.com';
+          const emailAdmin = 'yangshih73@gmail.com';
           // Gửi email chứa liên kết reset đến người dùng
           const subject = `New Order (OrderID: ${orderId})`;
-          const htmlContent = `<h3>New Order Detail:
+          const htmlContent = `<h3>A customer successully ordered:
           <a href="${FRONTEND_PATH}/admin/manage-orders/?orderID=${orderId}">See Detail</a>
-          </h3>`;
+          </h3>
+      <img src="https://i.ibb.co/M1gwXzB/Email-Messages-for-Order-Confirmation-Page-v3.webp" alt="" />
+      `;
           await this.emailService.sendEmail(emailAdmin, subject, htmlContent);
+
+          // Gửi Mail xác nhận đã đặt hàng tới User
+          const customerEmail = findUser.email;
+          // Gửi email chứa liên kết reset đến người dùng
+          const subjectCustomer = `New Order Purchased Successfully (OrderID: ${orderId})`;
+          const htmlContentCustomer = `<h3>Thank you for purchasing our product:
+                    <a href="${FRONTEND_PATH}/user/my-orders/?detail-order=${orderId}">See Detail Your Order</a>
+                    </h3>
+                <img src="https://i.ibb.co/M1gwXzB/Email-Messages-for-Order-Confirmation-Page-v3.webp" alt="" />
+                `;
+          await this.emailService.sendEmail(
+            customerEmail,
+            subjectCustomer,
+            htmlContentCustomer,
+          );
           statusEmail = true;
         }
       }
