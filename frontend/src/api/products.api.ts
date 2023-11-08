@@ -125,3 +125,21 @@ export const updateThumbnail = async (
     });
   return result;
 };
+
+// 7. Add Product
+export const addProduct = async (formData: any, config: any) => {
+  const result = await BaseAxios.post(`${productsAPI}/add`, formData, config)
+    .then((response) => {
+      notification.success({
+        message: `${response.data.message}`,
+      });
+      return true;
+    })
+    .catch((error) => {
+      notification.warning({
+        message: `${error.response.data.message}`,
+      });
+      return false;
+    });
+  return result;
+};

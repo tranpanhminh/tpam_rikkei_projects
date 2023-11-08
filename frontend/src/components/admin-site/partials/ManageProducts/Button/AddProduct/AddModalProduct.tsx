@@ -1,17 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Alert, Button, Modal, notification, Spin, message } from "antd";
+import React, { useEffect, useState } from "react";
+import { Button, Modal, notification, Spin, message } from "antd";
 import styles from "../AddProduct/AddModalProduct.module.css";
-import { Product } from "../../../../../../database";
-import axios from "axios";
 import { Editor } from "@tinymce/tinymce-react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { LoadingOutlined } from "@ant-design/icons";
-
-// Import API
-// 1. Products API
-const productsAPI = process.env.REACT_APP_API_PRODUCTS;
-const vendorsAPI = process.env.REACT_APP_API_VENDORS;
-
+import { useNavigate } from "react-router-dom";
+import { addProduct, getAllProducts } from "../../../../../../api/products.api";
+import { getAllVendors } from "../../../../../../api/vendors.api";
 // ------------------------------------------------
 
 interface AddModalProps {
@@ -44,25 +37,13 @@ const AddModalProduct: React.FC<AddModalProps> = ({
   });
 
   const fetchProducts = async () => {
-    await axios
-      .get(`${productsAPI}`)
-      .then((response) => {
-        setProducts(response.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+    const result = await getAllProducts();
+    return setProducts(result);
   };
 
   const fetchVendors = async () => {
-    await axios
-      .get(`${vendorsAPI}`)
-      .then((response) => {
-        setVendors(response.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+    const result = await getAllVendors();
+    return setVendors(result);
   };
 
   useEffect(() => {
@@ -93,10 +74,16 @@ const AddModalProduct: React.FC<AddModalProps> = ({
   };
 
   // Handle Add Product
-  const handleOk = () => {
+  const handleOk = async () => {
     if (!newProduct.name) {
       return notification.warning({
         message: "Name must not be blank",
+      });
+    }
+
+    if (!newProduct.description) {
+      return notification.warning({
+        message: "Description must not be blank",
       });
     }
 
@@ -149,36 +136,27 @@ const AddModalProduct: React.FC<AddModalProps> = ({
           "Content-Type": "multipart/form-data",
         },
       };
-      axios
-        .post(`${productsAPI}/add`, formData, config)
-        .then((response) => {
-          messageApi.destroy();
-          notification.success({
-            message: `Product Added`,
-          });
-          setIsModalOpen(false);
-          const fileInput: any = document.querySelector(
-            `#upload-multiple-images`
-          );
-          if (fileInput) {
-            fileInput.value = ""; // Xóa giá trị đã chọn
-          }
-          setNewProduct({
-            name: "",
-            description: "",
-            price: "",
-            quantity_stock: "",
-            vendor_id: 1,
-            image_url: [],
-          });
-          navigate("/admin/manage-products/");
-          handleClickOk();
-        })
-        .catch((error) => {
-          notification.warning({
-            message: `${error.response.data.message}`,
-          });
+      const result = await addProduct(formData, config);
+      if (result) {
+        messageApi.destroy();
+        setIsModalOpen(false);
+        const fileInput: any = document.querySelector(
+          `#upload-multiple-images`
+        );
+        if (fileInput) {
+          fileInput.value = ""; // Xóa giá trị đã chọn
+        }
+        setNewProduct({
+          name: "",
+          description: "",
+          price: "",
+          quantity_stock: "",
+          vendor_id: 1,
+          image_url: [],
         });
+        navigate("/admin/manage-products/");
+        handleClickOk();
+      }
     } else {
       return notification.warning({
         message: `Please upload only 4 Images`,
