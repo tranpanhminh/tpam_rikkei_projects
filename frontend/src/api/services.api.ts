@@ -98,6 +98,7 @@ export const updateService = async (
       notification.warning({
         message: `${error.response.data.message}`,
       });
+      return false;
     });
   return result;
 };

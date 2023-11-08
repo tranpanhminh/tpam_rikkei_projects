@@ -13,14 +13,13 @@ interface DetailModalProps {
   value?: string; // Thêm khai báo cho thuộc tính className
   title?: string;
   handleFunctionOk: any;
-  getPost: any;
+  getPostId: number;
 }
 const DetailPostButton: React.FC<DetailModalProps> = ({
   className,
   value,
-  title,
   handleFunctionOk,
-  getPost,
+  getPostId,
 }) => {
   const location = useLocation();
   const [messageApi, contextHolder] = message.useMessage();
@@ -39,13 +38,13 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const postId = searchParams.get("edit-postId");
-    if (postId && Number(postId) === getPost.id) {
+    if (postId && Number(postId) === getPostId) {
       setIsModalOpen(true); // Nếu có edit-postId và nó trùng với postId của post hiện tại, mở modal
     }
   }, [location.search]);
 
   const fetchPost = async () => {
-    const result = await getDetailPost(getPost.id);
+    const result = await getDetailPost(getPostId);
     setPostInfo({
       title: result.title,
       content: result.content,
@@ -61,7 +60,7 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
   }, []);
 
   const showModal = () => {
-    navigate(`/admin/manage-posts/?edit-postId=${getPost.id}`);
+    navigate(`/admin/manage-posts/?edit-postId=${getPostId}`);
     setIsModalOpen(true);
   };
 
@@ -83,7 +82,9 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
         thumbnail_url: "",
       });
       setImage(null);
-      fileInputRef.current.value = null; // Đặt giá trị về null
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ""; // Đảm bảo rằng phần tử input tồn tại trước khi đặt giá trị.
+      }
     }
   };
 
@@ -126,58 +127,23 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
       duration: 0,
     });
 
-    // const result = await updatePost(getPost.id, formData, config);
-    // if (result) {
-    //   const getData = await getDetailPost(getPost.id);
-    //   setPost(getData);
-    //   messageApi.destroy();
-    //   setPostInfo({
-    //     title: "",
-    //     content: "",
-    //     thumbnail_url: "",
-    //     author: "",
-    //     status_id: "",
-    //   });
-    //   navigate("/admin/manage-posts/");
-    //   handleFunctionOk();
-    //   setIsModalOpen(false);
-    // }
-
-    // axios
-    //   .patch(`${postsAPI}/update/${getPost.id}`, formData, config)
-    //   .then((response) => {
-    //     axios
-    //       .get(`${postsAPI}/detail/${getPost.id}`)
-    //       .then((response) => {
-    //         setPost(response.data);
-    //       })
-    //       .catch((error) => {
-    //         console.log(error, "ERRORR");
-    //         notification.warning({
-    //           message: `${error.response.data}`,
-    //         });
-    //       });
-    //     notification.success({
-    //       message: `Post Updated`,
-    //     });
-
-    //     setPostInfo({
-    //       title: "",
-    //       content: "",
-    //       thumbnail_url: "",
-    //       author: "",
-    //       status_id: "",
-    //     });
-    //     navigate("/admin/manage-posts/");
-    //     handleFunctionOk();
-    //     setIsModalOpen(false);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error, "ERRORR");
-    //     notification.warning({
-    //       message: `${error.response.data}`,
-    //     });
-    //   });
+    const result = await updatePost(getPostId, formData, config);
+    if (result) {
+      // const getData = await getDetailPost(getPostId);
+      // setPost(getData);
+      fetchPost();
+      messageApi.destroy();
+      setPostInfo({
+        title: "",
+        content: "",
+        thumbnail_url: "",
+        author: "",
+        status_id: "",
+      });
+      navigate("/admin/manage-posts/");
+      handleFunctionOk();
+      setIsModalOpen(false);
+    }
   };
 
   return (
@@ -199,7 +165,7 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
               type="text"
               placeholder="Post Title"
               className={styles["post-title-editor"]}
-              defaultValue={getPost?.title}
+              defaultValue={post?.title}
               onChange={(event) =>
                 setPostInfo({ ...postInfo, title: event.target.value })
               }
@@ -207,7 +173,7 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
             <div className={styles["post-content-editor"]}>
               <Editor
                 init={editorConfig}
-                initialValue={getPost?.content}
+                initialValue={post?.content}
                 onEditorChange={handleEditContent}
               />
             </div>
@@ -222,7 +188,7 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
                 />
               ) : (
                 <img
-                  src={getPost && getPost?.thumbnail_url}
+                  src={post && post?.thumbnail_url}
                   alt=""
                   className={styles["post-editor-thumbnail"]}
                 />
@@ -237,10 +203,10 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
             </div>
             <div className={styles["info-editor-post-item"]}>
               <span>Post ID</span>
-              <input type="text" value={getPost.id} disabled />
+              <input type="text" value={getPostId} disabled />
             </div>
             <div className={styles["info-editor-post-item"]}>
-              <span>Author</span>
+              <span>Thumbnail</span>
               <input
                 type="file"
                 name="thumbnail"
@@ -265,7 +231,7 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
                 <option
                   value={2}
                   selected={
-                    getPost?.post_statuses.name === "Published" ? true : false
+                    post?.post_statuses?.name === "Published" ? true : false
                   }
                 >
                   Published
@@ -273,7 +239,7 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
                 <option
                   value={1}
                   selected={
-                    getPost?.post_statuses.name === "Draft" ? true : false
+                    post?.post_statuses?.name === "Draft" ? true : false
                   }
                 >
                   Draft
@@ -285,16 +251,14 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
               <input
                 type="text"
                 disabled
-                value={moment(getPost?.created_at).format(
-                  "YYYY-MM-DD-hh:mm:ss"
-                )}
+                value={moment(post?.created_at).format("YYYY-MM-DD-hh:mm:ss")}
               />
             </div>
             <div className={styles["info-editor-post-item"]}>
               <span>Author</span>
               <input
                 type="text"
-                defaultValue={getPost?.author}
+                defaultValue={post?.author}
                 onChange={(event) =>
                   setPostInfo({
                     ...postInfo,

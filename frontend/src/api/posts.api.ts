@@ -59,10 +59,14 @@ export const deletePost = async (postId: string | number | undefined) => {
 // 4. Update Post
 export const updatePost = async (
   id: number | string | undefined,
-  data: PostInfo,
+  formData: any,
   config: any
 ) => {
-  const result = await BaseAxios.patch(`${postsAPI}/update/${id}`, data, config)
+  const result = await BaseAxios.patch(
+    `${postsAPI}/update/${id}`,
+    formData,
+    config
+  )
     .then((response) => {
       notification.success({
         message: `${response.data.message}`,
@@ -73,6 +77,7 @@ export const updatePost = async (
       notification.warning({
         message: `${error.response.data.message}`,
       });
+      return false;
     });
   return result;
 };

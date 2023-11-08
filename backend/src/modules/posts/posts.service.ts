@@ -91,10 +91,6 @@ export class PostsService {
         status_id: !status_id ? checkPost.status_id : status_id,
         post_type_id: 3,
       };
-
-      // Xóa ảnh cũ
-      const publicId = extractPublicId(checkPost.thumbnail_url);
-      await cloudinary.api.delete_resources(publicId);
       await this.postsRepository.updatePost(id, updatePost);
       return new HttpException('Post Updated', HttpStatus.OK);
     }

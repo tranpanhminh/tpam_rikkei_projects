@@ -159,7 +159,7 @@ function ManagePosts() {
                       </NavLink>
                       <DetailPostButton
                         value="Detail"
-                        getPost={post}
+                        getPostId={post.id}
                         handleFunctionOk={handleUpdatePost}
                       />
                       <Button
