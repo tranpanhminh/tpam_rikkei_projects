@@ -7,7 +7,7 @@ import {
   resetPassword,
   validateResetPasswordToken,
 } from "../../../../api/users.api";
-import { message, notification } from "antd";
+import { notification } from "antd";
 
 // ----------------------------------------------------------
 function ResetPasswordForm() {
@@ -17,22 +17,14 @@ function ResetPasswordForm() {
   const [password, setPassword] = useState<string>("");
   const [searchParams] = useSearchParams();
   const getToken = searchParams.get("resetToken");
-  const [messageApi, contextHolder] = message.useMessage();
 
   const handleRequestResetPassword = async () => {
     const data = {
       email: email,
     };
-
     const result = await requestResetPassword(data);
     if (result) {
-      // messageApi.open({
-      //   type: "loading",
-      //   content: "Loading...",
-      //   duration: 0,
-      // });
       setShow(true);
-      // messageApi.destroy();
     }
   };
 
@@ -42,26 +34,19 @@ function ResetPasswordForm() {
     };
     const result = await validateResetPasswordToken(getToken);
     if (result) {
-      messageApi.open({
-        type: "loading",
-        content: "Loading...",
-        duration: 0,
-      });
       const changeNewPassword = await resetPassword(getToken, data);
       if (changeNewPassword) {
-        messageApi.destroy();
         navigate("/login");
       }
     } else {
       notification.warning({
-        message: `Token is not valid or Expired`,
+        message: `Token is not valid or expired`,
       });
     }
   };
 
   return (
     <div className={styles["outside-form-login"]}>
-      {contextHolder}
       {getToken ? (
         <div className={styles["form-signup"]}>
           <h3 className={styles["signup-title"]}>Reset Password</h3>
@@ -104,6 +89,11 @@ function ResetPasswordForm() {
           >
             Request Reset Password
           </button>
+          {/* <img
+            src="https://i.ibb.co/tq4Kkgg/loading.gif"
+            alt=""
+            style={{ display: loading ? "inline-block" : "none" }}
+          /> */}
           <span
             style={{
               display: show ? "inline-block" : "none",
