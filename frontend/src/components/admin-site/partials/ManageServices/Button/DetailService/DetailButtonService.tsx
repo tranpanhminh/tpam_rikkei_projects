@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Button, Modal, notification, message } from "antd";
-import { Product, Service } from "../../../../../../database";
+import { Button, Modal, message } from "antd";
+import { Service } from "../../../../../../database";
 import { Editor } from "@tinymce/tinymce-react";
-import axios from "axios";
 import styles from "../DetailService/DetailModalService.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
@@ -10,12 +9,6 @@ import {
   updateService,
 } from "../../../../../../api/services.api";
 import { getAllWorkingTime } from "../../../../../../api/workingTime.api";
-import BaseAxios from "../../../../../../api/apiAxiosClient";
-
-// Import API
-// 1. Services API
-const servicesAPI = process.env.REACT_APP_API_SERVICES;
-const workingTimeAPI = process.env.REACT_APP_API_WORKING_TIME;
 
 // ------------------------------------------------
 
@@ -40,7 +33,6 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
   const [messageApi, contextHolder] = message.useMessage();
   const [image, setImage] = useState<any>("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [thumbnail, setThumbnail] = useState<any>(null);
   const [services, setServices] = useState<null | Service>(null);
   const [workingTime, setWorkingTime] = useState<any>(null);
   const [serviceInfo, setServiceInfo] = useState<any>({
@@ -123,7 +115,6 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
   };
 
   // Update thông tin Service
-  // let fileUploaded = false;
 
   const fileInputRef = useRef<any>(null);
   const resetInputImage = () => {

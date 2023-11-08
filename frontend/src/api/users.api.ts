@@ -118,7 +118,19 @@ export const deleteUser = async (id: number) => {
 
 // 5. Add Admin
 export const addUser = async (data: any) => {
-  const result = await BaseAxios.post(`${usersAPI}/add/`, data);
+  const result = await BaseAxios.post(`${usersAPI}/add/`, data)
+    .then((response) => {
+      notification.success({
+        message: `${response.data.message}`,
+      });
+      return true;
+    })
+    .catch((error) => {
+      notification.warning({
+        message: `${error.response.data.message}`,
+      });
+      return false;
+    });
   return result;
 };
 
@@ -172,11 +184,13 @@ export const changeUserName = async (id: number, data: any) => {
       notification.success({
         message: response.data.message,
       });
+      return true;
     })
     .catch((error) => {
       notification.warning({
         message: error.response.data.message,
       });
+      return false;
     });
   return result;
 };

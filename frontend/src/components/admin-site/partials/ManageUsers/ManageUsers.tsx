@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import AddModalUser from "../ManageUsers/Button/AddUser/AddModalUser";
-import DetailButtonUser from "./Button/DetailUser/DetailButtonUser";
 import { Button } from "antd";
 import styles from "../../AdminPage.module.css";
 import { Badge } from "react-bootstrap";
@@ -21,12 +20,12 @@ function ManageUsers() {
   // Fetch API
   const fetchUsers = async () => {
     const users = await getAllUsers();
-    setUsers(users);
+    return setUsers(users);
   };
 
   const fetchUser = async () => {
     const user = await getDataLogin();
-    setUser(user);
+    return setUser(user);
   };
 
   useEffect(() => {
@@ -36,10 +35,10 @@ function ManageUsers() {
   // ------------------------------------------------
 
   // Handle Search
-  const handleSearchUser = () => {
+  const handleSearchUser = async () => {
     if (!searchText) {
       // Nếu searchText rỗng, gọi lại fetchUsers để lấy tất cả người dùng
-      fetchUsers();
+      await fetchUsers();
     } else {
       const filteredUsers = users.filter((user: any) => {
         if (
@@ -66,14 +65,14 @@ function ManageUsers() {
   // Handle Change User
   const handleChangeUser = async (userId: number) => {
     const result = await changeStatusUser(userId);
-    fetchUsers();
+    await fetchUsers();
     return result;
   };
   // ------------------------------------------------
 
   // Handle Add User
-  const handleAddUser = () => {
-    fetchUsers();
+  const handleAddUser = async () => {
+    await fetchUsers();
   };
 
   // Handle Delete User

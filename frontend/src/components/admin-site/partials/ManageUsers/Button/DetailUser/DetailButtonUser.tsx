@@ -1,8 +1,7 @@
-import React, { useState, ReactNode, useEffect, useRef } from "react";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button, Modal, message, notification } from "antd";
 import styles from "../DetailUser/DetailUserProfile.module.css";
-import axios from "axios";
 import {
   changeUserPassword,
   getDataLogin,
@@ -18,17 +17,13 @@ interface DetailModalProps {
   content?: any;
   handleFunctionOk?: any;
   title?: string;
-  // handleFunctionBtn?: any;
   getUserId: any;
 }
 const DetailButtonUser: React.FC<DetailModalProps> = ({
   className,
   value,
-  content,
   handleFunctionOk,
-  // handleFunctionBtn,
   title,
-  getUserId,
 }) => {
   // States
   const navigate = useNavigate();
@@ -97,20 +92,13 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
     const userInfo = {
       full_name: name,
     };
-    await changeUserName(user.id, userInfo)
-      .then((response) => {
-        // notification.success({
-        //   message: `${response.data.message}`,
-        // });
-        fetchUser();
-        setShowBtn(false);
-        navigate("/admin/");
-      })
-      .catch((error) => {
-        notification.error({
-          message: `${error.response.data.message}`,
-        });
-      });
+    const result = await changeUserName(user.id, userInfo);
+    if (result) {
+      fetchUser();
+      setShowBtn(false);
+      handleFunctionOk();
+      navigate("/admin/");
+    }
   };
 
   // -----------------------------------------------------------
