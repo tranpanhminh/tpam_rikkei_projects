@@ -65,6 +65,7 @@ export class PostsService {
   ): Promise<PostsEntity | unknown> {
     const { title, content, author, status_id } = body;
     const checkPost = await this.postsRepository.getDetailPost(id);
+    console.log(body.thumbnail_url, 'AAAA');
     if (body.thumbnail_url) {
       const fileUpload: any = body.thumbnail_url;
       const file = await this.cloudinaryService.uploadFile(fileUpload);
@@ -76,7 +77,7 @@ export class PostsService {
         status_id: !status_id ? checkPost.status_id : status_id,
         post_type_id: 3,
       };
-
+      console.log(updatePost);
       // Xóa ảnh cũ
       const publicId = extractPublicId(checkPost.thumbnail_url);
       await cloudinary.api.delete_resources(publicId);
@@ -91,6 +92,8 @@ export class PostsService {
         status_id: !status_id ? checkPost.status_id : status_id,
         post_type_id: 3,
       };
+      console.log(updatePost);
+
       await this.postsRepository.updatePost(id, updatePost);
       return new HttpException('Post Updated', HttpStatus.OK);
     }

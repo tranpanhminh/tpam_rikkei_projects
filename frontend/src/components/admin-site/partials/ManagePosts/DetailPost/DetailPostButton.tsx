@@ -43,23 +43,29 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
     }
   }, [location.search]);
 
-  const fetchPost = async () => {
-    const result = await getDetailPost(getPostId);
-    setPostInfo({
-      title: result.title,
-      content: result.content,
-      thumbnail_url: result.thumbnail_url,
-      author: result.author,
-      status_id: result.status_id,
-    });
-    return setPost(result);
-  };
-
   useEffect(() => {
+    const fetchPost = async () => {
+      const result = await getDetailPost(getPostId);
+      setPostInfo({
+        title: result.title,
+        content: result.content,
+        thumbnail_url: "",
+        author: result.author,
+        status_id: result.status_id,
+      });
+      return setPost(result);
+    };
     fetchPost();
-  }, []);
+  }, [getPostId]);
 
   const showModal = () => {
+    setPostInfo({
+      title: post.title,
+      content: post.content,
+      thumbnail_url: "",
+      author: post.author,
+      status_id: post.status_id,
+    });
     navigate(`/admin/manage-posts/?edit-postId=${getPostId}`);
     setIsModalOpen(true);
   };
@@ -129,9 +135,8 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
 
     const result = await updatePost(getPostId, formData, config);
     if (result) {
-      // const getData = await getDetailPost(getPostId);
-      // setPost(getData);
-      fetchPost();
+      const getData = await getDetailPost(getPostId);
+      setPost(getData);
       messageApi.destroy();
       setPostInfo({
         title: "",

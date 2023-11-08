@@ -2,8 +2,10 @@ export class PostsInterface {
   id?: number;
   title?: string;
   content?: string;
-  thumbnail_url?: any;
+  thumbnail_url?: string;
   author?: string;
   status_id?: number;
   post_type_id?: number;
+  created_at?: any;
+  updated_at?: any;
 }
