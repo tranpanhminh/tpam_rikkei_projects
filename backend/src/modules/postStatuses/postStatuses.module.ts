@@ -10,6 +10,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import { UsersRepository } from '../users/users.repository';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
+import { EmailService } from '../email/email.service';
 const path = process.env.SERVER_PATH;
 const url = `${path}/post-statuses`;
 
@@ -27,6 +28,7 @@ const url = `${path}/post-statuses`;
     UsersService,
     UsersRepository,
     CloudinaryService,
+    EmailService,
     // MyGateway,
   ],
 })

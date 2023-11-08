@@ -28,6 +28,7 @@ import { CheckIsAdmin } from 'src/middlewares/checkIsAdmin.middleware';
 import { JwtModule } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
+import { EmailService } from '../email/email.service';
 ConfigModule.forRoot({
   envFilePath: '.env',
 });
@@ -57,6 +58,7 @@ const url = `${path}/carts`;
     CouponsRepository,
     UsersService,
     CloudinaryService,
+    EmailService,
     // MyGateway,
   ],
   exports: [CartsRepository],

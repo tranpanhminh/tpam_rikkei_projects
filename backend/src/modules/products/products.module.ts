@@ -14,6 +14,7 @@ import { UsersEntity } from '../users/database/entity/users.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { UsersRepository } from '../users/users.repository';
 import { UsersService } from '../users/users.service';
+import { EmailService } from '../email/email.service';
 const path = process.env.SERVER_PATH;
 const url = `${path}/products`;
 
@@ -37,6 +38,7 @@ const url = `${path}/products`;
     ProductImagesRepository,
     UsersRepository,
     UsersService,
+    EmailService,
     // MyGateway,
   ],
   exports: [ProductsRepository],

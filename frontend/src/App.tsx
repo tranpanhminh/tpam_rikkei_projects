@@ -48,6 +48,7 @@ import IsLogin from "./components/common/Validate/IsLogin";
 import IsAdmin from "./components/common/Validate/IsAdmin";
 import IsCustomer from "./components/common/Validate/IsCustomer";
 import ManageVendors from "./components/admin-site/partials/ManageVendors/ManageVendors";
+import ResetPasswordForm from "./components/client-site/partials/LoginSignUp/ResetPasswordForm";
 
 export function RoleNavigation() {
   const getData: any = localStorage.getItem("userLogin");
@@ -149,6 +150,8 @@ function App() {
             <Route path="/login" element={<ClientLoginPage />}></Route>
             <Route path="/signup" element={<ClientSignupPage />}></Route>
           </Route>
+
+          <Route path="reset-password" element={<ResetPasswordForm />}></Route>
         </Routes>
       </BrowserRouter>
     </>

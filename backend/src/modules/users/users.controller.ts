@@ -24,6 +24,8 @@ import { DataTokenInterface } from './interface/dataToken.interface';
 import { AuthorizationAdminGuard } from 'src/guards/authorizationAdmin.guard';
 import { AuthenticationGuard } from 'src/guards/authentication.guard';
 import { AuthGuard } from '@nestjs/passport';
+import { EmailService } from '../email/email.service';
+import { ResetPasswordDTO } from './dto/resetPassword.dto';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -34,7 +36,10 @@ const path = process.env.SERVER_PATH;
 
 @Controller(`${path}/users`)
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly emailService: EmailService,
+  ) {}
 
   // 1. Get All
   @Get()
@@ -166,13 +171,18 @@ export class UsersController {
     return await this.usersService.googleLogin(req, res);
   }
 
-  @Post('forgot-password')
-  async forgotPassword(@Body('email') email: string) {
-    await this.usersService.forgotPassword(email); 
+  @Post('/reset-password')
+  async resetPassword(@Body('email') email: string) {
+    const result = await this.usersService.resetPassword(email);
+    return result;
   }
 
-  @Post('reset-password') 
-  async resetPassword(@Body() data: any) {
-    await this.usersService.resetPassword(data);
+  @Post('/reset-password/:token')
+  async resetNewPassword(
+    @Param('token') token: string,
+    @Body() body: ResetPasswordDTO,
+  ) {
+    const result = await this.usersService.resetNewPassword(token, body);
+    return result;
   }
 }

@@ -14,6 +14,9 @@ import { CheckIsOldPassword } from 'src/middlewares/checkIsOldPassword.middlewar
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { GoogleStrategy } from 'src/modules/google/GoogleStrategy';
 import { PassportModule } from '@nestjs/passport';
+import { EmailModule } from '../email/email.module';
+import { EmailService } from '../email/email.service';
+import { CheckTokenResetPasswordValid } from 'src/middlewares/checkTokenResetPasswordValid.middleware';
 const path = process.env.SERVER_PATH;
 const url = `${path}/users`;
 
@@ -25,6 +28,7 @@ const url = `${path}/users`;
     NestjsFormDataModule,
     JwtModule,
     PassportModule.register({ defaultStrategy: 'google' }),
+    EmailModule,
     // JwtModule.register({
     //   global: true,
     //   signOptions: { expiresIn: '1d' },
@@ -37,8 +41,10 @@ const url = `${path}/users`;
     CloudinaryService,
     JwtService,
     GoogleStrategy,
+    EmailService,
     // MyGateway,
   ],
+  exports: [UsersRepository],
 })
 export class UsersModule {
   configure(consumer: MiddlewareConsumer) {
@@ -81,6 +87,14 @@ export class UsersModule {
     consumer.apply(CheckUserExist).forRoutes({
       path: `${url}/edit-avatar/:userId`,
       method: RequestMethod.PATCH,
+    });
+    consumer.apply(CheckEmailCorrect).forRoutes({
+      path: `${url}/reset-password/`,
+      method: RequestMethod.POST,
+    });
+    consumer.apply(CheckTokenResetPasswordValid).forRoutes({
+      path: `${url}/reset-password/:token`,
+      method: RequestMethod.POST,
     });
   }
 }

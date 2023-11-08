@@ -12,6 +12,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { UsersRepository } from '../users/users.repository';
 import { UsersService } from '../users/users.service';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
+import { EmailService } from '../email/email.service';
 @Module({
   imports: [
     TypeOrmModule.forFeature([
@@ -31,6 +32,7 @@ import { CloudinaryService } from '../cloudinary/cloudinary.service';
     UsersRepository,
     UsersService,
     CloudinaryService,
+    EmailService,
     // MyGateway,
   ],
   exports: [OrderItemsService, OrderItemsRepository],

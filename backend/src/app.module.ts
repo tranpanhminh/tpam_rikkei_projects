@@ -31,6 +31,8 @@ import { PostsModule } from './modules/posts/posts.module';
 import { PagesModule } from './modules/pages/pages.module';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { GoogleStrategy } from './modules/google/GoogleStrategy';
+import { EmailModule } from './modules/email/email.module';
+import { EmailService } from './modules/email/email.service';
 
 @Module({
   imports: [
@@ -61,6 +63,7 @@ import { GoogleStrategy } from './modules/google/GoogleStrategy';
     BookingsModule,
     PostsModule,
     PagesModule,
+    EmailModule,
     // GatewayModule,
   ],
   controllers: [PaypalController],
@@ -69,6 +72,7 @@ import { GoogleStrategy } from './modules/google/GoogleStrategy';
     PaypalService,
     JwtService,
     GoogleStrategy,
+    EmailService,
     // MyGateway,
   ],
 })

@@ -38,6 +38,9 @@ export class UsersEntity {
   @Column({ type: 'int', nullable: false })
   status_id: number;
 
+  @Column({ type: 'text', nullable: true })
+  reset_token: string;
+
   @Column({
     nullable: false,
     type: 'timestamp',

@@ -3,6 +3,7 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
+  NotFoundException,
   UseGuards,
 } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
@@ -21,6 +22,8 @@ import { UserInfoLoginInterface } from './interface/userInfoLogin.interface';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import * as generator from 'generate-password';
+import { EmailService } from '../email/email.service';
+import { ResetPasswordDTO } from './dto/resetPassword.dto';
 
 const jwt = require('jsonwebtoken');
 
@@ -32,6 +35,7 @@ export class UsersService {
     private jwtService: JwtService,
     private readonly usersRepository: UsersRepository,
     private readonly cloudinaryService: CloudinaryService,
+    private readonly emailService: EmailService,
   ) {}
 
   // 1. Get All
@@ -222,9 +226,10 @@ export class UsersService {
 
     const dataUserGoogleLogin = req.user;
     // Kiểm tra xem email đã có trong hệ thống hay chưa
-    const checkEmail = await this.usersRepository.getDetailUserByEmail(
-      dataUserGoogleLogin.email,
-    );
+    const checkEmail: UsersInterface =
+      await this.usersRepository.getDetailUserByEmail(
+        dataUserGoogleLogin.email,
+      );
 
     if (checkEmail) {
       const { password, created_at, updated_at, ...dataUser } = checkEmail;
@@ -272,9 +277,48 @@ export class UsersService {
     }
   }
 
-  async forgotPassword(email: string) {
-    const token = Math.random().toString();
+  // Reset Password
+  async resetPassword(email: string) {
+    const user: UsersInterface =
+      await this.usersRepository.getDetailUserByEmail(email);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    const secretKey = process.env.ACCESS_TOKEN_SECRET;
+    // Tạo token reset mật khẩu và lưu nó vào cơ sở dữ liệu
+    const resetToken = await jwt.sign({ userId: user.id }, secretKey, {
+      expiresIn: '5m',
+    });
+    const updatedUser = {
+      ...user,
+      reset_token: resetToken,
+    };
+    await this.usersRepository.updateUser(user.id, updatedUser);
+
+    // Gửi email chứa liên kết reset đến người dùng
+    const subject = 'Password Reset Request - [PetShop]';
+    const text = `You have requested a password reset. Click on the link to reset your password: ${FRONTEND_PATH}/reset-password/?resetToken=${resetToken}`;
+    const result = { subject: subject, text: text };
+    // return result;
+    await this.emailService.sendEmail(email, subject, text);
+    return { message: 'Password reset link sent to your email.' };
   }
 
-  async resetPassword(data) {}
+  async resetNewPassword(token: string, body: ResetPasswordDTO) {
+    const { password } = body;
+    const user =
+      await this.usersRepository.getDetailUserByTokenResetPassword(token);
+
+    const salt = 10;
+    const genSalt = await bcrypt.genSalt(salt);
+    const encryptPassword = await bcrypt.hash(password, genSalt);
+
+    const updatedUser: UsersInterface = {
+      ...user,
+      password: encryptPassword,
+      reset_token: null,
+    };
+    await this.usersRepository.updateUser(user.id, updatedUser);
+    return new HttpException('Password Reset Successfully', HttpStatus.OK);
+  }
 }

@@ -22,7 +22,7 @@ import { CheckBookingStatusAcceptForAdmin } from 'src/middlewares/checkBookingSt
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
-
+import { EmailService } from '../email/email.service';
 
 const path = process.env.SERVER_PATH;
 const url = `${path}/bookings`;
@@ -46,6 +46,7 @@ const url = `${path}/bookings`;
     UsersService,
     JwtService,
     CloudinaryService,
+    EmailService,
     // MyGateway,
   ],
 })

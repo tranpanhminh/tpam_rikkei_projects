@@ -242,3 +242,26 @@ export const userRegister = async (userInfo: UserRegister) => {
     });
   return result;
 };
+
+// 14. Change Password
+export const resetPassword = async (
+  userId: number | string | undefined,
+  data: UserPassword
+) => {
+  const result = await BaseAxios.patch(
+    `${usersAPI}/change-password/${userId}`,
+    data
+  )
+    .then((response) => {
+      notification.success({
+        message: response.data.message,
+      });
+      return true;
+    })
+    .catch((error) => {
+      notification.warning({
+        message: error.response.data.message,
+      });
+    });
+  return result;
+};

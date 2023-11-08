@@ -89,6 +89,11 @@ function SignupForm() {
             Login
           </NavLink>
         </p>
+        <p className={styles["login-sentence"]}>
+          <NavLink to="/reset-password" className={styles["login-text"]}>
+            Forgot Password
+          </NavLink>
+        </p>
       </div>
     </div>
   );

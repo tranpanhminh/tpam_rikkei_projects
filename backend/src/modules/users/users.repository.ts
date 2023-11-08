@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UsersEntity } from './database/entity/users.entity';
-import { UpdateUserDTO } from './dto/updateUser.dto';
 import { UsersInterface } from './interface/users.interface';
 import { UpdateStatusUserDTO } from './dto/changeStatusUser.dto';
 import { UpdatePasswordDTO } from './dto/updatePassword.dto';
@@ -44,7 +43,7 @@ export class UsersRepository {
   // 5. Update
   async updateUser(
     id: number,
-    updateUser: UpdateUserDTO,
+    updateUser: UsersInterface,
   ): Promise<UsersEntity | unknown> {
     return await this.usersEntity.update(id, updateUser);
   }
@@ -85,7 +84,14 @@ export class UsersRepository {
   }
 
   // 11. Get Detail User By Email
-  async getDetailUserByEmail(email: string): Promise<UserInfoLoginInterface> {
+  async getDetailUserByEmail(email: string): Promise<UsersInterface> {
     return await this.usersEntity.findOne({ where: { email: email } });
+  }
+
+  // 11. Get Detail User By Token Reset Password
+  async getDetailUserByTokenResetPassword(
+    token: string,
+  ): Promise<UsersInterface> {
+    return await this.usersEntity.findOne({ where: { reset_token: token } });
   }
 }
