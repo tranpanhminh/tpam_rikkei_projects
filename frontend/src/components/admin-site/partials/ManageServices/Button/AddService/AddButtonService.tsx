@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Modal, notification, message } from "antd";
 import styles from "../AddService/AddButtonService.module.css";
-import { Service } from "../../../../../../database";
-import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Editor } from "@tinymce/tinymce-react";
+import { useNavigate } from "react-router-dom";
+import { addService, getAllServices } from "../../../../../../api/services.api";
+import { getAllWorkingTime } from "../../../../../../api/workingTime.api";
 
 // Import API
 // 1. Services API
@@ -30,8 +31,6 @@ const AddModalService: React.FC<AddModalProps> = ({
   const [messageApi, contextHolder] = message.useMessage();
   const [services, setServices] = useState<any>(null);
   const [workingTime, setWorkingTime] = useState<any>(null);
-  const [editorInitialValue, setEditorInitialValue] = useState("");
-  const [newService, setNewService] = useState<any>(null);
   const [image, setImage] = useState<any>("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [serviceInfo, setServiceInfo] = useState({
@@ -43,26 +42,14 @@ const AddModalService: React.FC<AddModalProps> = ({
   });
 
   // Fetch dữ liệu
-  const fetchServices = () => {
-    axios
-      .get(`${servicesAPI}`)
-      .then((response) => {
-        setServices(response.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+  const fetchServices = async () => {
+    const result = await getAllServices();
+    return setServices(result);
   };
 
-  const fetchWorkingTime = () => {
-    axios
-      .get(`${workingTimeAPI}`)
-      .then((response) => {
-        setWorkingTime(response.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+  const fetchWorkingTime = async () => {
+    const result = await getAllWorkingTime();
+    return setWorkingTime(result);
   };
 
   useEffect(() => {
@@ -73,8 +60,6 @@ const AddModalService: React.FC<AddModalProps> = ({
   // ---------------------------------------
 
   // Ẩn - Hiện Modal
-  let fileInput: any = document.querySelector(`#thumbnail`);
-
   const showModal = () => {
     navigate("/admin/manage-services/?add");
     setServiceInfo({
@@ -96,9 +81,7 @@ const AddModalService: React.FC<AddModalProps> = ({
       working_time_id: "",
       service_image: "",
     });
-
     resetInputImage();
-
     setIsModalOpen(false);
     navigate("/admin/manage-services/");
   };
@@ -112,12 +95,10 @@ const AddModalService: React.FC<AddModalProps> = ({
 
   const handleFileChange = (event: any) => {
     const selectedFile = event.target.files[0];
-
     if (selectedFile) {
       const imageURL: any = URL.createObjectURL(selectedFile);
       setImage(imageURL);
     }
-
     setServiceInfo({
       ...serviceInfo,
       service_image: event.target.files[0],
@@ -183,19 +164,15 @@ const AddModalService: React.FC<AddModalProps> = ({
       },
     };
 
-    messageApi.open({
-      type: "loading",
-      content: "Adding...",
-      duration: 0,
-    });
-
-    await axios
-      .post(`${servicesAPI}/add`, formData, config)
-      .then((response) => {
+    if (serviceInfo.service_image) {
+      messageApi.open({
+        type: "loading",
+        content: "Adding...",
+        duration: 0,
+      });
+      const result = await addService(formData, config);
+      if (result) {
         messageApi.destroy();
-        notification.success({
-          message: `Service Added`,
-        });
         fetchServices();
         handleClickOk();
         setIsModalOpen(false);
@@ -208,13 +185,8 @@ const AddModalService: React.FC<AddModalProps> = ({
         });
         resetInputImage();
         navigate("/admin/manage-services/");
-      })
-      .catch((error) => {
-        console.log(error, ")ERER");
-        notification.warning({
-          message: `${error.response.data.message}`,
-        });
-      });
+      }
+    }
   };
 
   // ---------------------------------------

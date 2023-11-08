@@ -1,36 +1,23 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "../../AdminPage.module.css";
-
-import { Service } from "../../../../database"; // Import your data fetching and setting functions
-import axios from "axios";
 import AddButtonService from "./Button/AddService/AddButtonService";
-import { Button, notification, message } from "antd";
+import { Button, message } from "antd";
 import DetailButtonService from "./Button/DetailService/DetailButtonService";
 import { NavLink } from "react-router-dom";
-
-// Import API
-// 1. Services API
-const servicesAPI = process.env.REACT_APP_API_SERVICES;
+import { deleteService, getAllServices } from "../../../../api/services.api";
 
 // ------------------------------------------------
 
 function ManageServices() {
   document.title = "Manage Services | PetShop";
-
   const [services, setServices] = useState<any>(null);
   const [messageApi, contextHolder] = message.useMessage();
   const [searchText, setSearchText] = useState<string>("");
 
   // Fetch API
-  const fetchServices = () => {
-    axios
-      .get(`${servicesAPI}`)
-      .then((response) => {
-        setServices(response.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+  const fetchServices = async () => {
+    const result = await getAllServices();
+    return setServices(result);
   };
 
   useEffect(() => {
@@ -64,20 +51,11 @@ function ManageServices() {
       content: "Deleting...",
       duration: 0,
     });
-    await axios
-      .delete(`${servicesAPI}/delete/${serviceId}`)
-      .then(() => {
-        fetchServices(); // Cập nhật lại dữ liệu products sau khi xóa
-        messageApi.destroy();
-        notification.success({
-          message: "Service Deleted",
-        });
-      })
-      .catch((error) => {
-        notification.warning({
-          message: `${error.response.data.message}`,
-        });
-      });
+    const result = await deleteService(serviceId);
+    if (result) {
+      fetchServices(); // Cập nhật lại dữ liệu products sau khi xóa
+      messageApi.destroy();
+    }
   };
   // ------------------------------------------------
 

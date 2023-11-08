@@ -1,6 +1,7 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import BaseAxios from "./apiAxiosClient";
+import { notification } from "antd";
 
 const servicesAPI = process.env.REACT_APP_API_SERVICES;
 
@@ -31,33 +32,39 @@ export const getDetailService = async (id: number | string | undefined) => {
   return result;
 };
 
-// // 4. Change User Status
-// export const changeStatusUser = async (id: number) => {
-//   await BaseAxios.patch(`${usersAPI}/change-status-account/${id}`)
-//     .then((response) => {
-//       notification.success({
-//         message: response.data.message,
-//       });
-//     })
-//     .catch((error) => {
-//       notification.success({
-//         message: error.data.message,
-//       });
-//     });
-// };
+// 4. Delete Product
+export const deleteService = async (id: number) => {
+  const result = await BaseAxios.delete(`${servicesAPI}/delete/${id}`)
+    .then((response) => {
+      notification.success({
+        message: response.data.message,
+        // placement: "bottomLeft",
+      });
+      return true;
+    })
+    .catch((error) => {
+      notification.success({
+        message: error.response.data.message,
+      });
+      return false;
+    });
+  return result;
+};
 
-// // 4. Delete User
-// export const deleteUser = async (id: number) => {
-//   await BaseAxios.delete(`${usersAPI}/delete/${id}`)
-//     .then((response) => {
-//       console.log(response, "RRR");
-//       notification.success({
-//         message: response.data.message,
-//       });
-//     })
-//     .catch((error) => {
-//       notification.success({
-//         message: error.data.message,
-//       });
-//     });
-// };
+// 5. Add
+export const addService = async (formData: any, config: any) => {
+  const result = await BaseAxios.post(`${servicesAPI}/add`, formData, config)
+    .then((response) => {
+      notification.success({
+        message: `${response.data.message}`,
+      });
+      return true;
+    })
+    .catch((error) => {
+      notification.warning({
+        message: `${error.response.data.message}`,
+      });
+      return false;
+    });
+  return result;
+};
