@@ -6,12 +6,9 @@ import { OrdersRepository } from '../orders/orders.repository';
 import { CartsRepository } from '../carts/carts.repository';
 import { ProductsRepository } from '../products/products.repository';
 import { OrderItemInterface } from '../orderItems/interface/orderItem.interface';
+import { EmailService } from '../email/email.service';
 
-// const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
-// const PAYPAL_SECRET_KEY = process.env.PAYPAL_SECRET_KEY;
-// const PAYPAL_API = process.env.PAYPAL_API;
-// const path = process.env.SERVER_PATH;
-// const BACKEND_PATH = process.env.BACKEND_PATH;
+const FRONTEND_PATH = process.env.FRONTEND_PATH;
 
 // -------------------------------------------------------
 
@@ -22,6 +19,7 @@ export class PaypalService {
     private readonly orderItemsRepository: OrderItemsRepository,
     private readonly cartsRepository: CartsRepository,
     private readonly productsRepository: ProductsRepository,
+    private readonly emailService: EmailService,
   ) {}
   // 1. Create Order
   async createOrder(paymentData, req, res): Promise<any> {
@@ -90,6 +88,7 @@ export class PaypalService {
       const userCart = await this.cartsRepository.getDetailCartByUser(
         newOrder.user_id,
       );
+      let statusEmail = false;
       for (const cartProduct of userCart) {
         const findProduct = await this.productsRepository.getDetail(
           cartProduct.product_id,
@@ -122,30 +121,28 @@ export class PaypalService {
 
         // Đẩy Cart vào Order Item
         await this.orderItemsRepository.addOrderItem(orderItemInfo);
+        if (!statusEmail) {
+          console.log(statusEmail, '----');
+          // Gửi Mail có order mới tới Admin
+          const emailAdmin = 'yangshihtran73@gmail.com';
+          // Gửi email chứa liên kết reset đến người dùng
+          const subject = `New Order (OrderID: ${orderId})`;
+          const htmlContent = `<h3>New Order Detail:
+          <a href="${FRONTEND_PATH}/admin/manage-orders/?orderID=${orderId}">See Detail</a>
+          </h3>`;
+          await this.emailService.sendEmail(emailAdmin, subject, htmlContent);
+          statusEmail = true;
+        }
       }
 
       // Xoá tất cả sản phẩm của User trong Cart đi
       await this.cartsRepository.deleteAllProductsFromUserCart(
         newOrder.user_id,
       );
+
       return res.redirect('http://localhost:3000/user/my-orders');
     } catch (error) {
       throw error;
     }
   }
-
-  // // Get Access Token
-  // async getAccessToken() {
-  //   const params = new URLSearchParams();
-  //   params.append('grant_type', 'client_credentials');
-
-  //   const response = await axios.post(`${PAYPAL_API}/v1/oauth2/token`, params, {
-  //     auth: {
-  //       username: PAYPAL_CLIENT_ID,
-  //       password: PAYPAL_SECRET_KEY,
-  //     },
-  //   });
-
-  //   return response.data.access_token;
-  // }
 }

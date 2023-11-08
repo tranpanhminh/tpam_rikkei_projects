@@ -36,7 +36,7 @@ function ResetPasswordForm() {
     if (result) {
       const changeNewPassword = await resetPassword(getToken, data);
       if (changeNewPassword) {
-        navigate("/login");
+        return navigate("/login");
       }
     } else {
       notification.warning({

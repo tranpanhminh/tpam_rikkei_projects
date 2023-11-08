@@ -32,7 +32,6 @@ export class OrderStatusesService {
     body: CreateOrderStatusDTO,
   ): Promise<OrderStatusesEntity | unknown> {
     const { name } = body;
-    console.log(body, 'AFAS');
     const newOrderStatus = {
       name: name,
     };

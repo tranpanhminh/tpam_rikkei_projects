@@ -14,7 +14,6 @@ export class CheckPostStatusExist implements NestMiddleware {
     const list = getAll.map((item) => {
       return item.id.toString();
     });
-    console.log(list.includes(getId));
     if (!list.includes(getId)) {
       throw new NotFoundException('Post Status ID is not found');
     }

@@ -65,8 +65,6 @@ export class PostsService {
   ): Promise<PostsEntity | unknown> {
     const { title, content, author, status_id } = body;
     const checkPost = await this.postsRepository.getDetailPost(id);
-
-    console.log(checkPost);
     if (body.thumbnail_url) {
       const fileUpload: any = body.thumbnail_url;
       const file = await this.cloudinaryService.uploadFile(fileUpload);

@@ -77,7 +77,6 @@ export class ProductsController {
     @Param('id') id: number,
     @Body() body: UpdateProductDTO,
   ): Promise<ProductsEntity | unknown> {
-    console.log(body, 'BODY');
     const result: string | unknown = await this.productsService.updateProduct(
       id,
       body,

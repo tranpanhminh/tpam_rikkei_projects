@@ -40,7 +40,6 @@ export class CartsService {
 
     const findProductInCart: CartInterface =
       await this.cartsRepository.findUserAndProductInCart(userId, productId);
-    console.log(findProductInCart);
     if (findProductInCart) {
       const updateCart: CartInterface = {
         ...findProductInCart,
@@ -119,12 +118,6 @@ export class CartsService {
         await this.cartsRepository.updateQuantityInCart(
           findProductInCart.id,
           updateCart,
-        );
-        console.log(
-          await this.cartsRepository.updateQuantityInCart(
-            findProductInCart.id,
-            updateCart,
-          ),
         );
       }
     }

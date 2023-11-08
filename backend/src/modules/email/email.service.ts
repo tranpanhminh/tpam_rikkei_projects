@@ -30,7 +30,6 @@ export class EmailService {
 
     try {
       await this.transporter.sendMail(mailOptions);
-      console.log('Email sent');
     } catch (error) {
       throw new NotAcceptableException(error.message);
     }

@@ -14,6 +14,7 @@ import { ProductImagesEntity } from '../productImages/database/entity/productIma
 import { ProductImagesRepository } from '../productImages/productImages.repository';
 import { UsersRepository } from '../users/users.repository';
 import { UsersEntity } from '../users/database/entity/users.entity';
+import { EmailService } from '../email/email.service';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { UsersEntity } from '../users/database/entity/users.entity';
     CartsRepository,
     ProductsRepository,
     ProductImagesRepository,
+    EmailService,
   ],
   exports: [PaypalProvider, PaypalService],
 })

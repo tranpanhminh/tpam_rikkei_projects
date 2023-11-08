@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styles from "../../ClientPage.module.css";
-import { message, notification } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
 import { googleLogin, login } from "../../../../api/users.api";
 

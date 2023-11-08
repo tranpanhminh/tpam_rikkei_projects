@@ -21,7 +21,6 @@ export class OrderItemsRepository {
     const detailOrderItem = await this.orderItemsEntity.find({
       where: { order_id: id },
     });
-    console.log(detailOrderItem);
     return detailOrderItem;
   }
 

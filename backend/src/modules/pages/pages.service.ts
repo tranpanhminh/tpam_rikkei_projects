@@ -65,8 +65,6 @@ export class PagesService {
   ): Promise<PagesEntity | unknown> {
     const { title, content, author, status_id } = body;
     const checkPage = await this.pagesRepository.getDetailPage(id);
-
-    console.log(checkPage);
     if (body.thumbnail_url) {
       const fileUpload: any = body.thumbnail_url;
       const file = await this.cloudinaryService.uploadFile(fileUpload);

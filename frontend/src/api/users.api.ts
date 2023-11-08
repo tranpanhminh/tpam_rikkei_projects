@@ -286,5 +286,16 @@ export const validateResetPasswordToken = async (token: any) => {
   if (Date.now() >= decodedToken.exp * 1000) {
     return false;
   }
-  return true;
+  const checkExistToken = await axios
+    .get(`${usersAPI}/reset-token/${token}`)
+    .then((response) => {
+      return true;
+    })
+    .catch((error) => {
+      notification.warning({
+        message: `Token is not valid or expired`,
+      });
+      return false;
+    });
+  return checkExistToken;
 };

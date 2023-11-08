@@ -192,7 +192,6 @@ export class OrdersService {
     try {
       const checkOrder: OrdersEntity =
         await this.ordersRepository.getDetailOrder(id);
-      console.log(checkOrder);
 
       await new Promise((resolve, reject) => {
         const refundRequest = {

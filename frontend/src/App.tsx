@@ -149,9 +149,11 @@ function App() {
           <Route element={<IsLogin />}>
             <Route path="/login" element={<ClientLoginPage />}></Route>
             <Route path="/signup" element={<ClientSignupPage />}></Route>
+            <Route
+              path="reset-password"
+              element={<ResetPasswordForm />}
+            ></Route>
           </Route>
-
-          <Route path="reset-password" element={<ResetPasswordForm />}></Route>
         </Routes>
       </BrowserRouter>
     </>
