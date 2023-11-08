@@ -1,14 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Button, Modal, notification } from "antd";
-import axios from "axios";
+import { Button, Modal, message } from "antd";
 import styles from "../../../AdminPage.module.css";
 import { Editor } from "@tinymce/tinymce-react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getDetailPost } from "../../../../../api/posts.api";
+import { getDetailPost, updatePost } from "../../../../../api/posts.api";
 const moment = require("moment");
-
-// Posts API
-const postsAPI = process.env.REACT_APP_API_POSTS;
 
 // -------------------------------------------------------------
 
@@ -27,6 +23,7 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
   getPost,
 }) => {
   const location = useLocation();
+  const [messageApi, contextHolder] = message.useMessage();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [image, setImage] = useState(null);
   const [post, setPost] = useState<any>("");
@@ -38,7 +35,7 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
     author: "",
     status_id: "",
   });
-
+  console.log(postInfo, "postInfo");
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const postId = searchParams.get("edit-postId");
@@ -109,23 +106,11 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
     });
   };
 
-  const handleUpdatePost = () => {
-    axios
-      .get(`${postsAPI}/detail/${getPost.id}`)
-      .then((response) => {
-        setPost(response.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-
+  const handleUpdatePost = async () => {
     const formData: any = new FormData();
     formData.append("title", postInfo.title);
     formData.append("content", postInfo.content);
-    formData.append(
-      "thumbnail_url",
-      postInfo.thumbnail_url ? postInfo.thumbnail_url : getPost.thumbnail_url
-    );
+    formData.append("thumbnail_url", postInfo.thumbnail_url);
     formData.append("author", postInfo.author);
     formData.append("status_id", postInfo.status_id);
     formData.append("_method", "PATCH");
@@ -134,45 +119,70 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
         "Content-Type": "multipart/form-data",
       },
     };
-    axios
-      .patch(`${postsAPI}/update/${getPost.id}`, formData, config)
-      .then((response) => {
-        axios
-          .get(`${postsAPI}/detail/${getPost.id}`)
-          .then((response) => {
-            setPost(response.data);
-          })
-          .catch((error) => {
-            console.log(error, "ERRORR");
-            notification.warning({
-              message: `${error.response.data}`,
-            });
-          });
-        notification.success({
-          message: `Post Updated`,
-        });
 
-        setPostInfo({
-          title: "",
-          content: "",
-          thumbnail_url: "",
-          author: "",
-          status_id: "",
-        });
-        navigate("/admin/manage-posts/");
-        handleFunctionOk();
-        setIsModalOpen(false);
-      })
-      .catch((error) => {
-        console.log(error, "ERRORR");
-        notification.warning({
-          message: `${error.response.data}`,
-        });
-      });
+    messageApi.open({
+      type: "loading",
+      content: "Updating...",
+      duration: 0,
+    });
+
+    // const result = await updatePost(getPost.id, formData, config);
+    // if (result) {
+    //   const getData = await getDetailPost(getPost.id);
+    //   setPost(getData);
+    //   messageApi.destroy();
+    //   setPostInfo({
+    //     title: "",
+    //     content: "",
+    //     thumbnail_url: "",
+    //     author: "",
+    //     status_id: "",
+    //   });
+    //   navigate("/admin/manage-posts/");
+    //   handleFunctionOk();
+    //   setIsModalOpen(false);
+    // }
+
+    // axios
+    //   .patch(`${postsAPI}/update/${getPost.id}`, formData, config)
+    //   .then((response) => {
+    //     axios
+    //       .get(`${postsAPI}/detail/${getPost.id}`)
+    //       .then((response) => {
+    //         setPost(response.data);
+    //       })
+    //       .catch((error) => {
+    //         console.log(error, "ERRORR");
+    //         notification.warning({
+    //           message: `${error.response.data}`,
+    //         });
+    //       });
+    //     notification.success({
+    //       message: `Post Updated`,
+    //     });
+
+    //     setPostInfo({
+    //       title: "",
+    //       content: "",
+    //       thumbnail_url: "",
+    //       author: "",
+    //       status_id: "",
+    //     });
+    //     navigate("/admin/manage-posts/");
+    //     handleFunctionOk();
+    //     setIsModalOpen(false);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error, "ERRORR");
+    //     notification.warning({
+    //       message: `${error.response.data}`,
+    //     });
+    //   });
   };
 
   return (
     <>
+      {contextHolder}
       <Button type="primary" onClick={showModal} className={className}>
         {value}
       </Button>
@@ -212,12 +222,7 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
                 />
               ) : (
                 <img
-                  src={
-                    !getPost?.thumbnail_url ||
-                    getPost?.thumbnail_url === "http://localhost:7373/uploads/"
-                      ? "https://media.istockphoto.com/id/1147544810/vector/no-thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=2-ScbybM7bUYw-nptQXyKKjwRHKQZ9fEIwoWmZG9Zyg="
-                      : getPost?.thumbnail_url
-                  }
+                  src={getPost && getPost?.thumbnail_url}
                   alt=""
                   className={styles["post-editor-thumbnail"]}
                 />

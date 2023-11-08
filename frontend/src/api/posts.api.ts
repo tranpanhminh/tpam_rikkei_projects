@@ -76,3 +76,21 @@ export const updatePost = async (
     });
   return result;
 };
+
+// 5. Add
+export const addPost = async (formData: any, config: any) => {
+  const result = await BaseAxios.post(`${postsAPI}/add`, formData, config)
+    .then((response) => {
+      notification.success({
+        message: `${response.data.message}`,
+      });
+      return true;
+    })
+    .catch((error) => {
+      notification.warning({
+        message: `${error.response.data.message}`,
+      });
+      return false;
+    });
+  return result;
+};

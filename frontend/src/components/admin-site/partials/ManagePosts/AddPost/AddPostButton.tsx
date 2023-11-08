@@ -1,26 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  Button,
-  DatePicker,
-  DatePickerProps,
-  Modal,
-  notification,
-  message,
-} from "antd";
-import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { Button, Modal, notification, message } from "antd";
+import { useNavigate } from "react-router-dom";
 import styles from "../../../AdminPage.module.css";
 import { Editor } from "@tinymce/tinymce-react";
-import moment from "moment";
+import { addPost, getAllPosts } from "../../../../../api/posts.api";
+import { getAllPostStatuses } from "../../../../../api/poastStatus.api";
 
 export interface Props {
   handleClickOk: Function;
 }
-
-// Import API
-// 1. Products API
-const postsAPI = process.env.REACT_APP_API_POSTS;
-const postStatusAPI = process.env.REACT_APP_API_POST_STATUS;
 
 // ------------------------------------------------
 
@@ -29,7 +17,6 @@ const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
   const [messageApi, contextHolder] = message.useMessage();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [image, setImage] = useState(null);
-  const [initText, setInitText] = useState("");
   const [postInfo, setPostInfo] = useState<any>({
     title: "",
     content: "",
@@ -40,29 +27,16 @@ const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
   const [posts, setPosts] = useState<any>("");
   const [postStatus, setPostStatus] = useState<any>([]);
 
-  // const [publishedDate, setPublishedDate] = useState<any>();
-
-  const fetchPosts = () => {
-    axios
-      .get(`${postsAPI}`)
-      .then((response) => {
-        setPosts(response.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+  const fetchPosts = async () => {
+    const result = await getAllPosts();
+    return setPosts(result);
   };
 
   const fetchPostStatus = async () => {
-    await axios
-      .get(`${postStatusAPI}`)
-      .then((response) => {
-        setPostStatus(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const result = await getAllPostStatuses();
+    return setPostStatus(result);
   };
+
   useEffect(() => {
     fetchPosts();
     fetchPostStatus();
@@ -75,7 +49,6 @@ const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
 
   const handleOk = () => {
     handleAddPost();
-    // setIsModalOpen(false);
   };
 
   const handleCancel = () => {
@@ -123,7 +96,7 @@ const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
     }
   };
 
-  const handleAddPost = () => {
+  const handleAddPost = async () => {
     if (!postInfo.title) {
       return notification.warning({
         message: "Title must not be blank",
@@ -156,7 +129,6 @@ const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
         message: "You can't set to Published until you set thumbnail",
       });
     }
-
     const formData: any = new FormData();
     formData.append("title", postInfo.title);
     formData.append("content", postInfo.content);
@@ -181,35 +153,51 @@ const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
         duration: 0,
       });
     }
-    axios
-      .post(`${postsAPI}/add`, formData, config)
-      .then((response) => {
-        fetchPosts();
-        setPosts(response.data);
-        messageApi.destroy();
-        notification.success({
-          message: "Post Added",
-        });
-        navigate("/admin/manage-posts/");
-        resetInputImage();
-        // const fileInput: any = document.querySelector(`#thumbnail`);
-        // fileInput.value = "";
-        setPostInfo({
-          title: "",
-          content: "",
-          thumbnail_url: "",
-          author: "",
-          status_id: 1,
-        });
-        setImage(null);
-        handleClickOk();
-        setIsModalOpen(false);
-      })
-      .catch((error) => {
-        notification.warning({
-          message: `${error.response.data}`,
-        });
+    const result = await addPost(formData, config);
+    if (result) {
+      fetchPosts();
+      messageApi.destroy();
+      navigate("/admin/manage-posts/");
+      resetInputImage();
+      setPostInfo({
+        title: "",
+        content: "",
+        thumbnail_url: "",
+        author: "",
+        status_id: 1,
       });
+      setImage(null);
+      handleClickOk();
+      setIsModalOpen(false);
+    }
+
+    // axios
+    //   .post(`${postsAPI}/add`, formData, config)
+    //   .then((response) => {
+    //     fetchPosts();
+    //     setPosts(response.data);
+    //     messageApi.destroy();
+    //     notification.success({
+    //       message: "Post Added",
+    //     });
+    //     navigate("/admin/manage-posts/");
+    //     resetInputImage();
+    //     setPostInfo({
+    //       title: "",
+    //       content: "",
+    //       thumbnail_url: "",
+    //       author: "",
+    //       status_id: 1,
+    //     });
+    //     setImage(null);
+    //     handleClickOk();
+    //     setIsModalOpen(false);
+    //   })
+    //   .catch((error) => {
+    //     notification.warning({
+    //       message: `${error.response.data}`,
+    //     });
+    //   });
   };
 
   const editorConfig = {
