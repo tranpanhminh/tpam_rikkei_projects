@@ -1,24 +1,19 @@
-// import "crypto-browserify";
-// import "stream-browserify";
 import jwtDecode from "jwt-decode";
-import React, { useEffect, useState } from "react";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { message, notification } from "antd";
+import { Navigate, Outlet } from "react-router-dom";
 
 function IsAdmin() {
   const token: any = localStorage.getItem("token") || "";
-  // const location = useLocation();
   let data: any;
   if (token) {
     data = jwtDecode(token);
   } else {
     data = "";
   }
-  console.log(data, "DATA");
-  if (
-    (data && !data?.user_roles?.name.toLowerCase().includes("admin")) ||
-    !data
-  ) {
+
+  if (!data) {
+    return <Navigate to="/access-denied" />;
+  }
+  if (data && data.role_id === 3) {
     return <Navigate to="/access-denied" />;
   }
 

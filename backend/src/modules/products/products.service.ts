@@ -155,9 +155,21 @@ export class ProductsService {
     }
   }
 
-  // // 8. Report Comments
-  // async reportProductComments(): Promise<ProductsEntity | unknown> {
-  //   const result = await this.productsRepository.reportProductComments();
-  //   return result;
-  // }
+  // 8. Report Comments
+  async filterPagination(
+    page: number,
+    limit: number,
+  ): Promise<ProductsEntity[] | unknown> {
+    const result = await this.productsRepository.filterPagination(page, limit);
+    return result;
+  }
+
+  // 8. Report Comments
+  async sortAndOrder(
+    sort: string,
+    order: string,
+  ): Promise<ProductsEntity[] | unknown> {
+    const result = await this.productsRepository.sortAndOrder(sort, order);
+    return result;
+  }
 }

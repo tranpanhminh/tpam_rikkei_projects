@@ -4,6 +4,7 @@ import axios from "axios";
 import styles from "../../../AdminPage.module.css";
 import { Editor } from "@tinymce/tinymce-react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { getDetailPost } from "../../../../../api/posts.api";
 const moment = require("moment");
 
 // Posts API
@@ -46,51 +47,26 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
     }
   }, [location.search]);
 
-  const fetchPost = () => {
-    axios
-      .get(`${postsAPI}/detail/${getPost.id}`)
-      .then((response) => {
-        setPost(response.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+  const fetchPost = async () => {
+    const result = await getDetailPost(getPost.id);
+    setPostInfo({
+      title: result.title,
+      content: result.content,
+      thumbnail_url: result.thumbnail_url,
+      author: result.author,
+      status_id: result.status_id,
+    });
+    return setPost(result);
   };
 
   useEffect(() => {
     fetchPost();
-  }, [getPost.id]);
+  }, []);
 
   const showModal = () => {
     navigate(`/admin/manage-posts/?edit-postId=${getPost.id}`);
     setIsModalOpen(true);
   };
-
-  // const handleOk = () => {
-  //   const updatedPost = {
-  //     post_title: postTitle !== "" ? postTitle : getPost.post_title,
-  //     post_content: content !== "" ? content : getPost.post_content,
-  //     author: author !== "" ? author : getPost.author,
-  //     publish_date: getPost.publish_date,
-  //     image_url: image !== "" ? image : getPost.image_url,
-  //     status: status !== "" ? status : getPost.status,
-  //   };
-  //   console.log("DSADASDSA", status);
-  //   console.log("Updated Post", updatedPost);
-  //   axios
-  //     .put(`http://localhost:7373/posts/${getPost.id}`, updatedPost)
-  //     .then((response) => {
-  //       fetchPost();
-  //       notification.success({
-  //         message: "Post Updated Successfully",
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error updating post:", error);
-  //     });
-  //   handleFunctionOk();
-  //   setIsModalOpen(false); // Close the modal
-  // };
 
   const handleCancel = () => {
     navigate("/admin/manage-posts/");
@@ -132,57 +108,6 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
       thumbnail_url: event.target.files[0],
     });
   };
-
-  // const reloadThumbnail = () => {
-  //   if (postInfo.thumbnail_url) {
-  //     const formData: any = new FormData();
-  //     formData.append("thumbnail_url", postInfo.thumbnail_url);
-  //     formData.append("_method", "PATCH");
-
-  //     const config = {
-  //       headers: {
-  //         "Content-Type": "multipart/form-data",
-  //       },
-  //     };
-  //     axios
-  //       .patch(`${postsAPI}/update/${getPost.id}`, formData, config)
-  //       .then((response) => {
-  //         axios
-  //           .get(`${postsAPI}/detail/${getPost.id}`)
-  //           .then((response) => {
-  //             setPost(response.data);
-  //             const fileInput: any = document.querySelector(`#thumbnail`);
-
-  //             fileInput.value = "";
-
-  //             setPostInfo({
-  //               ...postInfo,
-  //               thumbnail_url: "",
-  //             });
-  //             fetchPost();
-  //           })
-  //           .catch((error) => {
-  //             console.log(error.message);
-  //           });
-  //         handleFunctionOk();
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
-  //   } else {
-  //     axios
-  //       .get(`${postsAPI}/detail/${getPost.id}`)
-  //       .then((response) => {
-  //         setPost(response.data);
-  //         console.log(response.data, "_DASDAAS");
-  //         fetchPost();
-  //       })
-  //       .catch((error) => {
-  //         console.log(error.message);
-  //       });
-  //     handleFunctionOk();
-  //   }
-  // };
 
   const handleUpdatePost = () => {
     axios

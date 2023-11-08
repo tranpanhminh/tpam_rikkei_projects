@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
@@ -31,10 +32,18 @@ export class ProductsController {
 
   // 1. Get All
   @Get()
-  async getAllProducts(): Promise<ProductsEntity[]> {
-    const result: ProductsEntity[] =
-      await this.productsService.getAllProducts();
-    return result;
+  async getAllProducts(@Query() query): Promise<ProductsEntity[] | unknown> {
+    const page = query.page;
+    const limit = query.limit;
+    const sort = query.sort;
+    const order = query.order;
+    if (page && limit) {
+      return await this.productsService.filterPagination(page, limit);
+    } else if (sort && order) {
+      return await this.productsService.sortAndOrder(sort, order);
+    } else {
+      return await this.productsService.getAllProducts();
+    }
   }
 
   // 2. Get Detail
@@ -113,11 +122,4 @@ export class ProductsController {
       );
     return result;
   }
-
-  // // 8. Report Comments
-  // @Get('/report/product-rating')
-  // async reportBestRatingProduct(): Promise<ProductsEntity | unknown> {
-  //   const result = await this.productsService.reportBestRatingProduct();
-  //   return result;
-  // }
 }

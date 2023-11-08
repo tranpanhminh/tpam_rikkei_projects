@@ -1,13 +1,18 @@
 import axios from "axios";
-import jwtDecode from "jwt-decode";
 import BaseAxios from "./apiAxiosClient";
 import { notification } from "antd";
 
-const usersAPI = process.env.REACT_APP_API_USERS;
 const productsAPI = process.env.REACT_APP_API_PRODUCTS;
+// ----------Interface-------------
+export interface PostInfo {
+  name: string;
+  description: string;
+  price: number;
+  quantity_stock: number;
+}
 
 // ---------------------------------
-// 2. Get All Users
+// 2. Get All
 export const getAllProducts = async () => {
   const result = await axios
     .get(`${productsAPI}/`)
@@ -20,7 +25,7 @@ export const getAllProducts = async () => {
   return result;
 };
 
-// 3. Get Detail User
+// 3. Get Detail
 export const getDetailProduct = async (id: number | string | undefined) => {
   const result = await axios
     .get(`${productsAPI}/detail/${id}`)
@@ -33,33 +38,90 @@ export const getDetailProduct = async (id: number | string | undefined) => {
   return result;
 };
 
-// // 4. Change User Status
-// export const changeStatusUser = async (id: number) => {
-//   await BaseAxios.patch(`${usersAPI}/change-status-account/${id}`)
-//     .then((response) => {
-//       notification.success({
-//         message: response.data.message,
-//       });
-//     })
-//     .catch((error) => {
-//       notification.success({
-//         message: error.data.message,
-//       });
-//     });
-// };
+// 4. Delete Product
+export const deleteProduct = async (id: number) => {
+  const result = await BaseAxios.delete(`${productsAPI}/delete/${id}`)
+    .then((response) => {
+      notification.success({
+        message: response.data.message,
+        // placement: "bottomLeft",
+      });
+      return true;
+    })
+    .catch((error) => {
+      notification.success({
+        message: error.response.data.message,
+      });
+      return false;
+    });
+  return result;
+};
 
-// // 4. Delete User
-// export const deleteUser = async (id: number) => {
-//   await BaseAxios.delete(`${usersAPI}/delete/${id}`)
-//     .then((response) => {
-//       console.log(response, "RRR");
-//       notification.success({
-//         message: response.data.message,
-//       });
-//     })
-//     .catch((error) => {
-//       notification.success({
-//         message: error.data.message,
-//       });
-//     });
-// };
+// 5. Update Product
+export const updateProduct = async (
+  id: number | string | undefined,
+  data: PostInfo
+) => {
+  const result = await BaseAxios.patch(`${productsAPI}/update/${id}`, data)
+    .then((response) => {
+      notification.success({
+        message: `${response.data.message}`,
+      });
+      return true;
+    })
+    .catch((error) => {
+      notification.warning({
+        message: `${error.response.data.message}`,
+      });
+    });
+  return result;
+};
+
+// 5. Update Product Image
+export const updateProductImage = async (
+  productId: number | string | undefined,
+  imageId: number | string | undefined,
+  formData: any,
+  config: any
+) => {
+  const result = await BaseAxios.patch(
+    `${productsAPI}/${productId}/update-image/${imageId}`,
+    formData,
+    config
+  )
+    .then((response) => {
+      notification.success({
+        message: `${response.data.message}`,
+      });
+      return true;
+    })
+    .catch((error) => {
+      notification.warning({
+        message: `${error.response.data.message}`,
+      });
+    });
+  return result;
+};
+
+// 6. Update Product Thumbnail
+export const updateThumbnail = async (
+  productId: number | string | undefined,
+  imageId: number | string | undefined
+) => {
+  const result = await BaseAxios.patch(
+    `${productsAPI}/${productId}/update-thumbnail/${imageId}}`
+  )
+    .then((response) => {
+      notification.success({
+        message: `${response.data.message}`,
+      });
+      return true;
+    })
+    .catch((error) => {
+      notification.warning({
+        message: `${error.response.data.message}`,
+      });
+      return false;
+    });
+  return result;
+};

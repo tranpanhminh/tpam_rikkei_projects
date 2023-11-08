@@ -49,13 +49,14 @@ export const getDataLogin = async () => {
           return error;
         });
       const { password, ...dataUser } = result;
-      return dataUser;
+      return (data = dataUser);
     } catch (error) {
       return error;
     }
   } else {
     console.log("Invalid Token");
   }
+  return data;
 };
 
 // 2. Get All Users

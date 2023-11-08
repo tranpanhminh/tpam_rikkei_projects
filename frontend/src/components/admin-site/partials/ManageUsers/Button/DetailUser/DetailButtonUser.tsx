@@ -48,7 +48,7 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
   // Fetch API
   const fetchUser = async () => {
     const user = await getDataLogin();
-    setUser(user);
+    return setUser(user);
   };
 
   useEffect(() => {
@@ -76,25 +76,17 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
 
   // Handle Update Password
   const handleOk = async () => {
-    await changeUserPassword(user.id, userPassword)
-      .then((response) => {
-        // notification.success({
-        //   message: `${response.data.message}`,
-        // });
-        setUserPassword({
-          old_password: "",
-          new_password: "",
-        });
-        handleFunctionOk();
-        localStorage.clear();
-        navigate("/");
-        setIsModalOpen(false);
-      })
-      .catch((error) => {
-        notification.warning({
-          message: `${error.response.data.message}`,
-        });
+    const result = await changeUserPassword(user.id, userPassword);
+    if (result) {
+      setUserPassword({
+        old_password: "",
+        new_password: "",
       });
+      handleFunctionOk();
+      localStorage.clear();
+      navigate("/");
+      setIsModalOpen(false);
+    }
   };
 
   // -----------------------------------------------------------

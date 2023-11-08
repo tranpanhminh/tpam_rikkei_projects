@@ -26,7 +26,7 @@ function ClientServices() {
         <div className="container text-center">
           <div className="row align-items-start">
             {services &&
-              services?.slice(0, 3).map((service) => {
+              services?.slice(0, 3)?.map((service) => {
                 return (
                   <div className="col-12 col-sm-12 col-md-6 col-xl-4 px-3 my-2">
                     <div className={styles["collection-item"]}>

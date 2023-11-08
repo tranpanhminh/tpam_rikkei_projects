@@ -183,12 +183,63 @@ export class ProductsRepository {
     return await this.productsEntity.update(productId, updatedQuantityStock);
   }
 
-  // // 9. Report Product Comment
-  // async reportProductComments(): Promise<ProductsEntity | unknown> {
-  //   const query = `
-  //   SELECT * FROM product_comments
-  //   ORDER BY
-  //   `;
-  //   return await this.productsEntity.query(query);
-  // }
+  // 9. Pagination
+  async filterPagination(
+    page: number,
+    limit: number,
+  ): Promise<ProductsEntity[] | unknown> {
+    const data = await this.getAllProducts();
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+
+    if (startIndex >= data.length) {
+      return []; // Không có dữ liệu trang này.
+    }
+
+    const paginatedData = data.slice(startIndex, endIndex);
+    return paginatedData;
+  }
+
+  // 10. SortAndOrder
+  async sortAndOrder(sort: string, order: string): Promise<ProductsEntity[]> {
+    const data = await this.getAllProducts();
+    const allKeys = new Set();
+
+    data.forEach((obj) => {
+      Object.keys(obj).forEach((key) => {
+        allKeys.add(key);
+      });
+    });
+
+    const arrayOfKeys = [...allKeys];
+
+    // Kiểm tra xem sort có trong arrayOfKeys không
+    if (arrayOfKeys.includes(sort)) {
+      const sortedData = [...data]; // Tạo một bản sao của mảng Data
+
+      if (order === 'asc') {
+        sortedData.sort((a, b) => {
+          if (typeof a[sort] === 'number') {
+            return a[sort] - b[sort];
+          } else if (typeof a[sort] === 'string') {
+            return a[sort].localeCompare(b[sort]);
+          }
+        });
+      } else if (order === 'desc') {
+        sortedData.sort((a, b) => {
+          if (typeof a[sort] === 'number') {
+            return b[sort] - a[sort];
+          } else if (typeof a[sort] === 'string') {
+            return b[sort].localeCompare(a[sort]);
+          }
+        });
+      }
+
+      return sortedData;
+    } else {
+      // Trường sort không tồn tại trong arrayOfKeys
+      // Trả về mảng ban đầu
+      return data;
+    }
+  }
 }

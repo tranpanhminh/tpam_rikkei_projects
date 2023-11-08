@@ -79,7 +79,7 @@ function App() {
           <Route path="/about" element={<ClientAboutPage />}></Route>
 
           {/* Route của Admin */}
-          {/* <Route element={<IsAdmin />}> */}
+          <Route element={<IsAdmin />}>
           <Route path="/admin" element={<AdminMainPage />}>
             <Route index element={<ManageUsers />} />
             <Route path="manage-users" element={<ManageUsers />} />
@@ -97,7 +97,7 @@ function App() {
             <Route path="manage-comments" element={<ManageComments />} />
             <Route path="report" element={<Report />} />
           </Route>
-          {/* </Route> */}
+          </Route>
 
           {/* Route của User */}
           <Route element={<IsCustomer />}>

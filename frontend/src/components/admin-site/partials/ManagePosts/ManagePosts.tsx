@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from "react";
 import styles from "../../AdminPage.module.css";
-import axios from "axios";
-import { Button, notification, message } from "antd";
+import { Button, message } from "antd";
 import { Badge } from "react-bootstrap";
 import DetailPostButton from "./DetailPost/DetailPostButton";
 import AddPostButton from "./AddPost/AddPostButton";
-import { NavLink, useNavigate } from "react-router-dom";
-import BaseAxios from "../../../../api/apiAxiosClient";
+import { NavLink } from "react-router-dom";
+import { deletePost, getAllPosts } from "../../../../api/posts.api";
 const moment = require("moment");
-
-// Import API
-// 1. Products API
-const postsAPI = process.env.REACT_APP_API_POSTS;
 
 // ------------------------------------------------
 
@@ -20,18 +15,11 @@ function ManagePosts() {
   const [searchText, setSearchText] = useState<string>("");
   const [messageApi, contextHolder] = message.useMessage();
   const [posts, setPosts] = useState<any>([]);
-  const navigate = useNavigate();
 
   // Fetch API
   const fetchPosts = async () => {
-    await axios
-      .get(`${postsAPI}`)
-      .then((response) => {
-        setPosts(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const result = await getAllPosts();
+    return setPosts(result);
   };
 
   useEffect(() => {
@@ -61,24 +49,17 @@ function ManagePosts() {
   // ------------------------------------------------
 
   // Function Delete Post
-  const handleDeletePost = (postId: number) => {
-    console.log(postId);
+  const handleDeletePost = async (postId: number) => {
     messageApi.open({
       type: "loading",
       content: "Deleting...",
       duration: 0,
     });
-    BaseAxios.delete(`${postsAPI}/delete/${postId}`)
-      .then((response) => {
-        fetchPosts();
-        messageApi.destroy();
-        notification.success({
-          message: "Post Deleted",
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const result = await deletePost(postId);
+    if (result) {
+      fetchPosts();
+      messageApi.destroy();
+    }
   };
   // ------------------------------------------------
 

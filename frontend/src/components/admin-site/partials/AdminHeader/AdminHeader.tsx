@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import logo from "../../../../assets/images/pet-shop.png";
-
 import styles from "../../AdminPage.module.css";
-
 import { NavLink, useNavigate } from "react-router-dom";
 import { message } from "antd";
 import { Badge } from "react-bootstrap";
@@ -20,8 +18,9 @@ const AdminHeader: React.FC = () => {
   // Fetch API
   const fetchUser = async () => {
     const result = await getDataLogin();
-    setUser(result);
+    return setUser(result);
   };
+  // console.log(user);
 
   useEffect(() => {
     fetchUser();
@@ -67,7 +66,7 @@ const AdminHeader: React.FC = () => {
               marginBottom: "20px",
             }}
           >
-            {user?.full_name.length > 15
+            {user?.full_name?.length > 15
               ? user?.full_name.split(" ")[0]
               : user?.full_name}
           </Badge>

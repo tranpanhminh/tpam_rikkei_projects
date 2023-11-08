@@ -1,37 +1,28 @@
 import React, { useEffect, useState } from "react";
 import DetailButtonProduct from "./Button/DetailProduct/DetailButtonProduct";
-import { Button, Spin, message, notification } from "antd";
-import { Product } from "../../../../database";
-import axios from "axios";
+import { Button, message } from "antd";
 import AddModalProduct from "../ManageProducts/Button/AddProduct/AddModalProduct";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from "../../AdminPage.module.css";
 import { NavLink } from "react-router-dom";
-import BaseAxios from "../../../../api/apiAxiosClient";
+import { deleteProduct, getAllProducts } from "../../../../api/products.api";
+import ReactPaginate from "react-paginate";
+import axios from "axios";
 
-// Import API
-// 1. Products API
 const productsAPI = process.env.REACT_APP_API_PRODUCTS;
 
 // ------------------------------------------------
 function ManageProducts() {
   document.title = "Manage Products | PetShop";
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState<any>([]);
   const [searchText, setSearchText] = useState<string>("");
   const [messageApi, contextHolder] = message.useMessage();
 
   // Fetch API
-  const fetchProducts = () => {
-    axios
-      .get(`${productsAPI}`)
-      .then((response) => {
-        setProducts(response.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+  const fetchProducts = async () => {
+    const result = await getAllProducts();
+    return setProducts(result);
   };
 
   useEffect(() => {
@@ -67,24 +58,17 @@ function ManageProducts() {
   // ------------------------------------------------
 
   // Handle Delete Product
-  const handleDeleteProduct = (productId: number) => {
+  const handleDeleteProduct = async (productId: number) => {
     messageApi.open({
       type: "loading",
       content: "Deleting...",
       duration: 0,
     });
-    BaseAxios.delete(`${productsAPI}/delete/${productId}`)
-      .then(() => {
-        fetchProducts(); // Cập nhật lại dữ liệu products sau khi xóa
-        messageApi.destroy();
-        notification.success({
-          message: "Product Deleted",
-          // placement: "bottomLeft",
-        });
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+    const result = await deleteProduct(productId);
+    if (result) {
+      fetchProducts(); // Cập nhật lại dữ liệu products sau khi xóa
+      messageApi.destroy();
+    }
   };
 
   // ------------------------------------------------
@@ -93,6 +77,16 @@ function ManageProducts() {
   const handleUpdateProduct = () => {
     navigate("/admin/manage-products/");
     fetchProducts();
+  };
+
+  // ------------------------------------------------
+
+  // Pagination
+  const pageLimit = 10; // limit
+  const totalPages = Math.ceil(products.length / pageLimit);
+
+  const handlePageClick = (page: any) => {
+    axios.get(`${productsAPI}/?page=${page}&limit=${pageLimit}`);
   };
 
   // ------------------------------------------------
@@ -186,6 +180,8 @@ function ManageProducts() {
           </tbody>
         </table>
       </div>
+
+      <ReactPaginate pageCount={totalPages} onPageChange={handlePageClick} />
     </div>
   );
 }

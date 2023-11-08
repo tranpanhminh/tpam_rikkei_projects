@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Modal, notification, message } from "antd";
-import { Product } from "../../../../../../database";
 import { Editor } from "@tinymce/tinymce-react";
-import axios from "axios";
 import styles from "../DetailProduct/DetailModalProduct.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
-
-// Import API
-// 1. Products API
-const productsAPI = process.env.REACT_APP_API_PRODUCTS;
-const vendorsAPI = process.env.REACT_APP_API_VENDORS;
+import {
+  getDetailProduct,
+  updateProduct,
+  updateProductImage,
+  updateThumbnail,
+} from "../../../../../../api/products.api";
+import { getAllVendors } from "../../../../../../api/vendors.api";
 
 // ------------------------------------------------
 
@@ -38,7 +38,6 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
   const [image2, setImage2] = useState<any>(null);
   const [image3, setImage3] = useState<any>(null);
   const [image4, setImage4] = useState<any>(null);
-  const [image, setImage] = useState<any>("");
   const [showUpdateImage1, setShowUpdateImage1] = useState<boolean>(false);
   const [showUpdateImage2, setShowUpdateImage2] = useState<boolean>(false);
   const [showUpdateImage3, setShowUpdateImage3] = useState<boolean>(false);
@@ -58,29 +57,23 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
   }, [location.search]);
 
   useEffect(() => {
-    const fetchProduct = () => {
-      axios
-        .get(`${productsAPI}/detail/${getProductId}`)
-        .then((response) => {
-          setProducts(response.data);
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
+    const fetchProduct = async () => {
+      const result = await getDetailProduct(getProductId);
+      setProducts(result);
+      setProductInfo({
+        name: result.name,
+        description: result.description,
+        price: result.price,
+        quantity_stock: result.quantity_stock,
+      });
     };
 
     fetchProduct();
   }, [getProductId]);
 
   const fetchVendors = async () => {
-    await axios
-      .get(`${vendorsAPI}`)
-      .then((response) => {
-        setVendors(response.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+    const result = await getAllVendors();
+    return setVendors(result);
   };
 
   useEffect(() => {
@@ -106,22 +99,13 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
     setIsModalOpen(true);
   };
 
-  const handleOk = () => {
-    axios
-      .patch(`${productsAPI}/update/${getProductId}`, productInfo)
-      .then((response) => {
-        notification.success({
-          message: `Product Updated`,
-        });
-        handleFunctionOk();
-        setIsModalOpen(false); // Close the modal
-        navigate("/admin/manage-products/");
-      })
-      .catch((error) => {
-        notification.warning({
-          message: `${error.response.data.message}`,
-        });
-      });
+  const handleOk = async () => {
+    const result = await updateProduct(getProductId, productInfo);
+    if (result) {
+      handleFunctionOk();
+      setIsModalOpen(false); // Close the modal
+      navigate("/admin/manage-products/");
+    }
   };
 
   const handleCancel = () => {
@@ -151,14 +135,13 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
     }
   };
 
-  const handleUpdateImage1 = () => {
+  const handleUpdateImage1 = async () => {
     if (image1) {
       const formData: any = new FormData();
       formData.append("image_url", image1);
       formData.append("_method", "PATCH");
       const productId = products.id;
       const imageId = products.product_images[0].id;
-      // console.log(formData, "FORM DATA");
       const config = {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -169,35 +152,23 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
         content: "Updating...",
         duration: 0,
       });
-      axios
-        .patch(
-          `${productsAPI}/${productId}/update-image/${imageId}`,
-          formData,
-          config
-        )
-        .then((response) => {
-          messageApi.destroy();
-          notification.success({
-            message: `Image Updated`,
-          });
-          axios
-            .get(`${productsAPI}/detail/${getProductId}`)
-            .then((response) => {
-              setProducts(response.data);
-            })
-            .catch((error) => {
-              console.log(error.message);
-            });
-          setImage1("");
-          resetInputImage1();
-          setShowUpdateImage1(false);
-          navigate("/admin/manage-products/");
-          handleFunctionOk();
-          fileUploaded1 = true;
-        })
-        .catch((error) => {
-          console.log(error, "++++++");
-        });
+      const result = await updateProductImage(
+        productId,
+        imageId,
+        formData,
+        config
+      );
+      if (result) {
+        messageApi.destroy();
+        const getData = await getDetailProduct(getProductId);
+        setProducts(getData);
+        setImage1("");
+        resetInputImage1();
+        setShowUpdateImage1(false);
+        navigate("/admin/manage-products/");
+        handleFunctionOk();
+        fileUploaded1 = true;
+      }
     } else {
       notification.warning({
         message: `Please Upload Image`,
@@ -229,7 +200,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
     }
   };
 
-  const handleUpdateImage2 = () => {
+  const handleUpdateImage2 = async () => {
     if (image2) {
       const formData: any = new FormData();
       formData.append("image_url", image2);
@@ -246,36 +217,23 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
         content: "Updating...",
         duration: 0,
       });
-      axios
-        .patch(
-          `${productsAPI}/${productId}/update-image/${imageId}`,
-          formData,
-          config
-        )
-        .then((response) => {
-          messageApi.destroy();
-          // Đặt giá trị của input type file về rỗng
-          notification.success({
-            message: `Image Updated`,
-          });
-          axios
-            .get(`${productsAPI}/detail/${getProductId}`)
-            .then((response) => {
-              setProducts(response.data);
-            })
-            .catch((error) => {
-              console.log(error.message);
-            });
-          setImage2("");
-          resetInputImage2();
-          setShowUpdateImage2(false);
-          navigate("/admin/manage-products/");
-          handleFunctionOk();
-          fileUploaded2 = true;
-        })
-        .catch((error) => {
-          console.log(error, "++++++");
-        });
+      const result = await updateProductImage(
+        productId,
+        imageId,
+        formData,
+        config
+      );
+      if (result) {
+        messageApi.destroy();
+        const getData = await getDetailProduct(getProductId);
+        setProducts(getData);
+        setImage2("");
+        resetInputImage2();
+        setShowUpdateImage2(false);
+        navigate("/admin/manage-products/");
+        handleFunctionOk();
+        fileUploaded2 = true;
+      }
     } else {
       notification.warning({
         message: `Please Upload Image`,
@@ -307,7 +265,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
     }
   };
 
-  const handleUpdateImage3 = () => {
+  const handleUpdateImage3 = async () => {
     if (image3) {
       const formData: any = new FormData();
       formData.append("image_url", image3);
@@ -324,36 +282,23 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
         content: "Updating...",
         duration: 0,
       });
-      axios
-        .patch(
-          `${productsAPI}/${productId}/update-image/${imageId}`,
-          formData,
-          config
-        )
-        .then((response) => {
-          messageApi.destroy();
-          // Đặt giá trị của input type file về rỗng
-          notification.success({
-            message: `Image Updated`,
-          });
-          axios
-            .get(`${productsAPI}/detail/${getProductId}`)
-            .then((response) => {
-              setProducts(response.data);
-            })
-            .catch((error) => {
-              console.log(error.message);
-            });
-          setImage3("");
-          resetInputImage3();
-          setShowUpdateImage3(false);
-          navigate("/admin/manage-products/");
-          handleFunctionOk();
-          fileUploaded3 = true;
-        })
-        .catch((error) => {
-          console.log(error, "++++++");
-        });
+      const result = await updateProductImage(
+        productId,
+        imageId,
+        formData,
+        config
+      );
+      if (result) {
+        messageApi.destroy();
+        const getData = await getDetailProduct(getProductId);
+        setProducts(getData);
+        setImage3("");
+        resetInputImage3();
+        setShowUpdateImage3(false);
+        navigate("/admin/manage-products/");
+        handleFunctionOk();
+        fileUploaded3 = true;
+      }
     } else {
       notification.warning({
         message: `Please Upload Image`,
@@ -384,7 +329,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
     }
   };
 
-  const handleUpdateImage4 = () => {
+  const handleUpdateImage4 = async () => {
     if (image4) {
       const formData: any = new FormData();
       formData.append("image_url", image4);
@@ -401,35 +346,23 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
         content: "Updating...",
         duration: 0,
       });
-      axios
-        .patch(
-          `${productsAPI}/${productId}/update-image/${imageId}`,
-          formData,
-          config
-        )
-        .then((response) => {
-          messageApi.destroy();
-          notification.success({
-            message: `Image Updated`,
-          });
-          axios
-            .get(`${productsAPI}/detail/${getProductId}`)
-            .then((response) => {
-              setProducts(response.data);
-            })
-            .catch((error) => {
-              console.log(error.message);
-            });
-          setImage4("");
-          resetInputImage4();
-          setShowUpdateImage4(false);
-          navigate("/admin/manage-products/");
-          handleFunctionOk();
-          fileUploaded4 = true;
-        })
-        .catch((error) => {
-          console.log(error, "++++++");
-        });
+      const result = await updateProductImage(
+        productId,
+        imageId,
+        formData,
+        config
+      );
+      if (result) {
+        messageApi.destroy();
+        const getData = await getDetailProduct(getProductId);
+        setProducts(getData);
+        setImage4("");
+        resetInputImage4();
+        setShowUpdateImage4(false);
+        navigate("/admin/manage-products/");
+        handleFunctionOk();
+        fileUploaded4 = true;
+      }
     } else {
       notification.warning({
         message: `Please Upload Image`,
@@ -438,32 +371,20 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
   };
 
   // Set Thumbnail
-  const changeThumbnail = (productId: any, imageId: any) => {
+  const changeThumbnail = async (productId: any, imageId: any) => {
     messageApi.open({
       type: "loading",
       content: "Loading...",
       duration: 0,
     });
-    axios
-      .patch(`${productsAPI}/${productId}/update-thumbnail/${imageId}}`)
-      .then((response) => {
-        messageApi.destroy();
-        notification.success({
-          message: `Thumbnail Updated`,
-        });
-        axios
-          .get(`${productsAPI}/detail/${getProductId}`)
-          .then((response) => {
-            setProducts(response.data);
-          })
-          .catch((error) => {
-            console.log(error.message);
-          });
-        handleFunctionOk();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+
+    const result = await updateThumbnail(productId, imageId);
+    if (result) {
+      messageApi.destroy();
+      const getData = await getDetailProduct(getProductId);
+      setProducts(getData);
+      handleFunctionOk();
+    }
   };
 
   const editorConfig = {
