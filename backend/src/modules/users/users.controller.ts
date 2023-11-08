@@ -171,14 +171,14 @@ export class UsersController {
     return await this.usersService.googleLogin(req, res);
   }
 
-  // 13. Google Login
+  // 13. Request Reset Password
   @Post('/reset-password')
-  async resetPassword(@Body('email') email: string) {
-    const result = await this.usersService.resetPassword(email);
+  async requestResetPassword(@Body() body) {
+    const result = await this.usersService.requestResetPassword(body);
     return result;
   }
 
-  // 14. Google Login
+  // 14. Reset Password
   @Post('/reset-password/:token')
   async resetNewPassword(
     @Param('token') token: string,
@@ -188,7 +188,7 @@ export class UsersController {
     return result;
   }
 
-  // 15. Google Login
+  // 15. Reset Token Checking
   @Get('/reset-token/:token')
   // @UseGuards(AuthenticationGuard)
   async getDetailUserByTokenResetPassword(

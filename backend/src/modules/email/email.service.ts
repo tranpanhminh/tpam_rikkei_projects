@@ -20,12 +20,12 @@ export class EmailService {
     } as SMTPTransport.Options);
   }
 
-  async sendEmail(to: string, subject: string, text: string) {
+  async sendEmail(to: string, subject: string, htmlContent: string) {
     const mailOptions = {
       from: process.env.MAIL_FROM_ADDRESS,
       to,
       subject,
-      text,
+      html: htmlContent,
     };
 
     try {

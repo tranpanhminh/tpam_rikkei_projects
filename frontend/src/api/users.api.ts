@@ -244,25 +244,47 @@ export const userRegister = async (userInfo: UserRegister) => {
   return result;
 };
 
-// 14. Reset Password
-// export const resetPassword = async (
-//   userId: number | string | undefined,
-//   data: UserPassword
-// ) => {
-//   const result = await BaseAxios.patch(
-//     `${usersAPI}/change-password/${userId}`,
-//     data
-//   )
-//     .then((response) => {
-//       notification.success({
-//         message: response.data.message,
-//       });
-//       return true;
-//     })
-//     .catch((error) => {
-//       notification.warning({
-//         message: error.response.data.message,
-//       });
-//     });
-//   return result;
-// };
+// 14. Request Reset Password Link
+export const requestResetPassword = async (email: any) => {
+  const result = axios
+    .post(`${usersAPI}/reset-password`, email)
+    .then((response) => {
+      notification.success({
+        message: response.data.message,
+      });
+      return true;
+    })
+    .catch((error) => {
+      notification.warning({
+        message: error.response.data.message,
+      });
+    });
+  return result;
+};
+
+// 15. Reset Password
+export const resetPassword = async (token: any, data: any) => {
+  const result = await axios
+    .post(`${usersAPI}/reset-password/${token}`, data)
+    .then((response) => {
+      notification.success({
+        message: response.data.message,
+      });
+      return true;
+    })
+    .catch((error) => {
+      notification.warning({
+        message: error.response.data.message,
+      });
+    });
+  return result;
+};
+
+// 16. Validate Token
+export const validateResetPasswordToken = async (token: any) => {
+  const decodedToken: any = await jwtDecode(token);
+  if (Date.now() >= decodedToken.exp * 1000) {
+    return false;
+  }
+  return true;
+};

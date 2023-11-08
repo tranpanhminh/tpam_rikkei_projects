@@ -89,7 +89,7 @@ export class UsersModule {
       method: RequestMethod.PATCH,
     });
     consumer.apply(CheckEmailCorrect).forRoutes({
-      path: `${url}/reset-password/`,
+      path: `${url}/reset-password`,
       method: RequestMethod.POST,
     });
     consumer.apply(CheckTokenResetPasswordValid).forRoutes({

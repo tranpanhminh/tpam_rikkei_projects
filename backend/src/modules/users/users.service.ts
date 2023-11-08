@@ -24,8 +24,8 @@ import * as bcrypt from 'bcrypt';
 import * as generator from 'generate-password';
 import { EmailService } from '../email/email.service';
 import { ResetPasswordDTO } from './dto/resetPassword.dto';
-
-const jwt = require('jsonwebtoken');
+import * as jwt from 'jsonwebtoken';
+// const jwt = require('jsonwebtoken');
 
 const FRONTEND_PATH = process.env.FRONTEND_PATH;
 
@@ -278,7 +278,8 @@ export class UsersService {
   }
 
   // 13. Reset Password
-  async resetPassword(email: string) {
+  async requestResetPassword(body) {
+    const { email } = body;
     const user: UsersInterface =
       await this.usersRepository.getDetailUserByEmail(email);
     if (!user) {
@@ -287,7 +288,7 @@ export class UsersService {
     const secretKey = process.env.ACCESS_TOKEN_SECRET;
     // Tạo token reset mật khẩu và lưu nó vào cơ sở dữ liệu
     const resetToken = await jwt.sign({ userId: user.id }, secretKey, {
-      expiresIn: '5m',
+      expiresIn: '300s',
     });
     const updatedUser = {
       ...user,
@@ -297,13 +298,17 @@ export class UsersService {
 
     // Gửi email chứa liên kết reset đến người dùng
     const subject = 'Password Reset Request - [PetShop]';
-    const text = `<h3>Reset Password Petshop Website</h3>
+    const htmlContent = `<h3>Reset Password Petshop Website</h3>
     <p>You have requested a password reset.</p>
-    <p>Click on the link to reset your password: ${FRONTEND_PATH}/reset-password/?resetToken=${resetToken}</p>
-    <a href="${FRONTEND_PATH}/reset-password/?resetToken=${resetToken}">${FRONTEND_PATH}/reset-password/?resetToken=${resetToken}</a> `;
+    <p>Click on the button below to reset your password:</p>
+    <a href="${FRONTEND_PATH}/reset-password/?resetToken=${resetToken}"><button>Reset Password</button></a>
+    `;
     // return result;
-    await this.emailService.sendEmail(email, subject, text);
-    return { message: 'Password reset link sent to your email.' };
+    await this.emailService.sendEmail(email, subject, htmlContent);
+    return new HttpException(
+      'Password reset link sent to your email.',
+      HttpStatus.OK,
+    );
   }
 
   async resetNewPassword(token: string, body: ResetPasswordDTO) {
