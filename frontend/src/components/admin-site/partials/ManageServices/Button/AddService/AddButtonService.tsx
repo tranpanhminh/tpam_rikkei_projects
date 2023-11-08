@@ -1,16 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Modal, notification, message } from "antd";
 import styles from "../AddService/AddButtonService.module.css";
-import axios from "axios";
 import { Editor } from "@tinymce/tinymce-react";
 import { useNavigate } from "react-router-dom";
 import { addService, getAllServices } from "../../../../../../api/services.api";
 import { getAllWorkingTime } from "../../../../../../api/workingTime.api";
-
-// Import API
-// 1. Services API
-const servicesAPI = process.env.REACT_APP_API_SERVICES;
-const workingTimeAPI = process.env.REACT_APP_API_WORKING_TIME;
 
 // ------------------------------------------------
 

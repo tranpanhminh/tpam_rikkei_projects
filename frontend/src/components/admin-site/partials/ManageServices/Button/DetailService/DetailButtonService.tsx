@@ -5,6 +5,12 @@ import { Editor } from "@tinymce/tinymce-react";
 import axios from "axios";
 import styles from "../DetailService/DetailModalService.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
+import {
+  getDetailService,
+  updateService,
+} from "../../../../../../api/services.api";
+import { getAllWorkingTime } from "../../../../../../api/workingTime.api";
+import BaseAxios from "../../../../../../api/apiAxiosClient";
 
 // Import API
 // 1. Services API
@@ -54,32 +60,25 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
   }, [location.search]);
 
   useEffect(() => {
-    const fetchServices = () => {
-      axios
-        .get(`${servicesAPI}/detail/${getServiceId}`)
-        .then((response) => {
-          setServices(response.data);
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
+    const fetchServices = async () => {
+      const result = await getDetailService(getServiceId);
+      setServiceInfo({
+        name: result.name,
+        description: result.description,
+        price: result.price,
+        working_time_id: result.working_time_id,
+        service_image: result.service_image,
+      });
+      return setServices(result);
     };
-
     fetchServices();
   }, [getServiceId]);
 
   useEffect(() => {
-    const fetchWorkingTime = () => {
-      axios
-        .get(`${workingTimeAPI}`)
-        .then((response) => {
-          setWorkingTime(response.data);
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
+    const fetchWorkingTime = async () => {
+      const result = await getAllWorkingTime();
+      return setWorkingTime(result);
     };
-
     fetchWorkingTime();
   }, []);
 
@@ -171,43 +170,24 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
       content: "Updating...",
       duration: 0,
     });
-    await axios
-      .patch(`${servicesAPI}/update/${getServiceId}`, formData, config)
-      .then((response) => {
-        // Đặt giá trị của input type file về rỗng
-        axios
-          .get(`${servicesAPI}/detail/${getServiceId}`)
-          .then((response) => {
-            setServices(response.data);
-            setIsModalOpen(false);
-            handleFunctionOk();
-          })
-          .catch((error) => {
-            // notification.warning({
-            //   message: `${error.response.data}`,
-            // });
-          });
-        messageApi.destroy();
-        notification.success({
-          message: `Service Updated`,
-        });
-        setServiceInfo({
-          name: "",
-          description: "",
-          price: 0,
-          working_time_id: "",
-          service_image: "",
-        });
-        resetInputImage();
 
-        navigate("/admin/manage-services/");
-      })
-      .catch((error) => {
-        console.log(error);
-        // notification.warning({
-        //   message: `${error.response.data}`,
-        // });
+    const result = await updateService(getServiceId, formData, config);
+    if (result) {
+      const getData = await getDetailService(getServiceId);
+      setServices(getData);
+      setIsModalOpen(false);
+      handleFunctionOk();
+      messageApi.destroy();
+      setServiceInfo({
+        name: "",
+        description: "",
+        price: 0,
+        working_time_id: "",
+        service_image: "",
       });
+      resetInputImage();
+      navigate("/admin/manage-services/");
+    }
   };
 
   // ------------------------------------------------
