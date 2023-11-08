@@ -8,7 +8,7 @@ export class EmailService {
 
   constructor() {
     this.transporter = nodemailer.createTransport({
-      service: 'gmail',
+      service: process.env.MAIL_SERVICE,
       host: process.env.MAIL_HOST,
       port: Number(process.env.MAIL_PORT),
       requireTLS: true,
@@ -22,7 +22,7 @@ export class EmailService {
 
   async sendEmail(to: string, subject: string, text: string) {
     const mailOptions = {
-      from: 'admin@petshop.com',
+      from: process.env.MAIL_FROM_ADDRESS,
       to,
       subject,
       text,

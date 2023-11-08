@@ -2,6 +2,7 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 import BaseAxios from "./apiAxiosClient";
 import { message, notification } from "antd";
+import { useSearchParams } from "react-router-dom";
 
 const usersAPI = process.env.REACT_APP_API_USERS;
 
@@ -243,25 +244,25 @@ export const userRegister = async (userInfo: UserRegister) => {
   return result;
 };
 
-// 14. Change Password
-export const resetPassword = async (
-  userId: number | string | undefined,
-  data: UserPassword
-) => {
-  const result = await BaseAxios.patch(
-    `${usersAPI}/change-password/${userId}`,
-    data
-  )
-    .then((response) => {
-      notification.success({
-        message: response.data.message,
-      });
-      return true;
-    })
-    .catch((error) => {
-      notification.warning({
-        message: error.response.data.message,
-      });
-    });
-  return result;
-};
+// 14. Reset Password
+// export const resetPassword = async (
+//   userId: number | string | undefined,
+//   data: UserPassword
+// ) => {
+//   const result = await BaseAxios.patch(
+//     `${usersAPI}/change-password/${userId}`,
+//     data
+//   )
+//     .then((response) => {
+//       notification.success({
+//         message: response.data.message,
+//       });
+//       return true;
+//     })
+//     .catch((error) => {
+//       notification.warning({
+//         message: error.response.data.message,
+//       });
+//     });
+//   return result;
+// };

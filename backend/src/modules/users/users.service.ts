@@ -277,7 +277,7 @@ export class UsersService {
     }
   }
 
-  // Reset Password
+  // 13. Reset Password
   async resetPassword(email: string) {
     const user: UsersInterface =
       await this.usersRepository.getDetailUserByEmail(email);
@@ -297,8 +297,10 @@ export class UsersService {
 
     // Gửi email chứa liên kết reset đến người dùng
     const subject = 'Password Reset Request - [PetShop]';
-    const text = `You have requested a password reset. Click on the link to reset your password: ${FRONTEND_PATH}/reset-password/?resetToken=${resetToken}`;
-    const result = { subject: subject, text: text };
+    const text = `<h3>Reset Password Petshop Website</h3>
+    <p>You have requested a password reset.</p>
+    <p>Click on the link to reset your password: ${FRONTEND_PATH}/reset-password/?resetToken=${resetToken}</p>
+    <a href="${FRONTEND_PATH}/reset-password/?resetToken=${resetToken}">${FRONTEND_PATH}/reset-password/?resetToken=${resetToken}</a> `;
     // return result;
     await this.emailService.sendEmail(email, subject, text);
     return { message: 'Password reset link sent to your email.' };
@@ -320,5 +322,21 @@ export class UsersService {
     };
     await this.usersRepository.updateUser(user.id, updatedUser);
     return new HttpException('Password Reset Successfully', HttpStatus.OK);
+  }
+
+  // 14. Get Detail
+  async getDetailUserByTokenResetPassword(
+    token: string,
+  ): Promise<UsersEntity | unknown> {
+    const detailUser: UsersInterface =
+      await this.usersRepository.getDetailUserByTokenResetPassword(token);
+    const { id, ...dataUser } = detailUser;
+    const data = {
+      id: id,
+      reset_token: dataUser.reset_token,
+    };
+    if (detailUser) {
+      return data;
+    }
   }
 }

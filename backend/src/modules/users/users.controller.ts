@@ -171,18 +171,31 @@ export class UsersController {
     return await this.usersService.googleLogin(req, res);
   }
 
+  // 13. Google Login
   @Post('/reset-password')
   async resetPassword(@Body('email') email: string) {
     const result = await this.usersService.resetPassword(email);
     return result;
   }
 
+  // 14. Google Login
   @Post('/reset-password/:token')
   async resetNewPassword(
     @Param('token') token: string,
     @Body() body: ResetPasswordDTO,
   ) {
     const result = await this.usersService.resetNewPassword(token, body);
+    return result;
+  }
+
+  // 15. Google Login
+  @Get('/reset-token/:token')
+  // @UseGuards(AuthenticationGuard)
+  async getDetailUserByTokenResetPassword(
+    @Param('token') token: string,
+  ): Promise<UsersEntity | unknown> {
+    const result: UsersEntity | unknown =
+      await this.usersService.getDetailUserByTokenResetPassword(token);
     return result;
   }
 }

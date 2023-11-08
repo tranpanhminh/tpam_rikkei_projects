@@ -93,8 +93,8 @@ export class UsersModule {
       method: RequestMethod.POST,
     });
     consumer.apply(CheckTokenResetPasswordValid).forRoutes({
-      path: `${url}/reset-password/:token`,
-      method: RequestMethod.POST,
+      path: `${url}/reset-token/:token`,
+      method: RequestMethod.GET,
     });
   }
 }
