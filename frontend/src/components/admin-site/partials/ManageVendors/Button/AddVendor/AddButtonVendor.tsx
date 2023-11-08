@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Button, Modal, Space, notification, DatePicker } from "antd";
+import { Button, Modal } from "antd";
 import styles from "../AddVendor/AddButtonVendor.module.css";
-import axios from "axios";
-import dayjs, { Dayjs } from "dayjs";
-
-// Import API
-// 1. Vendors API
-const vendorsAPI = process.env.REACT_APP_API_VENDORS;
+import { addVendor, getAllVendors } from "../../../../../../api/vendors.api";
 
 // ------------------------------------------------
 
@@ -30,15 +25,9 @@ const AddModalVendor: React.FC<AddModalProps> = ({
   });
 
   // Fetch API
-  const fetchVendors = () => {
-    axios
-      .get(`${vendorsAPI}`)
-      .then((response) => {
-        setVendors(response.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+  const fetchVendors = async () => {
+    const result = await getAllVendors();
+    return setVendors(result);
   };
 
   useEffect(() => {
@@ -60,17 +49,12 @@ const AddModalVendor: React.FC<AddModalProps> = ({
   };
 
   // Handle Add Vendor
-  const handleOk = () => {
-    axios
-      .post(`${vendorsAPI}/add`, vendorInfo)
-      .then((response) => {
-        notification.success({ message: response.data.message });
-        handleClickOk();
-        setIsModalOpen(false);
-      })
-      .catch((error) => {
-        notification.warning({ message: error.response.data.message });
-      });
+  const handleOk = async () => {
+    const result = await addVendor(vendorInfo);
+    if (result) {
+      handleClickOk();
+      setIsModalOpen(false);
+    }
   };
   // ------------------------------------------------
 

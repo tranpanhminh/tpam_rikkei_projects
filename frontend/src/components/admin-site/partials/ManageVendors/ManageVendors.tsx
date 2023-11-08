@@ -1,14 +1,9 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { parse } from "date-fns";
+import { useEffect, useState } from "react";
 import styles from "../../AdminPage.module.css";
-import axios from "axios";
-import { Button, notification } from "antd";
+import { Button } from "antd";
 import AddButtonVendor from "./Button/AddVendor/AddButtonVendor";
 import DetailVendorButton from "./Button/DetailVendor/DetailVendorButton";
-
-// Import API
-// 1. Vendors API
-const vendorsAPI = process.env.REACT_APP_API_VENDORS;
+import { deleteVendor, getAllVendors } from "../../../../api/vendors.api";
 
 // ------------------------------------------------
 
@@ -18,15 +13,9 @@ function ManageVendors() {
   const [searchText, setSearchText] = useState<string>("");
 
   // Fetch API
-  const fetchVendors = () => {
-    axios
-      .get(`${vendorsAPI}`)
-      .then((response) => {
-        setVendors(response.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+  const fetchVendors = async () => {
+    const result = await getAllVendors();
+    return setVendors(result);
   };
 
   useEffect(() => {
@@ -60,19 +49,11 @@ function ManageVendors() {
   // ------------------------------------------------
 
   // Handle Delete
-  const handleDeleteVendor = (vendorId: number) => {
-    axios
-      .delete(`${vendorsAPI}/delete/${vendorId}`)
-      .then(() => {
-        fetchVendors();
-        notification.success({
-          message: "Vendor Deleted",
-          // placement: "bottomLeft",
-        });
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+  const handleDeleteVendor = async (vendorId: number) => {
+    const result = await deleteVendor(vendorId);
+    if (result) {
+      fetchVendors();
+    }
   };
   // ------------------------------------------------
 

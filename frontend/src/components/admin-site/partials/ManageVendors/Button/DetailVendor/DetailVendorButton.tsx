@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Button, Modal, notification } from "antd";
+import { Button, Modal } from "antd";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import styles from "../AddVendor/AddButtonVendor.module.css";
-
-// Import API
-// 1. Vendors API
-const vendorsAPI = process.env.REACT_APP_API_VENDORS;
+import {
+  getDetailVendor,
+  updateVendor,
+} from "../../../../../../api/vendors.api";
 
 // ------------------------------------------------
 
@@ -30,15 +29,9 @@ const DetailVendorButton: React.FC<DetailModalProps> = ({
   const [name, setName] = useState("");
   const navigate = useNavigate();
 
-  const fetchVendor = () => {
-    axios
-      .get(`${vendorsAPI}/detail/${getVendorId}`)
-      .then((response) => {
-        setVendor(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const fetchVendor = async () => {
+    const result = await getDetailVendor(getVendorId);
+    return setVendor(result);
   };
 
   useEffect(() => {
@@ -57,25 +50,16 @@ const DetailVendorButton: React.FC<DetailModalProps> = ({
     setName("");
   };
 
-  const handleOk = () => {
+  const handleOk = async () => {
     const vendorInfo = {
       name: name,
     };
-    axios
-      .patch(`${vendorsAPI}/update/${getVendorId}`, vendorInfo)
-      .then((response) => {
-        notification.success({
-          message: `${response.data.message}`,
-        });
-        handleFunctionOk();
-        setName("");
-        setIsModalOpen(false);
-      })
-      .catch((error) => {
-        notification.warning({
-          message: `${error.response.data.message}`,
-        });
-      });
+    const result = await updateVendor(getVendorId, vendorInfo);
+    if (result) {
+      handleFunctionOk();
+      setName("");
+      setIsModalOpen(false);
+    }
   };
 
   return (

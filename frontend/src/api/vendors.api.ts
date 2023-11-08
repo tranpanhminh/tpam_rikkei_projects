@@ -4,11 +4,8 @@ import { notification } from "antd";
 
 const vendorsAPI = process.env.REACT_APP_API_VENDORS;
 // ----------Interface-------------
-export interface CouponInfo {
+export interface VendorInfo {
   name: string;
-  code: string;
-  discount_rate: number;
-  min_bill: number;
 }
 
 // ---------------------------------
@@ -43,7 +40,7 @@ export const deleteVendor = async (couponId: string | number | undefined) => {
 };
 
 // 3. Add
-export const addVendor = async (data: CouponInfo) => {
+export const addVendor = async (data: VendorInfo) => {
   const result = await BaseAxios.post(`${vendorsAPI}/add`, data)
     .then((response) => {
       notification.success({ message: response.data.message });
@@ -71,7 +68,7 @@ export const getDetailVendor = async (id: number | string | undefined) => {
 // 5. Update
 export const updateVendor = async (
   id: number | string | undefined,
-  data: CouponInfo
+  data: VendorInfo
 ) => {
   const result = await BaseAxios.patch(`${vendorsAPI}/update/${id}`, data)
     .then((response) => {
