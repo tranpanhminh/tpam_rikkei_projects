@@ -9,6 +9,8 @@ import {
   getAllUsers,
   getDataLogin,
 } from "../../../../api/users.api";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import ReactPaginate from "react-paginate";
 
 // ------------------------------------------------
 function ManageUsers() {
@@ -16,7 +18,11 @@ function ManageUsers() {
   const [users, setUsers] = useState<any>([]);
   const [user, setUser] = useState<any>({});
   const [searchText, setSearchText] = useState<string>("");
-
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
   // Fetch API
   const fetchUsers = async () => {
     const users = await getAllUsers();
@@ -107,6 +113,22 @@ function ManageUsers() {
     }
   };
 
+  // Pagination
+  const itemsPerPage = Number(searchParams.get("limit")) || 5;
+  // const itemsPerPage = 5;
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    setCurrentItems(users.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(users.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, users]);
+
+  const handlePageClick = (event: any) => {
+    const newPage = event.selected + 1;
+    const newOffset = event.selected * itemsPerPage;
+    setItemOffset(newOffset);
+    navigate(`/admin/manage-users?page=${newPage}&limit=${itemsPerPage}`);
+  };
+
   return (
     <>
       <div className={styles["breadcrumb"]}>
@@ -160,9 +182,9 @@ function ManageUsers() {
             </tr>
           </thead>
           <tbody>
-            {users?.map((user: any, index: number) => (
+            {currentItems?.map((user: any, index: number) => (
               <tr key={user.id}>
-                <td>{index + 1}</td>
+                <td>{user.id}</td>
                 <td>{user.email}</td>
                 <td>{user.full_name}</td>
                 <td>
@@ -261,63 +283,26 @@ function ManageUsers() {
                       </Button>
                     </div>
                   )}
-
-                  {/* <DetailButtonUser
-                    className={styles["detail-user-btn"]}
-                    value="Detail"
-                    title="Edit Profile"
-                    handleFunctionOk={() => handleUpdateUser()}
-                    getUser={user}
-                    content={
-                      <DetailModalUserProfile
-                        userId={user.id}
-                        fullName={user.full_name}
-                        email={user.email}
-                        role={user.role}
-                        status={user.status}
-                        feature="Detail"
-                      ></DetailModalUserProfile>
-                    }
-                  ></DetailButtonUser> */}
-
-                  {/* {user?.role_id === 1 && user?.role_id === 2 ? (
-                    ""
-                  ) : (
-                   
-                  )} */}
-                  <>
-                    {/* <Button
-                      type="primary"
-                      className={styles["change-user-btn"]}
-                      onClick={() => handleChangeUser(user.id)}
-                    >
-                      Change
-                    </Button> */}
-                    {/* <DetailButtonUser
-                        value="Change"
-                        className={styles["change-user-btn"]}
-                        handleFunctionBtn={() => handleChangeUser(user.id)}
-                      /> */}
-
-                    {/* <Button
-                      type="primary"
-                      className={styles["delete-user-btn"]}
-                      onClick={() => handleDeleteUser(user.id)}
-                    >
-                      Delete
-                    </Button> */}
-
-                    {/* <DetailButtonUser
-                        value="Delete"
-                        className={styles["delete-user-btn"]}
-                        handleFunctionBtn={() => handleDeleteUser(user.id)}
-                      /> */}
-                  </>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+      </div>
+      <div className={styles["pagination-form"]}>
+        <ReactPaginate
+          nextLabel="next >"
+          previousLabel="< previous"
+          renderOnZeroPageCount={null}
+          pageRangeDisplayed={13}
+          pageCount={pageCount}
+          onPageChange={handlePageClick}
+          containerClassName="pagination"
+          pageLinkClassName="page-number"
+          previousLinkClassName="page-number"
+          nextLinkClassName="page-number"
+          activeLinkClassName={styles["active"]}
+        />
       </div>
     </>
   );

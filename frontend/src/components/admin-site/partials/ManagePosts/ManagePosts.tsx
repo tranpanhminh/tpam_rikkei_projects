@@ -4,8 +4,9 @@ import { Button, message } from "antd";
 import { Badge } from "react-bootstrap";
 import DetailPostButton from "./DetailPost/DetailPostButton";
 import AddPostButton from "./AddPost/AddPostButton";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
 import { deletePost, getAllPosts } from "../../../../api/posts.api";
+import ReactPaginate from "react-paginate";
 const moment = require("moment");
 
 // ------------------------------------------------
@@ -15,6 +16,11 @@ function ManagePosts() {
   const [searchText, setSearchText] = useState<string>("");
   const [messageApi, contextHolder] = message.useMessage();
   const [posts, setPosts] = useState<any>([]);
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
 
   // Fetch API
   const fetchPosts = async () => {
@@ -80,6 +86,21 @@ function ManagePosts() {
     }
   };
 
+  // Pagination
+  const itemsPerPage = Number(searchParams.get("limit")) || 5;
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    setCurrentItems(posts.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(posts.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, posts]);
+
+  const handlePageClick = (event: any) => {
+    const newPage = event.selected + 1;
+    const newOffset = event.selected * itemsPerPage;
+    setItemOffset(newOffset);
+    navigate(`/admin/manage-posts?page=${newPage}&limit=${itemsPerPage}`);
+  };
+
   return (
     <>
       {contextHolder}
@@ -132,11 +153,11 @@ function ManagePosts() {
             </tr>
           </thead>
           <tbody>
-            {posts &&
-              posts?.map((post: any, index: number) => {
+            {currentItems &&
+              currentItems?.map((post: any, index: number) => {
                 return (
                   <tr key={1}>
-                    <td>{index + 1}</td>
+                    <td>{post?.id}</td>
                     <td>
                       <img src={post.thumbnail_url} alt="" />
                     </td>
@@ -175,6 +196,21 @@ function ManagePosts() {
               })}
           </tbody>
         </table>
+      </div>
+      <div className={styles["pagination-form"]}>
+        <ReactPaginate
+          nextLabel="next >"
+          previousLabel="< previous"
+          renderOnZeroPageCount={null}
+          pageRangeDisplayed={13}
+          pageCount={pageCount}
+          onPageChange={handlePageClick}
+          containerClassName="pagination"
+          pageLinkClassName="page-number"
+          previousLinkClassName="page-number"
+          nextLinkClassName="page-number"
+          activeLinkClassName={styles["active"]}
+        />
       </div>
     </>
   );

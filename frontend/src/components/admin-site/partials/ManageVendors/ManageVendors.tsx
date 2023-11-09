@@ -4,6 +4,8 @@ import { Button } from "antd";
 import AddButtonVendor from "./Button/AddVendor/AddButtonVendor";
 import DetailVendorButton from "./Button/DetailVendor/DetailVendorButton";
 import { deleteVendor, getAllVendors } from "../../../../api/vendors.api";
+import ReactPaginate from "react-paginate";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 // ------------------------------------------------
 
@@ -11,6 +13,11 @@ function ManageVendors() {
   document.title = "Manage Vendors | PetShop";
   const [vendors, setVendors] = useState<any>([]);
   const [searchText, setSearchText] = useState<string>("");
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
 
   // Fetch API
   const fetchVendors = async () => {
@@ -56,6 +63,22 @@ function ManageVendors() {
     }
   };
   // ------------------------------------------------
+
+  // Pagination
+  const itemsPerPage = Number(searchParams.get("limit")) || 5;
+  // const itemsPerPage = 5;
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    setCurrentItems(vendors.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(vendors.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, vendors]);
+
+  const handlePageClick = (event: any) => {
+    const newPage = event.selected + 1;
+    const newOffset = event.selected * itemsPerPage;
+    setItemOffset(newOffset);
+    navigate(`/admin/manage-vendors?page=${newPage}&limit=${itemsPerPage}`);
+  };
 
   return (
     <>
@@ -103,10 +126,10 @@ function ManageVendors() {
             </tr>
           </thead>
           <tbody>
-            {vendors?.map((vendor: any, index: number) => {
+            {currentItems?.map((vendor: any, index: number) => {
               return (
                 <tr key={vendor?.id}>
-                  <td>{index + 1}</td>
+                  <td>{vendor?.id}</td>
                   <td>{vendor?.name}</td>
                   <td className={styles["group-btn-admin"]}>
                     <DetailVendorButton
@@ -128,6 +151,21 @@ function ManageVendors() {
             })}
           </tbody>
         </table>
+      </div>
+      <div className={styles["pagination-form"]}>
+        <ReactPaginate
+          nextLabel="next >"
+          previousLabel="< previous"
+          renderOnZeroPageCount={null}
+          pageRangeDisplayed={13}
+          pageCount={pageCount}
+          onPageChange={handlePageClick}
+          containerClassName="pagination"
+          pageLinkClassName="page-number"
+          previousLinkClassName="page-number"
+          nextLinkClassName="page-number"
+          activeLinkClassName={styles["active"]}
+        />
       </div>
     </>
   );

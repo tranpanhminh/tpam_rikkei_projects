@@ -3,14 +3,21 @@ import styles from "../../AdminPage.module.css";
 import DetailOrder from "./Button/DetailOrder/DetailOrder";
 import { Badge } from "react-bootstrap";
 import { getAllOrders } from "../../../../api/orders.api";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import ReactPaginate from "react-paginate";
 const moment = require("moment");
 
 // ------------------------------------------------
 
 function ManageOrders() {
   document.title = "Manage Orders | PetShop";
-  const [orders, setOrders] = useState<any>(null);
+  const [orders, setOrders] = useState<any>([]);
   const [searchText, setSearchText] = useState<string>("");
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
 
   // Fetch API
   const fetchOrders = async () => {
@@ -70,6 +77,22 @@ function ManageOrders() {
     fetchOrders();
   };
 
+  // Pagination
+  const itemsPerPage = Number(searchParams.get("limit")) || 5;
+  // const itemsPerPage = 5;
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    setCurrentItems(orders.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(orders.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, orders]);
+
+  const handlePageClick = (event: any) => {
+    const newPage = event.selected + 1;
+    const newOffset = event.selected * itemsPerPage;
+    setItemOffset(newOffset);
+    navigate(`/admin/manage-orders?page=${newPage}&limit=${itemsPerPage}`);
+  };
+
   return (
     <>
       <div className={styles["breadcrumb"]}>
@@ -123,11 +146,11 @@ function ManageOrders() {
             </tr>
           </thead>
           <tbody>
-            {orders &&
-              orders.map((order: any, index: number) => {
+            {currentItems &&
+              currentItems.map((order: any, index: number) => {
                 return (
                   <tr key={order.id}>
-                    <td>{index + 1}</td>
+                    <td>{order.id}</td>
                     <td>{order.customer_name}</td>
                     <td>{order.users.email}</td>
                     <td>{order.phone}</td>
@@ -152,6 +175,21 @@ function ManageOrders() {
               })}
           </tbody>
         </table>
+      </div>
+      <div className={styles["pagination-form"]}>
+        <ReactPaginate
+          nextLabel="next >"
+          previousLabel="< previous"
+          renderOnZeroPageCount={null}
+          pageRangeDisplayed={13}
+          pageCount={pageCount}
+          onPageChange={handlePageClick}
+          containerClassName="pagination"
+          pageLinkClassName="page-number"
+          previousLinkClassName="page-number"
+          nextLinkClassName="page-number"
+          activeLinkClassName={styles["active"]}
+        />
       </div>
     </>
   );

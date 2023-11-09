@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import DetailButtonProduct from "./Button/DetailProduct/DetailButtonProduct";
 import { Button, message } from "antd";
 import AddModalProduct from "../ManageProducts/Button/AddProduct/AddModalProduct";
@@ -81,16 +81,24 @@ function ManageProducts() {
   };
 
   // Pagination
-  const itemsPerPage = 5;
+  const itemsPerPage = Number(searchParams.get("limit")) || 5;
+  // const itemsPerPage = 5;
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
     setCurrentItems(products.slice(itemOffset, endOffset));
     setPageCount(Math.ceil(products.length / itemsPerPage));
   }, [itemOffset, itemsPerPage, products]);
 
+  // const handlePageClick = (event: any) => {
+  //   const newOffset = (event.selected * itemsPerPage) % products.length;
+  //   setItemOffset(newOffset);
+  // };
+
   const handlePageClick = (event: any) => {
-    const newOffset = (event.selected * itemsPerPage) % products.length;
+    const newPage = event.selected + 1;
+    const newOffset = event.selected * itemsPerPage;
     setItemOffset(newOffset);
+    navigate(`/admin/manage-products?page=${newPage}&limit=${itemsPerPage}`);
   };
 
   // ------------------------------------------------

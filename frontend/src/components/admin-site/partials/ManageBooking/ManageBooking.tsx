@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import styles from "../../AdminPage.module.css";
 import DetailBooking from "../ManageBooking/Button/DetailBooking/DetailBooking";
 import { filterGroupBookingDate } from "../../../../api/bookings.api";
+import ReactPaginate from "react-paginate";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 // -----------------------------------------------------
 function ManageBooking() {
@@ -10,6 +12,11 @@ function ManageBooking() {
   const [searchText, setSearchText] = useState<string>("");
   const [groupBookingDate, setGroupBookingDate] = useState<any>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -66,6 +73,22 @@ function ManageBooking() {
     }
   };
 
+  // Pagination
+  const itemsPerPage = Number(searchParams.get("limit")) || 5;
+  // const itemsPerPage = 5;
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    setCurrentItems(groupBookingDate.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(groupBookingDate.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, groupBookingDate]);
+
+  const handlePageClick = (event: any) => {
+    const newPage = event.selected + 1;
+    const newOffset = event.selected * itemsPerPage;
+    setItemOffset(newOffset);
+    navigate(`/admin/manage-bookings?page=${newPage}&limit=${itemsPerPage}`);
+  };
+
   return (
     <>
       <div className={styles["breadcrumb"]}>
@@ -109,8 +132,8 @@ function ManageBooking() {
             </tr>
           </thead>
           <tbody>
-            {groupBookingDate &&
-              groupBookingDate?.map((item: any) => {
+            {currentItems &&
+              currentItems?.map((item: any) => {
                 return (
                   <tr key={1}>
                     <td>{item?.date}</td>
@@ -130,6 +153,21 @@ function ManageBooking() {
               })}
           </tbody>
         </table>
+      </div>
+      <div className={styles["pagination-form"]}>
+        <ReactPaginate
+          nextLabel="next >"
+          previousLabel="< previous"
+          renderOnZeroPageCount={null}
+          pageRangeDisplayed={13}
+          pageCount={pageCount}
+          onPageChange={handlePageClick}
+          containerClassName="pagination"
+          pageLinkClassName="page-number"
+          previousLinkClassName="page-number"
+          nextLinkClassName="page-number"
+          activeLinkClassName={styles["active"]}
+        />
       </div>
     </>
   );

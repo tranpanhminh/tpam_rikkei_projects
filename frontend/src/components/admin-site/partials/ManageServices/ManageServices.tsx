@@ -3,16 +3,22 @@ import styles from "../../AdminPage.module.css";
 import AddButtonService from "./Button/AddService/AddButtonService";
 import { Button, message } from "antd";
 import DetailButtonService from "./Button/DetailService/DetailButtonService";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
 import { deleteService, getAllServices } from "../../../../api/services.api";
+import ReactPaginate from "react-paginate";
 
 // ------------------------------------------------
 
 function ManageServices() {
   document.title = "Manage Services | PetShop";
-  const [services, setServices] = useState<any>(null);
+  const [services, setServices] = useState<any>([]);
   const [messageApi, contextHolder] = message.useMessage();
   const [searchText, setSearchText] = useState<string>("");
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
 
   // Fetch API
   const fetchServices = async () => {
@@ -64,6 +70,22 @@ function ManageServices() {
     fetchServices();
   };
   // ------------------------------------------------
+
+  // Pagination
+  const itemsPerPage = Number(searchParams.get("limit")) || 5;
+  // const itemsPerPage = 5;
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    setCurrentItems(services.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(services.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, services]);
+
+  const handlePageClick = (event: any) => {
+    const newPage = event.selected + 1;
+    const newOffset = event.selected * itemsPerPage;
+    setItemOffset(newOffset);
+    navigate(`/admin/manage-services?page=${newPage}&limit=${itemsPerPage}`);
+  };
 
   return (
     <>
@@ -120,10 +142,10 @@ function ManageServices() {
             </tr>
           </thead>
           <tbody>
-            {services &&
-              services.map((service: any, index: number) => (
+            {currentItems &&
+              currentItems.map((service: any, index: number) => (
                 <tr key={service.id}>
-                  <td>{index + 1}</td>
+                  <td>{service.id}</td>
                   <td>
                     <img src={service.service_image} alt="" />
                   </td>
@@ -160,6 +182,21 @@ function ManageServices() {
               ))}
           </tbody>
         </table>
+      </div>
+      <div className={styles["pagination-form"]}>
+        <ReactPaginate
+          nextLabel="next >"
+          previousLabel="< previous"
+          renderOnZeroPageCount={null}
+          pageRangeDisplayed={13}
+          pageCount={pageCount}
+          onPageChange={handlePageClick}
+          containerClassName="pagination"
+          pageLinkClassName="page-number"
+          previousLinkClassName="page-number"
+          nextLinkClassName="page-number"
+          activeLinkClassName={styles["active"]}
+        />
       </div>
     </>
   );
