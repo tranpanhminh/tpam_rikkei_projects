@@ -16,6 +16,7 @@ import { CsvParser } from 'nest-csv-parser';
 import { ImportProductsDTO } from './dto/importProducts.dto';
 import { ProductImagesRepository } from '../productImages/productImages.repository';
 import { Readable } from 'stream';
+import { parse } from 'csv-parse';
 const cloudinary = require('cloudinary').v2;
 
 @Injectable()
@@ -183,43 +184,140 @@ export class ProductsService {
   async importProducts(body): Promise<ImportProductsDTO[] | unknown | any> {
     const { file } = body;
     const fileBuffer = Buffer.from(file.buffer);
-    const stream = new Readable();
-    stream.push(fileBuffer);
-    stream.push(null);
+    const stream = Readable.from(fileBuffer);
+    const importedData: ImportProductsDTO[] = [];
+    const parser = parse({
+      columns: true, // Cho phép sử dụng tên cột trong dòng tiêu đề
+      delimiter: ',', // Đặt ký tự phân cách
+    });
+    stream.pipe(parser);
 
-    const importedData: any = await this.csvParser.parse(
-      stream,
-      ImportProductsDTO,
-    );
-    console.log(importedData);
-    // return importedData;
-    for (const data of importedData) {
-      const info = {
-        name: data['name'],
-        description: data['description'],
-        price: data['price'],
-        quantity_stock: data['quantity_stock'],
-        thumbnail_url: data['thumbnail_url'],
-        vendor_id: data['vendor_id'],
-      };
+    const processRecords = async () => {
+      for await (const record of parser) {
+        // Here, you can transform the data into your desired format
+        const info: any = {
+          name: record['name'] || 'Default Name',
+          description: record['description'],
+          price: record['price'],
+          quantity_stock: record['quantity_stock'],
+          thumbnail_url: record['thumbnail_url'],
+          vendor_id: record['vendor_id'],
+          post_type_id: 1,
+        };
 
-      console.log(info, 'Product');
-      // Lưu thông tin sản phẩm vào bảng products
-      // const newProduct = await this.productsRepository.addProduct(info);
+        // You can now use the 'info' object to save data to your database, etc.
+        console.log(info, 'Product');
 
-      // Lưu URL hình ảnh vào bảng product_images
-      for (let i = 1; i <= 4; i++) {
-        const imageUrl = data[`image_url${i}`];
-        if (imageUrl) {
-          const imageInfo = {
-            product_id: 1,
-            image_url: imageUrl,
-          };
-          console.log(imageInfo, 'data');
+        importedData.push(info);
 
-          // await this.productsRepository.uploadProductImages(data);
+        // Lưu thông tin sản phẩm vào bảng products
+        const newProduct: any = await this.productsRepository.addProduct(info);
+
+        // Lưu URL hình ảnh vào bảng product_images
+        for (let i = 1; i <= 4; i++) {
+          const imageUrl = record[`image_url${i}`];
+          if (imageUrl) {
+            const imageInfo = {
+              product_id: newProduct.id,
+              image_url: imageUrl,
+            };
+            console.log(imageInfo, 'product');
+            await this.productsRepository.uploadProductImages(imageInfo);
+          }
         }
+        // }
       }
-    }
+      return importedData; // Ensure that importedData is returned
+    };
+
+    stream.on('end', async () => {
+      try {
+        const data = await processRecords();
+        // Now, 'data' will contain the imported data
+        console.log(data);
+      } catch (error) {
+        console.error('Error processing records:', error);
+      }
+    });
+
+    // parser.on('data', async (stream) => {
+    //   importedData.push(stream);
+    //   console.log(importedData, '----');
+
+    //   for (const product of importedData) {
+    //     console.log(product, 'AAAAAAAA');
+    //     const info = {
+    //       name: product['name'],
+    //       description: product['description'],
+    //       price: product['price'],
+    //       quantity_stock: product['quantity_stock'],
+    //       thumbnail_url: product['thumbnail_url'],
+    //       vendor_id: product['vendor_id'],
+    //       post_type_id: 1,
+    //     };
+
+    //     console.log(info, 'Product');
+    //     // Lưu thông tin sản phẩm vào bảng products
+    //     const newProduct: any = await this.productsRepository.addProduct(info);
+
+    //     // Lưu URL hình ảnh vào bảng product_images
+    //     for (let i = 1; i <= 4; i++) {
+    //       const imageUrl = product[`image_url${i}`];
+    //       if (imageUrl) {
+    //         const imageInfo = {
+    //           product_id: newProduct.id,
+    //           image_url: imageUrl,
+    //         };
+    //         console.log(imageInfo, 'product');
+    //         await this.productsRepository.uploadProductImages(imageUrl);
+    //       }
+    //     }
+    //   }
+    // });
+
+    // new Promise((resolve, reject) => {
+    //   parser.on('data', (data) => {
+    //     importedData.push(data);
+    //     console.log(importedData, '----');
+    //   });
+
+    //   parser.on('end', async () => {
+    //     resolve(importedData);
+    //     for (const data of importedData) {
+    //       console.log(data, 'AAAAAAAA');
+    //       const info = {
+    //         name: data.name || 'Default Name',
+    //         description: data.description,
+    //         price: data.price,
+    //         quantity_stock: data.quantity_stock,
+    //         thumbnail_url: data.thumbnail_url,
+    //         vendor_id: data.vendor_id,
+    //         post_type_id: 1,
+    //       };
+
+    //       console.log(info, 'Product');
+    //       // Lưu thông tin sản phẩm vào bảng products
+    //       // const newProduct: any =
+    //       //   await this.productsRepository.addProduct(info);
+
+    //       // Lưu URL hình ảnh vào bảng product_images
+    //       for (let i = 1; i <= 4; i++) {
+    //         const imageUrl = data[`image_url${i}`];
+    //         if (imageUrl) {
+    //           const imageInfo = {
+    //             product_id: 1,
+    //             image_url: imageUrl,
+    //           };
+    //           console.log(imageInfo, 'data');
+    //           // await this.productsRepository.uploadProductImages(imageUrl);
+    //         }
+    //       }
+    //     }
+    //   });
+
+    //   parser.on('error', (error) => {
+    //     reject(error);
+    //   });
+    // });
   }
 }
