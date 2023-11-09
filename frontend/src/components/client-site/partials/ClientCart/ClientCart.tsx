@@ -131,6 +131,11 @@ function ClientCart() {
         setUserInfo({
           phone: "",
         });
+        messageApi.open({
+          type: "loading",
+          content: "Redirecting to paypal...",
+          duration: 0,
+        });
         // messageApi.destroy();
         // Lấy URL từ response
         const url = response.data.url;

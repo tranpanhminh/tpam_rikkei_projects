@@ -14,7 +14,7 @@ export class EmailService {
       requireTLS: true,
       secure: false, // true for 465, false for other ports
       auth: {
-        user: process.env.MAIL_USERNAME,
+        user: process.env.MAIL_EMAIL,
         pass: process.env.MAIL_APP_PASSWORD,
       },
     } as SMTPTransport.Options);
@@ -22,7 +22,7 @@ export class EmailService {
 
   async sendEmail(to: string, subject: string, htmlContent: string) {
     const mailOptions = {
-      from: process.env.MAIL_FROM_ADDRESS,
+      from: process.env.MAIL_EMAIL,
       to,
       subject,
       html: htmlContent,

@@ -128,7 +128,7 @@ export class PaypalService {
         await this.orderItemsRepository.addOrderItem(orderItemInfo);
         if (!statusEmail) {
           // Gửi Mail có order mới tới Admin
-          const emailAdmin = 'yangshih73@gmail.com';
+          const emailAdmin = process.env.MAIL_ADMIN;
           // Gửi email chứa liên kết reset đến người dùng
           const subject = `New Order (OrderID: ${orderId})`;
           const htmlContent = `<h3>A customer successully ordered:
@@ -141,7 +141,7 @@ export class PaypalService {
           // Gửi Mail xác nhận đã đặt hàng tới User
           const customerEmail = findUser.email;
           // Gửi email chứa liên kết reset đến người dùng
-          const subjectCustomer = `New Order Purchased Successfully (OrderID: ${orderId})`;
+          const subjectCustomer = `New Order Created Successfully (OrderID: ${orderId})`;
           const htmlContentCustomer = `<h3>Thank you for purchasing our product:
                     <a href="${FRONTEND_PATH}/user/my-orders/?detail-order=${orderId}">See Detail Your Order</a>
                     </h3>
@@ -160,7 +160,6 @@ export class PaypalService {
       await this.cartsRepository.deleteAllProductsFromUserCart(
         newOrder.user_id,
       );
-
       return res.redirect('http://localhost:3000/user/my-orders');
     } catch (error) {
       throw error;
