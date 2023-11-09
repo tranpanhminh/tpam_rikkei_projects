@@ -1,51 +1,43 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "../../ClientPage.module.css";
-import { NavLink, useNavigate } from "react-router-dom";
-import { Pagination, Rate } from "antd";
+import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
+import { Rate } from "antd";
 import { getAllProducts } from "../../../../api/products.api";
+import ReactPaginate from "react-paginate";
 
 // ------------------------------------------------------------------
 
 function ClientListProducts() {
   document.title = "Products | PetShop";
+  const [products, setProducts] = useState<any>([]);
   const navigate = useNavigate();
-  const [posts, setPosts] = useState<any>([]);
-  const [page, setPage] = useState<any>(0); // Đặt giá trị mặc định cho page
-  const [postPerPage, setPostPerPage] = useState<any>(8);
-  const [total, setTotal] = useState<any>("");
+  const [searchParams] = useSearchParams();
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
 
   const fetchProducts = async () => {
     const result = await getAllProducts();
-    setPosts(result);
-    setTotal(result.length);
+    return setProducts(result);
   };
 
   useEffect(() => {
     fetchProducts();
   }, []);
 
-  const indexOfLastPage = page + postPerPage;
-  const indexOfFirstPage = indexOfLastPage - postPerPage;
-  const currentPosts = posts.slice(indexOfFirstPage, indexOfLastPage);
-  // const howManyPages = Math.ceil(posts.length / postPerPage);
-  const onShowSizeChange = (current: any, pageSize: any) => {
-    setPostPerPage(pageSize);
-  };
+  // Pagination
+  const itemsPerPage = Number(searchParams.get("limit")) || 8;
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    setCurrentItems(products.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(products.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, products]);
 
-  const handlePageChange = (value: number) => {
-    setPage(value); // Cập nhật trang hiện tại
-    window.scrollTo(0, 0);
-    // window.history.replaceState({}, "", `/blogs/page/${value}`);
-  };
-
-  const itemRender = (current: any, type: any, originalElement: any) => {
-    if (type === "prev") {
-      return <a>Previous</a>;
-    }
-    if (type === "next") {
-      return <a>Next</a>;
-    }
-    return originalElement;
+  const handlePageClick = (event: any) => {
+    const newPage = event.selected + 1;
+    const newOffset = event.selected * itemsPerPage;
+    setItemOffset(newOffset);
+    navigate(`/products/?page=${newPage}&limit=${itemsPerPage}`);
   };
 
   return (
@@ -59,8 +51,8 @@ function ClientListProducts() {
             className="row align-items-start"
             id="container-product-homepage"
           >
-            {currentPosts &&
-              currentPosts.map((product: any) => {
+            {currentItems &&
+              currentItems.map((product: any) => {
                 return (
                   <div
                     className={`col-12 col-sm-12 col-md-6 col-xl-3 mt-5 px-2 ${styles["product-card"]}`}
@@ -99,16 +91,19 @@ function ClientListProducts() {
                 );
               })}
           </div>
-          <div style={{ marginTop: "50px" }}>
-            <Pagination
-              pageSize={postPerPage}
-              total={total}
-              current={page} // Sử dụng page để xác định trang hiện tại
-              onChange={handlePageChange} // Sử dụng handlePageChange để cập nhật trang
-              showSizeChanger
-              showQuickJumper
-              onShowSizeChange={onShowSizeChange}
-              itemRender={itemRender}
+          <div className={styles["pagination-form"]} style={{ marginTop: 50 }}>
+            <ReactPaginate
+              nextLabel="next >"
+              previousLabel="< previous"
+              renderOnZeroPageCount={null}
+              pageRangeDisplayed={13}
+              pageCount={pageCount}
+              onPageChange={handlePageClick}
+              containerClassName="pagination"
+              pageLinkClassName="page-number"
+              previousLinkClassName="page-number"
+              nextLinkClassName="page-number"
+              activeLinkClassName={styles["active"]}
             />
           </div>
         </div>

@@ -1,56 +1,42 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "../BlogPost.module.css";
-import { NavLink, useNavigate } from "react-router-dom";
-import { Button, Form } from "react-bootstrap";
-import { Pagination } from "antd";
-import { useParams } from "react-router-dom"; // Import useParams để lấy giá trị slug từ URL
+import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
+import { Button } from "react-bootstrap";
 import { getAllPosts } from "../../../../../api/posts.api";
+import ReactPaginate from "react-paginate";
 
 // --------------------------------------------------
 
 function BlogCategory() {
-  const [searchTerm, setSearchTerm] = useState("");
   const [posts, setPosts] = useState<any>([]);
-  const [total, setTotal] = useState<any>("");
-  const [page, setPage] = useState<any>(0); // Đặt giá trị mặc định cho page
-  const [postPerPage, setPostPerPage] = useState<any>(7);
-  const { pageNumber } = useParams(); // Lấy giá trị slug từ URL
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
 
   const fetchPosts = async () => {
     const result = await getAllPosts();
     setPosts(result);
-    setTotal(result.length);
   };
 
   useEffect(() => {
     fetchPosts();
   }, []);
 
-  const navigate = useNavigate();
-  const handleSearch = () => {
-    navigate(`/search/${searchTerm}`);
-  };
+  // Pagination
+  const itemsPerPage = Number(searchParams.get("limit")) || 5;
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    setCurrentItems(posts.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(posts.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, posts]);
 
-  const indexOfLastPage = page + postPerPage;
-  const indexOfFirstPage = indexOfLastPage - postPerPage;
-  const currentPosts = posts?.slice(indexOfFirstPage, indexOfLastPage);
-  const onShowSizeChange = (current: any, pageSize: any) => {
-    setPostPerPage(pageSize);
-  };
-  const handlePageChange = (value: number) => {
-    setPage(value); // Cập nhật trang hiện tại
-    window.scrollTo(0, 0);
-    // window.history.replaceState({}, "", `/blogs/page/${value}`);
-  };
-
-  const itemRender = (current: any, type: any, originalElement: any) => {
-    if (type === "prev") {
-      return <a>Previous</a>;
-    }
-    if (type === "next") {
-      return <a>Next</a>;
-    }
-    return originalElement;
+  const handlePageClick = (event: any) => {
+    const newPage = event.selected + 1;
+    const newOffset = event.selected * itemsPerPage;
+    setItemOffset(newOffset);
+    navigate(`/blogs/?page=${newPage}&limit=${itemsPerPage}`);
   };
 
   function stripHTMLTags(html: any) {
@@ -58,67 +44,67 @@ function BlogCategory() {
   }
   return (
     <div className={styles["list-blogs"]}>
-      {currentPosts &&
-        currentPosts?.map((post: any) => {
-          if (post.post_statuses.name === "Published") {
-            return (
-              <>
-                <div className={styles["post-item"]}>
-                  <NavLink to={`/blogs/${post.id}`}>
-                    <div className={styles["post-thumbnail-item"]}>
-                      <img
-                        src={post.thumbnail_url}
-                        alt=""
-                        className={styles["img-thumbnail-item"]}
-                      />
-                    </div>
-                  </NavLink>
+      {currentItems?.map((post: any) => {
+        if (post.post_statuses.name === "Published") {
+          return (
+            <>
+              <div className={styles["post-item"]}>
+                <NavLink to={`/blogs/${post.id}`}>
+                  <div className={styles["post-thumbnail-item"]}>
+                    <img
+                      src={post.thumbnail_url}
+                      alt=""
+                      className={styles["img-thumbnail-item"]}
+                    />
+                  </div>
+                </NavLink>
 
-                  <div className={styles["post-item-content"]}>
-                    <NavLink to={`/blogs/${post.id}`}>
-                      <h2 className={styles["post-item-title"]}>
-                        {post.title}
-                        {/* {Array.from(post.post_title).slice(0, 50).join("")} */}
-                      </h2>
-                    </NavLink>
-                    <span className={styles["post-item-description"]}>
-                      {/* {React.createElement("div", {
+                <div className={styles["post-item-content"]}>
+                  <NavLink to={`/blogs/${post.id}`}>
+                    <h2 className={styles["post-item-title"]}>
+                      {post.title}
+                      {/* {Array.from(post.post_title).slice(0, 50).join("")} */}
+                    </h2>
+                  </NavLink>
+                  <span className={styles["post-item-description"]}>
+                    {/* {React.createElement("div", {
                         dangerouslySetInnerHTML: { __html: post?.post_content },
                       })} */}
-                      {post?.content.length > 200 ? (
-                        <div>
-                          {stripHTMLTags(post?.content.slice(0, 200))}...
-                        </div>
-                      ) : (
-                        <div
-                          dangerouslySetInnerHTML={{
-                            __html: post?.content,
-                          }}
-                        />
-                      )}
-                    </span>
-                    <div>
-                      <NavLink to={`/blogs/${post.id}`}>
-                        <Button variant="primary">Read More</Button>
-                      </NavLink>
-                    </div>
+                    {post?.content.length > 200 ? (
+                      <div>{stripHTMLTags(post?.content.slice(0, 200))}...</div>
+                    ) : (
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: post?.content,
+                        }}
+                      />
+                    )}
+                  </span>
+                  <div>
+                    <NavLink to={`/blogs/${post.id}`}>
+                      <Button variant="primary">Read More</Button>
+                    </NavLink>
                   </div>
                 </div>
-              </>
-            );
-          }
-        })}
+              </div>
+            </>
+          );
+        }
+      })}
 
-      <div className={styles["blogs-post-pagination"]}>
-        <Pagination
-          pageSize={postPerPage}
-          total={total}
-          current={page} // Sử dụng page để xác định trang hiện tại
-          onChange={handlePageChange} // Sử dụng handlePageChange để cập nhật trang
-          showSizeChanger
-          showQuickJumper
-          onShowSizeChange={onShowSizeChange}
-          itemRender={itemRender}
+      <div className={styles["pagination-form"]}>
+        <ReactPaginate
+          nextLabel="next >"
+          previousLabel="< previous"
+          renderOnZeroPageCount={null}
+          pageRangeDisplayed={13}
+          pageCount={pageCount}
+          onPageChange={handlePageClick}
+          containerClassName="pagination"
+          pageLinkClassName="page-number"
+          previousLinkClassName="page-number"
+          nextLinkClassName="page-number"
+          activeLinkClassName={styles["active"]}
         />
       </div>
     </div>

@@ -1493,6 +1493,35 @@ table.table.table-cart {
   text-align: left;
 }
 
+/* Pagination */
+.pagination-form {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.pagination-form a {
+  margin: 0 5px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  text-decoration: none;
+}
+
+.pagination-form a:hover {
+  background-color: #0c337c;
+  color: white
+}
+
+.pagination-form .active {
+  background-color: #0c337c;
+  color: #fff;
+}
+
 /* CSS Tablet */
 
 @media screen and (max-width: 1079px) {

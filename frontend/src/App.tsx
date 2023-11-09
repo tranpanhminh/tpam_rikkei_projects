@@ -26,7 +26,6 @@ import ManageProducts from "./components/admin-site/partials/ManageProducts/Mana
 import ManageBooking from "./components/admin-site/partials/ManageBooking/ManageBooking";
 import ManageOrders from "./components/admin-site/partials/ManageOrders/ManageOrders";
 import ManageServices from "./components/admin-site/partials/ManageServices/ManageServices";
-import ManageSubscribers from "./components/admin-site/partials/ManageSubscribers/ManageSubscribers";
 import ManageCoupons from "./components/admin-site/partials/ManageCoupon/ManageCoupons";
 import ManagePosts from "./components/admin-site/partials/ManagePosts/ManagePosts";
 import ManageComments from "./components/admin-site/partials/ManageComments/ManageComments";
@@ -51,17 +50,6 @@ import ManageVendors from "./components/admin-site/partials/ManageVendors/Manage
 import ResetPasswordForm from "./components/client-site/partials/LoginSignUp/ResetPasswordForm";
 
 export function RoleNavigation() {
-  const getData: any = localStorage.getItem("userLogin");
-  const getLoginData = JSON.parse(getData) || "";
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const showModalAdminInactive = () => {
-    notification.warning({
-      message: "Your account is Inactive. Please wait for admin's verification",
-    });
-  };
-
   return null; // Return null or an empty component
 }
 
