@@ -143,3 +143,17 @@ export const addProduct = async (formData: any, config: any) => {
     });
   return result;
 };
+
+// 8. Add Product
+
+export const paginationProducts = async (page: number, limit: number) => {
+  const result = await axios
+    .get(`${productsAPI}/?page=${page}&limit=${limit}`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error;
+    });
+  return result;
+};

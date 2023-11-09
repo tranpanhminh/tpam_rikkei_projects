@@ -2,22 +2,23 @@ import React, { useEffect, useState } from "react";
 import DetailButtonProduct from "./Button/DetailProduct/DetailButtonProduct";
 import { Button, message } from "antd";
 import AddModalProduct from "../ManageProducts/Button/AddProduct/AddModalProduct";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import styles from "../../AdminPage.module.css";
 import { NavLink } from "react-router-dom";
 import { deleteProduct, getAllProducts } from "../../../../api/products.api";
 import ReactPaginate from "react-paginate";
-import axios from "axios";
-
-const productsAPI = process.env.REACT_APP_API_PRODUCTS;
 
 // ------------------------------------------------
 function ManageProducts() {
   document.title = "Manage Products | PetShop";
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [products, setProducts] = useState<any>([]);
   const [searchText, setSearchText] = useState<string>("");
   const [messageApi, contextHolder] = message.useMessage();
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
 
   // Fetch API
   const fetchProducts = async () => {
@@ -79,14 +80,17 @@ function ManageProducts() {
     fetchProducts();
   };
 
-  // ------------------------------------------------
-
   // Pagination
-  const pageLimit = 10; // limit
-  const totalPages = Math.ceil(products.length / pageLimit);
+  const itemsPerPage = 5;
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    setCurrentItems(products.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(products.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, products]);
 
-  const handlePageClick = (page: any) => {
-    axios.get(`${productsAPI}/?page=${page}&limit=${pageLimit}`);
+  const handlePageClick = (event: any) => {
+    const newOffset = (event.selected * itemsPerPage) % products.length;
+    setItemOffset(newOffset);
   };
 
   // ------------------------------------------------
@@ -134,7 +138,7 @@ function ManageProducts() {
         <table className="table table-striped" id="table-products-manage-page">
           <thead>
             <tr>
-              <th>#</th>
+              <th>ID</th>
               <th>Image</th>
               <th>Name</th>
               <th>Price</th>
@@ -143,9 +147,9 @@ function ManageProducts() {
             </tr>
           </thead>
           <tbody>
-            {products?.map((product: any, index: number) => (
+            {currentItems?.map((product: any, index: number) => (
               <tr key={product.id}>
-                <td>{index + 1}</td>
+                <td>{product.id}</td>
                 <td>
                   <img src={product.thumbnail_url} alt="" />
                 </td>
@@ -180,8 +184,21 @@ function ManageProducts() {
           </tbody>
         </table>
       </div>
-
-      <ReactPaginate pageCount={totalPages} onPageChange={handlePageClick} />
+      <div className={styles["pagination-form"]}>
+        <ReactPaginate
+          nextLabel="next >"
+          previousLabel="< previous"
+          renderOnZeroPageCount={null}
+          pageRangeDisplayed={13}
+          pageCount={pageCount}
+          onPageChange={handlePageClick}
+          containerClassName="pagination"
+          pageLinkClassName="page-number"
+          previousLinkClassName="page-number"
+          nextLinkClassName="page-number"
+          activeLinkClassName={styles["active"]}
+        />
+      </div>
     </div>
   );
 }
