@@ -182,19 +182,19 @@ function ManageUsers() {
             </tr>
           </thead>
           <tbody>
-            {currentItems?.map((user: any, index: number) => (
-              <tr key={user.id}>
-                <td>{user.id}</td>
-                <td>{user.email}</td>
-                <td>{user.full_name}</td>
+            {currentItems?.map((item: any, index: number) => (
+              <tr key={item.id}>
+                <td>{item.id}</td>
+                <td>{item.email}</td>
+                <td>{item.full_name}</td>
                 <td>
-                  <Badge bg={changeColorUser(user?.user_roles?.name)}>
-                    {user?.user_roles?.name}
+                  <Badge bg={changeColorUser(item?.user_roles?.name)}>
+                    {item?.user_roles?.name}
                   </Badge>
                 </td>
                 <td>
-                  <Badge bg={changeColor(user?.user_statuses?.name)}>
-                    {user?.user_statuses?.name}
+                  <Badge bg={changeColor(item?.user_statuses?.name)}>
+                    {item?.user_statuses?.name}
                   </Badge>
                 </td>
                 <td className={styles["group-btn-admin"]}>
@@ -204,16 +204,16 @@ function ManageUsers() {
                         <Button
                           type="primary"
                           className={styles["change-user-btn"]}
-                          onClick={() => handleChangeUser(user.id)}
+                          onClick={() => handleChangeUser(item.id)}
                           style={{
                             display:
-                              user?.role_id === 1 ? "none" : "inline-block",
+                              item?.role_id === 1 ? "none" : "inline-block",
                           }}
                         >
                           Change
                         </Button>
                         &nbsp;
-                        <Button
+                        {/* <Button
                           type="primary"
                           className={styles["delete-user-btn"]}
                           onClick={() => handleDeleteUser(user.id)}
@@ -223,17 +223,17 @@ function ManageUsers() {
                           }}
                         >
                           Delete
-                        </Button>
+                        </Button> */}
                       </div>
                     ) : (
                       <div>
                         <Button
                           type="primary"
                           className={styles["change-user-btn"]}
-                          onClick={() => handleChangeUser(user.id)}
+                          onClick={() => handleChangeUser(item.id)}
                           style={{
                             display:
-                              user?.role_id === 1 || user?.role_id === 2
+                              item?.role_id === 1 || item?.role_id === 2
                                 ? "none"
                                 : "inline-block",
                           }}
@@ -241,7 +241,7 @@ function ManageUsers() {
                           Change
                         </Button>
                         &nbsp;
-                        <Button
+                        {/* <Button
                           type="primary"
                           className={styles["delete-user-btn"]}
                           onClick={() => handleDeleteUser(user.id)}
@@ -253,7 +253,7 @@ function ManageUsers() {
                           }}
                         >
                           Delete
-                        </Button>
+                        </Button> */}
                       </div>
                     )
                   ) : (
@@ -261,16 +261,16 @@ function ManageUsers() {
                       <Button
                         type="primary"
                         className={styles["change-user-btn"]}
-                        onClick={() => handleChangeUser(user.id)}
+                        onClick={() => handleChangeUser(item.id)}
                         style={{
                           display:
-                            user?.role_id === 1 ? "none" : "inline-block",
+                            item?.role_id === 1 ? "none" : "inline-block",
                         }}
                       >
                         Change
                       </Button>
                       &nbsp;
-                      <Button
+                      {/* <Button
                         type="primary"
                         className={styles["delete-user-btn"]}
                         onClick={() => handleDeleteUser(user.id)}
@@ -280,7 +280,7 @@ function ManageUsers() {
                         }}
                       >
                         Delete
-                      </Button>
+                      </Button> */}
                     </div>
                   )}
                 </td>
