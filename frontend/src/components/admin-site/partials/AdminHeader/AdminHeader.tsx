@@ -66,13 +66,12 @@ const AdminHeader: React.FC = () => {
               ? user?.full_name.split(" ")[0]
               : user?.full_name}
           </Badge>
-          {(user?.role_id === 1 || user?.role_id === 2) && (
-            <DetailButtonUser
-              getUserId={user.id}
-              value="Edit Profile"
-              handleFunctionOk={handleUpdateUser}
-            ></DetailButtonUser>
-          )}
+
+          <DetailButtonUser
+            getUserId={user?.id}
+            value="Edit Profile"
+            handleFunctionOk={handleUpdateUser}
+          ></DetailButtonUser>
         </div>
 
         <ul className={styles["main-menu"]}>

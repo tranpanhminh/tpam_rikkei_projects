@@ -48,7 +48,7 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
 
   useEffect(() => {
     fetchUser();
-  }, [user]);
+  }, []);
   // -----------------------------------------------------------
 
   // Ẩn hiện Modal
