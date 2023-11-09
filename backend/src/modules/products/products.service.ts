@@ -279,12 +279,8 @@ export class ProductsService {
       parser.on('data', (data) => {
         importedData.push(data);
       });
-
       parser.on('end', async () => {
         resolve(importedData);
-        console.log(importedData[0].name);
-
-        console.log(importedData, 'EHL');
         for (const data of importedData) {
           const info = {
             name: data.name,
@@ -295,8 +291,6 @@ export class ProductsService {
             vendor_id: data.vendor_id,
             post_type_id: 1,
           };
-
-          console.log(info, 'Product');
           // Lưu thông tin sản phẩm vào bảng products
           const newProduct: any =
             await this.productsRepository.addProduct(info);
@@ -309,7 +303,6 @@ export class ProductsService {
                 product_id: newProduct.id,
                 image_url: imageUrl,
               };
-              console.log(imageInfo, 'data');
               await this.productsRepository.uploadProductImages(imageInfo);
             }
           }
@@ -320,5 +313,6 @@ export class ProductsService {
         reject(error);
       });
     });
+    return new HttpException('Products Imported Successfully', HttpStatus.OK);
   }
 }

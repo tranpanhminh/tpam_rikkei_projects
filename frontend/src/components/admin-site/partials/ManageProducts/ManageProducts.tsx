@@ -7,6 +7,7 @@ import styles from "../../AdminPage.module.css";
 import { NavLink } from "react-router-dom";
 import { deleteProduct, getAllProducts } from "../../../../api/products.api";
 import ReactPaginate from "react-paginate";
+import ImportModalProduct from "./Button/ImportProducts/ImportProducts";
 
 // ------------------------------------------------
 function ManageProducts() {
@@ -89,11 +90,6 @@ function ManageProducts() {
     setPageCount(Math.ceil(products.length / itemsPerPage));
   }, [itemOffset, itemsPerPage, products]);
 
-  // const handlePageClick = (event: any) => {
-  //   const newOffset = (event.selected * itemsPerPage) % products.length;
-  //   setItemOffset(newOffset);
-  // };
-
   const handlePageClick = (event: any) => {
     const newPage = event.selected + 1;
     const newOffset = event.selected * itemsPerPage;
@@ -131,12 +127,20 @@ function ManageProducts() {
           </button>
         </div>
 
-        <AddModalProduct
-          className={styles["add-product-btn"]}
-          value="Add Product"
-          title="Add Product"
-          handleClickOk={handleUpdateProduct}
-        />
+        <div>
+          <AddModalProduct
+            className={styles["add-product-btn"]}
+            value="Add Product"
+            title="Add Product"
+            handleClickOk={handleUpdateProduct}
+          />{" "}
+          <ImportModalProduct
+            className={styles["add-product-btn"]}
+            value="Import CSV"
+            title="Import CSV"
+            handleClickOk={handleUpdateProduct}
+          />
+        </div>
       </div>
 
       <div className={styles["search-result"]}></div>

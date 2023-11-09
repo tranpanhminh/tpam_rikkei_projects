@@ -1174,9 +1174,10 @@ table.table.table-cart {
 }
 
 .product-detail img {
-  width: 98%;
-  height: 98%;
+  width: 400px;
+  height: 280px;
   object-fit: cover;
+  padding: 20px;
 }
 
 .product-add-quantity,

@@ -145,7 +145,6 @@ export const addProduct = async (formData: any, config: any) => {
 };
 
 // 8. Add Product
-
 export const paginationProducts = async (page: number, limit: number) => {
   const result = await axios
     .get(`${productsAPI}/?page=${page}&limit=${limit}`)
@@ -154,6 +153,25 @@ export const paginationProducts = async (page: number, limit: number) => {
     })
     .catch((error) => {
       return error;
+    });
+  return result;
+};
+
+// 9. Import Products
+export const importProducts = async (file: File, config: any) => {
+  const result = await axios
+    .post(`${productsAPI}/import`, file, config)
+    .then((response) => {
+      notification.success({
+        message: `${response.data.message}`,
+      });
+      return true;
+    })
+    .catch((error) => {
+      notification.warning({
+        message: `${error.response.data.message}`,
+      });
+      return false;
     });
   return result;
 };
