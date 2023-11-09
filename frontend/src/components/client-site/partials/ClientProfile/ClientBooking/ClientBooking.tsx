@@ -7,6 +7,8 @@ import "../../../../../assets/bootstrap-5.3.0-dist/css/bootstrap.min.css";
 import { Badge } from "react-bootstrap";
 import { cancelBooking, getUserBooking } from "../../../../../api/bookings.api";
 import { getDataLogin } from "../../../../../api/users.api";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import ReactPaginate from "react-paginate";
 const moment = require("moment");
 
 // -----------------------------------------------------
@@ -16,6 +18,11 @@ function ClientBooking() {
   const [messageApi, contextHolder] = message.useMessage();
   const [searchText, setSearchText] = useState<string>("");
   const [userBooking, setUserBooking] = useState<any>([]);
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
 
   const fetchUserBooking = async () => {
     const result = await getDataLogin();
@@ -84,6 +91,22 @@ function ClientBooking() {
     }
   };
 
+  // Pagination
+  const itemsPerPage = Number(searchParams.get("limit")) || 5;
+  // const itemsPerPage = 5;
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    setCurrentItems(userBooking.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(userBooking.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, userBooking]);
+
+  const handlePageClick = (event: any) => {
+    const newPage = event.selected + 1;
+    const newOffset = event.selected * itemsPerPage;
+    setItemOffset(newOffset);
+    navigate(`/user/my-booking?page=${newPage}&limit=${itemsPerPage}`);
+  };
+
   return (
     <div>
       {contextHolder}
@@ -129,7 +152,7 @@ function ClientBooking() {
             </tr>
           </thead>
           <tbody>
-            {userBooking?.map((item: any) => {
+            {currentItems?.map((item: any) => {
               return (
                 <tr>
                   <td>{item.id}</td>
@@ -169,6 +192,21 @@ function ClientBooking() {
             })}
           </tbody>
         </table>
+      </div>
+      <div className={styles["pagination-form"]}>
+        <ReactPaginate
+          nextLabel="next >"
+          previousLabel="< previous"
+          renderOnZeroPageCount={null}
+          pageRangeDisplayed={13}
+          pageCount={pageCount}
+          onPageChange={handlePageClick}
+          containerClassName="pagination"
+          pageLinkClassName="page-number"
+          previousLinkClassName="page-number"
+          nextLinkClassName="page-number"
+          activeLinkClassName={styles["active"]}
+        />
       </div>
     </div>
   );

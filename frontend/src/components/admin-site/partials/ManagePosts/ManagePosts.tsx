@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "../../AdminPage.module.css";
 import { Button, message } from "antd";
 import { Badge } from "react-bootstrap";

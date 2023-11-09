@@ -5,7 +5,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { message } from "antd";
 import { Badge } from "react-bootstrap";
 import DetailButtonUser from "../ManageUsers/Button/DetailUser/DetailButtonUser";
-import { getDataLogin, getDetailUser } from "../../../../api/users.api";
+import { getDataLogin } from "../../../../api/users.api";
 
 // -----------------------------------------------------------
 
@@ -18,13 +18,16 @@ const AdminHeader: React.FC = () => {
   // Fetch API
   const fetchUser = async () => {
     const result = await getDataLogin();
-    return setUser(result);
+    setUser(result);
   };
-  // console.log(user);
 
   useEffect(() => {
     fetchUser();
   }, []);
+
+  const handleUpdateUser = () => {
+    fetchUser();
+  };
   // -----------------------------------------------------------
 
   const navLinkStyle = ({ isActive }: { isActive: boolean }) => ({
@@ -40,12 +43,6 @@ const AdminHeader: React.FC = () => {
     });
   };
 
-  const handleUpdateUser = async () => {
-    const result = await getDetailUser(user?.id);
-    fetchUser();
-    return result;
-  };
-
   return (
     <>
       <header className={styles["vertical-menu"]}>
@@ -57,7 +54,6 @@ const AdminHeader: React.FC = () => {
               alt=""
             />
           </NavLink>
-          {/* <p className={styles["user-title"]}>Admin</p> */}
           <Badge
             bg="success"
             style={{
@@ -74,9 +70,7 @@ const AdminHeader: React.FC = () => {
             <DetailButtonUser
               getUserId={user.id}
               value="Edit Profile"
-              handleFunctionOk={() => {
-                handleUpdateUser();
-              }}
+              handleFunctionOk={handleUpdateUser}
             ></DetailButtonUser>
           )}
         </div>
@@ -156,18 +150,6 @@ const AdminHeader: React.FC = () => {
               </li>
             </NavLink>
           </div>
-          {/* <div>
-            <NavLink
-              to="/admin/manage-subscribers"
-              style={navLinkStyle}
-              className={styles["navlink-menu-admin"]}
-            >
-              <li className={styles["admin-btn"]}>
-                <i className="fa-solid fa-users"></i>
-                Manage Subscriber
-              </li>
-            </NavLink>
-          </div> */}
           <div>
             <NavLink
               to="/admin/manage-coupons"
