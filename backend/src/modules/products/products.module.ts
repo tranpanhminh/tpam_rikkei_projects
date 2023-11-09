@@ -15,6 +15,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { UsersRepository } from '../users/users.repository';
 import { UsersService } from '../users/users.service';
 import { EmailService } from '../email/email.service';
+import { CsvModule } from 'nest-csv-parser';
 const path = process.env.SERVER_PATH;
 const url = `${path}/products`;
 
@@ -28,6 +29,7 @@ const url = `${path}/products`;
       UsersEntity,
     ]),
     JwtModule,
+    CsvModule,
     NestjsFormDataModule,
   ],
   controllers: [ProductsController],

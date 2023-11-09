@@ -18,6 +18,7 @@ import { FormDataRequest } from 'nestjs-form-data';
 import { UpdateProductImageDTO } from './dto/updateProductImage.dto';
 import { AuthenticationGuard } from 'src/guards/authentication.guard';
 import { AuthorizationAdminGuard } from 'src/guards/authorizationAdmin.guard';
+import { ImportProductsDTO } from './dto/importProducts.dto';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -120,6 +121,17 @@ export class ProductsController {
         params.imageId,
         body,
       );
+    return result;
+  }
+
+  // 7. Update Product Image
+  @Post('/import')
+  // @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
+  @FormDataRequest()
+  async importProducts(
+    @Body() body,
+  ): Promise<ImportProductsDTO[] | unknown | any> {
+    const result = await this.productsService.importProducts(body);
     return result;
   }
 }

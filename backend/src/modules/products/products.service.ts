@@ -11,6 +11,11 @@ import { ChangeThumbnailProductInterface } from './interface/changeThumbnail.int
 import { UpdateProductImageInterface } from './interface/updateProductImage.interface';
 import { UpdateProductImageDTO } from './dto/updateProductImage.dto';
 import { UpdateProductInterface } from './interface/updateProduct.interface';
+import * as fs from 'fs';
+import { CsvParser } from 'nest-csv-parser';
+import { ImportProductsDTO } from './dto/importProducts.dto';
+import { ProductImagesRepository } from '../productImages/productImages.repository';
+import { Readable } from 'stream';
 const cloudinary = require('cloudinary').v2;
 
 @Injectable()
@@ -18,6 +23,8 @@ export class ProductsService {
   constructor(
     private readonly productsRepository: ProductsRepository,
     private readonly cloudinaryService: CloudinaryService,
+    private readonly csvParser: CsvParser,
+    private readonly productImagesRepository: ProductImagesRepository,
   ) {}
 
   // 1. Get All
@@ -171,5 +178,48 @@ export class ProductsService {
   ): Promise<ProductsEntity[] | unknown> {
     const result = await this.productsRepository.sortAndOrder(sort, order);
     return result;
+  }
+
+  async importProducts(body): Promise<ImportProductsDTO[] | unknown | any> {
+    const { file } = body;
+    const fileBuffer = Buffer.from(file.buffer);
+    const stream = new Readable();
+    stream.push(fileBuffer);
+    stream.push(null);
+
+    const importedData: any = await this.csvParser.parse(
+      stream,
+      ImportProductsDTO,
+    );
+    console.log(importedData);
+    // return importedData;
+    for (const data of importedData) {
+      const info = {
+        name: data['name'],
+        description: data['description'],
+        price: data['price'],
+        quantity_stock: data['quantity_stock'],
+        thumbnail_url: data['thumbnail_url'],
+        vendor_id: data['vendor_id'],
+      };
+
+      console.log(info, 'Product');
+      // Lưu thông tin sản phẩm vào bảng products
+      // const newProduct = await this.productsRepository.addProduct(info);
+
+      // Lưu URL hình ảnh vào bảng product_images
+      for (let i = 1; i <= 4; i++) {
+        const imageUrl = data[`image_url${i}`];
+        if (imageUrl) {
+          const imageInfo = {
+            product_id: 1,
+            image_url: imageUrl,
+          };
+          console.log(imageInfo, 'data');
+
+          // await this.productsRepository.uploadProductImages(data);
+        }
+      }
+    }
   }
 }

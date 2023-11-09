@@ -33,6 +33,7 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
 import { GoogleStrategy } from './modules/google/GoogleStrategy';
 import { EmailModule } from './modules/email/email.module';
 import { EmailService } from './modules/email/email.service';
+import { CsvModule } from 'nest-csv-parser';
 
 @Module({
   imports: [
@@ -64,6 +65,7 @@ import { EmailService } from './modules/email/email.service';
     PostsModule,
     PagesModule,
     EmailModule,
+    CsvModule,
     // GatewayModule,
   ],
   controllers: [PaypalController],
