@@ -1388,6 +1388,8 @@ table.table.table-cart {
   overflow-y: auto;
   width: 900px;
   margin: 0 auto;
+  border-radius: 10px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 .comment-input {

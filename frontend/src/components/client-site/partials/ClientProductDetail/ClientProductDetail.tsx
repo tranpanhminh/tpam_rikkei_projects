@@ -1,9 +1,13 @@
 import jwtDecode from "jwt-decode";
 import React, { useEffect, useState } from "react";
 import styles from "../../ClientPage.module.css";
-import axios from "axios";
-import { Product } from "../../../../database";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
+import ReactPaginate from "react-paginate";
+import {
+  NavLink,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { notification, Button, Modal } from "antd";
 import {} from "antd";
 import { Rate } from "antd";
@@ -24,11 +28,16 @@ const moment = require("moment");
 function ClientProductDetail() {
   // List States
   const [user, setUser] = useState<any>(null);
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { productId } = useParams();
   const [productComments, setProductComments] = useState<any>([]);
   const [products, setProducts] = useState<any>(null);
   const [quantity, setQuantity] = useState<number>(1);
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
   const [userComment, setUserComment] = useState<any>({
     comment: "",
     rating: 5,
@@ -143,6 +152,22 @@ function ClientProductDetail() {
       return true;
     }
     return false;
+  };
+
+  // Pagination
+  const itemsPerPage = Number(searchParams.get("limit")) || 5;
+  // const itemsPerPage = 5;
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    setCurrentItems(productComments.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(productComments?.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, productComments]);
+
+  const handlePageClick = (event: any) => {
+    const newPage = event.selected + 1;
+    const newOffset = event.selected * itemsPerPage;
+    setItemOffset(newOffset);
+    navigate(`/products/${productId}?page=${newPage}&limit=${itemsPerPage}`);
   };
 
   // --------------------------------------------------------
@@ -314,8 +339,8 @@ function ClientProductDetail() {
             <div
               className={`${styles["main-content-comment"]} ${styles["comment-scrollable"]}`}
             >
-              {productComments &&
-                productComments?.map((item: any) => {
+              {currentItems &&
+                currentItems?.map((item: any) => {
                   return (
                     <section className={styles["product-comment-item"]}>
                       <div className={styles["user-comment-info"]}>
@@ -379,7 +404,29 @@ function ClientProductDetail() {
                     </section>
                   );
                 })}
+              <div className={styles["pagination-form"]}>
+                <ReactPaginate
+                  nextLabel="next >"
+                  previousLabel="< previous"
+                  renderOnZeroPageCount={null}
+                  pageRangeDisplayed={13}
+                  pageCount={pageCount}
+                  onPageChange={handlePageClick}
+                  containerClassName="pagination"
+                  pageLinkClassName="page-number"
+                  previousLinkClassName="page-number"
+                  nextLinkClassName="page-number"
+                  activeLinkClassName={styles["active"]}
+                />
+              </div>
             </div>
+            {/* <div
+              className="fb-comments"
+              data-href="http://petshop.localhost.com/"
+              data-width=""
+              data-numposts="5"
+              data-lazy={true}
+            ></div> */}
           </div>
         </div>
       </div>

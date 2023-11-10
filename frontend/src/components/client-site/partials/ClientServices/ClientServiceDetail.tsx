@@ -1,6 +1,12 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
+import ReactPaginate from "react-paginate";
 import styles from "../ClientServices/ClientServiceDetail.module.css";
-import { NavLink, useParams } from "react-router-dom";
+import {
+  NavLink,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { Button, Modal, Rate, Select } from "antd";
 import { Badge } from "react-bootstrap";
 import { Editor } from "@tinymce/tinymce-react";
@@ -22,15 +28,19 @@ const moment = require("moment");
 
 function ClientServiceDetail() {
   const { serviceId } = useParams();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [serviceComments, setServiceComments] = useState<any>(null);
   const [user, setUser] = useState<any>(null);
   const [service, setService] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
   const [userComment, setUserComment] = useState<any>({
     comment: "",
     rating: 5,
   });
-
   let [userInfo, setUserInfo] = useState<any>({
     user_id: "",
     service_id: "",
@@ -168,6 +178,22 @@ function ClientServiceDetail() {
       return item?.users?.role_id !== 1 && item?.users?.role_id !== 2;
     });
     return filterComments ? filterComments?.length : 0;
+  };
+
+  // Pagination
+  const itemsPerPage = Number(searchParams.get("limit")) || 5;
+  // const itemsPerPage = 5;
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    setCurrentItems(serviceComments?.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(serviceComments?.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, serviceComments]);
+
+  const handlePageClick = (event: any) => {
+    const newPage = event.selected + 1;
+    const newOffset = event.selected * itemsPerPage;
+    setItemOffset(newOffset);
+    navigate(`/services/${serviceId}?page=${newPage}&limit=${itemsPerPage}`);
   };
 
   return (
@@ -397,8 +423,8 @@ function ClientServiceDetail() {
             <div
               className={`${styles["main-content-comment"]} ${styles["comment-scrollable"]}`}
             >
-              {serviceComments &&
-                serviceComments?.map((item: any) => {
+              {currentItems &&
+                currentItems?.map((item: any) => {
                   return (
                     <section className={styles["product-comment-item"]}>
                       <div className={styles["user-comment-info"]}>
@@ -460,6 +486,21 @@ function ClientServiceDetail() {
                     </section>
                   );
                 })}
+              <div className={styles["pagination-form"]}>
+                <ReactPaginate
+                  nextLabel="next >"
+                  previousLabel="< previous"
+                  renderOnZeroPageCount={null}
+                  pageRangeDisplayed={13}
+                  pageCount={pageCount}
+                  onPageChange={handlePageClick}
+                  containerClassName="pagination"
+                  pageLinkClassName="page-number"
+                  previousLinkClassName="page-number"
+                  nextLinkClassName="page-number"
+                  activeLinkClassName={styles["active"]}
+                />
+              </div>
             </div>
           </div>
         </div>

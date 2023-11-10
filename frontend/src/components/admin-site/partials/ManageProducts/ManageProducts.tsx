@@ -25,7 +25,6 @@ function ManageProducts() {
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
-  const [downloadUrl, setDownloadUrl] = useState("");
 
   // Fetch API
   const fetchProducts = async () => {

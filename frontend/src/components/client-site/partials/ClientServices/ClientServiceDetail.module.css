@@ -176,6 +176,8 @@
   overflow-y: auto;
   width: 900px;
   margin: 0 auto;
+  border-radius: 10px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 .comment-input {
@@ -234,6 +236,35 @@
 
 .trash-comment-icon:hover {
   opacity: 85%;
+}
+
+/* Pagination */
+.pagination-form {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.pagination-form a {
+  margin: 0 5px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  text-decoration: none;
+}
+
+.pagination-form a:hover {
+  background-color: #0c337c;
+  color: white
+}
+
+.pagination-form .active {
+  background-color: #0c337c;
+  color: #fff;
 }
 
 .comment-content {
