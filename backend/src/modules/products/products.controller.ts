@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Header,
   Param,
   Patch,
   Post,
@@ -139,12 +140,10 @@ export class ProductsController {
 
   // 7. Update Product Image
   @Get('/export')
-  @FormDataRequest()
   async exportProducts(
-    @Req() req,
-    @Res() res,
+    @Res() res: Response,
   ): Promise<ImportProductsDTO[] | unknown | any> {
-    const result = await this.productsService.exportProducts(req, res);
+    const result = await this.productsService.exportProducts(res);
     return result;
   }
 }

@@ -179,11 +179,12 @@ export const importProducts = async (file: File, config: any) => {
 // 10. Export Products
 export const exportProducts = async () => {
   const result = await axios
-    .get(`${productsAPI}/export`)
+    .get(`${productsAPI}/export`, { responseType: "blob" })
     .then((response) => {
-      return response.data.downloadUrl;
+      return response.data;
     })
     .catch((error) => {
+      console.log(error);
       return false;
     });
   return result;

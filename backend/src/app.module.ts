@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import ormConfig from 'orm.config';
 import { VendorsModule } from './modules/vendors/vendors.module';
@@ -40,7 +40,7 @@ import { join } from 'path';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '../../', 'public/files/export'),
+      rootPath: join(__dirname, '..', 'public'),
     }),
     TypeOrmModule.forRoot(ormConfig),
     CloudinaryModule,
@@ -83,4 +83,15 @@ import { join } from 'path';
     // MyGateway,
   ],
 })
-export class AppModule {}
+export class AppModule {
+  // configure(consumer: MiddlewareConsumer) {
+  //   // Cấu hình middleware để phục vụ các tệp tĩnh từ thư mục public/files
+  //   consumer
+  //     .apply(
+  //       express.static(join(__dirname, '..', 'public'), {
+  //         // Cấu hình tùy chọn khác của express.static nếu cần
+  //       }),
+  //     )
+  //     .forRoutes('/files/export');
+  // }
+}

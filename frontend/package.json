@@ -32,6 +32,7 @@
     "decimal.js": "^10.4.3",
     "dotenv": "^16.3.1",
     "faker": "^6.6.6",
+    "file-saver": "^2.0.5",
     "html2canvas": "^1.4.1",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
@@ -43,6 +44,7 @@
     "react-bootstrap": "^2.8.0",
     "react-chartjs-2": "^4.3.1",
     "react-dom": "^18.2.0",
+    "react-download-link": "^2.3.0",
     "react-google-charts": "^4.0.1",
     "react-jwt": "^1.2.0",
     "react-paginate": "^8.2.0",
@@ -82,6 +84,7 @@
     ]
   },
   "devDependencies": {
+    "@types/file-saver": "^2.0.7",
     "@types/js-cookie": "^3.0.5",
     "@types/jsonwebtoken": "^9.0.3",
     "@types/moment": "^2.13.0",

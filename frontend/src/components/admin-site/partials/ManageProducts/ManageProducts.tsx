@@ -4,6 +4,7 @@ import { Button, message } from "antd";
 import AddModalProduct from "../ManageProducts/Button/AddProduct/AddModalProduct";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import styles from "../../AdminPage.module.css";
+import { saveAs } from "file-saver";
 import { NavLink } from "react-router-dom";
 import {
   deleteProduct,
@@ -24,6 +25,7 @@ function ManageProducts() {
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
+  const [downloadUrl, setDownloadUrl] = useState("");
 
   // Fetch API
   const fetchProducts = async () => {
@@ -102,8 +104,14 @@ function ManageProducts() {
   };
 
   const downloadFile = async () => {
-    const result = await exportProducts();
-    return window.open(result, "blank");
+    const result: any = await exportProducts();
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = today.getMonth() + 1;
+    const dd = today.getDate();
+    const formattedDate = `${yyyy}_${dd}_${mm}`;
+    const fileName = `data_products_exports_${formattedDate}.csv`;
+    saveAs(result, fileName);
   };
 
   // ------------------------------------------------
