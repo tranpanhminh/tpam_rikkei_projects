@@ -34,9 +34,14 @@ import { GoogleStrategy } from './modules/google/GoogleStrategy';
 import { EmailModule } from './modules/email/email.module';
 import { EmailService } from './modules/email/email.service';
 import { CsvModule } from 'nest-csv-parser';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '../../', 'public/files/export'),
+    }),
     TypeOrmModule.forRoot(ormConfig),
     CloudinaryModule,
     PaypalModule,

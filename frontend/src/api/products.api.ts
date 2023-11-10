@@ -175,3 +175,16 @@ export const importProducts = async (file: File, config: any) => {
     });
   return result;
 };
+
+// 10. Export Products
+export const exportProducts = async () => {
+  const result = await axios
+    .get(`${productsAPI}/export`)
+    .then((response) => {
+      return response.data.downloadUrl;
+    })
+    .catch((error) => {
+      return false;
+    });
+  return result;
+};

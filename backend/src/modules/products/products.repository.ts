@@ -8,6 +8,7 @@ import { ProductImagesEntity } from '../productImages/database/entity/productIma
 import { ChangeThumbnailProductInterface } from './interface/changeThumbnail.interface';
 import { UpdateProductImageInterface } from './interface/updateProductImage.interface';
 import { UpdateProductInterface } from './interface/updateProduct.interface';
+import { ExportProductsInterface } from './interface/exportProducts.interface';
 
 @Injectable()
 export class ProductsRepository {
@@ -241,5 +242,15 @@ export class ProductsRepository {
       // Trả về mảng ban đầu
       return data;
     }
+  }
+
+  // 11. Export File
+  async templateCsvProduct(): Promise<ExportProductsInterface[] | any> {
+    const data = await this.productsEntity.find({
+      relations: {
+        product_images: true,
+      },
+    });
+    return data;
   }
 }

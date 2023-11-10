@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { ProductsRepository } from './products.repository';
 import { ProductsEntity } from './database/entity/products.entity';
 import { CreateProductDTO } from './dto/createProduct.dto';
@@ -11,12 +16,15 @@ import { ChangeThumbnailProductInterface } from './interface/changeThumbnail.int
 import { UpdateProductImageInterface } from './interface/updateProductImage.interface';
 import { UpdateProductImageDTO } from './dto/updateProductImage.dto';
 import { UpdateProductInterface } from './interface/updateProduct.interface';
-import * as fs from 'fs';
 import { CsvParser } from 'nest-csv-parser';
 import { ImportProductsDTO } from './dto/importProducts.dto';
 import { ProductImagesRepository } from '../productImages/productImages.repository';
 import { Readable } from 'stream';
 import { parse } from 'csv-parse';
+import * as fs from 'fs';
+import * as fastcsv from 'fast-csv';
+import * as path from 'path';
+import { ExportProductsInterface } from './interface/exportProducts.interface';
 const cloudinary = require('cloudinary').v2;
 
 @Injectable()
@@ -314,5 +322,66 @@ export class ProductsService {
       });
     });
     return new HttpException('Products Imported Successfully', HttpStatus.OK);
+  }
+
+  async exportProducts(req, res): Promise<any> {
+    try {
+      const result = await this.productsRepository.templateCsvProduct();
+      const templateExportProduct: ExportProductsInterface[] = [];
+      for (const data of result) {
+        const item: ExportProductsInterface = {
+          id: data.id,
+          name: data.name,
+          quantity_stock: data.quantity_stock,
+          price: data.price,
+          description: data.description,
+          thumbnail_url: data.thumbnail_url,
+          vendor_id: data.vendor_id,
+          image_url1: data.product_images[0].image_url,
+          image_url2: data.product_images[1].image_url,
+          image_url3: data.product_images[2].image_url,
+          image_url4: data.product_images[3].image_url,
+        };
+        templateExportProduct.push(item);
+      }
+
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = today.getMonth() + 1; // Months start at 0!
+      const dd = today.getDate();
+      const formattedDate = `${yyyy}_${dd}_${mm}`;
+      const fileName = `data_products_exports_${formattedDate}.csv`;
+      const exportPath = 'public/files/export'; // Chỉnh lại đường dẫn
+
+      if (!fs.existsSync(exportPath)) {
+        fs.mkdirSync(exportPath, { recursive: true });
+      }
+      const filePath = path.join(exportPath, fileName);
+      const csvStream = fastcsv.format({ headers: true });
+      const writableStream = fs.createWriteStream(`${exportPath}/${fileName}`);
+      csvStream.pipe(writableStream);
+
+      templateExportProduct.forEach((product) => {
+        csvStream.write(product);
+      });
+
+      csvStream.end();
+      writableStream.on('finish', async () => {
+        res.json({
+          downloadUrl: `${process.env.BACKEND_PATH}/${exportPath}/${fileName}`,
+        });
+      });
+      writableStream.on('end', async () => {
+        try {
+          fs.unlinkSync(filePath);
+        } catch (error) {
+          throw new BadRequestException(
+            'An error occurred while removing the file.',
+          );
+        }
+      });
+    } catch (error) {
+      res.status(400).json(error);
+    }
   }
 }

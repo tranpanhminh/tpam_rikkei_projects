@@ -5,7 +5,11 @@ import AddModalProduct from "../ManageProducts/Button/AddProduct/AddModalProduct
 import { useNavigate, useSearchParams } from "react-router-dom";
 import styles from "../../AdminPage.module.css";
 import { NavLink } from "react-router-dom";
-import { deleteProduct, getAllProducts } from "../../../../api/products.api";
+import {
+  deleteProduct,
+  exportProducts,
+  getAllProducts,
+} from "../../../../api/products.api";
 import ReactPaginate from "react-paginate";
 import ImportModalProduct from "./Button/ImportProducts/ImportProducts";
 
@@ -97,6 +101,11 @@ function ManageProducts() {
     navigate(`/admin/manage-products?page=${newPage}&limit=${itemsPerPage}`);
   };
 
+  const downloadFile = async () => {
+    const result = await exportProducts();
+    return window.open(result, "blank");
+  };
+
   // ------------------------------------------------
 
   return (
@@ -139,7 +148,10 @@ function ManageProducts() {
             value="Import CSV"
             title="Import CSV"
             handleClickOk={handleUpdateProduct}
-          />
+          />{" "}
+          <Button type="primary" onClick={downloadFile}>
+            Export CSV
+          </Button>
         </div>
       </div>
 

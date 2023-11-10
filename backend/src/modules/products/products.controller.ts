@@ -7,6 +7,8 @@ import {
   Patch,
   Post,
   Query,
+  Req,
+  Res,
   UseGuards,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
@@ -126,12 +128,23 @@ export class ProductsController {
 
   // 7. Update Product Image
   @Post('/import')
-  // @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   @FormDataRequest()
   async importProducts(
     @Body() body,
   ): Promise<ImportProductsDTO[] | unknown | any> {
     const result = await this.productsService.importProducts(body);
+    return result;
+  }
+
+  // 7. Update Product Image
+  @Get('/export')
+  @FormDataRequest()
+  async exportProducts(
+    @Req() req,
+    @Res() res,
+  ): Promise<ImportProductsDTO[] | unknown | any> {
+    const result = await this.productsService.exportProducts(req, res);
     return result;
   }
 }

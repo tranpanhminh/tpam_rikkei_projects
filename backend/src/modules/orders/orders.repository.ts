@@ -16,6 +16,7 @@ export class OrdersRepository {
   async getAllOrders() {
     return await this.ordersEntity.find({
       relations: { users: true, order_statuses: true, order_items: true },
+      order: {order_date: "desc"}
     });
   }
 
