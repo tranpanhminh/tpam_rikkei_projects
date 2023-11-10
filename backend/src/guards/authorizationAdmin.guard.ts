@@ -7,9 +7,6 @@ import {
   BadRequestException,
   ForbiddenException,
 } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { UsersInterface } from 'src/modules/users/interface/users.interface';
-import { UsersService } from 'src/modules/users/users.service';
 
 @Injectable()
 export class AuthorizationAdminGuard implements CanActivate {

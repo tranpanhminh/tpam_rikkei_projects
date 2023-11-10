@@ -140,6 +140,7 @@ export class ProductsController {
 
   // 7. Update Product Image
   @Get('/export')
+  @UseGuards(AuthenticationGuard, AuthorizationAdminGuard)
   async exportProducts(
     @Res() res: Response,
   ): Promise<ImportProductsDTO[] | unknown | any> {

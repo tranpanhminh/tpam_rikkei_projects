@@ -159,8 +159,7 @@ export const paginationProducts = async (page: number, limit: number) => {
 
 // 9. Import Products
 export const importProducts = async (file: File, config: any) => {
-  const result = await axios
-    .post(`${productsAPI}/import`, file, config)
+  const result = await BaseAxios.post(`${productsAPI}/import`, file, config)
     .then((response) => {
       notification.success({
         message: `${response.data.message}`,
@@ -178,8 +177,9 @@ export const importProducts = async (file: File, config: any) => {
 
 // 10. Export Products
 export const exportProducts = async () => {
-  const result = await axios
-    .get(`${productsAPI}/export`, { responseType: "blob" })
+  const result = await BaseAxios.get(`${productsAPI}/export`, {
+    responseType: "blob",
+  })
     .then((response) => {
       return response.data;
     })
