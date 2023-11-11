@@ -82,7 +82,7 @@ function ManageProducts() {
 
   // Handle Update Product
   const handleUpdateProduct = () => {
-    navigate("/admin/manage-products/");
+    // navigate("/admin/manage-products/");
     fetchProducts();
   };
 

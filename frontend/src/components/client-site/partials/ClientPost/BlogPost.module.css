@@ -23,6 +23,8 @@
   gap: 30px;
   align-items: center;
   padding: 10px;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
 }
 
 .post-item-title {

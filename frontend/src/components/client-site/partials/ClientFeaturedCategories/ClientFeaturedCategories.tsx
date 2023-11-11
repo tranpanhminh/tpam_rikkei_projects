@@ -15,7 +15,7 @@ function ClientFeaturedCategories() {
 
         <div className="container text-center">
           <div className="row align-items-start">
-            <div className="col-6 col-sm-12 col-md-6 col-xl-3 px-3 my-2">
+            <div className="col-12 col-sm-12 col-md-6 col-xl-3 px-3 my-2">
               <div className={styles["collection-item"]}>
                 <img
                   src={rabbitImage}
@@ -27,7 +27,7 @@ function ClientFeaturedCategories() {
                 </div>
               </div>
             </div>
-            <div className="col-6 col-sm-12 col-md-6 col-xl-3 px-3 my-2">
+            <div className="col-12 col-sm-12 col-md-6 col-xl-3 px-3 my-2">
               <div className={styles["collection-item"]}>
                 <img
                   src={catImage}
@@ -39,7 +39,7 @@ function ClientFeaturedCategories() {
                 </div>
               </div>
             </div>
-            <div className="col-6 col-sm-12 col-md-6 col-xl-3 px-3 my-2">
+            <div className="col-12 col-sm-12 col-md-6 col-xl-3 px-3 my-2">
               <div className={styles["collection-item"]}>
                 <img
                   src={dogImage}
@@ -51,7 +51,7 @@ function ClientFeaturedCategories() {
                 </div>
               </div>
             </div>
-            <div className="col-6 col-sm-12 col-md-6 col-xl-3 px-3 my-2">
+            <div className="col-12 col-sm-12 col-md-6 col-xl-3 px-3 my-2">
               <div className={styles["collection-item"]}>
                 <img
                   src={parrotImage}

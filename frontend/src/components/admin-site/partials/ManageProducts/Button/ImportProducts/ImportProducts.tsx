@@ -26,14 +26,18 @@ const ImportModalProduct: React.FC<AddModalProps> = ({
 
   const showModal = () => {
     navigate(`/admin/manage-products/?import`);
-    resetFile();
+    if (file) {
+      resetFile();
+    }
     setIsModalOpen(true);
   };
 
   const handleCancel = () => {
     navigate(`/admin/manage-products/`);
-    resetFile();
     setFile("");
+    if (file) {
+      resetFile();
+    }
     setIsModalOpen(false);
   };
 

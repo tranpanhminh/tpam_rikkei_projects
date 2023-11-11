@@ -367,7 +367,6 @@ export class ProductsService {
     });
 
     csvStream.pipe(writableStream);
-
     csvStream.end();
     writableStream.on('finish', async () => {
       const file = path.resolve(process.cwd(), exportPath, fileName);

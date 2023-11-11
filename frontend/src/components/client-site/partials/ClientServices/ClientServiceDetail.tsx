@@ -224,7 +224,7 @@ function ClientServiceDetail() {
                     {(user?.role_id === 1 || user?.role_id === 2) && (
                       <div className={styles["editor-post-bar"]}>
                         <NavLink
-                          to={`/admin/manage-service/?edit-serviceId=${service.id}`}
+                          to={`/admin/manage-services/?edit-serviceId=${service.id}`}
                           target="_blank"
                         >
                           <Badge bg="primary" style={{ fontSize: "16px" }}>

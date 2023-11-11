@@ -1937,6 +1937,10 @@ table.table.table-cart {
     width: 100%;
   }
 
+  .comment-heading {
+    width: 100% !important;
+  }
+
   .group-shop-now-left,
   .group-shop-now-right,
   .text-shop-left,
@@ -2045,6 +2049,13 @@ table.table.table-cart {
     margin-bottom: 25px;
   }
 
+  .product-detail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    padding: 20px;
+  }
+
   .product-detail-page-add-to-cart-btn {
     width: 100%;
   }
@@ -2100,7 +2111,7 @@ table.table.table-cart {
   }
 
   .comment-input {
-    width: 370px;
+    width: 100%;
     margin-top: 40px;
     margin-bottom: 40px;
   }
@@ -2108,7 +2119,7 @@ table.table.table-cart {
   .product-comment-item {
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     border-radius: 20px;
-    width: 350px;
+    width: 100%;
     display: grid;
     grid-template-columns: 0.5fr 3fr;
     gap: 20px;
