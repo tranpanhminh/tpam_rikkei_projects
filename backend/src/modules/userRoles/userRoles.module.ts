@@ -11,6 +11,7 @@ import { UsersService } from '../users/users.service';
 import { JwtModule } from '@nestjs/jwt';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { EmailService } from '../email/email.service';
+import { MyGateway } from '../gateway/gateway';
 const path = process.env.SERVER_PATH;
 const url = `${path}/user-roles`;
 
@@ -29,7 +30,7 @@ const url = `${path}/user-roles`;
     UsersService,
     CloudinaryService,
     EmailService,
-    // MyGateway,
+    MyGateway,
   ],
 })
 export class UserRolesModule {

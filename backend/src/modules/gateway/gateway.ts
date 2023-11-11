@@ -41,4 +41,14 @@ export class MyGateway implements OnModuleInit {
   alertDeleteProductComment() {
     this.server.emit('deleteProductComment'); // Emit to all connected clients
   }
+
+  @SubscribeMessage('importProducts')
+  alertImportProducts() {
+    this.server.emit('importProducts'); // Emit to all connected clients
+  }
+
+  @SubscribeMessage('updateAvatar')
+  alertUpdateAvatar() {
+    this.server.emit('updateAvatar'); // Emit to all connected clients
+  }
 }

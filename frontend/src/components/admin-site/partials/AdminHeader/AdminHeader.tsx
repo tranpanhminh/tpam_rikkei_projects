@@ -1,3 +1,4 @@
+import { io } from "socket.io-client";
 import React, { useEffect, useState, useCallback } from "react";
 import logo from "../../../../assets/images/pet-shop.png";
 import styles from "../../AdminPage.module.css";
@@ -6,6 +7,7 @@ import { message } from "antd";
 import { Badge } from "react-bootstrap";
 import DetailButtonUser from "../ManageUsers/Button/DetailUser/DetailButtonUser";
 import { getDataLogin } from "../../../../api/users.api";
+const socket = io(`${process.env.REACT_APP_BACK_END}`);
 
 // -----------------------------------------------------------
 
@@ -23,6 +25,13 @@ const AdminHeader: React.FC = () => {
 
   useEffect(() => {
     fetchUser();
+
+    socket.on("updateAvatar", () => {
+      handleUpdateUser();
+    });
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   const handleUpdateUser = () => {

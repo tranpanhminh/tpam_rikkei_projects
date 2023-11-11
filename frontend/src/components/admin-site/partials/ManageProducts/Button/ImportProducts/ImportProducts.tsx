@@ -84,7 +84,7 @@ const ImportModalProduct: React.FC<AddModalProps> = ({
       setFile("");
       handleCancel();
       resetFile();
-      await handleClickOk();
+      handleClickOk();
     }
   };
 

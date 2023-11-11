@@ -129,20 +129,12 @@ function ClientProductDetail() {
         editor.setContent("");
       }
       fetchProduct();
-      // return () => {
-      //   socket.disconnect();
-      // };
     }
   };
 
   // Function Delete Comment
   const handleDeleteComment = async (commentId: number) => {
     return await deleteProductComment(commentId);
-    // if (result) {
-    //   return () => {
-    //     socket.disconnect();
-    //   };
-    // }
   };
 
   const editorConfig = {

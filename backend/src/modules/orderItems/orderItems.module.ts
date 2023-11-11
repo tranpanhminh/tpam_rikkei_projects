@@ -13,6 +13,7 @@ import { UsersRepository } from '../users/users.repository';
 import { UsersService } from '../users/users.service';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { EmailService } from '../email/email.service';
+import { MyGateway } from '../gateway/gateway';
 @Module({
   imports: [
     TypeOrmModule.forFeature([
@@ -33,7 +34,7 @@ import { EmailService } from '../email/email.service';
     UsersService,
     CloudinaryService,
     EmailService,
-    // MyGateway,
+    MyGateway,
   ],
   exports: [OrderItemsService, OrderItemsRepository],
 })

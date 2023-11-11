@@ -1,3 +1,4 @@
+import { io } from "socket.io-client";
 import { useEffect, useState } from "react";
 import DetailButtonProduct from "./Button/DetailProduct/DetailButtonProduct";
 import { Button, message } from "antd";
@@ -13,6 +14,7 @@ import {
 } from "../../../../api/products.api";
 import ReactPaginate from "react-paginate";
 import ImportModalProduct from "./Button/ImportProducts/ImportProducts";
+const socket = io(`${process.env.REACT_APP_BACK_END}`);
 
 // ------------------------------------------------
 function ManageProducts() {
@@ -34,6 +36,15 @@ function ManageProducts() {
 
   useEffect(() => {
     fetchProducts();
+
+    socket.on("importProducts", () => {
+      handleUpdateProduct();
+      // fetchProducts();
+    });
+
+    return () => {
+      socket.disconnect();
+    };
   }, []);
   // ------------------------------------------------
 

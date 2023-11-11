@@ -118,20 +118,12 @@ function ClientServiceDetail() {
         editor.setContent("");
       }
       fetchService();
-      // return () => {
-      //   socket.disconnect();
-      // };
     }
   };
 
   // Delete Comment
   const handleDeleteComment = async (commentId: number) => {
     return await deleteServiceComment(commentId);
-    // if (result) {
-    //   return () => {
-    //     socket.disconnect();
-    //   };
-    // }
   };
 
   const editorConfig = {

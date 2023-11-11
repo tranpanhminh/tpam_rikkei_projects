@@ -49,7 +49,7 @@ async function bootstrap() {
       stopAtFirstError: true,
     }),
   );
-  events.EventEmitter.defaultMaxListeners = 15;
+  events.EventEmitter.defaultMaxListeners = Infinity;
   app.useWebSocketAdapter(new IoAdapter(app));
   await app.listen(port);
 }

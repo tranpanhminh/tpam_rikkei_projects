@@ -17,6 +17,7 @@ import { PassportModule } from '@nestjs/passport';
 import { EmailModule } from '../email/email.module';
 import { EmailService } from '../email/email.service';
 import { CheckTokenResetPasswordValid } from 'src/middlewares/checkTokenResetPasswordValid.middleware';
+import { MyGateway } from '../gateway/gateway';
 const path = process.env.SERVER_PATH;
 const url = `${path}/users`;
 
@@ -42,7 +43,7 @@ const url = `${path}/users`;
     JwtService,
     GoogleStrategy,
     EmailService,
-    // MyGateway,
+    MyGateway,
   ],
   exports: [UsersRepository],
 })

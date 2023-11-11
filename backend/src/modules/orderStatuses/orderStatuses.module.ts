@@ -11,6 +11,7 @@ import { UsersRepository } from '../users/users.repository';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { UsersEntity } from '../users/database/entity/users.entity';
 import { EmailService } from '../email/email.service';
+import { MyGateway } from '../gateway/gateway';
 const path = process.env.SERVER_PATH;
 const url = `${path}/order-statuses`;
 
@@ -29,7 +30,7 @@ const url = `${path}/order-statuses`;
     UsersRepository,
     CloudinaryService,
     EmailService,
-    // MyGateway,
+    MyGateway,
   ],
 })
 export class OrderStatusesModule {

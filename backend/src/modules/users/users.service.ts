@@ -25,7 +25,7 @@ import * as generator from 'generate-password';
 import { EmailService } from '../email/email.service';
 import { ResetPasswordDTO } from './dto/resetPassword.dto';
 import * as jwt from 'jsonwebtoken';
-// const jwt = require('jsonwebtoken');
+import { MyGateway } from '../gateway/gateway';
 
 const FRONTEND_PATH = process.env.FRONTEND_PATH;
 
@@ -36,6 +36,7 @@ export class UsersService {
     private readonly usersRepository: UsersRepository,
     private readonly cloudinaryService: CloudinaryService,
     private readonly emailService: EmailService,
+    private readonly myGateway: MyGateway,
   ) {}
 
   // 1. Get All
@@ -212,6 +213,7 @@ export class UsersService {
         image_avatar: image_url,
       };
       await this.usersRepository.editAvatar(id, updateAvatar);
+      this.myGateway.alertUpdateAvatar();
       return new HttpException('User Avatar Updated', HttpStatus.OK);
     }
   }

@@ -3,7 +3,6 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
-  StreamableFile,
 } from '@nestjs/common';
 import { ProductsRepository } from './products.repository';
 import { ProductsEntity } from './database/entity/products.entity';
@@ -26,7 +25,7 @@ import * as fs from 'fs';
 import * as fastcsv from 'fast-csv';
 import * as path from 'path'; // Thêm dòng này
 import { ExportProductsInterface } from './interface/exportProducts.interface';
-import { join } from 'path';
+import { MyGateway } from '../gateway/gateway';
 const cloudinary = require('cloudinary').v2;
 
 @Injectable()
@@ -36,6 +35,7 @@ export class ProductsService {
     private readonly cloudinaryService: CloudinaryService,
     private readonly csvParser: CsvParser,
     private readonly productImagesRepository: ProductImagesRepository,
+    private readonly myGateway: MyGateway,
   ) {}
 
   // 1. Get All
@@ -235,11 +235,11 @@ export class ProductsService {
           }
         }
       });
-
       parser.on('error', (error) => {
         reject(error);
       });
     });
+    this.myGateway.alertImportProducts();
     return new HttpException('Products Imported Successfully', HttpStatus.OK);
   }
 

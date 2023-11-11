@@ -1,14 +1,14 @@
+import { io } from "socket.io-client";
 import React, { useEffect, useMemo, useState } from "react";
 import logo from "../../../../assets/images/pet-shop.png";
 import { NavLink, useNavigate } from "react-router-dom";
-
 import { Badge } from "react-bootstrap";
 import { message } from "antd";
-
 // Import CSS Admin Page
 import styles from "./UserProfile.module.css";
 import "../../../../assets/bootstrap-5.3.0-dist/css/bootstrap.min.css";
 import { getDataLogin } from "../../../../api/users.api";
+const socket = io(`${process.env.REACT_APP_BACK_END}`);
 
 // -------------------------------------------------
 
@@ -22,6 +22,14 @@ const UserHeader: React.FC = () => {
 
   useEffect(() => {
     fetchUser();
+
+    socket.on("updateAvatar", () => {
+      fetchUser();
+    });
+
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   const navLinkStyle = ({ isActive }: { isActive: boolean }) => ({
