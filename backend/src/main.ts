@@ -45,7 +45,6 @@ async function bootstrap() {
           statusCode: 400,
         });
       },
-
       stopAtFirstError: true,
     }),
   );

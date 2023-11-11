@@ -89,17 +89,20 @@ function ClientProductDetail() {
     fetchProductComments();
 
     socket.on("newProductComment", () => {
+      fetchProduct();
+      fetchUser();
       fetchProductComments();
     });
 
     socket.on("deleteProductComment", () => {
+      fetchProduct();
+      fetchUser();
       fetchProductComments();
     });
-
     return () => {
-      socket.disconnect();
+      socket.off();
     };
-  }, []);
+  }, [socket]);
 
   document.title = `${product ? `${product?.name} | PetShop` : "Loading..."}`;
 
@@ -129,12 +132,18 @@ function ClientProductDetail() {
         editor.setContent("");
       }
       fetchProduct();
+      fetchProductComments();
+      socket.emit("newProductComment");
     }
   };
 
   // Function Delete Comment
   const handleDeleteComment = async (commentId: number) => {
-    return await deleteProductComment(commentId);
+    const result = await deleteProductComment(commentId);
+    if (result) {
+      fetchProductComments();
+      socket.emit("deleteProductComment");
+    }
   };
 
   const editorConfig = {

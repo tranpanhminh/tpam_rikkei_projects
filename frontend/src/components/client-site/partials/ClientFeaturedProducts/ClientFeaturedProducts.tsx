@@ -58,7 +58,7 @@ function ClientFeaturedProducts() {
                         />
                       </NavLink>
                       <div className={styles["card-body"]}>
-                        <NavLink to={`/products/${product.product_id}`}>
+                        <NavLink to={`/products/${product.id}`}>
                           <h5 className={styles["product-title-name"]}>
                             {product && product.name}
                           </h5>

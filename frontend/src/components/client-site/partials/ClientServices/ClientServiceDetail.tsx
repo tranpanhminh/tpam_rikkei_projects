@@ -76,16 +76,20 @@ function ClientServiceDetail() {
     fetchServiceComments();
 
     socket.on("newServiceComment", () => {
+      fetchService();
+      fetchUsers();
       fetchServiceComments();
     });
     socket.on("deleteServiceComment", () => {
+      fetchService();
+      fetchUsers();
       fetchServiceComments();
     });
-
     return () => {
-      socket.disconnect();
+      socket.off();
     };
-  }, []);
+  }, [socket]);
+
   // -----------------------------------------------------
 
   document.title = `${service ? `${service?.name} | PetShop` : "Loading..."}`;
@@ -118,12 +122,18 @@ function ClientServiceDetail() {
         editor.setContent("");
       }
       fetchService();
+      fetchServiceComments();
+      socket.emit("newServiceComment");
     }
   };
 
   // Delete Comment
   const handleDeleteComment = async (commentId: number) => {
-    return await deleteServiceComment(commentId);
+    const result = await deleteServiceComment(commentId);
+    if (result) {
+      fetchServiceComments();
+      socket.emit("deleteServiceComment");
+    }
   };
 
   const editorConfig = {

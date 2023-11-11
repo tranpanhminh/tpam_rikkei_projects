@@ -19,36 +19,36 @@ export class MyGateway implements OnModuleInit {
 
   @SubscribeMessage('newOrder')
   alertNewOrder(text: string) {
-    this.server.emit('newOrder', text); // Emit to all connected clients
+    this.server.emit('newOrder', text);
   }
 
   @SubscribeMessage('newServiceComment')
   alertNewServiceComment() {
-    this.server.emit('newServiceComment'); // Emit to all connected clients
+    this.server.emit('newServiceComment');
   }
 
   @SubscribeMessage('deleteServiceComment')
   alertDeleteServiceComment() {
-    this.server.emit('deleteServiceComment'); // Emit to all connected clients
+    this.server.emit('deleteServiceComment');
   }
 
   @SubscribeMessage('newProductComment')
   alertNewProductComment() {
-    this.server.emit('newProductComment'); // Emit to all connected clients
+    this.server.emit('newProductComment');
   }
 
   @SubscribeMessage('deleteProductComment')
   alertDeleteProductComment() {
-    this.server.emit('deleteProductComment'); // Emit to all connected clients
+    this.server.emit('deleteProductComment');
   }
 
   @SubscribeMessage('importProducts')
   alertImportProducts() {
-    this.server.emit('importProducts'); // Emit to all connected clients
+    this.server.emit('importProducts');
   }
 
   @SubscribeMessage('updateAvatar')
   alertUpdateAvatar() {
-    this.server.emit('updateAvatar'); // Emit to all connected clients
+    this.server.emit('updateAvatar');
   }
 }

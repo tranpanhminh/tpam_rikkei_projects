@@ -161,7 +161,6 @@ export class PaypalService {
       await this.cartsRepository.deleteAllProductsFromUserCart(
         newOrder.user_id,
       );
-
       this.myGateway.alertNewOrder(`New Order: #OrderID ${orderId}`);
       return res.redirect(`${FRONTEND_PATH}/user/my-orders`);
     } catch (error) {

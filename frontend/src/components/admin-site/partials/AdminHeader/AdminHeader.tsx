@@ -7,11 +7,11 @@ import { message } from "antd";
 import { Badge } from "react-bootstrap";
 import DetailButtonUser from "../ManageUsers/Button/DetailUser/DetailButtonUser";
 import { getDataLogin } from "../../../../api/users.api";
-const socket = io(`${process.env.REACT_APP_BACK_END}`);
 
 // -----------------------------------------------------------
 
 const AdminHeader: React.FC = () => {
+  const socket = io(`${process.env.REACT_APP_BACK_END}`);
   // States
   const navigate = useNavigate();
   const [user, setUser] = useState<any>(null);
@@ -25,14 +25,13 @@ const AdminHeader: React.FC = () => {
 
   useEffect(() => {
     fetchUser();
-
     socket.on("updateAvatar", () => {
-      handleUpdateUser();
+      fetchUser();
     });
     return () => {
-      socket.disconnect();
+      socket.off();
     };
-  }, []);
+  }, [socket]);
 
   const handleUpdateUser = () => {
     fetchUser();
