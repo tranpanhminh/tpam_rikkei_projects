@@ -50,25 +50,25 @@ export function RoleNavigation() {
 }
 
 function App() {
-  const [user, setUser] = useState<any>(null);
-  const fetchUser = async () => {
-    const result = await getDataLogin();
-    return setUser(result);
-  };
+  // const [user, setUser] = useState<any>(null);
+  // const fetchUser = async () => {
+  //   const result = await getDataLogin();
+  //   return setUser(result);
+  // };
 
-  useEffect(() => {
-    fetchUser();
-  }, []);
+  // useEffect(() => {
+  //   fetchUser();
+  // }, []);
 
-  if (user?.role_id === 1 || user?.role_id === 2) {
-    socket.on("newOrder", (order) => {
-      notification.success({
-        message: `New Order ${order}`,
-        duration: 2,
-      });
-    });
-    socket.disconnect();
-  }
+  // if (user?.role_id === 1 || user?.role_id === 2) {
+  //   socket.on("newOrder", (order) => {
+  //     notification.success({
+  //       message: `New Order ${order}`,
+  //       duration: 2,
+  //     });
+  //   });
+  //   socket.disconnect();
+  // }
 
   return (
     <>
@@ -148,6 +148,7 @@ function App() {
           {/* Route của Page 404 */}
           <Route path="*" element={<Page404 />}></Route>
           <Route path="access-denied" element={<AccessDenied />}></Route>
+          <Route path="404" element={<Page404 />}></Route>
 
           {/* Kiểm tra User đã Login chưa */}
           <Route element={<IsLogin />}>

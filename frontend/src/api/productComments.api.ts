@@ -54,7 +54,15 @@ export const addProductComment = async (
   const result = await BaseAxios.post(
     `${productCommentsAPI}/add/${productId}/users/${userId}`,
     data
-  );
+  )
+    .then((response) => {
+      notification.success({ message: response.data.message });
+      return true;
+    })
+    .catch((error) => {
+      notification.warning({ message: error.response.data.message });
+      return false;
+    });
   return result;
 };
 

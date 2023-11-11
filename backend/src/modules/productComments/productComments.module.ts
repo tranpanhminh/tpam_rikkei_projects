@@ -18,7 +18,7 @@ import { CheckProductExist } from 'src/middlewares/checkProductExist.middleware'
 import { UsersService } from '../users/users.service';
 import { JwtModule } from '@nestjs/jwt';
 import { EmailService } from '../email/email.service';
-import { MyGateway } from '../gateway/gateway';
+// import { MyGateway } from '../gateway/gateway';
 const path = process.env.SERVER_PATH;
 const url = `${path}/comments/products`;
 
@@ -44,7 +44,7 @@ const url = `${path}/comments/products`;
     UsersRepository,
     UsersService,
     EmailService,
-    MyGateway,
+    // MyGateway,
   ],
 })
 export class ProductCommentsModule {

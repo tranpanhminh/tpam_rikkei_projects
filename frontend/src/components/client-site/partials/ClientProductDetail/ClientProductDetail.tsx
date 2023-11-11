@@ -79,8 +79,6 @@ function ClientProductDetail() {
 
   const fetchProductComments = async () => {
     const result = await getAllCommentsByProduct(productId);
-    // Kết nối đến socket khi component được mount
-
     return setProductComments(result);
   };
 
@@ -89,13 +87,13 @@ function ClientProductDetail() {
     fetchUser();
     fetchProductComments();
 
-    socket.on("newComment", () => {
-      // Cập nhật danh sách comment khi có comment mới
-      fetchProductComments();
-    });
-    // Ngắt kết nối socket khi component bị unmount
-    socket.disconnect();
-  }, [productComments]);
+    // socket.on("newComment", () => {
+    //   // Cập nhật danh sách comment khi có comment mới
+    //   fetchProductComments();
+    // });
+    // // Ngắt kết nối socket khi component bị unmount
+    // socket.disconnect();
+  }, []);
 
   document.title = `${products ? `${products?.name} | PetShop` : "Loading..."}`;
 
@@ -113,24 +111,20 @@ function ClientProductDetail() {
 
   // Add Comment
   const handleComment = async () => {
-    return await addProductComment(productId, user.id, userComment)
-      .then((response) => {
-        notification.success({ message: response.data.message });
-        setUserComment({
-          comment: "",
-          rating: 5,
-        });
-        const editor = tinymce.get("editorID");
-        if (editor) {
-          // Đặt nội dung của trình soạn thảo về trạng thái trống
-          editor.setContent("");
-        }
-        fetchProducts();
-        fetchProductComments();
-      })
-      .catch((error) => {
-        notification.warning({ message: error.response.data.message });
+    const result = await addProductComment(productId, user.id, userComment);
+    if (result) {
+      setUserComment({
+        comment: "",
+        rating: 5,
       });
+      const editor = tinymce.get("editorID");
+      if (editor) {
+        // Đặt nội dung của trình soạn thảo về trạng thái trống
+        editor.setContent("");
+      }
+      fetchProducts();
+      fetchProductComments();
+    }
   };
 
   const editorConfig = {
@@ -347,90 +341,99 @@ function ClientProductDetail() {
                 )}
               </div>
             </div>
-            <div
-              className={`${styles["main-content-comment"]} ${styles["comment-scrollable"]}`}
-            >
-              {currentItems &&
-                currentItems?.map((item: any) => {
-                  return (
-                    <section className={styles["product-comment-item"]}>
-                      <div className={styles["user-comment-info"]}>
-                        <img
-                          src={item.users?.image_avatar}
-                          alt=""
-                          className={styles["user-avatar"]}
-                        />
+            {currentItems.length !== 0 ? (
+              <div
+                className={`${styles["main-content-comment"]} ${styles["comment-scrollable"]}`}
+              >
+                {currentItems &&
+                  currentItems?.map((item: any) => {
+                    return (
+                      <section className={styles["product-comment-item"]}>
+                        <div className={styles["user-comment-info"]}>
+                          <img
+                            src={item.users?.image_avatar}
+                            alt=""
+                            className={styles["user-avatar"]}
+                          />
 
-                        <span>{item.users?.full_name.split(" ")[0]}</span>
-                        {item?.users.role_id === 1 ||
-                        item?.users.role_id === 2 ? (
-                          <Badge bg="success">Admin</Badge>
-                        ) : item.order_history?.length !== 0 ? (
-                          <Badge bg="warning" text="dark">
-                            Customer
-                          </Badge>
-                        ) : (
-                          ""
-                        )}
-
-                        {item?.users.role_id !== 1 &&
-                          item?.users.role_id !== 2 && (
-                            <span className={styles["rating-section"]}>
-                              {item.rating}
-                              <i className="fa-solid fa-star"></i>
-                            </span>
-                          )}
-                      </div>
-                      <div>
-                        <div className={styles["comment-content-headline"]}>
-                          <div
-                            className={styles["comment-content-headline-item"]}
-                          >
-                            <Badge bg="primary">
-                              {moment(item.created_at).format(
-                                "YYYY-MM-DD-hh:mm:ss"
-                              )}
+                          <span>{item.users?.full_name.split(" ")[0]}</span>
+                          {item?.users.role_id === 1 ||
+                          item?.users.role_id === 2 ? (
+                            <Badge bg="success">Admin</Badge>
+                          ) : item.order_history?.length !== 0 ? (
+                            <Badge bg="warning" text="dark">
+                              Customer
                             </Badge>
-                          </div>
+                          ) : (
+                            ""
+                          )}
 
-                          <i
-                            onClick={() => handleDeleteComment(item?.id)}
-                            className={`fa-solid fa-trash-can ${styles["trash-comment-icon"]}`}
-                            style={{
-                              display:
-                                checkShowDeleteCommentBtn() === true
-                                  ? "inline-block"
-                                  : "none",
-                            }}
-                          ></i>
+                          {item?.users.role_id !== 1 &&
+                            item?.users.role_id !== 2 && (
+                              <span className={styles["rating-section"]}>
+                                {item.rating}
+                                <i className="fa-solid fa-star"></i>
+                              </span>
+                            )}
                         </div>
-                        <div
-                          className={`${styles["comment-content"]} ${styles["comment-scrollable"]}`}
-                        >
-                          {React.createElement("div", {
-                            dangerouslySetInnerHTML: { __html: item?.comment },
-                          })}
+                        <div>
+                          <div className={styles["comment-content-headline"]}>
+                            <div
+                              className={
+                                styles["comment-content-headline-item"]
+                              }
+                            >
+                              <Badge bg="primary">
+                                {moment(item.created_at).format(
+                                  "YYYY-MM-DD-hh:mm:ss"
+                                )}
+                              </Badge>
+                            </div>
+
+                            <i
+                              onClick={() => handleDeleteComment(item?.id)}
+                              className={`fa-solid fa-trash-can ${styles["trash-comment-icon"]}`}
+                              style={{
+                                display:
+                                  checkShowDeleteCommentBtn() === true
+                                    ? "inline-block"
+                                    : "none",
+                              }}
+                            ></i>
+                          </div>
+                          <div
+                            className={`${styles["comment-content"]} ${styles["comment-scrollable"]}`}
+                          >
+                            {React.createElement("div", {
+                              dangerouslySetInnerHTML: {
+                                __html: item?.comment,
+                              },
+                            })}
+                          </div>
                         </div>
-                      </div>
-                    </section>
-                  );
-                })}
-              <div className={styles["pagination-form"]}>
-                <ReactPaginate
-                  nextLabel="next >"
-                  previousLabel="< previous"
-                  renderOnZeroPageCount={null}
-                  pageRangeDisplayed={13}
-                  pageCount={pageCount}
-                  onPageChange={handlePageClick}
-                  containerClassName="pagination"
-                  pageLinkClassName="page-number"
-                  previousLinkClassName="page-number"
-                  nextLinkClassName="page-number"
-                  activeLinkClassName={styles["active"]}
-                />
+                      </section>
+                    );
+                  })}
+                <div className={styles["pagination-form"]}>
+                  <ReactPaginate
+                    nextLabel="next >"
+                    previousLabel="< previous"
+                    renderOnZeroPageCount={null}
+                    pageRangeDisplayed={13}
+                    pageCount={pageCount}
+                    onPageChange={handlePageClick}
+                    containerClassName="pagination"
+                    pageLinkClassName="page-number"
+                    previousLinkClassName="page-number"
+                    nextLinkClassName="page-number"
+                    activeLinkClassName={styles["active"]}
+                  />
+                </div>
               </div>
-            </div>
+            ) : (
+              ""
+            )}
+
             {/* <div
               className="fb-comments"
               data-href="http://petshop.localhost.com/"

@@ -32,40 +32,39 @@ export class ProductsRepository {
 
     const query = `
     SELECT
-    products.id,
-    products.name,
-    products.description,
-    products.price,
-    products.quantity_stock,
-    products.thumbnail_url,
-    products.vendor_id,
-    products.post_type_id,
-    products.created_at,
-    products.updated_at,
-    (
-      SELECT JSON_OBJECT("id", post_types.id, "name", post_types.name)
-      FROM post_types
-      WHERE post_types.id = products.post_type_id
-    ) AS post_types,
-    (
-      SELECT JSON_OBJECT("id", vendors.id, "name", vendors.name)
-      FROM vendors
-      WHERE vendors.id = products.vendor_id
-    ) AS vendors,
-    (
-      SELECT JSON_ARRAYAGG(
-        JSON_OBJECT("id", product_images.id, "image_url", product_images.image_url)
-      )
-      FROM product_images
-      WHERE product_images.product_id = products.id
-    ) AS product_images,
-    COALESCE(ROUND(AVG(COALESCE(product_comments.rating, 0)), 1), 0) AS "avg_rating",
-    COUNT(CASE WHEN product_comments.rating IS NOT NULL THEN 1 ELSE NULL END) AS "total_reviews"
-  FROM products
-  LEFT JOIN product_comments ON product_comments.post_id = products.id
-  LEFT JOIN users ON product_comments.user_id = users.id
-  WHERE COALESCE(users.role_id, 0) NOT IN (1, 2)
-  GROUP BY products.id, products.name
+      products.id,
+      products.name,
+      products.description,
+      products.price,
+      products.quantity_stock,
+      products.thumbnail_url,
+      products.vendor_id,
+      products.post_type_id,
+      products.created_at,
+      products.updated_at,
+      (
+        SELECT JSON_OBJECT("id", post_types.id, "name", post_types.name)
+        FROM post_types
+        WHERE post_types.id = products.post_type_id
+      ) AS post_types,
+      (
+        SELECT JSON_OBJECT("id", vendors.id, "name", vendors.name)
+        FROM vendors
+        WHERE vendors.id = products.vendor_id
+      ) AS vendors,
+      (
+        SELECT JSON_ARRAYAGG(
+          JSON_OBJECT("id", product_images.id, "image_url", product_images.image_url)
+        )
+        FROM product_images
+        WHERE product_images.product_id = products.id
+      ) AS product_images,
+      COALESCE(ROUND(AVG(COALESCE(product_comments.rating, 0)), 1), 0) AS "avg_rating",
+      COUNT(CASE WHEN product_comments.rating IS NOT NULL THEN 1 ELSE NULL END) AS "total_reviews"
+    FROM products
+    LEFT JOIN product_comments ON product_comments.post_id = products.id
+    LEFT JOIN users ON product_comments.user_id = users.id AND COALESCE(users.role_id, 0) NOT IN (1, 2)
+    GROUP BY products.id, products.name
   `;
     return await this.productsEntity.query(query);
   }
@@ -82,41 +81,41 @@ export class ProductsRepository {
     //   },
     // });
     const query = `
-  SELECT
-    products.id,
-    products.name,
-    products.description,
-    products.price,
-    products.quantity_stock,
-    products.thumbnail_url,
-    products.vendor_id,
-    products.post_type_id,
-    products.created_at,
-    products.updated_at,
-    (
-      SELECT JSON_OBJECT("id", post_types.id, "name", post_types.name)
-      FROM post_types
-      WHERE post_types.id = products.post_type_id
-    ) AS post_types,
-    (
-      SELECT JSON_OBJECT("id", vendors.id, "name", vendors.name)
-      FROM vendors
-      WHERE vendors.id = products.vendor_id
-    ) AS vendors,
-    (
-      SELECT JSON_ARRAYAGG(
-        JSON_OBJECT("id", product_images.id, "image_url", product_images.image_url)
-      )
-      FROM product_images
-      WHERE product_images.product_id = products.id
-    ) AS product_images,
-    COALESCE(ROUND(AVG(COALESCE(product_comments.rating, 0)), 1), 0) AS "avg_rating",
-    COUNT(CASE WHEN product_comments.rating IS NOT NULL THEN 1 ELSE NULL END) AS "total_reviews"
-  FROM products
-  LEFT JOIN product_comments ON product_comments.post_id = products.id
-  LEFT JOIN users ON product_comments.user_id = users.id
-  WHERE COALESCE(users.role_id, 0) NOT IN (1, 2) AND products.id = ${id}
-  GROUP BY products.id, products.name
+    SELECT
+      products.id,
+      products.name,
+      products.description,
+      products.price,
+      products.quantity_stock,
+      products.thumbnail_url,
+      products.vendor_id,
+      products.post_type_id,
+      products.created_at,
+      products.updated_at,
+      (
+        SELECT JSON_OBJECT("id", post_types.id, "name", post_types.name)
+        FROM post_types
+        WHERE post_types.id = products.post_type_id
+      ) AS post_types,
+      (
+        SELECT JSON_OBJECT("id", vendors.id, "name", vendors.name)
+        FROM vendors
+        WHERE vendors.id = products.vendor_id
+      ) AS vendors,
+      (
+        SELECT JSON_ARRAYAGG(
+          JSON_OBJECT("id", product_images.id, "image_url", product_images.image_url)
+        )
+        FROM product_images
+        WHERE product_images.product_id = products.id
+      ) AS product_images,
+      COALESCE(ROUND(AVG(COALESCE(product_comments.rating, 0)), 1), 0) AS "avg_rating",
+      COUNT(CASE WHEN product_comments.rating IS NOT NULL THEN 1 ELSE NULL END) AS "total_reviews"
+    FROM products
+    LEFT JOIN product_comments ON product_comments.post_id = products.id
+    LEFT JOIN users ON product_comments.user_id = users.id AND COALESCE(users.role_id, 0) NOT IN (1, 2)
+    WHERE products.id = ${id}
+    GROUP BY products.id, products.name
   `;
     const result = await this.productsEntity.query(query);
     if (result.length > 0) {

@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
 import { IoAdapter } from '@nestjs/platform-socket.io';
+import events from 'events';
 // import passport from 'passport';
 // import { useContainer } from 'typeorm';
 // import * as session from 'express-session';
@@ -40,7 +41,6 @@ async function bootstrap() {
       //   total.push(errorMessages);
       //   return new BadRequestException(total);
       // },
-
       exceptionFactory: (errors) => {
         const firstError = errors[0];
         const propertyName = Object.keys(firstError.constraints)[0];
@@ -63,9 +63,10 @@ async function bootstrap() {
   //     saveUninitialized: false,
   //   }),
   // );
+  // events.EventEmitter.defaultMaxListeners = 15;
   // events.setMaxListeners(Infinity); // Thêm dòng này để fix lỗi Possible EventEmitter memory leak detected
   // Thiết lập CORS cho Socket.IO
-  app.useWebSocketAdapter(new IoAdapter(app));
+  // app.useWebSocketAdapter(new IoAdapter(app));
   await app.listen(port);
 }
 bootstrap();
