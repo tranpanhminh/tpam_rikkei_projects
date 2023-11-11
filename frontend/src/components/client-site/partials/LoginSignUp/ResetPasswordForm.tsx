@@ -89,11 +89,6 @@ function ResetPasswordForm() {
           >
             Request Reset Password
           </button>
-          {/* <img
-            src="https://i.ibb.co/tq4Kkgg/loading.gif"
-            alt=""
-            style={{ display: loading ? "inline-block" : "none" }}
-          /> */}
           <span
             style={{
               display: show ? "inline-block" : "none",

@@ -58,7 +58,7 @@ function LoginForm() {
         <img
           onClick={handleLoginGoogle}
           className={styles["login-with-gmail-icon"]}
-          src="https://i.ibb.co/Fn5TJW6/google-signin-button.png"
+          src="https://lh3.googleusercontent.com/pw/ADCreHegvVqjrlu6-MwIabR-C80Sia1Zolx0arEaPN8scwh2dI4zLaZpJ_t-krhto9nfJ5Fb9a_FcxacX9TFSaBMhJghcPSDNK_jH94yqX5nqfXnDYYUyaf99saH-6iYuOhat_wmiCwzGzmWng-CIU0R8GI2aY97TtmjoMkXjOI9rLax7O5ri6bODXez2QKT3CWEHHRg_OdflaOzco8vjmYq2JiLBnMd7nVDo7X_5zBkB7xSav7HCnwYD2uIQWgSW8lcMgWw1RkR9vjy2qeQdBP6mT0cAL527yar3PrHHbGJ9brblaMbZU3mjneWV5rB5SHsCW3QPNlEnRTgTFr0FGkoBMeYRc-xcjJqLXRmhoQVS7HR7XPBejMI_PmsRzYvyhqpAg9nWjo3AGVj5IG-hJGL1e9nLlt-F6aGopbhRszlvD1_n1JlTXnPMf5kpCbJtkX7XSiQUhePeIk3Q8Bk6wIPVvB9Uc9a4TWHrEmwpFvgAKAYq9ea9Qv6_us5VpsXwOw1ybdb7Tk6wA9HIQabIqYFn7WF_DCGZYWSf8-huTVHNYBWbmYSfCDS5E1CQwl6QiW44VqaCHIZYDj-rKD0OBiTgRSi1g9wR5EFcSKzS6_Pj8F9EQG_O7y0Hi-xrKVZRrHk39XjqKQjCRtU8K888ZQ6WfWOgMDjp-Wr6_o2XMRDaYBeV1ifCnyDQCNx5nokcDqFCd1NNmMg9xBdzW50YvtD50esM_Vv5he6nR6PSUw0-Fey6J7oI4KIbdlWVUMWoI8S81JNLtn_s7iQjTFVWyAN_wbS7CXtM-nroSI3598FJg2qe_QTLO0tsDnxhqofMUQ-PpRrLSUbWBzgg-t0_Uokn7dTyJJDLTRqTiQLVrQlKloVEV2eVKok0gFVb5jVw4j4_IJXYIGbenYrmBHDRjvCZoJPdQ=w1112-h282-s-no-gm?authuser=0"
           alt=""
         />
         <p className={styles["signup-sentence"]}>

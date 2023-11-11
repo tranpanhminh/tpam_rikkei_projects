@@ -36,6 +36,8 @@ import { EmailService } from './modules/email/email.service';
 import { CsvModule } from 'nest-csv-parser';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { MyGateway } from './modules/gateway/gateway';
+import { MyGatewayModule } from './modules/gateway/gateway.module';
 
 @Module({
   imports: [
@@ -71,7 +73,7 @@ import { join } from 'path';
     PagesModule,
     EmailModule,
     CsvModule,
-    // GatewayModule,
+    MyGatewayModule,
   ],
   controllers: [PaypalController],
   providers: [
@@ -80,7 +82,7 @@ import { join } from 'path';
     JwtService,
     GoogleStrategy,
     EmailService,
-    // MyGateway,
+    MyGateway,
   ],
 })
 export class AppModule {

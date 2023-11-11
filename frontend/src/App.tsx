@@ -1,13 +1,5 @@
-import React, { useEffect } from "react";
 // Import AdminPage
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  useNavigate,
-  useLocation,
-  Router,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ClientCartPage from "./components/client-site/layouts/ClientCartPage";
 import ClientHomePage from "./components/client-site/layouts/ClientHomePage";
 import ClientLoginPage from "./components/client-site/layouts/ClientLoginPage";
@@ -18,7 +10,6 @@ import Page404 from "../src/components/common/NotFoundPage/404";
 import ClientBlogCategory from "./components/client-site/layouts/ClientBlogCategory";
 import BlogPost from "./components/client-site/partials/ClientPost/BlogPost/BlogPost";
 import ScrollToTop from "./components/common/ScrollToTop/ScrollToTop";
-import { notification } from "antd";
 import ClientSpecialPage from "./components/client-site/layouts/ClientSpecialPage";
 import AdminMainPage from "./components/admin-site/layouts/AdminMainPage";
 import ManageUsers from "./components/admin-site/partials/ManageUsers/ManageUsers";
@@ -48,12 +39,37 @@ import IsAdmin from "./components/common/Validate/IsAdmin";
 import IsCustomer from "./components/common/Validate/IsCustomer";
 import ManageVendors from "./components/admin-site/partials/ManageVendors/ManageVendors";
 import ResetPasswordForm from "./components/client-site/partials/LoginSignUp/ResetPasswordForm";
+import { useEffect, useState } from "react";
+import { io } from "socket.io-client";
+import { notification } from "antd";
+import { getDataLogin } from "./api/users.api";
+const socket = io("http://localhost:7373/");
 
 export function RoleNavigation() {
   return null; // Return null or an empty component
 }
 
 function App() {
+  const [user, setUser] = useState<any>(null);
+  const [socketConnected, setSocketConnected] = useState(false);
+
+  const fetchUser = async () => {
+    const result = await getDataLogin();
+    return setUser(result);
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+  // if (user?.role_id === 1 || user?.role_id === 2) {
+  //   socket.on("newOrder", (order) => {
+  //     notification.success({
+  //       message: `New Order ${order}`,
+  //     });
+  //   });
+  //   socket.disconnect();
+  // }
+
   return (
     <>
       {/* <ClientPage /> */}
@@ -68,23 +84,23 @@ function App() {
 
           {/* Route của Admin */}
           <Route element={<IsAdmin />}>
-          <Route path="/admin" element={<AdminMainPage />}>
-            <Route index element={<ManageUsers />} />
-            <Route path="manage-users" element={<ManageUsers />} />
-            <Route path="manage-products" element={<ManageProducts />} />
-            <Route path="manage-orders" element={<ManageOrders />} />
-            <Route path="manage-services" element={<ManageServices />} />
-            <Route path="manage-booking" element={<ManageBooking />} />
-            <Route path="manage-vendors" element={<ManageVendors />} />
-            {/* <Route
+            <Route path="/admin" element={<AdminMainPage />}>
+              <Route index element={<ManageUsers />} />
+              <Route path="manage-users" element={<ManageUsers />} />
+              <Route path="manage-products" element={<ManageProducts />} />
+              <Route path="manage-orders" element={<ManageOrders />} />
+              <Route path="manage-services" element={<ManageServices />} />
+              <Route path="manage-booking" element={<ManageBooking />} />
+              <Route path="manage-vendors" element={<ManageVendors />} />
+              {/* <Route
                 path="manage-subscribers"
                 element={<ManageSubscribers />}
               /> */}
-            <Route path="manage-coupons" element={<ManageCoupons />} />
-            <Route path="manage-posts" element={<ManagePosts />} />
-            <Route path="manage-comments" element={<ManageComments />} />
-            <Route path="report" element={<Report />} />
-          </Route>
+              <Route path="manage-coupons" element={<ManageCoupons />} />
+              <Route path="manage-posts" element={<ManagePosts />} />
+              <Route path="manage-comments" element={<ManageComments />} />
+              <Route path="report" element={<Report />} />
+            </Route>
           </Route>
 
           {/* Route của User */}

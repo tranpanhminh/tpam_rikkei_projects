@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-
+import { MyGateway } from '../gateway/gateway';
 import * as paypal from 'paypal-rest-sdk';
 import { OrderItemsRepository } from '../orderItems/orderItems.repository';
 import { OrdersRepository } from '../orders/orders.repository';
@@ -22,6 +22,7 @@ export class PaypalService {
     private readonly productsRepository: ProductsRepository,
     private readonly usersRepository: UsersRepository,
     private readonly emailService: EmailService,
+    private readonly myGateway: MyGateway,
   ) {}
   // 1. Create Order
   async createOrder(paymentData, req, res): Promise<any> {
@@ -134,7 +135,7 @@ export class PaypalService {
           const htmlContent = `<h3>A customer successully ordered:
           <a href="${FRONTEND_PATH}/admin/manage-orders/?orderID=${orderId}">See Detail</a>
           </h3>
-      <img src="https://i.ibb.co/M1gwXzB/Email-Messages-for-Order-Confirmation-Page-v3.webp" alt="" />
+      <img src="https://lh3.googleusercontent.com/pw/ADCreHfOM5-sYSYXMcd_-QEE8B4_sNcQJKg7PER8pGe3mnN9PT7kLtuhzWBa37CaB-LtEs0iBY7jkYELgYiotyndEAC0fCWccfgX9bljSvDgn_q4geF6yhF9Xsz_RbSjgC-edGoQRkUgp2fbECXYBd8BSwQECuR828HYnJDD9JewE2Bn27Pdxj8w3y7vJ0qwkvYF15GJCBQKwaIdxVewYjCDsFp5pCIe_yohbN6GjGCKE6g3CyKkhWCI8A4GWHp_2NhzQHxDN9drobgqSruLU-qygMTykvPSBz_od1vWKE8uHTsnuJc5qSeyMvAvBvGJzHzyNBsu_i_5Kj53Xz2ITbFg5IhWPY8lBuNpqcBT8O1HmDcmGnOBkBVajnDtOIgcYNpBMv6J53DjMXsNvQIavp5DANCJJvSWXbQQLX9xfWr9jLOxY_9ULIRgHl4-jqfmIsYPRZZwlgKYJ-jX_WZ2aKrYs9zkl-QVdveR7VcAZ8L80TfV-JPFC-C1xBRrhZ-AotHVB-ty3ScSNPC_HNkKLxB_eMd9SbOpur5ojwNpTuZgDgZX8WROjKmc-xq9J674sNVLw_WaJnsmuFMC5u2_Cb7ZHtAwggkcO0YYq2C29TrIAFUZg547JJxyqjS0UVXFyEimAT1NqeQB0EDf7DOXHsxBjAm2UqewBzwfProrHcHSlJOJzMGzq7PYbE65Y7r7udmLrjhiR1ev959y9_9TgWHgtFLDJgzqW3WgKD_o1e6JIssSFWdBgr6UIDT9H7R5hfN4gjxUBXPIuItd5wZoqiVySBMYUmxChW6b89k8M_6DIjQs17fiRgZ9bRIvEEwNn2Eq8egSgADwdLHkKyL7DGKfxqF0py1fiSzWDOmiH67wEFbh8P8KQbtEpibyLfo_PF6apVQl-0x5MClIruu3QP1B10RqDw=w1200-h630-s-no-gm?authuser=0" alt="" />
       `;
           await this.emailService.sendEmail(emailAdmin, subject, htmlContent);
 
@@ -145,7 +146,7 @@ export class PaypalService {
           const htmlContentCustomer = `<h3>Thank you for purchasing our product:
                     <a href="${FRONTEND_PATH}/user/my-orders/?detail-order=${orderId}">See Detail Your Order</a>
                     </h3>
-                <img src="https://i.ibb.co/M1gwXzB/Email-Messages-for-Order-Confirmation-Page-v3.webp" alt="" />
+                <img src="https://lh3.googleusercontent.com/pw/ADCreHfOM5-sYSYXMcd_-QEE8B4_sNcQJKg7PER8pGe3mnN9PT7kLtuhzWBa37CaB-LtEs0iBY7jkYELgYiotyndEAC0fCWccfgX9bljSvDgn_q4geF6yhF9Xsz_RbSjgC-edGoQRkUgp2fbECXYBd8BSwQECuR828HYnJDD9JewE2Bn27Pdxj8w3y7vJ0qwkvYF15GJCBQKwaIdxVewYjCDsFp5pCIe_yohbN6GjGCKE6g3CyKkhWCI8A4GWHp_2NhzQHxDN9drobgqSruLU-qygMTykvPSBz_od1vWKE8uHTsnuJc5qSeyMvAvBvGJzHzyNBsu_i_5Kj53Xz2ITbFg5IhWPY8lBuNpqcBT8O1HmDcmGnOBkBVajnDtOIgcYNpBMv6J53DjMXsNvQIavp5DANCJJvSWXbQQLX9xfWr9jLOxY_9ULIRgHl4-jqfmIsYPRZZwlgKYJ-jX_WZ2aKrYs9zkl-QVdveR7VcAZ8L80TfV-JPFC-C1xBRrhZ-AotHVB-ty3ScSNPC_HNkKLxB_eMd9SbOpur5ojwNpTuZgDgZX8WROjKmc-xq9J674sNVLw_WaJnsmuFMC5u2_Cb7ZHtAwggkcO0YYq2C29TrIAFUZg547JJxyqjS0UVXFyEimAT1NqeQB0EDf7DOXHsxBjAm2UqewBzwfProrHcHSlJOJzMGzq7PYbE65Y7r7udmLrjhiR1ev959y9_9TgWHgtFLDJgzqW3WgKD_o1e6JIssSFWdBgr6UIDT9H7R5hfN4gjxUBXPIuItd5wZoqiVySBMYUmxChW6b89k8M_6DIjQs17fiRgZ9bRIvEEwNn2Eq8egSgADwdLHkKyL7DGKfxqF0py1fiSzWDOmiH67wEFbh8P8KQbtEpibyLfo_PF6apVQl-0x5MClIruu3QP1B10RqDw=w1200-h630-s-no-gm?authuser=0" alt="" />
                 `;
           await this.emailService.sendEmail(
             customerEmail,
@@ -160,6 +161,9 @@ export class PaypalService {
       await this.cartsRepository.deleteAllProductsFromUserCart(
         newOrder.user_id,
       );
+
+      this.myGateway.handleNewOrder('New Order');
+
       return res.redirect('http://localhost:3000/user/my-orders');
     } catch (error) {
       throw error;
