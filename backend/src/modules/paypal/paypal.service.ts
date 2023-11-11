@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-// import { MyGateway } from '../gateway/gateway';
+import { MyGateway } from '../gateway/gateway';
 import * as paypal from 'paypal-rest-sdk';
 import { OrderItemsRepository } from '../orderItems/orderItems.repository';
 import { OrdersRepository } from '../orders/orders.repository';
@@ -22,7 +22,7 @@ export class PaypalService {
     private readonly productsRepository: ProductsRepository,
     private readonly usersRepository: UsersRepository,
     private readonly emailService: EmailService,
-    // private readonly myGateway: MyGateway,
+    private readonly myGateway: MyGateway,
   ) {}
   // 1. Create Order
   async createOrder(paymentData, req, res): Promise<any> {
@@ -162,7 +162,7 @@ export class PaypalService {
         newOrder.user_id,
       );
 
-      // this.myGateway.handleNewOrder(`New Order: #OrderID ${orderId}`);
+      this.myGateway.handleNewOrder(`New Order: #OrderID ${orderId}`);
 
       return res.redirect(`${FRONTEND_PATH}/user/my-orders`);
     } catch (error) {

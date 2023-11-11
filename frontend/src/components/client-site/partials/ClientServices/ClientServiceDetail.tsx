@@ -32,6 +32,7 @@ function ClientServiceDetail() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [serviceComments, setServiceComments] = useState<any>(null);
+  const [checkComment, setCheckComment] = useState<any>(false);
   const [user, setUser] = useState<any>(null);
   const [service, setService] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -75,13 +76,11 @@ function ClientServiceDetail() {
     fetchServiceComments();
 
     // socket.on("newComment", () => {
-    //   // Cập nhật danh sách comment khi có comment mới
     //   fetchServiceComments();
     // });
     // // Ngắt kết nối socket khi component bị unmount
     // socket.disconnect();
   }, []);
-
   // -----------------------------------------------------
 
   document.title = `${service ? `${service?.name} | PetShop` : "Loading..."}`;

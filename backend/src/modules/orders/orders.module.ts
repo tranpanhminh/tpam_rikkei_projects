@@ -33,7 +33,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { EmailService } from '../email/email.service';
-// import { MyGateway } from '../gateway/gateway';
+import { MyGateway } from '../gateway/gateway';
 ConfigModule.forRoot({
   envFilePath: '.env',
 });
@@ -74,7 +74,7 @@ const url = `${path}/orders`;
     UsersService,
     CloudinaryService,
     EmailService,
-    // MyGateway,
+    MyGateway,
   ],
   exports: [OrdersService, OrdersRepository],
 })

@@ -4,7 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
 import { IoAdapter } from '@nestjs/platform-socket.io';
-import events from 'events';
+import { EventEmitter } from 'events';
 // import passport from 'passport';
 // import { useContainer } from 'typeorm';
 // import * as session from 'express-session';
@@ -66,7 +66,9 @@ async function bootstrap() {
   // events.EventEmitter.defaultMaxListeners = 15;
   // events.setMaxListeners(Infinity); // Thêm dòng này để fix lỗi Possible EventEmitter memory leak detected
   // Thiết lập CORS cho Socket.IO
-  // app.useWebSocketAdapter(new IoAdapter(app));
+  const emitter = new EventEmitter();
+  emitter.setMaxListeners(Infinity);
+  app.useWebSocketAdapter(new IoAdapter(app));
   await app.listen(port);
 }
 bootstrap();

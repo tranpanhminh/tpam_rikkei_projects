@@ -4,14 +4,14 @@ import { CreateProductCommentDTO } from './dto/createProductComment.dto';
 import { ProductCommentsRepository } from 'src/modules/productComments/productComments.repository';
 import { ProductCommentsInterface } from './interface/productComments.interface';
 import { UsersRepository } from '../users/users.repository';
-// import { MyGateway } from '../gateway/gateway';
+import { MyGateway } from '../gateway/gateway';
 
 @Injectable()
 export class ProductCommentsService {
   constructor(
     private readonly productCommentsRepository: ProductCommentsRepository,
     private readonly usersRepository: UsersRepository,
-    // private readonly myGateway: MyGateway,
+    private readonly myGateway: MyGateway,
   ) {}
 
   // 1. Get All

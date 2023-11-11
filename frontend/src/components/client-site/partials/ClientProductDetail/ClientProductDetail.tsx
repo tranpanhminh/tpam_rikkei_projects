@@ -8,7 +8,7 @@ import {
   useParams,
   useSearchParams,
 } from "react-router-dom";
-import { notification, Button, Modal } from "antd";
+import { Button, Modal } from "antd";
 import {} from "antd";
 import { Rate } from "antd";
 import { Editor } from "@tinymce/tinymce-react";
