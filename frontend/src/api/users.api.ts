@@ -2,7 +2,6 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 import BaseAxios from "./apiAxiosClient";
 import { message, notification } from "antd";
-import { useSearchParams } from "react-router-dom";
 
 const usersAPI = process.env.REACT_APP_API_USERS;
 

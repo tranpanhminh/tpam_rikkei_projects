@@ -5,9 +5,6 @@ import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
 import { IoAdapter } from '@nestjs/platform-socket.io';
 import * as events from 'events'; // Thêm dòng này để import events
-// import passport from 'passport';
-// import { useContainer } from 'typeorm';
-// import * as session from 'express-session';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -26,9 +23,6 @@ async function bootstrap() {
     credentials: true,
     optionsSuccessStatus: 200,
   }); // <- enable CORS
-
-  // app.use(passport.initialize());
-  // app.use(passport.session());
   app.useGlobalPipes(
     new ValidationPipe({
       // exceptionFactory: (errors) => {
@@ -55,17 +49,6 @@ async function bootstrap() {
       stopAtFirstError: true,
     }),
   );
-  // useContainer(app.select(AppModule), { fallbackOnErrors: true });
-  // somewhere in your initialization file
-  // app.use(
-  //   session({
-  //     secret: process.env.SESSION_SECRET,
-  //     saveUninitialized: false,
-  //   }),
-  // );
-  // events.EventEmitter.defaultMaxListeners = 15;
-  // events.setMaxListeners(Infinity); // Thêm dòng này để fix lỗi Possible EventEmitter memory leak detected
-  // Thiết lập CORS cho Socket.IO
   events.EventEmitter.defaultMaxListeners = Infinity;
   app.useWebSocketAdapter(new IoAdapter(app));
   await app.listen(port);

@@ -48,7 +48,7 @@ export class ServiceCommentsService {
       post_type_id: 2,
     };
     await this.serviceCommentsRepository.addServiceComment(newServiceComment);
-    // this.myGateway.handleNewComment();
+    this.myGateway.handleNewComment();
     return new HttpException('Service Comment Added', HttpStatus.OK);
   }
 

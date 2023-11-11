@@ -82,9 +82,9 @@ const ImportModalProduct: React.FC<AddModalProps> = ({
     if (result) {
       navigate("/admin/manage-products/");
       setFile("");
-      setIsModalOpen(false);
+      handleCancel();
       resetFile();
-      handleClickOk();
+      await handleClickOk();
     }
   };
 

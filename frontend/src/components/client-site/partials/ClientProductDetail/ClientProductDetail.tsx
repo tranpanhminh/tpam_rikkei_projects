@@ -23,8 +23,8 @@ import {
 import { addProductToCart } from "../../../../api/carts.api";
 import { getDetailProduct } from "../../../../api/products.api";
 import Page404 from "../../../common/NotFoundPage/404";
+const socket = io(`${process.env.REACT_APP_BACK_END}`);
 const moment = require("moment");
-const socket = io(`${process.env.BACK_END}`);
 
 // ----------------------------------------------------------------------
 function ClientProductDetail() {
@@ -88,12 +88,12 @@ function ClientProductDetail() {
     fetchUser();
     fetchProductComments();
 
-    // socket.on("newComment", () => {
-    //   // Cập nhật danh sách comment khi có comment mới
-    //   fetchProductComments();
-    // });
-    // // Ngắt kết nối socket khi component bị unmount
-    // socket.disconnect();
+    socket.on("newComment", () => {
+      fetchProductComments();
+    });
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   document.title = `${product ? `${product?.name} | PetShop` : "Loading..."}`;
@@ -124,7 +124,6 @@ function ClientProductDetail() {
         editor.setContent("");
       }
       fetchProduct();
-      fetchProductComments();
     }
   };
 
@@ -420,10 +419,11 @@ function ClientProductDetail() {
                     })}
                   <div className={styles["pagination-form"]}>
                     <ReactPaginate
+                      breakLabel="..."
                       nextLabel="next >"
                       previousLabel="< previous"
                       renderOnZeroPageCount={null}
-                      pageRangeDisplayed={13}
+                      pageRangeDisplayed={5}
                       pageCount={pageCount}
                       onPageChange={handlePageClick}
                       containerClassName="pagination"

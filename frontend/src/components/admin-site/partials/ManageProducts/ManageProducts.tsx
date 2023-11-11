@@ -82,7 +82,6 @@ function ManageProducts() {
 
   // Handle Update Product
   const handleUpdateProduct = () => {
-    // navigate("/admin/manage-products/");
     fetchProducts();
   };
 
@@ -217,10 +216,11 @@ function ManageProducts() {
       </div>
       <div className={styles["pagination-form"]}>
         <ReactPaginate
+          breakLabel="..."
           nextLabel="next >"
           previousLabel="< previous"
           renderOnZeroPageCount={null}
-          pageRangeDisplayed={13}
+          pageRangeDisplayed={5}
           pageCount={pageCount}
           onPageChange={handlePageClick}
           containerClassName="pagination"

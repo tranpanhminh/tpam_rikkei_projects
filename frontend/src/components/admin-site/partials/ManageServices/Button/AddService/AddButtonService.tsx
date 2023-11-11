@@ -157,7 +157,7 @@ const AddModalService: React.FC<AddModalProps> = ({
         "Content-Type": "multipart/form-data",
       },
     };
-
+    console.log(serviceInfo.service_image);
     if (serviceInfo.service_image) {
       messageApi.open({
         type: "loading",

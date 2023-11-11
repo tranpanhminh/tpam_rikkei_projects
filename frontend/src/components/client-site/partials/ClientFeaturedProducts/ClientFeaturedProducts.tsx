@@ -19,7 +19,7 @@ function ClientFeaturedProducts() {
 
   const fetchBestRatingProduct = async () => {
     const result = await getAllProducts();
-    const sortProduct = result.sort((a: any, b: any) => {
+    const sortProduct = result?.sort((a: any, b: any) => {
       return b.avg_rating - a.avg_rating;
     });
     setBestRatingProduct(sortProduct);

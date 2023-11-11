@@ -48,7 +48,7 @@ export class ProductCommentsService {
       post_type_id: 1,
     };
     await this.productCommentsRepository.addProductComment(newProductComment);
-    // this.myGateway.handleNewComment();
+    this.myGateway.handleNewComment();
     return new HttpException('Product Comment Added', HttpStatus.OK);
   }
 

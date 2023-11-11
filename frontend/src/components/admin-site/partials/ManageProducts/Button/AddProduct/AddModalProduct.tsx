@@ -112,30 +112,35 @@ const AddModalProduct: React.FC<AddModalProps> = ({
         message: "Vendor must not be blank",
       });
     }
-    if (newProduct.image_url.length === 4) {
+
+    if (
+      newProduct.image_url.length === 4 &&
+      newProduct.image_url[0].type.includes("image") &&
+      newProduct.image_url[1].type.includes("image") &&
+      newProduct.image_url[2].type.includes("image") &&
+      newProduct.image_url[3].type.includes("image")
+    ) {
       messageApi.open({
         type: "loading",
         content: "Adding...",
         duration: 0,
       });
-
       const formData: any = new FormData();
       formData.append("name", newProduct.name);
       formData.append("description", newProduct.description);
       formData.append("price", newProduct.price);
       formData.append("quantity_stock", newProduct.quantity_stock);
       formData.append("vendor_id", newProduct.vendor_id);
-
       newProduct.image_url.forEach((image: File, index: number) => {
         formData.append(`image_url`, image);
       });
-
       formData.append("_method", "POST");
       const config = {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       };
+
       const result = await addProduct(formData, config);
       if (result) {
         messageApi.destroy();
@@ -159,7 +164,7 @@ const AddModalProduct: React.FC<AddModalProps> = ({
       }
     } else {
       return notification.warning({
-        message: `Please upload only 4 Images`,
+        message: `Please upload only 4 Images (Only Images Are Accepted)`,
       });
     }
   };

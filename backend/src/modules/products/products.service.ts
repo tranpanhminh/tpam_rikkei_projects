@@ -202,89 +202,6 @@ export class ProductsService {
     });
     stream.pipe(parser);
 
-    // const processRecords = async () => {
-    //   for await (const record of parser) {
-    //     // Here, you can transform the data into your desired format
-    //     const info: any = {
-    //       name: record['name'],
-    //       description: record['description'],
-    //       price: record['price'],
-    //       quantity_stock: record['quantity_stock'],
-    //       thumbnail_url: record['thumbnail_url'],
-    //       vendor_id: record['vendor_id'],
-    //       post_type_id: 1,
-    //     };
-
-    //     // You can now use the 'info' object to save data to your database, etc.
-    //     console.log(info, 'Product');
-
-    //     importedData.push(info);
-
-    //     // Lưu thông tin sản phẩm vào bảng products
-    //     const newProduct: any = await this.productsRepository.addProduct(info);
-
-    //     // Lưu URL hình ảnh vào bảng product_images
-    //     for (let i = 1; i <= 4; i++) {
-    //       const imageUrl = record[`image_url${i}`];
-    //       if (imageUrl) {
-    //         const imageInfo = {
-    //           product_id: newProduct.id,
-    //           image_url: imageUrl,
-    //         };
-    //         console.log(imageInfo, 'product');
-    //         await this.productsRepository.uploadProductImages(imageInfo);
-    //       }
-    //     }
-    //     // }
-    //   }
-    //   return importedData; // Ensure that importedData is returned
-    // };
-
-    // stream.on('end', async () => {
-    //   try {
-    //     const data = await processRecords();
-    //     // Now, 'data' will contain the imported data
-    //     console.log(data);
-    //   } catch (error) {
-    //     console.error('Error processing records:', error);
-    //   }
-    // });
-
-    // parser.on('data', async (stream) => {
-    //   importedData.push(stream);
-    //   console.log(importedData, '----');
-
-    //   for (const product of importedData) {
-    //     console.log(product, 'AAAAAAAA');
-    //     const info = {
-    //       name: product['name'],
-    //       description: product['description'],
-    //       price: product['price'],
-    //       quantity_stock: product['quantity_stock'],
-    //       thumbnail_url: product['thumbnail_url'],
-    //       vendor_id: product['vendor_id'],
-    //       post_type_id: 1,
-    //     };
-
-    //     console.log(info, 'Product');
-    //     // Lưu thông tin sản phẩm vào bảng products
-    //     const newProduct: any = await this.productsRepository.addProduct(info);
-
-    //     // Lưu URL hình ảnh vào bảng product_images
-    //     for (let i = 1; i <= 4; i++) {
-    //       const imageUrl = product[`image_url${i}`];
-    //       if (imageUrl) {
-    //         const imageInfo = {
-    //           product_id: newProduct.id,
-    //           image_url: imageUrl,
-    //         };
-    //         console.log(imageInfo, 'product');
-    //         await this.productsRepository.uploadProductImages(imageUrl);
-    //       }
-    //     }
-    //   }
-    // });
-
     new Promise((resolve, reject) => {
       parser.on('data', (data) => {
         importedData.push(data);
@@ -372,12 +289,7 @@ export class ProductsService {
       res.setHeader('Content-Disposition', `attachment; filename=${fileName}`);
       // fs.createReadStream(file).pipe(res); // hoặc dùng cái này thay cái dưới
 
-      // res.download(file, fileName, () => {
-      //   fs.unlinkSync(writableStream.path); // Xóa file sau khi tải xuống
-      // });
-      // Thành đoạn mã sau
-      const relativePath = `public/files/export/${fileName}`;
-      res.download(relativePath, fileName, () => {
+      res.download(file, fileName, () => {
         fs.unlinkSync(writableStream.path); // Xóa file sau khi tải xuống
       });
     });

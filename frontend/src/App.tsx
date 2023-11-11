@@ -1,4 +1,3 @@
-// Import AdminPage
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ClientCartPage from "./components/client-site/layouts/ClientCartPage";
 import ClientHomePage from "./components/client-site/layouts/ClientHomePage";
@@ -43,7 +42,7 @@ import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { notification } from "antd";
 import { getDataLogin } from "./api/users.api";
-const socket = io(`${process.env.BACK_END}`);
+const socket = io(`${process.env.REACT_APP_BACK_END}`);
 
 export function RoleNavigation() {
   return null; // Return null or an empty component

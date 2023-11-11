@@ -23,7 +23,7 @@ import {
 } from "../../../../api/serviceComments.api";
 import { bookingService } from "../../../../api/bookings.api";
 import Page404 from "../../../common/NotFoundPage/404";
-const socket = io(`${process.env.BACK_END}`);
+const socket = io(`${process.env.REACT_APP_BACK_END}`);
 const moment = require("moment");
 
 // ------------------------------------------------------------------
@@ -75,11 +75,12 @@ function ClientServiceDetail() {
     fetchUsers();
     fetchServiceComments();
 
-    // socket.on("newComment", () => {
-    //   fetchServiceComments();
-    // });
-    // // Ngắt kết nối socket khi component bị unmount
-    // socket.disconnect();
+    socket.on("newComment", () => {
+      fetchServiceComments();
+    });
+    return () => {
+      socket.disconnect();
+    };
   }, []);
   // -----------------------------------------------------
 
@@ -113,7 +114,6 @@ function ClientServiceDetail() {
         editor.setContent("");
       }
       fetchService();
-      fetchServiceComments();
     }
   };
 
@@ -502,10 +502,11 @@ function ClientServiceDetail() {
                     })}
                   <div className={styles["pagination-form"]}>
                     <ReactPaginate
+                      breakLabel="..."
                       nextLabel="next >"
                       previousLabel="< previous"
                       renderOnZeroPageCount={null}
-                      pageRangeDisplayed={13}
+                      pageRangeDisplayed={5}
                       pageCount={pageCount}
                       onPageChange={handlePageClick}
                       containerClassName="pagination"

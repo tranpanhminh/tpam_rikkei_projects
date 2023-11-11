@@ -41,9 +41,9 @@ import { MyGatewayModule } from './modules/gateway/gateway.module';
 
 @Module({
   imports: [
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'public'),
-    }),
+    // ServeStaticModule.forRoot({
+    //   rootPath: join(__dirname, '..', 'public'),
+    // }),
     TypeOrmModule.forRoot(ormConfig),
     CloudinaryModule,
     PaypalModule,

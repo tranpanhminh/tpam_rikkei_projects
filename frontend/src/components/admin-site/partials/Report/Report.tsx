@@ -1,10 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../Report/Report.module.css";
-import { Button } from "antd";
 import axios from "axios";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
-import { useReactToPrint } from "react-to-print";
 
 // Import thư viện Chart JS
 import { Chart } from "react-google-charts";
@@ -161,8 +157,6 @@ function Report() {
     return totalSales;
   };
 
-  console.log(totalSales(), "AAA");
-
   // --------------------------------------------------
   let bestProductRating: any = [];
   let bestServiceRating: any = [];
@@ -266,23 +260,9 @@ function Report() {
   };
   // --------------------------------------------------
 
-  // Export PDF
-  // const componentPDF: any = useRef();
-  // const exportPDF = useReactToPrint({
-  //   content: () => componentPDF.current,
-  //   documentTitle: "Report",
-  //   onBeforeGetContent: () => setLoader(true),
-  //   onBeforePrint: () => setLoader(true),
-  //   onAfterPrint: () => setLoader(false),
-  // });
-
   // --------------------------------------------------
   return (
     <>
-      {/* <div
-        ref={componentPDF}
-        style={{ width: "100%", height: "100%", padding: "40px" }}
-      > */}
       <div className={styles["report-overview"]}>
         <div
           className={`${styles["report-overview-item"]} ${styles["report-overview-item-orders"]}`}

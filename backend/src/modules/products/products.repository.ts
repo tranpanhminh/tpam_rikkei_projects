@@ -62,8 +62,7 @@ export class ProductsRepository {
       COALESCE(ROUND(AVG(COALESCE(product_comments.rating, 0)), 1), 0) AS "avg_rating",
       COUNT(CASE WHEN product_comments.rating IS NOT NULL THEN 1 ELSE NULL END) AS "total_reviews"
     FROM products
-    LEFT JOIN product_comments ON product_comments.post_id = products.id
-    LEFT JOIN users ON product_comments.user_id = users.id AND COALESCE(users.role_id, 0) NOT IN (1, 2)
+    LEFT JOIN product_comments ON product_comments.post_id = products.id AND COALESCE(product_comments.user_id, 0) NOT IN (1, 2)
     GROUP BY products.id, products.name
   `;
     return await this.productsEntity.query(query);
@@ -112,8 +111,7 @@ export class ProductsRepository {
       COALESCE(ROUND(AVG(COALESCE(product_comments.rating, 0)), 1), 0) AS "avg_rating",
       COUNT(CASE WHEN product_comments.rating IS NOT NULL THEN 1 ELSE NULL END) AS "total_reviews"
     FROM products
-    LEFT JOIN product_comments ON product_comments.post_id = products.id
-    LEFT JOIN users ON product_comments.user_id = users.id AND COALESCE(users.role_id, 0) NOT IN (1, 2)
+    LEFT JOIN product_comments ON product_comments.post_id = products.id AND COALESCE(product_comments.user_id, 0) NOT IN (1, 2)
     WHERE products.id = ${id}
     GROUP BY products.id, products.name
   `;
