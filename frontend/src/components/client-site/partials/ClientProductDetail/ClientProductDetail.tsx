@@ -1,4 +1,4 @@
-import jwtDecode from "jwt-decode";
+import { io } from "socket.io-client";
 import React, { useEffect, useState } from "react";
 import styles from "../../ClientPage.module.css";
 import ReactPaginate from "react-paginate";
@@ -23,6 +23,7 @@ import {
 import { addProductToCart } from "../../../../api/carts.api";
 import { getDetailProduct } from "../../../../api/products.api";
 const moment = require("moment");
+const socket = io(`${process.env.BACK_END}`);
 
 // ----------------------------------------------------------------------
 function ClientProductDetail() {
@@ -78,6 +79,8 @@ function ClientProductDetail() {
 
   const fetchProductComments = async () => {
     const result = await getAllCommentsByProduct(productId);
+    // Kết nối đến socket khi component được mount
+
     return setProductComments(result);
   };
 
@@ -85,7 +88,15 @@ function ClientProductDetail() {
     fetchProducts();
     fetchUser();
     fetchProductComments();
-  }, []);
+
+    socket.on("newComment", () => {
+      // Cập nhật danh sách comment khi có comment mới
+      fetchProductComments();
+    });
+    // Ngắt kết nối socket khi component bị unmount
+    socket.disconnect();
+  }, [productComments]);
+
   document.title = `${products ? `${products?.name} | PetShop` : "Loading..."}`;
 
   // --------------------------------------------------------

@@ -43,7 +43,7 @@ import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { notification } from "antd";
 import { getDataLogin } from "./api/users.api";
-const socket = io("http://localhost:7373/");
+const socket = io(`${process.env.BACK_END}`);
 
 export function RoleNavigation() {
   return null; // Return null or an empty component
@@ -51,8 +51,6 @@ export function RoleNavigation() {
 
 function App() {
   const [user, setUser] = useState<any>(null);
-  const [socketConnected, setSocketConnected] = useState(false);
-
   const fetchUser = async () => {
     const result = await getDataLogin();
     return setUser(result);
@@ -61,14 +59,16 @@ function App() {
   useEffect(() => {
     fetchUser();
   }, []);
-  // if (user?.role_id === 1 || user?.role_id === 2) {
-  //   socket.on("newOrder", (order) => {
-  //     notification.success({
-  //       message: `New Order ${order}`,
-  //     });
-  //   });
-  //   socket.disconnect();
-  // }
+
+  if (user?.role_id === 1 || user?.role_id === 2) {
+    socket.on("newOrder", (order) => {
+      notification.success({
+        message: `New Order ${order}`,
+        duration: 2,
+      });
+    });
+    socket.disconnect();
+  }
 
   return (
     <>

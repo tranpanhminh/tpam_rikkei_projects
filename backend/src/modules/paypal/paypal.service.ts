@@ -162,9 +162,9 @@ export class PaypalService {
         newOrder.user_id,
       );
 
-      this.myGateway.handleNewOrder('New Order');
+      this.myGateway.handleNewOrder(`New Order: #OrderID ${orderId}`);
 
-      return res.redirect('http://localhost:3000/user/my-orders');
+      return res.redirect(`${FRONTEND_PATH}/user/my-orders`);
     } catch (error) {
       throw error;
     }

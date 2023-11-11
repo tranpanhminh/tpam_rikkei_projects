@@ -20,7 +20,11 @@ export class MyGateway implements OnModuleInit {
 
   @SubscribeMessage('newOrder')
   handleNewOrder(order: any) {
-    console.log('New order:', order);
     this.server.emit('newOrder', order); // Emit to all connected clients
+  }
+
+  @SubscribeMessage('newComment')
+  handleNewComment() {
+    this.server.emit('newComment'); // Emit to all connected clients
   }
 }

@@ -85,15 +85,4 @@ import { MyGatewayModule } from './modules/gateway/gateway.module';
     MyGateway,
   ],
 })
-export class AppModule {
-  // configure(consumer: MiddlewareConsumer) {
-  //   // Cấu hình middleware để phục vụ các tệp tĩnh từ thư mục public/files
-  //   consumer
-  //     .apply(
-  //       express.static(join(__dirname, '..', 'public'), {
-  //         // Cấu hình tùy chọn khác của express.static nếu cần
-  //       }),
-  //     )
-  //     .forRoutes('/files/export');
-  // }
-}
+export class AppModule {}

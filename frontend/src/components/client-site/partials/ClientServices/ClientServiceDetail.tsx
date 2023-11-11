@@ -1,3 +1,4 @@
+import { io } from "socket.io-client";
 import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import styles from "../ClientServices/ClientServiceDetail.module.css";
@@ -21,7 +22,7 @@ import {
   getAllCommentsByService,
 } from "../../../../api/serviceComments.api";
 import { bookingService } from "../../../../api/bookings.api";
-
+const socket = io(`${process.env.BACK_END}`);
 const moment = require("moment");
 
 // ------------------------------------------------------------------
@@ -65,6 +66,7 @@ function ClientServiceDetail() {
 
   const fetchServiceComments = async () => {
     const result = await getAllCommentsByService(serviceId);
+
     return setServiceComments(result);
   };
 
@@ -72,7 +74,14 @@ function ClientServiceDetail() {
     fetchService();
     fetchUsers();
     fetchServiceComments();
-  }, []);
+
+    socket.on("newComment", () => {
+      // Cập nhật danh sách comment khi có comment mới
+      fetchServiceComments();
+    });
+    // Ngắt kết nối socket khi component bị unmount
+    socket.disconnect();
+  }, [serviceComments]);
 
   // -----------------------------------------------------
 

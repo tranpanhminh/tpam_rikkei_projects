@@ -4,12 +4,14 @@ import { ServiceCommentsRepository } from 'src/modules/serviceComments/serviceCo
 import { UsersRepository } from '../users/users.repository';
 import { ServiceCommentsInterface } from './interface/serviceComments.interface';
 import { CreateServiceCommentDTO } from './dto/createServiceComment.dto';
+import { MyGateway } from '../gateway/gateway';
 
 @Injectable()
 export class ServiceCommentsService {
   constructor(
     private readonly serviceCommentsRepository: ServiceCommentsRepository,
     private readonly usersRepository: UsersRepository,
+    private readonly myGateway: MyGateway,
   ) {}
 
   // 1. Get All
@@ -46,6 +48,7 @@ export class ServiceCommentsService {
       post_type_id: 2,
     };
     await this.serviceCommentsRepository.addServiceComment(newServiceComment);
+    this.myGateway.handleNewComment();
     return new HttpException('Service Comment Added', HttpStatus.OK);
   }
 
