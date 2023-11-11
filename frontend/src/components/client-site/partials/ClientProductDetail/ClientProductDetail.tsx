@@ -95,6 +95,10 @@ function ClientProductDetail() {
     socket.on("deleteProductComment", () => {
       fetchProductComments();
     });
+
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   document.title = `${product ? `${product?.name} | PetShop` : "Loading..."}`;
@@ -125,20 +129,20 @@ function ClientProductDetail() {
         editor.setContent("");
       }
       fetchProduct();
-      return () => {
-        socket.disconnect();
-      };
+      // return () => {
+      //   socket.disconnect();
+      // };
     }
   };
 
   // Function Delete Comment
   const handleDeleteComment = async (commentId: number) => {
-    const result = await deleteProductComment(commentId);
-    if (result) {
-      return () => {
-        socket.disconnect();
-      };
-    }
+    return await deleteProductComment(commentId);
+    // if (result) {
+    //   return () => {
+    //     socket.disconnect();
+    //   };
+    // }
   };
 
   const editorConfig = {

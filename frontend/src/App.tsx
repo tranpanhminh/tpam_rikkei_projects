@@ -57,17 +57,18 @@ function App() {
 
   useEffect(() => {
     fetchUser();
-  }, []);
 
-  if (user?.role_id === 1 || user?.role_id === 2) {
-    socket.on("newOrder", (order) => {
-      notification.success({
-        message: `New Order ${order}`,
-        duration: 2,
+    if (user?.role_id === 1 || user?.role_id === 2) {
+      socket.on("newOrder", (order) => {
+        notification.success({
+          message: `${order}`,
+        });
       });
-    });
-    socket.disconnect();
-  }
+      return () => {
+        socket.disconnect();
+      };
+    }
+  }, []);
 
   return (
     <>

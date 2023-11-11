@@ -13,12 +13,12 @@ export class MyGateway implements OnModuleInit {
 
   onModuleInit() {
     this.server.on('connection', (socket) => {
-      console.log('connection');
+      // console.log('connection');
     });
   }
 
   @SubscribeMessage('newOrder')
-  handleNewOrder(text: string) {
+  alertNewOrder(text: string) {
     this.server.emit('newOrder', text); // Emit to all connected clients
   }
 

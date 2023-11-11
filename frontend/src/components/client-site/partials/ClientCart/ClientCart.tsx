@@ -356,7 +356,7 @@ function ClientCart() {
                 <span>${total().toLocaleString()}</span>
                 <img
                   className={styles["paypal-icon"]}
-                  src="https://lh3.googleusercontent.com/pw/ADCreHeukfidFFryHTtN23pvDCPdhNVkdz0pPYE3olF5RCLwxDlKi1oVJzKZAmfo8_zYQ2I1GC2wgcQq5X0Ip3sMy5B7_KQDlw6rv-vlZUr-TtsfNiOtR0U1A7Vf_-J2gHUIUKLOI6NPxr-7AeGOQBawgeWfHINEp_V_dLL8VNH0bQX6CavO58qzQXgcGRjjLBZwzWyJ5zs0Qsss2xfOlgDqpj3lVhyLfnjQ_Tf0VWEAzQQmjhHTUmlzuXiqyUeTuGdJiy1kddVIAS9oKz1QzMWAEIfd6Y1UcadFQkwyRP4_5v0amHKVYohbRpcPsBORhfWyRiYMP5IMe0RsiAGXyfM5eQZNFTGHjNkBKxgRfDHn_eQd-aF69VgZ_iJ04Lr2zaEgN3UJNxZWitFOkozqKXn5XnbrXmniBWtgv8Setka4-_m-s9r7_Ucy-mAEd2ZGAVm6YqwYSR428ERLXFk2HwVjuDvbavVpZZDNPJtmEJOY2fdkQPLLmwJARyQTBaH4VgZjRPD6m09w3J81S-pNLYx8Dg2RAewj1TRBh0p4856cWbaCx7o1Yg4gbp0JzE-mv9LUYgMKdQLphNhL2Kl_kNksshmv4M6GsObsYP3i4saUeEbbuvbw7s4btlhu0ropa5OmwHMPlDWzjfcTLypD7OE7xdh3O7w4gq2T5et0kvq3mk0NdFxrRDLutYluKu9kTK2dyuvdGRspGyekuwWhUjv5r36jKfHH1R_a0_aaKDcCs0QSQKDRt1IpDabjj-CJR8zGKpZ2ZpiP5rgEGCIrZpE-xkAYyECxWXuJyTTclWAhxpicHXP0zLzkoFguJr3hTYN238pGpY2bRFF_DiGIdNzltr7x8ETeQJYrK015hbOUrcDhXI5xNE41XOzs-ytO-24Mu5D_YPyuB83h0NxcXGYksNn39w=w1920-h704-s-no-gm?authuser=0"
+                  src="https://lh3.googleusercontent.com/pw/ADCreHfl2i75FjCDCTI6_GZD6Tm8VtWIb37Ur2RHA-RMlKaiRwHebshBvbLStzks6CyspCXWRq4vvuKnxRBkJOKAKXujf7t-ZzWetduyHuBiLzND19uMAvMtEf3tdu8vQLPf1G08txU_Q5-gdprJ4lbHcbBg=w1920-h704-s-no-gm"
                   alt=""
                   onClick={handleCheckout}
                 />
