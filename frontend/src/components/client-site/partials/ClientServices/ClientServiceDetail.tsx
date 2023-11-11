@@ -75,12 +75,12 @@ function ClientServiceDetail() {
     fetchUsers();
     fetchServiceComments();
 
-    socket.on("newComment", () => {
+    socket.on("newServiceComment", () => {
       fetchServiceComments();
     });
-    return () => {
-      socket.disconnect();
-    };
+    socket.on("deleteServiceComment", () => {
+      fetchServiceComments();
+    });
   }, []);
   // -----------------------------------------------------
 
@@ -114,6 +114,19 @@ function ClientServiceDetail() {
         editor.setContent("");
       }
       fetchService();
+      return () => {
+        socket.disconnect();
+      };
+    }
+  };
+
+  // Delete Comment
+  const handleDeleteComment = async (commentId: number) => {
+    const result = await deleteServiceComment(commentId);
+    if (result) {
+      return () => {
+        socket.disconnect();
+      };
     }
   };
 
@@ -129,14 +142,6 @@ function ClientServiceDetail() {
   };
 
   // -----------------------------------------------------
-
-  // Delete Comment
-  const handleDeleteComment = async (commentId: number) => {
-    const result = await deleteServiceComment(commentId);
-    if (result) {
-      return fetchServiceComments();
-    }
-  };
 
   const checkShowDeleteCommentBtn = () => {
     if ((user && user?.role_id === 1) || (user && user?.role_id === 2)) {
@@ -429,7 +434,7 @@ function ClientServiceDetail() {
                 </div>
               </div>
 
-              {currentItems?.length !== 0 ? (
+              {serviceComments?.length !== 0 ? (
                 <div
                   className={`${styles["main-content-comment"]} ${styles["comment-scrollable"]}`}
                 >

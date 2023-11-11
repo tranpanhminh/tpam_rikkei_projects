@@ -88,12 +88,13 @@ function ClientProductDetail() {
     fetchUser();
     fetchProductComments();
 
-    socket.on("newComment", () => {
+    socket.on("newProductComment", () => {
       fetchProductComments();
     });
-    return () => {
-      socket.disconnect();
-    };
+
+    socket.on("deleteProductComment", () => {
+      fetchProductComments();
+    });
   }, []);
 
   document.title = `${product ? `${product?.name} | PetShop` : "Loading..."}`;
@@ -124,6 +125,19 @@ function ClientProductDetail() {
         editor.setContent("");
       }
       fetchProduct();
+      return () => {
+        socket.disconnect();
+      };
+    }
+  };
+
+  // Function Delete Comment
+  const handleDeleteComment = async (commentId: number) => {
+    const result = await deleteProductComment(commentId);
+    if (result) {
+      return () => {
+        socket.disconnect();
+      };
     }
   };
 
@@ -143,14 +157,6 @@ function ClientProductDetail() {
   };
 
   // --------------------------------------------------------
-
-  // Function Delete Comment
-  const handleDeleteComment = async (commentId: number) => {
-    const result = await deleteProductComment(commentId);
-    if (result) {
-      return fetchProductComments();
-    }
-  };
 
   const checkShowDeleteCommentBtn = () => {
     if ((user && user?.role_id === 1) || (user && user?.role_id === 2)) {
@@ -344,7 +350,7 @@ function ClientProductDetail() {
                   )}
                 </div>
               </div>
-              {currentItems.length !== 0 ? (
+              {productComments.length !== 0 ? (
                 <div
                   className={`${styles["main-content-comment"]} ${styles["comment-scrollable"]}`}
                 >

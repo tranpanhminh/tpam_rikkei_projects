@@ -48,7 +48,7 @@ export class ServiceCommentsService {
       post_type_id: 2,
     };
     await this.serviceCommentsRepository.addServiceComment(newServiceComment);
-    this.myGateway.handleNewComment();
+    this.myGateway.alertNewServiceComment();
     return new HttpException('Service Comment Added', HttpStatus.OK);
   }
 
@@ -60,6 +60,7 @@ export class ServiceCommentsService {
       await this.serviceCommentsRepository.getDetailServiceComment(id);
     if (checkServiceComment) {
       await this.serviceCommentsRepository.deleteServiceComment(id);
+      this.myGateway.alertDeleteServiceComment();
       return new HttpException('Service Comment Deleted', HttpStatus.OK);
     }
   }

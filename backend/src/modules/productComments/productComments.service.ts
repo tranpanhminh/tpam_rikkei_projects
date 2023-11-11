@@ -48,7 +48,7 @@ export class ProductCommentsService {
       post_type_id: 1,
     };
     await this.productCommentsRepository.addProductComment(newProductComment);
-    this.myGateway.handleNewComment();
+    this.myGateway.alertNewProductComment();
     return new HttpException('Product Comment Added', HttpStatus.OK);
   }
 
@@ -60,6 +60,7 @@ export class ProductCommentsService {
       await this.productCommentsRepository.getDetailProductComment(id);
     if (checkProductComment) {
       await this.productCommentsRepository.deleteProductComment(id);
+      this.myGateway.alertDeleteProductComment();
       return new HttpException('Product Comment Deleted', HttpStatus.OK);
     }
   }

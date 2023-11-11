@@ -13,7 +13,6 @@ export class MyGateway implements OnModuleInit {
 
   onModuleInit() {
     this.server.on('connection', (socket) => {
-      console.log(socket.id);
       console.log('connection');
     });
   }
@@ -23,8 +22,23 @@ export class MyGateway implements OnModuleInit {
     this.server.emit('newOrder', text); // Emit to all connected clients
   }
 
-  @SubscribeMessage('newComment')
-  handleNewComment() {
-    this.server.emit('newComment'); // Emit to all connected clients
+  @SubscribeMessage('newServiceComment')
+  alertNewServiceComment() {
+    this.server.emit('newServiceComment'); // Emit to all connected clients
+  }
+
+  @SubscribeMessage('deleteServiceComment')
+  alertDeleteServiceComment() {
+    this.server.emit('deleteServiceComment'); // Emit to all connected clients
+  }
+
+  @SubscribeMessage('newProductComment')
+  alertNewProductComment() {
+    this.server.emit('newProductComment'); // Emit to all connected clients
+  }
+
+  @SubscribeMessage('deleteProductComment')
+  alertDeleteProductComment() {
+    this.server.emit('deleteProductComment'); // Emit to all connected clients
   }
 }
