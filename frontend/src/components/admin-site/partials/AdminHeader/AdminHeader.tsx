@@ -104,7 +104,7 @@ const AdminHeader: React.FC = () => {
             >
               <li className={styles["admin-btn"]}>
                 <i className="fa-solid fa-boxes-stacked"></i>
-                Manage Product
+                Manage Products
               </li>
             </NavLink>
           </div>

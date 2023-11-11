@@ -39,7 +39,7 @@ const DetailBooking: React.FC<DetailModalProps> = ({
   const [groupBookingDate, setGroupBookingDate] = useState<any>([]);
   const [bookingStatus, setBookingStatus] = useState<any>([]);
   const [status, setStatus] = useState("");
-
+  console.log(selectedBooking, "fff");
   // Fetch API
   const fetchBookingByDate = async () => {
     const result = await filterBookingByDate(getBookingDate);
@@ -59,6 +59,7 @@ const DetailBooking: React.FC<DetailModalProps> = ({
 
   const showModal = () => {
     navigate(`/admin/manage-booking/?date=${getBookingDate}`);
+    fetchBookingByDate();
     setIsModalOpen(true);
   };
 
@@ -105,10 +106,11 @@ const DetailBooking: React.FC<DetailModalProps> = ({
   };
 
   const handleDetailClick = async (bookingId: any) => {
+    fetchBookingByDate();
     navigate(
       `/admin/manage-booking/?date=${getBookingDate}/?bookingId=${bookingId}`
     );
-    setStatus(selectedBooking?.status_id);
+    setBookingStatus(bookingId?.status_id);
     const result = await getDetailBooking(bookingId);
     setSelectedBooking(result);
     setIsModalOpenUpdateStatus(true);
@@ -116,7 +118,7 @@ const DetailBooking: React.FC<DetailModalProps> = ({
 
   const handleOkUpdateStatus = async () => {
     const updateBooking = {
-      status_id: status,
+      status_id: bookingStatus,
     };
 
     const result = await updateBookingStatus(
@@ -125,12 +127,14 @@ const DetailBooking: React.FC<DetailModalProps> = ({
     );
     if (result) {
       fetchBookingByDate();
+      navigate(`/admin/manage-booking/?date=${getBookingDate}`);
       setIsModalOpenUpdateStatus(false);
     }
   };
 
   const handleCancelUpdateStatus = () => {
-    setStatus(selectedBooking?.status_id);
+    // setBookingStatus(selectedBooking?.status_id);
+    navigate(`/admin/manage-booking/?date=${getBookingDate}`);
     setIsModalOpenUpdateStatus(false);
   };
 
@@ -356,9 +360,9 @@ const DetailBooking: React.FC<DetailModalProps> = ({
                                         ? true
                                         : false
                                     }
-                                    value={status}
+                                    value={bookingStatus}
                                     onChange={(event) =>
-                                      setStatus(event.target.value)
+                                      setBookingStatus(event.target.value)
                                     }
                                   >
                                     <option

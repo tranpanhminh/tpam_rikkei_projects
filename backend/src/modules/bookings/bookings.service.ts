@@ -83,7 +83,7 @@ export class BookingsService {
       await this.bookingsRepository.getDetailBooking(id);
     if (checkBooking) {
       const updateBooking = {
-        status_id: !status_id ? status_id : status_id,
+        status_id: !status_id ? checkBooking.status_id : status_id,
       };
       await this.bookingsRepository.updateBooking(id, updateBooking);
       return new HttpException('Booking Updated', HttpStatus.OK);
