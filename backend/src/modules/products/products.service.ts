@@ -371,7 +371,7 @@ export class ProductsService {
       res.setHeader('Content-Type', 'text/csv');
       res.setHeader('Content-Disposition', `attachment; filename=${fileName}`);
       // fs.createReadStream(file).pipe(res); // hoặc dùng cái này thay cái dưới
-      
+
       // res.download(file, fileName, () => {
       //   fs.unlinkSync(writableStream.path); // Xóa file sau khi tải xuống
       // });

@@ -22,6 +22,7 @@ import {
 } from "../../../../api/productComments.api";
 import { addProductToCart } from "../../../../api/carts.api";
 import { getDetailProduct } from "../../../../api/products.api";
+import Page404 from "../../../common/NotFoundPage/404";
 const moment = require("moment");
 const socket = io(`${process.env.BACK_END}`);
 
@@ -34,7 +35,7 @@ function ClientProductDetail() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { productId } = useParams();
   const [productComments, setProductComments] = useState<any>([]);
-  const [products, setProducts] = useState<any>(null);
+  const [product, setProduct] = useState<any>(null);
   const [quantity, setQuantity] = useState<number>(1);
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
@@ -72,9 +73,9 @@ function ClientProductDetail() {
   // --------------------------------------------------------
 
   // Fetch API
-  const fetchProducts = async () => {
+  const fetchProduct = async () => {
     const result = await getDetailProduct(productId);
-    return setProducts(result);
+    return setProduct(result);
   };
 
   const fetchProductComments = async () => {
@@ -83,7 +84,7 @@ function ClientProductDetail() {
   };
 
   useEffect(() => {
-    fetchProducts();
+    fetchProduct();
     fetchUser();
     fetchProductComments();
 
@@ -95,7 +96,7 @@ function ClientProductDetail() {
     // socket.disconnect();
   }, []);
 
-  document.title = `${products ? `${products?.name} | PetShop` : "Loading..."}`;
+  document.title = `${product ? `${product?.name} | PetShop` : "Loading..."}`;
 
   // --------------------------------------------------------
 
@@ -122,7 +123,7 @@ function ClientProductDetail() {
         // Đặt nội dung của trình soạn thảo về trạng thái trống
         editor.setContent("");
       }
-      fetchProducts();
+      fetchProduct();
       fetchProductComments();
     }
   };
@@ -176,276 +177,282 @@ function ClientProductDetail() {
   };
 
   // --------------------------------------------------------
-
-  return (
-    <>
-      {products && (
-        <div className={styles["product-detail"]}>
-          <div
-            className="container text-center"
-            style={{ marginTop: 50, marginBottom: 50 }}
-          >
-            <div className="row align-items-center">
-              <div className="col-xl-8 col-sm-12">
-                <div className="container text-center">
-                  <div className="row row-cols-2">
-                    <div className="col">
-                      <img
-                        src={products && products?.product_images[0]?.image_url}
-                        alt=""
-                      />
-                    </div>
-                    <div className="col">
-                      <img
-                        src={products && products?.product_images[1]?.image_url}
-                        alt=""
-                      />
-                    </div>
-                    <div className="col">
-                      <img
-                        src={products && products?.product_images[2]?.image_url}
-                        alt=""
-                      />
-                    </div>
-                    <div className="col">
-                      <img
-                        src={products && products?.product_images[3]?.image_url}
-                        alt=""
-                      />
+  if (product) {
+    return (
+      <>
+        {product && (
+          <div className={styles["product-detail"]}>
+            <div
+              className="container text-center"
+              style={{ marginTop: 50, marginBottom: 50 }}
+            >
+              <div className="row align-items-center">
+                <div className="col-xl-8 col-sm-12">
+                  <div className="container text-center">
+                    <div className="row row-cols-2">
+                      <div className="col">
+                        <img
+                          src={product && product?.product_images[0]?.image_url}
+                          alt=""
+                        />
+                      </div>
+                      <div className="col">
+                        <img
+                          src={product && product?.product_images[1]?.image_url}
+                          alt=""
+                        />
+                      </div>
+                      <div className="col">
+                        <img
+                          src={product && product?.product_images[2]?.image_url}
+                          alt=""
+                        />
+                      </div>
+                      <div className="col">
+                        <img
+                          src={product && product?.product_images[3]?.image_url}
+                          alt=""
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="col-xl-4 col-sm-12">
-                <div className={styles["product-detail-info"]}>
-                  <h2 className={styles["product-title-name"]}>
-                    {products && products.name}
-                  </h2>
-                  {(user?.role_id === 1 || user?.role_id === 2) && (
-                    <div className={styles["editor-post-bar"]}>
-                      <NavLink
-                        to={`/admin/manage-products/?edit-productId=${products.id}`}
-                        target="_blank"
-                      >
-                        <Badge bg="primary" style={{ fontSize: "16px" }}>
-                          Edit Product
-                        </Badge>
-                      </NavLink>
-                    </div>
-                  )}
-                  <p className={styles["product-description"]}>
-                    {React.createElement("div", {
-                      dangerouslySetInnerHTML: { __html: products.description },
-                    })}
-                  </p>
-                  <div className={styles["product-price"]}>
-                    <span>Price</span>
-                    <span>${products && products.price.toLocaleString()}</span>
-                  </div>
-                  <div className={styles["product-vendor"]}>
-                    <span>Vendor:</span>
-                    <span>{products && products.vendors?.name}</span>
-                  </div>
-                  <div className={styles["product-sku"]}>
-                    <span>Stock:</span>
-                    <span>{products && products.quantity_stock}</span>
-                  </div>
-                  <div className={styles["product-add-quantity"]}>
-                    <p>Quantity:</p>
-                    <input
-                      type="number"
-                      min={1}
-                      value={Number(quantity)}
-                      onChange={(event) =>
-                        setQuantity(Number(event.target.value))
-                      }
-                    />
-                  </div>
-                  <div className={styles["product-rating"]}>
-                    <span>Rating:</span>
-                    <div className={styles["product-rating-section"]}>
-                      {products.avg_rating}
-                      <i className="fa-solid fa-star"></i>
-                      <span>({products.total_reviews} reviews)</span>
-                    </div>
-                  </div>
-                  <button
-                    className={styles["product-detail-page-add-to-cart-btn"]}
-                    onClick={() => {
-                      user ? handleAddToCart() : showModal();
-                    }}
-                  >
-                    Add To Cart
-                  </button>
-                  <Modal
-                    title="Notification"
-                    open={isModalOpen}
-                    onOk={handleOk}
-                    onCancel={handleCancel}
-                    width={400}
-                  >
-                    <p>
-                      Please <NavLink to="/login">Login</NavLink> to buy Product
+                <div className="col-xl-4 col-sm-12">
+                  <div className={styles["product-detail-info"]}>
+                    <h2 className={styles["product-title-name"]}>
+                      {product && product.name}
+                    </h2>
+                    {(user?.role_id === 1 || user?.role_id === 2) && (
+                      <div className={styles["editor-post-bar"]}>
+                        <NavLink
+                          to={`/admin/manage-products/?edit-productId=${product.id}`}
+                          target="_blank"
+                        >
+                          <Badge bg="primary" style={{ fontSize: "16px" }}>
+                            Edit Product
+                          </Badge>
+                        </NavLink>
+                      </div>
+                    )}
+                    <p className={styles["product-description"]}>
+                      {React.createElement("div", {
+                        dangerouslySetInnerHTML: {
+                          __html: product.description,
+                        },
+                      })}
                     </p>
-                    <p>
-                      <NavLink to="/signup">Don't have an account?</NavLink>
-                    </p>
-                  </Modal>
+                    <div className={styles["product-price"]}>
+                      <span>Price</span>
+                      <span>${product && product.price.toLocaleString()}</span>
+                    </div>
+                    <div className={styles["product-vendor"]}>
+                      <span>Vendor:</span>
+                      <span>{product && product.vendors?.name}</span>
+                    </div>
+                    <div className={styles["product-sku"]}>
+                      <span>Stock:</span>
+                      <span>{product && product.quantity_stock}</span>
+                    </div>
+                    <div className={styles["product-add-quantity"]}>
+                      <p>Quantity:</p>
+                      <input
+                        type="number"
+                        min={1}
+                        value={Number(quantity)}
+                        onChange={(event) =>
+                          setQuantity(Number(event.target.value))
+                        }
+                      />
+                    </div>
+                    <div className={styles["product-rating"]}>
+                      <span>Rating:</span>
+                      <div className={styles["product-rating-section"]}>
+                        {product.avg_rating}
+                        <i className="fa-solid fa-star"></i>
+                        <span>({product.total_reviews} reviews)</span>
+                      </div>
+                    </div>
+                    <button
+                      className={styles["product-detail-page-add-to-cart-btn"]}
+                      onClick={() => {
+                        user ? handleAddToCart() : showModal();
+                      }}
+                    >
+                      Add To Cart
+                    </button>
+                    <Modal
+                      title="Notification"
+                      open={isModalOpen}
+                      onOk={handleOk}
+                      onCancel={handleCancel}
+                      width={400}
+                    >
+                      <p>
+                        Please <NavLink to="/login">Login</NavLink> to buy
+                        Product
+                      </p>
+                      <p>
+                        <NavLink to="/signup">Don't have an account?</NavLink>
+                      </p>
+                    </Modal>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
-      <div className={styles["comment-product-section"]}>
-        <div className={styles["comment-detail"]}>
-          <div
-            className={`container text-center  ${styles["container-comment"]}`}
-            style={{ marginTop: 50, marginBottom: 50 }}
-          >
-            <div className={styles["comment-heading"]}>
-              <h3 className={styles["user-comment-product"]}>
-                {productComments?.length} comments
-              </h3>
+        )}
+        <div className={styles["comment-product-section"]}>
+          <div className={styles["comment-detail"]}>
+            <div
+              className={`container text-center  ${styles["container-comment"]}`}
+              style={{ marginTop: 50, marginBottom: 50 }}
+            >
+              <div className={styles["comment-heading"]}>
+                <h3 className={styles["user-comment-product"]}>
+                  {productComments?.length} comments
+                </h3>
 
-              {user?.role_id === 3 && (
-                <div>
-                  <span className={styles["rating-text"]}>Rating: </span>
-                  <Rate
-                    allowHalf
-                    value={userComment.rating}
-                    onChange={handleRateChange}
-                  />
-                </div>
-              )}
-            </div>
-
-            <div className={styles["comment-input"]}>
-              <Editor
-                init={editorConfig}
-                onEditorChange={(content) =>
-                  setUserComment({ ...userComment, comment: content })
-                }
-                value={userComment.comment}
-                id="editorID"
-              />
-              <div className={styles["send-comment-btn"]}>
-                {user ? (
-                  <Button type="primary" onClick={handleComment}>
-                    Comment
-                  </Button>
-                ) : (
-                  <NavLink to="/login">
-                    <Button type="primary">Login to comment</Button>
-                  </NavLink>
+                {user?.role_id === 3 && (
+                  <div>
+                    <span className={styles["rating-text"]}>Rating: </span>
+                    <Rate
+                      allowHalf
+                      value={userComment.rating}
+                      onChange={handleRateChange}
+                    />
+                  </div>
                 )}
               </div>
-            </div>
-            {currentItems.length !== 0 ? (
-              <div
-                className={`${styles["main-content-comment"]} ${styles["comment-scrollable"]}`}
-              >
-                {currentItems &&
-                  currentItems?.map((item: any) => {
-                    return (
-                      <section className={styles["product-comment-item"]}>
-                        <div className={styles["user-comment-info"]}>
-                          <img
-                            src={item.users?.image_avatar}
-                            alt=""
-                            className={styles["user-avatar"]}
-                          />
 
-                          <span>{item.users?.full_name.split(" ")[0]}</span>
-                          {item?.users.role_id === 1 ||
-                          item?.users.role_id === 2 ? (
-                            <Badge bg="success">Admin</Badge>
-                          ) : item.order_history?.length !== 0 ? (
-                            <Badge bg="warning" text="dark">
-                              Customer
-                            </Badge>
-                          ) : (
-                            ""
-                          )}
-
-                          {item?.users.role_id !== 1 &&
-                            item?.users.role_id !== 2 && (
-                              <span className={styles["rating-section"]}>
-                                {item.rating}
-                                <i className="fa-solid fa-star"></i>
-                              </span>
-                            )}
-                        </div>
-                        <div>
-                          <div className={styles["comment-content-headline"]}>
-                            <div
-                              className={
-                                styles["comment-content-headline-item"]
-                              }
-                            >
-                              <Badge bg="primary">
-                                {moment(item.created_at).format(
-                                  "YYYY-MM-DD-hh:mm:ss"
-                                )}
-                              </Badge>
-                            </div>
-
-                            <i
-                              onClick={() => handleDeleteComment(item?.id)}
-                              className={`fa-solid fa-trash-can ${styles["trash-comment-icon"]}`}
-                              style={{
-                                display:
-                                  checkShowDeleteCommentBtn() === true
-                                    ? "inline-block"
-                                    : "none",
-                              }}
-                            ></i>
-                          </div>
-                          <div
-                            className={`${styles["comment-content"]} ${styles["comment-scrollable"]}`}
-                          >
-                            {React.createElement("div", {
-                              dangerouslySetInnerHTML: {
-                                __html: item?.comment,
-                              },
-                            })}
-                          </div>
-                        </div>
-                      </section>
-                    );
-                  })}
-                <div className={styles["pagination-form"]}>
-                  <ReactPaginate
-                    nextLabel="next >"
-                    previousLabel="< previous"
-                    renderOnZeroPageCount={null}
-                    pageRangeDisplayed={13}
-                    pageCount={pageCount}
-                    onPageChange={handlePageClick}
-                    containerClassName="pagination"
-                    pageLinkClassName="page-number"
-                    previousLinkClassName="page-number"
-                    nextLinkClassName="page-number"
-                    activeLinkClassName={styles["active"]}
-                  />
+              <div className={styles["comment-input"]}>
+                <Editor
+                  init={editorConfig}
+                  onEditorChange={(content) =>
+                    setUserComment({ ...userComment, comment: content })
+                  }
+                  value={userComment.comment}
+                  id="editorID"
+                />
+                <div className={styles["send-comment-btn"]}>
+                  {user ? (
+                    <Button type="primary" onClick={handleComment}>
+                      Comment
+                    </Button>
+                  ) : (
+                    <NavLink to="/login">
+                      <Button type="primary">Login to comment</Button>
+                    </NavLink>
+                  )}
                 </div>
               </div>
-            ) : (
-              ""
-            )}
+              {currentItems.length !== 0 ? (
+                <div
+                  className={`${styles["main-content-comment"]} ${styles["comment-scrollable"]}`}
+                >
+                  {currentItems &&
+                    currentItems?.map((item: any) => {
+                      return (
+                        <section className={styles["product-comment-item"]}>
+                          <div className={styles["user-comment-info"]}>
+                            <img
+                              src={item.users?.image_avatar}
+                              alt=""
+                              className={styles["user-avatar"]}
+                            />
 
-            {/* <div
+                            <span>{item.users?.full_name.split(" ")[0]}</span>
+                            {item?.users.role_id === 1 ||
+                            item?.users.role_id === 2 ? (
+                              <Badge bg="success">Admin</Badge>
+                            ) : item.order_history?.length !== 0 ? (
+                              <Badge bg="warning" text="dark">
+                                Customer
+                              </Badge>
+                            ) : (
+                              ""
+                            )}
+
+                            {item?.users.role_id !== 1 &&
+                              item?.users.role_id !== 2 && (
+                                <span className={styles["rating-section"]}>
+                                  {item.rating}
+                                  <i className="fa-solid fa-star"></i>
+                                </span>
+                              )}
+                          </div>
+                          <div>
+                            <div className={styles["comment-content-headline"]}>
+                              <div
+                                className={
+                                  styles["comment-content-headline-item"]
+                                }
+                              >
+                                <Badge bg="primary">
+                                  {moment(item.created_at).format(
+                                    "YYYY-MM-DD-hh:mm:ss"
+                                  )}
+                                </Badge>
+                              </div>
+
+                              <i
+                                onClick={() => handleDeleteComment(item?.id)}
+                                className={`fa-solid fa-trash-can ${styles["trash-comment-icon"]}`}
+                                style={{
+                                  display:
+                                    checkShowDeleteCommentBtn() === true
+                                      ? "inline-block"
+                                      : "none",
+                                }}
+                              ></i>
+                            </div>
+                            <div
+                              className={`${styles["comment-content"]} ${styles["comment-scrollable"]}`}
+                            >
+                              {React.createElement("div", {
+                                dangerouslySetInnerHTML: {
+                                  __html: item?.comment,
+                                },
+                              })}
+                            </div>
+                          </div>
+                        </section>
+                      );
+                    })}
+                  <div className={styles["pagination-form"]}>
+                    <ReactPaginate
+                      nextLabel="next >"
+                      previousLabel="< previous"
+                      renderOnZeroPageCount={null}
+                      pageRangeDisplayed={13}
+                      pageCount={pageCount}
+                      onPageChange={handlePageClick}
+                      containerClassName="pagination"
+                      pageLinkClassName="page-number"
+                      previousLinkClassName="page-number"
+                      nextLinkClassName="page-number"
+                      activeLinkClassName={styles["active"]}
+                    />
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
+
+              {/* <div
               className="fb-comments"
               data-href="http://petshop.localhost.com/"
               data-width=""
               data-numposts="5"
               data-lazy={true}
             ></div> */}
+            </div>
           </div>
         </div>
-      </div>
-    </>
-  );
+      </>
+    );
+  } else {
+    return <Page404 />;
+  }
 }
 
 export default ClientProductDetail;

@@ -85,7 +85,7 @@ export class ServicesRepository {
       FROM services
       LEFT JOIN service_comments ON service_comments.post_id = services.id
       LEFT JOIN users ON service_comments.user_id = users.id
-     AND COALESCE(users.role_id, 0) NOT IN (1, 2) AND services.id = ${id}
+      AND COALESCE(users.role_id, 0) NOT IN (1, 2) WHERE services.id = ${id}
       GROUP BY services.id, services.name
     `;
     const result = await this.servicesEntity.query(query);

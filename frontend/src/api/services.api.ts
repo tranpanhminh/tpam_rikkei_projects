@@ -35,7 +35,7 @@ export const getDetailService = async (id: number | string | undefined) => {
       return response.data;
     })
     .catch((error) => {
-      return error;
+      return false;
     });
   return result;
 };
