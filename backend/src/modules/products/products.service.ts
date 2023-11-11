@@ -23,7 +23,6 @@ import { ProductImagesRepository } from '../productImages/productImages.reposito
 import { Readable } from 'stream';
 import { parse } from 'csv-parse';
 import * as fs from 'fs';
-import { createReadStream } from 'fs';
 import * as fastcsv from 'fast-csv';
 import * as path from 'path'; // Thêm dòng này
 import { ExportProductsInterface } from './interface/exportProducts.interface';
@@ -365,7 +364,6 @@ export class ProductsService {
     newData.forEach((data) => {
       csvStream.write(data);
     });
-
     csvStream.pipe(writableStream);
     csvStream.end();
     writableStream.on('finish', async () => {
@@ -373,7 +371,13 @@ export class ProductsService {
       res.setHeader('Content-Type', 'text/csv');
       res.setHeader('Content-Disposition', `attachment; filename=${fileName}`);
       // fs.createReadStream(file).pipe(res); // hoặc dùng cái này thay cái dưới
-      res.download(file, fileName, () => {
+      
+      // res.download(file, fileName, () => {
+      //   fs.unlinkSync(writableStream.path); // Xóa file sau khi tải xuống
+      // });
+      // Thành đoạn mã sau
+      const relativePath = `public/files/export/${fileName}`;
+      res.download(relativePath, fileName, () => {
         fs.unlinkSync(writableStream.path); // Xóa file sau khi tải xuống
       });
     });
