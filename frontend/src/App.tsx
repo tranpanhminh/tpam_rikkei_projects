@@ -30,7 +30,7 @@ import ClientMainPage from "../src/components/client-site/layouts/ClientMainPage
 import ClientEditProfile from "./components/client-site/partials/ClientProfile/ClientMyProfile/ClientMyProfile";
 import ClientOrder from "./components/client-site/partials/ClientProfile/ClientOrder/ClientOrder";
 import ClientBooking from "./components/client-site/partials/ClientProfile/ClientBooking/ClientBooking";
-import ClientCoupons from "./components/client-site/partials/ClientProfile/ClientCoupons/ClientCoupons";
+// import ClientCoupons from "./components/client-site/partials/ClientProfile/ClientCoupons/ClientCoupons";
 import ClientListProducts from "./components/client-site/partials/ClientFeaturedProducts/ClientListProducts";
 import ClientProductDetail from "./components/client-site/partials/ClientProductDetail/ClientProductDetail";
 import ClientListServices from "./components/client-site/partials/ClientServices/ClientListServices";
@@ -115,7 +115,7 @@ function App() {
               <Route path="my-profile" element={<ClientEditProfile />} />
               <Route path="my-orders" element={<ClientOrder />} />
               <Route path="my-booking" element={<ClientBooking />} />
-              <Route path="my-coupons" element={<ClientCoupons />} />
+              {/* <Route path="my-coupons" element={<ClientCoupons />} /> */}
             </Route>
             <Route path="/cart" element={<ClientCartPage />}></Route>
           </Route>

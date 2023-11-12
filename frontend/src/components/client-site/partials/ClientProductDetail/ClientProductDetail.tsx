@@ -2,6 +2,8 @@ import { io } from "socket.io-client";
 import React, { useEffect, useState } from "react";
 import styles from "../../ClientPage.module.css";
 import ReactPaginate from "react-paginate";
+import ClipLoader from "react-spinners/ClipLoader";
+import LazyLoad from "react-lazy-load";
 import {
   NavLink,
   useNavigate,
@@ -187,6 +189,24 @@ function ClientProductDetail() {
   };
 
   // --------------------------------------------------------
+  if (product === null) {
+    return (
+      <div
+        className={styles["product-detail"]}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <img
+          style={{ width: "200px" }}
+          src="https://media.tenor.com/JBgYqrobdxsAAAAi/loading.gif"
+          alt=""
+        />
+      </div>
+    );
+  }
   if (product) {
     return (
       <>
@@ -448,14 +468,6 @@ function ClientProductDetail() {
               ) : (
                 ""
               )}
-
-              {/* <div
-              className="fb-comments"
-              data-href="http://petshop.localhost.com/"
-              data-width=""
-              data-numposts="5"
-              data-lazy={true}
-            ></div> */}
             </div>
           </div>
         </div>

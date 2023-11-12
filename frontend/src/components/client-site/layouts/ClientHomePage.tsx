@@ -9,7 +9,7 @@ import ClientAboutStore from "../partials/ClientAboutStore/ClientAboutStore";
 import ClientFeaturedProducts from "../partials/ClientFeaturedProducts/ClientFeaturedProducts";
 import ClientSaleOff from "../partials/ClientSaleOff/ClientSaleOff";
 import ClientReviews from "../partials/ClientReviews/ClientReviews";
-import ClientNewsletter from "../partials/ClientNewsletter/ClientNewsletter";
+// import ClientNewsletter from "../partials/ClientNewsletter/ClientNewsletter";
 import ClientFooter from "../partials/ClientFooter/ClientFooter";
 import NotificationSale from "../partials/NotificationSale/Notification";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -81,7 +81,7 @@ function ClientHomePage() {
         <ClientFeaturedProducts />
         <ClientSaleOff />
         <ClientReviews />
-        <ClientNewsletter />
+        {/* <ClientNewsletter /> */}
       </div>
       <ClientFooter />
       <NotificationSale />

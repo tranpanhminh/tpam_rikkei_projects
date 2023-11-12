@@ -215,6 +215,24 @@ function ClientServiceDetail() {
     setItemOffset(newOffset);
     navigate(`/services/${serviceId}?page=${newPage}&limit=${itemsPerPage}`);
   };
+  if (service === null) {
+    return (
+      <div
+        className={styles["wrap-service-detail-page"]}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <img
+          style={{ width: "200px" }}
+          src="https://media.tenor.com/JBgYqrobdxsAAAAi/loading.gif"
+          alt=""
+        />
+      </div>
+    );
+  }
   if (service) {
     return (
       <>
