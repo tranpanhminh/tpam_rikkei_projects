@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Button, Modal, message } from "antd";
+import { Button, Modal, message, notification } from "antd";
 import { Service } from "../../../../../../database";
 import { Editor } from "@tinymce/tinymce-react";
 import styles from "../DetailService/DetailModalService.module.css";
@@ -132,7 +132,13 @@ const DetailButtonService: React.FC<DetailModalProps> = ({
 
   const handleFileChange = (event: any) => {
     const selectedFile = event.target.files[0];
-    if (selectedFile) {
+    if (!event.target.files[0].type.includes("image")) {
+      fileInputRef.current.value = null; // Đặt giá trị về null
+      return notification.warning({
+        message: "Only file type Image is accepted",
+      });
+    }
+    if (selectedFile && event.target.files[0].type.includes("image")) {
       const imageURL: any = URL.createObjectURL(selectedFile);
       setImage(imageURL);
     }

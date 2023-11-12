@@ -263,7 +263,7 @@ export class OrdersService {
  </h3>
 `;
         await this.emailService.sendEmail(emailAdmin, subject, htmlContent);
-
+        console.log(emailAdmin);
         // Gửi Mail xác nhận đã đặt hàng tới User
         const customerEmail = findUser.email;
         // Gửi email chứa liên kết reset đến người dùng

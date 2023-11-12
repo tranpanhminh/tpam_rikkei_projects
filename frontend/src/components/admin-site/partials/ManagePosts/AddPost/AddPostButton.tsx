@@ -72,8 +72,13 @@ const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
 
   const handleFileChange = (event: any) => {
     const selectedFile = event.target.files[0];
-
-    if (selectedFile) {
+    if (!event.target.files[0].type.includes("image")) {
+      fileInputRef.current.value = null; // Đặt giá trị về null
+      return notification.warning({
+        message: "Only file type Image is accepted",
+      });
+    }
+    if (selectedFile && event.target.files[0].type.includes("image")) {
       const imageURL: any = URL.createObjectURL(selectedFile);
       setImage(imageURL);
     }

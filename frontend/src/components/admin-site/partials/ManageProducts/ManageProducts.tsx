@@ -37,13 +37,13 @@ function ManageProducts() {
   useEffect(() => {
     fetchProducts();
 
-    socket.on("importProducts", () => {
-      handleUpdateProduct();
-      fetchProducts();
-    });
-    return () => {
-      socket.off();
-    };
+    // socket.on("importProducts", () => {
+    //   handleUpdateProduct();
+    //   fetchProducts();
+    // });
+    // return () => {
+    //   socket.off();
+    // };
   }, []);
   // ------------------------------------------------
 

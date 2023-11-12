@@ -1,5 +1,10 @@
 import { io } from "socket.io-client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useSearchParams,
+} from "react-router-dom";
 import ClientCartPage from "./components/client-site/layouts/ClientCartPage";
 import ClientHomePage from "./components/client-site/layouts/ClientHomePage";
 import ClientLoginPage from "./components/client-site/layouts/ClientLoginPage";

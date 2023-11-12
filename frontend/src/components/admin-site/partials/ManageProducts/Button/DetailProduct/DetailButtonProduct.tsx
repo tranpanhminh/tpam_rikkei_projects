@@ -136,7 +136,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
   };
 
   const handleUpdateImage1 = async () => {
-    if (image1) {
+    if (image1 && image1.type.includes("image")) {
       const formData: any = new FormData();
       formData.append("image_url", image1);
       formData.append("_method", "PATCH");
@@ -171,7 +171,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
       }
     } else {
       notification.warning({
-        message: `Please Upload Image`,
+        message: `Image is empty or File type is not image)`,
       });
     }
   };
@@ -201,7 +201,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
   };
 
   const handleUpdateImage2 = async () => {
-    if (image2) {
+    if (image2 && image2.type.includes("image")) {
       const formData: any = new FormData();
       formData.append("image_url", image2);
       formData.append("_method", "PATCH");
@@ -236,7 +236,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
       }
     } else {
       notification.warning({
-        message: `Please Upload Image`,
+        message: `Image is empty or File type is not image)`,
       });
     }
   };
@@ -266,7 +266,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
   };
 
   const handleUpdateImage3 = async () => {
-    if (image3) {
+    if (image3 && image3.type.includes("image")) {
       const formData: any = new FormData();
       formData.append("image_url", image3);
       formData.append("_method", "PATCH");
@@ -301,7 +301,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
       }
     } else {
       notification.warning({
-        message: `Please Upload Image`,
+        message: `Image is empty or File type is not image)`,
       });
     }
   };
@@ -330,7 +330,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
   };
 
   const handleUpdateImage4 = async () => {
-    if (image4) {
+    if (image4 && image4.type.includes("image")) {
       const formData: any = new FormData();
       formData.append("image_url", image4);
       formData.append("_method", "PATCH");
@@ -365,7 +365,7 @@ const DetailButtonProduct: React.FC<DetailModalProps> = ({
       }
     } else {
       notification.warning({
-        message: `Please Upload Image`,
+        message: `Image is empty or File type is not image)`,
       });
     }
   };

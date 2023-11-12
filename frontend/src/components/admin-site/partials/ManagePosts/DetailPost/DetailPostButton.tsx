@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Button, Modal, message } from "antd";
+import { Button, Modal, message, notification } from "antd";
 import styles from "../../../AdminPage.module.css";
 import { Editor } from "@tinymce/tinymce-react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -103,7 +103,13 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
 
   const handleFileChange = (event: any) => {
     const selectedFile = event.target.files[0];
-    if (selectedFile) {
+    if (!event.target.files[0].type.includes("image")) {
+      fileInputRef.current.value = null; // Đặt giá trị về null
+      return notification.warning({
+        message: "Only file type Image is accepted",
+      });
+    }
+    if (selectedFile && event.target.files[0].type.includes("image")) {
       const imageURL: any = URL.createObjectURL(selectedFile);
       setImage(imageURL);
     }

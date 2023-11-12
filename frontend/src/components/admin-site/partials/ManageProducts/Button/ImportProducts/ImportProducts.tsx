@@ -90,27 +90,27 @@ const ImportModalProduct: React.FC<AddModalProps> = ({
         duration: 2.5,
       });
 
-      messageApi.destroy();
-      notification.success({
-        message: `Products Imported Successfully`,
-      });
-      setFile("");
-      handleCancel();
-      resetFile();
-      socket.emit("importProducts");
-      handleClickOk();
+      // messageApi.destroy();
+      // notification.success({
+      //   message: `Products Imported Successfully`,
+      // });
+      // setFile("");
+      // handleCancel();
+      // resetFile();
+      // socket.emit("importProducts");
+      // handleClickOk();
 
-      // setTimeout(() => {
-      //   messageApi.destroy();
-      //   notification.success({
-      //     message: `Products Imported Successfully`,
-      //   });
-      //   setFile("");
-      //   handleCancel();
-      //   resetFile();
-      //   handleClickOk();
-      //   window.location.reload();
-      // }, 3000);
+      setTimeout(() => {
+        messageApi.destroy();
+        notification.success({
+          message: `Products Imported Successfully`,
+        });
+        setFile("");
+        handleCancel();
+        resetFile();
+        handleClickOk();
+        // window.location.reload();
+      }, 3000);
     }
   };
 

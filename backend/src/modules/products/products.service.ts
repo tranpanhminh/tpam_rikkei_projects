@@ -234,7 +234,7 @@ export class ProductsService {
         reject(error);
       });
     });
-    this.myGateway.alertImportProducts();
+    // this.myGateway.alertImportProducts();
     return new HttpException('Products Imported Successfully', HttpStatus.OK);
   }
 

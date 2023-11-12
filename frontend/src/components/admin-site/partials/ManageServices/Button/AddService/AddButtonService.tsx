@@ -89,7 +89,13 @@ const AddModalService: React.FC<AddModalProps> = ({
 
   const handleFileChange = (event: any) => {
     const selectedFile = event.target.files[0];
-    if (selectedFile) {
+    if (!event.target.files[0].type.includes("image")) {
+      fileInputRef.current.value = null; // Đặt giá trị về null
+      return notification.warning({
+        message: "Only file type Image is accepted",
+      });
+    }
+    if (selectedFile && event.target.files[0].type.includes("image")) {
       const imageURL: any = URL.createObjectURL(selectedFile);
       setImage(imageURL);
     }
@@ -98,7 +104,6 @@ const AddModalService: React.FC<AddModalProps> = ({
       service_image: event.target.files[0],
     });
   };
-
   const fileInputRef = useRef<any>(null);
   const resetInputImage = () => {
     if (image) {
@@ -144,7 +149,6 @@ const AddModalService: React.FC<AddModalProps> = ({
         message: "Service Image must not be blank",
       });
     }
-
     const formData = new FormData();
     formData.append("name", serviceInfo.name);
     formData.append("description", serviceInfo.description);
@@ -157,7 +161,6 @@ const AddModalService: React.FC<AddModalProps> = ({
         "Content-Type": "multipart/form-data",
       },
     };
-    console.log(serviceInfo.service_image);
     if (serviceInfo.service_image) {
       messageApi.open({
         type: "loading",
@@ -257,6 +260,7 @@ const AddModalService: React.FC<AddModalProps> = ({
               name=""
               id=""
               className={styles["select-option"]}
+              value={serviceInfo.working_time_id}
               onChange={(event) => {
                 setServiceInfo({
                   ...serviceInfo,

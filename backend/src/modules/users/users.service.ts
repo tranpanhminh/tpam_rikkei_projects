@@ -247,6 +247,7 @@ export class UsersService {
         status: 200,
       };
       // return { accessToken: jwtData };
+      this.myGateway.alertGoogleLogin();
       return res.redirect(`${FRONTEND_PATH}/?googleAuth=${jwtData}`);
     } else {
       // Nếu chưa có thì tạo tài khoản mới và push vào DB
@@ -279,6 +280,7 @@ export class UsersService {
         status: 200,
       };
       // return { accessToken: jwtData };
+      this.myGateway.alertGoogleLogin();
       return res.redirect(`${FRONTEND_PATH}/?googleAuth=${jwtData}`);
     }
   }

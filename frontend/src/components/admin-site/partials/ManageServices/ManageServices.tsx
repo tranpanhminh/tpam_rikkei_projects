@@ -59,8 +59,8 @@ function ManageServices() {
     });
     const result = await deleteService(serviceId);
     if (result) {
-      fetchServices(); // Cập nhật lại dữ liệu products sau khi xóa
       messageApi.destroy();
+      fetchServices(); // Cập nhật lại dữ liệu products sau khi xóa
     }
   };
   // ------------------------------------------------

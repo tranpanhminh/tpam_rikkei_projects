@@ -313,3 +313,26 @@ export const validateResetPasswordToken = async (token: any) => {
     });
   return checkExistToken;
 };
+
+// 17. Validate Google Login Token
+export const validateGoogleLoginToken = async (token: any) => {
+  let data: any;
+  if (token) {
+    try {
+      data = jwtDecode(token);
+      const result = await axios
+        .get(`${usersAPI}/detail/${data.id}`)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          return error;
+        });
+    } catch (error) {
+      return error;
+    }
+  } else {
+    return false;
+  }
+  return data;
+};

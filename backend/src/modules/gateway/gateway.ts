@@ -56,4 +56,9 @@ export class MyGateway implements OnModuleInit {
   async alertUpdateName() {
     await this.server.emit('updateName');
   }
+
+  @SubscribeMessage('googleLogin')
+  async alertGoogleLogin() {
+    await this.server.emit('googleLogin');
+  }
 }

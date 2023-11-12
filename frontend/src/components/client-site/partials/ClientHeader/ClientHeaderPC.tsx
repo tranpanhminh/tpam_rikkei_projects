@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
+import { io } from "socket.io-client";
 import React, { useEffect, useState } from "react";
 import logo from "../../../../assets/images/pet-shop-remove-bg.png";
 import styles from "../../ClientPage.module.css";
@@ -7,6 +8,7 @@ import { Button, Container, Nav, Navbar } from "react-bootstrap";
 import { message } from "antd";
 import ClientSearch from "../ClientSearch/ClientSearch";
 import { getDataLogin } from "../../../../api/users.api";
+const socket = io(`${process.env.REACT_APP_BACK_END}`);
 
 // -----------------------------------------------------
 
@@ -29,6 +31,14 @@ function ClientHeaderPC() {
 
   useEffect(() => {
     fetchUser();
+
+    socket.on("googleLogin", () => {
+      fetchUser();
+    });
+
+    return () => {
+      socket.off();
+    };
   }, []);
 
   const handleLogout = () => {
@@ -137,25 +147,30 @@ function ClientHeaderPC() {
                 </>
               }
 
-              <NavLink
-                to="/cart"
-                style={{
-                  display:
-                    (user && user?.role_id === 1) ||
-                    (user && user?.role_id === 2)
-                      ? "none"
-                      : user && user?.role_id === 3
-                      ? ""
-                      : "none",
-                }}
-              >
+              {/* <NavLink to="/cart">
                 <Button
                   variant="primary"
                   className={styles["button-icon-menu"]}
+                  style={{
+                    display:
+                      user && user?.role_id === 3 ? "inline-block" : "none",
+                  }}
                 >
                   <i className="fa-solid fa-cart-shopping"></i>
                 </Button>
-              </NavLink>
+              </NavLink> */}
+
+              {user && user?.role_id === 3 && (
+                <NavLink to="/cart">
+                  <Button
+                    variant="primary"
+                    className={styles["button-icon-menu"]}
+                  >
+                    <i className="fa-solid fa-cart-shopping"></i>
+                  </Button>
+                </NavLink>
+              )}
+
               <NavLink
                 to={
                   user?.role_id === 1 || user?.role_id === 2

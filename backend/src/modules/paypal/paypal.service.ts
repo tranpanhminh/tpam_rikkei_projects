@@ -57,7 +57,6 @@ export class PaypalService {
           },
         );
       });
-      console.log(orderInfo, '----');
       const copyOrderInfo = {
         order_code: orderInfo.id,
         sale_id: orderInfo.transactions[0].related_resources[0].sale.id,
@@ -139,7 +138,6 @@ export class PaypalService {
       <img src="https://rabbunny.com/wp-content/uploads/2023/11/email-confirm-order.webp" alt="" />
       `;
           await this.emailService.sendEmail(emailAdmin, subject, htmlContent);
-
           // Gửi Mail xác nhận đã đặt hàng tới User
           const customerEmail = findUser.email;
           // Gửi email chứa liên kết reset đến người dùng
