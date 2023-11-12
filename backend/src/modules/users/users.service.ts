@@ -67,7 +67,7 @@ export class UsersService {
       full_name: full_name,
       password: encryptPassword,
       image_avatar:
-        'https://lh3.googleusercontent.com/pw/ADCreHc2tQfUrpVQ-_3-wfBetd3zGM9geB02UM1_hd5ieuUU06hShvCrKe3j2tC5JH49OsRDqynoeWdJhMpGh7NJKePGZM6mz2b9MQh7mTzXGuSlH3lAvpTqs2aRdTfHQvpNq-CrBpY_mj6eDrfL5b9JOSaGzLcjmJk7yE7NeM-fNHOvH6fzljl79iAfGg-IaxnPLDLSQIQ6P5o15xesaV8QoXjg9wovNB9wx-y9z8FyDvDpXD2Bhx3f7y2Fp3EMe_Q7aEF3vJyHvQWOOC_jwJHDGi4SZUiGslR-WVB_AYg_wAQ77863KpPYSK8mOb1neY1RoYUyzinObiuMxpdtzlipjZm5_yyWxNqHY2iK2RuPcURFd7zamiDNVKZTQzeliFBBQyM3B-947sLocC2_TAwctBefWLeW_QSqM_RYzL5Ml2wuBG1UiLO-FBpBrN7yegdqMfMrNeRxSFSOHlcgqa0Z_9m9o_N-XYc-d7tkRXNzhm9eW3rPfV7105TYkwFR3-ME9ugyeeXioJVysxCXiZgQAUbPp5PUcmN_LHTUh-q0f8XLE6ijibKJW_oJvvDGWwJnvrrclrcnBin27DBGPYsboOqnBYnOt141fNnSGZXmu1Rvf0YDTW82q8VeN74nglej27P-KgGAdYMiJo2utT30Ukfx6dh0FTQGkkOzEe6od-KNTdBPeSKD27M5H0ii7RZHBrcPzI_o9-6balt7rNf3jiz_L2oWol8nR5cUAwSAZQ2IQfkL8GBZji4lT0esxZbY6_rmUtol9oC47c8hm-kRzjtJoz15Fd1dml3SJzmo6FPI6Pl7IRN6UZP7-TwE6HS9FdBBS_-JBRAOKxgW5q50YQR5iN5aB5_-plry_sZ2XUMbbT3opzXjgajgwpsfD2TRd19ja78ZmSeVXHG8POZDfWqxFg=w350-h350-s-no-gm?authuser=0',
+        'https://rabbunny.com/wp-content/uploads/2023/11/pet-shop.png',
       role_id: 2,
       status_id: 1,
     };
@@ -97,6 +97,7 @@ export class UsersService {
         full_name: !full_name ? checkUser.full_name.trim() : full_name.trim(),
       };
       await this.usersRepository.updateUser(id, updateUser);
+      this.myGateway.alertUpdateName();
       return new HttpException('User Updated', HttpStatus.OK);
     }
   }
@@ -114,7 +115,7 @@ export class UsersService {
       full_name: full_name,
       password: encryptPassword,
       image_avatar:
-        'https://lh3.googleusercontent.com/pw/ADCreHc2tQfUrpVQ-_3-wfBetd3zGM9geB02UM1_hd5ieuUU06hShvCrKe3j2tC5JH49OsRDqynoeWdJhMpGh7NJKePGZM6mz2b9MQh7mTzXGuSlH3lAvpTqs2aRdTfHQvpNq-CrBpY_mj6eDrfL5b9JOSaGzLcjmJk7yE7NeM-fNHOvH6fzljl79iAfGg-IaxnPLDLSQIQ6P5o15xesaV8QoXjg9wovNB9wx-y9z8FyDvDpXD2Bhx3f7y2Fp3EMe_Q7aEF3vJyHvQWOOC_jwJHDGi4SZUiGslR-WVB_AYg_wAQ77863KpPYSK8mOb1neY1RoYUyzinObiuMxpdtzlipjZm5_yyWxNqHY2iK2RuPcURFd7zamiDNVKZTQzeliFBBQyM3B-947sLocC2_TAwctBefWLeW_QSqM_RYzL5Ml2wuBG1UiLO-FBpBrN7yegdqMfMrNeRxSFSOHlcgqa0Z_9m9o_N-XYc-d7tkRXNzhm9eW3rPfV7105TYkwFR3-ME9ugyeeXioJVysxCXiZgQAUbPp5PUcmN_LHTUh-q0f8XLE6ijibKJW_oJvvDGWwJnvrrclrcnBin27DBGPYsboOqnBYnOt141fNnSGZXmu1Rvf0YDTW82q8VeN74nglej27P-KgGAdYMiJo2utT30Ukfx6dh0FTQGkkOzEe6od-KNTdBPeSKD27M5H0ii7RZHBrcPzI_o9-6balt7rNf3jiz_L2oWol8nR5cUAwSAZQ2IQfkL8GBZji4lT0esxZbY6_rmUtol9oC47c8hm-kRzjtJoz15Fd1dml3SJzmo6FPI6Pl7IRN6UZP7-TwE6HS9FdBBS_-JBRAOKxgW5q50YQR5iN5aB5_-plry_sZ2XUMbbT3opzXjgajgwpsfD2TRd19ja78ZmSeVXHG8POZDfWqxFg=w350-h350-s-no-gm?authuser=0',
+        'https://rabbunny.com/wp-content/uploads/2023/11/pet-shop.png',
       role_id: 3,
       status_id: 1,
     };
@@ -307,6 +308,7 @@ export class UsersService {
     <p>You have requested a password reset.</p>
     <p>Click on the button below to reset your password:</p>
     <a href="${FRONTEND_PATH}/reset-password/?resetToken=${resetToken}"><button>Reset Password</button></a>
+    <p>This link is only exist in 5 minutes</p>
     `;
     // return result;
     await this.emailService.sendEmail(email, subject, htmlContent);

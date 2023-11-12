@@ -51,4 +51,9 @@ export class MyGateway implements OnModuleInit {
   async alertUpdateAvatar() {
     await this.server.emit('updateAvatar');
   }
+
+  @SubscribeMessage('updateName')
+  async alertUpdateName() {
+    await this.server.emit('updateName');
+  }
 }

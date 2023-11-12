@@ -57,6 +57,7 @@ export class PaypalService {
           },
         );
       });
+      console.log(orderInfo, '----');
       const copyOrderInfo = {
         order_code: orderInfo.id,
         sale_id: orderInfo.transactions[0].related_resources[0].sale.id,
@@ -70,7 +71,7 @@ export class PaypalService {
         order_code: copyOrderInfo.order_code,
         sale_id: copyOrderInfo.sale_id,
         user_id: Number(copyOrderInfo.user_id),
-        customer_name: `${copyOrderInfo.customer_info.first_name} ${copyOrderInfo.customer_info.last_name}`,
+        customer_name: `${copyOrderInfo.customer_info.shipping_address.recipient_name}`,
         address: `${copyOrderInfo.customer_info.shipping_address.line1}, ${copyOrderInfo.customer_info.shipping_address.city}, ${copyOrderInfo.customer_info.shipping_address.state}, ${copyOrderInfo.customer_info.shipping_address.postal_code}, ${copyOrderInfo.customer_info.shipping_address.country_code}`,
         phone: copyOrderInfo.phone,
         discounted: Number(copyOrderInfo.amounts.details.discount),
@@ -133,9 +134,9 @@ export class PaypalService {
           // Gửi email chứa liên kết reset đến người dùng
           const subject = `New Order (OrderID: ${orderId})`;
           const htmlContent = `<h3>A customer successully ordered:
-          <a href="${FRONTEND_PATH}/admin/manage-orders/?orderID=${orderId}">See Detail</a>
+          <a href="${FRONTEND_PATH}/admin/manage-orders/">See Detail</a>
           </h3>
-      <img src="https://lh3.googleusercontent.com/pw/ADCreHfOM5-sYSYXMcd_-QEE8B4_sNcQJKg7PER8pGe3mnN9PT7kLtuhzWBa37CaB-LtEs0iBY7jkYELgYiotyndEAC0fCWccfgX9bljSvDgn_q4geF6yhF9Xsz_RbSjgC-edGoQRkUgp2fbECXYBd8BSwQECuR828HYnJDD9JewE2Bn27Pdxj8w3y7vJ0qwkvYF15GJCBQKwaIdxVewYjCDsFp5pCIe_yohbN6GjGCKE6g3CyKkhWCI8A4GWHp_2NhzQHxDN9drobgqSruLU-qygMTykvPSBz_od1vWKE8uHTsnuJc5qSeyMvAvBvGJzHzyNBsu_i_5Kj53Xz2ITbFg5IhWPY8lBuNpqcBT8O1HmDcmGnOBkBVajnDtOIgcYNpBMv6J53DjMXsNvQIavp5DANCJJvSWXbQQLX9xfWr9jLOxY_9ULIRgHl4-jqfmIsYPRZZwlgKYJ-jX_WZ2aKrYs9zkl-QVdveR7VcAZ8L80TfV-JPFC-C1xBRrhZ-AotHVB-ty3ScSNPC_HNkKLxB_eMd9SbOpur5ojwNpTuZgDgZX8WROjKmc-xq9J674sNVLw_WaJnsmuFMC5u2_Cb7ZHtAwggkcO0YYq2C29TrIAFUZg547JJxyqjS0UVXFyEimAT1NqeQB0EDf7DOXHsxBjAm2UqewBzwfProrHcHSlJOJzMGzq7PYbE65Y7r7udmLrjhiR1ev959y9_9TgWHgtFLDJgzqW3WgKD_o1e6JIssSFWdBgr6UIDT9H7R5hfN4gjxUBXPIuItd5wZoqiVySBMYUmxChW6b89k8M_6DIjQs17fiRgZ9bRIvEEwNn2Eq8egSgADwdLHkKyL7DGKfxqF0py1fiSzWDOmiH67wEFbh8P8KQbtEpibyLfo_PF6apVQl-0x5MClIruu3QP1B10RqDw=w1200-h630-s-no-gm?authuser=0" alt="" />
+      <img src="https://rabbunny.com/wp-content/uploads/2023/11/email-confirm-order.webp" alt="" />
       `;
           await this.emailService.sendEmail(emailAdmin, subject, htmlContent);
 
@@ -144,9 +145,9 @@ export class PaypalService {
           // Gửi email chứa liên kết reset đến người dùng
           const subjectCustomer = `New Order Created Successfully (OrderID: ${orderId})`;
           const htmlContentCustomer = `<h3>Thank you for purchasing our product:
-                    <a href="${FRONTEND_PATH}/user/my-orders/?detail-order=${orderId}">See Detail Your Order</a>
+                    <a href="${FRONTEND_PATH}/user/my-orders/">See Detail Your Order</a>
                     </h3>
-                <img src="https://lh3.googleusercontent.com/pw/ADCreHfOM5-sYSYXMcd_-QEE8B4_sNcQJKg7PER8pGe3mnN9PT7kLtuhzWBa37CaB-LtEs0iBY7jkYELgYiotyndEAC0fCWccfgX9bljSvDgn_q4geF6yhF9Xsz_RbSjgC-edGoQRkUgp2fbECXYBd8BSwQECuR828HYnJDD9JewE2Bn27Pdxj8w3y7vJ0qwkvYF15GJCBQKwaIdxVewYjCDsFp5pCIe_yohbN6GjGCKE6g3CyKkhWCI8A4GWHp_2NhzQHxDN9drobgqSruLU-qygMTykvPSBz_od1vWKE8uHTsnuJc5qSeyMvAvBvGJzHzyNBsu_i_5Kj53Xz2ITbFg5IhWPY8lBuNpqcBT8O1HmDcmGnOBkBVajnDtOIgcYNpBMv6J53DjMXsNvQIavp5DANCJJvSWXbQQLX9xfWr9jLOxY_9ULIRgHl4-jqfmIsYPRZZwlgKYJ-jX_WZ2aKrYs9zkl-QVdveR7VcAZ8L80TfV-JPFC-C1xBRrhZ-AotHVB-ty3ScSNPC_HNkKLxB_eMd9SbOpur5ojwNpTuZgDgZX8WROjKmc-xq9J674sNVLw_WaJnsmuFMC5u2_Cb7ZHtAwggkcO0YYq2C29TrIAFUZg547JJxyqjS0UVXFyEimAT1NqeQB0EDf7DOXHsxBjAm2UqewBzwfProrHcHSlJOJzMGzq7PYbE65Y7r7udmLrjhiR1ev959y9_9TgWHgtFLDJgzqW3WgKD_o1e6JIssSFWdBgr6UIDT9H7R5hfN4gjxUBXPIuItd5wZoqiVySBMYUmxChW6b89k8M_6DIjQs17fiRgZ9bRIvEEwNn2Eq8egSgADwdLHkKyL7DGKfxqF0py1fiSzWDOmiH67wEFbh8P8KQbtEpibyLfo_PF6apVQl-0x5MClIruu3QP1B10RqDw=w1200-h630-s-no-gm?authuser=0" alt="" />
+                <img src="https://rabbunny.com/wp-content/uploads/2023/11/email-confirm-order.webp" alt="" />
                 `;
           await this.emailService.sendEmail(
             customerEmail,

@@ -45,11 +45,13 @@ export const bookingService = async (
       notification.success({
         message: response.data.message,
       });
+      return true;
     })
     .catch((error) => {
       notification.warning({
         message: error.response.data.message,
       });
+      return false;
     });
   return result;
 };

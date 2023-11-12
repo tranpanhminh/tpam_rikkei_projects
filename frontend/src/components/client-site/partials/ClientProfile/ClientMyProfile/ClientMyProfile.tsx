@@ -1,3 +1,4 @@
+import { io } from "socket.io-client";
 import React, { useEffect, useRef } from "react";
 import styles from "../UserProfile.module.css";
 import { useState } from "react";
@@ -9,6 +10,7 @@ import {
   changeUserPassword,
   getDataLogin,
 } from "../../../../../api/users.api";
+const socket = io(`${process.env.REACT_APP_BACK_END}`);
 
 // -------------------------------------------------
 
@@ -70,6 +72,7 @@ function ClientEditProfile() {
     setShow(false);
     fetchUser();
     navigate("/user/my-profile/");
+    socket.emit("updateName");
     return result;
   };
   // ------------------------------------------

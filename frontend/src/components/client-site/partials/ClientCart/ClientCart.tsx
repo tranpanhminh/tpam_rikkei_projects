@@ -326,7 +326,7 @@ function ClientCart() {
                               return (
                                 <tr>
                                   <td>{index + 1}</td>
-                                  <td>{coupon?.discount_rate}</td>
+                                  <td>{coupon?.discount_rate}%</td>
                                   <td>${coupon?.min_bill.toLocaleString()}</td>
                                 </tr>
                               );
@@ -356,8 +356,8 @@ function ClientCart() {
                 <span>${total().toLocaleString()}</span>
                 <img
                   className={styles["paypal-icon"]}
-                  src="https://lh3.googleusercontent.com/pw/ADCreHfl2i75FjCDCTI6_GZD6Tm8VtWIb37Ur2RHA-RMlKaiRwHebshBvbLStzks6CyspCXWRq4vvuKnxRBkJOKAKXujf7t-ZzWetduyHuBiLzND19uMAvMtEf3tdu8vQLPf1G08txU_Q5-gdprJ4lbHcbBg=w1920-h704-s-no-gm"
-                  alt=""
+                  src="https://rabbunny.com/wp-content/uploads/2023/11/paypal.png"
+                  alt="Paypal Checkout"
                   onClick={handleCheckout}
                 />
               </div>

@@ -1,8 +1,10 @@
+import { io } from "socket.io-client";
 import React, { useRef, useState } from "react";
 import { Button, Modal, notification, Spin, message } from "antd";
 import styles from "../AddProduct/AddModalProduct.module.css";
 import { useNavigate } from "react-router-dom";
 import { importProducts } from "../../../../../../api/products.api";
+const socket = io(`${process.env.REACT_APP_BACK_END}`);
 
 // ------------------------------------------------
 
@@ -87,17 +89,28 @@ const ImportModalProduct: React.FC<AddModalProps> = ({
         content: "Importing...",
         duration: 2.5,
       });
-      setTimeout(() => {
-        messageApi.destroy();
-        notification.success({
-          message: `Products Imported Successfully`,
-        });
-        setFile("");
-        handleCancel();
-        resetFile();
-        handleClickOk();
-        window.location.reload();
-      }, 3000);
+
+      messageApi.destroy();
+      notification.success({
+        message: `Products Imported Successfully`,
+      });
+      setFile("");
+      handleCancel();
+      resetFile();
+      socket.emit("importProducts");
+      handleClickOk();
+
+      // setTimeout(() => {
+      //   messageApi.destroy();
+      //   notification.success({
+      //     message: `Products Imported Successfully`,
+      //   });
+      //   setFile("");
+      //   handleCancel();
+      //   resetFile();
+      //   handleClickOk();
+      //   window.location.reload();
+      // }, 3000);
     }
   };
 

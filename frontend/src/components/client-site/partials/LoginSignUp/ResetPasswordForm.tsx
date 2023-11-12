@@ -7,7 +7,7 @@ import {
   resetPassword,
   validateResetPasswordToken,
 } from "../../../../api/users.api";
-import { notification } from "antd";
+import { message, notification } from "antd";
 
 // ----------------------------------------------------------
 function ResetPasswordForm() {
@@ -16,15 +16,28 @@ function ResetPasswordForm() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [searchParams] = useSearchParams();
+  const [messageApi, contextHolder] = message.useMessage();
   const getToken = searchParams.get("resetToken");
 
   const handleRequestResetPassword = async () => {
     const data = {
       email: email,
     };
-    const result = await requestResetPassword(data);
-    if (result) {
-      setShow(true);
+    if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      // notification.warning({
+      //   message: "Invalid email format",
+      // });
+      // return false;
+      messageApi.open({
+        type: "loading",
+        content: "Waiting...",
+        duration: 0,
+      });
+      const result = await requestResetPassword(data);
+      if (result) {
+        messageApi.destroy();
+        setShow(true);
+      }
     }
   };
 
@@ -40,13 +53,14 @@ function ResetPasswordForm() {
       }
     } else {
       notification.warning({
-        message: `Token is not valid or expired`,
+        message: `This reset password link is expired, please request a new link`,
       });
     }
   };
 
   return (
     <div className={styles["outside-form-login"]}>
+      {contextHolder}
       {getToken ? (
         <div className={styles["form-signup"]}>
           <h3 className={styles["signup-title"]}>Reset Password</h3>
@@ -68,6 +82,11 @@ function ResetPasswordForm() {
             Already have an account? &nbsp;
             <NavLink to="/login" className={styles["login-text"]}>
               Login
+            </NavLink>
+          </p>{" "}
+          <p className={styles["login-sentence"]}>
+            <NavLink to="/reset-password" className={styles["login-text"]}>
+              Request a new password reset link
             </NavLink>
           </p>
         </div>
@@ -96,7 +115,8 @@ function ResetPasswordForm() {
             }}
           >
             An email containing the Reset Password link has been sent to your
-            email. If you don't see please check spam folder.
+            email. If you don't see please check spam folder. This link exist in
+            5 minutes.
           </span>
           <p className={styles["login-sentence"]}>
             Already have an account?{" "}

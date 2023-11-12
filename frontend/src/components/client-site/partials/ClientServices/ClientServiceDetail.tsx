@@ -166,15 +166,16 @@ function ClientServiceDetail() {
       service_id: serviceId,
     };
     const result = await bookingService(userId, serviceId, userInfo);
-    setUserInfo({
-      user_id: "",
-      service_id: "",
-      name: "",
-      phone: "",
-      booking_date: "",
-      calendar: "",
-    });
-    return result;
+    if (result) {
+      setUserInfo({
+        user_id: "",
+        service_id: "",
+        name: "",
+        phone: "",
+        booking_date: "",
+        calendar: "",
+      });
+    }
   };
 
   const bookingDate: DatePickerProps["onChange"] = (date, dateString) => {

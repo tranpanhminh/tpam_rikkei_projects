@@ -68,7 +68,7 @@ function App() {
   //       socket.off();
   //     };
   //   }
-  // }, [socket]);
+  // }, []);
 
   return (
     <>
