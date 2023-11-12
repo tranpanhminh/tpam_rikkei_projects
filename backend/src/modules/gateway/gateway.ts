@@ -17,10 +17,10 @@ export class MyGateway implements OnModuleInit {
     });
   }
 
-  // @SubscribeMessage('newOrder')
-  // alertNewOrder(text: string) {
-  //   this.server.emit('newOrder', text);
-  // }
+  @SubscribeMessage('newOrder')
+  async alertNewOrder(text: string) {
+    await this.server.emit('newOrder', text);
+  }
 
   @SubscribeMessage('newServiceComment')
   async alertNewServiceComment() {

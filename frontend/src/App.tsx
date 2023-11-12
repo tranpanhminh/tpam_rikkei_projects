@@ -59,18 +59,18 @@ function App() {
   //   const result = await getDataLogin();
   //   return setUser(result);
   // };
-  // console.log(user);
   // useEffect(() => {
   //   fetchUser();
 
   //   if (user?.role_id === 1 || user?.role_id === 2) {
+  //     socket.emit("newOrder");
   //     socket.on("newOrder", (order) => {
   //       notification.success({
   //         message: `${order}`,
   //       });
   //     });
   //     return () => {
-  //       socket.off();
+  //       socket.disconnect();
   //     };
   //   }
   // }, []);

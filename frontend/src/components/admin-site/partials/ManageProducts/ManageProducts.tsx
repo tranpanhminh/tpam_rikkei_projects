@@ -122,6 +122,10 @@ function ManageProducts() {
     saveAs(result, fileName);
   };
 
+  function stripHTMLTags(html: any) {
+    return html.replace(/<\/?[^>]+(>|$)/g, "");
+  }
+
   // ------------------------------------------------
 
   return (
@@ -181,6 +185,7 @@ function ManageProducts() {
               <th>ID</th>
               <th>Image</th>
               <th>Name</th>
+              <th>Vendor</th>
               <th>Price</th>
               <th>Quantity</th>
               <th>Action</th>
@@ -193,7 +198,8 @@ function ManageProducts() {
                 <td>
                   <img src={product.thumbnail_url} alt="" />
                 </td>
-                <td>{product.name}</td>
+                <td>{stripHTMLTags(product.name).slice(0, 60) + "..."}</td>
+                <td>{product?.vendors?.name || "No Vendor"}</td>
                 <td>${product.price}</td>
                 <td>{product.quantity_stock}</td>
                 <td className={styles["group-btn-admin-manage-product"]}>
