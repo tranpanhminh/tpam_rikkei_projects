@@ -15,9 +15,11 @@ import { UpdateOrderDTO } from './dto/updateOrder.dto';
 import * as paypal from 'paypal-rest-sdk';
 import { OrdersInterface } from './interface/orders.interface';
 import { CancelReasonsRepository } from '../cancelReasons/cancelReasons.repository';
+import { EmailService } from '../email/email.service';
 
 const path = process.env.SERVER_PATH;
 const BACKEND_PATH = process.env.BACKEND_PATH;
+const FRONTEND_PATH = process.env.FRONTEND_PATH;
 
 // -------------------------------------------------------
 
@@ -32,6 +34,7 @@ export class OrdersService {
     private readonly productsRepository: ProductsRepository,
     private readonly usersRepository: UsersRepository,
     private readonly cancelReasonsRepository: CancelReasonsRepository,
+    private readonly emailService: EmailService,
   ) {}
 
   // 1. Get All
@@ -192,6 +195,9 @@ export class OrdersService {
     try {
       const checkOrder: OrdersEntity =
         await this.ordersRepository.getDetailOrder(id);
+      const findUser = await this.usersRepository.getDetailUser(
+        checkOrder.user_id,
+      );
 
       await new Promise((resolve, reject) => {
         const refundRequest = {
@@ -247,6 +253,31 @@ export class OrdersService {
           status_id: 5,
         };
         await this.ordersRepository.updateOrder(id, updateOrder);
+
+        // Gửi Mail có order mới tới Admin
+        const emailAdmin = process.env.MAIL_ADMIN;
+        // Gửi email chứa liên kết reset đến người dùng
+        const subject = `An Order Was Cancelled Successfully (OrderID: ${checkOrder.id})`;
+        const htmlContent = `<h3>A customer successully cancelled an order:
+ <a href="${FRONTEND_PATH}/admin/manage-orders/">See Detail</a>
+ </h3>
+`;
+        await this.emailService.sendEmail(emailAdmin, subject, htmlContent);
+
+        // Gửi Mail xác nhận đã đặt hàng tới User
+        const customerEmail = findUser.email;
+        // Gửi email chứa liên kết reset đến người dùng
+        const subjectCustomer = `Order Was Cancelled Successfully (OrderID: ${checkOrder.id})`;
+        const htmlContentCustomer = `<h3>Thank you for supporting, we have cancelled your order:
+           <a href="${FRONTEND_PATH}/user/my-orders/">See Detail</a>
+           </h3>
+       `;
+        await this.emailService.sendEmail(
+          customerEmail,
+          subjectCustomer,
+          htmlContentCustomer,
+        );
+
         return new HttpException('Order Cancelled Completed', HttpStatus.OK);
       }
     } catch (error) {

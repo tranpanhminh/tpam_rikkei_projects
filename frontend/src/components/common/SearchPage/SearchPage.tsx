@@ -3,6 +3,7 @@ import styles from "../../client-site/ClientPage.module.css";
 import { Product, Service } from "../../../database";
 import axios from "axios";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
+import ReactPaginate from "react-paginate";
 
 // Import API
 const productsAPI = process.env.REACT_APP_API_PRODUCTS;
@@ -15,6 +16,13 @@ function SearchPage() {
   const { searchTerm } = useParams();
   const [products, setProducts] = useState<Product[]>([]);
   const [services, setServices] = useState<Service[]>([]);
+  const [productItems, setProductsItems] = useState<any>([]);
+  const [pageProductCount, setPageProductCount] = useState(0);
+  const [itemProductOffset, setItemProductOffset] = useState(0);
+  const [serviceItems, setServicesItems] = useState<any>([]);
+  const [pageServiceCount, setPageServiceCount] = useState(0);
+  const [itemServiceOffset, setItemServiceOffset] = useState(0);
+
   const fetchProducts = () => {
     axios
       .get(`${productsAPI}`)
@@ -46,13 +54,40 @@ function SearchPage() {
     searchTerm ? `Search: ${searchTerm} | PetShop` : "Loading..."
   }`;
 
-  let filterProducts = products.filter((item: any) => {
+  let filterProducts: any = products.filter((item: any) => {
     return item.name.toLowerCase().includes(searchTerm?.trim().toLowerCase());
   });
 
   let filterServices = services.filter((item: any) => {
     return item.name.toLowerCase().includes(searchTerm?.trim().toLowerCase());
   });
+
+  // Pagination Products
+  // const itemsPerPage = Number(searchParams.get("limit")) || 5;
+  const itemsPerPage = 4;
+  useEffect(() => {
+    const endProductOffset = itemProductOffset + itemsPerPage;
+    setProductsItems(filterProducts.slice(itemProductOffset, endProductOffset));
+    setPageProductCount(Math.ceil(filterProducts.length / itemsPerPage));
+  }, [itemProductOffset, itemsPerPage, filterProducts]);
+
+  const handlePageProductClick = (event: any) => {
+    const newProductOffset = event.selected * itemsPerPage;
+    setItemProductOffset(newProductOffset);
+  };
+
+  // Pagination Services
+  // const itemsPerPage = Number(searchParams.get("limit")) || 5;
+  useEffect(() => {
+    const endServiceOffset = itemProductOffset + itemsPerPage;
+    setServicesItems(filterServices.slice(itemServiceOffset, endServiceOffset));
+    setPageServiceCount(Math.ceil(filterServices.length / itemsPerPage));
+  }, [itemServiceOffset, itemsPerPage, filterServices]);
+
+  const handlePageServiceClick = (event: any) => {
+    const newServiceOffset = event.selected * itemsPerPage;
+    setItemServiceOffset(newServiceOffset);
+  };
 
   return (
     <>
@@ -80,8 +115,8 @@ function SearchPage() {
                 ? `Found ${filterProducts.length} products`
                 : "No product found"}
             </h4>
-            {filterProducts &&
-              filterProducts.map((product) => {
+            {productItems &&
+              productItems.map((product: any) => {
                 return (
                   <div
                     className={`col-12 col-sm-12 col-md-6 col-xl-3 mt-5 px-2 ${styles["product-card"]}`}
@@ -101,7 +136,7 @@ function SearchPage() {
                           </h5>
                         </NavLink>
                         <p className={styles["card-price"]}>
-                          Price: ${product && product.price.toLocaleString()}
+                          Price: ${product && product?.price.toLocaleString()}
                         </p>
                       </div>
                       <div className={styles["card-foot"]}>
@@ -116,6 +151,22 @@ function SearchPage() {
                   </div>
                 );
               })}
+          </div>
+          <div className={styles["pagination-form"]}>
+            <ReactPaginate
+              breakLabel="..."
+              nextLabel="next >"
+              previousLabel="< previous"
+              renderOnZeroPageCount={null}
+              pageRangeDisplayed={5}
+              pageCount={pageProductCount}
+              onPageChange={handlePageProductClick}
+              containerClassName="pagination"
+              pageLinkClassName="page-number"
+              previousLinkClassName="page-number"
+              nextLinkClassName="page-number"
+              activeLinkClassName={styles["active"]}
+            />
           </div>
         </div>
 
@@ -159,6 +210,22 @@ function SearchPage() {
                       </div>
                     );
                   })}
+              </div>
+              <div className={styles["pagination-form"]}>
+                <ReactPaginate
+                  breakLabel="..."
+                  nextLabel="next >"
+                  previousLabel="< previous"
+                  renderOnZeroPageCount={null}
+                  pageRangeDisplayed={5}
+                  pageCount={pageServiceCount}
+                  onPageChange={handlePageServiceClick}
+                  containerClassName="pagination"
+                  pageLinkClassName="page-number"
+                  previousLinkClassName="page-number"
+                  nextLinkClassName="page-number"
+                  activeLinkClassName={styles["active"]}
+                />
               </div>
             </div>
           </div>
