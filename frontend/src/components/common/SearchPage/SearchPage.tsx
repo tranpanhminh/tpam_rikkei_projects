@@ -89,6 +89,10 @@ function SearchPage() {
     setItemServiceOffset(newServiceOffset);
   };
 
+  function stripHTMLTags(html: any) {
+    return html.replace(/<\/?[^>]+(>|$)/g, "");
+  }
+
   return (
     <>
       <div
@@ -132,7 +136,10 @@ function SearchPage() {
                       <div className={styles["card-body"]}>
                         <NavLink to={`/products/${product.id}`}>
                           <h5 className={styles["product-title-name"]}>
-                            {product && product.name}
+                            {stripHTMLTags(product && product.name).slice(
+                              0,
+                              50
+                            ) + "..."}
                           </h5>
                         </NavLink>
                         <p className={styles["card-price"]}>

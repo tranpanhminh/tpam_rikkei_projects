@@ -5,7 +5,7 @@ import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
 import { IoAdapter } from '@nestjs/platform-socket.io';
 import * as events from 'events'; // Thêm dòng này để import events
-import { RedisIoAdapter } from './modules/gateway/redis.adapter';
+import * as compression from 'compression';
 
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -51,7 +51,7 @@ async function bootstrap() {
   );
   events.EventEmitter.defaultMaxListeners = Infinity;
   app.useWebSocketAdapter(new IoAdapter(app));
-  // app.useWebSocketAdapter(new RedisIoAdapter(app));
+  app.use(compression());
   await app.listen(port);
 }
 bootstrap();

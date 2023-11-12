@@ -165,6 +165,10 @@ function ClientCart() {
     setIsModalOpen(false);
   };
 
+  function stripHTMLTags(html: any) {
+    return html.replace(/<\/?[^>]+(>|$)/g, "");
+  }
+
   return (
     <>
       {contextHolder}
@@ -204,7 +208,10 @@ function ClientCart() {
                           <td>
                             <img src={item.products.thumbnail_url} alt="" />
                           </td>
-                          <td>{item.products.name}</td>
+                          <td>
+                            {stripHTMLTags(item.products.name).slice(0, 60) +
+                              "..."}
+                          </td>
                           <td>
                             <input
                               type="number"
