@@ -86,7 +86,7 @@ function ClientServiceDetail() {
       fetchServiceComments();
     });
     return () => {
-      socket.off();
+      socket.disconnect();
     };
   }, []);
 

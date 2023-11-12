@@ -37,7 +37,7 @@ function ClientHeaderPC() {
     });
 
     return () => {
-      socket.off();
+      socket.disconnect();
     };
   }, []);
 

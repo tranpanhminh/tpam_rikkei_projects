@@ -30,7 +30,7 @@ const UserHeader: React.FC = () => {
       fetchUser();
     });
     return () => {
-      socket.off();
+      socket.disconnect();
     };
   }, []);
 

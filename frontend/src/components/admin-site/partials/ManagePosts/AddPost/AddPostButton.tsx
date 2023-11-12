@@ -148,16 +148,21 @@ const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
       },
     };
 
-    if (
-      (postInfo.thumbnail_url && postInfo.status_id === 1) ||
-      (postInfo.thumbnail_url && postInfo.status_id === 2)
-    ) {
-      messageApi.open({
-        type: "loading",
-        content: "Adding...",
-        duration: 0,
-      });
-    }
+    // if (
+    //   (postInfo.thumbnail_url && postInfo.status_id === 1) ||
+    //   (postInfo.thumbnail_url && postInfo.status_id === 2)
+    // ) {
+    //   messageApi.open({
+    //     type: "loading",
+    //     content: "Adding...",
+    //     // duration: 0,
+    //   });
+    // }
+    messageApi.open({
+      type: "loading",
+      content: "Adding...",
+      duration: 0,
+    });
     const result = await addPost(formData, config);
     if (result) {
       fetchPosts();

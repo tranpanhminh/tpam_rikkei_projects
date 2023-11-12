@@ -55,7 +55,7 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
       fetchUser();
     });
     return () => {
-      socket.off();
+      socket.disconnect();
     };
   }, []);
   // -----------------------------------------------------------

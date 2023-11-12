@@ -34,7 +34,6 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
     author: "",
     status_id: "",
   });
-  console.log(postInfo, "postInfo");
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const postId = searchParams.get("edit-postId");
