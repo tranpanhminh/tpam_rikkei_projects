@@ -69,6 +69,7 @@ export class BookingsRepository {
     const bookings = await this.bookingsEntity.find({
       where: { user_id: userId },
       relations: { users: true, booking_statuses: true },
+      order: { date: 'DESC' },
     });
     return bookings;
   }
@@ -120,6 +121,7 @@ export class BookingsRepository {
     return await this.bookingsEntity.find({
       where: { booking_date: date },
       relations: { booking_statuses: true },
+      order: { date: 'DESC' },
     });
   }
 }

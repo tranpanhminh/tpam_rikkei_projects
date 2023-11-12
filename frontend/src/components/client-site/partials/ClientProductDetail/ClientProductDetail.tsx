@@ -90,19 +90,19 @@ function ClientProductDetail() {
 
     socket.on("newProductComment", () => {
       fetchProduct();
-      fetchUser();
+      // fetchUser();
       fetchProductComments();
     });
 
     socket.on("deleteProductComment", () => {
       fetchProduct();
-      fetchUser();
+      // fetchUser();
       fetchProductComments();
     });
     return () => {
       socket.off();
     };
-  }, [socket]);
+  }, []);
 
   document.title = `${product ? `${product?.name} | PetShop` : "Loading..."}`;
 

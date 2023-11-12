@@ -26,9 +26,8 @@ const UserHeader: React.FC = () => {
     socket.on("updateAvatar", () => {
       fetchUser();
     });
-
     return () => {
-      socket.disconnect();
+      socket.off();
     };
   }, []);
 

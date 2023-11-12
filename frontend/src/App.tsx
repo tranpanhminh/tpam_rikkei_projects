@@ -49,26 +49,26 @@ export function RoleNavigation() {
 }
 
 function App() {
-  const [user, setUser] = useState<any>(null);
-  const fetchUser = async () => {
-    const result = await getDataLogin();
-    return setUser(result);
-  };
+  // const [user, setUser] = useState<any>(null);
+  // const fetchUser = async () => {
+  //   const result = await getDataLogin();
+  //   return setUser(result);
+  // };
+  // console.log(user);
+  // useEffect(() => {
+  //   fetchUser();
 
-  useEffect(() => {
-    fetchUser();
-
-    if (user?.role_id === 1 || user?.role_id === 2) {
-      socket.on("newOrder", (order) => {
-        notification.success({
-          message: `${order}`,
-        });
-      });
-      return () => {
-        socket.off();
-      };
-    }
-  }, [socket]);
+  //   if (user?.role_id === 1 || user?.role_id === 2) {
+  //     socket.on("newOrder", (order) => {
+  //       notification.success({
+  //         message: `${order}`,
+  //       });
+  //     });
+  //     return () => {
+  //       socket.off();
+  //     };
+  //   }
+  // }, [socket]);
 
   return (
     <>

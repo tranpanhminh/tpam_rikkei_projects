@@ -1,3 +1,4 @@
+import { io } from "socket.io-client";
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Modal, message, notification } from "antd";
@@ -26,6 +27,7 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
   title,
 }) => {
   // States
+  const socket = io(`${process.env.REACT_APP_BACK_END}`);
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
@@ -48,6 +50,13 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
 
   useEffect(() => {
     fetchUser();
+
+    socket.on("updateAvatar", () => {
+      fetchUser();
+    });
+    return () => {
+      socket.off();
+    };
   }, []);
   // -----------------------------------------------------------
 

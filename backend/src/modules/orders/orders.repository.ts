@@ -16,7 +16,7 @@ export class OrdersRepository {
   async getAllOrders() {
     return await this.ordersEntity.find({
       relations: { users: true, order_statuses: true, order_items: true },
-      order: {order_date: "desc"}
+      order: { order_date: 'desc' },
     });
   }
 
@@ -48,6 +48,7 @@ export class OrdersRepository {
     const getAllOrders = await this.ordersEntity.find({
       where: { user_id: userId },
       relations: { order_statuses: true, users: true },
+      order: { order_date: 'DESC' },
     });
     return getAllOrders;
   }

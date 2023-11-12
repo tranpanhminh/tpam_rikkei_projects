@@ -161,9 +161,9 @@ export const paginationProducts = async (page: number, limit: number) => {
 export const importProducts = async (file: File, config: any) => {
   const result = await BaseAxios.post(`${productsAPI}/import`, file, config)
     .then((response) => {
-      notification.success({
-        message: `${response.data.message}`,
-      });
+      // notification.success({
+      //   message: `${response.data.message}`,
+      // });
       return true;
     })
     .catch((error) => {

@@ -77,18 +77,18 @@ function ClientServiceDetail() {
 
     socket.on("newServiceComment", () => {
       fetchService();
-      fetchUsers();
+      // fetchUsers();
       fetchServiceComments();
     });
     socket.on("deleteServiceComment", () => {
       fetchService();
-      fetchUsers();
+      // fetchUsers();
       fetchServiceComments();
     });
     return () => {
       socket.off();
     };
-  }, [socket]);
+  }, []);
 
   // -----------------------------------------------------
 

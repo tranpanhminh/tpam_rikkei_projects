@@ -17,38 +17,38 @@ export class MyGateway implements OnModuleInit {
     });
   }
 
-  @SubscribeMessage('newOrder')
-  alertNewOrder(text: string) {
-    this.server.emit('newOrder', text);
-  }
+  // @SubscribeMessage('newOrder')
+  // alertNewOrder(text: string) {
+  //   this.server.emit('newOrder', text);
+  // }
 
   @SubscribeMessage('newServiceComment')
-  alertNewServiceComment() {
-    this.server.emit('newServiceComment');
+  async alertNewServiceComment() {
+    await this.server.emit('newServiceComment');
   }
 
   @SubscribeMessage('deleteServiceComment')
-  alertDeleteServiceComment() {
-    this.server.emit('deleteServiceComment');
+  async alertDeleteServiceComment() {
+    await this.server.emit('deleteServiceComment');
   }
 
   @SubscribeMessage('newProductComment')
-  alertNewProductComment() {
-    this.server.emit('newProductComment');
+  async alertNewProductComment() {
+    await this.server.emit('newProductComment');
   }
 
   @SubscribeMessage('deleteProductComment')
-  alertDeleteProductComment() {
-    this.server.emit('deleteProductComment');
+  async alertDeleteProductComment() {
+    await this.server.emit('deleteProductComment');
   }
 
   @SubscribeMessage('importProducts')
-  alertImportProducts() {
-    this.server.emit('importProducts');
+  async alertImportProducts() {
+    await this.server.emit('importProducts');
   }
 
   @SubscribeMessage('updateAvatar')
-  alertUpdateAvatar() {
-    this.server.emit('updateAvatar');
+  async alertUpdateAvatar() {
+    await this.server.emit('updateAvatar');
   }
 }

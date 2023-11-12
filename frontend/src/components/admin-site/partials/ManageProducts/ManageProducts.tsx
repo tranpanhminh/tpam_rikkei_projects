@@ -39,11 +39,10 @@ function ManageProducts() {
 
     socket.on("importProducts", () => {
       handleUpdateProduct();
-      // fetchProducts();
+      fetchProducts();
     });
-
     return () => {
-      socket.disconnect();
+      socket.off();
     };
   }, []);
   // ------------------------------------------------
@@ -92,8 +91,8 @@ function ManageProducts() {
   // ------------------------------------------------
 
   // Handle Update Product
-  const handleUpdateProduct = () => {
-    fetchProducts();
+  const handleUpdateProduct = async () => {
+    await fetchProducts();
   };
 
   // Pagination

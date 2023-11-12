@@ -31,10 +31,10 @@ const AdminHeader: React.FC = () => {
     return () => {
       socket.off();
     };
-  }, [socket]);
+  }, []);
 
-  const handleUpdateUser = () => {
-    fetchUser();
+  const handleUpdateUser = async () => {
+    await fetchUser();
   };
   // -----------------------------------------------------------
 

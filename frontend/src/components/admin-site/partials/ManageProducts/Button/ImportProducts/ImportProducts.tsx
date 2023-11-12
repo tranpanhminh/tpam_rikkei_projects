@@ -79,12 +79,25 @@ const ImportModalProduct: React.FC<AddModalProps> = ({
       });
     }
     const result = await importProducts(formData, config);
+
     if (result) {
-      navigate("/admin/manage-products/");
-      setFile("");
-      handleCancel();
-      resetFile();
-      handleClickOk();
+      // navigate("/admin/manage-products/");
+      messageApi.open({
+        type: "loading",
+        content: "Importing...",
+        duration: 2.5,
+      });
+      setTimeout(() => {
+        messageApi.destroy();
+        notification.success({
+          message: `Products Imported Successfully`,
+        });
+        setFile("");
+        handleCancel();
+        resetFile();
+        handleClickOk();
+        window.location.reload();
+      }, 3000);
     }
   };
 
