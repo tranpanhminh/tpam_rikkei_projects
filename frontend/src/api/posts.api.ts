@@ -33,7 +33,7 @@ export const getDetailPost = async (id: number | string | undefined) => {
       return response.data;
     })
     .catch((error) => {
-      return error.response.data;
+      return false;
     });
   return result;
 };

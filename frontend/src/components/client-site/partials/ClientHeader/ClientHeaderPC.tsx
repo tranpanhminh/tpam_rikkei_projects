@@ -147,20 +147,7 @@ function ClientHeaderPC() {
                 </>
               }
 
-              {/* <NavLink to="/cart">
-                <Button
-                  variant="primary"
-                  className={styles["button-icon-menu"]}
-                  style={{
-                    display:
-                      user && user?.role_id === 3 ? "inline-block" : "none",
-                  }}
-                >
-                  <i className="fa-solid fa-cart-shopping"></i>
-                </Button>
-              </NavLink> */}
-
-              {user && user?.role_id === 3 && (
+              {user?.role_id === 3 && (
                 <NavLink to="/cart">
                   <Button
                     variant="primary"
