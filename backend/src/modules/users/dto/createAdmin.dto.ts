@@ -1,4 +1,10 @@
-import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 import {
   NotIncludeAdminText,
   NotIncludeNumberAndSpecialCharacter,
@@ -16,11 +22,13 @@ export class CreateAdminDTO {
     message: 'Full Name cannot contain special characters or numbers',
   })
   @NotIncludeAdminText({ message: 'Full Name must not include Admin' })
+  @MaxLength(30, { message: 'Full Name must < 30 Characters' })
   full_name: string;
 
   @IsNotEmpty({ message: 'Password should not be empty' })
   @IsString({ message: 'Password should be string' })
   @MinLength(8, { message: 'Password must be at least 8 characters' })
+  @MaxLength(20, { message: 'Password must be < 20 characters' })
   password: string;
 
   @Column()
