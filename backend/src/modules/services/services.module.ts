@@ -13,7 +13,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import { UsersRepository } from '../users/users.repository';
 import { EmailService } from '../email/email.service';
-import { MyGateway } from '../gateway/gateway';
+// import { MyGateway } from '../gateway/gateway';
 const path = process.env.SERVER_PATH;
 const url = `${path}/services`;
 
@@ -33,7 +33,7 @@ const url = `${path}/services`;
     UsersService,
     UsersRepository,
     EmailService,
-    MyGateway,
+    // MyGateway,
   ],
 })
 export class ServicesModule {

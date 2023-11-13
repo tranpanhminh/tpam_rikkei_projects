@@ -12,7 +12,7 @@ import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { UsersService } from './../users/users.service';
 import { UsersRepository } from '../users/users.repository';
 import { EmailService } from '../email/email.service';
-import { MyGateway } from '../gateway/gateway';
+// import { MyGateway } from '../gateway/gateway';
 const path = process.env.SERVER_PATH;
 const url = `${path}/coupons`;
 
@@ -31,7 +31,7 @@ const url = `${path}/coupons`;
     UsersRepository,
     CloudinaryService,
     EmailService,
-    MyGateway,
+    // MyGateway,
   ],
 })
 export class CouponsModule {

@@ -120,7 +120,7 @@ function ClientEditProfile() {
       });
       const result = await changeUserAvatar(user.id, formData, config);
       messageApi.destroy();
-      setShow(false);
+      // setShow(false);
       resetInputImage();
       fetchUser();
       socket.emit("updateAvatar");
@@ -149,7 +149,6 @@ function ClientEditProfile() {
       return result;
     }
   };
-
   // ------------------------------------------
   return (
     <>

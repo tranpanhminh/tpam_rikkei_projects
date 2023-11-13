@@ -10,7 +10,7 @@ import { UsersRepository } from '../users/users.repository';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { UsersEntity } from '../users/database/entity/users.entity';
 import { EmailService } from '../email/email.service';
-import { MyGateway } from '../gateway/gateway';
+// import { MyGateway } from '../gateway/gateway';
 @Module({
   imports: [
     TypeOrmModule.forFeature([CancelReasonsEntity, UsersEntity]),
@@ -24,7 +24,7 @@ import { MyGateway } from '../gateway/gateway';
     UsersRepository,
     CloudinaryService,
     EmailService,
-    MyGateway,
+    // MyGateway,
   ],
 })
 export class CancelReasonsModule {}

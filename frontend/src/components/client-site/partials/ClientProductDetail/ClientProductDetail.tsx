@@ -91,23 +91,19 @@ function ClientProductDetail() {
     fetchProductComments();
 
     socket.on("newProductComment", () => {
-      fetchProduct();
-      // fetchUser();
       fetchProductComments();
     });
-
     socket.on("deleteProductComment", () => {
-      fetchProduct();
-      // fetchUser();
       fetchProductComments();
     });
-
     socket.on("updateQuantity", () => {
       fetchProduct();
     });
 
     return () => {
-      socket.disconnect();
+      socket.off("newProductComment", handleComment);
+      socket.off("deleteProductComment", handleDeleteComment);
+      socket.off("updateQuantity");
     };
   }, []);
 
@@ -128,6 +124,7 @@ function ClientProductDetail() {
   // Add Comment
   const handleComment = async () => {
     const result = await addProductComment(productId, user.id, userComment);
+    console.log(result);
     if (result) {
       setUserComment({
         comment: "",

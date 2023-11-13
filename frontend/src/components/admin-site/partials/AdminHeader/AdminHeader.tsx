@@ -25,11 +25,15 @@ const AdminHeader: React.FC = () => {
 
   useEffect(() => {
     fetchUser();
-    socket.on("updateAvatar", () => {
+    socket.on("updateAdminAvatar", () => {
+      fetchUser();
+    });
+    socket.on("updateAdminName", () => {
       fetchUser();
     });
     return () => {
-      socket.disconnect();
+      socket.off("updateAdminAvatar");
+      socket.off("updateAdminName");
     };
   }, []);
 

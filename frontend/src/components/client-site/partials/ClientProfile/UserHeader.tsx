@@ -30,7 +30,8 @@ const UserHeader: React.FC = () => {
       fetchUser();
     });
     return () => {
-      socket.disconnect();
+      socket.off("updateAvatar");
+      socket.off("updateName");
     };
   }, []);
 

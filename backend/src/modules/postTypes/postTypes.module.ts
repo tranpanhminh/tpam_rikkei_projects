@@ -11,7 +11,7 @@ import { UsersService } from '../users/users.service';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { JwtModule } from '@nestjs/jwt';
 import { EmailService } from '../email/email.service';
-import { MyGateway } from '../gateway/gateway';
+// import { MyGateway } from '../gateway/gateway';
 const path = process.env.SERVER_PATH;
 const url = `${path}/post-types`;
 
@@ -30,7 +30,7 @@ const url = `${path}/post-types`;
     UsersService,
     CloudinaryService,
     EmailService,
-    MyGateway,
+    // MyGateway,
   ],
 })
 export class PostTypesModule {

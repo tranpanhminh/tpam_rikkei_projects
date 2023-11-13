@@ -20,7 +20,7 @@ import * as fs from 'fs';
 import * as fastcsv from 'fast-csv';
 import * as path from 'path'; // Thêm dòng này
 import { ExportProductsInterface } from './interface/exportProducts.interface';
-import { MyGateway } from '../gateway/gateway';
+// import { MyGateway } from '../gateway/gateway';
 const cloudinary = require('cloudinary').v2;
 
 @Injectable()
@@ -30,7 +30,7 @@ export class ProductsService {
     private readonly cloudinaryService: CloudinaryService,
     private readonly csvParser: CsvParser,
     private readonly productImagesRepository: ProductImagesRepository,
-    private readonly myGateway: MyGateway,
+    // private readonly myGateway: MyGateway,
   ) {}
 
   // 1. Get All

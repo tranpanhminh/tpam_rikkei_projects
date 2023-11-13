@@ -16,7 +16,7 @@ import { UsersRepository } from '../users/users.repository';
 import { UsersService } from '../users/users.service';
 import { EmailService } from '../email/email.service';
 import { CsvModule } from 'nest-csv-parser';
-import { MyGateway } from '../gateway/gateway';
+// import { MyGateway } from '../gateway/gateway';
 const path = process.env.SERVER_PATH;
 const url = `${path}/products`;
 
@@ -42,7 +42,7 @@ const url = `${path}/products`;
     UsersRepository,
     UsersService,
     EmailService,
-    MyGateway,
+    // MyGateway,
   ],
   exports: [ProductsRepository],
 })

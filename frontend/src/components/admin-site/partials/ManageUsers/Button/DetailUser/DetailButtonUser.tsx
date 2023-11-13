@@ -35,7 +35,7 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
   const [name, setName] = useState("");
   const [user, setUser] = useState<any>({});
   const [image, setImage] = useState<any>("");
-  const [showBtn, setShowBtn] = useState<boolean>(false);
+  const [show, setShow] = useState<boolean>(false);
   const [userPassword, setUserPassword] = useState<any>({
     old_password: "",
     new_password: "",
@@ -50,13 +50,6 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
 
   useEffect(() => {
     fetchUser();
-
-    socket.on("updateAvatar", () => {
-      fetchUser();
-    });
-    return () => {
-      socket.disconnect();
-    };
   }, []);
   // -----------------------------------------------------------
 
@@ -94,19 +87,24 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
   };
 
   // -----------------------------------------------------------
+  const showButton = () => {
+    setShow(true);
+  };
 
   // Handle Update Name
-
   const handleChangeName = async () => {
     const userInfo = {
       full_name: name,
     };
     const result = await changeUserName(user.id, userInfo);
+    console.log(result);
+
     if (result) {
       fetchUser();
-      setShowBtn(false);
+      setShow(false);
       handleFunctionOk();
       navigate("/admin/");
+      socket.emit("updateAdminName");
     }
   };
 
@@ -119,7 +117,6 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
     if (image) {
       setAvatar("");
     }
-    setShowBtn(false);
     setImage(null);
     fileInputRef.current.value = null; // Đặt giá trị về null
   };
@@ -164,6 +161,8 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
         resetInputImage();
         fetchUser();
         navigate("/admin/");
+        socket.emit("updateAdminAvatar");
+        setShow(false);
       })
       .catch((error) => {
         notification.error({
@@ -172,23 +171,6 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
       });
   };
 
-  // -----------------------------------------------------------
-
-  // Set Show Button
-  const checkButton = () => {
-    if (showBtn === true) {
-      return true;
-    }
-    return false;
-  };
-
-  const setButton = () => {
-    if (showBtn === true) {
-      return setShowBtn(false);
-    } else {
-      return setShowBtn(true);
-    }
-  };
   // -----------------------------------------------------------
 
   return (
@@ -217,11 +199,6 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
               className={styles["user-avatar"]}
             />
           )}
-
-          {/* <div className={styles["list-input-item"]}>
-            <p>User ID</p>
-            <input type="text" value={user?.id} disabled />
-          </div> */}
           <div className={styles["list-input-item"]}>
             <p>Email</p>
             <input type="text" value={user?.email} disabled />
@@ -234,17 +211,23 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
             <p>Full Name</p>
             <input
               type="text"
+              disabled={show === false ? true : false}
               defaultValue={user?.full_name}
               onChange={(event) => setName(event.target.value)}
-              disabled={checkButton() === true ? false : true}
             />
             <i
-              className={`${
-                showBtn === false
-                  ? "fa-solid fa-pen-to-square"
-                  : "fa-solid fa-check"
-              }  ${styles["fa-btn"]}`}
-              onClick={showBtn === false ? setButton : handleChangeName}
+              className={`fa-solid fa-pen-to-square  ${styles["fa-btn"]}`}
+              style={{
+                display: show === false ? "inline-block" : "none",
+              }}
+              onClick={showButton}
+            ></i>
+            <i
+              className={`fa-solid fa-check  ${styles["fa-btn"]}`}
+              style={{
+                display: show === true ? "inline-block" : "none",
+              }}
+              onClick={handleChangeName}
             ></i>
           </div>
 

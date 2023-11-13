@@ -32,13 +32,13 @@ function ClientHeaderPC() {
   useEffect(() => {
     fetchUser();
 
-    // socket.on("googleLogin", () => {
-    //   fetchUser();
-    // });
+    socket.on("googleLogin", () => {
+      fetchUser();
+    });
 
-    // return () => {
-    //   socket.off();
-    // };
+    return () => {
+      socket.off("googleLogin");
+    };
   }, []);
 
   const handleLogout = () => {

@@ -23,7 +23,7 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { EmailService } from '../email/email.service';
-import { MyGateway } from '../gateway/gateway';
+// import { MyGateway } from '../gateway/gateway';
 
 const path = process.env.SERVER_PATH;
 const url = `${path}/bookings`;
@@ -48,7 +48,7 @@ const url = `${path}/bookings`;
     JwtService,
     CloudinaryService,
     EmailService,
-    MyGateway,
+    // MyGateway,
   ],
 })
 export class BookingsModule {

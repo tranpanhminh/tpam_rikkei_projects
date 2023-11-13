@@ -25,7 +25,7 @@ import * as generator from 'generate-password';
 import { EmailService } from '../email/email.service';
 import { ResetPasswordDTO } from './dto/resetPassword.dto';
 import * as jwt from 'jsonwebtoken';
-import { MyGateway } from '../gateway/gateway';
+// import { MyGateway } from '../gateway/gateway';
 
 const FRONTEND_PATH = process.env.FRONTEND_PATH;
 
@@ -36,7 +36,7 @@ export class UsersService {
     private readonly usersRepository: UsersRepository,
     private readonly cloudinaryService: CloudinaryService,
     private readonly emailService: EmailService,
-    private readonly myGateway: MyGateway,
+    // private readonly myGateway: MyGateway,
   ) {}
 
   // 1. Get All
@@ -97,7 +97,7 @@ export class UsersService {
         full_name: !full_name ? checkUser.full_name.trim() : full_name.trim(),
       };
       await this.usersRepository.updateUser(id, updateUser);
-      this.myGateway.alertUpdateName();
+      // this.myGateway.alertUpdateName();
       return new HttpException('User Updated', HttpStatus.OK);
     }
   }
@@ -214,7 +214,7 @@ export class UsersService {
         image_avatar: image_url,
       };
       await this.usersRepository.editAvatar(id, updateAvatar);
-      this.myGateway.alertUpdateAvatar();
+      // this.myGateway.alertUpdateAvatar();
       return new HttpException('User Avatar Updated', HttpStatus.OK);
     }
   }
@@ -247,7 +247,7 @@ export class UsersService {
         status: 200,
       };
       // return { accessToken: jwtData };
-      this.myGateway.alertGoogleLogin();
+      // this.myGateway.alertGoogleLogin();
       return res.redirect(`${FRONTEND_PATH}/?googleAuth=${jwtData}`);
     } else {
       // Nếu chưa có thì tạo tài khoản mới và push vào DB

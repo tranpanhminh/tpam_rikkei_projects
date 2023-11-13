@@ -38,8 +38,8 @@ function ClientHomePage() {
           if (data.message) {
             navigate("/");
           } else {
-            localStorage.setItem("token", token?.toString());
-            // socket.emit("googleLogin");
+            localStorage.setItem("token", token);
+            socket.emit("googleLogin");
             navigate("/");
           }
           resolve(data);

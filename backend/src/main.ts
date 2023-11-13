@@ -49,8 +49,8 @@ async function bootstrap() {
       stopAtFirstError: true,
     }),
   );
-  events.EventEmitter.defaultMaxListeners = Infinity;
-  app.useWebSocketAdapter(new IoAdapter(app));
+  // events.EventEmitter.defaultMaxListeners = Infinity;
+  // app.useWebSocketAdapter(new IoAdapter(app));
   app.use(compression());
   await app.listen(port);
 }
