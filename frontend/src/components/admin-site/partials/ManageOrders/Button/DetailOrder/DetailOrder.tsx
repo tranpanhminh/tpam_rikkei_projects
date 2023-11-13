@@ -189,7 +189,7 @@ const DetailOrders: React.FC<DetailModalProps> = ({
               </option>
             </select>
           </div>
-          {orderById?.order_status?.name === "Cancel" && (
+          {orderById?.status_id === 5 && (
             <div className={styles["admin-order-input-item"]}>
               <p>Cancel Reason</p>
               <input

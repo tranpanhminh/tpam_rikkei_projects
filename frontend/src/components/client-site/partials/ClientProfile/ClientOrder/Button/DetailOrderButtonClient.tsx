@@ -134,14 +134,6 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
             <input type="text" disabled value={userOrder?.address} />
           </div>
           <div className={styles["my-profile-input-item"]}>
-            <p>Status</p>
-            <input
-              type="text"
-              disabled
-              value={userOrder?.order_statuses?.name}
-            />
-          </div>
-          <div className={styles["my-profile-input-item"]}>
             <p>Email Paypal</p>
             <input type="text" disabled value={userOrder?.email_paypal} />
           </div>
@@ -163,7 +155,15 @@ const DetailOrderButton: React.FC<DetailOrderProps> = ({
               </select>
             </div>
           )}
-          {userOrder?.order_status?.name === "Cancel" && (
+          <div className={styles["my-profile-input-item"]}>
+            <p>Status</p>
+            <input
+              type="text"
+              disabled
+              value={userOrder?.order_statuses?.name}
+            />
+          </div>
+          {userOrder?.status_id === 5 && (
             <div className={styles["my-profile-input-item"]}>
               <p>Cancel Reason</p>
               <input
