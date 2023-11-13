@@ -15,7 +15,7 @@ import { ProductImagesRepository } from '../productImages/productImages.reposito
 import { UsersRepository } from '../users/users.repository';
 import { UsersEntity } from '../users/database/entity/users.entity';
 import { EmailService } from '../email/email.service';
-// import { MyGateway } from '../gateway/gateway';
+import { MyGateway } from '../gateway/gateway';
 // import { MyGatewayModule } from '../gateway/gateway.module';
 
 @Module({
@@ -40,7 +40,7 @@ import { EmailService } from '../email/email.service';
     ProductsRepository,
     ProductImagesRepository,
     EmailService,
-    // MyGateway,
+    MyGateway,
   ],
   exports: [PaypalProvider, PaypalService],
 })

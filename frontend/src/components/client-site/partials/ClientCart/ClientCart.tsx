@@ -1,3 +1,4 @@
+import { io } from "socket.io-client";
 import React, { useEffect, useState } from "react";
 import styles from "./ClientCart.module.css";
 import logo from "../../../../assets/images/pet-shop.png";
@@ -16,6 +17,7 @@ import {
 
 // 2. Orders API
 const ordersAPI = process.env.REACT_APP_API_ORDERS;
+const socket = io(`${process.env.REACT_APP_BACK_END}`);
 
 // -----------------------------------------------------
 function ClientCart() {

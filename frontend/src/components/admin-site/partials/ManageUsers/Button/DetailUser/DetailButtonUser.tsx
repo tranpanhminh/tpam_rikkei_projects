@@ -157,7 +157,7 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
       .then((response) => {
         messageApi.destroy();
         handleFunctionOk();
-        socket.emit("updateAvatar");
+        // socket.emit("updateAvatar");
         resetInputImage();
         fetchUser();
         navigate("/admin/");

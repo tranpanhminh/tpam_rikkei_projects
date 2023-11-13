@@ -21,6 +21,10 @@ export class MyGateway
     this.server.emit(event, data);
   }
 
+  sendToClientUpdate(event: string) {
+    this.server.emit(event);
+  }
+
   handleEmitSocket({ data, event, to }) {
     if (event === 'newServiceComment') {
       if (to) {
@@ -119,13 +123,13 @@ export class MyGateway
     }
   }
 
-  @SubscribeMessage('newOrder')
-  async alertNewOrder(
-    @ConnectedSocket() socket: Socket,
-    @MessageBody() data: any,
-  ) {
-    return this.sendToClient(socket.id, 'newOrder', data);
-  }
+  // @SubscribeMessage('newOrder')
+  // async alertNewOrder(
+  //   @ConnectedSocket() socket: Socket,
+  //   @MessageBody() data: any,
+  // ) {
+  //   return this.sendToClient(socket.id, 'newOrder', data);
+  // }
 
   @SubscribeMessage('newServiceComment')
   async alertNewServiceComment(
@@ -191,12 +195,30 @@ export class MyGateway
     return this.sendToClient(socket.id, 'googleLogin', data);
   }
 
+  // @SubscribeMessage('updateQuantity')
+  // async alertUpdateQuantity(
+  //   // @ConnectedSocket() socket: Socket,
+  //   // @MessageBody() data: any,
+  // ) {
+  //   return this.sendToClientUpdate('updateQuantity');
+  // }
+
   @SubscribeMessage('updateQuantity')
-  async alertUpdateQuantity(
+  async alertUpdateQuantity() {
+    await this.server.emit('updateQuantity');
+  }
+
+  // @SubscribeMessage('newOrder')
+  // async alertNewOrder(text: string) {
+  //   await this.server.emit('newOrder', text);
+  // }
+
+  @SubscribeMessage('blockUser')
+  async alertBlockUser(
     @ConnectedSocket() socket: Socket,
     @MessageBody() data: any,
   ) {
-    return this.sendToClient(socket.id, 'updateQuantity', data);
+    return this.sendToClient(socket.id, 'blockUser', data);
   }
 
   afterInit(socket: Socket): any {}
@@ -209,10 +231,6 @@ export class MyGateway
     // console.log('disconnect', socket.id);
   }
 }
-// @SubscribeMessage('newOrder')
-// async alertNewOrder(text: string) {
-//   await this.server.emit('newOrder', text);
-// }
 
 // @SubscribeMessage('newServiceComment')
 // async alertNewServiceComment() {
