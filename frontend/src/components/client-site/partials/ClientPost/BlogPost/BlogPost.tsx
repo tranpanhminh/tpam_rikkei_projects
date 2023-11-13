@@ -59,9 +59,8 @@ function BlogPost() {
   if (post) {
     return (
       <>
-        {post &&
-        post?.status_id === 1 &&
-        user?.user_roles?.name === "Customer" ? (
+        {(post && post?.status_id === 1 && user?.user_roles?.id === 3) ||
+        !user ? (
           <Page404 />
         ) : (
           <div className={styles["post-content-section"]}>
