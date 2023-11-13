@@ -3,8 +3,6 @@ import { AppModule } from './app.module';
 import { ConfigModule } from '@nestjs/config';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
-import { IoAdapter } from '@nestjs/platform-socket.io';
-import * as events from 'events'; // Thêm dòng này để import events
 import * as compression from 'compression';
 
 ConfigModule.forRoot({

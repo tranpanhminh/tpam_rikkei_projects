@@ -118,14 +118,9 @@ function ClientCart() {
     return result;
   };
   // --------------------------------------------------------
-
+  console.log(userInfo);
   // CheckOut
   const handleCheckout = async () => {
-    // messageApi.open({
-    //   type: "loading",
-    //   content: "Loading...",
-    //   duration: 0,
-    // });
     await BaseAxios.post(`${ordersAPI}/checkout/users/${user.id}`, userInfo)
       .then((response) => {
         setUserInfo({
@@ -136,8 +131,6 @@ function ClientCart() {
           content: "Redirecting to paypal...",
           duration: 0,
         });
-        // messageApi.destroy();
-        // Lấy URL từ response
         const url = response.data.url;
         // Redirect tại frontend
         window.location.href = url;

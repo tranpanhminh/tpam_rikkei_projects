@@ -152,7 +152,6 @@ export class PaypalService {
             subjectCustomer,
             htmlContentCustomer,
           );
-          statusEmail = true;
         }
       }
 

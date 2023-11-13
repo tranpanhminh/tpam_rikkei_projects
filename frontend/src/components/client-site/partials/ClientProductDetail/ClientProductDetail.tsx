@@ -96,14 +96,14 @@ function ClientProductDetail() {
     socket.on("deleteProductComment", () => {
       fetchProductComments();
     });
-    socket.on("updateQuantity", () => {
-      fetchProduct();
-    });
+    // socket.on("updateQuantity", () => {
+    //   fetchProduct();
+    // });
 
     return () => {
       socket.off("newProductComment", handleComment);
       socket.off("deleteProductComment", handleDeleteComment);
-      socket.off("updateQuantity");
+      // socket.off("updateQuantity");
     };
   }, []);
 
