@@ -16,6 +16,7 @@ import * as paypal from 'paypal-rest-sdk';
 import { OrdersInterface } from './interface/orders.interface';
 import { CancelReasonsRepository } from '../cancelReasons/cancelReasons.repository';
 import { EmailService } from '../email/email.service';
+import { MyGateway } from '../gateway/gateway';
 
 const path = process.env.SERVER_PATH;
 const BACKEND_PATH = process.env.BACKEND_PATH;
@@ -35,6 +36,7 @@ export class OrdersService {
     private readonly usersRepository: UsersRepository,
     private readonly cancelReasonsRepository: CancelReasonsRepository,
     private readonly emailService: EmailService,
+    private readonly myGateway: MyGateway,
   ) {}
 
   // 1. Get All
@@ -277,7 +279,7 @@ export class OrdersService {
           subjectCustomer,
           htmlContentCustomer,
         );
-
+        this.myGateway.alertUpdateQuantity();
         return new HttpException('Order Cancelled Completed', HttpStatus.OK);
       }
     } catch (error) {
