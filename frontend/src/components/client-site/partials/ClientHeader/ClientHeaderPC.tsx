@@ -1,11 +1,11 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { io } from "socket.io-client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import logo from "../../../../assets/images/pet-shop-remove-bg.png";
 import styles from "../../ClientPage.module.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Button, Container, Nav, Navbar } from "react-bootstrap";
-import { message } from "antd";
+import { message, notification } from "antd";
 import ClientSearch from "../ClientSearch/ClientSearch";
 import { getDataLogin } from "../../../../api/users.api";
 const socket = io(`${process.env.REACT_APP_BACK_END}`);
@@ -50,7 +50,6 @@ function ClientHeaderPC() {
     });
     fetchUser();
   };
-  const isVisible = user && user?.role_id === 3;
 
   return (
     <header className={styles["header"]}>
@@ -159,6 +158,11 @@ function ClientHeaderPC() {
                 <Button
                   variant="primary"
                   className={styles["button-icon-menu"]}
+                  style={{
+                    visibility:
+                      (user && user.role_id !== 3 && "visible") ||
+                      (user && user.role_id === 1 && "hidden"),
+                  }}
                 >
                   <i className="fa-solid fa-cart-shopping"></i>
                 </Button>
