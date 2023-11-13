@@ -26,6 +26,10 @@ function BlogSidebar() {
     fetchServices();
   }, []);
 
+  function stripHTMLTags(html: any) {
+    return html.replace(/<\/?[^>]+(>|$)/g, "");
+  }
+
   return (
     <div className={styles["blog-sidebar"]}>
       <ClientSearch />
@@ -42,7 +46,7 @@ function BlogSidebar() {
 
               <NavLink to={`/products/${product.id}`}>
                 <p className={styles["sidebar-featured-product-name"]}>
-                  {product.name}
+                  {product.name.length > 30 && stripHTMLTags(product.name).slice(0, 60) + "..."}
                 </p>
               </NavLink>
             </div>

@@ -29,6 +29,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { EmailService } from '../email/email.service';
+import { CheckUserStatus } from 'src/middlewares/checkUserStatus.middleware';
 // import { MyGateway } from '../gateway/gateway';
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -70,6 +71,7 @@ export class CartsModule implements NestModule {
       .apply(
         CheckProductExist,
         CheckUserExist,
+        CheckUserStatus,
         CheckIsAdmin,
         CheckProductQuantityStock,
         CheckInputQuantity,

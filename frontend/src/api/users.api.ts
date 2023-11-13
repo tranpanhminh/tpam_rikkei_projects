@@ -307,7 +307,7 @@ export const validateResetPasswordToken = async (token: any) => {
     })
     .catch((error) => {
       notification.warning({
-        message: `Token is not valid or expired`,
+        message: `This reset password link is expired, please request a new link`,
       });
       return false;
     });

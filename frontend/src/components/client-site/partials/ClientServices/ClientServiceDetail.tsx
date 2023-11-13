@@ -173,6 +173,7 @@ function ClientServiceDetail() {
         booking_date: "",
         calendar: "",
       });
+      navigate("/user/my-booking");
     }
   };
 

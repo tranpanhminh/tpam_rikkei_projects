@@ -36,7 +36,7 @@ function NotificationSale() {
     // Sử dụng setTimeout để gọi showNotification sau 5 giây
     const timer = setTimeout(() => {
       showNotification();
-    }, 12000);
+    }, 10000);
 
     return () => {
       clearTimeout(timer); // Xóa timer nếu component bị unmount trước khi thông báo hiển thị

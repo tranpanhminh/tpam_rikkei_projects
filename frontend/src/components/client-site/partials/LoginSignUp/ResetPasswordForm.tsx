@@ -52,9 +52,10 @@ function ResetPasswordForm() {
         return navigate("/login");
       }
     } else {
-      notification.warning({
-        message: `This reset password link is expired, please request a new link`,
-      });
+      return result
+      // notification.warning({
+      //   message: `This reset password link is expired, please request a new link`,
+      // });
     }
   };
 

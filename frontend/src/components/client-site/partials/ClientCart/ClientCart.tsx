@@ -120,7 +120,6 @@ function ClientCart() {
     return result;
   };
   // --------------------------------------------------------
-  console.log(userInfo);
   // CheckOut
   const handleCheckout = async () => {
     await BaseAxios.post(`${ordersAPI}/checkout/users/${user.id}`, userInfo)

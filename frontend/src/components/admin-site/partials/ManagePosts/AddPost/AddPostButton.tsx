@@ -290,25 +290,6 @@ const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
                   })}
               </select>
             </div>
-            {/* 
-            <div className={styles["info-editor-post-item"]}>
-              <span>Published Date</span>
-              <input
-                type="text"
-                value={author}
-                onChange={(event) => setAuthor(event.target.value)}
-              />
-            </div>
-            <div className={styles["test"]}>
-              <span>Published Date</span>
-
-              <DatePicker
-                format="DD/MM/YYYY"
-                onChange={onChangeDatePicker}
-                style={{ width: "160px" }}
-              />
-            </div> */}
-
             <div className={styles["info-editor-post-item"]}>
               <span>Author</span>
               <input

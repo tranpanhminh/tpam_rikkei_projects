@@ -34,6 +34,7 @@ import { UsersService } from '../users/users.service';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { EmailService } from '../email/email.service';
 import { MyGateway } from '../gateway/gateway';
+import { CheckUserStatus } from 'src/middlewares/checkUserStatus.middleware';
 ConfigModule.forRoot({
   envFilePath: '.env',
 });
@@ -106,7 +107,7 @@ export class OrdersModule {
       path: `${url}/cancel-order/:id`,
       method: RequestMethod.PATCH,
     });
-    consumer.apply(CheckUserExist, CheckIsAdmin, CheckUserCartExist).forRoutes({
+    consumer.apply(CheckUserExist, CheckUserStatus, CheckIsAdmin, CheckUserCartExist).forRoutes({
       path: `${url}/checkout/users/:userId`,
       method: RequestMethod.POST,
     });

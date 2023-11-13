@@ -17,6 +17,7 @@ function ClientHeaderPC() {
     color: isActive ? "white" : "black",
     fontWeight: "bold",
     backgroundColor: isActive ? "#33d6bb" : "",
+    borderRadius: "5px",
   });
   const navigate = useNavigate();
   const [user, setUser] = useState<any>({});

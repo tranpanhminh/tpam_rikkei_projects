@@ -28,6 +28,7 @@ img {
 .navlink-main-menu:hover {
   background-color: #33d6bb;
   color: white !important;
+  border-radius: 5px;
 }
 
 .header-main-menu {

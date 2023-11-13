@@ -18,6 +18,7 @@ export class UsersRepository {
   async getAllUsers() {
     return await this.usersEntity.find({
       relations: { user_roles: true, user_statuses: true },
+      order: { id: 'ASC', role_id: 'ASC' },
     });
   }
 
