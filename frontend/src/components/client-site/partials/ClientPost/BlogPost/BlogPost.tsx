@@ -59,7 +59,10 @@ function BlogPost() {
   if (post) {
     return (
       <>
-        {(post && post?.status_id === 1 && user?.user_roles?.id === 3) ||
+        {(post &&
+          post?.status_id === 1 &&
+          user &&
+          user?.user_roles?.id === 3) ||
         !user ? (
           <Page404 />
         ) : (
