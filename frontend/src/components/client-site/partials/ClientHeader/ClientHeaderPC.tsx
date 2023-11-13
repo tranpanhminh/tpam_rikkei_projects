@@ -50,6 +50,7 @@ function ClientHeaderPC() {
     });
     fetchUser();
   };
+  const isVisible = user && user?.role_id === 3;
 
   return (
     <header className={styles["header"]}>
@@ -147,22 +148,27 @@ function ClientHeaderPC() {
                 </>
               }
 
-              {user?.role_id === 3 && (
-                <NavLink to="/cart">
-                  <Button
-                    variant="primary"
-                    className={styles["button-icon-menu"]}
-                  >
-                    <i className="fa-solid fa-cart-shopping"></i>
-                  </Button>
-                </NavLink>
-              )}
+              <NavLink
+                to="/cart"
+                style={{
+                  visibility:
+                    (user && user.role_id !== 3 && "hidden") ||
+                    (!user && "hidden"),
+                }}
+              >
+                <Button
+                  variant="primary"
+                  className={styles["button-icon-menu"]}
+                >
+                  <i className="fa-solid fa-cart-shopping"></i>
+                </Button>
+              </NavLink>
 
               <NavLink
                 to={
-                  user?.role_id === 1 || user?.role_id === 2
+                  (user && user?.role_id === 1) || (user && user?.role_id === 2)
                     ? "/admin"
-                    : user?.role_id === 3
+                    : user && user?.role_id === 3
                     ? "/user"
                     : "/"
                 }
