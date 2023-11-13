@@ -39,7 +39,7 @@ function ClientHomePage() {
             navigate("/");
           } else {
             localStorage.setItem("token", token?.toString());
-            socket.emit("googleLogin");
+            // socket.emit("googleLogin");
             navigate("/");
           }
           resolve(data);

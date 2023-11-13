@@ -61,4 +61,9 @@ export class MyGateway implements OnModuleInit {
   alertGoogleLogin() {
     this.server.emit('googleLogin');
   }
+
+  @SubscribeMessage('updateQuantity')
+  alertUpdateQuantity() {
+    this.server.emit('updateQuantity');
+  }
 }

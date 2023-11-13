@@ -280,7 +280,7 @@ export class UsersService {
         status: 200,
       };
       // return { accessToken: jwtData };
-      this.myGateway.alertGoogleLogin();
+      // this.myGateway.alertGoogleLogin();
       return res.redirect(`${FRONTEND_PATH}/?googleAuth=${jwtData}`);
     }
   }

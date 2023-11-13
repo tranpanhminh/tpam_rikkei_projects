@@ -161,6 +161,7 @@ export class PaypalService {
         newOrder.user_id,
       );
       this.myGateway.alertNewOrder(`New Order: #OrderID ${orderId}`);
+      this.myGateway.alertUpdateQuantity();
       return res.redirect(`${FRONTEND_PATH}/user/my-orders`);
     } catch (error) {
       throw error;

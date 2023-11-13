@@ -159,9 +159,8 @@ const DetailButtonUser: React.FC<DetailModalProps> = ({
     await changeUserAvatar(user.id, formData, config)
       .then((response) => {
         messageApi.destroy();
-        // notification.success({
-        //   message: `${response.data.message}`,
-        // });
+        handleFunctionOk();
+        socket.emit("updateAvatar");
         resetInputImage();
         fetchUser();
         navigate("/admin/");

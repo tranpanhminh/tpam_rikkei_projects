@@ -123,6 +123,7 @@ function ClientEditProfile() {
       setShow(false);
       resetInputImage();
       fetchUser();
+      socket.emit("updateAvatar");
       navigate("/user/my-profile/");
       return result;
     } else {

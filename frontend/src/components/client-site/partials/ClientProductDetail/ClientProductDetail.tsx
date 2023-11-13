@@ -101,8 +101,13 @@ function ClientProductDetail() {
       // fetchUser();
       fetchProductComments();
     });
+
+    socket.on("updateQuantity", () => {
+      fetchProduct();
+    });
+
     return () => {
-      socket.off();
+      socket.disconnect();
     };
   }, []);
 
