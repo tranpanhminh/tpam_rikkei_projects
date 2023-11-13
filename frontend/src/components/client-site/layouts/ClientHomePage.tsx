@@ -1,5 +1,5 @@
 import { io } from "socket.io-client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ClientHeaderPC from "../partials/ClientHeader/ClientHeaderPC";
 import ClientBanner from "../partials/ClientBanner/ClientBanner";
 import ClientServices from "../partials/ClientServices/ClientFeaturedServices";
@@ -14,9 +14,11 @@ import ClientFooter from "../partials/ClientFooter/ClientFooter";
 import NotificationSale from "../partials/NotificationSale/Notification";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
+  getDataLogin,
   googleCallback,
   validateGoogleLoginToken,
 } from "../../../api/users.api";
+import { message } from "antd";
 const socket = io(`${process.env.REACT_APP_BACK_END}`);
 
 // ------------------------------------------------------------------
@@ -36,8 +38,8 @@ function ClientHomePage() {
           if (data.message) {
             navigate("/");
           } else {
-            socket.emit("googleLogin");
             localStorage.setItem("token", token?.toString());
+            socket.emit("googleLogin");
             navigate("/");
           }
           resolve(data);
@@ -47,6 +49,8 @@ function ClientHomePage() {
         });
     });
   }
+
+
 
   // if (searchParams.get("googleAuth")) {
   //   const token: any = searchParams.get("googleAuth");
