@@ -250,4 +250,9 @@ export class ProductsRepository {
     });
     return data;
   }
+
+  // 12. Get All Products Out Of Stock
+  async getAllProductsOutOfStock(): Promise<ProductsEntity[]> {
+    return await this.productsEntity.find({ where: { quantity_stock: 0 } });
+  }
 }

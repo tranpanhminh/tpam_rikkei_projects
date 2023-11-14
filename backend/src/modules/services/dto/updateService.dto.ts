@@ -1,4 +1,4 @@
-import { IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString, MaxLength } from 'class-validator';
 import {
   // HasMimeType,
   // IsFile,
@@ -8,6 +8,7 @@ import {
 import { IsStringHigherThanZero } from 'src/pipes/custom-validator';
 export class UpdateServiceDTO {
   @IsString({ message: 'Service Name should be string' })
+  @MaxLength(20, { message: 'Title must < 20 Characters' })
   name: string;
 
   @IsString({ message: 'Service Description should be string' })

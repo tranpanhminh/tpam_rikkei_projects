@@ -8,7 +8,7 @@ import { CartsRepository } from 'src/modules/carts/carts.repository';
 import { CartInterface } from 'src/modules/carts/interface/cart.interface';
 import { ProductsRepository } from 'src/modules/products/products.repository';
 @Injectable()
-export class CheckInputQuantity implements NestMiddleware {
+export class CheckQuantityAddToCart implements NestMiddleware {
   constructor(
     private readonly productsRepository: ProductsRepository,
     private readonly cartsRepository: CartsRepository,
@@ -26,18 +26,13 @@ export class CheckInputQuantity implements NestMiddleware {
         getProductId,
       );
 
-    if (findProduct && !findProductInCart) {
-      if (getQuantity > findProduct.quantity_stock) {
-        throw new NotAcceptableException(
-          `You can't add more than ${findProduct.quantity_stock}`,
-        );
-      }
-    }
-
     if (findProductInCart) {
-      if (Number(getQuantity) > Number(findProduct.quantity_stock)) {
+      if (
+        Number(getQuantity) + Number(findProductInCart.quantity) >
+        Number(findProduct.quantity_stock)
+      ) {
         throw new NotAcceptableException(
-          `You can't add more than ${findProduct.quantity_stock} you have typed ${getQuantity}`,
+          `You can't add more than ${findProduct.quantity_stock} you have added ${findProductInCart.quantity}`,
         );
       }
     }

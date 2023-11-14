@@ -12,7 +12,7 @@ import { CartsService } from './carts.service';
 import { AddToCartDTO } from './dto/addToCart.dto';
 import { ConfigModule } from '@nestjs/config';
 import { CartsEntity } from './database/entity/carts.entity';
-import { UpdateQuantityProductInCartDTO } from './interface/update-quantity-product.interface';
+import { UpdateQuantityProductInCartDTO } from './interface/updateQuantityProduct';
 import { AuthenticationGuard } from 'src/guards/authentication.guard';
 import { AuthorizationCustomerGuard } from 'src/guards/authorizationCustomer.guard';
 import { AuthorizationAdminGuard } from 'src/guards/authorizationAdmin.guard';
@@ -48,7 +48,7 @@ export class CartsController {
 
   // 3. Add
   @Post('/add/products/:id/users/:userId')
-  // @UseGuards(AuthenticationGuard, AuthorizationCustomerGuard)
+  @UseGuards(AuthenticationGuard, AuthorizationCustomerGuard)
   async addProductToCart(
     @Param() param: { id: number; userId: number },
     @Body() body: AddToCartDTO,

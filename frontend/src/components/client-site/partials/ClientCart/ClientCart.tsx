@@ -25,6 +25,7 @@ function ClientCart() {
   const [user, setUser] = useState<any>(null);
   const [messageApi, contextHolder] = message.useMessage();
   const [userCart, setUserCart] = useState<any>([]);
+  const [click, setClick] = useState(false);
   const [coupons, setCoupons] = useState<any>([]);
   const [quantity, setQuantity] = useState<any>("");
   const [userInfo, setUserInfo] = useState({
@@ -115,32 +116,39 @@ function ClientCart() {
       user.id,
       cartInfo
     );
-    fetchUserAndUserCart();
-    setQuantity(event.target.value);
-    return result;
+    if (!result) {
+      event.target.value = event.target.value.replace("");
+      setQuantity(event.target.value);
+    } else {
+      fetchUserAndUserCart();
+      setQuantity(event.target.value);
+    }
   };
   // --------------------------------------------------------
   // CheckOut
   const handleCheckout = async () => {
-    await BaseAxios.post(`${ordersAPI}/checkout/users/${user.id}`, userInfo)
-      .then((response) => {
-        setUserInfo({
-          phone: "",
+    if (!click) {
+      await BaseAxios.post(`${ordersAPI}/checkout/users/${user.id}`, userInfo)
+        .then((response) => {
+          setUserInfo({
+            phone: "",
+          });
+          setClick(true);
+          messageApi.open({
+            type: "loading",
+            content: "Redirecting to paypal...",
+            duration: 0,
+          });
+          const url = response.data.url;
+          // Redirect tại frontend
+          window.location.href = url;
+        })
+        .catch((error) => {
+          notification.warning({
+            message: `${error.response.data.message}`,
+          });
         });
-        messageApi.open({
-          type: "loading",
-          content: "Redirecting to paypal...",
-          duration: 0,
-        });
-        const url = response.data.url;
-        // Redirect tại frontend
-        window.location.href = url;
-      })
-      .catch((error) => {
-        notification.warning({
-          message: `${error.response.data.message}`,
-        });
-      });
+    }
   };
 
   // --------------------------------------------------------
@@ -220,7 +228,7 @@ function ClientCart() {
                               }
                             />
                           </td>
-                          <td>{item.price}</td>
+                          <td>${item.price}</td>
                           <td>
                             ${(item.quantity * item.price).toLocaleString()}
                           </td>

@@ -1,4 +1,9 @@
-import { IsNotEmpty, IsNumberString, IsString } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumberString,
+  IsString,
+  MaxLength,
+} from 'class-validator';
 import { IsFiles, MemoryStoredFile } from 'nestjs-form-data';
 import {
   CheckEachFileSize,
@@ -9,6 +14,7 @@ import {
 export class CreateProductDTO {
   @IsNotEmpty({ message: 'Product Name should not be empty' })
   @IsString({ message: 'Product Name should be string' })
+  @MaxLength(180, { message: 'Product Name must < 180 Characters' })
   name: string;
 
   @IsNotEmpty({ message: 'Product Description should not be empty' })

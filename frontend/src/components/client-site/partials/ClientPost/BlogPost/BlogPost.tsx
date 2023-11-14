@@ -63,7 +63,7 @@ function BlogPost() {
           post?.status_id === 1 &&
           user &&
           user?.user_roles?.id === 3) ||
-        !user ? (
+        (post?.status_id === 1 && !user) ? (
           <Page404 />
         ) : (
           <div className={styles["post-content-section"]}>

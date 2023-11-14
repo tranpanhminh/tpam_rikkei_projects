@@ -1,4 +1,9 @@
-import { IsNotEmpty, IsNumberString, IsString } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumberString,
+  IsString,
+  MaxLength,
+} from 'class-validator';
 import {
   HasMimeType,
   IsFile,
@@ -9,6 +14,7 @@ import { IsStringHigherThanZero } from 'src/pipes/custom-validator';
 export class CreateServiceDTO {
   @IsNotEmpty({ message: 'Service Name should not be empty' })
   @IsString({ message: 'Service Name should be string' })
+  @MaxLength(20, { message: 'Title must < 20 Characters' })
   name: string;
 
   @IsNotEmpty({ message: 'Service Name should not be empty' })

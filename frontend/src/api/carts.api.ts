@@ -77,9 +77,11 @@ export const updateProductQuantityInCart = async (
     dataCart
   )
     .then((response) => {
-      // notification.success({
-      //   message: `${response.data.message}`,
-      // });
+      if (!response.data) {
+        return false;
+      } else {
+        return true;
+      }
     })
     .catch((error) => {
       notification.warning({

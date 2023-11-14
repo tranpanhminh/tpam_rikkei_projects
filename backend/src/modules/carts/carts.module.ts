@@ -30,6 +30,7 @@ import { UsersService } from '../users/users.service';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { EmailService } from '../email/email.service';
 import { CheckUserStatus } from 'src/middlewares/checkUserStatus.middleware';
+import { CheckQuantityAddToCart } from 'src/middlewares/checkQuantityAddToCart.middleware';
 // import { MyGateway } from '../gateway/gateway';
 ConfigModule.forRoot({
   envFilePath: '.env',
@@ -75,6 +76,7 @@ export class CartsModule implements NestModule {
         CheckIsAdmin,
         CheckProductQuantityStock,
         CheckInputQuantity,
+        CheckQuantityAddToCart,
       )
       .forRoutes({
         path: `${url}/add/products/:id/users/:userId`,

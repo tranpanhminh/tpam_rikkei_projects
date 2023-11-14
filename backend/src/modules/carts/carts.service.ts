@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { CartsRepository } from './carts.repository';
 import { CartsEntity } from './database/entity/carts.entity';
 import { AddToCartDTO } from './dto/addToCart.dto';
@@ -58,16 +63,6 @@ export class CartsService {
       };
       await this.cartsRepository.addProductToCart(newCart);
     }
-    // // Giảm số lượng hàng tồn kho
-    // const updatedProductQuantityStock: ProductInterface = {
-    //   ...findProduct,
-    //   quantity_stock: Number(findProduct.quantity_stock) - Number(quantity),
-    // };
-    // await this.productsRepository.updateProduct(
-    //   productId,
-    //   updatedProductQuantityStock,
-    // );
-
     return new HttpException('Product Added To Cart', HttpStatus.OK);
   }
 
@@ -107,6 +102,15 @@ export class CartsService {
     const { quantity } = body;
     const findProduct: ProductInterface =
       await this.productsRepository.getDetail(id);
+    if (Number(quantity) < 0 === true) {
+      return false;
+    }
+    if (!/^[0-9]+$/.test(quantity)) {
+      return false;
+    }
+    if (quantity.charAt(0) === '0') {
+      return false;
+    }
     if (findProduct) {
       const findProductInCart: CartInterface =
         await this.cartsRepository.findUserAndProductInCart(userId, id);
@@ -120,8 +124,7 @@ export class CartsService {
           updateCart,
         );
       }
+      return true;
     }
-
-    return new HttpException('Product Added To Cart', HttpStatus.OK);
   }
 }

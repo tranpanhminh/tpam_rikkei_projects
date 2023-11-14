@@ -60,6 +60,27 @@ export function IsStringHigherThanZero(validationOptions?: ValidationOptions) {
   };
 }
 
+export function IsOnlyNumber(validationOptions?: ValidationOptions) {
+  return (object: any, propertyName: string) => {
+    registerDecorator({
+      name: 'isExpiryDate',
+      target: object.constructor,
+      propertyName: propertyName,
+      constraints: [],
+      options: validationOptions,
+      validator: {
+        validate(value: any) {
+          if (/^[0-9]+$/.test(value)) {
+            return true;
+          } else {
+            return false;
+          }
+        },
+      },
+    });
+  };
+}
+
 export function FilesLengthMustBeFour(validationOptions?: ValidationOptions) {
   return function (object: Record<string, any>, propertyName: string) {
     registerDecorator({

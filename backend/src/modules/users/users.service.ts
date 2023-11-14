@@ -36,8 +36,8 @@ export class UsersService {
     private readonly usersRepository: UsersRepository,
     private readonly cloudinaryService: CloudinaryService,
     private readonly emailService: EmailService,
-    // private readonly myGateway: MyGateway,
-  ) {}
+  ) // private readonly myGateway: MyGateway,
+  {}
 
   // 1. Get All
   async getAllUsers() {
@@ -112,7 +112,7 @@ export class UsersService {
 
     const newUser: UsersInterface = {
       email: email.trim(),
-      full_name: full_name,
+      full_name: full_name.trim(),
       password: encryptPassword,
       image_avatar:
         'https://rabbunny.com/wp-content/uploads/2023/11/pet-shop.png',
