@@ -119,6 +119,18 @@ const DetailPostButton: React.FC<DetailModalProps> = ({
   };
 
   const handleUpdatePost = async () => {
+    if (postInfo.title.length > 80) {
+      return notification.warning({
+        message: "Title must be < 80 characters",
+      });
+    }
+
+    if (postInfo.author.length > 80) {
+      return notification.warning({
+        message: "Author must be < 80 characters",
+      });
+    }
+
     const formData: any = new FormData();
     formData.append("title", postInfo.title);
     formData.append("content", postInfo.content);

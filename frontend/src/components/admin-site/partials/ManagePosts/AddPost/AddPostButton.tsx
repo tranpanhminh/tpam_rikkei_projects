@@ -107,6 +107,13 @@ const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
         message: "Title must not be blank",
       });
     }
+
+    if (postInfo.title.length > 80) {
+      return notification.warning({
+        message: "Title must be < 80 characters",
+      });
+    }
+
     if (!postInfo.content) {
       return notification.warning({
         message: "Content must not be blank",
@@ -117,6 +124,13 @@ const AddPostButton: React.FC<Props> = ({ handleClickOk }) => {
         message: "Author must not be blank",
       });
     }
+
+    if (postInfo.author.length > 80) {
+      return notification.warning({
+        message: "Author must be < 80 characters",
+      });
+    }
+
     if (!postInfo.status_id) {
       return notification.warning({
         message: "Status ID must not be blank",
